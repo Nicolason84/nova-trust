@@ -80,7 +80,7 @@ class Handler(BaseHTTPRequestHandler):
                 self.wfile.write(b"TRUST NOT FOUND")
 
         elif path == "/api/trust/live":
-            data = {
+            data = read_json(LIVE_RUNTIME, {
                 "status": "ok",
                 "app": "TRUST+",
                 "cash": 0,
@@ -91,7 +91,7 @@ class Handler(BaseHTTPRequestHandler):
                 "verdict": "WAIT",
                 "history": [],
                 "rationale": []
-            }
+            })
             self._set_headers(200, "application/json")
             self.wfile.write(json.dumps(data).encode())
 
@@ -99,26 +99,56 @@ class Handler(BaseHTTPRequestHandler):
             q = ""
             if "q=" in query:
                 q = query.split("q=", 1)[1]
-            q = urllib.parse.unquote_plus(q)
+            q = urllib.parse.unquote_plus(q).strip()
 
             score = 80 if q.startswith("https://") else 30
             verdict = "SAFE" if score > 70 else "RISKY"
 
-            data = {
+            current_live = read_json(LIVE_RUNTIME, {
                 "status": "ok",
                 "app": "TRUST+",
                 "cash": 0,
                 "payments": 0,
                 "business_score": 0,
+                "analysis_score": 0,
+                "fusion_score": 0,
+                "verdict": "WAIT",
+                "history": [],
+                "rationale": []
+            })
+
+            history = current_live.get("history", [])
+            item = {
+                "input": q,
+                "fusion_verdict": verdict,
+                "fusion_score": score,
+                "analysis_score": score,
+                "business_score": current_live.get("business_score", 0),
+                "ts": str(datetime.utcnow())
+            }
+            history = [item] + history[:4]
+
+            live_data = {
+                "status": "ok",
+                "app": current_live.get("app", "TRUST+"),
+                "cash": current_live.get("cash", 0),
+                "payments": current_live.get("payments", 0),
+                "business_score": current_live.get("business_score", 0),
                 "analysis_score": score,
                 "fusion_score": score,
-                "fusion_verdict": verdict,
                 "verdict": verdict,
-                "rationale": ["Analyse simple active"],
-                "history": []
+                "history": history,
+                "rationale": ["Analyse simple active"]
             }
+
+            write_json(LIVE_RUNTIME, live_data)
+
+            result = dict(live_data)
+            result["fusion_verdict"] = verdict
+            result["input"] = q
+
             self._set_headers(200, "application/json")
-            self.wfile.write(json.dumps(data).encode())
+            self.wfile.write(json.dumps(result).encode())
 
         else:
             self._set_headers(404)
