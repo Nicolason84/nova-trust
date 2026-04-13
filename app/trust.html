@@ -120,5 +120,31 @@ Tu sais en 5 secondes s’il est fiable ou dangereux.
   </div>
 
   <script src="/static/trust_ui.js?ts=20260413"></script>
+
+<script>
+async function loadLive() {
+    try {
+        const res = await fetch("/api/trust/live");
+        const data = await res.json();
+
+        document.querySelectorAll(".status")[0].innerText = data.status;
+        document.querySelectorAll(".cash")[0].innerText = data.cash;
+        document.querySelectorAll(".payments")[0].innerText = data.payments;
+        document.querySelectorAll(".business")[0].innerText = data.business_score;
+        document.querySelectorAll(".analysis")[0].innerText = data.analysis_score;
+        document.querySelectorAll(".fusion")[0].innerText = data.fusion_score;
+        document.querySelectorAll(".verdict")[0].innerText = data.verdict;
+
+        document.querySelector(".fusion-json").innerText = JSON.stringify(data, null, 2);
+
+    } catch(e) {
+        console.error("LIVE ERROR", e);
+    }
+}
+
+setInterval(loadLive, 2000);
+loadLive();
+</script>
+
 </body>
 </html>
