@@ -11,11 +11,11 @@ from urllib.parse import urlparse
 HOST = os.getenv("HOST", "0.0.0.0")
 PORT = int(os.getenv("PORT", "18777"))
 
-# PATHS
-ROOT = Path.home() / "Desktop" / "NOVA_VX"
-APP = ROOT / "app"
+# PATHS (COMPATIBLE RAILWAY)
+BASE = Path(__file__).resolve().parent
+APP = BASE
 STATIC = APP / "static"
-RUNTIME = ROOT / "runtime"
+RUNTIME = BASE.parent / "runtime"
 
 LIVE_APP = APP / "live_state.json"
 LIVE_RUNTIME = RUNTIME / "live_state.json"
