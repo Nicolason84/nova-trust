@@ -55,36 +55,28 @@ class Handler(BaseHTTPRequestHandler):
         self.send_header("Access-Control-Allow-Origin", "*")
         self.end_headers()
 
-def do_GET(self):
-    if self.path == "/" or self.path == "/index.html":
-        try:
-            with open("app/index.html", "rb") as f:
-                self.send_response(200)
-                self.send_header("Content-type", "text/html")
-                self.end_headers()
-                self.wfile.write(f.read())
-        except:
-            self.send_response(404)
-            self.end_headers()
-            self.wfile.write(b"INDEX NOT FOUND")
-    
-    elif self.path == "/trust":
-        try:
-            with open("app/trust.html", "rb") as f:
-                self.send_response(200)
-                self.send_header("Content-type", "text/html")
-                self.end_headers()
-                self.wfile.write(f.read())
-        except:
-            self.send_response(404)
-            self.end_headers()
-            self.wfile.write(b"TRUST NOT FOUND")
+    def do_GET(self):
+        if self.path == "/" or self.path == "/index.html":
+            try:
+                with open("app/index.html", "rb") as f:
+                    self._set_headers()
+                    self.wfile.write(f.read())
+            except:
+                self._set_headers(404)
+                self.wfile.write(b"INDEX NOT FOUND")
 
-    else:
-        self.send_response(404)
-        self.end_headers()
-        self.wfile.write(b"NOT FOUND")
+        elif self.path == "/trust":
+            try:
+                with open("app/trust.html", "rb") as f:
+                    self._set_headers()
+                    self.wfile.write(f.read())
+            except:
+                self._set_headers(404)
+                self.wfile.write(b"TRUST NOT FOUND")
 
+        else:
+            self._set_headers(404)
+            self.wfile.write(b"NOT FOUND")
 def main():
     server = HTTPServer((HOST, PORT), Handler)
     print(f"SERVER_READY http://{HOST}:{PORT}", flush=True)
