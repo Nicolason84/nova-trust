@@ -130,6 +130,10 @@ class Handler(BaseHTTPRequestHandler):
             new_history = []
             seen = set()
             for x in [item] + history:
+                raw_input = (x.get("input") or "").strip()
+                if not raw_input:
+                    continue
+                x["input"] = raw_input
                 key = (x.get("input"), x.get("fusion_score"), x.get("fusion_verdict"))
                 if key in seen:
                     continue

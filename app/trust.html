@@ -72,7 +72,8 @@ Tu sais en 5 secondes s’il est fiable ou dangereux.
         <p class="sub">Fusion analyse opérateur + score business live + mémoire locale</p>
       </div>
       <a class="btn" href="/">Retour VX
-<input id="trust_input" type="text" placeholder="Colle un lien ici (ex: https://openai.com)" style="width:100%;max-width:760px;padding:12px 14px;margin:12px 0 16px 0;border-radius:10px;border:1px solid rgba(255,255,255,.18);background:#0f1520;color:#fff;font-size:14px;"></a>
+<input id="trust_input" type="text" placeholder="Colle un lien ici (ex: https://openai.com)" style="display:block;width:100%;max-width:760px;padding:12px 14px;margin:12px 0 16px 0;border-radius:10px;border:1px solid rgba(255,255,255,.18);background:#0f1520;color:#fff;font-size:14px;">
+</a>
     </div>
 
     <div class="row">
@@ -148,374 +149,11 @@ loadLive();
 </script>
 
 
-<script>
-if (!window.__TRUST_LIVE_BIND_V2__) {
-  window.__TRUST_LIVE_BIND_V2__ = true;
-
-  function findValueAfterLabel(labelText) {
-    const nodes = Array.from(document.querySelectorAll("div,p,pre,span,h1,h2,h3,h4,h5,h6"));
-    const label = nodes.find(n => (n.textContent || "").trim().toLowerCase() === labelText.toLowerCase());
-    if (!label) return null;
-
-    let cur = label.nextElementSibling;
-    while (cur) {
-      const txt = (cur.textContent || "").trim();
-      if (txt && txt !== labelText) return cur;
-      cur = cur.nextElementSibling;
-    }
-
-    const parent = label.parentElement;
-    if (parent) {
-      const candidates = Array.from(parent.querySelectorAll("div,p,pre,span")).filter(x => x !== label);
-      const found = candidates.find(x => {
-        const txt = (x.textContent || "").trim();
-        return txt === "…" || txt === "..." || txt === "Chargement…" || txt === "Chargement..." || txt === "[]" || txt === "{}" || txt === "";
-      });
-      if (found) return found;
-    }
-
-    return null;
-  }
-
-  function setLabel(label, value) {
-    const el = findValueAfterLabel(label);
-    if (el) el.textContent = String(value);
-  }
-
-  function setPreByHeading(label, obj) {
-    const nodes = Array.from(document.querySelectorAll("div,p,pre,span,h1,h2,h3,h4,h5,h6"));
-    const labelNode = nodes.find(n => (n.textContent || "").trim().toLowerCase() === label.toLowerCase());
-    if (!labelNode) return;
-    const parent = labelNode.parentElement;
-    if (!parent) return;
-    const pre = parent.querySelector("pre") || parent.querySelector("div") || parent.querySelector("p");
-    if (pre && pre !== labelNode) pre.textContent = JSON.stringify(obj, null, 2);
-  }
-
-  async function loadLive() {
-    try {
-      const r = await fetch("/api/trust/live?ts=" + Date.now(), { cache: "no-store" });
-      const data = await r.json();
-
-      setLabel("Status", data.status ?? "ok");
-      setLabel("App", data.app ?? "TRUST+");
-      setLabel("Cash", data.cash ?? 0);
-      setLabel("Payments", data.payments ?? 0);
-      setLabel("Business Score", data.business_score ?? 0);
-      setLabel("Analysis Score", data.analysis_score ?? 0);
-      setLabel("Fusion Score", data.fusion_score ?? 0);
-      setLabel("Fusion Verdict", data.verdict ?? "WAIT");
-
-      setPreByHeading("Raw JSON live", data);
-      setPreByHeading("Fusion JSON", data);
-      setPreByHeading("Decision Rationale", data.rationale ?? []);
-      setPreByHeading("Historique local", data.history ?? []);
-    } catch (e) {
-      console.error("TRUST_LIVE_BIND_V2_ERROR", e);
-    }
-  }
-
-  document.addEventListener("click", function(e) {
-    const btn = e.target.closest("button,a");
-    if (!btn) return;
-    const txt = (btn.textContent || "").trim().toLowerCase();
-    if (txt.includes("refresh live")) {
-      e.preventDefault();
-      loadLive();
-    }
-  });
-
-  setTimeout(loadLive, 300);
-  setInterval(loadLive, 3000);
-}
-</script>
-
-<script>
-if (!window.__TRUST_LIVE_BIND_V3__) {
-  window.__TRUST_LIVE_BIND_V3__ = true;
-
-  function textOf(el){ return (el && el.textContent || "").trim(); }
-
-  function findCardValue(labelText){
-    const labels = Array.from(document.querySelectorAll("div,p,span,h1,h2,h3,h4,h5,h6,strong"));
-    const label = labels.find(el => textOf(el).toLowerCase() === labelText.toLowerCase());
-    if (!label) return null;
-
-    let node = label.nextElementSibling;
-    while (node) {
-      const t = textOf(node);
-      if (t && t !== labelText) return node;
-      node = node.nextElementSibling;
-    }
-
-    const card = label.closest("div");
-    if (!card) return null;
-
-    const candidates = Array.from(card.querySelectorAll("div,p,span,pre")).filter(el => el !== label);
-    return candidates.find(el => {
-      const t = textOf(el);
-      return t === "…" || t === "..." || t === "Chargement…" || t === "Chargement..." || t === "{}" || t === "[]";
-    }) || null;
-  }
-
-  function setValue(label, value){
-    const el = findCardValue(label);
-    if (el) el.textContent = String(value);
-  }
-
-  function setBlock(label, value){
-    const labels = Array.from(document.querySelectorAll("div,p,span,h1,h2,h3,h4,h5,h6,strong"));
-    const labelNode = labels.find(el => textOf(el).toLowerCase() === label.toLowerCase());
-    if (!labelNode) return;
-
-    const card = labelNode.closest("div");
-    if (!card) return;
-
-    const target = Array.from(card.querySelectorAll("pre,div,p,span")).find(el => el !== labelNode);
-    if (target) {
-      target.textContent = typeof value === "string" ? value : JSON.stringify(value, null, 2);
-    }
-  }
-
-  async function loadLive(){
-    try{
-      const r = await fetch("/api/trust/live?ts=" + Date.now(), {cache:"no-store"});
-      const data = await r.json();
-
-      setValue("Status", data.status ?? "ok");
-      setValue("App", data.app ?? "TRUST+");
-      setValue("Cash", data.cash ?? 0);
-      setValue("Payments", data.payments ?? 0);
-      setValue("Business Score", data.business_score ?? 0);
-      setValue("Analysis Score", data.analysis_score ?? 0);
-      setValue("Fusion Score", data.fusion_score ?? 0);
-      setValue("Fusion Verdict", data.verdict ?? "WAIT");
-
-      setBlock("Historique local", data.history ?? []);
-      setBlock("Decision Rationale", data.rationale ?? []);
-      setBlock("Fusion JSON", data);
-      setBlock("Raw JSON live", data);
-    } catch(e) {
-      console.error("TRUST_BIND_V3_ERROR", e);
-    }
-  }
-
-  document.addEventListener("click", function(e){
-    const btn = e.target.closest("button,a");
-    if (!btn) return;
-    const txt = textOf(btn).toLowerCase();
-    if (txt.includes("refresh live")) {
-      e.preventDefault();
-      loadLive();
-    }
-  });
-
-  setTimeout(loadLive, 300);
-  setInterval(loadLive, 3000);
-}
-</script>
-
-<script>
-if (!window.__TRUST_ANALYZE_BIND_V4__) {
-  window.__TRUST_ANALYZE_BIND_V4__ = true;
-
-  function txt(el){ return ((el && el.textContent) || "").trim(); }
-
-  function allTextNodes(){
-    return [...document.querySelectorAll("div,p,span,h1,h2,h3,h4,h5,h6,strong,pre")];
-  }
-
-  function findLabelNode(label){
-    return allTextNodes().find(n => txt(n).toLowerCase() === label.toLowerCase());
-  }
-
-  function findValueNode(label){
-    const labelNode = findLabelNode(label);
-    if (!labelNode) return null;
-    const parent = labelNode.parentElement;
-    if (!parent) return null;
-    return [...parent.querySelectorAll("div,p,span,pre")].find(x => x !== labelNode) || null;
-  }
-
-  function setVal(label, value){
-    const el = findValueNode(label);
-    if (el) el.textContent = String(value);
-  }
-
-  function setBlock(label, value){
-    const el = findValueNode(label);
-    if (el) el.textContent = typeof value === "string" ? value : JSON.stringify(value, null, 2);
-  }
-
-  function getInput(){
-    return document.getElementById("trust_input") || document.querySelector("input");
-  }
-
-  async function runAnalysis(){
-    try {
-      const input = getInput();
-      const q = input ? input.value.trim() : "";
-      const r = await fetch("/api/trust/analyze?q=" + encodeURIComponent(q), {cache:"no-store"});
-      const data = await r.json();
-
-      setVal("ANALYSIS SCORE", data.analysis_score ?? 0);
-      setVal("FUSION SCORE", data.fusion_score ?? 0);
-      setVal("FUSION VERDICT", data.fusion_verdict ?? data.verdict ?? "WAIT");
-      setBlock("DECISION RATIONALE", data.rationale ?? []);
-      setBlock("FUSION JSON", data);
-      setBlock("HISTORIQUE LOCAL", data.history ?? []);
-    } catch(e) {
-      console.error("RUN_ANALYSIS_ERROR", e);
-    }
-  }
-
-  async function loadLive(){
-    try{
-      const r = await fetch("/api/trust/live?ts=" + Date.now(), {cache:"no-store"});
-      const data = await r.json();
-
-      setVal("STATUS", data.status ?? "ok");
-      setVal("APP", data.app ?? "TRUST+");
-      setVal("CASH", data.cash ?? 0);
-      setVal("PAYMENTS", data.payments ?? 0);
-      setVal("BUSINESS SCORE", data.business_score ?? 0);
-      setVal("ANALYSIS SCORE", data.analysis_score ?? 0);
-      setVal("FUSION SCORE", data.fusion_score ?? 0);
-      setVal("FUSION VERDICT", data.verdict ?? "WAIT");
-      setBlock("RAW JSON LIVE", data);
-    } catch(e){
-      console.error("LOAD_LIVE_ERROR", e);
-    }
-  }
-
-  document.addEventListener("click", function(e){
-    const btn = e.target.closest("button,a");
-    if (!btn) return;
-    const t = txt(btn).toLowerCase();
-
-    if (t.includes("analyser maintenant")) {
-      e.preventDefault();
-      e.stopPropagation();
-      runAnalysis();
-      return;
-    }
-
-    if (t.includes("refresh live")) {
-      e.preventDefault();
-      e.stopPropagation();
-      loadLive();
-      return;
-    }
-  }, true);
-
-  setTimeout(loadLive, 300);
-  setInterval(loadLive, 3000);
-  window.runAnalysis = runAnalysis;
-  window.loadLive = loadLive;
-}
-</script>
-
-
-<script>
-if (!window.__TRUST_ANALYZE_BIND_V5__) {
-  window.__TRUST_ANALYZE_BIND_V5__ = true;
-
-  function txt(el){ return ((el && el.textContent) || "").trim(); }
-
-  function nodes(){
-    return [...document.querySelectorAll("div,p,span,h1,h2,h3,h4,h5,h6,strong,pre")];
-  }
-
-  function findLabel(label){
-    return nodes().find(n => txt(n).toLowerCase() === label.toLowerCase());
-  }
-
-  function findValue(label){
-    const labelNode = findLabel(label);
-    if (!labelNode) return null;
-    const parent = labelNode.parentElement;
-    if (!parent) return null;
-    return [...parent.querySelectorAll("div,p,span,pre")].find(x => x !== labelNode) || null;
-  }
-
-  function setVal(label, value){
-    const el = findValue(label);
-    if (el) el.textContent = String(value);
-  }
-
-  function setBlock(label, value){
-    const el = findValue(label);
-    if (el) el.textContent = typeof value === "string" ? value : JSON.stringify(value, null, 2);
-  }
-
-  function inputEl(){
-    return document.getElementById("trust_input");
-  }
-
-  async function loadLive(){
-    try{
-      const r = await fetch("/api/trust/live?ts=" + Date.now(), {cache:"no-store"});
-      const data = await r.json();
-
-      setVal("STATUS", data.status ?? "ok");
-      setVal("APP", data.app ?? "TRUST+");
-      setVal("CASH", data.cash ?? 0);
-      setVal("PAYMENTS", data.payments ?? 0);
-      setVal("BUSINESS SCORE", data.business_score ?? 0);
-      setVal("ANALYSIS SCORE", data.analysis_score ?? 0);
-      setVal("FUSION SCORE", data.fusion_score ?? 0);
-      setVal("FUSION VERDICT", data.verdict ?? "WAIT");
-      setBlock("RAW JSON LIVE", data);
-    } catch(e) {
-      console.error("LOAD_LIVE_ERROR", e);
-    }
-  }
-
-  async function runAnalysis(){
-    try{
-      const q = inputEl() ? inputEl().value.trim() : "";
-      const r = await fetch("/api/trust/analyze?q=" + encodeURIComponent(q), {cache:"no-store"});
-      const data = await r.json();
-
-      setVal("ANALYSIS SCORE", data.analysis_score ?? 0);
-      setVal("FUSION SCORE", data.fusion_score ?? 0);
-      setVal("FUSION VERDICT", data.fusion_verdict ?? data.verdict ?? "WAIT");
-      setBlock("DECISION RATIONALE", data.rationale ?? []);
-      setBlock("FUSION JSON", data);
-      setBlock("HISTORIQUE LOCAL", data.history ?? []);
-    } catch(e) {
-      console.error("RUN_ANALYSIS_ERROR", e);
-    }
-  }
-
-  document.addEventListener("click", function(e){
-    const btn = e.target.closest("button,a");
-    if (!btn) return;
-    const t = txt(btn).toLowerCase();
-
-    if (t.includes("analyser maintenant")) {
-      e.preventDefault();
-      e.stopPropagation();
-      runAnalysis();
-      return;
-    }
-
-    if (t.includes("refresh live")) {
-      e.preventDefault();
-      e.stopPropagation();
-      loadLive();
-      return;
-    }
-  }, true);
-
-  setTimeout(loadLive, 300);
-  setInterval(loadLive, 3000);
-}
-</script>
 \n
+
 <script>
-if (!window.__TRUST_ANALYZE_BIND_V6__) {
-  window.__TRUST_ANALYZE_BIND_V6__ = true;
+if (!window.__TRUST_CANON_V1__) {
+  window.__TRUST_CANON_V1__ = true;
 
   function txt(el){ return ((el && el.textContent) || "").trim(); }
   function nodes(){ return [...document.querySelectorAll("div,p,span,h1,h2,h3,h4,h5,h6,strong,pre")]; }
@@ -536,13 +174,14 @@ if (!window.__TRUST_ANALYZE_BIND_V6__) {
     if (el) el.textContent = typeof value === "string" ? value : JSON.stringify(value, null, 2);
   }
   function inputEl(){
-    return document.getElementById("trust_input") || document.querySelector("input[type=text],input:not([type])");
+    return document.getElementById("trust_input");
   }
 
   async function loadLive(){
     try{
       const r = await fetch("/api/trust/live?ts=" + Date.now(), {cache:"no-store"});
       const data = await r.json();
+
       setVal("STATUS", data.status ?? "ok");
       setVal("APP", data.app ?? "TRUST+");
       setVal("CASH", data.cash ?? 0);
@@ -566,13 +205,19 @@ if (!window.__TRUST_ANALYZE_BIND_V6__) {
       const q = input ? input.value.trim() : "";
       const r = await fetch("/api/trust/analyze?q=" + encodeURIComponent(q), {cache:"no-store"});
       const data = await r.json();
+
+      setVal("STATUS", data.status ?? "ok");
+      setVal("APP", data.app ?? "TRUST+");
+      setVal("CASH", data.cash ?? 0);
+      setVal("PAYMENTS", data.payments ?? 0);
+      setVal("BUSINESS SCORE", data.business_score ?? 0);
       setVal("ANALYSIS SCORE", data.analysis_score ?? 0);
       setVal("FUSION SCORE", data.fusion_score ?? 0);
       setVal("FUSION VERDICT", data.fusion_verdict ?? data.verdict ?? "WAIT");
+      setBlock("HISTORIQUE LOCAL", data.history ?? []);
       setBlock("DECISION RATIONALE", data.rationale ?? []);
       setBlock("FUSION JSON", data);
-      setBlock("HISTORIQUE LOCAL", data.history ?? []);
-      await loadLive();
+      setBlock("RAW JSON LIVE", data);
     } catch(e) {
       console.error("RUN_ANALYSIS_ERROR", e);
     }
@@ -610,8 +255,6 @@ if (!window.__TRUST_ANALYZE_BIND_V6__) {
 
   setTimeout(loadLive, 300);
   setInterval(loadLive, 3000);
-  window.runAnalysis = runAnalysis;
-  window.loadLive = loadLive;
 }
 </script>
 
