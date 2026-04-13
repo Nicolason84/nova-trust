@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <title>NOVA TRUST · MATCH4 SAFE UI</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    html,body{margin:0;padding:0;background:#05070b;color:#edf2fb;font-family:Arial,sans-serif}
+    .page{padding:24px;max-width:1100px;margin:0 auto}
+    .top{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:20px}
+    .badge{font-size:13px;letter-spacing:.14em;opacity:.72}
+    .btn,button{padding:10px 14px;border-radius:12px;border:1px solid rgba(255,255,255,.16);background:#101826;color:#edf2fb;text-decoration:none;cursor:pointer}
+    h1{margin:0 0 8px 0;font-size:34px}
+    p.sub{margin:0 0 20px 0;opacity:.78}
+    .row{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:16px}
+    input{flex:1;min-width:280px;box-sizing:border-box;padding:14px 16px;border-radius:12px;border:1px solid rgba(255,255,255,.15);background:#0a1018;color:#edf2fb;font-size:16px}
+    .grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+    .card{border:1px solid rgba(255,255,255,.12);border-radius:18px;padding:16px;background:rgba(255,255,255,.03)}
+    .full{grid-column:1 / -1}
+    .k{font-size:12px;opacity:.66;text-transform:uppercase;letter-spacing:.08em}
+    .v{font-size:28px;margin-top:8px;font-weight:700}
+    .safe{color:#7CFFB2}
+    .act{color:#8BE9FD}
+    .wait{color:#FFD166}
+    .risky{color:#FF6B6B}
+    pre{white-space:pre-wrap;word-break:break-word;background:#0a1018;padding:16px;border-radius:14px;border:1px solid rgba(255,255,255,.08);margin:0}
+    .history-item{border:1px solid rgba(255,255,255,.10);border-radius:14px;padding:12px;background:#0a1018;cursor:pointer;margin-bottom:10px}
+    .mini{font-size:12px;opacity:.68}
+    @media (max-width: 900px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+    @media (max-width: 640px){.grid{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <div class="page">
+    <div class="top">
+      <div>
+        <div class="badge">NOVA TRUST · V9.6 · MATCH4 SAFE UI</div>
+        <h1>Analyse de confiance</h1>
+        <p class="sub">Fusion analyse opérateur + score business live + mémoire locale</p>
+      </div>
+      <a class="btn" href="/">Retour VX</a>
+    </div>
+
+    <div class="row">
+      <input id="target" placeholder="Colle ici un lien, un message ou un texte à analyser">
+      <button id="run">Fusion trust</button>
+      <button id="refresh">Refresh live</button>
+    </div>
+
+    <div class="grid">
+      <div class="card"><div class="k">Status</div><div class="v" id="status">…</div></div>
+      <div class="card"><div class="k">App</div><div class="v" id="app">…</div></div>
+      <div class="card"><div class="k">Cash</div><div class="v" id="cash">…</div></div>
+      <div class="card"><div class="k">Payments</div><div class="v" id="payments">…</div></div>
+
+      <div class="card"><div class="k">Business Score</div><div class="v" id="business_score">…</div></div>
+      <div class="card"><div class="k">Analysis Score</div><div class="v" id="analysis_score">…</div></div>
+      <div class="card"><div class="k">Fusion Score</div><div class="v" id="fusion_score">…</div></div>
+      <div class="card"><div class="k">Fusion Verdict</div><div class="v" id="fusion_verdict">…</div></div>
+
+      <div class="card full">
+        <div class="k">Historique local</div>
+        <div id="history"><div class="mini">Chargement…</div></div>
+      </div>
+
+      <div class="card full">
+        <div class="k">Decision Rationale</div>
+        <pre id="rationale">[]</pre>
+      </div>
+
+      <div class="card full">
+        <div class="k">Fusion JSON</div>
+        <pre id="fusion_json">{}</pre>
+      </div>
+
+      <div class="card full">
+        <div class="k">Raw JSON live</div>
+        <pre id="live_json">Chargement…</pre>
+      </div>
+    </div>
+  </div>
+
+  <script src="/static/trust_ui.js?ts=20260413"></script>
+</body>
+</html>

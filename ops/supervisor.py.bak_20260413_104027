@@ -1,0 +1,135 @@
+import atexit
+import os
+import signal
+import subprocess
+import sys
+import time
+from pathlib import Path
+
+ROOT = Path.home() / "Desktop" / "NOVA_VX"
+APP_DIR = ROOT / "app"
+RUNTIME = ROOT / "runtime"
+SUP_PID = RUNTIME / "supervisor.pid"
+SERVER_PID = RUNTIME / "server.pid"
+LOG = RUNTIME / "supervisor.log"
+HOST = "127.0.0.1"
+PORT = 18777
+
+child = None
+running = True
+
+RUNTIME.mkdir(parents=True, exist_ok=True)
+APP_DIR.mkdir(parents=True, exist_ok=True)
+
+def log(msg: str) -> None:
+    stamp = time.strftime("%Y-%m-%d %H:%M:%S")
+    line = f"[{stamp}] {msg}"
+    print(line, flush=True)
+    with LOG.open("a", encoding="utf-8") as f:
+        f.write(line + "\n")
+
+def read_pid(path: Path):
+    try:
+        return int(path.read_text(encoding="utf-8").strip())
+    except Exception:
+        return None
+
+def pid_alive(pid: int) -> bool:
+    try:
+        os.kill(pid, 0)
+        return True
+    except OSError:
+        return False
+
+def write_pid(path: Path, pid: int) -> None:
+    path.write_text(str(pid), encoding="utf-8")
+
+def remove_file(path: Path) -> None:
+    try:
+        path.unlink()
+    except FileNotFoundError:
+        pass
+
+def cleanup() -> None:
+    global child
+    if child is not None and child.poll() is None:
+        try:
+            child.terminate()
+            child.wait(timeout=5)
+        except Exception:
+            try:
+                child.kill()
+            except Exception:
+                pass
+    remove_file(SERVER_PID)
+    remove_file(SUP_PID)
+
+def handle_stop(signum, frame) -> None:
+    global running
+    running = False
+    log(f"STOP signal={signum}")
+    cleanup()
+    raise SystemExit(0)
+
+def ensure_single_instance() -> None:
+    pid = read_pid(SUP_PID)
+    if pid and pid_alive(pid):
+        print(f"SUPERVISOR_ALREADY_RUNNING pid={pid}")
+        raise SystemExit(0)
+    write_pid(SUP_PID, os.getpid())
+
+def ensure_index() -> None:
+    index = APP_DIR / "index.html"
+    if not index.exists():
+        index.write_text("""<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <title>NOVA VX</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    html,body{margin:0;padding:0;background:#05070a;color:#e8eef7;font-family:Arial,sans-serif}
+    .wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:12px}
+    .eye{font-size:54px}
+    .sub{opacity:.78}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="eye">◉</div>
+    <h1>NOVA VX local</h1>
+    <div class="sub">Supervisor actif · base stable</div>
+  </div>
+</body>
+</html>
+""", encoding="utf-8")
+
+def spawn_server():
+    global child
+    cmd = [sys.executable, "-m", "http.server", str(PORT), "--bind", HOST, "--directory", str(APP_DIR)]
+    child = subprocess.Popen(cmd, stdout=subprocess.DEVNULL, stderr=subprocess.STDOUT)
+    write_pid(SERVER_PID, child.pid)
+    log(f"SERVER_START pid={child.pid} url=http://{HOST}:{PORT}")
+
+def loop() -> None:
+    global child
+    while running:
+        spawn_server()
+        rc = child.wait()
+        remove_file(SERVER_PID)
+        if not running:
+            break
+        log(f"SERVER_EXIT rc={rc} -> restart in 1s")
+        time.sleep(1)
+
+def main() -> None:
+    ensure_single_instance()
+    atexit.register(cleanup)
+    signal.signal(signal.SIGTERM, handle_stop)
+    signal.signal(signal.SIGINT, handle_stop)
+    ensure_index()
+    log("SUPERVISOR_START")
+    loop()
+
+if __name__ == "__main__":
+    main()
