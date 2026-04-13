@@ -146,5 +146,88 @@ setInterval(loadLive, 2000);
 loadLive();
 </script>
 
+
+<script>
+if (!window.__TRUST_LIVE_BIND_V2__) {
+  window.__TRUST_LIVE_BIND_V2__ = true;
+
+  function findValueAfterLabel(labelText) {
+    const nodes = Array.from(document.querySelectorAll("div,p,pre,span,h1,h2,h3,h4,h5,h6"));
+    const label = nodes.find(n => (n.textContent || "").trim().toLowerCase() === labelText.toLowerCase());
+    if (!label) return null;
+
+    let cur = label.nextElementSibling;
+    while (cur) {
+      const txt = (cur.textContent || "").trim();
+      if (txt && txt !== labelText) return cur;
+      cur = cur.nextElementSibling;
+    }
+
+    const parent = label.parentElement;
+    if (parent) {
+      const candidates = Array.from(parent.querySelectorAll("div,p,pre,span")).filter(x => x !== label);
+      const found = candidates.find(x => {
+        const txt = (x.textContent || "").trim();
+        return txt === "…" || txt === "..." || txt === "Chargement…" || txt === "Chargement..." || txt === "[]" || txt === "{}" || txt === "";
+      });
+      if (found) return found;
+    }
+
+    return null;
+  }
+
+  function setLabel(label, value) {
+    const el = findValueAfterLabel(label);
+    if (el) el.textContent = String(value);
+  }
+
+  function setPreByHeading(label, obj) {
+    const nodes = Array.from(document.querySelectorAll("div,p,pre,span,h1,h2,h3,h4,h5,h6"));
+    const labelNode = nodes.find(n => (n.textContent || "").trim().toLowerCase() === label.toLowerCase());
+    if (!labelNode) return;
+    const parent = labelNode.parentElement;
+    if (!parent) return;
+    const pre = parent.querySelector("pre") || parent.querySelector("div") || parent.querySelector("p");
+    if (pre && pre !== labelNode) pre.textContent = JSON.stringify(obj, null, 2);
+  }
+
+  async function loadLive() {
+    try {
+      const r = await fetch("/api/trust/live?ts=" + Date.now(), { cache: "no-store" });
+      const data = await r.json();
+
+      setLabel("Status", data.status ?? "ok");
+      setLabel("App", data.app ?? "TRUST+");
+      setLabel("Cash", data.cash ?? 0);
+      setLabel("Payments", data.payments ?? 0);
+      setLabel("Business Score", data.business_score ?? 0);
+      setLabel("Analysis Score", data.analysis_score ?? 0);
+      setLabel("Fusion Score", data.fusion_score ?? 0);
+      setLabel("Fusion Verdict", data.verdict ?? "WAIT");
+
+      setPreByHeading("Raw JSON live", data);
+      setPreByHeading("Fusion JSON", data);
+      setPreByHeading("Decision Rationale", data.rationale ?? []);
+      setPreByHeading("Historique local", data.history ?? []);
+    } catch (e) {
+      console.error("TRUST_LIVE_BIND_V2_ERROR", e);
+    }
+  }
+
+  document.addEventListener("click", function(e) {
+    const btn = e.target.closest("button,a");
+    if (!btn) return;
+    const txt = (btn.textContent || "").trim().toLowerCase();
+    if (txt.includes("refresh live")) {
+      e.preventDefault();
+      loadLive();
+    }
+  });
+
+  setTimeout(loadLive, 300);
+  setInterval(loadLive, 3000);
+}
+</script>
+
 </body>
 </html>
