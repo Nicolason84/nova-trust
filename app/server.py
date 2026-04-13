@@ -57,6 +57,7 @@ class Handler(BaseHTTPRequestHandler):
 
     def do_GET(self):
         path = urlparse(self.path).path
+        query = urlparse(self.path).query
 
         if path in ["/", "/index.html"]:
             try:
@@ -81,12 +82,39 @@ class Handler(BaseHTTPRequestHandler):
         elif path == "/api/trust/live":
             data = {
                 "status": "ok",
+                "app": "TRUST+",
                 "cash": 0,
                 "payments": 0,
                 "business_score": 0,
                 "analysis_score": 0,
                 "fusion_score": 0,
                 "verdict": "WAIT",
+                "history": [],
+                "rationale": []
+            }
+            self._set_headers(200, "application/json")
+            self.wfile.write(json.dumps(data).encode())
+
+        elif path == "/api/trust/analyze":
+            q = ""
+            if "q=" in query:
+                q = query.split("q=", 1)[1]
+            q = urllib.parse.unquote_plus(q)
+
+            score = 80 if q.startswith("https://") else 30
+            verdict = "SAFE" if score > 70 else "RISKY"
+
+            data = {
+                "status": "ok",
+                "app": "TRUST+",
+                "cash": 0,
+                "payments": 0,
+                "business_score": 0,
+                "analysis_score": score,
+                "fusion_score": score,
+                "fusion_verdict": verdict,
+                "verdict": verdict,
+                "rationale": ["Analyse simple active"],
                 "history": []
             }
             self._set_headers(200, "application/json")
@@ -95,6 +123,7 @@ class Handler(BaseHTTPRequestHandler):
         else:
             self._set_headers(404)
             self.wfile.write(b"NOT FOUND")
+
 
 
 def main():
