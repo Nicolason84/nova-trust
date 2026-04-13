@@ -73,6 +73,20 @@ class Handler(BaseHTTPRequestHandler):
             except:
                 self._set_headers(404)
                 self.wfile.write(b"TRUST NOT FOUND")
+        elif self.path == "/api/trust/live":
+            data = {
+                "status": "ok",
+                "cash": 0,
+                "payments": 0,
+                "business_score": 0,
+                "analysis_score": 0,
+                "fusion_score": 0,
+                "verdict": "WAIT",
+                "history": []
+            }
+            self._set_headers(200, "application/json")
+            self.wfile.write(json.dumps(data).encode())
+
 
         else:
             self._set_headers(404)
