@@ -1,262 +1,383 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="utf-8">
-  <title>NOVA TRUST · MATCH4 SAFE UI</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <style>
-    html,body{margin:0;padding:0;background:#05070b;color:#edf2fb;font-family:Arial,sans-serif}
-    .page{padding:24px;max-width:1100px;margin:0 auto}
-    .top{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:20px}
-    .badge{font-size:13px;letter-spacing:.14em;opacity:.72}
-    .btn,button{padding:10px 14px;border-radius:12px;border:1px solid rgba(255,255,255,.16);background:#101826;color:#edf2fb;text-decoration:none;cursor:pointer}
-    h1{margin:0 0 8px 0;font-size:34px}
-    p.sub{margin:0 0 20px 0;opacity:.78}
-    .row{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:16px}
-    input{flex:1;min-width:280px;box-sizing:border-box;padding:14px 16px;border-radius:12px;border:1px solid rgba(255,255,255,.15);background:#0a1018;color:#edf2fb;font-size:16px}
-    .grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
-    .card{border:1px solid rgba(255,255,255,.12);border-radius:18px;padding:16px;background:rgba(255,255,255,.03)}
-    .full{grid-column:1 / -1}
-    .k{font-size:12px;opacity:.66;text-transform:uppercase;letter-spacing:.08em}
-    .v{font-size:28px;margin-top:8px;font-weight:700}
-    .safe{color:#7CFFB2}
-    .act{color:#8BE9FD}
-    .wait{color:#FFD166}
-    .risky{color:#FF6B6B}
-    pre{white-space:pre-wrap;word-break:break-word;background:#0a1018;padding:16px;border-radius:14px;border:1px solid rgba(255,255,255,.08);margin:0}
-    .history-item{border:1px solid rgba(255,255,255,.10);border-radius:14px;padding:12px;background:#0a1018;cursor:pointer;margin-bottom:10px}
-    .mini{font-size:12px;opacity:.68}
-    @media (max-width: 900px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
-    @media (max-width: 640px){.grid{grid-template-columns:1fr}}
-  
-.safe{color:#00ff9c}
-.act{color:#4da3ff}
-.wait{color:#ffcc00}
-.risky{color:#ff3b3b}
-.v.safe{text-shadow:0 0 12px rgba(0,255,156,.65)}
-.v.act{text-shadow:0 0 12px rgba(77,163,255,.70)}
-.v.wait{text-shadow:0 0 12px rgba(255,204,0,.65)}
-.v.risky{text-shadow:0 0 14px rgba(255,59,59,.78)}
-.history-item.safe{border-color:rgba(0,255,156,.22)}
-.history-item.act{border-color:rgba(77,163,255,.24)}
-.history-item.wait{border-color:rgba(255,204,0,.24)}
-.history-item.risky{border-color:rgba(255,59,59,.28)}
-.history-item.active-history{box-shadow:0 0 0 1px rgba(255,255,255,.14),0 0 18px rgba(77,163,255,.18);transform:translateY(-1px)}
-.history-item{transition:border-color .15s ease, box-shadow .15s ease, transform .15s ease}
-.v{transition:transform .12s ease, text-shadow .12s ease}
-.verdict-pop{transform:scale(1.08)}
-
-
-.tools-row{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px}
-.tool-btn{padding:10px 14px;border-radius:12px;border:1px solid rgba(255,255,255,.16);background:#101826;color:#edf2fb;cursor:pointer}
-.score-wrap{margin-top:10px}
-.score-track{height:10px;background:rgba(255,255,255,.08);border-radius:999px;overflow:hidden}
-.score-fill{height:100%;width:0%;border-radius:999px;transition:width .2s ease}
-.score-fill.safe{background:#00ff9c}
-.score-fill.act{background:#4da3ff}
-.score-fill.wait{background:#ffcc00}
-.score-fill.risky{background:#ff3b3b}
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NOVA TRUST · V10.1 EXPERIENCE</title>
+<style>
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #04070c;
+  color: #f5f7fb;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif;
+}
+body {
+  position: relative;
+}
+#bg {
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(circle at 50% 50%, rgba(0,140,255,0.10), transparent 28%),
+    radial-gradient(circle at 30% 30%, rgba(255,255,255,0.05), transparent 40%),
+    radial-gradient(circle at 70% 70%, rgba(0,180,255,0.04), transparent 35%),
+    linear-gradient(180deg, #05070b 0%, #02040a 100%);
+  filter: blur(0px);
+  transition: transform 0.15s linear;
+}
+#veil {
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(circle at 50% 50%, transparent 0%, rgba(0,0,0,0.18) 65%, rgba(0,0,0,0.52) 100%);
+  pointer-events: none;
+}
+#starfield {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+.star {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.75);
+  box-shadow: 0 0 10px rgba(255,255,255,0.35);
+  animation: twinkle 5s ease-in-out infinite;
+}
+@keyframes twinkle {
+  0%,100% { opacity: 0.2; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.9); }
+}
+#scene {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#eyeWrap {
+  position: relative;
+  width: 320px;
+  height: 320px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.18s ease-out;
+}
+#eyeAura {
+  position: absolute;
+  width: 320px;
+  height: 320px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(0,190,255,0.18) 0%, rgba(0,120,255,0.08) 35%, rgba(0,0,0,0) 68%);
+  filter: blur(22px);
+  animation: aura 4.6s ease-in-out infinite;
+}
+@keyframes aura {
+  0%,100% { transform: scale(0.96); opacity: 0.65; }
+  50% { transform: scale(1.08); opacity: 1; }
+}
+#eyeShell {
+  position: absolute;
+  width: 238px;
+  height: 158px;
+  border-radius: 120px / 84px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.03));
+  border: 1px solid rgba(255,255,255,0.11);
+  box-shadow:
+    0 0 32px rgba(0,170,255,0.22),
+    inset 0 0 26px rgba(255,255,255,0.06),
+    0 26px 80px rgba(0,0,0,0.35);
+  overflow: hidden;
+  backdrop-filter: blur(10px);
+}
+#eyeCore {
+  position: absolute;
+  width: 126px;
+  height: 126px;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 50% 50%, rgba(255,255,255,0.95) 0 7%, rgba(80,210,255,0.95) 10%, rgba(0,95,170,0.96) 36%, rgba(0,18,32,0.98) 70%, rgba(0,0,0,1) 100%);
+  box-shadow:
+    0 0 36px rgba(0,180,255,0.44),
+    inset 0 0 22px rgba(255,255,255,0.18);
+  transform: translate(0px, 0px);
+  transition: transform 0.08s linear, box-shadow 0.25s ease, filter 0.25s ease;
+}
+#pupil {
+  position: absolute;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: #000;
+  box-shadow: inset 0 0 8px rgba(255,255,255,0.06), 0 0 10px rgba(0,0,0,0.55);
+}
+#highlight {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  top: 30px;
+  left: 34px;
+  background: rgba(255,255,255,0.78);
+  filter: blur(1px);
+}
+#lidTop, #lidBottom {
+  position: absolute;
+  width: 248px;
+  height: 100px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: radial-gradient(circle at 50% 50%, rgba(3,7,12,0.05), rgba(3,7,12,0.98) 78%);
+  pointer-events: none;
+}
+#lidTop {
+  top: 42px;
+  border-bottom-left-radius: 130px 88px;
+  border-bottom-right-radius: 130px 88px;
+  animation: blinkTop 8s infinite;
+}
+#lidBottom {
+  bottom: 42px;
+  border-top-left-radius: 130px 88px;
+  border-top-right-radius: 130px 88px;
+  animation: blinkBottom 8s infinite;
+}
+@keyframes blinkTop {
+  0%, 46%, 48%, 100% { transform: translateX(-50%) translateY(-72px); }
+  47% { transform: translateX(-50%) translateY(-8px); }
+}
+@keyframes blinkBottom {
+  0%, 46%, 48%, 100% { transform: translateX(-50%) translateY(72px); }
+  47% { transform: translateX(-50%) translateY(8px); }
+}
+#ui {
+  position: fixed;
+  left: 50%;
+  bottom: 42px;
+  transform: translateX(-50%);
+  width: min(860px, 86vw);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  align-items: center;
+}
+#title {
+  position: fixed;
+  top: 34px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 14px;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  opacity: 0.68;
+}
+#subtitle {
+  position: fixed;
+  top: 62px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 38px;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  text-align: center;
+  opacity: 0.95;
+}
+#desc {
+  position: fixed;
+  top: 112px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 17px;
+  text-align: center;
+  opacity: 0.76;
+}
+#input {
+  width: 100%;
+  padding: 18px 22px;
+  border-radius: 18px;
+  border: 1px solid rgba(255,255,255,0.14);
+  background: rgba(6,12,20,0.74);
+  color: #fff;
+  outline: none;
+  font-size: 18px;
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.03), 0 16px 40px rgba(0,0,0,0.28);
+}
+#input::placeholder {
+  color: rgba(255,255,255,0.36);
+}
+#row {
+  width: 100%;
+  display: flex;
+  gap: 14px;
+  justify-content: center;
+}
+button {
+  padding: 14px 20px;
+  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,0.12);
+  background: rgba(14,24,40,0.84);
+  color: #fff;
+  font-size: 16px;
+  cursor: pointer;
+  transition: transform 0.12s ease, background 0.2s ease, box-shadow 0.2s ease;
+}
+button:hover {
+  transform: translateY(-1px);
+  background: rgba(20,34,55,0.96);
+}
+#verdict {
+  min-height: 30px;
+  font-size: 18px;
+  text-align: center;
+  opacity: 0.9;
+}
+.safeText { color: #7dffb2; }
+.riskyText { color: #ff8585; }
+.waitText { color: #9fc6ff; }
+#micro {
+  font-size: 12px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  opacity: 0.42;
+}
 </style>
 </head>
 <body>
-  <div class="page">
-    <div class="top">
-      <div>
-        <div class="badge">NOVA TRUST · V9.6 · MATCH4 SAFE UI</div>
-        <h1>Ce lien peut te coûter de l’argent.</h1>
-<div style="margin-top:10px;font-size:16px;opacity:.8">
-Tu colles un lien.<br>
-Tu sais en 5 secondes s’il est fiable ou dangereux.
-</div>
-        <div class="mini">Utilisations : <span id="usage_count">0</span></div>
-        <p class="sub">Fusion analyse opérateur + score business live + mémoire locale</p>
-      </div>
-      <a class="btn" href="/">Retour VX
-<input id="trust_input" type="text" placeholder="Colle un lien ici (ex: https://openai.com)" style="display:block;width:100%;max-width:760px;padding:12px 14px;margin:12px 0 16px 0;border-radius:10px;border:1px solid rgba(255,255,255,.18);background:#0f1520;color:#fff;font-size:14px;">
-</a>
+<div id="bg"></div>
+<div id="starfield"></div>
+<div id="veil"></div>
+
+<div id="title">NOVA TRUST · V10.1 EXPERIENCE</div>
+<div id="subtitle">Presence qui aide a decider</div>
+<div id="desc">Colle un lien. Observe la reaction. Sens le verdict.</div>
+
+<div id="scene">
+  <div id="eyeWrap">
+    <div id="eyeAura"></div>
+    <div id="eyeShell"></div>
+    <div id="eyeCore">
+      <div id="pupil"></div>
+      <div id="highlight"></div>
     </div>
-
-    <div class="row">
-      <input id="target" placeholder="Colle un lien ici (ex: message WhatsApp, mail, site…)">
-      <button id="run">Analyser maintenant</button>
-      <button id="refresh">Refresh live</button>
-    </div>
-
-    <div class="tools-row">
-      <button id="share_btn" class="tool-btn">Partager</button>
-      <button id="copy_decision" class="tool-btn">Copier décision</button>
-      <button id="copy_json" class="tool-btn">Copier JSON</button>
-    </div>
-
-    <div class="grid">
-      <div class="card"><div class="k">Status</div><div class="v" id="status">…</div></div>
-      <div class="card"><div class="k">App</div><div class="v" id="app">…</div></div>
-      <div class="card"><div class="k">Cash</div><div class="v" id="cash">…</div></div>
-      <div class="card"><div class="k">Payments</div><div class="v" id="payments">…</div></div>
-
-      <div class="card"><div class="k">Business Score</div><div class="v" id="business_score">…</div><div class="score-wrap"><div class="score-track"><div id="business_bar" class="score-fill act"></div></div></div></div>
-      <div class="card"><div class="k">Analysis Score</div><div class="v" id="analysis_score">…</div></div>
-      <div class="card"><div class="k">Fusion Score</div><div class="v" id="fusion_score">…</div><div class="score-wrap"><div class="score-track"><div id="fusion_bar" class="score-fill"></div></div></div></div>
-      <div class="card"><div class="k">Fusion Verdict</div><div class="v" id="fusion_verdict">…</div></div>
-
-      <div class="card full">
-        <div class="k">Historique local</div>
-        <div id="history"><div class="mini">Chargement…</div></div>
-      </div>
-
-      <div class="card full">
-        <div class="k">Decision Rationale</div>
-        <pre id="rationale">[]</pre>
-      </div>
-
-      <div class="card full">
-        <div class="k">Fusion JSON</div>
-        <pre id="fusion_json">{}</pre>
-      </div>
-
-      <div class="card full">
-        <div class="k">Raw JSON live</div>
-        <pre id="live_json">Chargement…</pre>
-      </div>
-    </div>
+    <div id="lidTop"></div>
+    <div id="lidBottom"></div>
   </div>
+</div>
 
-  <script src="/static/trust_ui.js?ts=20260413"></script>
+<div id="ui">
+  <input id="input" type="text" placeholder="https://openai.com" />
+  <div id="row">
+    <button id="analyzeBtn">Analyser</button>
+    <button id="refreshBtn">Refresh live</button>
+  </div>
+  <div id="verdict" class="waitText">En attente</div>
+  <div id="micro">oeil vivant · tracking · respiration · son reactif</div>
+</div>
 
 <script>
+const eyeWrap = document.getElementById("eyeWrap");
+const eyeCore = document.getElementById("eyeCore");
+const verdict = document.getElementById("verdict");
+const input = document.getElementById("input");
+const analyzeBtn = document.getElementById("analyzeBtn");
+const refreshBtn = document.getElementById("refreshBtn");
+
+for (let i = 0; i < 72; i++) {
+  const s = document.createElement("div");
+  s.className = "star";
+  s.style.left = Math.random() * 100 + "%";
+  s.style.top = Math.random() * 100 + "%";
+  s.style.animationDelay = (Math.random() * 5) + "s";
+  s.style.opacity = (0.15 + Math.random() * 0.85).toFixed(2);
+  document.getElementById("starfield").appendChild(s);
+}
+
+let audioCtx = null;
+function beep(freq, dur, gain) {
+  try {
+    if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    const o = audioCtx.createOscillator();
+    const g = audioCtx.createGain();
+    o.type = "sine";
+    o.frequency.value = freq;
+    g.gain.value = gain;
+    o.connect(g);
+    g.connect(audioCtx.destination);
+    o.start();
+    g.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + dur);
+    o.stop(audioCtx.currentTime + dur);
+  } catch(e) {}
+}
+
+document.addEventListener("mousemove", (e) => {
+  const cx = window.innerWidth / 2;
+  const cy = window.innerHeight / 2;
+  const dx = (e.clientX - cx) / cx;
+  const dy = (e.clientY - cy) / cy;
+  eyeCore.style.transform = ;
+  eyeWrap.style.transform = ;
+  document.getElementById("bg").style.transform = ;
+});
+
 async function loadLive() {
-    try {
-        const res = await fetch("/api/trust/live");
-        const data = await res.json();
-
-        document.querySelectorAll(".status")[0].innerText = data.status;
-        document.querySelectorAll(".cash")[0].innerText = data.cash;
-        document.querySelectorAll(".payments")[0].innerText = data.payments;
-        document.querySelectorAll(".business")[0].innerText = data.business_score;
-        document.querySelectorAll(".analysis")[0].innerText = data.analysis_score;
-        document.querySelectorAll(".fusion")[0].innerText = data.fusion_score;
-        document.querySelectorAll(".verdict")[0].innerText = data.verdict;
-
-        document.querySelector(".fusion-json").innerText = JSON.stringify(data, null, 2);
-
-    } catch(e) {
-        console.error("LIVE ERROR", e);
-    }
+  const r = await fetch("/api/trust/live?ts=" + Date.now(), { cache: "no-store" });
+  return await r.json();
 }
 
-setInterval(loadLive, 2000);
-loadLive();
-</script>
+function applyVerdict(v, score) {
+  eyeCore.classList.remove("safe", "risky");
+  verdict.classList.remove("safeText", "riskyText", "waitText");
 
-
-\n
-
-<script>
-if (!window.__TRUST_CANON_V1__) {
-  window.__TRUST_CANON_V1__ = true;
-
-  function txt(el){ return ((el && el.textContent) || "").trim(); }
-  function nodes(){ return [...document.querySelectorAll("div,p,span,h1,h2,h3,h4,h5,h6,strong,pre")]; }
-  function findLabel(label){ return nodes().find(n => txt(n).toLowerCase() === label.toLowerCase()); }
-  function findValue(label){
-    const labelNode = findLabel(label);
-    if (!labelNode) return null;
-    const parent = labelNode.parentElement;
-    if (!parent) return null;
-    return [...parent.querySelectorAll("div,p,span,pre")].find(x => x !== labelNode) || null;
+  if (v === "SAFE") {
+    eyeCore.classList.add("safe");
+    eyeCore.style.boxShadow = "0 0 46px rgba(40,255,140,0.55), inset 0 0 22px rgba(255,255,255,0.18)";
+    verdict.classList.add("safeText");
+    verdict.textContent = "SAFE · " + score;
+    beep(432, 0.28, 0.02);
+  } else if (v === "RISKY") {
+    eyeCore.classList.add("risky");
+    eyeCore.style.boxShadow = "0 0 46px rgba(255,40,40,0.55), inset 0 0 22px rgba(255,255,255,0.18)";
+    verdict.classList.add("riskyText");
+    verdict.textContent = "RISKY · " + score;
+    beep(110, 0.42, 0.03);
+  } else {
+    eyeCore.style.boxShadow = "0 0 36px rgba(0,180,255,0.44), inset 0 0 22px rgba(255,255,255,0.18)";
+    verdict.classList.add("waitText");
+    verdict.textContent = "WAIT · " + score;
+    beep(220, 0.22, 0.015);
   }
-  function setVal(label, value){
-    const el = findValue(label);
-    if (el) el.textContent = String(value);
-  }
-  function setBlock(label, value){
-    const el = findValue(label);
-    if (el) el.textContent = typeof value === "string" ? value : JSON.stringify(value, null, 2);
-  }
-  function inputEl(){
-    return document.getElementById("trust_input");
-  }
-
-  async function loadLive(){
-    try{
-      const r = await fetch("/api/trust/live?ts=" + Date.now(), {cache:"no-store"});
-      const data = await r.json();
-
-      setVal("STATUS", data.status ?? "ok");
-      setVal("APP", data.app ?? "TRUST+");
-      setVal("CASH", data.cash ?? 0);
-      setVal("PAYMENTS", data.payments ?? 0);
-      setVal("BUSINESS SCORE", data.business_score ?? 0);
-      setVal("ANALYSIS SCORE", data.analysis_score ?? 0);
-      setVal("FUSION SCORE", data.fusion_score ?? 0);
-      setVal("FUSION VERDICT", data.verdict ?? "WAIT");
-      setBlock("RAW JSON LIVE", data);
-      setBlock("HISTORIQUE LOCAL", data.history ?? []);
-      setBlock("DECISION RATIONALE", data.rationale ?? []);
-      setBlock("FUSION JSON", data);
-    } catch(e) {
-      console.error("LOAD_LIVE_ERROR", e);
-    }
-  }
-
-  async function runAnalysis(){
-    try{
-      const input = inputEl();
-      const q = input ? input.value.trim() : "";
-      const r = await fetch("/api/trust/analyze?q=" + encodeURIComponent(q), {cache:"no-store"});
-      const data = await r.json();
-
-      setVal("STATUS", data.status ?? "ok");
-      setVal("APP", data.app ?? "TRUST+");
-      setVal("CASH", data.cash ?? 0);
-      setVal("PAYMENTS", data.payments ?? 0);
-      setVal("BUSINESS SCORE", data.business_score ?? 0);
-      setVal("ANALYSIS SCORE", data.analysis_score ?? 0);
-      setVal("FUSION SCORE", data.fusion_score ?? 0);
-      setVal("FUSION VERDICT", data.fusion_verdict ?? data.verdict ?? "WAIT");
-      setBlock("HISTORIQUE LOCAL", data.history ?? []);
-      setBlock("DECISION RATIONALE", data.rationale ?? []);
-      setBlock("FUSION JSON", data);
-      setBlock("RAW JSON LIVE", data);
-    } catch(e) {
-      console.error("RUN_ANALYSIS_ERROR", e);
-    }
-  }
-
-  document.addEventListener("click", function(e){
-    const btn = e.target.closest("button,a");
-    if (!btn) return;
-    const t = txt(btn).toLowerCase();
-
-    if (t.includes("analyser maintenant")) {
-      e.preventDefault();
-      e.stopPropagation();
-      runAnalysis();
-      return;
-    }
-
-    if (t.includes("refresh live")) {
-      e.preventDefault();
-      e.stopPropagation();
-      loadLive();
-      return;
-    }
-  }, true);
-
-  const input = inputEl();
-  if (input) {
-    input.addEventListener("keydown", function(e){
-      if (e.key === "Enter") {
-        e.preventDefault();
-        runAnalysis();
-      }
-    });
-  }
-
-  setTimeout(loadLive, 300);
-  setInterval(loadLive, 3000);
 }
-</script>
 
+async function analyze() {
+  const q = input.value.trim();
+  eyeWrap.style.transform += " scale(1.04)";
+  const r = await fetch("/api/trust/analyze?q=" + encodeURIComponent(q), { cache: "no-store" });
+  const data = await r.json();
+  applyVerdict(data.fusion_verdict || data.verdict || "WAIT", data.fusion_score || 0);
+  setTimeout(() => { eyeWrap.style.transform = eyeWrap.style.transform.replace(" scale(1.04)", ""); }, 220);
+}
+
+analyzeBtn.addEventListener("click", analyze);
+refreshBtn.addEventListener("click", async () => {
+  const data = await loadLive();
+  applyVerdict(data.verdict || "WAIT", data.fusion_score || 0);
+});
+
+input.addEventListener("keydown", (e) => {
+  if (e.key === "Enter") analyze();
+});
+
+setTimeout(async () => {
+  const data = await loadLive();
+  applyVerdict(data.verdict || "WAIT", data.fusion_score || 0);
+}, 300);
+</script>
 </body>
 </html>
