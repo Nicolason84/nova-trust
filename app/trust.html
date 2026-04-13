@@ -229,5 +229,89 @@ if (!window.__TRUST_LIVE_BIND_V2__) {
 }
 </script>
 
+<script>
+if (!window.__TRUST_LIVE_BIND_V3__) {
+  window.__TRUST_LIVE_BIND_V3__ = true;
+
+  function textOf(el){ return (el && el.textContent || "").trim(); }
+
+  function findCardValue(labelText){
+    const labels = Array.from(document.querySelectorAll("div,p,span,h1,h2,h3,h4,h5,h6,strong"));
+    const label = labels.find(el => textOf(el).toLowerCase() === labelText.toLowerCase());
+    if (!label) return null;
+
+    let node = label.nextElementSibling;
+    while (node) {
+      const t = textOf(node);
+      if (t && t !== labelText) return node;
+      node = node.nextElementSibling;
+    }
+
+    const card = label.closest("div");
+    if (!card) return null;
+
+    const candidates = Array.from(card.querySelectorAll("div,p,span,pre")).filter(el => el !== label);
+    return candidates.find(el => {
+      const t = textOf(el);
+      return t === "…" || t === "..." || t === "Chargement…" || t === "Chargement..." || t === "{}" || t === "[]";
+    }) || null;
+  }
+
+  function setValue(label, value){
+    const el = findCardValue(label);
+    if (el) el.textContent = String(value);
+  }
+
+  function setBlock(label, value){
+    const labels = Array.from(document.querySelectorAll("div,p,span,h1,h2,h3,h4,h5,h6,strong"));
+    const labelNode = labels.find(el => textOf(el).toLowerCase() === label.toLowerCase());
+    if (!labelNode) return;
+
+    const card = labelNode.closest("div");
+    if (!card) return;
+
+    const target = Array.from(card.querySelectorAll("pre,div,p,span")).find(el => el !== labelNode);
+    if (target) {
+      target.textContent = typeof value === "string" ? value : JSON.stringify(value, null, 2);
+    }
+  }
+
+  async function loadLive(){
+    try{
+      const r = await fetch("/api/trust/live?ts=" + Date.now(), {cache:"no-store"});
+      const data = await r.json();
+
+      setValue("Status", data.status ?? "ok");
+      setValue("App", data.app ?? "TRUST+");
+      setValue("Cash", data.cash ?? 0);
+      setValue("Payments", data.payments ?? 0);
+      setValue("Business Score", data.business_score ?? 0);
+      setValue("Analysis Score", data.analysis_score ?? 0);
+      setValue("Fusion Score", data.fusion_score ?? 0);
+      setValue("Fusion Verdict", data.verdict ?? "WAIT");
+
+      setBlock("Historique local", data.history ?? []);
+      setBlock("Decision Rationale", data.rationale ?? []);
+      setBlock("Fusion JSON", data);
+      setBlock("Raw JSON live", data);
+    } catch(e) {
+      console.error("TRUST_BIND_V3_ERROR", e);
+    }
+  }
+
+  document.addEventListener("click", function(e){
+    const btn = e.target.closest("button,a");
+    if (!btn) return;
+    const txt = textOf(btn).toLowerCase();
+    if (txt.includes("refresh live")) {
+      e.preventDefault();
+      loadLive();
+    }
+  });
+
+  setTimeout(loadLive, 300);
+  setInterval(loadLive, 3000);
+}
+</script>
 </body>
 </html>
