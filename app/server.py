@@ -126,7 +126,19 @@ class Handler(BaseHTTPRequestHandler):
                 "business_score": current_live.get("business_score", 0),
                 "ts": str(datetime.utcnow())
             }
-            history = [item] + history[:4]
+
+            new_history = []
+            seen = set()
+            for x in [item] + history:
+                key = (x.get("input"), x.get("fusion_score"), x.get("fusion_verdict"))
+                if key in seen:
+                    continue
+                seen.add(key)
+                new_history.append(x)
+                if len(new_history) >= 5:
+                    break
+
+            history = new_history
 
             live_data = {
                 "status": "ok",
