@@ -55,37 +55,35 @@ class Handler(BaseHTTPRequestHandler):
         self.send_header("Access-Control-Allow-Origin", "*")
         self.end_headers()
 
-    def do_GET(self):
-        parsed = urlparse(self.path)
-        path = parsed.path
+def do_GET(self):
+    if self.path == "/" or self.path == "/index.html":
+        try:
+            with open("app/index.html", "rb") as f:
+                self.send_response(200)
+                self.send_header("Content-type", "text/html")
+                self.end_headers()
+                self.wfile.write(f.read())
+        except:
+            self.send_response(404)
+            self.end_headers()
+            self.wfile.write(b"INDEX NOT FOUND")
+    
+    elif self.path == "/trust":
+        try:
+            with open("app/trust.html", "rb") as f:
+                self.send_response(200)
+                self.send_header("Content-type", "text/html")
+                self.end_headers()
+                self.wfile.write(f.read())
+        except:
+            self.send_response(404)
+            self.end_headers()
+            self.wfile.write(b"TRUST NOT FOUND")
 
-        if path == "/":
-            self._set_headers()
-            self.wfile.write(read_text(INDEX_FILE, "INDEX NOT FOUND").encode())
-            return
-
-        if path == "/trust":
-            self._set_headers()
-            self.wfile.write(read_text(TRUST_FILE, "TRUST NOT FOUND").encode())
-            return
-
-        if path == "/api/trust/live":
-            self._set_headers(content_type="application/json")
-            data = read_json(LIVE_RUNTIME, {"status": "ok", "ts": str(datetime.utcnow())})
-            self.wfile.write(json.dumps(data).encode())
-            return
-
-        # STATIC FILES
-        file_path = STATIC / path.lstrip("/")
-        if file_path.exists():
-            mime = mimetypes.guess_type(str(file_path))[0] or "application/octet-stream"
-            self._set_headers(content_type=mime)
-            self.wfile.write(file_path.read_bytes())
-            return
-
-        self._set_headers(404)
-        self.wfile.write(b"404 NOT FOUND")
-
+    else:
+        self.send_response(404)
+        self.end_headers()
+        self.wfile.write(b"NOT FOUND")
 
 def main():
     server = HTTPServer((HOST, PORT), Handler)
