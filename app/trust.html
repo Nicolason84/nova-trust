@@ -313,5 +313,106 @@ if (!window.__TRUST_LIVE_BIND_V3__) {
   setInterval(loadLive, 3000);
 }
 </script>
+
+<script>
+if (!window.__TRUST_ANALYZE_BIND_V4__) {
+  window.__TRUST_ANALYZE_BIND_V4__ = true;
+
+  function txt(el){ return ((el && el.textContent) || "").trim(); }
+
+  function allTextNodes(){
+    return [...document.querySelectorAll("div,p,span,h1,h2,h3,h4,h5,h6,strong,pre")];
+  }
+
+  function findLabelNode(label){
+    return allTextNodes().find(n => txt(n).toLowerCase() === label.toLowerCase());
+  }
+
+  function findValueNode(label){
+    const labelNode = findLabelNode(label);
+    if (!labelNode) return null;
+    const parent = labelNode.parentElement;
+    if (!parent) return null;
+    return [...parent.querySelectorAll("div,p,span,pre")].find(x => x !== labelNode) || null;
+  }
+
+  function setVal(label, value){
+    const el = findValueNode(label);
+    if (el) el.textContent = String(value);
+  }
+
+  function setBlock(label, value){
+    const el = findValueNode(label);
+    if (el) el.textContent = typeof value === "string" ? value : JSON.stringify(value, null, 2);
+  }
+
+  function getInput(){
+    return document.getElementById("trust_input") || document.querySelector("input");
+  }
+
+  async function runAnalysis(){
+    try {
+      const input = getInput();
+      const q = input ? input.value.trim() : "";
+      const r = await fetch("/api/trust/analyze?q=" + encodeURIComponent(q), {cache:"no-store"});
+      const data = await r.json();
+
+      setVal("ANALYSIS SCORE", data.analysis_score ?? 0);
+      setVal("FUSION SCORE", data.fusion_score ?? 0);
+      setVal("FUSION VERDICT", data.fusion_verdict ?? data.verdict ?? "WAIT");
+      setBlock("DECISION RATIONALE", data.rationale ?? []);
+      setBlock("FUSION JSON", data);
+      setBlock("HISTORIQUE LOCAL", data.history ?? []);
+    } catch(e) {
+      console.error("RUN_ANALYSIS_ERROR", e);
+    }
+  }
+
+  async function loadLive(){
+    try{
+      const r = await fetch("/api/trust/live?ts=" + Date.now(), {cache:"no-store"});
+      const data = await r.json();
+
+      setVal("STATUS", data.status ?? "ok");
+      setVal("APP", data.app ?? "TRUST+");
+      setVal("CASH", data.cash ?? 0);
+      setVal("PAYMENTS", data.payments ?? 0);
+      setVal("BUSINESS SCORE", data.business_score ?? 0);
+      setVal("ANALYSIS SCORE", data.analysis_score ?? 0);
+      setVal("FUSION SCORE", data.fusion_score ?? 0);
+      setVal("FUSION VERDICT", data.verdict ?? "WAIT");
+      setBlock("RAW JSON LIVE", data);
+    } catch(e){
+      console.error("LOAD_LIVE_ERROR", e);
+    }
+  }
+
+  document.addEventListener("click", function(e){
+    const btn = e.target.closest("button,a");
+    if (!btn) return;
+    const t = txt(btn).toLowerCase();
+
+    if (t.includes("analyser maintenant")) {
+      e.preventDefault();
+      e.stopPropagation();
+      runAnalysis();
+      return;
+    }
+
+    if (t.includes("refresh live")) {
+      e.preventDefault();
+      e.stopPropagation();
+      loadLive();
+      return;
+    }
+  }, true);
+
+  setTimeout(loadLive, 300);
+  setInterval(loadLive, 3000);
+  window.runAnalysis = runAnalysis;
+  window.loadLive = loadLive;
+}
+</script>
+
 </body>
 </html>
