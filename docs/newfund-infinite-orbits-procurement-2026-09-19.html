@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="OJO confronte la thèse de François Veron aux annonces d’Infinite Orbits, SES, Hispasat et Eutelsat : preuves commerciales, limites et simulateur économique explicite.">
+<meta name="theme-color" content="#0b0e13">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<title>OJO — Infinite Orbits : du pitch à l’achat, puis à la preuve</title>
+<style>
+:root{color-scheme:dark;--bg:#0b0e13;--surface:#121722;--line:#2c3749;--text:#edf2f7;--muted:#b4c0d1;--accent:#7dd3fc;--warm:#f4cf89}
+*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:25px}body{margin:0;background:var(--bg);color:var(--text);font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif}main,header,footer{max-width:1080px;margin:auto;padding:0 24px}header{display:flex;justify-content:space-between;align-items:center;gap:20px;padding-top:24px;padding-bottom:22px;border-bottom:1px solid var(--line)}.brand{font-size:25px;font-weight:850;letter-spacing:-1px}.brand span{color:var(--accent)}.topnav{display:flex;gap:20px;flex-wrap:wrap;font-size:14px}a{color:var(--accent);text-underline-offset:4px}a:hover{text-decoration-thickness:2px}a:focus-visible,button:focus-visible,input:focus-visible,summary:focus-visible{outline:3px solid var(--accent);outline-offset:4px}.skip{position:absolute;left:12px;top:-90px;background:var(--surface);padding:10px}.skip:focus{top:5px}.hero{padding:52px 0 30px}.eyebrow{font-size:12px;letter-spacing:1.5px;text-transform:uppercase;color:var(--accent);font-weight:750}.meta{font-size:13px;color:var(--muted)}h1{font-size:clamp(34px,5.4vw,57px);line-height:1.08;letter-spacing:-1.9px;max-width:870px;margin:20px 0 24px}h1 span{color:var(--accent)}h2{font-size:clamp(25px,3.1vw,32px);line-height:1.2;letter-spacing:-.5px;margin:8px 0 22px}h3{font-size:19px;line-height:1.3;margin:0 0 12px}p{margin:0 0 16px}.lead{font-size:21px;line-height:1.5;color:#d7e0ec;max-width:850px}.muted,small{color:var(--muted)}small{font-size:13px}.section{padding:36px 0;border-top:1px solid var(--line)}.kicker{font-size:12px;color:var(--accent);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:12px}.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin:22px 0}.card{padding:22px;border:1px solid var(--line);background:var(--surface);border-radius:14px}.card p:last-child{margin-bottom:0}.number{font-size:30px;font-weight:800;letter-spacing:-.7px;margin:4px 0}.tag{display:inline-block;color:var(--accent);font-size:11px;letter-spacing:.6px;text-transform:uppercase;font-weight:750}.tag.warm{color:var(--warm)}.note{border-left:3px solid var(--accent);background:#111c27;padding:19px 22px;margin:24px 0;border-radius:0 10px 10px 0}.note.warning{border-color:var(--warm);background:#1d1b18}.note p:last-child{margin-bottom:0}.ref{font-size:12px;font-weight:700;white-space:nowrap}.table-scroll{overflow:auto;max-width:100%;border:1px solid var(--line);border-radius:12px}table{border-collapse:collapse;width:100%;font-size:14px;background:var(--surface)}th,td{vertical-align:top;text-align:left;padding:17px;border-bottom:1px solid var(--line)}th{font-weight:750;color:#d7e0ec;background:#182030}tr:last-child td{border-bottom:0}.evidence{min-width:710px}.evidence td:first-child{width:18%}.evidence td:nth-child(2){width:39%}.table-caption{font-size:13px;color:var(--muted);margin:8px 0 0}.two{display:grid;grid-template-columns:1fr 1fr;gap:22px}.steps{counter-reset:stage;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:22px 0}.step{counter-increment:stage;border-top:3px solid var(--line);padding:16px 0}.step:before{content:"0" counter(stage);display:block;color:var(--accent);font-weight:800;margin-bottom:8px}.step p{font-size:14px}.button,button{display:inline-block;border:1px solid var(--line);border-radius:9px;background:#1a2939;color:var(--text);padding:11px 16px;font-family:inherit;font-size:14px;font-weight:650;line-height:1.4;cursor:pointer;text-decoration:none}button:hover,.button:hover{background:#243d52}.primary{background:var(--accent);color:#09131b;border-color:var(--accent)}.primary:hover{background:#b1e4fc}.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px}.sim{border:1px solid #476078;border-radius:16px;padding:25px;background:#111923}.fields{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}.field label{display:block;font-size:13px;color:#c7d2e2;margin-bottom:6px}.field input{width:100%;background:#0b1119;border:1px solid #4b5b71;border-radius:7px;color:var(--text);font-family:inherit;font-size:18px;font-weight:600;line-height:1.4;padding:10px 12px}.field input:invalid{border-color:var(--warm)}.outputs{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:22px}.output{padding:18px;background:#0b131c;border:1px solid var(--line);border-radius:10px}.output output{display:block;color:var(--accent);font-size:31px;font-weight:800}.status{min-height:26px;color:var(--muted);margin:13px 0}.formula{overflow:auto;font:15px/1.8 ui-monospace,SFMono-Regular,Consolas,monospace;padding:16px;background:#0b1119;border-radius:8px}.defs{font-size:14px}.defs p{margin:7px 0}details{margin-top:20px;padding:16px;border:1px solid var(--line);border-radius:9px}summary{cursor:pointer;font-weight:700;color:#d6e5f4}details[open] summary{margin-bottom:14px}.source-list{padding-left:22px}.source-list li{padding:0 0 15px 5px;overflow-wrap:anywhere}.source-list a{font-weight:650}.source-list small{display:block;margin-top:3px}.proposal{padding:18px 0;border-bottom:1px solid var(--line)}.proposal:last-child{border-bottom:0}.proposal strong{display:block;margin-bottom:5px}.conclusion{font-size:22px;line-height:1.45}.mini{font-size:14px}footer{padding-top:25px;padding-bottom:40px;border-top:1px solid var(--line);font-size:12px;color:var(--muted)}.noscript{color:var(--warm)}
+@media(max-width:740px){header,main,footer{padding-left:18px;padding-right:18px}.hero{padding-top:36px}.grid,.fields{grid-template-columns:1fr}.two,.outputs{grid-template-columns:1fr}.steps{grid-template-columns:1fr 1fr}.card{padding:18px}.sim{padding:18px}.topnav{gap:13px;font-size:12px}h1{letter-spacing:-1px}.lead{font-size:19px}.section{padding:29px 0}.number{font-size:27px}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+@media print{:root{color-scheme:light;--bg:#fff;--surface:#fff;--text:#111;--muted:#444;--line:#aaa;--accent:#15567a}body{font-size:11pt}.topnav,.actions,.skip{display:none}.hero{padding-top:20px}h1{font-size:32pt}h1 span,.lead,.conclusion{color:#111}.note,.note.warning,.sim,.output,th,.formula{background:#fff;color:#111}.table-scroll{overflow:visible}.evidence{min-width:0}.card,.sim,.note{break-inside:avoid}.field input{background:#fff;color:#111}.section{padding:20px 0}a{color:#15567a}.grid{grid-template-columns:repeat(3,1fr)}}
+</style>
+</head>
+<body>
+<a class="skip" href="#analyse">Aller à l’analyse</a>
+<header><div class="brand">o<span>j</span>O <small> / recherches ouvertes</small></div><nav class="topnav" aria-label="Navigation"><a href="#preuves">Preuves</a><a href="#simulateur">Simulateur</a><a href="#sources">Sources</a></nav></header>
+<main id="analyse">
+<section class="hero">
+<div class="eyebrow">Étude de cas · Infinite Orbits × Newfund</div>
+<h1>Du pitch à l’achat.<br><span>Puis de l’achat à la preuve.</span></h1>
+<p class="lead">Une lecture constructive de la thèse de François Veron : comment reconnaître le passage d’une technologie prometteuse à un service que des clients achètent, utilisent et rachètent&nbsp;?</p>
+<p class="meta">19 septembre 2026 · Version 1.0 · Sources publiques · Analyse et modèle exploratoires</p>
+<div class="note"><strong>La distinction décisive.</strong> Des annonces impliquant plusieurs opérateurs renforcent le signal de demande. Elles ne constituent pas automatiquement trois commandes de même nature, trois missions livrées ou trois rentabilités démontrées. La bonne extension du raisonnement consiste à suivre ces preuves séparément.</div>
+<div class="grid">
+<div class="card"><span class="tag">Dans le post de départ</span><div class="number">3 opérateurs</div><p>Hispasat, SES, Eutelsat. Trois relations à qualifier, pas un indicateur homogène de ventes réalisées. <a class="ref" href="#s0">[0]</a></p></div>
+<div class="card"><span class="tag">Objectif du service</span><div class="number">5 ans</div><p>Durée de maintien en position annoncée pour Endurance, et non durée déjà livrée à ces clients. <a class="ref" href="#s4">[4]</a></p></div>
+<div class="card"><span class="tag warm">Calendrier affiché</span><div class="number">T3 2028</div><p>Prochain lancement Endurance indiqué sur la page produit consultée. Il reste prévisionnel. <a class="ref" href="#s4">[4]</a></p></div>
+</div>
+<div class="actions"><a class="button primary" href="#preuves">Examiner les annonces</a><a class="button" href="#simulateur">Tester l’économie d’un scénario</a></div>
+</section>
+<section class="section" id="these">
+<div class="kicker">01 / Le raisonnement de départ</div><h2>Une intuition utile, à rendre vérifiable</h2>
+<p>Le post associe diversité des opérateurs, intérêt économique de prolonger les satellites et investissement industriel. Il y voit un passage du <em>« pitch deck »</em> à la <em>« procurement line »</em> : la technologie commencerait à devenir une ligne d’achat. C’est une hypothèse sur la maturité commerciale, pas seulement sur la performance technique. <a class="ref" href="#s0">[0]</a></p>
+<p>Notre proposition est de préserver cette intuition tout en distinguant <strong>intérêt exprimé, engagement commercial, service livré et valeur constatée</strong>. Un progrès à l’un de ces niveaux ne valide pas mécaniquement les suivants.</p>
+<p class="mini muted">Contexte de lecture : Newfund a mené la levée de 12 M€ annoncée par Infinite Orbits le 13 mai 2024. Le post émane donc d’un investisseur de l’entreprise, ce qu’il indique lui-même. Ce lien invite au croisement des sources ; il ne réfute pas son raisonnement. <a class="ref" href="#s7">[7]</a> <a class="ref" href="#s0">[0]</a></p>
+</section>
+<section class="section" id="preuves">
+<div class="kicker">02 / Registre des preuves</div><h2>Ce que les textes établissent — et ce qu’ils ne permettent pas de conclure</h2>
+<div class="table-scroll" tabindex="0" role="region" aria-label="Tableau des preuves, défilement horizontal sur petit écran">
+<table class="evidence"><thead><tr><th scope="col">Élément</th><th scope="col">Trace publique consultée</th><th scope="col">Limite de l’inférence</th></tr></thead><tbody>
+<tr><td><strong>Hispasat</strong><br><span class="tag">Coopération annoncée</span></td><td>Une publication d’Infinite Orbits relayée par Akshay Gulati décrit des efforts conjoints vers une démonstration européenne avec Endurance. Elle emploie aussi un vocabulaire commercial. <a class="ref" href="#s3">[3]</a></td><td>Ni le contrat complet ni ses conditions ne sont fournis dans cette publication. Ne pas la requalifier arbitrairement en commande ferme ou en protocole non contraignant.</td></tr>
+<tr><td><strong>SES</strong><br><span class="tag">Accord commercial</span></td><td>Le 13 novembre 2025, SES confirme un accord signé pour une mission de prolongation d’un satellite géostationnaire. Le scénario prévoit une démonstration en orbite avant l’amarrage. <a class="ref" href="#s2">[2]</a></td><td>Confirmation par le client d’un engagement commercial. Ce n’est pas encore une réception de service ; le communiqué ne donne ni prix, ni échéancier de paiement, ni retour sur investissement réalisé.</td></tr>
+<tr><td><strong>Eutelsat</strong><br><span class="tag warm">Intention de collaboration</span></td><td>Le communiqué du 9 septembre 2026 annonce une <em>« intention to collaborate »</em> pour au moins un satellite et décrit une future mission opérationnelle. <a class="ref" href="#s1">[1]</a></td><td>Ce texte ne suffit pas à établir une troisième commande ferme aux conditions connues. Cela ne démontre pas non plus l’absence d’accords privés : leur portée reste inconnue ici.</td></tr>
+<tr><td><strong>Site AIT</strong><br><span class="tag">Infrastructure annoncée</span></td><td>Infinite Orbits annonce un site d’assemblage, intégration et tests de 1 000 m² à Toulouse, destiné aux programmes Endurance et Orbit Guard. <a class="ref" href="#s6">[6]</a></td><td>Une surface industrielle n’est pas une cadence qualifiée. Il manque les unités acceptées, les délais, les rendements de production et le coût de livraison.</td></tr>
+<tr><td><strong>Carnet de commandes</strong><br><span class="tag">Chiffre de l’entreprise</span></td><td>La page d’accueil affiche plus de 150 M€ de carnet commercial lors de la consultation. <a class="ref" href="#s5">[5]</a></td><td>Pas de ventilation par produit ou statut contractuel sur cette page. Ne pas attribuer ce total au seul Endurance, ni l’assimiler à du chiffre d’affaires comptabilisé, de la trésorerie ou une mesure auditée.</td></tr>
+</tbody></table></div>
+<p class="table-caption">Périmètre : annonces accessibles, pas audit contractuel exhaustif. « Non documenté » signifie inconnu dans ce corpus, pas inexistant.</p>
+<div class="note warning"><strong>Rectification du raccourci initial.</strong> La formule « trois preuves indépendantes » serait trop forte. Plusieurs acheteurs distincts ne forment pas nécessairement des observations statistiquement indépendantes ; l’investissement dans une usine peut lui-même répondre aux perspectives de commandes. Ces signaux se renforcent, mais peuvent aussi partager les mêmes hypothèses.</div>
+</section>
+<section class="section" id="calendrier">
+<div class="kicker">03 / La dimension temporelle</div><h2>Un calendrier annoncé n’est pas une mission livrée</h2>
+<div class="two"><div class="card"><h3>Des prévisions à dater</h3><p>L’annonce de financement de mai 2024 visait une première mission Endurance en 2026. Le communiqué SES de novembre 2025 évoquait fin 2027. La page produit consultée le 19 septembre 2026 affiche le troisième trimestre 2028. <a class="ref" href="#s7">[7]</a> <a class="ref" href="#s2">[2]</a> <a class="ref" href="#s4">[4]</a></p><p class="mini muted">Ces repères documentent l’évolution des annonces. Sans historique des périmètres et jalons contractuels, ils ne permettent pas d’attribuer une cause ni de mesurer un retard contractuel.</p></div><div class="card"><h3>Des produits à distinguer</h3><p>Le site affiche Orbit Guard #1 en orbite depuis 2023, tandis qu’Endurance #1 reste planifié. L’héritage opérationnel de l’un ne constitue donc pas, à lui seul, une preuve de prolongation commerciale déjà exécutée par l’autre. <a class="ref" href="#s5">[5]</a></p><p class="mini muted">À vérifier mission par mission : véhicule exact, démonstration réalisée, service accepté et durée réellement fournie. Un succès technique partiel ne prouve pas toutes les fonctions du service.</p></div></div>
+</section>
+<section class="section" id="grille">
+<div class="kicker">04 / Proposition OJO</div><h2>Remplacer le seuil magique par des preuves de passage</h2>
+<p>Voici une <strong>grille de travail proposée</strong>, pas un standard validé ni un score prédictif. Elle sépare des dimensions qui peuvent avancer en parallèle. Elle n’exige pas de renoncer à investir avant livraison ; elle évite de présenter une hypothèse d’investissement comme un résultat acquis.</p>
+<div class="steps"><div class="step"><h3>Demande</h3><p>Problème client identifié, satellite éligible, besoin daté et budget ou sponsor explicite.</p></div><div class="step"><h3>Achat</h3><p>Nature de l’engagement, conditions de sortie, montant, acomptes et risque de concentration.</p></div><div class="step"><h3>Exécution</h3><p>Jalons techniques franchis, acceptation client, fiabilité et coût complet de livraison.</p></div><div class="step"><h3>Répétabilité</h3><p>Valeur nette constatée, missions supplémentaires et adaptation limitée entre clients.</p></div></div>
+<p><strong>Deux démonstrations distinctes sont nécessaires :</strong> le client crée-t-il de la valeur par rapport à sa meilleure alternative, et le fournisseur peut-il délivrer cette valeur avec une marge et un financement soutenables ? Une opération avantageuse pour le client peut être déficitaire pour son prestataire.</p>
+<p>Un nombre universel de logos ne répond pas à ces questions. Il faut aussi un dénominateur : combien d’opportunités réellement éligibles, de propositions émises, de décisions perdues et de missions livrées ? Un nouveau fournisseur et toute une catégorie de services ne sont pas la même unité d’analyse.</p>
+<details><summary>Mini-test : trois logos prouvent-ils trois ventes livrées&nbsp;?</summary><p>Non. Le nombre de relations ne décrit ni leurs engagements ni leur exécution. Pour progresser, demander une preuve adaptée à chaque affirmation : un accord pour l’achat, une réception pour la livraison et des flux nets mesurés pour l’économie.</p></details>
+</section>
+<section class="section" id="simulateur">
+<div class="kicker">05 / Atelier interactif</div><h2>Du revenu supplémentaire à la valeur nette</h2>
+<p>Comparer le prix d’une mission aux seuls revenus additionnels laisse de côté les coûts, le temps, le risque et les alternatives. Le modèle ci-dessous rend ces hypothèses explicites, sans prétendre calculer les résultats réels d’Infinite Orbits ou de ses clients.</p>
+<div class="note warning"><strong>Toutes les valeurs saisies sont fictives et modifiables.</strong> La probabilité est une hypothèse utilisateur, pas une estimation OJO. Aucun prix de contrat ni flux économique réel d’Eutelsat, SES ou Hispasat n’est utilisé. Ce démonstrateur n’est ni une valorisation de l’entreprise ni un conseil d’investissement.</div>
+<div class="sim">
+<form id="scenario" novalidate>
+<div class="fields">
+<div class="field"><label for="margin">Flux net annuel en cas de succès (M€)</label><input id="margin" name="margin" type="number" min="0" max="10000" step="any" value="10" required></div>
+<div class="field"><label for="price">Prix de la mission payé au départ (M€)</label><input id="price" name="price" type="number" min="0" max="10000" step="any" value="20" required></div>
+<div class="field"><label for="integration">Autres coûts initiaux (M€)</label><input id="integration" name="integration" type="number" min="0" max="10000" step="any" value="1" required></div>
+<div class="field"><label for="probability">Probabilité de succès supposée (%)</label><input id="probability" name="probability" type="number" min="0" max="100" step="any" value="85" required></div>
+<div class="field"><label for="delay">Délai avant le début du service (années)</label><input id="delay" name="delay" type="number" min="0" max="30" step="any" value="2" required></div>
+<div class="field"><label for="years">Durée du service (années entières)</label><input id="years" name="years" type="number" min="1" max="30" step="1" value="5" required></div>
+<div class="field"><label for="rate">Taux d’actualisation annuel (%)</label><input id="rate" name="rate" type="number" min="0" max="100" step="any" value="10" required></div>
+<div class="field"><label for="loss">Perte additionnelle en cas d’échec (M€)</label><input id="loss" name="loss" type="number" min="0" max="10000" step="any" value="2" required></div>
+<div class="field"><label for="alternative">Valeur nette de la meilleure alternative (M€)</label><input id="alternative" name="alternative" type="number" min="0" max="10000" step="any" value="0" required></div>
+</div>
+<div class="actions"><button type="reset">Réinitialiser l’exemple</button><button id="export" type="button">Exporter ce scénario JSON</button></div>
+</form>
+<noscript><p class="noscript">JavaScript est désactivé. L’analyse et la formule restent lisibles ; le calcul interactif nécessite JavaScript.</p></noscript>
+<div aria-live="polite" aria-atomic="true"><div class="outputs"><div class="output"><small>Valeur attendue relative à l’alternative</small><output id="delta" for="margin price integration probability delay years rate loss alternative">—</output></div><div class="output"><small>Prix plafond théorique de la mission</small><output id="ceiling" for="margin integration probability delay years rate loss alternative">—</output></div></div><p class="status" id="status">Calcul à partir des hypothèses ci-dessus.</p></div>
+<div class="table-scroll"><table aria-label="Sensibilités hypothétiques"><thead><tr><th>Variante isolée</th><th>Valeur attendue</th></tr></thead><tbody><tr><td>Hypothèses saisies</td><td id="base">—</td></tr><tr><td>Flux net annuel diminué de 20 %</td><td id="lower">—</td></tr><tr><td>Début du service un an plus tard</td><td id="later">—</td></tr><tr><td>Prix de mission augmenté de 5 M€</td><td id="dearer">—</td></tr></tbody></table></div>
+<p class="table-caption">Chocs illustratifs, non probabilisés. Chaque ligne ne modifie qu’une hypothèse. Les inconnues réelles ne sont pas résolues par le calcul.</p>
+<details><summary>Formule, conventions et limites</summary>
+<div class="formula">A = Σ[t = 1 à T] (1 + r)<sup>−(d + t)</sup><br>ΔV = p × m × A − P − K − (1 − p) × L − V<sub>alt</sub><br>P<sub>max</sub> = p × m × A − K − (1 − p) × L − V<sub>alt</sub></div>
+<div class="defs"><p><strong>m</strong> : flux net annuel additionnel par rapport à une référence de retrait du satellite ; <strong>P</strong> : prix ; <strong>K</strong> : autres coûts initiaux ; <strong>p</strong> : probabilité ; <strong>d</strong> : délai ; <strong>T</strong> : durée ; <strong>r</strong> : taux ; <strong>L</strong> : perte supplémentaire en échec, déjà exprimée en valeur actuelle ; <strong>V<sub>alt</sub></strong> : valeur actuelle nette de la meilleure alternative, contre la même référence.</p>
+<p>Les flux sont encaissés en fin d’année de service : le premier arrive à d + 1. P et K sont payés immédiatement, même en cas d’échec. L ne doit pas recompter ces coûts. V<sub>alt</sub> est déjà net de ses propres dépenses ; zéro correspond à la référence de retrait.</p>
+<p>Modèle binaire : succès total pendant T ans ou aucun flux de service. Il ne modélise pas les pannes partielles, la survie annuelle, les dégradations de demande, la fiscalité, le financement, les assurances ni la valeur terminale. Le flux m doit intégrer les coûts récurrents pertinents. Ne pas ajouter dans r une seconde correction automatique du même risque déjà représenté par p.</p>
+<p>ΔV positif signifie seulement « avantage sous ces hypothèses ». Un plafond négatif signifie qu’aucun prix de mission positif ne satisfait le critère dans ce scénario. Ce n’est pas une offre de prix ni une preuve de faisabilité.</p></div></details>
+</div>
+</section>
+<section class="section" id="propositions">
+<div class="kicker">06 / Prolongements constructifs</div><h2>Cinq moyens de rendre la thèse testable</h2>
+<div class="proposal"><strong>Publier un registre versionné des engagements.</strong> Distinguer coopération, réservation, accord commercial, conditions levées, mission acceptée et service en cours ; ne pas publier les contrats confidentiels, mais des catégories définies et stables.</div>
+<div class="proposal"><strong>Ventiler le carnet commercial.</strong> Séparer produits, commandes et options, échéances, concentration et couverture par acomptes. Un montant agrégé devient alors interprétable sans le confondre avec du revenu déjà encaissé.</div>
+<div class="proposal"><strong>Mesurer la livraison plutôt que la seule surface.</strong> Suivre les unités acceptées, le délai par jalon, la part de personnalisation et le coût complet. Une usine crée de la capacité ; la répétabilité se constate dans ses résultats.</div>
+<div class="proposal"><strong>Documenter l’économie des deux côtés.</strong> Présenter des fourchettes anonymisées de gains nets clients, leurs alternatives et les coûts du fournisseur. Séparer calcul avant achat et mesure après livraison.</div>
+<div class="proposal"><strong>Tester la grille sur une cohorte, pas seulement sur les succès.</strong> Inclure contrats perdus, missions annulées et prestataires comparables ; définir les critères avant les résultats. C’est ainsi qu’une intuition peut devenir une méthode, plutôt qu’une explication rétrospective.</div>
+<div class="note"><p class="conclusion">La conclusion n’est pas « le signal est faux ». C’est : <strong>la demande, l’achat et l’exécution n’ont pas encore le même niveau de preuve.</strong> Les distinguer rend le signal plus utile — pour le fondateur, le client et l’investisseur.</p></div>
+<p class="mini">Cette grille demande encore une validation sur plusieurs cas et périodes. Nous ne publions donc ni seuil universel, ni probabilité de réussite de l’entreprise, ni score de maturité artificiellement précis.</p>
+</section>
+<section class="section" id="sources">
+<div class="kicker">07 / Sources et traçabilité</div><h2>Remonter du commentaire au document</h2>
+<p class="mini muted">Consultation : 19 septembre 2026. Sources primaires, à l’exception du point de départ qui est une capture fournie. Les pages d’entreprise non datées sont des états observés ce jour, pas des archives historiques. Les affirmations factuelles sont séparées de notre interprétation et des hypothèses du simulateur.</p>
+<ol class="source-list" start="0">
+<li id="s0"><a href="https://www.linkedin.com/in/francoisveronatnewfund/recent-activity/all/" rel="noopener noreferrer">François Veron — fil d’activité LinkedIn</a><small>Post analysé à partir de la capture fournie : thèse sur la demande, l’économie et l’industrialisation. Ce lien mène au fil, pas à un permalien du post vérifié. La capture n’est pas republiée.</small></li>
+<li id="s1"><a href="https://infiniteorbits.io/blog/endurance/eutelsat-and-infinite-orbits-join-forces-to-prepare-a-life-extension-mission/" rel="noopener noreferrer">Eutelsat / Infinite Orbits — préparation d’une mission</a><small>Communiqué du 9 septembre 2026. Portée publique de la collaboration et caractère futur de la mission.</small></li>
+<li id="s2"><a href="https://www.ses.com/news/news-flash/newsflash-ses-and-infinite-orbits-to-collaborate-in-europes-first-commercial-life" rel="noopener noreferrer">SES — accord de prolongation avec Infinite Orbits</a><small>13 novembre 2025. Confirmation par l’acheteur, démonstration préalable et calendrier alors annoncé.</small></li>
+<li id="s3"><a href="https://www.linkedin.com/posts/akshay-gulati-b437812b_hispasat-and-infinite-orbits-announce-cooperation-activity-7174472931161382912-MSax" rel="noopener noreferrer">Infinite Orbits / Akshay Gulati — coopération avec Hispasat</a><small>Annonce historique relayée sur LinkedIn. Le texte public est lisible ; le contrat complet n’y figure pas. L’ancienne page de communiqué liée n’a pas pu être relue lors de cette vérification.</small></li>
+<li id="s4"><a href="https://infiniteorbits.io/endurance/" rel="noopener noreferrer">Infinite Orbits — page produit Endurance</a><small>Page non datée, consultée le 19 septembre 2026 : durée cible, calendrier de lancement et statut affiché.</small></li>
+<li id="s5"><a href="https://infiniteorbits.io/" rel="noopener noreferrer">Infinite Orbits — accueil et calendrier des missions</a><small>État du site au 19 septembre 2026. Données déclarées par l’entreprise : produits, missions et carnet commercial agrégé.</small></li>
+<li id="s6"><a href="https://www.linkedin.com/posts/infinite-orbits_infinite-orbits-and-eutelsat-are-joining-activity-7503376963491860480-IZRf" rel="noopener noreferrer">Infinite Orbits — annonce officielle Eutelsat et site AIT</a><small>Publication de septembre 2026 : surface annoncée à Toulouse et destination Endurance / Orbit Guard.</small></li>
+<li id="s7"><a href="https://infiniteorbits.io/blog/press-release/infinite-orbits-raises-12m-to-build-the-first-solution-for-satellite-life-extension/" rel="noopener noreferrer">Infinite Orbits — levée de 12 M€ menée par Newfund</a><small>13 mai 2024. Lien investisseur–entreprise et première cible de calendrier publiée dans ce document.</small></li>
+</ol>
+<details><summary>Limites, correction et réutilisation</summary><p>Cette note n’est ni un audit technique ni une due diligence financière. Elle ne dispose pas des contrats privés, des essais de qualification, des données client ni de la ventilation du carnet. L’absence d’une information dans ces sources ne prouve pas son absence dans l’entreprise.</p><p>Pour corriger un point, indiquer le passage concerné, une source primaire datée et ce qu’elle change. Les sources peuvent évoluer : une nouvelle version doit conserver la date et la nature de la modification, sans réécrire silencieusement un état antérieur.</p><p>Le modèle et son code sont consultables dans ce fichier. Les contenus et marques des sources restent ceux de leurs titulaires. Cette publication OJO n’est pas présentée comme approuvée par Newfund, Infinite Orbits ou leurs clients.</p></details>
+</section>
+</main>
+<footer>OJO · Observation → qualification → test → preuve.<br>État documentaire daté, pas suivi en temps réel. Calculs exécutés dans votre navigateur ; aucun traceur ni transmission des paramètres n’est ajouté par cette page.</footer>
+<script>
+'use strict';
+(() => {
+ const form=document.getElementById('scenario');
+ const ids=['margin','price','integration','probability','delay','years','rate','loss','alternative'];
+ const money=new Intl.NumberFormat('fr-FR',{minimumFractionDigits:2,maximumFractionDigits:2});
+ let latest=null;
+ const text=(id,value)=>{document.getElementById(id).textContent=value;};
+ function calculate(s){
+  const r=s.rate/100,p=s.probability/100;
+  let a=0;for(let t=1;t<=s.years;t++)a+=Math.pow(1+r,-(s.delay+t));
+  const ceiling=p*s.margin*a-s.integration-(1-p)*s.loss-s.alternative;
+  return {annuity_factor:a,price_ceiling_million_eur:ceiling,incremental_value_million_eur:ceiling-s.price};
+ }
+ function read(){
+  const s={};
+  for(const id of ids){const input=document.getElementById(id);if(input.value.trim()===''||!input.checkValidity())return null;s[id]=input.valueAsNumber;if(!Number.isFinite(s[id]))return null;}
+  if(!Number.isInteger(s.years))return null;
+  return s;
+ }
+ const fmt=v=>money.format(Math.abs(v)<0.005?0:v)+' M€';
+ function render(){
+  const s=read();
+  if(!s){latest=null;['delta','ceiling','base','lower','later','dearer'].forEach(id=>text(id,'—'));text('status','Complétez les champs avec des nombres valides. La durée doit être entière ; la probabilité est comprise entre 0 et 100 %.');document.getElementById('export').disabled=true;return;}
+  const result=calculate(s);latest={assumptions:s,result};document.getElementById('export').disabled=false;
+  text('delta',fmt(result.incremental_value_million_eur));text('ceiling',fmt(result.price_ceiling_million_eur));text('base',fmt(result.incremental_value_million_eur));
+  text('lower',fmt(calculate({...s,margin:s.margin*.8}).incremental_value_million_eur));text('later',fmt(calculate({...s,delay:s.delay+1}).incremental_value_million_eur));text('dearer',fmt(calculate({...s,price:s.price+5}).incremental_value_million_eur));
+  text('status','Résultat conditionnel, calculé sur des hypothèses fictives. Il ne mesure pas la rentabilité d’une mission réelle.');
+ }
+ form.addEventListener('input',render);form.addEventListener('submit',event=>event.preventDefault());form.addEventListener('reset',()=>setTimeout(render,0));
+ document.getElementById('export').addEventListener('click',()=>{
+  if(!latest)return;
+  const data={model:'OJO_LIFE_EXTENSION_SCENARIO',version:'1.0',research_as_of:'2026-09-19',exported_at:new Date().toISOString(),disclaimer:'Illustrative user assumptions. Not company data, not an investment recommendation.',units:'M EUR; years; probability and rate in percent',formula:'delta=p*m*sum((1+r)^(-(d+t)),t=1..T)-P-K-(1-p)*L-V_alt',conventions:'P and K upfront; L present value of additional failure loss; annual cash flows at d+t; binary full success; alternative measured against same retirement reference',...latest};
+  const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json;charset=utf-8'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='ojo-scenario-infinite-orbits.json';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);
+ });
+ render();
+})();
+</script>
+</body>
+</html>
