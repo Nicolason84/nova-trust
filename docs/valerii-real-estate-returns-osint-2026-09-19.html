@@ -1,0 +1,63 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>OJO OSINT — Valerii Emelianov Real Estate Returns</title><style>body{margin:0;background:#0b0e13;color:#edf2f7;font:16px/1.58 -apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif}main{max-width:1000px;margin:auto;padding:42px 22px 72px}h1{font-size:40px;line-height:1.08}h2{margin-top:38px}.lead{font-size:20px;color:#cbd5e1}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin:24px 0}.card{background:#121722;border:1px solid #263044;border-radius:14px;padding:18px}.n{font-size:29px;font-weight:800}.muted,small{color:#9ba8ba}table{width:100%;border-collapse:collapse;background:#121722}th,td{padding:11px;border:1px solid #263044;vertical-align:top;text-align:left}.note{border-left:4px solid #7dd3fc;background:#101722;padding:12px 16px;margin:18px 0}code{background:#171e2b;padding:2px 5px;border-radius:5px}a{color:#7dd3fc}</style></head><body><main>
+<div class="muted">OJO · OSINT / METHOD REVIEW · 19 SEPTEMBER 2026</div>
+<h1>Where did real estate deliver the best returns — and what does “return” mean here?</h1>
+<p class="lead">A constructive replication and extension of Valerii Emelianov’s cross-country chart. The original visualization is useful for screening markets. This note asks what changes when we move from a visual ranking to an investor-grade return model.</p>
+
+<h2>1 — What Valerii actually measures</h2>
+<p>The post compares <b>annual USD property-price growth over the 10 years to 2025</b> with <b>current gross rental yields</b>. Bubble size represents property price per square metre. Valerii explicitly discloses important limitations: current yields are used instead of historical 10-year yields; rent is accumulated without reinvestment; costs and taxes are excluded; and some price series cover capital cities rather than whole countries.</p>
+<div class="grid"><div class="card"><div class="n">10 years</div><div class="muted">historical price-growth window</div></div><div class="card"><div class="n">Current</div><div class="muted">gross rental yield snapshot</div></div><div class="card"><div class="n">USD</div><div class="muted">currency used for price-growth comparison</div></div><div class="card"><div class="n">Gross</div><div class="muted">before tax, maintenance, vacancy and transaction costs</div></div></div>
+
+<h2>2 — Reproduction: the yield leg checks out</h2>
+<p>Global Property Guide’s September 2026 table reports gross rental yields very close to the chart: Portugal 4.29%, Hungary 4.82%, Lithuania 5.54%, Czech Republic 3.37%, Ireland 7.66%, Latvia 7.20%, North Macedonia 6.53%, United States 6.71%, Italy 6.61%, Thailand 6.54% and Indonesia 8.22%. Its methodology is explicit: median monthly rent × 12 divided by median purchase price, using listing data from 3–8 major cities.</p>
+<p>The values therefore reproduce the <b>rental-yield axis</b> well. They are nevertheless asking-price/listing based gross yields, not realized investor cash yields.</p>
+
+<h2>3 — Why the headline “total return” is best read as an estimate</h2>
+<table><tr><th>Component</th><th>What it captures</th><th>What it does not capture</th></tr>
+<tr><td>10-year USD price growth</td><td>Historical capital appreciation translated into a common currency.</td><td>Future appreciation; property-level dispersion; exact transaction timing.</td></tr>
+<tr><td>Current gross yield</td><td>Today’s rent-to-price relationship.</td><td>Historical rents, vacancy, management, maintenance, insurance, taxes, capex.</td></tr>
+<tr><td>Estimated total return</td><td>A useful screening combination of capital growth and income.</td><td>A realized IRR or fully investable net total return.</td></tr></table>
+<div class="note"><b>Main methodological point:</b> combining a historical 10-year price-growth rate with a current one-period gross yield mixes two different time bases. That does not invalidate the chart; it changes the interpretation. It is best treated as a comparative screening score rather than a realized 10-year investor return.</div>
+
+<h2>4 — Cross-country comparability is the hard part</h2>
+<p>The World Bank’s residential-property-price handbook warns that indices can be built from asking prices, mortgage valuations, contracts or completed transactions, and that coverage and weighting choices can materially change what an index measures. Global Property Guide itself notes that its 10-year series may represent a country or a capital city depending on the available source. Numbeo also states that there is no universally accepted property-price-index formula.</p>
+<p>That means the strongest-looking precision in a global ranking can exceed the precision of the underlying inputs. A 0.3 percentage-point difference between two countries should not automatically be interpreted as an economically meaningful ranking difference.</p>
+
+<h2>5 — A stronger investor-grade extension</h2>
+<p>A second layer could preserve Valerii’s elegant chart while adding an investable return model:</p>
+<ol>
+<li><b>Use historical annual rents</b> rather than today’s yield applied retrospectively.</li>
+<li><b>Model vacancy and collection loss</b> market by market.</li>
+<li><b>Subtract recurring costs:</b> maintenance, condominium/HOA, insurance, management and property tax.</li>
+<li><b>Include acquisition and exit friction:</b> transfer taxes, notary/legal fees, brokerage and capital-gains tax.</li>
+<li><b>Separate unlevered and leveraged returns.</b> Mortgage rates, LTV and refinancing risk can reverse rankings.</li>
+<li><b>Keep currency explicit.</b> Show local-currency return, EUR return and USD return separately; FX is a return driver, not noise.</li>
+<li><b>Normalize geography.</b> Country-to-country where possible; otherwise flag capital-city series visibly.</li>
+<li><b>Add risk:</b> volatility/drawdown of prices, liquidity, regulatory risk and concentration.</li>
+</ol>
+
+<h2>6 — Proposed metrics</h2>
+<table><tr><th>Metric</th><th>Suggested calculation</th></tr>
+<tr><td>Net operating yield</td><td>(rent − vacancy − recurring operating costs) / acquisition value</td></tr>
+<tr><td>Unlevered IRR</td><td>IRR of purchase price, annual net cash flows and net sale proceeds</td></tr>
+<tr><td>Levered IRR</td><td>IRR after debt service, financing fees and equity cash flows</td></tr>
+<tr><td>FX-adjusted return</td><td>Investor-currency cash flows using contemporaneous FX rates</td></tr>
+<tr><td>Real return</td><td>Nominal investor-currency return adjusted for relevant inflation</td></tr>
+<tr><td>Risk-adjusted score</td><td>Net return combined with drawdown, liquidity and regulatory-risk measures</td></tr></table>
+
+<h2>7 — What remains strong in the original chart</h2>
+<p>Several qualitative insights survive the methodological stress test. High current yield and strong historical capital growth rarely coexist. Expensive markets do not automatically deliver high returns. Currency choice materially changes international comparisons. And the strongest past price-growth markets should not be mechanically extrapolated into future winners.</p>
+<p>Valerii’s own earlier work reinforces that last point: using BIS residential-property-price data, he found that long-run real USD capital-growth outcomes were highly dispersed and that country selection was difficult ex ante.</p>
+
+<h2>8 — A constructive next step: an open Property Return Twin</h2>
+<div class="note"><b>Proposal:</b> publish an open model where the user selects investor residence/currency, country/city, purchase price, rent, vacancy, costs, taxes, financing, holding period and exit assumptions. The output would show gross yield → NOI yield → unlevered IRR → levered IRR → real/FX-adjusted return, plus sensitivity ranges. The original chart becomes the discovery layer; the twin becomes the decision layer.</div>
+
+<h2>Sources & reproducibility</h2>
+<ul>
+<li><a href="https://pt.linkedin.com/in/valemel">Valerii Emelianov — LinkedIn profile and original post text indexed publicly</a></li>
+<li><a href="https://www.globalpropertyguide.com/rental-yields">Global Property Guide — Residential Rental Yields by Country, Sep 2026</a></li>
+<li><a href="https://www.globalpropertyguide.com/europe/price-change-10-years">Global Property Guide — 10-Year House Price Change in Europe</a></li>
+<li><a href="https://www.numbeo.com/property-investment/indicators_explained.jsp">Numbeo — Property Value and Investment Index methodology</a></li>
+<li><a href="https://documents1.worldbank.org/curated/en/844411468326374171/pdf/Handbook-on-residential-property-prices-indices-RPPIs.pdf">World Bank / international handbook — Residential Property Price Indices</a></li>
+</ul>
+<div class="note"><b>OJO conclusion:</b> the chart is a useful and unusually transparent screening visualization. The principal upgrade is not to “correct” it, but to add a second layer that converts its gross, mixed-time-base indicators into investor-specific net cash-flow returns. This note deliberately avoids claiming a new country winner until comparable historical rent, cost, tax and transaction data are assembled.</div>
+</main></body></html>
