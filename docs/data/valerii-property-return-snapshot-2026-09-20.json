@@ -1,0 +1,173 @@
+{
+  "version": "OJO_PROPERTY_RETURN_TWIN_V2_2026-09-20",
+  "generated_at": "2026-09-20T17:58:00+02:00",
+  "status": "PUBLIC_RESEARCH_PROTOTYPE",
+  "authorship": {
+    "discovery_layer": "Valerii Emelianov — original cross-country return visualization and framing",
+    "extension_layer": "OJO / Nova Era — reproducible decision-layer prototype",
+    "collaboration_intent": "Explicit proposal to co-build the next model while preserving authorship of the original layer"
+  },
+  "methodology_note": "Observed market data and model assumptions are deliberately separated. Historical appreciation is not treated as a forecast. Country-level and city-level coverage may differ by source.",
+  "markets": [
+    {
+      "name": "Ireland",
+      "code": "IE",
+      "gross_yield": 7.66,
+      "price_5y_nominal": 44.28,
+      "price_5y_real": 15.86,
+      "rent_5y": 37.13,
+      "mortgage_rate": 3.41,
+      "price_10y_nominal_snapshots": [
+        95.93,
+        98.16
+      ],
+      "currency": "EUR"
+    },
+    {
+      "name": "Latvia",
+      "code": "LV",
+      "gross_yield": 7.2,
+      "price_5y_nominal": 50.54,
+      "price_5y_real": 6.87,
+      "rent_5y": 24.85,
+      "mortgage_rate": 4.29,
+      "price_10y_nominal_snapshots": [
+        118.14
+      ],
+      "currency": "EUR"
+    },
+    {
+      "name": "Lithuania",
+      "code": "LT",
+      "gross_yield": 5.54,
+      "price_5y_nominal": 80.35,
+      "price_5y_real": 22.52,
+      "rent_5y": 46.55,
+      "mortgage_rate": 4.04,
+      "price_10y_nominal_snapshots": [
+        168.35,
+        175.05
+      ],
+      "currency": "EUR"
+    },
+    {
+      "name": "Hungary",
+      "code": "HU",
+      "gross_yield": 4.82,
+      "price_5y_nominal": 97.75,
+      "price_5y_real": 29.85,
+      "rent_5y": 62.06,
+      "mortgage_rate": 7.81,
+      "price_10y_nominal_snapshots": [
+        300.41,
+        324.84
+      ],
+      "currency": "HUF"
+    },
+    {
+      "name": "Portugal",
+      "code": "PT",
+      "gross_yield": 4.29,
+      "price_5y_nominal": 79.96,
+      "price_5y_real": 48.62,
+      "rent_5y": 26.77,
+      "mortgage_rate": 2.93,
+      "price_10y_nominal_snapshots": [
+        180.68,
+        239.91
+      ],
+      "currency": "EUR"
+    },
+    {
+      "name": "North Macedonia",
+      "code": "MK",
+      "gross_yield": 6.53,
+      "price_5y_nominal": 99.23,
+      "price_5y_real": 42.89,
+      "rent_5y": 12.53,
+      "mortgage_rate": 3.53,
+      "price_10y_nominal_snapshots": [
+        115.61,
+        122.47
+      ],
+      "currency": "MKD"
+    },
+    {
+      "name": "Italy",
+      "code": "IT",
+      "gross_yield": 6.61,
+      "price_5y_nominal": 17.88,
+      "price_5y_real": -1.91,
+      "rent_5y": 14.53,
+      "mortgage_rate": 3.49,
+      "price_10y_nominal_snapshots": [
+        18.34,
+        19.5
+      ],
+      "currency": "EUR"
+    },
+    {
+      "name": "United States",
+      "code": "US",
+      "gross_yield": 6.71,
+      "price_5y_nominal": 28.92,
+      "price_5y_real": 4.89,
+      "rent_5y": 28.55,
+      "mortgage_rate": 6.43,
+      "price_10y_nominal_snapshots": [
+        86.95
+      ],
+      "price_10y_real": 34.93,
+      "currency": "USD"
+    }
+  ],
+  "sources": [
+    {
+      "id": "gpg-yield",
+      "name": "Global Property Guide — Residential Rental Yields by Country",
+      "url": "https://www.globalpropertyguide.com/rental-yields",
+      "updated": "Sep 2026",
+      "role": "gross rental yield"
+    },
+    {
+      "id": "gpg-invest",
+      "name": "Global Property Guide — Investment Rating dataset",
+      "url": "https://www.globalpropertyguide.com/investment-rating",
+      "updated": "Sep 2026",
+      "role": "5Y nominal/real price change, 5Y rent change, mortgage rates"
+    },
+    {
+      "id": "gpg-europe10",
+      "name": "Global Property Guide — 10-Year House Price Change in Europe",
+      "url": "https://www.globalpropertyguide.com/europe/price-change-10-years",
+      "updated": "Sep 2026",
+      "role": "10Y nominal house-price change"
+    },
+    {
+      "id": "gpg-us10",
+      "name": "Global Property Guide — United States 10-Year House Price Change",
+      "url": "https://www.globalpropertyguide.com/north-america/united-states/price-change-10-years",
+      "updated": "Sep 2026",
+      "role": "US 10Y nominal house-price change"
+    },
+    {
+      "id": "bis",
+      "name": "BIS — Residential property prices",
+      "url": "https://data.bis.org/topics/RPP",
+      "updated": "Aug 2026 / next release 24 Sep 2026",
+      "role": "cross-country normalization and representative series"
+    },
+    {
+      "id": "oecd",
+      "name": "OECD — Housing prices",
+      "url": "https://www.oecd.org/en/data/indicators/housing-prices.html",
+      "role": "nominal/real price, rent, price-to-rent and price-to-income definitions"
+    },
+    {
+      "id": "rppi",
+      "name": "OECD/Eurostat/ILO/IMF/World Bank/UNECE — RPPI Handbook",
+      "url": "https://www.oecd.org/en/publications/handbook-on-residential-property-price-indices_9789264197183-en.html",
+      "role": "international methodology and comparability framework"
+    }
+  ]
+}
