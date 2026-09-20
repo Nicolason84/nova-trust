@@ -1,0 +1,119 @@
+name: Publish verified KRIMI native prerelease
+on:
+  push:
+    branches: [lab/krimi-android-20260920]
+    paths: [.github/workflows/krimi-release.yml]
+permissions:
+  contents: write
+  actions: read
+jobs:
+  publish:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    env:
+      GH_TOKEN: ${{ github.token }}
+      GH_REPO: Nicolason84/nova-trust
+      BUILD_RUN: '35498534976'
+      BUILD_COMMIT: d583ff107548e6b36bd5bb69818712f25f7efd5a
+      RELEASE_TAG: krimi-lab-1.0-20260920
+    steps:
+      - name: Recover exact successful build only
+        shell: bash
+        run: |
+          set -euo pipefail
+          gh api "repos/$GH_REPO/actions/runs/$BUILD_RUN" > build-run.json
+          python3 - <<'PY'
+          import json,os
+          r=json.load(open('build-run.json'))
+          assert r['conclusion']=='success' and r['head_sha']==os.environ['BUILD_COMMIT']
+          PY
+          gh run download "$BUILD_RUN" --repo "$GH_REPO" --name krimi-native-delivery --dir delivery
+      - name: Verify binary and prepare public-only assets
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p public proof
+          python3 - <<'PY'
+          from pathlib import Path
+          import json,hashlib,zipfile,tarfile,shutil
+          d=Path('delivery'); p=Path('public')
+          expected='98b3af57ce5d7c67ea5ade2f3be0c5d28eb6e4df77b418bd54db62684702ba7c'
+          assert hashlib.sha256((d/'KRIMI-Lab-1.0.apk').read_bytes()).hexdigest()==expected
+          t=json.loads((d/'test-artifacts/tests.json').read_text())
+          assert t['passed']==66 and t['failed']==0 and all(c['status']=='PASS' for c in t['cases'])
+          with zipfile.ZipFile(d/'KRIMI-Lab-1.0.apk') as z:
+              assert hashlib.sha256(z.read('classes.dex')).hexdigest()=='2c8ab30cfa0ccc809ce6a853ba7605bebd3d4fc294589875d6a0b00dac4ed82b'
+              assert z.testzip() is None
+          assert '987f77e5ee9ff618da1fed28b986d789ddca99b87af9ab6bb269e0fdffa6af6b' in (d/'SIGNATURE.txt').read_text()
+          for n in ['KRIMI-Lab-1.0.apk','SIGNATURE.txt','APK_METADATA.txt']:
+              shutil.copy2(d/n,p/n)
+          shutil.copy2(d/'test-artifacts/tests.json',p/'KRIMI-Android-Tests.json')
+          with tarfile.open(d/'KRIMI-native-sources.tar.xz') as src,zipfile.ZipFile(p/'KRIMI-Android-Sources.zip','w',zipfile.ZIP_DEFLATED) as out:
+              for m in src.getmembers():
+                  if not m.isfile(): continue
+                  assert not m.name.startswith('/') and '..' not in Path(m.name).parts
+                  assert not any(x in m.name for x in ['.p12','password.txt','transport-key','signing.tar'])
+                  out.writestr(m.name,src.extractfile(m).read())
+          notes='''# KRIMI Lab 1.0 — premier échange Android natif
+
+          Télécharger **KRIMI-Lab-1.0.apk**, puis l’ouvrir sur le téléphone Android. Préversion de laboratoire, hors Google Play. Android 8 minimum déclaré ; installé et testé sur émulateur Android 15/API35. Garder Play Protect actif et ne pas ignorer une alerte de sécurité.
+
+          Interface Java Android native, sans WebView. Questionnaire, fiches d’exemplaires, photos recto/verso/détail via caméra ou galerie, sauvegarde locale, import du questionnaire HTML sans exécution de scripts, réimport contrôlé, partage ZIP/texte explicite, carnet de notes et laboratoire visuel séparé.
+
+          **66 contrôles réussis sur émulateur** : validation, prix inconnus, images, EXIF, conservation locale, import/export, réimportations, identité d’exemplaires, fournisseur de fichiers privé, ouverture des écrans natifs et aperçus des photos. Données de test synthétiques. Ces contrôles ne certifient pas tous les gestes utilisateur ni tous les appareils.
+
+          **Pas encore reliés : chat distant avec Nicolas, SUPRA/ojO, IA, cote de marché, synchronisation et laboratoire GitHub.** Aucun de ces services n’est simulé. L’application n’a pas la permission Internet. Les applications externes choisies pour la caméra ou le partage ont leurs propres conditions.
+
+          La caméra physique, le sélecteur de fichiers et l’envoi WhatsApp de bout en bout chez Krimi restent à tester. Les tests de photos exécutent le traitement Android avec des images synthétiques, pas une prise de vue physique. Le partage n’est pas une preuve de réception.
+
+          Le package `com.novaera.krimiquest.lab` est distinct des anciennes apps Manolo/KRIMI. Ne pas désinstaller l’ancienne application. Exporter un ZIP avant toute désinstallation. Le ZIP personnel contient les photos, n’est pas chiffré et ne doit pas être publié.
+
+          Seuls l’application vierge, ses sources et ses preuves techniques sont publiés. Aucune photo privée, aucun historique personnel ni clé privée de signature dans les assets de cette release.
+
+          Build vérifié : https://github.com/Nicolason84/nova-trust/actions/runs/35498534976
+          Commit : d583ff107548e6b36bd5bb69818712f25f7efd5a
+          APK SHA-256 : 98b3af57ce5d7c67ea5ade2f3be0c5d28eb6e4df77b418bd54db62684702ba7c
+          Certificat SHA-256 : 987f77e5ee9ff618da1fed28b986d789ddca99b87af9ab6bb269e0fdffa6af6b
+
+          Projet indépendant, non affilié à Pokémon. La signature prouve l’intégrité et la continuité de l’éditeur de ce binaire, pas une certification Google ni un audit de sécurité exhaustif.
+          '''
+          import textwrap
+          (p/'KRIMI-Installation-et-Limites.md').write_text(textwrap.dedent(notes),encoding='utf-8')
+          lines=[hashlib.sha256(f.read_bytes()).hexdigest()+'  '+f.name for f in sorted(p.iterdir())]
+          (p/'SHA256SUMS.txt').write_text('\n'.join(lines)+'\n')
+          PY
+      - name: Create prerelease without overwriting any existing release
+        shell: bash
+        run: |
+          set -euo pipefail
+          if gh release view "$RELEASE_TAG" --repo "$GH_REPO" >/dev/null 2>&1; then
+            echo 'Release already exists; refusing to overwrite it.' >&2
+            exit 1
+          fi
+          gh release create "$RELEASE_TAG" --repo "$GH_REPO" --target "$BUILD_COMMIT" --draft --prerelease --latest=false --title 'KRIMI Lab 1.0 — Android natif' --notes-file public/KRIMI-Installation-et-Limites.md
+          gh release upload "$RELEASE_TAG" --repo "$GH_REPO" public/KRIMI-Lab-1.0.apk public/KRIMI-Android-Sources.zip public/KRIMI-Android-Tests.json public/KRIMI-Installation-et-Limites.md public/SIGNATURE.txt public/APK_METADATA.txt public/SHA256SUMS.txt
+          gh release edit "$RELEASE_TAG" --repo "$GH_REPO" --draft=false
+      - name: Verify anonymous public APK download and exact bytes
+        shell: bash
+        run: |
+          set -euo pipefail
+          gh api "repos/$GH_REPO/releases/tags/$RELEASE_TAG" > proof/release.json
+          URL=$(python3 -c "import json; r=json.load(open('proof/release.json')); print(next(a['browser_download_url'] for a in r['assets'] if a['name']=='KRIMI-Lab-1.0.apk'))")
+          curl --fail --location --retry 4 --retry-delay 2 --max-time 60 "$URL" -o proof/public-download.apk
+          echo '98b3af57ce5d7c67ea5ade2f3be0c5d28eb6e4df77b418bd54db62684702ba7c  proof/public-download.apk' | sha256sum -c -
+          python3 - <<'PY'
+          import json,hashlib,datetime
+          from pathlib import Path
+          r=json.load(open('proof/release.json'));a=next(a for a in r['assets'] if a['name']=='KRIMI-Lab-1.0.apk')
+          proof={'status':'PUBLIC_DOWNLOAD_SHA256_MATCH','checkedAt':datetime.datetime.now(datetime.timezone.utc).isoformat(),'authentication':'anonymous curl; no authorization header','url':a['browser_download_url'],'releaseUrl':r['html_url'],'releaseId':r['id'],'assetId':a['id'],'bytes':Path('proof/public-download.apk').stat().st_size,'sha256':hashlib.sha256(Path('proof/public-download.apk').read_bytes()).hexdigest()}
+          Path('proof/PUBLIC_DOWNLOAD_CHECK.json').write_text(json.dumps(proof,indent=2))
+          print(json.dumps(proof,indent=2))
+          PY
+      - name: Preserve public publication proof only
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: krimi-public-release-proof
+          path: proof/*.json
+          retention-days: 30
+          if-no-files-found: warn
