@@ -1,0 +1,56 @@
+{
+  "schema_id": "PROPERTY_RETURN_CANONICAL_SCHEMA_V0_1",
+  "version": "0.1.0",
+  "created_at": "2026-09-20T17:58:00+02:00",
+  "purpose": "Versioned evidence contract for the Property Return Twin. Stronger evidence replaces assumptions by supersession, never by erasure.",
+  "evidence_states": [
+    "HYPOTHESIS",
+    "OBSERVED_CANDIDATE",
+    "OFFICIAL_SERIES_BOUND",
+    "RECONCILED",
+    "CANONICAL",
+    "CONFLICT_OPEN",
+    "SUPERSEDED"
+  ],
+  "source_tiers": {
+    "TIER_A": "Official national statistical office / central bank / regulator / primary government source",
+    "TIER_B": "Harmonised multilateral source such as BIS, OECD or Eurostat",
+    "TIER_C": "Commercial, listing-derived or secondary market data"
+  },
+  "required_observation_fields": [
+    "observation_id",
+    "market_id",
+    "metric_id",
+    "value",
+    "unit",
+    "period",
+    "source_id",
+    "source_tier",
+    "evidence_state",
+    "retrieved_at",
+    "definition"
+  ],
+  "replacement_rule": {
+    "mutate_existing_observation": false,
+    "method": "append_new_observation_and_link_supersedes",
+    "required_fields": [
+      "supersedes",
+      "replacement_reason",
+      "review"
+    ],
+    "invariant": "Historical packs remain immutable; current.json may only advance to a reviewed pack."
+  },
+  "promotion_gate": {
+    "minimum_source_tier_for_canonical": "TIER_B",
+    "requires_definition_match": true,
+    "requires_geography_match": true,
+    "requires_period_match": true,
+    "requires_unit_match": true,
+    "requires_conflicts_resolved_or_explicitly_carried": true,
+    "reviewers": [
+      "OJO",
+      "Valerii"
+    ],
+    "both_reviewers_required_for_joint_canonical": true
+  }
+}
