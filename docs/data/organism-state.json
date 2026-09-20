@@ -104,5 +104,25 @@
       "blindness": 0,
       "active_arms": 0
     }
-  ]
+  ],
+  "heritage": {
+    "policy": "MEMORY_FIRST / RECOVER_BEFORE_RECREATE",
+    "references": [
+      {
+        "name": "SYSTEM_ORGANISM",
+        "path": "/Users/nicolasalonso/NOVA_LABS/NOVA_ORGANISM_CONTROL_CENTER_V1/snapshots/SYSTEM_ORGANISM_BASELINE_V1_20260520_230749",
+        "inventory_elements": 568,
+        "status": "RECOVERED_REFERENCE_ONLY",
+        "note": "Drive inventory confirms existence and size; internal semantics not yet ingested into this live model."
+      },
+      {
+        "name": "PUCHERO_THEORY_LAB_V1",
+        "path": "/Users/nicolasalonso/NOVA_OS/PUCHERO_THEORY_LAB_V1/outputs",
+        "inventory_elements": 171,
+        "status": "RECOVERED_REFERENCE_ONLY",
+        "note": "Drive inventory confirms output group; semantics require targeted recovery before binding."
+      }
+    ],
+    "rule": "Fuse/reconcile equivalent recovered capabilities before promoting any new engine."
+  }
 }
