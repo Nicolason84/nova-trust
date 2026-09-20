@@ -1,14 +1,3743 @@
 {
-  "schema":"OJO_ENVIRONMENT_LIVE_V1",
-  "version":"2026-09-21",
-  "sequence":0,
-  "updated_at":"2026-09-21T00:00:00Z",
-  "policy":{"event_is_not_impact":"An event is a signal.","canonical_mutation":"NEVER_FROM_EVENT_ALONE","location":"No precise user location is stored server-side.","political_recommendation":"NONE"},
-  "summary":{"sources":8,"healthy":0,"errors":0,"current_events":0,"new_events":0},
-  "sources":[],
-  "auth_candidates":[],
-  "current_events":[],
-  "new_events":[],
-  "events":[],
-  "suggestions":[]
+  "schema": "OJO_ENVIRONMENT_LIVE_V1",
+  "version": "2026-09-21",
+  "sequence": 1,
+  "updated_at": "2026-09-20T23:31:54Z",
+  "policy": {
+    "event_is_not_impact": "An event is a signal. Impact requires an explicit transmission channel and evidence.",
+    "canonical_mutation": "NEVER_FROM_EVENT_ALONE",
+    "location": "No precise user location is stored server-side. Local filtering is client-side opt-in.",
+    "political_recommendation": "NONE"
+  },
+  "summary": {
+    "sources": 8,
+    "healthy": 8,
+    "errors": 0,
+    "current_events": 57,
+    "new_events": 0
+  },
+  "sources": [
+    {
+      "id": "USGS_SIG",
+      "publisher": "USGS",
+      "url": "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/significant_week.geojson",
+      "scope": "GLOBAL",
+      "domain": "DISASTER",
+      "health": "OK",
+      "http_status": 200,
+      "error": null,
+      "checked_at": "2026-09-20T23:31:41Z",
+      "metrics": {
+        "event_count": 2
+      },
+      "digest": "ec7232ccca80d8d8b77b7836a8fa0e65e400d69802545341c7b11588eff43cc3",
+      "cadence": "1m",
+      "access": "OPEN"
+    },
+    {
+      "id": "GDACS",
+      "publisher": "GDACS (UN / European Commission)",
+      "url": "https://www.gdacs.org/xml/rss.xml",
+      "scope": "GLOBAL",
+      "domain": "DISASTER",
+      "health": "OK",
+      "http_status": 200,
+      "error": null,
+      "checked_at": "2026-09-20T23:31:41Z",
+      "metrics": {
+        "event_count": 50
+      },
+      "digest": "bbf301224807a2694e8f82b18ae7be4546c47c102d9f5b1cc2010a0614ef008b",
+      "cadence": "6m",
+      "access": "OPEN"
+    },
+    {
+      "id": "VIGICRUES",
+      "publisher": "Vigicrues / Ministère de la Transition écologique",
+      "url": "https://www.vigicrues.gouv.fr/services/1/InfoVigiCru.geojson",
+      "scope": "FR_LOCAL",
+      "domain": "CLIMATE",
+      "health": "OK",
+      "http_status": 200,
+      "error": null,
+      "checked_at": "2026-09-20T23:31:44Z",
+      "metrics": {
+        "active_non_green": 0,
+        "levels": {
+          "green": 337,
+          "yellow": 0,
+          "orange": 0,
+          "red": 0
+        }
+      },
+      "digest": "32ca8f2334ee3a8dba2017f1377e6f30e10ea28e3f5e3574da25d0f7a274b33a",
+      "cadence": "near-real-time",
+      "access": "OPEN"
+    },
+    {
+      "id": "BISON_FUTE_RRN",
+      "publisher": "Bison Futé / transport.data.gouv.fr",
+      "url": "https://www.data.gouv.fr/api/1/datasets/r/5f814261-10d8-4b46-bcc1-e847b28a473f",
+      "scope": "FR_LOCAL",
+      "domain": "TRANSPORT",
+      "health": "OK",
+      "http_status": 200,
+      "error": null,
+      "checked_at": "2026-09-20T23:31:46Z",
+      "metrics": {
+        "parsed_event_count": 0
+      },
+      "digest": "e9525715caf89f29daf5363229029ee00c76c929910cd7244d5439cec65e9fab",
+      "cadence": "real-time/hourly aggregate",
+      "access": "OPEN"
+    },
+    {
+      "id": "WHO_DON",
+      "publisher": "World Health Organization",
+      "url": "https://www.who.int/emergencies/disease-outbreak-news",
+      "scope": "GLOBAL",
+      "domain": "HEALTH",
+      "health": "OK",
+      "http_status": 200,
+      "error": null,
+      "checked_at": "2026-09-20T23:31:52Z",
+      "metrics": {
+        "listed_events": 0
+      },
+      "digest": "c50b6339e921b06c6ac2e6cea50519009900fe867b709e1458fc6b78d68aff5f",
+      "cadence": "publication-driven",
+      "access": "OPEN"
+    },
+    {
+      "id": "EU_COUNCIL_RSS",
+      "publisher": "Council of the EU / European Council",
+      "url": "https://www.consilium.europa.eu/en/rss/pressreleases.ashx",
+      "scope": "EU",
+      "domain": "GEOPOLITICS",
+      "health": "OK",
+      "http_status": 200,
+      "error": null,
+      "checked_at": "2026-09-20T23:31:52Z",
+      "metrics": {
+        "relevant_items": 5
+      },
+      "digest": "f8816a8d1ed71e7b0edbfe7ff238fc5ef8c7cefd180e72785f328c6051716a6c",
+      "cadence": "publication-driven",
+      "access": "OPEN"
+    },
+    {
+      "id": "RTE_ECO2MIX",
+      "publisher": "RTE / Open Data Réseaux Énergies",
+      "url": "https://odre.opendatasoft.com/api/explore/v2.1/catalog/datasets/eco2mix-national-tr/records?limit=1&order_by=date_heure%20DESC",
+      "scope": "FR",
+      "domain": "ENERGY",
+      "health": "OK",
+      "http_status": 200,
+      "error": null,
+      "checked_at": "2026-09-20T23:31:53Z",
+      "metrics": {
+        "date_heure": "2026-09-21T21:45:00+00:00",
+        "consommation": null,
+        "prevision_j": 43050,
+        "prevision_j1": 43050,
+        "taux_co2": null,
+        "ech_physiques": null
+      },
+      "digest": "7055caf6845a00869cb729d285c4f1888f596a25ae2e54723786fb22b5270390",
+      "cadence": "15m",
+      "access": "OPEN"
+    },
+    {
+      "id": "ECB_FX",
+      "publisher": "European Central Bank",
+      "url": "https://data-api.ecb.europa.eu/service/data/EXR/D.USD.EUR.SP00.A?lastNObservations=2&format=csvdata",
+      "scope": "EU",
+      "domain": "FINANCE",
+      "health": "OK",
+      "http_status": 200,
+      "error": null,
+      "checked_at": "2026-09-20T23:31:53Z",
+      "metrics": {
+        "rows": 2
+      },
+      "digest": "6f5dacf3f4259905ad5023ee96e94b2006799058f80d7523504ccd566fef11b1",
+      "cadence": "daily",
+      "access": "OPEN"
+    }
+  ],
+  "auth_candidates": [
+    {
+      "id": "METEO_VIGILANCE",
+      "publisher": "Météo-France",
+      "scope": "FR_LOCAL",
+      "domain": "CLIMATE",
+      "status": "AUTH_REQUIRED",
+      "access": "Account on API portal",
+      "limit": "60 req/min",
+      "reason": "Official vigilance JSON requires an authorized Météo-France API account.",
+      "secret_handling": "Store token as GitHub Secret; never commit it."
+    },
+    {
+      "id": "GEORISQUES_V2",
+      "publisher": "Géorisques",
+      "scope": "FR_LOCAL",
+      "domain": "RISKS",
+      "status": "AUTH_REQUIRED",
+      "access": "Cerbère or FranceConnect token",
+      "reason": "v2 endpoints require a token; v1 remains available without token.",
+      "secret_handling": "Store token as GitHub Secret; never commit it."
+    },
+    {
+      "id": "LEGIFRANCE_PISTE",
+      "publisher": "DILA / PISTE",
+      "scope": "FR",
+      "domain": "LAW",
+      "status": "AUTH_REQUIRED",
+      "access": "PISTE OAuth2 client credentials",
+      "reason": "Production API requires PISTE registration, CGU acceptance, client_id and client_secret.",
+      "secret_handling": "Use GitHub Secrets and OAuth client_credentials server-side."
+    },
+    {
+      "id": "RELIEFWEB",
+      "publisher": "UN OCHA",
+      "scope": "GLOBAL",
+      "domain": "HUMANITARIAN",
+      "status": "AUTH_REQUIRED",
+      "access": "Pre-approved appname",
+      "reason": "Since 1 Nov 2025 ReliefWeb requires a pre-approved appname.",
+      "secret_handling": "Obtain approval before use."
+    },
+    {
+      "id": "INSEE_CATALOG_APIS",
+      "publisher": "Insee",
+      "scope": "FR_LOCAL",
+      "domain": "STATISTICS",
+      "status": "OPTIONAL_AUTH",
+      "access": "Depending on API / subscription",
+      "reason": "BDM/SDMX is already used; Melodi, local data and metadata APIs can enrich later."
+    }
+  ],
+  "current_events": [
+    {
+      "id": "USGS_SIG:800f68cd04932b2e",
+      "source_id": "USGS_SIG",
+      "title": "M 6.4 - 49 km NNE of Kainantu, Papua New Guinea",
+      "occurred_at": "2026-09-20T09:17:35Z",
+      "updated_at": "2026-09-20T22:27:47Z",
+      "severity": "WATCH",
+      "scope": "GLOBAL",
+      "domains": [
+        "SEISMIC",
+        "DISASTER"
+      ],
+      "impact_channels": [
+        "SUPPLY_CHAIN",
+        "INSURANCE",
+        "TRADE",
+        "INFRASTRUCTURE"
+      ],
+      "location": {
+        "name": "49 km NNE of Kainantu, Papua New Guinea",
+        "lon": 146.0922,
+        "lat": -5.9021
+      },
+      "url": "https://earthquake.usgs.gov/earthquakes/eventpage/us7000tiqc",
+      "evidence_type": "SOURCE_EVENT",
+      "details": {
+        "mag": 6.4,
+        "alert": "green",
+        "sig": 646,
+        "tsunami": 0
+      }
+    },
+    {
+      "id": "USGS_SIG:a76ec831332388a9",
+      "source_id": "USGS_SIG",
+      "title": "M 6.5 - 169 km W of Nikolski, Alaska",
+      "occurred_at": "2026-09-17T14:19:52Z",
+      "updated_at": "2026-09-20T14:30:05Z",
+      "severity": "WATCH",
+      "scope": "GLOBAL",
+      "domains": [
+        "SEISMIC",
+        "DISASTER"
+      ],
+      "impact_channels": [
+        "SUPPLY_CHAIN",
+        "INSURANCE",
+        "TRADE",
+        "INFRASTRUCTURE"
+      ],
+      "location": {
+        "name": "169 km W of Nikolski, Alaska",
+        "lon": -171.3756,
+        "lat": 52.8594
+      },
+      "url": "https://earthquake.usgs.gov/earthquakes/eventpage/us7000ti1p",
+      "evidence_type": "SOURCE_EVENT",
+      "details": {
+        "mag": 6.5,
+        "alert": "green",
+        "sig": 653,
+        "tsunami": 1
+      }
+    },
+    {
+      "id": "GDACS:023e5aaeb09b43ca",
+      "source_id": "GDACS",
+      "title": "Green flood alert in Thailand",
+      "occurred_at": "2026-09-18T06:16:34Z",
+      "updated_at": "2026-10-07T01:00:00Z",
+      "severity": "WATCH",
+      "scope": "GLOBAL",
+      "domains": [
+        "DISASTER",
+        "FL"
+      ],
+      "impact_channels": [
+        "TRADE",
+        "SUPPLY_CHAIN",
+        "ENERGY",
+        "INSURANCE",
+        "INFRASTRUCTURE"
+      ],
+      "location": {
+        "name": "Thailand",
+        "lat": 17.1053568,
+        "lon": 98.9953943
+      },
+      "url": "https://www.gdacs.org/report.aspx?eventtype=FL&eventid=1104169",
+      "evidence_type": "SOURCE_EVENT",
+      "details": {
+        "alert_level": "green",
+        "event_type": "FL"
+      }
+    },
+    {
+      "id": "GDACS:856b31696519e068",
+      "source_id": "GDACS",
+      "title": "Green earthquake (Magnitude 6.4M, Depth:104.329km) in Papua New Guinea 20/09/2026 09:17 UTC, 50 thousand in MMI V.",
+      "occurred_at": "2026-09-20T09:35:13Z",
+      "updated_at": "2026-09-20T09:17:35Z",
+      "severity": "WATCH",
+      "scope": "GLOBAL",
+      "domains": [
+        "DISASTER",
+        "EQ"
+      ],
+      "impact_channels": [
+        "TRADE",
+        "SUPPLY_CHAIN",
+        "ENERGY",
+        "INSURANCE",
+        "INFRASTRUCTURE"
+      ],
+      "location": {
+        "name": "Papua New Guinea",
+        "lat": -5.9021,
+        "lon": 146.0922
+      },
+      "url": "https://www.gdacs.org/report.aspx?eventtype=EQ&eventid=1567112",
+      "evidence_type": "SOURCE_EVENT",
+      "details": {
+        "alert_level": "green",
+        "event_type": "EQ"
+      }
+    },
+    {
+      "id": "GDACS:882d8b9408feb7bb",
+      "source_id": "GDACS",
+      "title": "Green notification for tropical cyclone ODALYS-26. Population affected by Category 1 (120 km/h) wind speeds or higher is 0  (0 in Tropical Storm).",
+      "occurred_at": "2026-09-20T09:08:06Z",
+      "updated_at": "2026-09-20T15:00:00Z",
+      "severity": "WATCH",
+      "scope": "GLOBAL",
+      "domains": [
+        "DISASTER",
+        "TC"
+      ],
+      "impact_channels": [
+        "TRADE",
+        "SUPPLY_CHAIN",
+        "ENERGY",
+        "INSURANCE",
+        "INFRASTRUCTURE"
+      ],
+      "location": {
+        "name": null,
+        "lat": 11.1,
+        "lon": -125.5
+      },
+      "url": "https://www.gdacs.org/report.aspx?eventtype=TC&eventid=1001324",
+      "evidence_type": "SOURCE_EVENT",
+      "details": {
+        "alert_level": "green",
+        "event_type": "TC"
+      }
+    },
+    {
+      "id": "GDACS:31705e9d99de00ea",
+      "source_id": "GDACS",
+      "title": "Green notification for tropical cyclone FAY-26. Population affected by Category 1 (120 km/h) wind speeds or higher is 0  (0 in Tropical Storm).",
+      "occurred_at": "2026-09-19T15:06:02Z",
+      "updated_at": "2026-09-20T15:00:00Z",
+      "severity": "WATCH",
+      "scope": "GLOBAL",
+      "domains": [
+        "DISASTER",
+        "TC"
+      ],
+      "impact_channels": [
+        "TRADE",
+        "SUPPLY_CHAIN",
+        "ENERGY",
+        "INSURANCE",
+        "INFRASTRUCTURE"
+      ],
+      "location": {
+        "name": null,
+        "lat": 34.1,
+        "lon": -33.0
+      },
+      "url": "https://www.gdacs.org/report.aspx?eventtype=TC&eventid=1001323",
+      "evidence_type": "SOURCE_EVENT",
+      "details": {
+        "alert_level": "green",
+        "event_type": "TC"
+      }
+    },
+    {
+      "id": "GDACS:6dc0433b845651bb",
+      "source_id": "GDACS",
+      "title": "Green forest fire notification in Australia",
+      "occurred_at": "2026-09-20T19:47:32Z",
+      "updated_at": "2026-09-20T00:00:00Z",
+      "severity": "WATCH",
+      "scope": "GLOBAL",
+      "domains": [
+        "DISASTER",
+        "WF"
+      ],
+      "impact_channels": [
+        "TRADE",
+        "SUPPLY_CHAIN",
+        "ENERGY",
+        "INSURANCE",
+        "INFRASTRUCTURE"
+      ],
+      "location": {
+        "name": "Australia",
+        "lat": -17.524713400410654,
+        "lon": 124.55181797805565
+      },
+      "url": "https://www.gdacs.org/report.aspx?eventtype=WF&eventid=1032260",
+      "evidence_type": "SOURCE_EVENT",
+      "details": {
+        "alert_level": "green",
+        "event_type": "WF"
+      }
+    },
+    {
+      "id": "GDACS:cccf7d2ae384bb4f",
+      "source_id": "GDACS",
+      "title": "Green forest fire notification in Zimbabwe",
+      "occurred_at": "2026-09-20T19:47:48Z",
+      "updated_at": "2026-09-20T00:00:00Z",
+      "severity": "WATCH",
+      "scope": "GLOBAL",
+      "domains": [
+        "DISASTER",
+        "WF"
+      ],
+      "impact_channels": [
+        "TRADE",
+        "SUPPLY_CHAIN",
+        "ENERGY",
+        "INSURANCE",
+        "INFRASTRUCTURE"
+      ],
+      "location": {
+        "name": "Zimbabwe",
+        "lat": -16.146643718216765,
+        "lon": 29.805668801915594
+      },
+      "url": "https://www.gdacs.org/report.aspx?eventtype=WF&eventid=1032271",
+      "evidence_type": "SOURCE_EVENT",
+      "details": {
+        "alert_level": "green",
+        "event_type": "WF"
+      }
+    },
+    {
+      "id": "GDACS:03c4594d7249cbe1",
+      "source_id": "GDACS",
+      "title": "Green forest fire notification in Vanuatu",
+      "occurred_at": "2026-09-19T23:00:47Z",
+      "updated_at": "2026-09-20T00:00:00Z",
+      "severity": "WATCH",
+      "scope": "GLOBAL",
+      "domains": [
+        "DISASTER",
+        "WF"
+      ],
+      "impact_channels": [
+        "TRADE",
+        "SUPPLY_CHAIN",
+        "ENERGY",
+        "INSURANCE",
+        "INFRASTRUCTURE"
+      ],
+      "location": {
+        "name": "Vanuatu",
+        "lat": -16.25134147561877,
+        "lon": 168.141195808748
+      },
+      "url": "https://www.gdacs.org/report.aspx?eventtype=WF&eventid=1032229",
+      "evidence_type": "SOURCE_EVENT",
+      "details": {
+        "alert_level": "green",
+        "event_type": "WF"
+      }
+    },
+    {
+      "id": "GDACS:f7e38b4889caf226",
+      "source_id": "GDACS",
+      "title": "Green forest fire notification in Australia",
+      "occurred_at": "2026-09-19T11:00:56Z",
+      "updated_at": "2026-09-19T00:00:00Z",
+      "severity": "WATCH",
+      "scope": "GLOBAL",
+      "domains": [
+        "DISASTER",
+        "WF"
+      ],
+      "impact_channels": [
+        "TRADE",
+        "SUPPLY_CHAIN",
+        "ENERGY",
+        "INSURANCE",
+        "INFRASTRUCTURE"
+      ],
+      "location": {
+        "name": "Australia",
+        "lat": -19.433423222590744,
+        "lon": 137.0364974664309
+      },
+      "url": "https://www.gdacs.org/report.aspx?eventtype=WF&eventid=1032221",
+      "evidence_type": "SOURCE_EVENT",
+      "details": {
+        "alert_level": "green",
+        "event_type": "WF"
+      }
+    },
+    {
+      "id": "GDACS:5ea2280e6c3ef309",
+      "source_id": "GDACS",
+      "title": "Green earthquake (Magnitude 5.5M, Depth:94.054km) in Kermadec Islands Region 18/09/2026 23:18 UTC, [unknown].",
+      "occurred_at": "2026-09-18T23:36:52Z",
+      "updated_at": "2026-09-18T23:18:28Z",
+      "severity": "WATCH",
+      "scope": "GLOBAL",
+      "domains": [
+        "DISASTER",
+        "EQ"
+      ],
+      "impact_channels": [
+        "TRADE",
+        "SUPPLY_CHAIN",
+        "ENERGY",
+        "INSURANCE",
+        "INFRASTRUCTURE"
+      ],
+      "location": {
+        "name": "Kermadec Islands Region",
+        "lat": -27.8581,
+        "lon": -177.2286
+      },
+      "url": "https://www.gdacs.org/report.aspx?eventtype=EQ&eventid=1566905",
+      "evidence_type": "SOURCE_EVENT",
+      "details": {
+        "alert_level": "green",
+        "event_type": "EQ"
+      }
+    },
+    {
+      "id": "GDACS:ad03c37fea79b86e",
+      "source_id": "GDACS",
+      "title": "Green flood alert in Philippines",
+      "occurred_at": "2026-09-20T07:18:20Z",
+      "updated_at": "2026-09-19T01:00:00Z",
+      "severity": "WATCH",
+      "scope": "GLOBAL",
+      "domains": [
+        "DISASTER",
+        "FL"
+      ],
+      "impact_channels": [
+        "TRADE",
+        "SUPPLY_CHAIN",
+        "ENERGY",
+        "INSURANCE",
+        "INFRASTRUCTURE"
+      ],
+      "location": {
+        "name": "Philippines",
+        "lat": 7.1082139,
+        "lon": 124.8233384
+      },
+      "url": "https://www.gdacs.org/report.aspx?eventtype=FL&eventid=1104176",
+      "evidence_type": "SOURCE_EVENT",
+      "details": {
+        "alert_level": "green",
+        "event_type": "FL"
+      }
+    },
+    {
+      "id": "GDACS:04c9544fdc46f903",
+      "source_id": "GDACS",
+      "title": "Green flood alert in Cyprus",
+      "occurred_at": "2026-09-20T07:18:06Z",
+      "updated_at": "2026-09-20T01:00:00Z",
+      "severity": "WATCH",
+      "scope": "GLOBAL",
+      "domains": [
+        "DISASTER",
+        "FL"
+      ],
+      "impact_channels": [
+        "TRADE",
+        "SUPPLY_CHAIN",
+        "ENERGY",
+        "INSURANCE",
+        "INFRASTRUCTURE"
+      ],
+      "location": {
+        "name": "Cyprus",
+        "lat": 34.9496176,
+        "lon": 33.5926752
+      },
+      "url": "https://www.gdacs.org/report.aspx?eventtype=FL&eventid=1104175",
+      "evidence_type": "SOURCE_EVENT",
+      "details": {
+        "alert_level": "green",
+        "event_type": "FL"
+      }
+    },
+    {
+      "id": "GDACS:30b1df1027aaf64d",
+      "source_id": "GDACS",
+      "title": "Green flood alert in Guinea",
+      "occurred_at": "2026-09-20T11:22:17Z",
+      "updated_at": "2026-09-20T01:00:00Z",
+      "severity": "WATCH",
+      "scope": "GLOBAL",
+      "domains": [
+        "DISASTER",
+        "FL"
+      ],
+      "impact_channels": [
+        "TRADE",
+        "SUPPLY_CHAIN",
+        "ENERGY",
+        "INSURANCE",
+        "INFRASTRUCTURE"
+      ],
+      "location": {
+        "name": "Guinea",
+        "lat": 9.709041,
+        "lon": -13.388956
+      },
+      "url": "https://www.gdacs.org/report.aspx?eventtype=FL&eventid=1104178",
+      "evidence_type": "SOURCE_EVENT",
+      "details": {
+        "alert_level": "green",
+        "event_type": "FL"
+      }
+    },
+    {
+      "id": "GDACS:b5f5f991f1f05b5d",
+      "source_id": "GDACS",
+      "title": "Green forest fire notification in Namibia",
+      "occurred_at": "2026-09-20T07:01:26Z",
+      "updated_at": "2026-09-20T00:00:00Z",
+      "severity": "WATCH",
+      "scope": "GLOBAL",
+      "domains": [
+        "DISASTER",
+        "WF"
+      ],
+      "impact_channels": [
+        "TRADE",
+        "SUPPLY_CHAIN",
+        "ENERGY",
+        "INSURANCE",
+        "INFRASTRUCTURE"
+      ],
+      "location": {
+        "name": "Namibia",
+        "lat": -19.52663041409813,
+        "lon": 16.379585847489107
+      },
+      "url": "https://www.gdacs.org/report.aspx?eventtype=WF&eventid=1032259",
+      "evidence_type": "SOURCE_EVENT",
+      "details": {
+        "alert_level": "green",
+        "event_type": "WF"
+      }
+    },
+    {
+      "id": "GDACS:c3c0dcf210ace763",
+      "source_id": "GDACS",
+      "title": "Green forest fire notification in Australia",
+      "occurred_at": "2026-09-20T19:48:13Z",
+      "updated_at": "2026-09-20T00:00:00Z",
+      "severity": "WATCH",
+      "scope": "GLOBAL",
+      "domains": [
+        "DISASTER",
+        "WF"
+      ],
+      "impact_channels": [
+        "TRADE",
+        "SUPPLY_CHAIN",
+        "ENERGY",
+        "INSURANCE",
+        "INFRASTRUCTURE"
+      ],
+      "location": {
+        "name": "Australia",
+        "lat": -13.97836354081282,
+        "lon": 130.22743011263216
+      },
+      "url": "https://www.gdacs.org/report.aspx?eventtype=WF&eventid=1032261",
+      "evidence_type": "SOURCE_EVENT",
+      "details": {
+        "alert_level": "green",
+        "event_type": "WF"
+      }
+    },
+    {
+      "id": "GDACS:6139b8e3900c81a3",
+      "source_id": "GDACS",
+      "title": "Green forest fire notification in Australia",
+      "occurred_at": "2026-09-20T19:48:49Z",
+      "updated_at": "2026-09-20T00:00:00Z",
+      "severity": "WATCH",
+      "scope": "GLOBAL",
+      "domains": [
+        "DISASTER",
+        "WF"
+      ],
+      "impact_channels": [
+        "TRADE",
+        "SUPPLY_CHAIN",
+        "ENERGY",
+        "INSURANCE",
+        "INFRASTRUCTURE"
+      ],
+      "location": {
+        "name": "Australia",
+        "lat": -13.916445612363272,
+        "lon": 131.7805532666251
+      },
+      "url": "https://www.gdacs.org/report.aspx?eventtype=WF&eventid=1032262",
+      "evidence_type": "SOURCE_EVENT",
+      "details": {
+        "alert_level": "green",
+        "event_type": "WF"
+      }
+    },
+    {
+      "id": "GDACS:eb080f241d6e20a9",
+      "source_id": "GDACS",
+      "title": "Green forest fire notification in Zambia",
+      "occurred_at": "2026-09-20T07:01:47Z",
+      "updated_at": "2026-09-20T00:00:00Z",
+      "severity": "WATCH",
+      "scope": "GLOBAL",
+      "domains": [
+        "DISASTER",
+        "WF"
+      ],
+      "impact_channels": [
+        "TRADE",
+        "SUPPLY_CHAIN",
+        "ENERGY",
+        "INSURANCE",
+        "INFRASTRUCTURE"
+      ],
+      "location": {
+        "name": "Zambia",
+        "lat": -15.679989224684798,
+        "lon": 25.729303052648405
+      },
+      "url": "https://www.gdacs.org/report.aspx?eventtype=WF&eventid=1032230",
+      "evidence_type": "SOURCE_EVENT",
+      "details": {
+        "alert_level": "green",
+        "event_type": "WF"
+      }
+    },
+    {
+      "id": "GDACS:e12361f964467bb1",
+      "source_id": "GDACS",
+      "title": "Green forest fire notification in Brazil",
+      "occurred_at": "2026-09-19T23:01:26Z",
+      "updated_at": "2026-09-20T00:00:00Z",
+      "severity": "WATCH",
+      "scope": "GLOBAL",
+      "domains": [
+        "DISASTER",
+        "WF"
+      ],
+      "impact_channels": [
+        "TRADE",
+        "SUPPLY_CHAIN",
+        "ENERGY",
+        "INSURANCE",
+        "INFRASTRUCTURE"
+      ],
+      "location": {
+        "name": "Brazil",
+        "lat": -12.147856617156464,
+        "lon": -46.997568892541345
+      },
+      "url": "https://www.gdacs.org/report.aspx?eventtype=WF&eventid=1032244",
+      "evidence_type": "SOURCE_EVENT",
+      "details": {
+        "alert_level": "green",
+        "event_type": "WF"
+      }
+    },
+    {
+      "id": "GDACS:68b4c98a9decc6e6",
+      "source_id": "GDACS",
+      "title": "Green forest fire notification in Brazil",
+      "occurred_at": "2026-09-20T07:01:38Z",
+      "updated_at": "2026-09-20T00:00:00Z",
+      "severity": "WATCH",
+      "scope": "GLOBAL",
+      "domains": [
+        "DISASTER",
+        "WF"
+      ],
+      "impact_channels": [
+        "TRADE",
+        "SUPPLY_CHAIN",
+        "ENERGY",
+        "INSURANCE",
+        "INFRASTRUCTURE"
+      ],
+      "location": {
+        "name": "Brazil",
+        "lat": -12.506565265537667,
+        "lon": -50.04482207256852
+      },
+      "url": "https://www.gdacs.org/report.aspx?eventtype=WF&eventid=1032256",
+      "evidence_type": "SOURCE_EVENT",
+      "details": {
+        "alert_level": "green",
+        "event_type": "WF"
+      }
+    },
+    {
+      "id": "GDACS:deb38fce9da58013",
+      "source_id": "GDACS",
+      "title": "Green forest fire notification in Brazil",
+      "occurred_at": "2026-09-20T07:01:19Z",
+      "updated_at": "2026-09-20T00:00:00Z",
+      "severity": "WATCH",
+      "scope": "GLOBAL",
+      "domains": [
+        "DISASTER",
+        "WF"
+      ],
+      "impact_channels": [
+        "TRADE",
+        "SUPPLY_CHAIN",
+        "ENERGY",
+        "INSURANCE",
+        "INFRASTRUCTURE"
+      ],
+      "location": {
+        "name": "Brazil",
+        "lat": -12.712900057714968,
+        "lon": -46.00276034602498
+      },
+      "url": "https://www.gdacs.org/report.aspx?eventtype=WF&eventid=1032257",
+      "evidence_type": "SOURCE_EVENT",
+      "details": {
+        "alert_level": "green",
+        "event_type": "WF"
+      }
+    },
+    {
+      "id": "GDACS:a9c756eb3452d51a",
+      "source_id": "GDACS",
+      "title": "Green forest fire notification in Angola",
+      "occurred_at": "2026-09-20T19:48:59Z",
+      "updated_at": "2026-09-18T00:00:00Z",
+      "severity": "WATCH",
+      "scope": "GLOBAL",
+      "domains": [
+        "DISASTER",
+        "WF"
+      ],
+      "impact_channels": [
+        "TRADE",
+        "SUPPLY_CHAIN",
+        "ENERGY",
+        "INSURANCE",
+        "INFRASTRUCTURE"
+      ],
+      "location": {
+        "name": "Angola",
+        "lat": -16.046209200296598,
+        "lon": 18.527512894263214
+      },
+      "url": "https://www.gdacs.org/report.aspx?eventtype=WF&eventid=1032179",
+      "evidence_type": "SOURCE_EVENT",
+      "details": {
+        "alert_level": "green",
+        "event_type": "WF"
+      }
+    },
+    {
+      "id": "GDACS:f003065bd3295437",
+      "source_id": "GDACS",
+      "title": "Green earthquake (Magnitude 6.5M, Depth:98km) in Fox Islands, Aleutian Islands 17/09/2026 14:19 UTC, [unknown].",
+      "occurred_at": "2026-09-17T14:25:14Z",
+      "updated_at": "2026-09-17T14:19:52Z",
+      "severity": "WATCH",
+      "scope": "GLOBAL",
+      "domains": [
+        "DISASTER",
+        "EQ"
+      ],
+      "impact_channels": [
+        "TRADE",
+        "SUPPLY_CHAIN",
+        "ENERGY",
+        "INSURANCE",
+        "INFRASTRUCTURE"
+      ],
+      "location": {
+        "name": "Fox Islands, Aleutian Islands",
+        "lat": 52.8594,
+        "lon": -171.3756
+      },
+      "url": "https://www.gdacs.org/report.aspx?eventtype=EQ&eventid=1566678",
+      "evidence_type": "SOURCE_EVENT",
+      "details": {
+        "alert_level": "green",
+        "event_type": "EQ"
+      }
+    },
+    {
+      "id": "GDACS:6ec29ef8c55cf30c",
+      "source_id": "GDACS",
+      "title": "Green flood alert in South Africa",
+      "occurred_at": "2026-09-20T07:39:43Z",
+      "updated_at": "2026-09-19T01:00:00Z",
+      "severity": "WATCH",
+      "scope": "GLOBAL",
+      "domains": [
+        "DISASTER",
+        "FL"
+      ],
+      "impact_channels": [
+        "TRADE",
+        "SUPPLY_CHAIN",
+        "ENERGY",
+        "INSURANCE",
+        "INFRASTRUCTURE"
+      ],
+      "location": {
+        "name": "South Africa",
+        "lat": -29.8435035,
+        "lon": 30.8076142
+      },
+      "url": "https://www.gdacs.org/report.aspx?eventtype=FL&eventid=1104177",
+      "evidence_type": "SOURCE_EVENT",
+      "details": {
+        "alert_level": "green",
+        "event_type": "FL"
+      }
+    },
+    {
+      "id": "GDACS:60947ae48956ff46",
+      "source_id": "GDACS",
+      "title": "Green flood alert in Cambodia",
+      "occurred_at": "2026-09-20T07:17:24Z",
+      "updated_at": "2026-09-19T01:00:00Z",
+      "severity": "WATCH",
+      "scope": "GLOBAL",
+      "domains": [
+        "DISASTER",
+        "FL"
+      ],
+      "impact_channels": [
+        "TRADE",
+        "SUPPLY_CHAIN",
+        "ENERGY",
+        "INSURANCE",
+        "INFRASTRUCTURE"
+      ],
+      "location": {
+        "name": "Cambodia",
+        "lat": 13.7989147,
+        "lon": 102.8862666
+      },
+      "url": "https://www.gdacs.org/report.aspx?eventtype=FL&eventid=1104174",
+      "evidence_type": "SOURCE_EVENT",
+      "details": {
+        "alert_level": "green",
+        "event_type": "FL"
+      }
+    },
+    {
+      "id": "GDACS:e7236a3169c5ec69",
+      "source_id": "GDACS",
+      "title": "Green forest fire notification in Brazil",
+      "occurred_at": "2026-09-19T23:01:37Z",
+      "updated_at": "2026-09-20T00:00:00Z",
+      "severity": "WATCH",
+      "scope": "GLOBAL",
+      "domains": [
+        "DISASTER",
+        "WF"
+      ],
+      "impact_channels": [
+        "TRADE",
+        "SUPPLY_CHAIN",
+        "ENERGY",
+        "INSURANCE",
+        "INFRASTRUCTURE"
+      ],
+      "location": {
+        "name": "Brazil",
+        "lat": -10.665141183284673,
+        "lon": -50.253586015874944
+      },
+      "url": "https://www.gdacs.org/report.aspx?eventtype=WF&eventid=1032245",
+      "evidence_type": "SOURCE_EVENT",
+      "details": {
+        "alert_level": "green",
+        "event_type": "WF"
+      }
+    },
+    {
+      "id": "GDACS:db4a6b6a9190b499",
+      "source_id": "GDACS",
+      "title": "Green forest fire notification in Namibia",
+      "occurred_at": "2026-09-20T03:02:49Z",
+      "updated_at": "2026-09-20T00:00:00Z",
+      "severity": "WATCH",
+      "scope": "GLOBAL",
+      "domains": [
+        "DISASTER",
+        "WF"
+      ],
+      "impact_channels": [
+        "TRADE",
+        "SUPPLY_CHAIN",
+        "ENERGY",
+        "INSURANCE",
+        "INFRASTRUCTURE"
+      ],
+      "location": {
+        "name": "Namibia",
+        "lat": -20.220904143794936,
+        "lon": 15.180992080571889
+      },
+      "url": "https://www.gdacs.org/report.aspx?eventtype=WF&eventid=1032231",
+      "evidence_type": "SOURCE_EVENT",
+      "details": {
+        "alert_level": "green",
+        "event_type": "WF"
+      }
+    },
+    {
+      "id": "GDACS:0e266000480a755f",
+      "source_id": "GDACS",
+      "title": "Green forest fire notification in Brazil",
+      "occurred_at": "2026-09-19T03:01:15Z",
+      "updated_at": "2026-09-20T00:00:00Z",
+      "severity": "WATCH",
+      "scope": "GLOBAL",
+      "domains": [
+        "DISASTER",
+        "WF"
+      ],
+      "impact_channels": [
+        "TRADE",
+        "SUPPLY_CHAIN",
+        "ENERGY",
+        "INSURANCE",
+        "INFRASTRUCTURE"
+      ],
+      "location": {
+        "name": "Brazil",
+        "lat": -11.303457403189416,
+        "lon": -43.38614475272545
+      },
+      "url": "https://www.gdacs.org/report.aspx?eventtype=WF&eventid=1032217",
+      "evidence_type": "SOURCE_EVENT",
+      "details": {
+        "alert_level": "green",
+        "event_type": "WF"
+      }
+    },
+    {
+      "id": "GDACS:614355c74436964b",
+      "source_id": "GDACS",
+      "title": "Green forest fire notification in Angola",
+      "occurred_at": "2026-09-19T03:01:40Z",
+      "updated_at": "2026-09-20T00:00:00Z",
+      "severity": "WATCH",
+      "scope": "GLOBAL",
+      "domains": [
+        "DISASTER",
+        "WF"
+      ],
+      "impact_channels": [
+        "TRADE",
+        "SUPPLY_CHAIN",
+        "ENERGY",
+        "INSURANCE",
+        "INFRASTRUCTURE"
+      ],
+      "location": {
+        "name": "Angola",
+        "lat": -16.358316573419053,
+        "lon": 19.82765055341136
+      },
+      "url": "https://www.gdacs.org/report.aspx?eventtype=WF&eventid=1032180",
+      "evidence_type": "SOURCE_EVENT",
+      "details": {
+        "alert_level": "green",
+        "event_type": "WF"
+      }
+    },
+    {
+      "id": "GDACS:19cf071fc7a74975",
+      "source_id": "GDACS",
+      "title": "Green forest fire notification in Brazil",
+      "occurred_at": "2026-09-17T15:01:16Z",
+      "updated_at": "2026-09-18T00:00:00Z",
+      "severity": "WATCH",
+      "scope": "GLOBAL",
+      "domains": [
+        "DISASTER",
+        "WF"
+      ],
+      "impact_channels": [
+        "TRADE",
+        "SUPPLY_CHAIN",
+        "ENERGY",
+        "INSURANCE",
+        "INFRASTRUCTURE"
+      ],
+      "location": {
+        "name": "Brazil",
+        "lat": -12.46519659446569,
+        "lon": -50.83383285767104
+      },
+      "url": "https://www.gdacs.org/report.aspx?eventtype=WF&eventid=1032111",
+      "evidence_type": "SOURCE_EVENT",
+      "details": {
+        "alert_level": "green",
+        "event_type": "WF"
+      }
+    },
+    {
+      "id": "GDACS:76d24b660f570a16",
+      "source_id": "GDACS",
+      "title": "Green forest fire notification in Australia",
+      "occurred_at": "2026-09-20T19:49:31Z",
+      "updated_at": "2026-09-18T00:00:00Z",
+      "severity": "WATCH",
+      "scope": "GLOBAL",
+      "domains": [
+        "DISASTER",
+        "WF"
+      ],
+      "impact_channels": [
+        "TRADE",
+        "SUPPLY_CHAIN",
+        "ENERGY",
+        "INSURANCE",
+        "INFRASTRUCTURE"
+      ],
+      "location": {
+        "name": "Australia",
+        "lat": -17.16995852125429,
+        "lon": 122.83737624074944
+      },
+      "url": "https://www.gdacs.org/report.aspx?eventtype=WF&eventid=1032177",
+      "evidence_type": "SOURCE_EVENT",
+      "details": {
+        "alert_level": "green",
+        "event_type": "WF"
+      }
+    },
+    {
+      "id": "GDACS:c1c24810c3dfc47b",
+      "source_id": "GDACS",
+      "title": "Green flood alert in Indonesia",
+      "occurred_at": "2026-09-18T06:16:20Z",
+      "updated_at": "2026-09-18T01:00:00Z",
+      "severity": "WATCH",
+      "scope": "GLOBAL",
+      "domains": [
+        "DISASTER",
+        "FL"
+      ],
+      "impact_channels": [
+        "TRADE",
+        "SUPPLY_CHAIN",
+        "ENERGY",
+        "INSURANCE",
+        "INFRASTRUCTURE"
+      ],
+      "location": {
+        "name": "Indonesia",
+        "lat": 4.3685491,
+        "lon": 97.0253024
+      },
+      "url": "https://www.gdacs.org/report.aspx?eventtype=FL&eventid=1104168",
+      "evidence_type": "SOURCE_EVENT",
+      "details": {
+        "alert_level": "green",
+        "event_type": "FL"
+      }
+    },
+    {
+      "id": "GDACS:ec8f3a2e3b7f931e",
+      "source_id": "GDACS",
+      "title": "Green flood alert in Somalia",
+      "occurred_at": "2026-09-18T11:46:23Z",
+      "updated_at": "2026-09-18T01:00:00Z",
+      "severity": "WATCH",
+      "scope": "GLOBAL",
+      "domains": [
+        "DISASTER",
+        "FL"
+      ],
+      "impact_channels": [
+        "TRADE",
+        "SUPPLY_CHAIN",
+        "ENERGY",
+        "INSURANCE",
+        "INFRASTRUCTURE"
+      ],
+      "location": {
+        "name": "Somalia",
+        "lat": 2.0268073,
+        "lon": 45.3012042
+      },
+      "url": "https://www.gdacs.org/report.aspx?eventtype=FL&eventid=1104170",
+      "evidence_type": "SOURCE_EVENT",
+      "details": {
+        "alert_level": "green",
+        "event_type": "FL"
+      }
+    },
+    {
+      "id": "GDACS:8f742b70cb531809",
+      "source_id": "GDACS",
+      "title": "Green forest fire notification in South Africa",
+      "occurred_at": "2026-09-20T19:50:23Z",
+      "updated_at": "2026-09-16T00:00:00Z",
+      "severity": "WATCH",
+      "scope": "GLOBAL",
+      "domains": [
+        "DISASTER",
+        "WF"
+      ],
+      "impact_channels": [
+        "TRADE",
+        "SUPPLY_CHAIN",
+        "ENERGY",
+        "INSURANCE",
+        "INFRASTRUCTURE"
+      ],
+      "location": {
+        "name": "South Africa",
+        "lat": -28.258119619483814,
+        "lon": 31.13471593256025
+      },
+      "url": "https://www.gdacs.org/report.aspx?eventtype=WF&eventid=1032039",
+      "evidence_type": "SOURCE_EVENT",
+      "details": {
+        "alert_level": "green",
+        "event_type": "WF"
+      }
+    },
+    {
+      "id": "GDACS:7078ee798ee7d7c1",
+      "source_id": "GDACS",
+      "title": "Green forest fire notification in Australia",
+      "occurred_at": "2026-09-16T15:00:41Z",
+      "updated_at": "2026-09-20T00:00:00Z",
+      "severity": "WATCH",
+      "scope": "GLOBAL",
+      "domains": [
+        "DISASTER",
+        "WF"
+      ],
+      "impact_channels": [
+        "TRADE",
+        "SUPPLY_CHAIN",
+        "ENERGY",
+        "INSURANCE",
+        "INFRASTRUCTURE"
+      ],
+      "location": {
+        "name": "Australia",
+        "lat": -18.66976625964335,
+        "lon": 145.7486985631986
+      },
+      "url": "https://www.gdacs.org/report.aspx?eventtype=WF&eventid=1032032",
+      "evidence_type": "SOURCE_EVENT",
+      "details": {
+        "alert_level": "green",
+        "event_type": "WF"
+      }
+    },
+    {
+      "id": "GDACS:430b6ee9200e242d",
+      "source_id": "GDACS",
+      "title": "Green forest fire notification in Australia",
+      "occurred_at": "2026-09-17T19:01:16Z",
+      "updated_at": "2026-09-20T00:00:00Z",
+      "severity": "WATCH",
+      "scope": "GLOBAL",
+      "domains": [
+        "DISASTER",
+        "WF"
+      ],
+      "impact_channels": [
+        "TRADE",
+        "SUPPLY_CHAIN",
+        "ENERGY",
+        "INSURANCE",
+        "INFRASTRUCTURE"
+      ],
+      "location": {
+        "name": "Australia",
+        "lat": -16.835266382086797,
+        "lon": 135.89865490534535
+      },
+      "url": "https://www.gdacs.org/report.aspx?eventtype=WF&eventid=1032112",
+      "evidence_type": "SOURCE_EVENT",
+      "details": {
+        "alert_level": "green",
+        "event_type": "WF"
+      }
+    },
+    {
+      "id": "GDACS:ec26067f85606251",
+      "source_id": "GDACS",
+      "title": "Green forest fire notification in Brazil",
+      "occurred_at": "2026-09-18T23:01:54Z",
+      "updated_at": "2026-09-19T00:00:00Z",
+      "severity": "WATCH",
+      "scope": "GLOBAL",
+      "domains": [
+        "DISASTER",
+        "WF"
+      ],
+      "impact_channels": [
+        "TRADE",
+        "SUPPLY_CHAIN",
+        "ENERGY",
+        "INSURANCE",
+        "INFRASTRUCTURE"
+      ],
+      "location": {
+        "name": "Brazil",
+        "lat": -14.169843107662292,
+        "lon": -45.172598889303735
+      },
+      "url": "https://www.gdacs.org/report.aspx?eventtype=WF&eventid=1032214",
+      "evidence_type": "SOURCE_EVENT",
+      "details": {
+        "alert_level": "green",
+        "event_type": "WF"
+      }
+    },
+    {
+      "id": "GDACS:173df11d59664742",
+      "source_id": "GDACS",
+      "title": "Green forest fire notification in Botswana",
+      "occurred_at": "2026-09-17T19:00:58Z",
+      "updated_at": "2026-09-19T00:00:00Z",
+      "severity": "WATCH",
+      "scope": "GLOBAL",
+      "domains": [
+        "DISASTER",
+        "WF"
+      ],
+      "impact_channels": [
+        "TRADE",
+        "SUPPLY_CHAIN",
+        "ENERGY",
+        "INSURANCE",
+        "INFRASTRUCTURE"
+      ],
+      "location": {
+        "name": "Botswana",
+        "lat": -20.319880021390148,
+        "lon": 25.162577356206665
+      },
+      "url": "https://www.gdacs.org/report.aspx?eventtype=WF&eventid=1032130",
+      "evidence_type": "SOURCE_EVENT",
+      "details": {
+        "alert_level": "green",
+        "event_type": "WF"
+      }
+    },
+    {
+      "id": "GDACS:fc58f3c6d7af7970",
+      "source_id": "GDACS",
+      "title": "Green forest fire notification in Brazil",
+      "occurred_at": "2026-09-18T03:01:33Z",
+      "updated_at": "2026-09-20T00:00:00Z",
+      "severity": "WATCH",
+      "scope": "GLOBAL",
+      "domains": [
+        "DISASTER",
+        "WF"
+      ],
+      "impact_channels": [
+        "TRADE",
+        "SUPPLY_CHAIN",
+        "ENERGY",
+        "INSURANCE",
+        "INFRASTRUCTURE"
+      ],
+      "location": {
+        "name": "Brazil",
+        "lat": -7.820034967971776,
+        "lon": -44.86498372758777
+      },
+      "url": "https://www.gdacs.org/report.aspx?eventtype=WF&eventid=1032140",
+      "evidence_type": "SOURCE_EVENT",
+      "details": {
+        "alert_level": "green",
+        "event_type": "WF"
+      }
+    },
+    {
+      "id": "GDACS:8f976380eb4035b4",
+      "source_id": "GDACS",
+      "title": "Green forest fire notification in Brazil",
+      "occurred_at": "2026-09-18T11:00:50Z",
+      "updated_at": "2026-09-20T00:00:00Z",
+      "severity": "WATCH",
+      "scope": "GLOBAL",
+      "domains": [
+        "DISASTER",
+        "WF"
+      ],
+      "impact_channels": [
+        "TRADE",
+        "SUPPLY_CHAIN",
+        "ENERGY",
+        "INSURANCE",
+        "INFRASTRUCTURE"
+      ],
+      "location": {
+        "name": "Brazil",
+        "lat": -9.925273051846828,
+        "lon": -46.55990935834477
+      },
+      "url": "https://www.gdacs.org/report.aspx?eventtype=WF&eventid=1032173",
+      "evidence_type": "SOURCE_EVENT",
+      "details": {
+        "alert_level": "green",
+        "event_type": "WF"
+      }
+    },
+    {
+      "id": "GDACS:2ffdd0ea49a73637",
+      "source_id": "GDACS",
+      "title": "Green forest fire notification in Zambia",
+      "occurred_at": "2026-09-20T15:05:42Z",
+      "updated_at": "2026-09-20T00:00:00Z",
+      "severity": "WATCH",
+      "scope": "GLOBAL",
+      "domains": [
+        "DISASTER",
+        "WF"
+      ],
+      "impact_channels": [
+        "TRADE",
+        "SUPPLY_CHAIN",
+        "ENERGY",
+        "INSURANCE",
+        "INFRASTRUCTURE"
+      ],
+      "location": {
+        "name": "Zambia",
+        "lat": -14.022101446319036,
+        "lon": 25.957052575153526
+      },
+      "url": "https://www.gdacs.org/report.aspx?eventtype=WF&eventid=1032232",
+      "evidence_type": "SOURCE_EVENT",
+      "details": {
+        "alert_level": "green",
+        "event_type": "WF"
+      }
+    },
+    {
+      "id": "GDACS:e681acc444e82f6b",
+      "source_id": "GDACS",
+      "title": "Green forest fire notification in Australia",
+      "occurred_at": "2026-09-19T19:03:06Z",
+      "updated_at": "2026-09-20T00:00:00Z",
+      "severity": "WATCH",
+      "scope": "GLOBAL",
+      "domains": [
+        "DISASTER",
+        "WF"
+      ],
+      "impact_channels": [
+        "TRADE",
+        "SUPPLY_CHAIN",
+        "ENERGY",
+        "INSURANCE",
+        "INFRASTRUCTURE"
+      ],
+      "location": {
+        "name": "Australia",
+        "lat": -13.68868418110566,
+        "lon": 135.24259010687172
+      },
+      "url": "https://www.gdacs.org/report.aspx?eventtype=WF&eventid=1032228",
+      "evidence_type": "SOURCE_EVENT",
+      "details": {
+        "alert_level": "green",
+        "event_type": "WF"
+      }
+    },
+    {
+      "id": "GDACS:ca77c0792da7cc5e",
+      "source_id": "GDACS",
+      "title": "Green forest fire notification in Brazil",
+      "occurred_at": "2026-09-20T19:50:11Z",
+      "updated_at": "2026-09-20T00:00:00Z",
+      "severity": "WATCH",
+      "scope": "GLOBAL",
+      "domains": [
+        "DISASTER",
+        "WF"
+      ],
+      "impact_channels": [
+        "TRADE",
+        "SUPPLY_CHAIN",
+        "ENERGY",
+        "INSURANCE",
+        "INFRASTRUCTURE"
+      ],
+      "location": {
+        "name": "Brazil",
+        "lat": -11.878103643324776,
+        "lon": -47.62351352788506
+      },
+      "url": "https://www.gdacs.org/report.aspx?eventtype=WF&eventid=1032263",
+      "evidence_type": "SOURCE_EVENT",
+      "details": {
+        "alert_level": "green",
+        "event_type": "WF"
+      }
+    },
+    {
+      "id": "GDACS:55567e182de263dc",
+      "source_id": "GDACS",
+      "title": "Green forest fire notification in Indonesia",
+      "occurred_at": "2026-09-20T19:49:50Z",
+      "updated_at": "2026-09-20T00:00:00Z",
+      "severity": "WATCH",
+      "scope": "GLOBAL",
+      "domains": [
+        "DISASTER",
+        "WF"
+      ],
+      "impact_channels": [
+        "TRADE",
+        "SUPPLY_CHAIN",
+        "ENERGY",
+        "INSURANCE",
+        "INFRASTRUCTURE"
+      ],
+      "location": {
+        "name": "Indonesia",
+        "lat": -3.1050453828728175,
+        "lon": 112.65986987527363
+      },
+      "url": "https://www.gdacs.org/report.aspx?eventtype=WF&eventid=1032264",
+      "evidence_type": "SOURCE_EVENT",
+      "details": {
+        "alert_level": "green",
+        "event_type": "WF"
+      }
+    },
+    {
+      "id": "GDACS:b8493414b905c079",
+      "source_id": "GDACS",
+      "title": "Green forest fire notification in Brazil",
+      "occurred_at": "2026-09-20T15:05:20Z",
+      "updated_at": "2026-09-20T00:00:00Z",
+      "severity": "WATCH",
+      "scope": "GLOBAL",
+      "domains": [
+        "DISASTER",
+        "WF"
+      ],
+      "impact_channels": [
+        "TRADE",
+        "SUPPLY_CHAIN",
+        "ENERGY",
+        "INSURANCE",
+        "INFRASTRUCTURE"
+      ],
+      "location": {
+        "name": "Brazil",
+        "lat": -11.057383789716008,
+        "lon": -48.29083913100047
+      },
+      "url": "https://www.gdacs.org/report.aspx?eventtype=WF&eventid=1032265",
+      "evidence_type": "SOURCE_EVENT",
+      "details": {
+        "alert_level": "green",
+        "event_type": "WF"
+      }
+    },
+    {
+      "id": "GDACS:c88c5227b515d05e",
+      "source_id": "GDACS",
+      "title": "Green notification for tropical cyclone DUJUAN-26. Population affected by Category 1 (120 km/h) wind speeds or higher is 0  (0 in Tropical Storm).",
+      "occurred_at": "2026-09-15T14:22:03Z",
+      "updated_at": "2026-09-20T12:00:00Z",
+      "severity": "WATCH",
+      "scope": "GLOBAL",
+      "domains": [
+        "DISASTER",
+        "TC"
+      ],
+      "impact_channels": [
+        "TRADE",
+        "SUPPLY_CHAIN",
+        "ENERGY",
+        "INSURANCE",
+        "INFRASTRUCTURE"
+      ],
+      "location": {
+        "name": "Japan",
+        "lat": 30.4,
+        "lon": 137.6
+      },
+      "url": "https://www.gdacs.org/report.aspx?eventtype=TC&eventid=1001322",
+      "evidence_type": "SOURCE_EVENT",
+      "details": {
+        "alert_level": "green",
+        "event_type": "TC"
+      }
+    },
+    {
+      "id": "GDACS:bb3182fefcfb64e9",
+      "source_id": "GDACS",
+      "title": "Green flood alert in Honduras",
+      "occurred_at": "2026-09-19T09:46:19Z",
+      "updated_at": "2026-09-19T01:00:00Z",
+      "severity": "WATCH",
+      "scope": "GLOBAL",
+      "domains": [
+        "DISASTER",
+        "FL"
+      ],
+      "impact_channels": [
+        "TRADE",
+        "SUPPLY_CHAIN",
+        "ENERGY",
+        "INSURANCE",
+        "INFRASTRUCTURE"
+      ],
+      "location": {
+        "name": "Honduras",
+        "lat": 15.6127426,
+        "lon": -87.950694
+      },
+      "url": "https://www.gdacs.org/report.aspx?eventtype=FL&eventid=1104173",
+      "evidence_type": "SOURCE_EVENT",
+      "details": {
+        "alert_level": "green",
+        "event_type": "FL"
+      }
+    },
+    {
+      "id": "GDACS:32eb50afe80cdeef",
+      "source_id": "GDACS",
+      "title": "Green flood alert in Senegal",
+      "occurred_at": "2026-09-16T08:04:47Z",
+      "updated_at": "2026-09-16T01:00:00Z",
+      "severity": "WATCH",
+      "scope": "GLOBAL",
+      "domains": [
+        "DISASTER",
+        "FL"
+      ],
+      "impact_channels": [
+        "TRADE",
+        "SUPPLY_CHAIN",
+        "ENERGY",
+        "INSURANCE",
+        "INFRASTRUCTURE"
+      ],
+      "location": {
+        "name": "Senegal",
+        "lat": 14.7603583,
+        "lon": -17.468149
+      },
+      "url": "https://www.gdacs.org/report.aspx?eventtype=FL&eventid=1104161",
+      "evidence_type": "SOURCE_EVENT",
+      "details": {
+        "alert_level": "green",
+        "event_type": "FL"
+      }
+    },
+    {
+      "id": "GDACS:8a0087deb2c9633f",
+      "source_id": "GDACS",
+      "title": "Green flood alert in Democratic Republic of Congo",
+      "occurred_at": "2026-09-17T10:34:34Z",
+      "updated_at": "2026-09-17T01:00:00Z",
+      "severity": "WATCH",
+      "scope": "GLOBAL",
+      "domains": [
+        "DISASTER",
+        "FL"
+      ],
+      "impact_channels": [
+        "TRADE",
+        "SUPPLY_CHAIN",
+        "ENERGY",
+        "INSURANCE",
+        "INFRASTRUCTURE"
+      ],
+      "location": {
+        "name": "Democratic Republic of Congo",
+        "lat": -2.5097629,
+        "lon": 28.8436511
+      },
+      "url": "https://www.gdacs.org/report.aspx?eventtype=FL&eventid=1104166",
+      "evidence_type": "SOURCE_EVENT",
+      "details": {
+        "alert_level": "green",
+        "event_type": "FL"
+      }
+    },
+    {
+      "id": "GDACS:4a8b39ade01f154d",
+      "source_id": "GDACS",
+      "title": "Green flood alert in Ecuador",
+      "occurred_at": "2026-09-17T10:54:34Z",
+      "updated_at": "2026-09-17T01:00:00Z",
+      "severity": "WATCH",
+      "scope": "GLOBAL",
+      "domains": [
+        "DISASTER",
+        "FL"
+      ],
+      "impact_channels": [
+        "TRADE",
+        "SUPPLY_CHAIN",
+        "ENERGY",
+        "INSURANCE",
+        "INFRASTRUCTURE"
+      ],
+      "location": {
+        "name": "Ecuador",
+        "lat": -3.2996519,
+        "lon": -79.8072625
+      },
+      "url": "https://www.gdacs.org/report.aspx?eventtype=FL&eventid=1104167",
+      "evidence_type": "SOURCE_EVENT",
+      "details": {
+        "alert_level": "green",
+        "event_type": "FL"
+      }
+    },
+    {
+      "id": "GDACS:e1e1fafcb480a24a",
+      "source_id": "GDACS",
+      "title": "Green forest fire notification in Australia",
+      "occurred_at": "2026-09-15T23:00:43Z",
+      "updated_at": "2026-09-20T00:00:00Z",
+      "severity": "WATCH",
+      "scope": "GLOBAL",
+      "domains": [
+        "DISASTER",
+        "WF"
+      ],
+      "impact_channels": [
+        "TRADE",
+        "SUPPLY_CHAIN",
+        "ENERGY",
+        "INSURANCE",
+        "INFRASTRUCTURE"
+      ],
+      "location": {
+        "name": "Australia",
+        "lat": -14.674370879210633,
+        "lon": 132.25514477659573
+      },
+      "url": "https://www.gdacs.org/report.aspx?eventtype=WF&eventid=1032001",
+      "evidence_type": "SOURCE_EVENT",
+      "details": {
+        "alert_level": "green",
+        "event_type": "WF"
+      }
+    },
+    {
+      "id": "GDACS:796d3a8bd90daeb7",
+      "source_id": "GDACS",
+      "title": "Green forest fire notification in Australia",
+      "occurred_at": "2026-09-17T15:02:01Z",
+      "updated_at": "2026-09-20T00:00:00Z",
+      "severity": "WATCH",
+      "scope": "GLOBAL",
+      "domains": [
+        "DISASTER",
+        "WF"
+      ],
+      "impact_channels": [
+        "TRADE",
+        "SUPPLY_CHAIN",
+        "ENERGY",
+        "INSURANCE",
+        "INFRASTRUCTURE"
+      ],
+      "location": {
+        "name": "Australia",
+        "lat": -15.624930862875196,
+        "lon": 133.83923601240838
+      },
+      "url": "https://www.gdacs.org/report.aspx?eventtype=WF&eventid=1032113",
+      "evidence_type": "SOURCE_EVENT",
+      "details": {
+        "alert_level": "green",
+        "event_type": "WF"
+      }
+    },
+    {
+      "id": "EU_COUNCIL_RSS:f54023867afd6760",
+      "source_id": "EU_COUNCIL_RSS",
+      "title": "Remarks by Kyriakos Pierrakakis following the Eurogroup meeting of 18 September 2026",
+      "occurred_at": null,
+      "updated_at": null,
+      "severity": "WATCH",
+      "scope": "EU",
+      "domains": [
+        "EU_INSTITUTIONAL",
+        "GEOPOLITICS"
+      ],
+      "impact_channels": [
+        "TRADE",
+        "ENERGY",
+        "FINANCE",
+        "DEFENCE",
+        "REGULATION"
+      ],
+      "location": {
+        "name": "European Union"
+      },
+      "url": "https://www.consilium.europa.eu/en/press/press-releases/2026/09/18/remarks-by-kyriakos-pierrakakis-following-the-eurogroup-meeting-of-18-september-2026/",
+      "evidence_type": "SOURCE_EVENT",
+      "details": {
+        "description": "Remarks by Eurogroup President Kyriakos Pierrakakis on recent economic developments and euro area productivity and growth."
+      }
+    },
+    {
+      "id": "EU_COUNCIL_RSS:0519852e6795eb3f",
+      "source_id": "EU_COUNCIL_RSS",
+      "title": "Speech by the Eurogroup President, Kyriakos Pierrakakis, at the Eurofi Financial Forum, Dublin",
+      "occurred_at": null,
+      "updated_at": null,
+      "severity": "WATCH",
+      "scope": "EU",
+      "domains": [
+        "EU_INSTITUTIONAL",
+        "GEOPOLITICS"
+      ],
+      "impact_channels": [
+        "TRADE",
+        "ENERGY",
+        "FINANCE",
+        "DEFENCE",
+        "REGULATION"
+      ],
+      "location": {
+        "name": "European Union"
+      },
+      "url": "https://www.consilium.europa.eu/en/press/press-releases/2026/09/17/speech-by-the-eurogroup-president-kyriakos-pierrakakis-at-the-eurofi-financial-forum-dublin/",
+      "evidence_type": "SOURCE_EVENT",
+      "details": {
+        "description": "Eurogroup President, Kyriakos Pierrakakis, gave a speech at the Eurofi Financial Forum, Dublin, on importance of completing the Banking Union and mobilising savings to power growth and investment."
+      }
+    },
+    {
+      "id": "EU_COUNCIL_RSS:1873d0141aa976cd",
+      "source_id": "EU_COUNCIL_RSS",
+      "title": "Media advisory - Eurogroup meeting and Informal meeting of Economic and Financial Affairs Ministers of 18 and 19 September 2026, Dublin, Ireland",
+      "occurred_at": null,
+      "updated_at": null,
+      "severity": "WATCH",
+      "scope": "EU",
+      "domains": [
+        "EU_INSTITUTIONAL",
+        "GEOPOLITICS"
+      ],
+      "impact_channels": [
+        "TRADE",
+        "ENERGY",
+        "FINANCE",
+        "DEFENCE",
+        "REGULATION"
+      ],
+      "location": {
+        "name": "European Union"
+      },
+      "url": "https://www.consilium.europa.eu/en/press/press-releases/2026/09/17/media-advisory-eurogroup-meeting-and-informal-meeting-of-economic-and-financial-affairs-ministers-of-18-and-19-september-2026-dublin-ireland/",
+      "evidence_type": "SOURCE_EVENT",
+      "details": {
+        "description": "Main agenda items, approximate timing, public sessions and press opportunities."
+      }
+    },
+    {
+      "id": "EU_COUNCIL_RSS:050b77f37d3827a5",
+      "source_id": "EU_COUNCIL_RSS",
+      "title": "ETS: Council agrees targeted measure to protect energy-intensive sectors from carbon leakage",
+      "occurred_at": null,
+      "updated_at": null,
+      "severity": "WATCH",
+      "scope": "EU",
+      "domains": [
+        "EU_INSTITUTIONAL",
+        "GEOPOLITICS"
+      ],
+      "impact_channels": [
+        "TRADE",
+        "ENERGY",
+        "FINANCE",
+        "DEFENCE",
+        "REGULATION"
+      ],
+      "location": {
+        "name": "European Union"
+      },
+      "url": "https://www.consilium.europa.eu/en/press/press-releases/2026/09/16/ets-council-agrees-targeted-measure-to-protect-energy-intensive-sectors-from-carbon-leakage/",
+      "evidence_type": "SOURCE_EVENT",
+      "details": {
+        "description": "Today the Council set its position on a revised law to increase, from 2026 to 2030, free carbon allowances for the sectors falling under heat and fuel ETS benchmarks."
+      }
+    },
+    {
+      "id": "EU_COUNCIL_RSS:dbd38a2f1bc4ccd9",
+      "source_id": "EU_COUNCIL_RSS",
+      "title": "Press remarks by the Eurogroup President after his meeting with Lars Klingbeil, Vice Chancellor of Germany and Federal Minister of Finance",
+      "occurred_at": null,
+      "updated_at": null,
+      "severity": "WATCH",
+      "scope": "EU",
+      "domains": [
+        "EU_INSTITUTIONAL",
+        "GEOPOLITICS"
+      ],
+      "impact_channels": [
+        "TRADE",
+        "ENERGY",
+        "FINANCE",
+        "DEFENCE",
+        "REGULATION"
+      ],
+      "location": {
+        "name": "European Union"
+      },
+      "url": "https://www.consilium.europa.eu/en/press/press-releases/2026/09/15/press-remarks-by-the-eurogroup-president-after-his-meeting-with-lars-klingbeil-vice-chancellor-of-germany-and-federal-minister-of-finance/",
+      "evidence_type": "SOURCE_EVENT",
+      "details": {
+        "description": "Press remarks by the Eurogroup President after his meeting with Lars Klingbeil, Vice Chancellor of Germany and Federal Minister of Finance on economic challenges, need for&nbsp;structural reforms, fiscal discipline, and strategic investments in energy, technology, and resilience to strengthen competitiveness and sovereignty."
+      }
+    }
+  ],
+  "new_events": [],
+  "events": [
+    {
+      "id": "USGS_SIG:800f68cd04932b2e",
+      "source_id": "USGS_SIG",
+      "title": "M 6.4 - 49 km NNE of Kainantu, Papua New Guinea",
+      "occurred_at": "2026-09-20T09:17:35Z",
+      "updated_at": "2026-09-20T22:27:47Z",
+      "severity": "WATCH",
+      "scope": "GLOBAL",
+      "domains": [
+        "SEISMIC",
+        "DISASTER"
+      ],
+      "impact_channels": [
+        "SUPPLY_CHAIN",
+        "INSURANCE",
+        "TRADE",
+        "INFRASTRUCTURE"
+      ],
+      "location": {
+        "name": "49 km NNE of Kainantu, Papua New Guinea",
+        "lon": 146.0922,
+        "lat": -5.9021
+      },
+      "url": "https://earthquake.usgs.gov/earthquakes/eventpage/us7000tiqc",
+      "evidence_type": "SOURCE_EVENT",
+      "details": {
+        "mag": 6.4,
+        "alert": "green",
+        "sig": 646,
+        "tsunami": 0
+      }
+    },
+    {
+      "id": "USGS_SIG:a76ec831332388a9",
+      "source_id": "USGS_SIG",
+      "title": "M 6.5 - 169 km W of Nikolski, Alaska",
+      "occurred_at": "2026-09-17T14:19:52Z",
+      "updated_at": "2026-09-20T14:30:05Z",
+      "severity": "WATCH",
+      "scope": "GLOBAL",
+      "domains": [
+        "SEISMIC",
+        "DISASTER"
+      ],
+      "impact_channels": [
+        "SUPPLY_CHAIN",
+        "INSURANCE",
+        "TRADE",
+        "INFRASTRUCTURE"
+      ],
+      "location": {
+        "name": "169 km W of Nikolski, Alaska",
+        "lon": -171.3756,
+        "lat": 52.8594
+      },
+      "url": "https://earthquake.usgs.gov/earthquakes/eventpage/us7000ti1p",
+      "evidence_type": "SOURCE_EVENT",
+      "details": {
+        "mag": 6.5,
+        "alert": "green",
+        "sig": 653,
+        "tsunami": 1
+      }
+    },
+    {
+      "id": "GDACS:023e5aaeb09b43ca",
+      "source_id": "GDACS",
+      "title": "Green flood alert in Thailand",
+      "occurred_at": "2026-09-18T06:16:34Z",
+      "updated_at": "2026-10-07T01:00:00Z",
+      "severity": "WATCH",
+      "scope": "GLOBAL",
+      "domains": [
+        "DISASTER",
+        "FL"
+      ],
+      "impact_channels": [
+        "TRADE",
+        "SUPPLY_CHAIN",
+        "ENERGY",
+        "INSURANCE",
+        "INFRASTRUCTURE"
+      ],
+      "location": {
+        "name": "Thailand",
+        "lat": 17.1053568,
+        "lon": 98.9953943
+      },
+      "url": "https://www.gdacs.org/report.aspx?eventtype=FL&eventid=1104169",
+      "evidence_type": "SOURCE_EVENT",
+      "details": {
+        "alert_level": "green",
+        "event_type": "FL"
+      }
+    },
+    {
+      "id": "GDACS:856b31696519e068",
+      "source_id": "GDACS",
+      "title": "Green earthquake (Magnitude 6.4M, Depth:104.329km) in Papua New Guinea 20/09/2026 09:17 UTC, 50 thousand in MMI V.",
+      "occurred_at": "2026-09-20T09:35:13Z",
+      "updated_at": "2026-09-20T09:17:35Z",
+      "severity": "WATCH",
+      "scope": "GLOBAL",
+      "domains": [
+        "DISASTER",
+        "EQ"
+      ],
+      "impact_channels": [
+        "TRADE",
+        "SUPPLY_CHAIN",
+        "ENERGY",
+        "INSURANCE",
+        "INFRASTRUCTURE"
+      ],
+      "location": {
+        "name": "Papua New Guinea",
+        "lat": -5.9021,
+        "lon": 146.0922
+      },
+      "url": "https://www.gdacs.org/report.aspx?eventtype=EQ&eventid=1567112",
+      "evidence_type": "SOURCE_EVENT",
+      "details": {
+        "alert_level": "green",
+        "event_type": "EQ"
+      }
+    },
+    {
+      "id": "GDACS:882d8b9408feb7bb",
+      "source_id": "GDACS",
+      "title": "Green notification for tropical cyclone ODALYS-26. Population affected by Category 1 (120 km/h) wind speeds or higher is 0  (0 in Tropical Storm).",
+      "occurred_at": "2026-09-20T09:08:06Z",
+      "updated_at": "2026-09-20T15:00:00Z",
+      "severity": "WATCH",
+      "scope": "GLOBAL",
+      "domains": [
+        "DISASTER",
+        "TC"
+      ],
+      "impact_channels": [
+        "TRADE",
+        "SUPPLY_CHAIN",
+        "ENERGY",
+        "INSURANCE",
+        "INFRASTRUCTURE"
+      ],
+      "location": {
+        "name": null,
+        "lat": 11.1,
+        "lon": -125.5
+      },
+      "url": "https://www.gdacs.org/report.aspx?eventtype=TC&eventid=1001324",
+      "evidence_type": "SOURCE_EVENT",
+      "details": {
+        "alert_level": "green",
+        "event_type": "TC"
+      }
+    },
+    {
+      "id": "GDACS:31705e9d99de00ea",
+      "source_id": "GDACS",
+      "title": "Green notification for tropical cyclone FAY-26. Population affected by Category 1 (120 km/h) wind speeds or higher is 0  (0 in Tropical Storm).",
+      "occurred_at": "2026-09-19T15:06:02Z",
+      "updated_at": "2026-09-20T15:00:00Z",
+      "severity": "WATCH",
+      "scope": "GLOBAL",
+      "domains": [
+        "DISASTER",
+        "TC"
+      ],
+      "impact_channels": [
+        "TRADE",
+        "SUPPLY_CHAIN",
+        "ENERGY",
+        "INSURANCE",
+        "INFRASTRUCTURE"
+      ],
+      "location": {
+        "name": null,
+        "lat": 34.1,
+        "lon": -33.0
+      },
+      "url": "https://www.gdacs.org/report.aspx?eventtype=TC&eventid=1001323",
+      "evidence_type": "SOURCE_EVENT",
+      "details": {
+        "alert_level": "green",
+        "event_type": "TC"
+      }
+    },
+    {
+      "id": "GDACS:6dc0433b845651bb",
+      "source_id": "GDACS",
+      "title": "Green forest fire notification in Australia",
+      "occurred_at": "2026-09-20T19:47:32Z",
+      "updated_at": "2026-09-20T00:00:00Z",
+      "severity": "WATCH",
+      "scope": "GLOBAL",
+      "domains": [
+        "DISASTER",
+        "WF"
+      ],
+      "impact_channels": [
+        "TRADE",
+        "SUPPLY_CHAIN",
+        "ENERGY",
+        "INSURANCE",
+        "INFRASTRUCTURE"
+      ],
+      "location": {
+        "name": "Australia",
+        "lat": -17.524713400410654,
+        "lon": 124.55181797805565
+      },
+      "url": "https://www.gdacs.org/report.aspx?eventtype=WF&eventid=1032260",
+      "evidence_type": "SOURCE_EVENT",
+      "details": {
+        "alert_level": "green",
+        "event_type": "WF"
+      }
+    },
+    {
+      "id": "GDACS:cccf7d2ae384bb4f",
+      "source_id": "GDACS",
+      "title": "Green forest fire notification in Zimbabwe",
+      "occurred_at": "2026-09-20T19:47:48Z",
+      "updated_at": "2026-09-20T00:00:00Z",
+      "severity": "WATCH",
+      "scope": "GLOBAL",
+      "domains": [
+        "DISASTER",
+        "WF"
+      ],
+      "impact_channels": [
+        "TRADE",
+        "SUPPLY_CHAIN",
+        "ENERGY",
+        "INSURANCE",
+        "INFRASTRUCTURE"
+      ],
+      "location": {
+        "name": "Zimbabwe",
+        "lat": -16.146643718216765,
+        "lon": 29.805668801915594
+      },
+      "url": "https://www.gdacs.org/report.aspx?eventtype=WF&eventid=1032271",
+      "evidence_type": "SOURCE_EVENT",
+      "details": {
+        "alert_level": "green",
+        "event_type": "WF"
+      }
+    },
+    {
+      "id": "GDACS:03c4594d7249cbe1",
+      "source_id": "GDACS",
+      "title": "Green forest fire notification in Vanuatu",
+      "occurred_at": "2026-09-19T23:00:47Z",
+      "updated_at": "2026-09-20T00:00:00Z",
+      "severity": "WATCH",
+      "scope": "GLOBAL",
+      "domains": [
+        "DISASTER",
+        "WF"
+      ],
+      "impact_channels": [
+        "TRADE",
+        "SUPPLY_CHAIN",
+        "ENERGY",
+        "INSURANCE",
+        "INFRASTRUCTURE"
+      ],
+      "location": {
+        "name": "Vanuatu",
+        "lat": -16.25134147561877,
+        "lon": 168.141195808748
+      },
+      "url": "https://www.gdacs.org/report.aspx?eventtype=WF&eventid=1032229",
+      "evidence_type": "SOURCE_EVENT",
+      "details": {
+        "alert_level": "green",
+        "event_type": "WF"
+      }
+    },
+    {
+      "id": "GDACS:f7e38b4889caf226",
+      "source_id": "GDACS",
+      "title": "Green forest fire notification in Australia",
+      "occurred_at": "2026-09-19T11:00:56Z",
+      "updated_at": "2026-09-19T00:00:00Z",
+      "severity": "WATCH",
+      "scope": "GLOBAL",
+      "domains": [
+        "DISASTER",
+        "WF"
+      ],
+      "impact_channels": [
+        "TRADE",
+        "SUPPLY_CHAIN",
+        "ENERGY",
+        "INSURANCE",
+        "INFRASTRUCTURE"
+      ],
+      "location": {
+        "name": "Australia",
+        "lat": -19.433423222590744,
+        "lon": 137.0364974664309
+      },
+      "url": "https://www.gdacs.org/report.aspx?eventtype=WF&eventid=1032221",
+      "evidence_type": "SOURCE_EVENT",
+      "details": {
+        "alert_level": "green",
+        "event_type": "WF"
+      }
+    },
+    {
+      "id": "GDACS:5ea2280e6c3ef309",
+      "source_id": "GDACS",
+      "title": "Green earthquake (Magnitude 5.5M, Depth:94.054km) in Kermadec Islands Region 18/09/2026 23:18 UTC, [unknown].",
+      "occurred_at": "2026-09-18T23:36:52Z",
+      "updated_at": "2026-09-18T23:18:28Z",
+      "severity": "WATCH",
+      "scope": "GLOBAL",
+      "domains": [
+        "DISASTER",
+        "EQ"
+      ],
+      "impact_channels": [
+        "TRADE",
+        "SUPPLY_CHAIN",
+        "ENERGY",
+        "INSURANCE",
+        "INFRASTRUCTURE"
+      ],
+      "location": {
+        "name": "Kermadec Islands Region",
+        "lat": -27.8581,
+        "lon": -177.2286
+      },
+      "url": "https://www.gdacs.org/report.aspx?eventtype=EQ&eventid=1566905",
+      "evidence_type": "SOURCE_EVENT",
+      "details": {
+        "alert_level": "green",
+        "event_type": "EQ"
+      }
+    },
+    {
+      "id": "GDACS:ad03c37fea79b86e",
+      "source_id": "GDACS",
+      "title": "Green flood alert in Philippines",
+      "occurred_at": "2026-09-20T07:18:20Z",
+      "updated_at": "2026-09-19T01:00:00Z",
+      "severity": "WATCH",
+      "scope": "GLOBAL",
+      "domains": [
+        "DISASTER",
+        "FL"
+      ],
+      "impact_channels": [
+        "TRADE",
+        "SUPPLY_CHAIN",
+        "ENERGY",
+        "INSURANCE",
+        "INFRASTRUCTURE"
+      ],
+      "location": {
+        "name": "Philippines",
+        "lat": 7.1082139,
+        "lon": 124.8233384
+      },
+      "url": "https://www.gdacs.org/report.aspx?eventtype=FL&eventid=1104176",
+      "evidence_type": "SOURCE_EVENT",
+      "details": {
+        "alert_level": "green",
+        "event_type": "FL"
+      }
+    },
+    {
+      "id": "GDACS:04c9544fdc46f903",
+      "source_id": "GDACS",
+      "title": "Green flood alert in Cyprus",
+      "occurred_at": "2026-09-20T07:18:06Z",
+      "updated_at": "2026-09-20T01:00:00Z",
+      "severity": "WATCH",
+      "scope": "GLOBAL",
+      "domains": [
+        "DISASTER",
+        "FL"
+      ],
+      "impact_channels": [
+        "TRADE",
+        "SUPPLY_CHAIN",
+        "ENERGY",
+        "INSURANCE",
+        "INFRASTRUCTURE"
+      ],
+      "location": {
+        "name": "Cyprus",
+        "lat": 34.9496176,
+        "lon": 33.5926752
+      },
+      "url": "https://www.gdacs.org/report.aspx?eventtype=FL&eventid=1104175",
+      "evidence_type": "SOURCE_EVENT",
+      "details": {
+        "alert_level": "green",
+        "event_type": "FL"
+      }
+    },
+    {
+      "id": "GDACS:30b1df1027aaf64d",
+      "source_id": "GDACS",
+      "title": "Green flood alert in Guinea",
+      "occurred_at": "2026-09-20T11:22:17Z",
+      "updated_at": "2026-09-20T01:00:00Z",
+      "severity": "WATCH",
+      "scope": "GLOBAL",
+      "domains": [
+        "DISASTER",
+        "FL"
+      ],
+      "impact_channels": [
+        "TRADE",
+        "SUPPLY_CHAIN",
+        "ENERGY",
+        "INSURANCE",
+        "INFRASTRUCTURE"
+      ],
+      "location": {
+        "name": "Guinea",
+        "lat": 9.709041,
+        "lon": -13.388956
+      },
+      "url": "https://www.gdacs.org/report.aspx?eventtype=FL&eventid=1104178",
+      "evidence_type": "SOURCE_EVENT",
+      "details": {
+        "alert_level": "green",
+        "event_type": "FL"
+      }
+    },
+    {
+      "id": "GDACS:b5f5f991f1f05b5d",
+      "source_id": "GDACS",
+      "title": "Green forest fire notification in Namibia",
+      "occurred_at": "2026-09-20T07:01:26Z",
+      "updated_at": "2026-09-20T00:00:00Z",
+      "severity": "WATCH",
+      "scope": "GLOBAL",
+      "domains": [
+        "DISASTER",
+        "WF"
+      ],
+      "impact_channels": [
+        "TRADE",
+        "SUPPLY_CHAIN",
+        "ENERGY",
+        "INSURANCE",
+        "INFRASTRUCTURE"
+      ],
+      "location": {
+        "name": "Namibia",
+        "lat": -19.52663041409813,
+        "lon": 16.379585847489107
+      },
+      "url": "https://www.gdacs.org/report.aspx?eventtype=WF&eventid=1032259",
+      "evidence_type": "SOURCE_EVENT",
+      "details": {
+        "alert_level": "green",
+        "event_type": "WF"
+      }
+    },
+    {
+      "id": "GDACS:c3c0dcf210ace763",
+      "source_id": "GDACS",
+      "title": "Green forest fire notification in Australia",
+      "occurred_at": "2026-09-20T19:48:13Z",
+      "updated_at": "2026-09-20T00:00:00Z",
+      "severity": "WATCH",
+      "scope": "GLOBAL",
+      "domains": [
+        "DISASTER",
+        "WF"
+      ],
+      "impact_channels": [
+        "TRADE",
+        "SUPPLY_CHAIN",
+        "ENERGY",
+        "INSURANCE",
+        "INFRASTRUCTURE"
+      ],
+      "location": {
+        "name": "Australia",
+        "lat": -13.97836354081282,
+        "lon": 130.22743011263216
+      },
+      "url": "https://www.gdacs.org/report.aspx?eventtype=WF&eventid=1032261",
+      "evidence_type": "SOURCE_EVENT",
+      "details": {
+        "alert_level": "green",
+        "event_type": "WF"
+      }
+    },
+    {
+      "id": "GDACS:6139b8e3900c81a3",
+      "source_id": "GDACS",
+      "title": "Green forest fire notification in Australia",
+      "occurred_at": "2026-09-20T19:48:49Z",
+      "updated_at": "2026-09-20T00:00:00Z",
+      "severity": "WATCH",
+      "scope": "GLOBAL",
+      "domains": [
+        "DISASTER",
+        "WF"
+      ],
+      "impact_channels": [
+        "TRADE",
+        "SUPPLY_CHAIN",
+        "ENERGY",
+        "INSURANCE",
+        "INFRASTRUCTURE"
+      ],
+      "location": {
+        "name": "Australia",
+        "lat": -13.916445612363272,
+        "lon": 131.7805532666251
+      },
+      "url": "https://www.gdacs.org/report.aspx?eventtype=WF&eventid=1032262",
+      "evidence_type": "SOURCE_EVENT",
+      "details": {
+        "alert_level": "green",
+        "event_type": "WF"
+      }
+    },
+    {
+      "id": "GDACS:eb080f241d6e20a9",
+      "source_id": "GDACS",
+      "title": "Green forest fire notification in Zambia",
+      "occurred_at": "2026-09-20T07:01:47Z",
+      "updated_at": "2026-09-20T00:00:00Z",
+      "severity": "WATCH",
+      "scope": "GLOBAL",
+      "domains": [
+        "DISASTER",
+        "WF"
+      ],
+      "impact_channels": [
+        "TRADE",
+        "SUPPLY_CHAIN",
+        "ENERGY",
+        "INSURANCE",
+        "INFRASTRUCTURE"
+      ],
+      "location": {
+        "name": "Zambia",
+        "lat": -15.679989224684798,
+        "lon": 25.729303052648405
+      },
+      "url": "https://www.gdacs.org/report.aspx?eventtype=WF&eventid=1032230",
+      "evidence_type": "SOURCE_EVENT",
+      "details": {
+        "alert_level": "green",
+        "event_type": "WF"
+      }
+    },
+    {
+      "id": "GDACS:e12361f964467bb1",
+      "source_id": "GDACS",
+      "title": "Green forest fire notification in Brazil",
+      "occurred_at": "2026-09-19T23:01:26Z",
+      "updated_at": "2026-09-20T00:00:00Z",
+      "severity": "WATCH",
+      "scope": "GLOBAL",
+      "domains": [
+        "DISASTER",
+        "WF"
+      ],
+      "impact_channels": [
+        "TRADE",
+        "SUPPLY_CHAIN",
+        "ENERGY",
+        "INSURANCE",
+        "INFRASTRUCTURE"
+      ],
+      "location": {
+        "name": "Brazil",
+        "lat": -12.147856617156464,
+        "lon": -46.997568892541345
+      },
+      "url": "https://www.gdacs.org/report.aspx?eventtype=WF&eventid=1032244",
+      "evidence_type": "SOURCE_EVENT",
+      "details": {
+        "alert_level": "green",
+        "event_type": "WF"
+      }
+    },
+    {
+      "id": "GDACS:68b4c98a9decc6e6",
+      "source_id": "GDACS",
+      "title": "Green forest fire notification in Brazil",
+      "occurred_at": "2026-09-20T07:01:38Z",
+      "updated_at": "2026-09-20T00:00:00Z",
+      "severity": "WATCH",
+      "scope": "GLOBAL",
+      "domains": [
+        "DISASTER",
+        "WF"
+      ],
+      "impact_channels": [
+        "TRADE",
+        "SUPPLY_CHAIN",
+        "ENERGY",
+        "INSURANCE",
+        "INFRASTRUCTURE"
+      ],
+      "location": {
+        "name": "Brazil",
+        "lat": -12.506565265537667,
+        "lon": -50.04482207256852
+      },
+      "url": "https://www.gdacs.org/report.aspx?eventtype=WF&eventid=1032256",
+      "evidence_type": "SOURCE_EVENT",
+      "details": {
+        "alert_level": "green",
+        "event_type": "WF"
+      }
+    },
+    {
+      "id": "GDACS:deb38fce9da58013",
+      "source_id": "GDACS",
+      "title": "Green forest fire notification in Brazil",
+      "occurred_at": "2026-09-20T07:01:19Z",
+      "updated_at": "2026-09-20T00:00:00Z",
+      "severity": "WATCH",
+      "scope": "GLOBAL",
+      "domains": [
+        "DISASTER",
+        "WF"
+      ],
+      "impact_channels": [
+        "TRADE",
+        "SUPPLY_CHAIN",
+        "ENERGY",
+        "INSURANCE",
+        "INFRASTRUCTURE"
+      ],
+      "location": {
+        "name": "Brazil",
+        "lat": -12.712900057714968,
+        "lon": -46.00276034602498
+      },
+      "url": "https://www.gdacs.org/report.aspx?eventtype=WF&eventid=1032257",
+      "evidence_type": "SOURCE_EVENT",
+      "details": {
+        "alert_level": "green",
+        "event_type": "WF"
+      }
+    },
+    {
+      "id": "GDACS:a9c756eb3452d51a",
+      "source_id": "GDACS",
+      "title": "Green forest fire notification in Angola",
+      "occurred_at": "2026-09-20T19:48:59Z",
+      "updated_at": "2026-09-18T00:00:00Z",
+      "severity": "WATCH",
+      "scope": "GLOBAL",
+      "domains": [
+        "DISASTER",
+        "WF"
+      ],
+      "impact_channels": [
+        "TRADE",
+        "SUPPLY_CHAIN",
+        "ENERGY",
+        "INSURANCE",
+        "INFRASTRUCTURE"
+      ],
+      "location": {
+        "name": "Angola",
+        "lat": -16.046209200296598,
+        "lon": 18.527512894263214
+      },
+      "url": "https://www.gdacs.org/report.aspx?eventtype=WF&eventid=1032179",
+      "evidence_type": "SOURCE_EVENT",
+      "details": {
+        "alert_level": "green",
+        "event_type": "WF"
+      }
+    },
+    {
+      "id": "GDACS:f003065bd3295437",
+      "source_id": "GDACS",
+      "title": "Green earthquake (Magnitude 6.5M, Depth:98km) in Fox Islands, Aleutian Islands 17/09/2026 14:19 UTC, [unknown].",
+      "occurred_at": "2026-09-17T14:25:14Z",
+      "updated_at": "2026-09-17T14:19:52Z",
+      "severity": "WATCH",
+      "scope": "GLOBAL",
+      "domains": [
+        "DISASTER",
+        "EQ"
+      ],
+      "impact_channels": [
+        "TRADE",
+        "SUPPLY_CHAIN",
+        "ENERGY",
+        "INSURANCE",
+        "INFRASTRUCTURE"
+      ],
+      "location": {
+        "name": "Fox Islands, Aleutian Islands",
+        "lat": 52.8594,
+        "lon": -171.3756
+      },
+      "url": "https://www.gdacs.org/report.aspx?eventtype=EQ&eventid=1566678",
+      "evidence_type": "SOURCE_EVENT",
+      "details": {
+        "alert_level": "green",
+        "event_type": "EQ"
+      }
+    },
+    {
+      "id": "GDACS:6ec29ef8c55cf30c",
+      "source_id": "GDACS",
+      "title": "Green flood alert in South Africa",
+      "occurred_at": "2026-09-20T07:39:43Z",
+      "updated_at": "2026-09-19T01:00:00Z",
+      "severity": "WATCH",
+      "scope": "GLOBAL",
+      "domains": [
+        "DISASTER",
+        "FL"
+      ],
+      "impact_channels": [
+        "TRADE",
+        "SUPPLY_CHAIN",
+        "ENERGY",
+        "INSURANCE",
+        "INFRASTRUCTURE"
+      ],
+      "location": {
+        "name": "South Africa",
+        "lat": -29.8435035,
+        "lon": 30.8076142
+      },
+      "url": "https://www.gdacs.org/report.aspx?eventtype=FL&eventid=1104177",
+      "evidence_type": "SOURCE_EVENT",
+      "details": {
+        "alert_level": "green",
+        "event_type": "FL"
+      }
+    },
+    {
+      "id": "GDACS:60947ae48956ff46",
+      "source_id": "GDACS",
+      "title": "Green flood alert in Cambodia",
+      "occurred_at": "2026-09-20T07:17:24Z",
+      "updated_at": "2026-09-19T01:00:00Z",
+      "severity": "WATCH",
+      "scope": "GLOBAL",
+      "domains": [
+        "DISASTER",
+        "FL"
+      ],
+      "impact_channels": [
+        "TRADE",
+        "SUPPLY_CHAIN",
+        "ENERGY",
+        "INSURANCE",
+        "INFRASTRUCTURE"
+      ],
+      "location": {
+        "name": "Cambodia",
+        "lat": 13.7989147,
+        "lon": 102.8862666
+      },
+      "url": "https://www.gdacs.org/report.aspx?eventtype=FL&eventid=1104174",
+      "evidence_type": "SOURCE_EVENT",
+      "details": {
+        "alert_level": "green",
+        "event_type": "FL"
+      }
+    },
+    {
+      "id": "GDACS:e7236a3169c5ec69",
+      "source_id": "GDACS",
+      "title": "Green forest fire notification in Brazil",
+      "occurred_at": "2026-09-19T23:01:37Z",
+      "updated_at": "2026-09-20T00:00:00Z",
+      "severity": "WATCH",
+      "scope": "GLOBAL",
+      "domains": [
+        "DISASTER",
+        "WF"
+      ],
+      "impact_channels": [
+        "TRADE",
+        "SUPPLY_CHAIN",
+        "ENERGY",
+        "INSURANCE",
+        "INFRASTRUCTURE"
+      ],
+      "location": {
+        "name": "Brazil",
+        "lat": -10.665141183284673,
+        "lon": -50.253586015874944
+      },
+      "url": "https://www.gdacs.org/report.aspx?eventtype=WF&eventid=1032245",
+      "evidence_type": "SOURCE_EVENT",
+      "details": {
+        "alert_level": "green",
+        "event_type": "WF"
+      }
+    },
+    {
+      "id": "GDACS:db4a6b6a9190b499",
+      "source_id": "GDACS",
+      "title": "Green forest fire notification in Namibia",
+      "occurred_at": "2026-09-20T03:02:49Z",
+      "updated_at": "2026-09-20T00:00:00Z",
+      "severity": "WATCH",
+      "scope": "GLOBAL",
+      "domains": [
+        "DISASTER",
+        "WF"
+      ],
+      "impact_channels": [
+        "TRADE",
+        "SUPPLY_CHAIN",
+        "ENERGY",
+        "INSURANCE",
+        "INFRASTRUCTURE"
+      ],
+      "location": {
+        "name": "Namibia",
+        "lat": -20.220904143794936,
+        "lon": 15.180992080571889
+      },
+      "url": "https://www.gdacs.org/report.aspx?eventtype=WF&eventid=1032231",
+      "evidence_type": "SOURCE_EVENT",
+      "details": {
+        "alert_level": "green",
+        "event_type": "WF"
+      }
+    },
+    {
+      "id": "GDACS:0e266000480a755f",
+      "source_id": "GDACS",
+      "title": "Green forest fire notification in Brazil",
+      "occurred_at": "2026-09-19T03:01:15Z",
+      "updated_at": "2026-09-20T00:00:00Z",
+      "severity": "WATCH",
+      "scope": "GLOBAL",
+      "domains": [
+        "DISASTER",
+        "WF"
+      ],
+      "impact_channels": [
+        "TRADE",
+        "SUPPLY_CHAIN",
+        "ENERGY",
+        "INSURANCE",
+        "INFRASTRUCTURE"
+      ],
+      "location": {
+        "name": "Brazil",
+        "lat": -11.303457403189416,
+        "lon": -43.38614475272545
+      },
+      "url": "https://www.gdacs.org/report.aspx?eventtype=WF&eventid=1032217",
+      "evidence_type": "SOURCE_EVENT",
+      "details": {
+        "alert_level": "green",
+        "event_type": "WF"
+      }
+    },
+    {
+      "id": "GDACS:614355c74436964b",
+      "source_id": "GDACS",
+      "title": "Green forest fire notification in Angola",
+      "occurred_at": "2026-09-19T03:01:40Z",
+      "updated_at": "2026-09-20T00:00:00Z",
+      "severity": "WATCH",
+      "scope": "GLOBAL",
+      "domains": [
+        "DISASTER",
+        "WF"
+      ],
+      "impact_channels": [
+        "TRADE",
+        "SUPPLY_CHAIN",
+        "ENERGY",
+        "INSURANCE",
+        "INFRASTRUCTURE"
+      ],
+      "location": {
+        "name": "Angola",
+        "lat": -16.358316573419053,
+        "lon": 19.82765055341136
+      },
+      "url": "https://www.gdacs.org/report.aspx?eventtype=WF&eventid=1032180",
+      "evidence_type": "SOURCE_EVENT",
+      "details": {
+        "alert_level": "green",
+        "event_type": "WF"
+      }
+    },
+    {
+      "id": "GDACS:19cf071fc7a74975",
+      "source_id": "GDACS",
+      "title": "Green forest fire notification in Brazil",
+      "occurred_at": "2026-09-17T15:01:16Z",
+      "updated_at": "2026-09-18T00:00:00Z",
+      "severity": "WATCH",
+      "scope": "GLOBAL",
+      "domains": [
+        "DISASTER",
+        "WF"
+      ],
+      "impact_channels": [
+        "TRADE",
+        "SUPPLY_CHAIN",
+        "ENERGY",
+        "INSURANCE",
+        "INFRASTRUCTURE"
+      ],
+      "location": {
+        "name": "Brazil",
+        "lat": -12.46519659446569,
+        "lon": -50.83383285767104
+      },
+      "url": "https://www.gdacs.org/report.aspx?eventtype=WF&eventid=1032111",
+      "evidence_type": "SOURCE_EVENT",
+      "details": {
+        "alert_level": "green",
+        "event_type": "WF"
+      }
+    },
+    {
+      "id": "GDACS:76d24b660f570a16",
+      "source_id": "GDACS",
+      "title": "Green forest fire notification in Australia",
+      "occurred_at": "2026-09-20T19:49:31Z",
+      "updated_at": "2026-09-18T00:00:00Z",
+      "severity": "WATCH",
+      "scope": "GLOBAL",
+      "domains": [
+        "DISASTER",
+        "WF"
+      ],
+      "impact_channels": [
+        "TRADE",
+        "SUPPLY_CHAIN",
+        "ENERGY",
+        "INSURANCE",
+        "INFRASTRUCTURE"
+      ],
+      "location": {
+        "name": "Australia",
+        "lat": -17.16995852125429,
+        "lon": 122.83737624074944
+      },
+      "url": "https://www.gdacs.org/report.aspx?eventtype=WF&eventid=1032177",
+      "evidence_type": "SOURCE_EVENT",
+      "details": {
+        "alert_level": "green",
+        "event_type": "WF"
+      }
+    },
+    {
+      "id": "GDACS:c1c24810c3dfc47b",
+      "source_id": "GDACS",
+      "title": "Green flood alert in Indonesia",
+      "occurred_at": "2026-09-18T06:16:20Z",
+      "updated_at": "2026-09-18T01:00:00Z",
+      "severity": "WATCH",
+      "scope": "GLOBAL",
+      "domains": [
+        "DISASTER",
+        "FL"
+      ],
+      "impact_channels": [
+        "TRADE",
+        "SUPPLY_CHAIN",
+        "ENERGY",
+        "INSURANCE",
+        "INFRASTRUCTURE"
+      ],
+      "location": {
+        "name": "Indonesia",
+        "lat": 4.3685491,
+        "lon": 97.0253024
+      },
+      "url": "https://www.gdacs.org/report.aspx?eventtype=FL&eventid=1104168",
+      "evidence_type": "SOURCE_EVENT",
+      "details": {
+        "alert_level": "green",
+        "event_type": "FL"
+      }
+    },
+    {
+      "id": "GDACS:ec8f3a2e3b7f931e",
+      "source_id": "GDACS",
+      "title": "Green flood alert in Somalia",
+      "occurred_at": "2026-09-18T11:46:23Z",
+      "updated_at": "2026-09-18T01:00:00Z",
+      "severity": "WATCH",
+      "scope": "GLOBAL",
+      "domains": [
+        "DISASTER",
+        "FL"
+      ],
+      "impact_channels": [
+        "TRADE",
+        "SUPPLY_CHAIN",
+        "ENERGY",
+        "INSURANCE",
+        "INFRASTRUCTURE"
+      ],
+      "location": {
+        "name": "Somalia",
+        "lat": 2.0268073,
+        "lon": 45.3012042
+      },
+      "url": "https://www.gdacs.org/report.aspx?eventtype=FL&eventid=1104170",
+      "evidence_type": "SOURCE_EVENT",
+      "details": {
+        "alert_level": "green",
+        "event_type": "FL"
+      }
+    },
+    {
+      "id": "GDACS:8f742b70cb531809",
+      "source_id": "GDACS",
+      "title": "Green forest fire notification in South Africa",
+      "occurred_at": "2026-09-20T19:50:23Z",
+      "updated_at": "2026-09-16T00:00:00Z",
+      "severity": "WATCH",
+      "scope": "GLOBAL",
+      "domains": [
+        "DISASTER",
+        "WF"
+      ],
+      "impact_channels": [
+        "TRADE",
+        "SUPPLY_CHAIN",
+        "ENERGY",
+        "INSURANCE",
+        "INFRASTRUCTURE"
+      ],
+      "location": {
+        "name": "South Africa",
+        "lat": -28.258119619483814,
+        "lon": 31.13471593256025
+      },
+      "url": "https://www.gdacs.org/report.aspx?eventtype=WF&eventid=1032039",
+      "evidence_type": "SOURCE_EVENT",
+      "details": {
+        "alert_level": "green",
+        "event_type": "WF"
+      }
+    },
+    {
+      "id": "GDACS:7078ee798ee7d7c1",
+      "source_id": "GDACS",
+      "title": "Green forest fire notification in Australia",
+      "occurred_at": "2026-09-16T15:00:41Z",
+      "updated_at": "2026-09-20T00:00:00Z",
+      "severity": "WATCH",
+      "scope": "GLOBAL",
+      "domains": [
+        "DISASTER",
+        "WF"
+      ],
+      "impact_channels": [
+        "TRADE",
+        "SUPPLY_CHAIN",
+        "ENERGY",
+        "INSURANCE",
+        "INFRASTRUCTURE"
+      ],
+      "location": {
+        "name": "Australia",
+        "lat": -18.66976625964335,
+        "lon": 145.7486985631986
+      },
+      "url": "https://www.gdacs.org/report.aspx?eventtype=WF&eventid=1032032",
+      "evidence_type": "SOURCE_EVENT",
+      "details": {
+        "alert_level": "green",
+        "event_type": "WF"
+      }
+    },
+    {
+      "id": "GDACS:430b6ee9200e242d",
+      "source_id": "GDACS",
+      "title": "Green forest fire notification in Australia",
+      "occurred_at": "2026-09-17T19:01:16Z",
+      "updated_at": "2026-09-20T00:00:00Z",
+      "severity": "WATCH",
+      "scope": "GLOBAL",
+      "domains": [
+        "DISASTER",
+        "WF"
+      ],
+      "impact_channels": [
+        "TRADE",
+        "SUPPLY_CHAIN",
+        "ENERGY",
+        "INSURANCE",
+        "INFRASTRUCTURE"
+      ],
+      "location": {
+        "name": "Australia",
+        "lat": -16.835266382086797,
+        "lon": 135.89865490534535
+      },
+      "url": "https://www.gdacs.org/report.aspx?eventtype=WF&eventid=1032112",
+      "evidence_type": "SOURCE_EVENT",
+      "details": {
+        "alert_level": "green",
+        "event_type": "WF"
+      }
+    },
+    {
+      "id": "GDACS:ec26067f85606251",
+      "source_id": "GDACS",
+      "title": "Green forest fire notification in Brazil",
+      "occurred_at": "2026-09-18T23:01:54Z",
+      "updated_at": "2026-09-19T00:00:00Z",
+      "severity": "WATCH",
+      "scope": "GLOBAL",
+      "domains": [
+        "DISASTER",
+        "WF"
+      ],
+      "impact_channels": [
+        "TRADE",
+        "SUPPLY_CHAIN",
+        "ENERGY",
+        "INSURANCE",
+        "INFRASTRUCTURE"
+      ],
+      "location": {
+        "name": "Brazil",
+        "lat": -14.169843107662292,
+        "lon": -45.172598889303735
+      },
+      "url": "https://www.gdacs.org/report.aspx?eventtype=WF&eventid=1032214",
+      "evidence_type": "SOURCE_EVENT",
+      "details": {
+        "alert_level": "green",
+        "event_type": "WF"
+      }
+    },
+    {
+      "id": "GDACS:173df11d59664742",
+      "source_id": "GDACS",
+      "title": "Green forest fire notification in Botswana",
+      "occurred_at": "2026-09-17T19:00:58Z",
+      "updated_at": "2026-09-19T00:00:00Z",
+      "severity": "WATCH",
+      "scope": "GLOBAL",
+      "domains": [
+        "DISASTER",
+        "WF"
+      ],
+      "impact_channels": [
+        "TRADE",
+        "SUPPLY_CHAIN",
+        "ENERGY",
+        "INSURANCE",
+        "INFRASTRUCTURE"
+      ],
+      "location": {
+        "name": "Botswana",
+        "lat": -20.319880021390148,
+        "lon": 25.162577356206665
+      },
+      "url": "https://www.gdacs.org/report.aspx?eventtype=WF&eventid=1032130",
+      "evidence_type": "SOURCE_EVENT",
+      "details": {
+        "alert_level": "green",
+        "event_type": "WF"
+      }
+    },
+    {
+      "id": "GDACS:fc58f3c6d7af7970",
+      "source_id": "GDACS",
+      "title": "Green forest fire notification in Brazil",
+      "occurred_at": "2026-09-18T03:01:33Z",
+      "updated_at": "2026-09-20T00:00:00Z",
+      "severity": "WATCH",
+      "scope": "GLOBAL",
+      "domains": [
+        "DISASTER",
+        "WF"
+      ],
+      "impact_channels": [
+        "TRADE",
+        "SUPPLY_CHAIN",
+        "ENERGY",
+        "INSURANCE",
+        "INFRASTRUCTURE"
+      ],
+      "location": {
+        "name": "Brazil",
+        "lat": -7.820034967971776,
+        "lon": -44.86498372758777
+      },
+      "url": "https://www.gdacs.org/report.aspx?eventtype=WF&eventid=1032140",
+      "evidence_type": "SOURCE_EVENT",
+      "details": {
+        "alert_level": "green",
+        "event_type": "WF"
+      }
+    },
+    {
+      "id": "GDACS:8f976380eb4035b4",
+      "source_id": "GDACS",
+      "title": "Green forest fire notification in Brazil",
+      "occurred_at": "2026-09-18T11:00:50Z",
+      "updated_at": "2026-09-20T00:00:00Z",
+      "severity": "WATCH",
+      "scope": "GLOBAL",
+      "domains": [
+        "DISASTER",
+        "WF"
+      ],
+      "impact_channels": [
+        "TRADE",
+        "SUPPLY_CHAIN",
+        "ENERGY",
+        "INSURANCE",
+        "INFRASTRUCTURE"
+      ],
+      "location": {
+        "name": "Brazil",
+        "lat": -9.925273051846828,
+        "lon": -46.55990935834477
+      },
+      "url": "https://www.gdacs.org/report.aspx?eventtype=WF&eventid=1032173",
+      "evidence_type": "SOURCE_EVENT",
+      "details": {
+        "alert_level": "green",
+        "event_type": "WF"
+      }
+    },
+    {
+      "id": "GDACS:2ffdd0ea49a73637",
+      "source_id": "GDACS",
+      "title": "Green forest fire notification in Zambia",
+      "occurred_at": "2026-09-20T15:05:42Z",
+      "updated_at": "2026-09-20T00:00:00Z",
+      "severity": "WATCH",
+      "scope": "GLOBAL",
+      "domains": [
+        "DISASTER",
+        "WF"
+      ],
+      "impact_channels": [
+        "TRADE",
+        "SUPPLY_CHAIN",
+        "ENERGY",
+        "INSURANCE",
+        "INFRASTRUCTURE"
+      ],
+      "location": {
+        "name": "Zambia",
+        "lat": -14.022101446319036,
+        "lon": 25.957052575153526
+      },
+      "url": "https://www.gdacs.org/report.aspx?eventtype=WF&eventid=1032232",
+      "evidence_type": "SOURCE_EVENT",
+      "details": {
+        "alert_level": "green",
+        "event_type": "WF"
+      }
+    },
+    {
+      "id": "GDACS:e681acc444e82f6b",
+      "source_id": "GDACS",
+      "title": "Green forest fire notification in Australia",
+      "occurred_at": "2026-09-19T19:03:06Z",
+      "updated_at": "2026-09-20T00:00:00Z",
+      "severity": "WATCH",
+      "scope": "GLOBAL",
+      "domains": [
+        "DISASTER",
+        "WF"
+      ],
+      "impact_channels": [
+        "TRADE",
+        "SUPPLY_CHAIN",
+        "ENERGY",
+        "INSURANCE",
+        "INFRASTRUCTURE"
+      ],
+      "location": {
+        "name": "Australia",
+        "lat": -13.68868418110566,
+        "lon": 135.24259010687172
+      },
+      "url": "https://www.gdacs.org/report.aspx?eventtype=WF&eventid=1032228",
+      "evidence_type": "SOURCE_EVENT",
+      "details": {
+        "alert_level": "green",
+        "event_type": "WF"
+      }
+    },
+    {
+      "id": "GDACS:ca77c0792da7cc5e",
+      "source_id": "GDACS",
+      "title": "Green forest fire notification in Brazil",
+      "occurred_at": "2026-09-20T19:50:11Z",
+      "updated_at": "2026-09-20T00:00:00Z",
+      "severity": "WATCH",
+      "scope": "GLOBAL",
+      "domains": [
+        "DISASTER",
+        "WF"
+      ],
+      "impact_channels": [
+        "TRADE",
+        "SUPPLY_CHAIN",
+        "ENERGY",
+        "INSURANCE",
+        "INFRASTRUCTURE"
+      ],
+      "location": {
+        "name": "Brazil",
+        "lat": -11.878103643324776,
+        "lon": -47.62351352788506
+      },
+      "url": "https://www.gdacs.org/report.aspx?eventtype=WF&eventid=1032263",
+      "evidence_type": "SOURCE_EVENT",
+      "details": {
+        "alert_level": "green",
+        "event_type": "WF"
+      }
+    },
+    {
+      "id": "GDACS:55567e182de263dc",
+      "source_id": "GDACS",
+      "title": "Green forest fire notification in Indonesia",
+      "occurred_at": "2026-09-20T19:49:50Z",
+      "updated_at": "2026-09-20T00:00:00Z",
+      "severity": "WATCH",
+      "scope": "GLOBAL",
+      "domains": [
+        "DISASTER",
+        "WF"
+      ],
+      "impact_channels": [
+        "TRADE",
+        "SUPPLY_CHAIN",
+        "ENERGY",
+        "INSURANCE",
+        "INFRASTRUCTURE"
+      ],
+      "location": {
+        "name": "Indonesia",
+        "lat": -3.1050453828728175,
+        "lon": 112.65986987527363
+      },
+      "url": "https://www.gdacs.org/report.aspx?eventtype=WF&eventid=1032264",
+      "evidence_type": "SOURCE_EVENT",
+      "details": {
+        "alert_level": "green",
+        "event_type": "WF"
+      }
+    },
+    {
+      "id": "GDACS:b8493414b905c079",
+      "source_id": "GDACS",
+      "title": "Green forest fire notification in Brazil",
+      "occurred_at": "2026-09-20T15:05:20Z",
+      "updated_at": "2026-09-20T00:00:00Z",
+      "severity": "WATCH",
+      "scope": "GLOBAL",
+      "domains": [
+        "DISASTER",
+        "WF"
+      ],
+      "impact_channels": [
+        "TRADE",
+        "SUPPLY_CHAIN",
+        "ENERGY",
+        "INSURANCE",
+        "INFRASTRUCTURE"
+      ],
+      "location": {
+        "name": "Brazil",
+        "lat": -11.057383789716008,
+        "lon": -48.29083913100047
+      },
+      "url": "https://www.gdacs.org/report.aspx?eventtype=WF&eventid=1032265",
+      "evidence_type": "SOURCE_EVENT",
+      "details": {
+        "alert_level": "green",
+        "event_type": "WF"
+      }
+    },
+    {
+      "id": "GDACS:c88c5227b515d05e",
+      "source_id": "GDACS",
+      "title": "Green notification for tropical cyclone DUJUAN-26. Population affected by Category 1 (120 km/h) wind speeds or higher is 0  (0 in Tropical Storm).",
+      "occurred_at": "2026-09-15T14:22:03Z",
+      "updated_at": "2026-09-20T12:00:00Z",
+      "severity": "WATCH",
+      "scope": "GLOBAL",
+      "domains": [
+        "DISASTER",
+        "TC"
+      ],
+      "impact_channels": [
+        "TRADE",
+        "SUPPLY_CHAIN",
+        "ENERGY",
+        "INSURANCE",
+        "INFRASTRUCTURE"
+      ],
+      "location": {
+        "name": "Japan",
+        "lat": 30.4,
+        "lon": 137.6
+      },
+      "url": "https://www.gdacs.org/report.aspx?eventtype=TC&eventid=1001322",
+      "evidence_type": "SOURCE_EVENT",
+      "details": {
+        "alert_level": "green",
+        "event_type": "TC"
+      }
+    },
+    {
+      "id": "GDACS:bb3182fefcfb64e9",
+      "source_id": "GDACS",
+      "title": "Green flood alert in Honduras",
+      "occurred_at": "2026-09-19T09:46:19Z",
+      "updated_at": "2026-09-19T01:00:00Z",
+      "severity": "WATCH",
+      "scope": "GLOBAL",
+      "domains": [
+        "DISASTER",
+        "FL"
+      ],
+      "impact_channels": [
+        "TRADE",
+        "SUPPLY_CHAIN",
+        "ENERGY",
+        "INSURANCE",
+        "INFRASTRUCTURE"
+      ],
+      "location": {
+        "name": "Honduras",
+        "lat": 15.6127426,
+        "lon": -87.950694
+      },
+      "url": "https://www.gdacs.org/report.aspx?eventtype=FL&eventid=1104173",
+      "evidence_type": "SOURCE_EVENT",
+      "details": {
+        "alert_level": "green",
+        "event_type": "FL"
+      }
+    },
+    {
+      "id": "GDACS:32eb50afe80cdeef",
+      "source_id": "GDACS",
+      "title": "Green flood alert in Senegal",
+      "occurred_at": "2026-09-16T08:04:47Z",
+      "updated_at": "2026-09-16T01:00:00Z",
+      "severity": "WATCH",
+      "scope": "GLOBAL",
+      "domains": [
+        "DISASTER",
+        "FL"
+      ],
+      "impact_channels": [
+        "TRADE",
+        "SUPPLY_CHAIN",
+        "ENERGY",
+        "INSURANCE",
+        "INFRASTRUCTURE"
+      ],
+      "location": {
+        "name": "Senegal",
+        "lat": 14.7603583,
+        "lon": -17.468149
+      },
+      "url": "https://www.gdacs.org/report.aspx?eventtype=FL&eventid=1104161",
+      "evidence_type": "SOURCE_EVENT",
+      "details": {
+        "alert_level": "green",
+        "event_type": "FL"
+      }
+    },
+    {
+      "id": "GDACS:8a0087deb2c9633f",
+      "source_id": "GDACS",
+      "title": "Green flood alert in Democratic Republic of Congo",
+      "occurred_at": "2026-09-17T10:34:34Z",
+      "updated_at": "2026-09-17T01:00:00Z",
+      "severity": "WATCH",
+      "scope": "GLOBAL",
+      "domains": [
+        "DISASTER",
+        "FL"
+      ],
+      "impact_channels": [
+        "TRADE",
+        "SUPPLY_CHAIN",
+        "ENERGY",
+        "INSURANCE",
+        "INFRASTRUCTURE"
+      ],
+      "location": {
+        "name": "Democratic Republic of Congo",
+        "lat": -2.5097629,
+        "lon": 28.8436511
+      },
+      "url": "https://www.gdacs.org/report.aspx?eventtype=FL&eventid=1104166",
+      "evidence_type": "SOURCE_EVENT",
+      "details": {
+        "alert_level": "green",
+        "event_type": "FL"
+      }
+    },
+    {
+      "id": "GDACS:4a8b39ade01f154d",
+      "source_id": "GDACS",
+      "title": "Green flood alert in Ecuador",
+      "occurred_at": "2026-09-17T10:54:34Z",
+      "updated_at": "2026-09-17T01:00:00Z",
+      "severity": "WATCH",
+      "scope": "GLOBAL",
+      "domains": [
+        "DISASTER",
+        "FL"
+      ],
+      "impact_channels": [
+        "TRADE",
+        "SUPPLY_CHAIN",
+        "ENERGY",
+        "INSURANCE",
+        "INFRASTRUCTURE"
+      ],
+      "location": {
+        "name": "Ecuador",
+        "lat": -3.2996519,
+        "lon": -79.8072625
+      },
+      "url": "https://www.gdacs.org/report.aspx?eventtype=FL&eventid=1104167",
+      "evidence_type": "SOURCE_EVENT",
+      "details": {
+        "alert_level": "green",
+        "event_type": "FL"
+      }
+    },
+    {
+      "id": "GDACS:e1e1fafcb480a24a",
+      "source_id": "GDACS",
+      "title": "Green forest fire notification in Australia",
+      "occurred_at": "2026-09-15T23:00:43Z",
+      "updated_at": "2026-09-20T00:00:00Z",
+      "severity": "WATCH",
+      "scope": "GLOBAL",
+      "domains": [
+        "DISASTER",
+        "WF"
+      ],
+      "impact_channels": [
+        "TRADE",
+        "SUPPLY_CHAIN",
+        "ENERGY",
+        "INSURANCE",
+        "INFRASTRUCTURE"
+      ],
+      "location": {
+        "name": "Australia",
+        "lat": -14.674370879210633,
+        "lon": 132.25514477659573
+      },
+      "url": "https://www.gdacs.org/report.aspx?eventtype=WF&eventid=1032001",
+      "evidence_type": "SOURCE_EVENT",
+      "details": {
+        "alert_level": "green",
+        "event_type": "WF"
+      }
+    },
+    {
+      "id": "GDACS:796d3a8bd90daeb7",
+      "source_id": "GDACS",
+      "title": "Green forest fire notification in Australia",
+      "occurred_at": "2026-09-17T15:02:01Z",
+      "updated_at": "2026-09-20T00:00:00Z",
+      "severity": "WATCH",
+      "scope": "GLOBAL",
+      "domains": [
+        "DISASTER",
+        "WF"
+      ],
+      "impact_channels": [
+        "TRADE",
+        "SUPPLY_CHAIN",
+        "ENERGY",
+        "INSURANCE",
+        "INFRASTRUCTURE"
+      ],
+      "location": {
+        "name": "Australia",
+        "lat": -15.624930862875196,
+        "lon": 133.83923601240838
+      },
+      "url": "https://www.gdacs.org/report.aspx?eventtype=WF&eventid=1032113",
+      "evidence_type": "SOURCE_EVENT",
+      "details": {
+        "alert_level": "green",
+        "event_type": "WF"
+      }
+    },
+    {
+      "id": "EU_COUNCIL_RSS:f54023867afd6760",
+      "source_id": "EU_COUNCIL_RSS",
+      "title": "Remarks by Kyriakos Pierrakakis following the Eurogroup meeting of 18 September 2026",
+      "occurred_at": null,
+      "updated_at": null,
+      "severity": "WATCH",
+      "scope": "EU",
+      "domains": [
+        "EU_INSTITUTIONAL",
+        "GEOPOLITICS"
+      ],
+      "impact_channels": [
+        "TRADE",
+        "ENERGY",
+        "FINANCE",
+        "DEFENCE",
+        "REGULATION"
+      ],
+      "location": {
+        "name": "European Union"
+      },
+      "url": "https://www.consilium.europa.eu/en/press/press-releases/2026/09/18/remarks-by-kyriakos-pierrakakis-following-the-eurogroup-meeting-of-18-september-2026/",
+      "evidence_type": "SOURCE_EVENT",
+      "details": {
+        "description": "Remarks by Eurogroup President Kyriakos Pierrakakis on recent economic developments and euro area productivity and growth."
+      }
+    },
+    {
+      "id": "EU_COUNCIL_RSS:0519852e6795eb3f",
+      "source_id": "EU_COUNCIL_RSS",
+      "title": "Speech by the Eurogroup President, Kyriakos Pierrakakis, at the Eurofi Financial Forum, Dublin",
+      "occurred_at": null,
+      "updated_at": null,
+      "severity": "WATCH",
+      "scope": "EU",
+      "domains": [
+        "EU_INSTITUTIONAL",
+        "GEOPOLITICS"
+      ],
+      "impact_channels": [
+        "TRADE",
+        "ENERGY",
+        "FINANCE",
+        "DEFENCE",
+        "REGULATION"
+      ],
+      "location": {
+        "name": "European Union"
+      },
+      "url": "https://www.consilium.europa.eu/en/press/press-releases/2026/09/17/speech-by-the-eurogroup-president-kyriakos-pierrakakis-at-the-eurofi-financial-forum-dublin/",
+      "evidence_type": "SOURCE_EVENT",
+      "details": {
+        "description": "Eurogroup President, Kyriakos Pierrakakis, gave a speech at the Eurofi Financial Forum, Dublin, on importance of completing the Banking Union and mobilising savings to power growth and investment."
+      }
+    },
+    {
+      "id": "EU_COUNCIL_RSS:1873d0141aa976cd",
+      "source_id": "EU_COUNCIL_RSS",
+      "title": "Media advisory - Eurogroup meeting and Informal meeting of Economic and Financial Affairs Ministers of 18 and 19 September 2026, Dublin, Ireland",
+      "occurred_at": null,
+      "updated_at": null,
+      "severity": "WATCH",
+      "scope": "EU",
+      "domains": [
+        "EU_INSTITUTIONAL",
+        "GEOPOLITICS"
+      ],
+      "impact_channels": [
+        "TRADE",
+        "ENERGY",
+        "FINANCE",
+        "DEFENCE",
+        "REGULATION"
+      ],
+      "location": {
+        "name": "European Union"
+      },
+      "url": "https://www.consilium.europa.eu/en/press/press-releases/2026/09/17/media-advisory-eurogroup-meeting-and-informal-meeting-of-economic-and-financial-affairs-ministers-of-18-and-19-september-2026-dublin-ireland/",
+      "evidence_type": "SOURCE_EVENT",
+      "details": {
+        "description": "Main agenda items, approximate timing, public sessions and press opportunities."
+      }
+    },
+    {
+      "id": "EU_COUNCIL_RSS:050b77f37d3827a5",
+      "source_id": "EU_COUNCIL_RSS",
+      "title": "ETS: Council agrees targeted measure to protect energy-intensive sectors from carbon leakage",
+      "occurred_at": null,
+      "updated_at": null,
+      "severity": "WATCH",
+      "scope": "EU",
+      "domains": [
+        "EU_INSTITUTIONAL",
+        "GEOPOLITICS"
+      ],
+      "impact_channels": [
+        "TRADE",
+        "ENERGY",
+        "FINANCE",
+        "DEFENCE",
+        "REGULATION"
+      ],
+      "location": {
+        "name": "European Union"
+      },
+      "url": "https://www.consilium.europa.eu/en/press/press-releases/2026/09/16/ets-council-agrees-targeted-measure-to-protect-energy-intensive-sectors-from-carbon-leakage/",
+      "evidence_type": "SOURCE_EVENT",
+      "details": {
+        "description": "Today the Council set its position on a revised law to increase, from 2026 to 2030, free carbon allowances for the sectors falling under heat and fuel ETS benchmarks."
+      }
+    },
+    {
+      "id": "EU_COUNCIL_RSS:dbd38a2f1bc4ccd9",
+      "source_id": "EU_COUNCIL_RSS",
+      "title": "Press remarks by the Eurogroup President after his meeting with Lars Klingbeil, Vice Chancellor of Germany and Federal Minister of Finance",
+      "occurred_at": null,
+      "updated_at": null,
+      "severity": "WATCH",
+      "scope": "EU",
+      "domains": [
+        "EU_INSTITUTIONAL",
+        "GEOPOLITICS"
+      ],
+      "impact_channels": [
+        "TRADE",
+        "ENERGY",
+        "FINANCE",
+        "DEFENCE",
+        "REGULATION"
+      ],
+      "location": {
+        "name": "European Union"
+      },
+      "url": "https://www.consilium.europa.eu/en/press/press-releases/2026/09/15/press-remarks-by-the-eurogroup-president-after-his-meeting-with-lars-klingbeil-vice-chancellor-of-germany-and-federal-minister-of-finance/",
+      "evidence_type": "SOURCE_EVENT",
+      "details": {
+        "description": "Press remarks by the Eurogroup President after his meeting with Lars Klingbeil, Vice Chancellor of Germany and Federal Minister of Finance on economic challenges, need for&nbsp;structural reforms, fiscal discipline, and strategic investments in energy, technology, and resilience to strengthen competitiveness and sovereignty."
+      }
+    }
+  ],
+  "suggestions": [
+    {
+      "id": "SUG_STABLE",
+      "domain": "SYSTEM",
+      "title": "Aucune action analytique déclenchée",
+      "action": "Continuer la surveillance; ne pas recalculer sans delta matériel.",
+      "evidence_needed": [],
+      "nature": "ANALYTICAL_NEXT_STEP_NOT_POLITICAL_RECOMMENDATION"
+    }
+  ]
 }
