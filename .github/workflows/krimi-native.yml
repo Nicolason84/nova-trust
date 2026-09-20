@@ -1,0 +1,87 @@
+name: KRIMI native APK and emulator tests
+on:
+  push:
+    branches: [lab/krimi-android-20260920]
+    paths: [.github/workflows/krimi-native.yml]
+permissions:
+  contents: read
+jobs:
+  native:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - name: Recover exact native sources
+        shell: bash
+        run: |
+          set -euo pipefail
+          cat android-lab/payload/part{0,1,2,3}.b64 | base64 -d > native-source.tar.xz
+          echo '12bef79e4b11d97843c2637a596db6a1cbd041d41f0c4029b5a3252bc8a887e6  native-source.tar.xz' | sha256sum -c -
+          tar -xJf native-source.tar.xz
+          mkdir -p delivery
+          cp native-source.tar.xz delivery/KRIMI-native-sources.tar.xz
+          find native -type f -not -path '*/build/*' -print0 | sort -z | xargs -0 sha256sum > delivery/SOURCE_SHA256.txt
+      - uses: android-actions/setup-android@be39fa834029ff78f1a44aa3bb0819b8fc2bd8fd
+        with:
+          packages: ''
+          log-accepted-android-sdk-licenses: false
+      - name: Compile native application and separate test APK
+        shell: bash
+        run: |
+          set -euo pipefail
+          sdkmanager 'platforms;android-35' 'build-tools;35.0.0' >/dev/null
+          export JAVA_HOME="${JAVA_HOME_21_X64:-$JAVA_HOME}"
+          export PATH="$JAVA_HOME/bin:$PATH"
+          java -version 2>&1 | tee delivery/JAVA_VERSION.txt
+          bash native/build.sh 2>&1 | tee delivery/BUILD.txt
+      - name: Sign and encrypt owner-only signing backup
+        shell: bash
+        run: |
+          set -euo pipefail
+          umask 077
+          SIGN="$RUNNER_TEMP/krimi-signing"
+          mkdir -p "$SIGN"
+          trap 'rm -rf "$SIGN"' EXIT
+          openssl rand -hex 32 > "$SIGN/password.txt"
+          keytool -genkeypair -keystore "$SIGN/krimi-lab.p12" -storetype PKCS12 -storepass:file "$SIGN/password.txt" -alias krimi-lab -keyalg RSA -keysize 3072 -validity 10000 -dname 'CN=KRIMI Lab, OU=Android Lab, O=Nicolas, C=FR'
+          BT="$ANDROID_HOME/build-tools/35.0.0"
+          "$BT/apksigner" sign --ks "$SIGN/krimi-lab.p12" --ks-key-alias krimi-lab --ks-pass "file:$SIGN/password.txt" --out delivery/KRIMI-Lab-1.0.apk native/build/aligned.apk
+          "$BT/apksigner" sign --ks "$SIGN/krimi-lab.p12" --ks-key-alias krimi-lab --ks-pass "file:$SIGN/password.txt" --out native/build/tests.apk native/build/test-aligned.apk
+          "$BT/apksigner" verify --verbose --print-certs delivery/KRIMI-Lab-1.0.apk | tee delivery/SIGNATURE.txt
+          "$BT/zipalign" -c -p 4 delivery/KRIMI-Lab-1.0.apk
+          "$BT/aapt2" dump badging delivery/KRIMI-Lab-1.0.apk > delivery/APK_METADATA.txt
+          (cd delivery && sha256sum KRIMI-Lab-1.0.apk > SHA256SUMS.txt)
+          tar -cf "$SIGN/signing.tar" -C "$SIGN" krimi-lab.p12 password.txt
+          openssl cms -encrypt -binary -aes-256-cbc -in "$SIGN/signing.tar" -out delivery/signing-backup.cms -outform DER native/signing-recipient.pem
+      - name: Enable emulator acceleration
+        shell: bash
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+      - name: Install and exercise native APK on Android 15
+        uses: reactivecircus/android-emulator-runner@a421e43855164a8197daf9d8d40fe71c6996bb0d
+        with:
+          api-level: 35
+          arch: x86_64
+          target: google_apis
+          profile: pixel_5
+          ram-size: 2048M
+          emulator-boot-timeout: 300
+          emulator-options: -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim -camera-back emulated -camera-front none
+          disable-animations: true
+          script: |
+            adb install -r delivery/KRIMI-Lab-1.0.apk
+            adb install -r native/build/tests.apk
+            adb shell am instrument -w com.novaera.krimiquest.lab.tests/com.novaera.krimiquest.lab.TestInstrumentation | tee delivery/INSTRUMENTATION.txt
+            adb pull /sdcard/Android/data/com.novaera.krimiquest.lab.tests/files/test-artifacts delivery/ || true
+            adb logcat -d -s AndroidRuntime:E > delivery/ANDROID_ERRORS.txt
+            grep -q KRIMI_NATIVE_TESTS_PASSED delivery/INSTRUMENTATION.txt
+      - name: Archive APK, tests and encrypted signing backup
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: krimi-native-delivery
+          path: delivery/
+          retention-days: 7
+          if-no-files-found: error
