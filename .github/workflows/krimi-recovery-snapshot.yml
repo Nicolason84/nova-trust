@@ -1,0 +1,41 @@
+name: KRIMI staged source recovery
+on:
+  push:
+    branches: [lab/krimi-android-20260920]
+    paths: [.github/workflows/krimi-recovery-snapshot.yml]
+permissions:
+  contents: read
+jobs:
+  snapshot:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 3
+    steps:
+      - name: Recover staged source bytes
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p snapshot
+          python3 - <<'PY'
+          import urllib.request, base64, lzma, json, hashlib, pathlib, tarfile, io
+          root=pathlib.Path('snapshot'); parts=[]
+          base='https://raw.githubusercontent.com/Nicolason84/nova-trust/lab/krimi-android-20260920/android-lab/payload/'
+          for i in range(3):
+              data=urllib.request.urlopen(base+f'part{i}.b64',timeout=30).read()
+              root.joinpath(f'part{i}.b64').write_bytes(data); parts.append(data)
+          data=base64.b64decode(b''.join(parts)); root.joinpath('staged.partial.xz').write_bytes(data)
+          dec=lzma.LZMADecompressor(); raw=dec.decompress(data)
+          root.joinpath('staged.partial.tar').write_bytes(raw)
+          report={'complete_xz':dec.eof,'available_compressed_bytes':len(data),'available_tar_bytes':len(raw),'members':[]}
+          try:
+              with tarfile.open(fileobj=io.BytesIO(raw),mode='r:') as tf:
+                  for m in tf:
+                      report['members'].append({'name':m.name,'size':m.size,'offset':m.offset_data,'complete':m.offset_data+m.size<=len(raw)})
+          except Exception as e: report['tail_error']=str(e)
+          root.joinpath('recovery.json').write_text(json.dumps(report,indent=2)); print(json.dumps(report,indent=2))
+          PY
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: krimi-staged-source-recovery
+          path: snapshot/
+          retention-days: 2
+          if-no-files-found: error
