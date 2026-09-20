@@ -1,8 +1,8 @@
 {
   "schema": "OJO_BUDGET_2027_LIVE_FEED_V1",
   "version": "2026-09-21",
-  "sequence": 5,
-  "updated_at": "2026-09-20T23:36:20Z",
+  "sequence": 6,
+  "updated_at": "2026-09-20T23:37:55Z",
   "policy": {
     "canonical_mutation": "NEVER_FROM_FINGERPRINT_ALONE",
     "source_change": "EMIT_DELTA_THEN_RECONCILE",
@@ -24,7 +24,7 @@
       "etag": "\"1789944499-gzip\"",
       "last_modified": "Sun, 20 Sep 2026 22:48:19 GMT",
       "digest": "b1261b7e57e795b99a3d6abd3fe56608a0f07a84ed1fd40d263732480b37db5d",
-      "checked_at": "2026-09-20T23:36:13Z",
+      "checked_at": "2026-09-20T23:37:47Z",
       "candidate_observations": [
         {
           "needle": "0,9 %",
@@ -56,7 +56,7 @@
       "etag": null,
       "last_modified": null,
       "digest": "db23df56c12a4d976193be8008750977a4d763fe91d8e7825723e4944faedf83",
-      "checked_at": "2026-09-20T23:36:14Z",
+      "checked_at": "2026-09-20T23:37:48Z",
       "candidate_observations": [],
       "error": null
     },
@@ -76,8 +76,8 @@
       "http_status": 200,
       "etag": null,
       "last_modified": null,
-      "digest": "30a08e22420ff4603457e15c221aee118ededd412f0558a8a6c042c017fe7899",
-      "checked_at": "2026-09-20T23:36:15Z",
+      "digest": "797035fb1426811d3714fca65e8ded1a659f18333a4985194e88be2734c43035",
+      "checked_at": "2026-09-20T23:37:49Z",
       "candidate_observations": [],
       "error": null
     },
@@ -95,7 +95,7 @@
       "etag": null,
       "last_modified": null,
       "digest": "d6cb8487f6f63da776ef25e20d921a75378f08fa82a8aa9c1077e23a3d16ea77",
-      "checked_at": "2026-09-20T23:36:15Z",
+      "checked_at": "2026-09-20T23:37:49Z",
       "candidate_observations": [],
       "error": null
     },
@@ -111,7 +111,7 @@
       "etag": "\"1789550151\"",
       "last_modified": "Wed, 16 Sep 2026 09:15:51 GMT",
       "digest": "0305804bdd5796ea09f042ebaaa854ca424c9dc0da68b40546f3c995183a71e6",
-      "checked_at": "2026-09-20T23:36:16Z",
+      "checked_at": "2026-09-20T23:37:50Z",
       "candidate_observations": [
         {
           "needle": "151",
@@ -138,7 +138,7 @@
       "etag": null,
       "last_modified": null,
       "digest": "2720eb07a68656c58c824f2200dc30dab503f4140566f71cce85b4bccd614923",
-      "checked_at": "2026-09-20T23:36:16Z",
+      "checked_at": "2026-09-20T23:37:51Z",
       "candidate_observations": [
         {
           "needle": "France",
@@ -171,9 +171,9 @@
       "health": "OK",
       "http_status": 200,
       "etag": null,
-      "last_modified": "Sun, 20 Sep 2026 23:36:20 GMT",
+      "last_modified": "Sun, 20 Sep 2026 23:37:55 GMT",
       "digest": "96d023abeb5d52569b8a2c21159173dd8fed0b86c97c48cd89b75f1474610e00",
-      "checked_at": "2026-09-20T23:36:17Z",
+      "checked_at": "2026-09-20T23:37:52Z",
       "candidate_observations": [
         {
           "needle": "54 milliards",
@@ -202,7 +202,7 @@
         "F10",
         "F11"
       ],
-      "at": "2026-09-20T23:36:15Z",
+      "at": "2026-09-20T23:37:49Z",
       "detail": "Public source fingerprint changed; canonical claims require reconciliation before mutation."
     }
   ],
@@ -373,6 +373,19 @@
         "F11"
       ],
       "at": "2026-09-20T23:36:15Z",
+      "detail": "Public source fingerprint changed; canonical claims require reconciliation before mutation."
+    },
+    {
+      "source_id": "INSEE_BDM_RSS",
+      "kind": "SOURCE_CHANGED",
+      "organ": "MACRO",
+      "claims": [
+        "F8",
+        "F9",
+        "F10",
+        "F11"
+      ],
+      "at": "2026-09-20T23:37:49Z",
       "detail": "Public source fingerprint changed; canonical claims require reconciliation before mutation."
     }
   ],
