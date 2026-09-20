@@ -19,7 +19,15 @@ jobs:
           echo '12bef79e4b11d97843c2637a596db6a1cbd041d41f0c4029b5a3252bc8a887e6  native-source.tar.xz' | sha256sum -c -
           tar -xJf native-source.tar.xz
           mkdir -p delivery
-          cp native-source.tar.xz delivery/KRIMI-native-sources.tar.xz
+          python3 - <<'PYFIX'
+          from pathlib import Path
+          p=Path('native/testsrc/com/novaera/krimiquest/lab/TestInstrumentation.java')
+          s=p.read_text()
+          s=s.replace('getContext().getExternalFilesDir(null)','getTargetContext().getExternalFilesDir(null)')
+          s=s.replace('result.putString("stream",','result.putString("stream",result.getString("fatal", "")+')
+          p.write_text(s)
+          PYFIX
+          tar --exclude='native/build' -cJf delivery/KRIMI-native-sources.tar.xz native
           find native -type f -not -path '*/build/*' -print0 | sort -z | xargs -0 sha256sum > delivery/SOURCE_SHA256.txt
       - uses: android-actions/setup-android@be39fa834029ff78f1a44aa3bb0819b8fc2bd8fd
         with:
@@ -68,14 +76,14 @@ jobs:
           profile: pixel_5
           ram-size: 2048M
           emulator-boot-timeout: 300
-          emulator-options: -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim -camera-back emulated -camera-front none
+          emulator-options: -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim -camera-back emulated -camera-front none -no-metrics
           disable-animations: true
           script: |
             adb install -r delivery/KRIMI-Lab-1.0.apk
             adb install -r native/build/tests.apk
             adb shell am instrument -w com.novaera.krimiquest.lab.tests/com.novaera.krimiquest.lab.TestInstrumentation | tee delivery/INSTRUMENTATION.txt
-            adb pull /sdcard/Android/data/com.novaera.krimiquest.lab.tests/files/test-artifacts delivery/ || true
-            adb logcat -d -s AndroidRuntime:E > delivery/ANDROID_ERRORS.txt
+            adb pull /sdcard/Android/data/com.novaera.krimiquest.lab/files/test-artifacts delivery/ || true
+            adb logcat -d -s AndroidRuntime:E System.err:W > delivery/ANDROID_ERRORS.txt
             grep -q KRIMI_NATIVE_TESTS_PASSED delivery/INSTRUMENTATION.txt
       - name: Archive APK, tests and encrypted signing backup
         if: always()
