@@ -46,7 +46,7 @@ def event_id(prefix,*parts):
 
 def event(source_id,title,occurred_at=None,updated_at=None,severity="WATCH",scope="GLOBAL",
           domains=None,channels=None,location=None,url=None,evidence_type="SOURCE_EVENT",details=None):
-    return {"id":event_id(source_id,title,occurred_at or updated_at or ""),"source_id":source_id,"title":title[:500],
+    return {"id":event_id(source_id,title,occurred_at or ""),"source_id":source_id,"title":title[:500],
             "occurred_at":occurred_at,"updated_at":updated_at or occurred_at,"severity":severity,"scope":scope,
             "domains":domains or [],"impact_channels":channels or [],"location":location,"url":url,
             "evidence_type":evidence_type,"details":details or {}}
@@ -133,10 +133,10 @@ def pull_roads():
     try:
         txt,status,h=fetch_text(ROAD_URL,"application/xml,text/xml");root=ET.fromstring(txt);records=[]
         for el in root.iter():
-            if local(el.tag) in {"accident","roadworks","generalobstruction","networkmanagement","abnormaltraffic","poorroadinfrastructure","environmentalobstruction","nonweatherrelatedroadconditions"}:records.append(el)
+            if local(el.tag)=="situationrecord" or local(el.tag) in {"accident","roadworks","generalobstruction","networkmanagement","abnormaltraffic","poorroadinfrastructure","environmentalobstruction","nonweatherrelatedroadconditions"}:records.append(el)
         out=[]
         for rec in records[:250]:
-            typ=local(rec.tag);rid=rec.attrib.get("id") or rec.attrib.get("version") or first_desc_text(rec,["situationRecordId","id"]);comment=first_desc_text(rec,["comment","value","locationDescriptor","roadName","roadNumber"]);town=first_desc_text(rec,["town","municipality","city"]);lat=first_desc_text(rec,["latitude"]);lon=first_desc_text(rec,["longitude"]);text=(comment or typ).lower();sev="MATERIAL" if any(k in text for k in ["fermé","closure","blocked","accident","danger","coupure"]) or typ=="accident" else "WATCH";loc={"name":town or comment}
+            typ=next((str(v).split(":")[-1].lower() for k,v in rec.attrib.items() if local(k)=="type"),local(rec.tag));rid=rec.attrib.get("id") or rec.attrib.get("version") or first_desc_text(rec,["situationRecordId","id"]);comment=first_desc_text(rec,["comment","value","locationDescriptor","roadName","roadNumber"]);town=first_desc_text(rec,["town","municipality","city"]);lat=first_desc_text(rec,["latitude"]);lon=first_desc_text(rec,["longitude"]);text=(comment or typ).lower();sev="MATERIAL" if any(k in text for k in ["fermé","closure","blocked","accident","danger","coupure"]) or typ=="accident" else "WATCH";loc={"name":town or comment}
             try:
                 if lat and lon:loc.update({"lat":float(lat),"lon":float(lon)})
             except Exception:pass
@@ -162,15 +162,15 @@ class LinkParser(HTMLParser):
             self.current=None
 
 def pull_who():
-    sid="WHO_DON";url="https://www.who.int/emergencies/disease-outbreak-news";checked=now()
+    sid="WHO_HEALTH_RSS";url="https://www.who.int/rss-feeds/news-english.xml";checked=now()
+    keys=("outbreak","disease","emergency","cholera","mpox","ebola","influenza","pandemic","virus","public health")
     try:
-        txt,status,h=fetch_text(url,"text/html");p=LinkParser();p.feed(txt);seen=set();out=[]
-        for href,title in p.links:
-            full=urllib.parse.urljoin(url,href);key=full.split("#")[0]
-            if key in seen:continue
-            seen.add(key);out.append(event(sid,title,updated_at=checked,severity="WATCH",scope="GLOBAL",domains=["HEALTH"],channels=["HEALTH_SPENDING","TRAVEL","TRADE","SUPPLY_CHAIN"],url=full,details={"note":"WHO DON is authoritative but not exhaustive."}))
-            if len(out)>=30:break
-        return source_status(sid,"World Health Organization",url,"GLOBAL","HEALTH","OK",status,checked_at=checked,metrics={"listed_events":len(out)},digest=sha(txt),cadence="publication-driven"),out
+        txt,status,h=fetch_text(url,"application/rss+xml,text/xml");items=rss_items(txt,80);out=[]
+        for x in items:
+            title=x.get("title") or "";desc=x.get("description") or ""
+            if not any(k in (title+" "+desc).lower() for k in keys):continue
+            out.append(event(sid,title,parse_dt(x.get("pubdate")),severity="WATCH",scope="GLOBAL",domains=["HEALTH"],channels=["HEALTH_SPENDING","TRAVEL","TRADE","SUPPLY_CHAIN"],url=x.get("link"),details={"description":re.sub(r"<[^>]+>"," ",desc)[:500],"note":"WHO news signal; verify Disease Outbreak News for event-specific conclusions."}))
+        return source_status(sid,"World Health Organization",url,"GLOBAL","HEALTH","OK",status,checked_at=checked,metrics={"relevant_items":len(out)},digest=sha(txt),cadence="publication-driven"),out
     except Exception as e:
         return source_status(sid,"World Health Organization",url,"GLOBAL","HEALTH","ERROR",getattr(e,"code",None),str(e)[:300],checked,cadence="publication-driven"),[]
 
@@ -194,7 +194,7 @@ def pull_consilium():
     except Exception as e:
         return source_status(sid,"Council of the EU / European Council",url,"EU","GEOPOLITICS","ERROR",getattr(e,"code",None),str(e)[:300],checked,cadence="publication-driven"),[]
 
-RTE_URLS=["https://odre.opendatasoft.com/api/explore/v2.1/catalog/datasets/eco2mix-national-tr/records?limit=1&order_by=date_heure%20DESC","https://opendata.reseaux-energies.fr/api/explore/v2.1/catalog/datasets/eco2mix-national-tr/records?limit=1&order_by=date_heure%20DESC"]
+RTE_URLS=["https://odre.opendatasoft.com/api/explore/v2.1/catalog/datasets/eco2mix-national-tr/records?limit=1&where=consommation%20is%20not%20null&order_by=date_heure%20DESC","https://opendata.reseaux-energies.fr/api/explore/v2.1/catalog/datasets/eco2mix-national-tr/records?limit=1&where=consommation%20is%20not%20null&order_by=date_heure%20DESC"]
 def pull_rte():
     sid="RTE_ECO2MIX";checked=now();last_err=None
     for url in RTE_URLS:
@@ -266,7 +266,7 @@ def main():
     manifest={"schema":"OJO_ENVIRONMENT_LIVE_V1","version":"2026-09-21","sequence":int(prev.get("sequence",0))+1,"updated_at":now(),
       "policy":{"event_is_not_impact":"An event is a signal. Impact requires an explicit transmission channel and evidence.","canonical_mutation":"NEVER_FROM_EVENT_ALONE","location":"No precise user location is stored server-side. Local filtering is client-side opt-in.","political_recommendation":"NONE"},
       "summary":{"sources":len(sources),"healthy":sum(s["health"]=="OK" for s in sources),"errors":sum(s["health"]!="OK" for s in sources),"current_events":len(current),"new_events":0 if boot else len(new)},
-      "sources":sources,"auth_candidates":AUTH_CANDIDATES,"current_events":current[-150:],"new_events":[] if boot else new[-80:],"events":hist,"suggestions":build_suggestions([] if boot else new)}
+      "sources":sources,"auth_candidates":AUTH_CANDIDATES,"current_events":current[-150:],"new_events":[] if boot else new[-80:],"events":hist,"suggestions":build_suggestions(([] if boot else new) or [e for e in current if e.get("severity") in {"MATERIAL","CRITICAL"}][:30])}
     OUT.parent.mkdir(parents=True,exist_ok=True);OUT.write_text(json.dumps(manifest,ensure_ascii=False,indent=2)+"\n")
     print(json.dumps({"status":"WROTE","sequence":manifest["sequence"],"healthy":manifest["summary"]["healthy"],"errors":manifest["summary"]["errors"],"current_events":len(current),"new_events":manifest["summary"]["new_events"]}))
 
