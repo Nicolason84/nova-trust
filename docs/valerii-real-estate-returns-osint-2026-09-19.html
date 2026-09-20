@@ -268,6 +268,55 @@ canvas{width:100%;height:100%;display:block}
   </div>
 </section>
 
+
+<section id="canonical">
+  <div class="sectionhead">
+    <div><div class="kicker">05 · canonical evidence lab</div><h2>Evidence can replace assumptions — without erasing history</h2></div>
+    <p>The public lab now reads a versioned evidence pack. A stronger source supersedes a weaker input only through explicit lineage and review.</p>
+  </div>
+  <div class="g2 grid">
+    <div class="card">
+      <div class="sub">Current pack</div>
+      <div class="stat" id="canonPackStatus">loading…</div>
+      <div id="canonGate" class="stack" style="margin-top:14px"></div>
+      <div class="actions" style="margin-top:14px">
+        <a class="btn" href="./data/property-return-canonical/current.json" target="_blank" rel="noopener">Open evidence pack ↗</a>
+        <a class="btn" href="./data/property-return-canonical/schema-v0.1.json" target="_blank" rel="noopener">Open schema ↗</a>
+      </div>
+    </div>
+    <div class="card">
+      <h3>Non-regression contract</h3>
+      <div class="stack">
+        <div class="layer"><span class="num">1</span><div><b>Append</b><small>new evidence is added as a new observation</small></div><span class="status truth">IMMUTABLE</span></div>
+        <div class="layer"><span class="num">2</span><div><b>Compare</b><small>definition · geography · period · unit · source tier</small></div><span class="status truth">GATED</span></div>
+        <div class="layer"><span class="num">3</span><div><b>Supersede</b><small>old evidence stays addressable through lineage</small></div><span class="status truth">TRACEABLE</span></div>
+        <div class="layer"><span class="num">4</span><div><b>Promote</b><small>joint review is required for the first shared canonical pack</small></div><span class="status unknown">2 REVIEWERS</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:16px">
+    <div class="sectionhead" style="margin-bottom:12px">
+      <div><h3 style="margin:0">Four-market evidence matrix</h3></div>
+      <p id="canonSummary">Loading source bindings…</p>
+    </div>
+    <div id="canonMarkets" class="grid g2"></div>
+  </div>
+
+  <div class="card" style="margin-top:16px">
+    <h3>Replacement simulator</h3>
+    <p>Select one live hypothesis and simulate what happens when stronger evidence arrives. This does not write to the canonical pack; it shows the exact patch that a reviewed replacement would require.</p>
+    <div class="lab" style="grid-template-columns:1fr 1fr;margin-top:12px">
+      <div class="controls">
+        <div class="control"><label>Hypothesis</label><select id="canonHypothesis"></select></div>
+        <div class="control"><label>New evidence value</label><input id="canonValue" type="number" step=".01" value="4"></div>
+        <div class="control"><label>Source tier</label><select id="canonTier"><option>TIER_A</option><option>TIER_B</option><option>TIER_C</option></select></div>
+        <button class="btn primary" id="canonSimulate" type="button">Simulate supersession</button>
+      </div>
+      <pre id="canonPatch" style="white-space:pre-wrap;margin:0;background:#080d14;border:1px solid #253149;border-radius:16px;padding:14px;color:#cbd5e1;min-height:220px;overflow:auto">Choose a hypothesis and run the simulation.</pre>
+    </div>
+  </div>
+</section>
 <section id="cobuild">
   <div class="callout">
     <div class="kicker">05 · collaboration > commentary</div>
@@ -529,6 +578,70 @@ fetch(DATA_URL,{cache:'no-store'}).then(function(r){if(!r.ok)throw new Error('sn
 }).catch(function(){
   document.body.insertAdjacentHTML('afterbegin','<div style="padding:12px;background:#381d1d;color:#ffd4d4;text-align:center">Evidence snapshot failed to load. The methodology remains visible, but market data is unavailable.</div>')
 })
+})();
+</script>
+
+<script id="PROPERTY_RETURN_CANONICAL_LAB_V1">
+(function(){
+  if(window.PROPERTY_RETURN_CANONICAL_LAB_V1_ACTIVE) return;
+  window.PROPERTY_RETURN_CANONICAL_LAB_V1_ACTIVE=true;
+  var canon=null;
+  function el(id){return document.getElementById(id)}
+  function esc(s){return String(s).replace(/[&<>"']/g,function(c){return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]})}
+  function render(){
+    if(!canon) return;
+    el('canonPackStatus').textContent=canon.status;
+    el('canonGate').innerHTML=
+      '<div class="layer"><span class="num">O</span><div><b>OJO review</b><small>'+esc(canon.review.OJO.status)+'</small></div><span class="status truth">READY</span></div>'+
+      '<div class="layer"><span class="num">V</span><div><b>Valerii review</b><small>'+esc(canon.review.Valerii.status)+'</small></div><span class="status unknown">PENDING</span></div>';
+    var markets=['IE','LV','MK','US'];
+    var names={IE:'Ireland',LV:'Latvia',MK:'North Macedonia',US:'United States'};
+    el('canonMarkets').innerHTML=markets.map(function(code){
+      var binds=canon.metric_bindings.filter(function(x){return x.market_id===code});
+      var obs=canon.observations.filter(function(x){return x.market_id===code});
+      return '<div class="card"><div class="sub">'+code+'</div><h3>'+names[code]+'</h3>'+
+        binds.map(function(b){return '<div class="source"><div><b>'+esc(b.metric_id)+'</b><br><small>'+esc(b.source_id)+'</small></div><span class="status '+(b.state==='CONFLICT_OPEN'?'unknown':'truth')+'">'+esc(b.state)+'</span></div>'}).join('')+
+        obs.map(function(o){return '<div class="source"><div><b>'+esc(o.metric_id)+'</b><br><small>'+esc(o.value)+' '+esc(o.unit)+' · '+esc(o.period)+'</small></div><span class="status">'+esc(o.evidence_state)+'</span></div>'}).join('')+
+      '</div>'
+    }).join('');
+    var states=canon.observations.reduce(function(a,o){a[o.evidence_state]=(a[o.evidence_state]||0)+1;return a},{});
+    el('canonSummary').textContent=canon.sources.length+' bound sources · '+canon.observations.length+' observations · '+canon.open_conflicts.length+' open conflicts · '+Object.keys(states).length+' observation states';
+    var sel=el('canonHypothesis');sel.innerHTML=canon.hypotheses.map(function(h){return '<option value="'+esc(h.hypothesis_id)+'">'+esc(h.metric_id)+' · default '+esc(h.default_value)+' '+esc(h.unit)+'</option>'}).join('');
+  }
+  function simulate(){
+    if(!canon) return;
+    var h=canon.hypotheses.find(function(x){return x.hypothesis_id===el('canonHypothesis').value});
+    var v=Number(el('canonValue').value);
+    if(!h || !isFinite(v)){el('canonPatch').textContent='Invalid input.';return}
+    var tier=el('canonTier').value;
+    var patch={
+      action:'APPEND_AND_SUPERSEDE',
+      prior:{id:h.hypothesis_id,state:h.state,value:h.default_value,unit:h.unit},
+      proposed:{
+        observation_id:'PROPOSED_'+h.metric_id.toUpperCase()+'_'+Date.now(),
+        metric_id:h.metric_id,
+        value:v,
+        unit:h.unit,
+        source_tier:tier,
+        evidence_state:tier==='TIER_C'?'OBSERVED_CANDIDATE':'OFFICIAL_SERIES_BOUND',
+        supersedes:h.hypothesis_id,
+        replacement_reason:'Stronger evidence supplied for the same metric definition'
+      },
+      gate:{
+        definition_match:'REQUIRED',
+        geography_match:'REQUIRED',
+        period_match:'REQUIRED',
+        reviewer_OJO:'REQUIRED',
+        reviewer_Valerii:'REQUIRED_FOR_JOINT_CANONICAL'
+      },
+      mutation_of_history:false
+    };
+    el('canonPatch').textContent=JSON.stringify(patch,null,2);
+  }
+  fetch('./data/property-return-canonical/current.json',{cache:'no-store'}).then(function(r){if(!r.ok)throw new Error('canonical pack');return r.json()}).then(function(d){canon=d;render();el('canonSimulate').addEventListener('click',simulate)}).catch(function(e){
+    if(el('canonPackStatus')) el('canonPackStatus').textContent='CANONICAL PACK UNAVAILABLE';
+    if(el('canonSummary')) el('canonSummary').textContent='The lab could not load the versioned evidence pack.';
+  });
 })();
 </script>
 </body>
