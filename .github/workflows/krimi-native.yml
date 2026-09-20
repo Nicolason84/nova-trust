@@ -25,6 +25,11 @@ jobs:
           s=p.read_text()
           s=s.replace('getContext().getExternalFilesDir(null)','getTargetContext().getExternalFilesDir(null)')
           s=s.replace('result.putString("stream",','result.putString("stream",result.getString("fatal", "")+')
+          old='waitForIdleSync();screenshot(artifacts,"02-card-editor.png");'
+          new='waitForIdleSync();Thread.sleep(700);waitForIdleSync();check("activity_retains_two_photos",activity.store.photoCount()==2);final int[] images={0};runOnMainSync(()->countImages(activity.getWindow().getDecorView(),images));check("native_editor_has_two_image_previews",images[0]==2);screenshot(artifacts,"02-card-editor.png");'
+          assert old in s
+          s=s.replace(old,new)
+          s=s.replace('void screenshot(File dir,String name)throws Exception{Bitmap','void countImages(View v,int[] n){if(v instanceof ImageView && ((ImageView)v).getDrawable()!=null)n[0]++;if(v instanceof ViewGroup){ViewGroup g=(ViewGroup)v;for(int i=0;i<g.getChildCount();i++)countImages(g.getChildAt(i),n);}}\n    void screenshot(File dir,String name)throws Exception{Thread.sleep(400);waitForIdleSync();Bitmap')
           p.write_text(s)
           PYFIX
           tar --exclude='native/build' -cJf delivery/KRIMI-native-sources.tar.xz native
