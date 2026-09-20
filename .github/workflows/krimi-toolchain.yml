@@ -1,0 +1,30 @@
+name: KRIMI Android build tools
+on:
+  push:
+    branches: [lab/krimi-android-20260920]
+    paths: [.github/workflows/krimi-toolchain.yml]
+permissions:
+  contents: read
+jobs:
+  prepare:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    steps:
+      - name: Prepare official SDK files
+        shell: bash
+        run: |
+          set -euo pipefail
+          sdkmanager 'platforms;android-35' 'build-tools;35.0.0' >/dev/null
+          mkdir -p toolchain/build-tools toolchain/platform
+          cp "$ANDROID_HOME/platforms/android-35/android.jar" toolchain/platform/
+          for f in aapt aapt2 zipalign apksigner d8; do cp "$ANDROID_HOME/build-tools/35.0.0/$f" toolchain/build-tools/; done
+          cp -r "$ANDROID_HOME/build-tools/35.0.0/lib" toolchain/build-tools/
+          if [ -d "$ANDROID_HOME/build-tools/35.0.0/lib64" ]; then cp -r "$ANDROID_HOME/build-tools/35.0.0/lib64" toolchain/build-tools/; fi
+          find toolchain -type f -print0 | sort -z | xargs -0 sha256sum > toolchain-sha256.txt
+          tar -czf krimi-toolchain.tar.gz toolchain toolchain-sha256.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: krimi-android35-toolchain
+          path: krimi-toolchain.tar.gz
+          retention-days: 1
+          if-no-files-found: error
