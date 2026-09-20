@@ -1,0 +1,103 @@
+name: KRIMI exact verified APK publication
+on:
+  push:
+    branches: [lab/krimi-android-20260920]
+    paths: [.github/workflows/krimi-native-publish-exact.yml]
+permissions:
+  contents: write
+  actions: read
+jobs:
+  publish:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - name: Publish and anonymously verify exact tested bytes
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import os,json,urllib.request,urllib.error,urllib.parse,hashlib,zipfile,pathlib,subprocess,re,time
+          repo=os.environ['GITHUB_REPOSITORY'];assert repo=='Nicolason84/nova-trust'
+          api='https://api.github.com/repos/'+repo;token=os.environ['GH_TOKEN']
+          source='926bb3cc0367a1b6b2c3d17f231f6c19513f8e69'
+          target='58bd2dc9a119154c0c6f5a631c6e5d47a4e82a39'
+          tag='krimi-native-1.0-926bb3cc'
+          expected='dcd70ad8eff6370333044fff50e2f55c67ddaa7ed3d3103cae3020e5f651d673'
+          headers={'Authorization':'Bearer '+token,'Accept':'application/vnd.github+json','X-GitHub-Api-Version':'2022-11-28','User-Agent':'KRIMI-exact-release'}
+          def request(url,method='GET',obj=None,data=None,mime=None):
+              h=dict(headers)
+              if obj is not None:data=json.dumps(obj).encode();h['Content-Type']='application/json'
+              if mime:h['Content-Type']=mime
+              try:
+                  with urllib.request.urlopen(urllib.request.Request(url,data=data,headers=h,method=method),timeout=60) as r:return json.load(r)
+              except urllib.error.HTTPError as e:
+                  if e.code!=404:print('API_ERROR',e.code,e.read().decode('utf-8','replace')[:1500])
+                  raise
+          run=request(api+'/actions/runs/35498450629');assert run['conclusion']=='success' and run['head_sha']==source
+          a=request(api+'/actions/artifacts/10601707903');assert a['workflow_run']['head_sha']==source and not a['expired']
+          subprocess.run(['curl','-fLsS','--max-time','120','--proto','=https','--proto-redir','=https','-H','Authorization: Bearer '+token,api+'/actions/artifacts/10601707903/zip','-o','verified.zip'],check=True)
+          assert hashlib.sha256(pathlib.Path('verified.zip').read_bytes()).hexdigest()=='4caea2fd1d67b78ca51c55f11befe2e876aff483b7a682283504c4315f6b1b16'
+          root=pathlib.Path('delivery');root.mkdir()
+          with zipfile.ZipFile('verified.zip') as z:
+              assert z.testzip() is None
+              assert all(not pathlib.PurePosixPath(n).is_absolute() and '..' not in pathlib.PurePosixPath(n).parts for n in z.namelist())
+              z.extractall(root)
+          apk=root/'KRIMI-Lab-1.0.apk';assert apk.stat().st_size==53749 and hashlib.sha256(apk.read_bytes()).hexdigest()==expected
+          assert (root/'SOURCE_COMMIT.txt').read_text().strip()==source
+          assert 'TOTAL 64 PASS 0 FAIL' in (root/'native-instrumentation.txt').read_text()
+          sig=(root/'signature.txt').read_text();assert 'Verified using v2 scheme (APK Signature Scheme v2): true' in sig and '6f17d1ee37a248d1aa35a58f5fccddbfcc457617ec648045565a5b52d2e1be87' in sig
+          notes='''# KRIMI Lab — premier échange Android natif
+
+          **Fichier à installer : KRIMI-Lab-1.0.apk. Android 8 ou supérieur.**
+
+          Questionnaire, fiches par exemplaire physique, photos recto/verso/détail, galerie/caméra Android, sauvegarde, import avec contrôle des réimportations, partage explicite et laboratoire visuel isolé. Interface Java native, sans WebView. Pas de données personnelles préchargées ni de permission Internet.
+
+          **64 assertions réussies sur émulateur Android 15 / API 35**, compilation, signature v2/v3, installation et redémarrage à froid. Les images des essais sont synthétiques. Pas de test de l'optique caméra ni de téléphone physique ni de réception WhatsApp de bout en bout. Le transfert utilise une application choisie par l'utilisateur, sans prétendre que Nicolas a reçu le dossier.
+
+          **Ce n'est pas encore le système SUPRA connecté :** ni chat temps réel, ni IA distante, ni cote de marché, ni transaction automatique. Un doublon d'image n'est pas une reconnaissance universelle des cartes physiques.
+
+          Package de laboratoire séparé : com.novaera.krimiquest.lab. Conserver ses exports avant toute désinstallation. Garder Play Protect activé et ne pas contourner une alerte de sécurité. Un autre APK de même nom mais de signature différente ne peut pas être remplacé sans procédure adaptée ; ce fichier n'écrase aucune autre publication.
+
+          Cette édition est identifiée par son SHA-256, pas par son seul nom :
+          dcd70ad8eff6370333044fff50e2f55c67ddaa7ed3d3103cae3020e5f651d673
+
+          Build vérifié : https://github.com/Nicolason84/nova-trust/actions/runs/35498450629
+          Commit source : 926bb3cc0367a1b6b2c3d17f231f6c19513f8e69
+          Le tag pointe au manifeste de distribution ; les sources complètes compilées sont dans KRIMI_Lab_sources.zip, pas dans le ZIP automatique du tag. Aucune clé privée publiée.
+          '''
+          try:existing=request(api+'/releases/tags/'+tag)
+          except urllib.error.HTTPError as e:
+              if e.code!=404:raise
+              existing=None
+          assert existing is None,'Existing release preserved; no overwrite'
+          rel=request(api+'/releases','POST',obj={'tag_name':tag,'target_commitish':target,'name':'KRIMI Lab natif 1.0 — build 926bb3cc · 64 tests','body':notes,'draft':True,'prerelease':True,'make_latest':'false'})
+          upload=rel['upload_url'].split('{')[0];assert urllib.parse.urlparse(upload).netloc=='uploads.github.com'
+          files=['KRIMI-Lab-1.0.apk','KRIMI_Lab_sources.zip','SHA256SUMS.txt','LIRE_MOI.txt','native-instrumentation.txt','signature.txt','source-integrity.json','SOURCE_COMMIT.txt']
+          assets=[]
+          for name in files:
+              p=root/name;mime='application/vnd.android.package-archive' if name.endswith('.apk') else 'application/zip' if name.endswith('.zip') else 'application/json' if name.endswith('.json') else 'text/plain; charset=utf-8'
+              asset=request(upload+'?name='+urllib.parse.quote(name),'POST',data=p.read_bytes(),mime=mime)
+              assert asset['state']=='uploaded' and asset['size']==p.stat().st_size;assets.append(asset)
+          rel=request(api+'/releases/'+str(rel['id']),'PATCH',obj={'draft':False,'prerelease':True,'make_latest':'false'})
+          asset=next(x for x in assets if x['name']=='KRIMI-Lab-1.0.apk');url=asset['browser_download_url']
+          assert url.startswith('https://github.com/'+repo+'/releases/download/'+tag+'/')
+          err=None
+          for attempt in range(6):
+              try:
+                  req=urllib.request.Request(url,headers={'User-Agent':'KRIMI-anonymous-check'})
+                  with urllib.request.urlopen(req,timeout=60) as r:code=r.status;data=r.read()
+                  assert code==200 and hashlib.sha256(data).hexdigest()==expected and len(data)==53749
+                  err=None;break
+              except Exception as e:err=e;time.sleep(3)
+          if err:raise err
+          result={'status':'PUBLISHED_EXACT_APK_ANONYMOUS_HTTP_200','apk_url':url,'release_url':rel['html_url'],'http_status':code,'apk_sha256':expected,'bytes':len(data),'source_commit':source,'distribution_manifest_commit':target,'publication_commit':os.environ['GITHUB_SHA'],'build_run_id':35498450629,'native_tests':{'pass':64,'fail':0},'physical_phone_tested':False,'SUPRA_connected':False,'release_id':rel['id'],'asset_id':asset['id'],'other_releases_untouched':True}
+          pathlib.Path('publication-verification.json').write_text(json.dumps(result,indent=2));print(json.dumps(result,indent=2))
+          PY
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: krimi-exact-publication-proof
+          path: publication-verification.json
+          retention-days: 7
+          if-no-files-found: error
