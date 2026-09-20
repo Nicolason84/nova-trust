@@ -1,25 +1,418 @@
 {
   "schema": "OJO_BUDGET_2027_LIVE_FEED_V1",
   "version": "2026-09-21",
-  "sequence": 0,
-  "updated_at": "2026-09-21T00:00:00Z",
+  "sequence": 1,
+  "updated_at": "2026-09-20T23:22:40Z",
   "policy": {
     "canonical_mutation": "NEVER_FROM_FINGERPRINT_ALONE",
     "source_change": "EMIT_DELTA_THEN_RECONCILE",
     "political_recommendation": "NONE"
   },
   "sources": [
-    {"id":"BDF_SEPT_2026","publisher":"Banque de France","organ":"MACRO","claims":["F10","F11"],"health":"BOOTSTRAP_PENDING","digest":null},
-    {"id":"INSEE_APU","publisher":"Insee / data.gouv.fr","organ":"ACCOUNTS","claims":["F8","F9"],"health":"BOOTSTRAP_PENDING","digest":null},
-    {"id":"INSEE_BDM_RSS","publisher":"Insee","organ":"MACRO","claims":["F8","F9","F10","F11"],"health":"BOOTSTRAP_PENDING","digest":null},
-    {"id":"BUDGET_CALENDAR","publisher":"Direction du Budget","organ":"EXECUTION","claims":["F8"],"health":"BOOTSTRAP_PENDING","digest":null},
-    {"id":"BUDGET_FINANCES","publisher":"Direction du Budget","organ":"BUDGET","claims":["F8","F9"],"health":"BOOTSTRAP_PENDING","digest":null},
-    {"id":"IGF_REVUES","publisher":"Inspection générale des finances","organ":"MEASURES","claims":[],"health":"BOOTSTRAP_PENDING","digest":null},
-    {"id":"EU_EDP","publisher":"Conseil de l’Union européenne","organ":"RULES","claims":["F12"],"health":"BOOTSTRAP_PENDING","digest":null},
-    {"id":"LEGIFRANCE_ART39","publisher":"Légifrance","organ":"RULES","claims":[],"health":"BOOTSTRAP_PENDING","digest":null},
-    {"id":"PUBLIC_SENAT_54","publisher":"Public Sénat","organ":"ANNOUNCEMENTS","claims":["F1","F2","F3","F4","F5"],"health":"BOOTSTRAP_PENDING","digest":null}
+    {
+      "id": "BDF_SEPT_2026",
+      "label": "Banque de France — projections septembre 2026",
+      "publisher": "Banque de France",
+      "organ": "MACRO",
+      "claims": [
+        "F10",
+        "F11"
+      ],
+      "url": "https://www.banque-france.fr/fr/actualites/projections-macroeconomiques-intermediaires-septembre-2026",
+      "health": "OK",
+      "http_status": 200,
+      "etag": "\"1789944499-gzip\"",
+      "last_modified": "Sun, 20 Sep 2026 22:48:19 GMT",
+      "digest": "b1261b7e57e795b99a3d6abd3fe56608a0f07a84ed1fd40d263732480b37db5d",
+      "checked_at": "2026-09-20T23:22:33Z",
+      "candidate_observations": [
+        {
+          "needle": "0,9 %",
+          "snippet": "apport à nos projections de juin. Elle se renforcerait ensuite pour s’établir à 0,9 % en 2027 puis à 1,2 % en 2028, portée par le raffermissement de la demande intérieure. L’activité bénéficierait également de la bonne tenue des export"
+        },
+        {
+          "needle": "1,9 %",
+          "snippet": "eindrait 2,3 % en 2026, avant de refluer sous la cible de 2 %, pour s’établir à 1,9 % en 2027, puis à 1,6 % en 2028. La révision à la baisse de l’inflation en 2026 par rapport à nos projections de juin s’explique principalement par un "
+        },
+        {
+          "needle": "19 août 2026",
+          "snippet": "énario de base repose sur les hypothèses issues des marchés à terme arrêtées au 19 août 2026. Dans ce scénario, le prix du pétrole reculerait au troisième trimestre 2026, et poursuivrait sa baisse sur l’horizon de prévision, tout en demeurant"
+        }
+      ],
+      "error": null
+    },
+    {
+      "id": "INSEE_APU",
+      "label": "Comptes des administrations publiques",
+      "publisher": "Insee / data.gouv.fr",
+      "organ": "ACCOUNTS",
+      "claims": [
+        "F8",
+        "F9"
+      ],
+      "url": "https://www.data.gouv.fr/api/1/datasets/comptes-des-administrations-publiques/",
+      "health": "OK",
+      "http_status": 200,
+      "etag": null,
+      "last_modified": null,
+      "digest": "db23df56c12a4d976193be8008750977a4d763fe91d8e7825723e4944faedf83",
+      "checked_at": "2026-09-20T23:22:34Z",
+      "candidate_observations": [],
+      "error": null
+    },
+    {
+      "id": "INSEE_BDM_RSS",
+      "label": "Flux mises à jour BDM",
+      "publisher": "Insee",
+      "organ": "MACRO",
+      "claims": [
+        "F8",
+        "F9",
+        "F10",
+        "F11"
+      ],
+      "url": "https://bdm.insee.fr/series/sdmx/rss/donnees",
+      "health": "OK",
+      "http_status": 200,
+      "etag": null,
+      "last_modified": null,
+      "digest": "d93ceae4f6d39518fe34ac46865a6ec8300a1c89e5aa4222d4e208435545eaf4",
+      "checked_at": "2026-09-20T23:22:35Z",
+      "candidate_observations": [],
+      "error": null
+    },
+    {
+      "id": "BUDGET_CALENDAR",
+      "label": "Calendrier budgétaire",
+      "publisher": "Direction du Budget",
+      "organ": "EXECUTION",
+      "claims": [
+        "F8"
+      ],
+      "url": "https://www.budget.gouv.fr/calendrier-budgetaire",
+      "health": "ERROR",
+      "http_status": 403,
+      "etag": null,
+      "last_modified": null,
+      "digest": null,
+      "checked_at": "2026-09-20T23:22:35Z",
+      "candidate_observations": [],
+      "error": "HTTPError: HTTP Error 403: Forbidden"
+    },
+    {
+      "id": "BUDGET_FINANCES",
+      "label": "Finances publiques",
+      "publisher": "Direction du Budget",
+      "organ": "BUDGET",
+      "claims": [
+        "F8",
+        "F9"
+      ],
+      "url": "https://www.budget.gouv.fr/reperes/finances_publiques",
+      "health": "ERROR",
+      "http_status": 403,
+      "etag": null,
+      "last_modified": null,
+      "digest": null,
+      "checked_at": "2026-09-20T23:22:36Z",
+      "candidate_observations": [],
+      "error": "HTTPError: HTTP Error 403: Forbidden"
+    },
+    {
+      "id": "IGF_REVUES",
+      "label": "Revues de dépenses",
+      "publisher": "Inspection générale des finances",
+      "organ": "MEASURES",
+      "claims": [],
+      "url": "https://www.igf.gouv.fr/toutes-les-actualites/publication-de-5-revues-de-depenses",
+      "health": "OK",
+      "http_status": 200,
+      "etag": "\"1789550151\"",
+      "last_modified": "Wed, 16 Sep 2026 09:15:51 GMT",
+      "digest": "0305804bdd5796ea09f042ebaaa854ca424c9dc0da68b40546f3c995183a71e6",
+      "checked_at": "2026-09-20T23:22:36Z",
+      "candidate_observations": [
+        {
+          "needle": "151",
+          "snippet": "         \n             \n     Les rapports publiés ces derniers mois portent sur 151 milliards d'euros de dépenses publiques en matière : \n \n de logement social \n de prescriptions en ville et à l'hôpital \n de gestion des déchets ménag"
+        },
+        {
+          "needle": "10",
+          "snippet": "cumentent des pistes d’économies en recettes et en dépenses s’élevant à près de 10 milliards d'euros. \n Ces revues de dépenses visent à améliorer la qualité de la dépense. Les rapports de mission documentent ainsi des économies stru"
+        }
+      ],
+      "error": null
+    },
+    {
+      "id": "EU_EDP",
+      "label": "Procédure de déficit excessif",
+      "publisher": "Conseil de l’Union européenne",
+      "organ": "RULES",
+      "claims": [
+        "F12"
+      ],
+      "url": "https://www.consilium.europa.eu/fr/policies/excessive-deficit-procedure/",
+      "health": "ERROR",
+      "http_status": 403,
+      "etag": null,
+      "last_modified": null,
+      "digest": null,
+      "checked_at": "2026-09-20T23:22:37Z",
+      "candidate_observations": [],
+      "error": "HTTPError: HTTP Error 403: Forbidden"
+    },
+    {
+      "id": "LEGIFRANCE_ART39",
+      "label": "LOLF article 39",
+      "publisher": "Légifrance",
+      "organ": "RULES",
+      "claims": [],
+      "url": "https://www.legifrance.gouv.fr/codes/article_lc/LEGIARTI000044611960",
+      "health": "ERROR",
+      "http_status": 403,
+      "etag": null,
+      "last_modified": null,
+      "digest": null,
+      "checked_at": "2026-09-20T23:22:37Z",
+      "candidate_observations": [],
+      "error": "HTTPError: HTTP Error 403: Forbidden"
+    },
+    {
+      "id": "PUBLIC_SENAT_54",
+      "label": "Cadrage public des 54 Md€",
+      "publisher": "Public Sénat",
+      "organ": "ANNOUNCEMENTS",
+      "claims": [
+        "F1",
+        "F2",
+        "F3",
+        "F4",
+        "F5"
+      ],
+      "url": "https://www.publicsenat.fr/actualites/politique/budget-2027-sebastien-lecornu-propose-un-effort-de-54-milliards-deuros",
+      "health": "OK",
+      "http_status": 200,
+      "etag": null,
+      "last_modified": "Sun, 20 Sep 2026 23:22:40 GMT",
+      "digest": "96d023abeb5d52569b8a2c21159173dd8fed0b86c97c48cd89b75f1474610e00",
+      "checked_at": "2026-09-20T23:22:37Z",
+      "candidate_observations": [
+        {
+          "needle": "54 milliards",
+          "snippet": "plus rigoureux depuis très longtemps » : Sébastien Lecornu propose un effort de 54 milliards d’euros \n \n \n \n \n\t \n\t \n\t \n\t \n\t \n\t \n\t \n\t \n\t \n\t \n\t \n\t \n\t \n\t \n\t \n\t \n\t \n\t \n\t \n\t \n\t \n\t \n\t \n\t {\"@context\":\"https:\\/\\/schema.org\",\"@graph\":[{\"@type\":\"NewsAr"
+        },
+        {
+          "needle": "6,5",
+          "snippet": "e budget ne contenait aucune mesure d’économies, le déficit 2027 tutoierait les 6,5% du PIB », avertit-il. Pour rappel, le déficit en 2026 devrait s’établir théoriquement à 5 %, selon la dernière loi de finances, mais le ralentisseme"
+        },
+        {
+          "needle": "4,8",
+          "snippet": "i le Parlement « endosse » la copie gouvernementale, la France pourra revenir à 4,8 % de déficit en 2027, « hors nouvelle augmentation des dépenses militaires », précise l’ancien ministre des Armées. Dépenses militaires comprises, c’"
+        }
+      ],
+      "error": null
+    }
   ],
-  "material_changes": [],
-  "events": [],
-  "summary": {"monitored": 9, "healthy": 0, "errors": 0, "changed_this_sequence": 0}
+  "material_changes": [
+    {
+      "source_id": "BDF_SEPT_2026",
+      "kind": "SOURCE_BASELINED",
+      "organ": "MACRO",
+      "claims": [
+        "F10",
+        "F11"
+      ],
+      "at": "2026-09-20T23:22:33Z",
+      "detail": "First live fingerprint captured."
+    },
+    {
+      "source_id": "INSEE_APU",
+      "kind": "SOURCE_BASELINED",
+      "organ": "ACCOUNTS",
+      "claims": [
+        "F8",
+        "F9"
+      ],
+      "at": "2026-09-20T23:22:34Z",
+      "detail": "First live fingerprint captured."
+    },
+    {
+      "source_id": "INSEE_BDM_RSS",
+      "kind": "SOURCE_BASELINED",
+      "organ": "MACRO",
+      "claims": [
+        "F8",
+        "F9",
+        "F10",
+        "F11"
+      ],
+      "at": "2026-09-20T23:22:35Z",
+      "detail": "First live fingerprint captured."
+    },
+    {
+      "source_id": "BUDGET_CALENDAR",
+      "kind": "SOURCE_BASELINED",
+      "organ": "EXECUTION",
+      "claims": [
+        "F8"
+      ],
+      "at": "2026-09-20T23:22:35Z",
+      "detail": "First live fingerprint captured."
+    },
+    {
+      "source_id": "BUDGET_FINANCES",
+      "kind": "SOURCE_BASELINED",
+      "organ": "BUDGET",
+      "claims": [
+        "F8",
+        "F9"
+      ],
+      "at": "2026-09-20T23:22:36Z",
+      "detail": "First live fingerprint captured."
+    },
+    {
+      "source_id": "IGF_REVUES",
+      "kind": "SOURCE_BASELINED",
+      "organ": "MEASURES",
+      "claims": [],
+      "at": "2026-09-20T23:22:36Z",
+      "detail": "First live fingerprint captured."
+    },
+    {
+      "source_id": "EU_EDP",
+      "kind": "SOURCE_BASELINED",
+      "organ": "RULES",
+      "claims": [
+        "F12"
+      ],
+      "at": "2026-09-20T23:22:37Z",
+      "detail": "First live fingerprint captured."
+    },
+    {
+      "source_id": "LEGIFRANCE_ART39",
+      "kind": "SOURCE_BASELINED",
+      "organ": "RULES",
+      "claims": [],
+      "at": "2026-09-20T23:22:37Z",
+      "detail": "First live fingerprint captured."
+    },
+    {
+      "source_id": "PUBLIC_SENAT_54",
+      "kind": "SOURCE_BASELINED",
+      "organ": "ANNOUNCEMENTS",
+      "claims": [
+        "F1",
+        "F2",
+        "F3",
+        "F4",
+        "F5"
+      ],
+      "at": "2026-09-20T23:22:37Z",
+      "detail": "First live fingerprint captured."
+    }
+  ],
+  "events": [
+    {
+      "source_id": "BDF_SEPT_2026",
+      "kind": "SOURCE_BASELINED",
+      "organ": "MACRO",
+      "claims": [
+        "F10",
+        "F11"
+      ],
+      "at": "2026-09-20T23:22:33Z",
+      "detail": "First live fingerprint captured."
+    },
+    {
+      "source_id": "INSEE_APU",
+      "kind": "SOURCE_BASELINED",
+      "organ": "ACCOUNTS",
+      "claims": [
+        "F8",
+        "F9"
+      ],
+      "at": "2026-09-20T23:22:34Z",
+      "detail": "First live fingerprint captured."
+    },
+    {
+      "source_id": "INSEE_BDM_RSS",
+      "kind": "SOURCE_BASELINED",
+      "organ": "MACRO",
+      "claims": [
+        "F8",
+        "F9",
+        "F10",
+        "F11"
+      ],
+      "at": "2026-09-20T23:22:35Z",
+      "detail": "First live fingerprint captured."
+    },
+    {
+      "source_id": "BUDGET_CALENDAR",
+      "kind": "SOURCE_BASELINED",
+      "organ": "EXECUTION",
+      "claims": [
+        "F8"
+      ],
+      "at": "2026-09-20T23:22:35Z",
+      "detail": "First live fingerprint captured."
+    },
+    {
+      "source_id": "BUDGET_FINANCES",
+      "kind": "SOURCE_BASELINED",
+      "organ": "BUDGET",
+      "claims": [
+        "F8",
+        "F9"
+      ],
+      "at": "2026-09-20T23:22:36Z",
+      "detail": "First live fingerprint captured."
+    },
+    {
+      "source_id": "IGF_REVUES",
+      "kind": "SOURCE_BASELINED",
+      "organ": "MEASURES",
+      "claims": [],
+      "at": "2026-09-20T23:22:36Z",
+      "detail": "First live fingerprint captured."
+    },
+    {
+      "source_id": "EU_EDP",
+      "kind": "SOURCE_BASELINED",
+      "organ": "RULES",
+      "claims": [
+        "F12"
+      ],
+      "at": "2026-09-20T23:22:37Z",
+      "detail": "First live fingerprint captured."
+    },
+    {
+      "source_id": "LEGIFRANCE_ART39",
+      "kind": "SOURCE_BASELINED",
+      "organ": "RULES",
+      "claims": [],
+      "at": "2026-09-20T23:22:37Z",
+      "detail": "First live fingerprint captured."
+    },
+    {
+      "source_id": "PUBLIC_SENAT_54",
+      "kind": "SOURCE_BASELINED",
+      "organ": "ANNOUNCEMENTS",
+      "claims": [
+        "F1",
+        "F2",
+        "F3",
+        "F4",
+        "F5"
+      ],
+      "at": "2026-09-20T23:22:37Z",
+      "detail": "First live fingerprint captured."
+    }
+  ],
+  "summary": {
+    "monitored": 9,
+    "healthy": 5,
+    "errors": 4,
+    "changed_this_sequence": 9
+  }
 }
