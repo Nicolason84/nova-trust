@@ -317,7 +317,33 @@ canvas{width:100%;height:100%;display:block}
     </div>
   </div>
 </section>
-<section id="cobuild">
+
+<section id="validation-sprint">
+  <div class="sectionhead">
+    <div><div class="kicker">06 · commercial validation</div><h2>One real case. Three paid analyses. Then decide.</h2></div>
+    <p>This laboratory now has a hard market gate. No additional product build is justified by attention alone: collaboration, delivery and payment must create the next evidence layer.</p>
+  </div>
+  <div class="g3 grid">
+    <div class="card"><div class="sub">Case #01</div><div class="stat">1</div><h3>Co-built dossier</h3><p>Secure one real investment case with Valerii and record explicit publication boundaries.</p></div>
+    <div class="card"><div class="sub">Founding pilot</div><div class="stat">3 × €199</div><h3>Paid analyses</h3><p>Three bespoke decision dossiers. Revenue gate: <b>€597 collected</b>, not verbal interest.</p></div>
+    <div class="card"><div class="sub">Decision date</div><div class="stat">04 OCT</div><h3>Build / iterate / stop</h3><p>3 sales → productize. 1–2 → iterate. 0 → stop building and interview before more development.</p></div>
+  </div>
+  <div class="card" style="margin-top:16px">
+    <h3>What a founding analysis contains</h3>
+    <div class="grid g3">
+      <div><p><b>Evidence</b><br>Sources, definitions, contradictions and confidence labels.</p></div>
+      <div><p><b>Economics</b><br>NOI, unlevered IRR, levered IRR, DSCR, financing and exit sensitivities.</p></div>
+      <div><p><b>Decision trail</b><br>What changed from screening to underwriting, what remains unknown, and what evidence would change the conclusion.</p></div>
+    </div>
+    <div class="actions" style="margin-top:14px">
+      <button class="btn primary" id="copyPilotInquiry">Copy pilot inquiry</button>
+      <button class="btn" id="copyCase01Proposal">Copy Case #01 proposal</button>
+      <a class="btn" href="./data/property-return-validation-sprint-2026-09-20.json" target="_blank" rel="noopener">Open validation contract ↗</a>
+    </div>
+    <p class="disclaimer">This is a validation offer, not investment advice or a promise of returns. Publication of any real case requires explicit permission for the information actually disclosed.</p>
+  </div>
+</section>
+\n<section id="cobuild">
   <div class="callout">
     <div class="kicker">05 · collaboration > commentary</div>
     <h3>Valerii keeps the discovery layer. We co-build the decision layer.</h3>
@@ -644,5 +670,26 @@ fetch(DATA_URL,{cache:'no-store'}).then(function(r){if(!r.ok)throw new Error('sn
   });
 })();
 </script>
-</body>
+
+<script id="PROPERTY_RETURN_VALIDATION_SPRINT_V1">
+(function(){
+  if(window.PROPERTY_RETURN_VALIDATION_SPRINT_V1_ACTIVE) return;
+  window.PROPERTY_RETURN_VALIDATION_SPRINT_V1_ACTIVE=true;
+  function copy(id,text){
+    var el=document.getElementById(id);
+    if(!el) return;
+    el.addEventListener('click',function(){
+      navigator.clipboard.writeText(text).then(function(){
+        var old=el.textContent; el.textContent='Copied';
+        setTimeout(function(){el.textContent=old},1400);
+      });
+    });
+  }
+  copy('copyPilotInquiry',
+    "Hi — I’m opening three founding slots for a bespoke Property Decision Analysis at €199. It goes beyond a gross-yield calculator: evidence ledger, NOI, unlevered and levered IRR, financing, FX/tax assumptions, sensitivity, contradictions and a reproducible decision trail. If you have a live property or acquisition you are genuinely evaluating, send me the dossier and I’ll tell you first whether it is suitable for the pilot.");
+  copy('copyCase01Proposal',
+    "Valerii — rather than extending the model abstractly, I’d like us to choose one real investment dossier and make it Case #01 together. Your original screening layer stays explicitly yours; I add the evidence/underwriting layer. We agree the exact source series and assumptions, freeze the first jointly reviewed canonical pack, then publish only what we both approve. If the case works, it becomes the first real test of whether this is more than a good visualization.");
+})();
+</script>
+\n</body>
 </html>
