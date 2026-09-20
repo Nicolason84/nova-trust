@@ -9,7 +9,7 @@ on:
       - 'scripts/update_budget_live.py'
       - 'scripts/update_environment_live.py'
       - 'docs/data/budget-2027-live.json'
-      - 'docs/data/environment-live.json'
+      - 'docs/data/environment-live.json'\n      - 'scripts/update_organism_model.py'\n      - 'docs/data/organism-state.json'
   schedule:
     - cron: '*/15 * * * *'
 
@@ -36,15 +36,15 @@ jobs:
       - name: Refresh external environment
         run: python3 scripts/update_environment_live.py
 
-      - name: Commit material state
+      - name: Model organism state\n        run: python3 scripts/update_organism_model.py\n\n      - name: Commit material state
         shell: bash
         run: |
-          if git diff --quiet -- docs/data/budget-2027-live.json docs/data/environment-live.json; then
+          if git diff --quiet -- docs/data/budget-2027-live.json docs/data/environment-live.json docs/data/organism-state.json; then
             echo "No material state delta. Heartbeat successful."
             exit 0
           fi
           git config user.name "ojo-reality-pulse[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add docs/data/budget-2027-live.json docs/data/environment-live.json
+          git add docs/data/budget-2027-live.json docs/data/environment-live.json docs/data/organism-state.json
           git commit -m "data: Budget 2027 organism pulse"
           git push
