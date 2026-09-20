@@ -7,7 +7,9 @@ on:
     paths:
       - '.github/workflows/budget-live.yml'
       - 'scripts/update_budget_live.py'
+      - 'scripts/update_environment_live.py'
       - 'docs/data/budget-2027-live.json'
+      - 'docs/data/environment-live.json'
   schedule:
     - cron: '*/15 * * * *'
 
@@ -21,25 +23,28 @@ concurrency:
 jobs:
   pulse:
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 8
     steps:
       - name: Checkout
         uses: actions/checkout@v4
         with:
           fetch-depth: 1
 
-      - name: Refresh public evidence fingerprints
+      - name: Refresh budget evidence
         run: python3 scripts/update_budget_live.py
 
-      - name: Commit material delta only
+      - name: Refresh external environment
+        run: python3 scripts/update_environment_live.py
+
+      - name: Commit material state
         shell: bash
         run: |
-          if git diff --quiet -- docs/data/budget-2027-live.json; then
-            echo "No material public-source delta. Heartbeat successful; repository stays unchanged."
+          if git diff --quiet -- docs/data/budget-2027-live.json docs/data/environment-live.json; then
+            echo "No material state delta. Heartbeat successful."
             exit 0
           fi
           git config user.name "ojo-reality-pulse[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add docs/data/budget-2027-live.json
-          git commit -m "data: Budget 2027 reality pulse delta"
+          git add docs/data/budget-2027-live.json docs/data/environment-live.json
+          git commit -m "data: Budget 2027 organism pulse"
           git push
