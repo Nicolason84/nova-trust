@@ -1,0 +1,330 @@
+{
+  "pack_id": "PROPERTY_RETURN_CANONICAL_CANDIDATE_2026_09_20_V0_1_0",
+  "schema_id": "PROPERTY_RETURN_CANONICAL_SCHEMA_V0_1",
+  "version": "0.1.0",
+  "created_at": "2026-09-20T17:58:00+02:00",
+  "status": "PRECANONICAL_JOINT_REVIEW",
+  "immutable_history_path": "./history/2026-09-20-v0.1.0.json",
+  "scope": {
+    "markets": [
+      "IE",
+      "LV",
+      "MK",
+      "US"
+    ],
+    "rationale": "Four deliberately different markets used to stress-test comparability, official source coverage, financing definitions and listing-derived yield assumptions."
+  },
+  "review": {
+    "OJO": {
+      "status": "READY_FOR_REVIEW",
+      "reviewed_at": "2026-09-20T17:58:00+02:00"
+    },
+    "Valerii": {
+      "status": "AWAITING_REVIEW",
+      "reviewed_at": null
+    },
+    "joint_canonical": false
+  },
+  "sources": [
+    {
+      "source_id": "BIS_RPP_SELECTED",
+      "tier": "TIER_B",
+      "authority": "Bank for International Settlements",
+      "url": "https://data.bis.org/topics/RPP",
+      "role": "Cross-country selected residential property price series and comparability metadata",
+      "status": "BOUND",
+      "notes": "Selected series is designed to enhance cross-country comparability; detailed and selected series remain distinct."
+    },
+    {
+      "source_id": "OECD_HOUSING_PRICES",
+      "tier": "TIER_B",
+      "authority": "OECD",
+      "url": "https://www.oecd.org/en/data/indicators/housing-prices.html",
+      "role": "Nominal/real house prices, rent indices, price-to-rent and price-to-income concepts",
+      "status": "BOUND"
+    },
+    {
+      "source_id": "EUROSTAT_HPI_Q",
+      "tier": "TIER_B",
+      "authority": "Eurostat",
+      "url": "https://ec.europa.eu/eurostat/en/web/products-datasets/-/PRC_HPI_Q",
+      "dataset_code": "prc_hpi_q",
+      "role": "Quarterly harmonised house price index for EU countries",
+      "status": "BOUND"
+    },
+    {
+      "source_id": "EUROSTAT_RENT_HICP",
+      "tier": "TIER_B",
+      "authority": "Eurostat",
+      "url": "https://ec.europa.eu/eurostat/en/web/products-eurostat-news/w/ddn-20260702-2",
+      "dataset_code": "prc_hicp_minr",
+      "role": "Monthly harmonised rent index used in Eurostat house-price/rent comparison",
+      "status": "BOUND",
+      "notes": "2026 HICP moved to ECOICOP v2 and 2025=100 reference; classification transition must be carried in lineage."
+    },
+    {
+      "source_id": "IE_CSO_RPPI_HPM09",
+      "tier": "TIER_A",
+      "authority": "Central Statistics Office Ireland",
+      "url": "https://www.cso.ie/en/releasesandpublications/ep/p-rppi/residentialpropertypriceindexjune2026/data/",
+      "dataset_code": "HPM09",
+      "role": "Monthly Residential Property Price Index by type of residential property",
+      "status": "BOUND"
+    },
+    {
+      "source_id": "LV_CSB_PCI050C",
+      "tier": "TIER_A",
+      "authority": "Central Statistical Bureau of Latvia",
+      "url": "https://data.stat.gov.lv/pxweb/en/OSP_PUB/START__VEK__PC__PCI/PCI050c",
+      "dataset_code": "PCI050c",
+      "role": "Quarterly house price index and changes, total/new/existing dwellings",
+      "status": "BOUND",
+      "last_update": "2026-09-14"
+    },
+    {
+      "source_id": "MK_MAKSTAT_DWELLING_PRICE_M2",
+      "tier": "TIER_A",
+      "authority": "State Statistical Office of North Macedonia",
+      "url": "https://makstat.stat.gov.mk/PXWeb/pxweb/en/MakStat/MakStat__Ceni__IndeksTrosGradeznistvo__CeniStanovi/",
+      "role": "Average contracted residential dwelling price per m2",
+      "status": "BOUND_WITH_SCOPE_GAP",
+      "notes": "This is not yet proven equivalent to a transaction-based nationwide HPI."
+    },
+    {
+      "source_id": "MK_NBRM_COLLATERAL_RATES",
+      "tier": "TIER_A",
+      "authority": "National Bank of the Republic of North Macedonia",
+      "url": "https://nbstat.nbrm.mk/pxweb/en/MS%20i%20KS/MS%20i%20KS__KS__Pondirani%20KS%20na%20bankite%20i%20stedilnicite%20NM%20-%20mesecni%20podatoci/3_PKSNovoodobreniKreditiSoObezbeduvanjeMesecniEN.px/",
+      "role": "Monthly weighted interest rates on newly granted loans with collateral",
+      "status": "BOUND",
+      "notes": "Exact housing-loan slice still requires dimension-level binding before promotion."
+    },
+    {
+      "source_id": "US_FHFA_HPI",
+      "tier": "TIER_A",
+      "authority": "Federal Housing Finance Agency",
+      "url": "https://www.fhfa.gov/data/hpi/datasets",
+      "role": "Purchase-only and all-transactions US house price indexes",
+      "status": "BOUND"
+    },
+    {
+      "source_id": "US_FREDDIE_PMMS",
+      "tier": "TIER_A",
+      "authority": "Freddie Mac",
+      "url": "https://www.freddiemac.com/pmms",
+      "role": "Weekly Primary Mortgage Market Survey",
+      "status": "BOUND"
+    },
+    {
+      "source_id": "GPG_YIELDS",
+      "tier": "TIER_C",
+      "authority": "Global Property Guide",
+      "url": "https://www.globalpropertyguide.com/rental-yields",
+      "role": "Gross listing-derived rental yield snapshot",
+      "status": "BOUND",
+      "notes": "Median listing rent × 12 / median listing purchase price across 3-8 major cities; not realized NOI."
+    },
+    {
+      "source_id": "GPG_INVESTMENT_RATING",
+      "tier": "TIER_C",
+      "authority": "Global Property Guide",
+      "url": "https://www.globalpropertyguide.com/investment-rating",
+      "role": "Comparable screening snapshot for yield, five-year price/rent change and mortgage rate",
+      "status": "BOUND"
+    }
+  ],
+  "observations": [
+    {
+      "observation_id": "IE_GROSS_YIELD_2026_09_GPG",
+      "market_id": "IE",
+      "metric_id": "gross_rental_yield",
+      "value": 7.66,
+      "unit": "percent_per_year",
+      "period": "2026-09",
+      "source_id": "GPG_YIELDS",
+      "source_tier": "TIER_C",
+      "evidence_state": "OBSERVED_CANDIDATE",
+      "retrieved_at": "2026-09-20T17:58:00+02:00",
+      "definition": "Gross listing-derived rental yield; pre-expense."
+    },
+    {
+      "observation_id": "LV_GROSS_YIELD_2026_09_GPG",
+      "market_id": "LV",
+      "metric_id": "gross_rental_yield",
+      "value": 7.2,
+      "unit": "percent_per_year",
+      "period": "2026-09",
+      "source_id": "GPG_YIELDS",
+      "source_tier": "TIER_C",
+      "evidence_state": "OBSERVED_CANDIDATE",
+      "retrieved_at": "2026-09-20T17:58:00+02:00",
+      "definition": "Gross listing-derived rental yield; pre-expense."
+    },
+    {
+      "observation_id": "MK_GROSS_YIELD_2026_09_GPG",
+      "market_id": "MK",
+      "metric_id": "gross_rental_yield",
+      "value": 6.53,
+      "unit": "percent_per_year",
+      "period": "2026-09",
+      "source_id": "GPG_YIELDS",
+      "source_tier": "TIER_C",
+      "evidence_state": "OBSERVED_CANDIDATE",
+      "retrieved_at": "2026-09-20T17:58:00+02:00",
+      "definition": "Gross listing-derived rental yield; pre-expense."
+    },
+    {
+      "observation_id": "US_GROSS_YIELD_2026_09_GPG",
+      "market_id": "US",
+      "metric_id": "gross_rental_yield",
+      "value": 6.71,
+      "unit": "percent_per_year",
+      "period": "2026-09",
+      "source_id": "GPG_YIELDS",
+      "source_tier": "TIER_C",
+      "evidence_state": "OBSERVED_CANDIDATE",
+      "retrieved_at": "2026-09-20T17:58:00+02:00",
+      "definition": "Gross listing-derived rental yield; pre-expense."
+    },
+    {
+      "observation_id": "US_PMMS_30Y_2026_09_17",
+      "market_id": "US",
+      "metric_id": "mortgage_rate_30y_fixed",
+      "value": 6.95,
+      "unit": "percent_per_year",
+      "period": "2026-09-17",
+      "source_id": "US_FREDDIE_PMMS",
+      "source_tier": "TIER_A",
+      "evidence_state": "OFFICIAL_SERIES_BOUND",
+      "retrieved_at": "2026-09-20T17:58:00+02:00",
+      "definition": "Freddie Mac weekly 30-year fixed-rate mortgage average.",
+      "comparison_note": "Not silently substituted for other mortgage-rate definitions."
+    }
+  ],
+  "metric_bindings": [
+    {
+      "market_id": "IE",
+      "metric_id": "house_price_index",
+      "source_id": "IE_CSO_RPPI_HPM09",
+      "state": "OFFICIAL_SERIES_BOUND"
+    },
+    {
+      "market_id": "IE",
+      "metric_id": "rent_index",
+      "source_id": "EUROSTAT_RENT_HICP",
+      "state": "OFFICIAL_SERIES_BOUND"
+    },
+    {
+      "market_id": "LV",
+      "metric_id": "house_price_index",
+      "source_id": "LV_CSB_PCI050C",
+      "state": "OFFICIAL_SERIES_BOUND"
+    },
+    {
+      "market_id": "LV",
+      "metric_id": "rent_index",
+      "source_id": "EUROSTAT_RENT_HICP",
+      "state": "OFFICIAL_SERIES_BOUND"
+    },
+    {
+      "market_id": "MK",
+      "metric_id": "dwelling_price_proxy",
+      "source_id": "MK_MAKSTAT_DWELLING_PRICE_M2",
+      "state": "CONFLICT_OPEN",
+      "gap": "Not yet equivalent to harmonised nationwide HPI"
+    },
+    {
+      "market_id": "MK",
+      "metric_id": "mortgage_rate_proxy",
+      "source_id": "MK_NBRM_COLLATERAL_RATES",
+      "state": "OFFICIAL_SERIES_BOUND"
+    },
+    {
+      "market_id": "US",
+      "metric_id": "house_price_index",
+      "source_id": "US_FHFA_HPI",
+      "state": "OFFICIAL_SERIES_BOUND"
+    },
+    {
+      "market_id": "US",
+      "metric_id": "mortgage_rate_30y_fixed",
+      "source_id": "US_FREDDIE_PMMS",
+      "state": "OFFICIAL_SERIES_BOUND"
+    }
+  ],
+  "hypotheses": [
+    {
+      "hypothesis_id": "H_VACANCY",
+      "metric_id": "vacancy_rate",
+      "state": "HYPOTHESIS",
+      "default_value": 5,
+      "unit": "percent",
+      "replacement_target": "market-specific realized or professionally sourced vacancy series"
+    },
+    {
+      "hypothesis_id": "H_OPEX",
+      "metric_id": "operating_cost_ratio",
+      "state": "HYPOTHESIS",
+      "default_value": 20,
+      "unit": "percent_of_collected_rent",
+      "replacement_target": "market/property-specific expense evidence"
+    },
+    {
+      "hypothesis_id": "H_CAPEX",
+      "metric_id": "annual_capex_ratio",
+      "state": "HYPOTHESIS",
+      "default_value": 0.5,
+      "unit": "percent_of_property_value",
+      "replacement_target": "asset-age/type specific reserve evidence"
+    },
+    {
+      "hypothesis_id": "H_RENT_TAX",
+      "metric_id": "rental_income_tax_proxy",
+      "state": "HYPOTHESIS",
+      "default_value": 0,
+      "unit": "percent",
+      "replacement_target": "investor residence × asset country × vehicle × treaty"
+    },
+    {
+      "hypothesis_id": "H_CG_TAX",
+      "metric_id": "capital_gains_tax_proxy",
+      "state": "HYPOTHESIS",
+      "default_value": 0,
+      "unit": "percent",
+      "replacement_target": "investor residence × asset country × vehicle × treaty"
+    }
+  ],
+  "open_conflicts": [
+    {
+      "conflict_id": "MK_HPI_SCOPE_GAP",
+      "severity": "HIGH",
+      "subject": "North Macedonia house-price series",
+      "reason": "Current official binding is an average price-per-m2 series; comparability with transaction-based HPI is unproven.",
+      "resolution_gate": "Find/validate a representative HPI or explicitly retain a separate proxy metric."
+    },
+    {
+      "conflict_id": "MORTGAGE_DEFINITION_ALIGNMENT",
+      "severity": "MEDIUM",
+      "subject": "Cross-country mortgage rate",
+      "reason": "Commercial snapshot rates and official national series may refer to different products, fixation periods and borrower populations.",
+      "resolution_gate": "Define a canonical financing instrument or carry product-specific rates separately."
+    },
+    {
+      "conflict_id": "YIELD_REALIZED_VS_LISTING",
+      "severity": "HIGH",
+      "subject": "Gross rental yield",
+      "reason": "GPG yield is listing-derived and pre-expense; it is not realized NOI yield.",
+      "resolution_gate": "Keep as discovery input until market-level rent/price microdata or realized cash-flow evidence is bound."
+    }
+  ],
+  "next_gate": {
+    "id": "JOINT_CANONICAL_V0_1",
+    "required_actions": [
+      "Valerii reviews market scope and source definitions",
+      "Pin exact dimensions/series IDs for each TIER_A/TIER_B binding",
+      "Resolve or explicitly carry MK_HPI_SCOPE_GAP",
+      "Agree canonical mortgage-product definition",
+      "Freeze v0.1.1 as first joint canonical pack"
+    ]
+  }
+}
