@@ -1,0 +1,25 @@
+{
+  "schema": "OJO_BUDGET_2027_LIVE_FEED_V1",
+  "version": "2026-09-21",
+  "sequence": 0,
+  "updated_at": "2026-09-21T00:00:00Z",
+  "policy": {
+    "canonical_mutation": "NEVER_FROM_FINGERPRINT_ALONE",
+    "source_change": "EMIT_DELTA_THEN_RECONCILE",
+    "political_recommendation": "NONE"
+  },
+  "sources": [
+    {"id":"BDF_SEPT_2026","publisher":"Banque de France","organ":"MACRO","claims":["F10","F11"],"health":"BOOTSTRAP_PENDING","digest":null},
+    {"id":"INSEE_APU","publisher":"Insee / data.gouv.fr","organ":"ACCOUNTS","claims":["F8","F9"],"health":"BOOTSTRAP_PENDING","digest":null},
+    {"id":"INSEE_BDM_RSS","publisher":"Insee","organ":"MACRO","claims":["F8","F9","F10","F11"],"health":"BOOTSTRAP_PENDING","digest":null},
+    {"id":"BUDGET_CALENDAR","publisher":"Direction du Budget","organ":"EXECUTION","claims":["F8"],"health":"BOOTSTRAP_PENDING","digest":null},
+    {"id":"BUDGET_FINANCES","publisher":"Direction du Budget","organ":"BUDGET","claims":["F8","F9"],"health":"BOOTSTRAP_PENDING","digest":null},
+    {"id":"IGF_REVUES","publisher":"Inspection générale des finances","organ":"MEASURES","claims":[],"health":"BOOTSTRAP_PENDING","digest":null},
+    {"id":"EU_EDP","publisher":"Conseil de l’Union européenne","organ":"RULES","claims":["F12"],"health":"BOOTSTRAP_PENDING","digest":null},
+    {"id":"LEGIFRANCE_ART39","publisher":"Légifrance","organ":"RULES","claims":[],"health":"BOOTSTRAP_PENDING","digest":null},
+    {"id":"PUBLIC_SENAT_54","publisher":"Public Sénat","organ":"ANNOUNCEMENTS","claims":["F1","F2","F3","F4","F5"],"health":"BOOTSTRAP_PENDING","digest":null}
+  ],
+  "material_changes": [],
+  "events": [],
+  "summary": {"monitored": 9, "healthy": 0, "errors": 0, "changed_this_sequence": 0}
+}
