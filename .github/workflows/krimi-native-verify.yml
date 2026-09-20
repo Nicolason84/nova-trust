@@ -1,0 +1,148 @@
+name: KRIMI native APK verification
+on:
+  push:
+    branches: [lab/krimi-android-20260920]
+    paths: [.github/workflows/krimi-native-verify.yml]
+permissions:
+  contents: read
+jobs:
+  native:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 18
+    steps:
+      - name: Restore and verify recovered source
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import os, pathlib, urllib.request, base64, lzma, tarfile, io, hashlib, json
+          base=f"https://raw.githubusercontent.com/{os.environ['GITHUB_REPOSITORY']}/{os.environ['GITHUB_SHA']}/android-lab/payload/"
+          def get(p): return urllib.request.urlopen(base+p,timeout=30).read()
+          partial=base64.b64decode(b''.join(get(f'part{i}.b64') for i in range(3)))
+          dec=lzma.LZMADecompressor(); raw=dec.decompress(partial)
+          assert len(raw)==77721
+          expected_prefix='0be57ef1846e9d2712cba2a5ec071f252a2ca3f6d6377d379e8e5c3937647312'
+          assert hashlib.sha256(raw[51200:]).hexdigest()==expected_prefix
+          root=pathlib.Path('.').resolve()
+          tf=tarfile.open(fileobj=io.BytesIO(raw),mode='r:')
+          try:
+              for m in tf:
+                  p=(root/m.name).resolve()
+                  assert p.is_relative_to(root/'native') and m.isfile()
+                  if m.offset_data+m.size>len(raw): break
+                  p.parent.mkdir(parents=True,exist_ok=True); p.write_bytes(raw[m.offset_data:m.offset_data+m.size])
+          finally: tf.close()
+          packed=base64.b64decode(get('completion.b64'),validate=True)
+          assert hashlib.sha256(packed).hexdigest()=='2f788ab531aa0d24bd7835454af1aef74b1a57358f75529647cde24bc59660f7'
+          with tarfile.open(fileobj=io.BytesIO(lzma.decompress(packed)),mode='r:') as tf:
+              for m in tf:
+                  p=(root/m.name).resolve()
+                  assert m.isfile() and (p.is_relative_to(root/'native') or p.is_relative_to(root/'completion'))
+                  p.parent.mkdir(parents=True,exist_ok=True); p.write_bytes(tf.extractfile(m).read())
+          s=(raw[51200:]+pathlib.Path('completion/MainActivity.tail').read_bytes()).decode('utf-8')
+          s=s.replace('if(screen<0||screen>20)screen=0;','if(!java.util.Arrays.asList(0,1,2,3,4,5,6,7,20,30).contains(screen))screen=0;')
+          s=s.replace('void go(int n){if(busy||root!=null&&!validVisible(root))return;saveNow();screen=n;render();}','void go(int n){if(busy||root!=null&&!validVisible(root))return;screen=n;saveNow();render();}')
+          pathlib.Path('native/src/com/novaera/krimiquest/lab/MainActivity.java').write_text(s)
+          hashes={
+            'AndroidManifest.xml':'205d3f56cec4cfa272a7ff6bf0a2f32669cdace67d7a99447488c2bc0ab35f4c',
+            'build.sh':'390a8d056b55d8330de96f8d241000a99e4a17aafa8f26c3a2b99b3f7435dbbe',
+            'signing-recipient.pem':'6eee5ced4518ab01fc1732fe99d6a1e619838f7daab91ad14410000154b4613e',
+            'src/com/novaera/krimiquest/lab/DataStore.java':'676682303e38b44c2f8451110675e733d3aa9a294f5714578d104edcd9807b3a',
+            'src/com/novaera/krimiquest/lab/MainActivity.java':'2375b32cb2d103c85b97e4f302f896ef51eceb6618d92476f90ec79db9e44c7e',
+            'src/com/novaera/krimiquest/lab/ShareProvider.java':'bf69eff2c902905aca86a0476f92dbf29014e688f0c2e03018e0c9ada13e364f',
+            'testsrc/com/novaera/krimiquest/lab/TestInstrumentation.java':'f8021ec503d95b767b17f8a2a50c23295674dbd908c305e1de95a1d6f75d3eea'
+          }
+          for name,expected in hashes.items(): assert hashlib.sha256(pathlib.Path('native',name).read_bytes()).hexdigest()==expected,name
+          pathlib.Path('delivery').mkdir();pathlib.Path('evidence').mkdir();pathlib.Path('encrypted-backup').mkdir()
+          pathlib.Path('evidence/source-integrity.json').write_text(json.dumps({'source_commit':os.environ['GITHUB_SHA'],'verified':hashes,'recovered_prefix_sha256':expected_prefix},indent=2))
+          print('RECOVERED_SOURCE_HASHES_PASS')
+          PY
+      - uses: android-actions/setup-android@be39fa834029ff78f1a44aa3bb0819b8fc2bd8fd
+        with:
+          packages: ''
+          log-accepted-android-sdk-licenses: false
+      - name: Compile native app and instrumentation
+        shell: bash
+        run: |
+          set -euo pipefail
+          sdkmanager 'platforms;android-35' 'build-tools;35.0.0' >/dev/null
+          java -version 2>&1 | tee evidence/java.txt
+          bash native/build.sh 2>&1 | tee evidence/build.txt
+          zip -q -r delivery/KRIMI_Lab_sources.zip native -x 'native/build/*'
+      - name: Sign and preserve encrypted owner backup
+        shell: bash
+        run: |
+          set -euo pipefail
+          umask 077
+          KEYDIR="$RUNNER_TEMP/krimi-signing"; mkdir -p "$KEYDIR"
+          PASS="$(openssl rand -hex 32)"; echo "::add-mask::$PASS"; printf '%s' "$PASS" > "$KEYDIR/password.txt"; unset PASS
+          keytool -genkeypair -keystore "$KEYDIR/krimi-lab.p12" -storetype PKCS12 -storepass:file "$KEYDIR/password.txt" -alias krimi-lab -keyalg RSA -keysize 3072 -validity 10000 -dname 'CN=KRIMI Lab, O=NOVA ERA, C=FR' -noprompt
+          BT="$ANDROID_HOME/build-tools/35.0.0"
+          "$BT/apksigner" sign --ks "$KEYDIR/krimi-lab.p12" --ks-key-alias krimi-lab --ks-pass "file:$KEYDIR/password.txt" --out delivery/KRIMI-Lab-1.0.apk native/build/aligned.apk
+          "$BT/apksigner" sign --ks "$KEYDIR/krimi-lab.p12" --ks-key-alias krimi-lab --ks-pass "file:$KEYDIR/password.txt" --out evidence/KRIMI-tests.apk native/build/test-aligned.apk
+          "$BT/apksigner" verify --verbose --print-certs delivery/KRIMI-Lab-1.0.apk | tee evidence/signature.txt
+          "$BT/apksigner" verify --verbose evidence/KRIMI-tests.apk > evidence/test-signature.txt
+          "$BT/aapt" dump badging delivery/KRIMI-Lab-1.0.apk > evidence/apk-badging.txt
+          "$BT/aapt" dump permissions delivery/KRIMI-Lab-1.0.apk > evidence/apk-permissions.txt
+          "$BT/zipalign" -c -p 4 delivery/KRIMI-Lab-1.0.apk
+          tar -C "$KEYDIR" -cf "$RUNNER_TEMP/krimi-signing.tar" krimi-lab.p12 password.txt
+          openssl cms -encrypt -binary -aes-256-cbc -in "$RUNNER_TEMP/krimi-signing.tar" -out encrypted-backup/krimi-signing-backup.p7m -outform DER native/signing-recipient.pem
+          rm -f "$RUNNER_TEMP/krimi-signing.tar" "$KEYDIR/password.txt" "$KEYDIR/krimi-lab.p12"
+          (cd delivery && sha256sum KRIMI-Lab-1.0.apk KRIMI_Lab_sources.zip > SHA256SUMS.txt)
+      - name: Enable hardware acceleration
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+      - name: Run Android 35 native tests
+        uses: ReactiveCircus/android-emulator-runner@a421e43855164a8197daf9d8d40fe71c6996bb0d
+        with:
+          api-level: 35
+          target: google_apis
+          arch: x86_64
+          profile: pixel_2
+          disable-animations: true
+          emulator-options: -no-window -no-audio -no-boot-anim -gpu swiftshader_indirect -no-snapshot -camera-back emulated
+          script: |
+            adb install delivery/KRIMI-Lab-1.0.apk
+            adb install evidence/KRIMI-tests.apk
+            adb logcat -c
+            adb shell am instrument -w com.novaera.krimiquest.lab.tests/com.novaera.krimiquest.lab.TestInstrumentation | tee evidence/native-instrumentation.txt
+            adb pull /sdcard/Android/data/com.novaera.krimiquest.lab/files/verification/ evidence/device || true
+            adb logcat -d -b crash > evidence/crash-log.txt
+            python3 -c "import re,pathlib; s=pathlib.Path('evidence/native-instrumentation.txt').read_text(); m=re.search(r'TOTAL (\d+) PASS (\d+) FAIL',s); assert m and int(m[1])>=50 and int(m[2])==0,s; print('NATIVE_TEST_GATE_PASS')"
+            adb shell am force-stop com.novaera.krimiquest.lab
+            adb shell am start -W -n com.novaera.krimiquest.lab/.MainActivity | tee evidence/cold-start.txt
+            sleep 2
+            adb shell screencap -p /sdcard/cold-start.png
+            adb pull /sdcard/cold-start.png evidence/cold-start.png
+            adb logcat -d -b crash > evidence/crash-log-final.txt
+            python3 -c "import pathlib; s=pathlib.Path('evidence/crash-log-final.txt').read_text(); assert 'FATAL EXCEPTION' not in s,s"
+      - name: Record validation boundary
+        run: |
+          printf '%s\n' 'KRIMI Lab 1.0 — Android natif, premier échange.' 'Compilation, signature, installation et tests natifs sur émulateur Android 35.' 'Pas de test sur téléphone physique. Caméra : fichier et callback Android testés avec image synthétique, pas optique réelle.' 'App locale sans Internet, sans serveur, sans chat direct, sans IA ni cote de marché.' 'Les messages sont des brouillons ou des partages explicites via une autre application. Réception non confirmée.' 'Le paquet com.novaera.krimiquest.lab ne remplace pas les applications historiques.' > delivery/LIRE_MOI.txt
+          cp evidence/signature.txt evidence/apk-badging.txt evidence/source-integrity.json evidence/native-instrumentation.txt delivery/
+          printf '%s\n' "$GITHUB_SHA" > delivery/SOURCE_COMMIT.txt
+      - name: Preserve encrypted signing backup
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: krimi-signing-encrypted
+          path: encrypted-backup/
+          retention-days: 2
+          if-no-files-found: warn
+      - name: Preserve test evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: krimi-native-evidence
+          path: evidence/
+          retention-days: 5
+          if-no-files-found: warn
+      - name: Deliver verified signed APK
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: krimi-native-verified-delivery
+          path: delivery/
+          retention-days: 7
+          if-no-files-found: error
