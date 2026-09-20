@@ -1,11 +1,108 @@
 {
-  "schema":"OJO_ORGANISM_STATE_V1",
-  "version":"2026-09-21",
-  "updated_at":"2026-09-21T00:00:00Z",
-  "source_sequences":{"budget":null,"environment":null,"combined":"?:?"},
-  "animal":{"species":"BIOMIMETIC_CEPHALOPOD","name":"OJO ORGANISM"},
-  "state":{"regime":"BOOTSTRAP","strain":0,"vigilance":0,"asymmetry":0,"arms":{"macro":0,"budget":0,"energy":0,"finance":0,"logistics":0,"climate":0,"health":0,"geopolitics":0},"heart_rate_visual":48,"respiration_visual":7,"sensor_health":0},
-  "learning":{"stage":"BOOTSTRAP","samples":0,"motifs":[],"early_warning":{"status":"CALIBRATION"},"prediction":{"status":"CALIBRATION"}},
-  "control_readiness":{"mathematical_observability":"UNPROVEN","controllability":"UNPROVEN","closed_loop_control":"NOT_READY"},
-  "history":[]
+  "schema": "OJO_ORGANISM_STATE_V1",
+  "version": "2026-09-21",
+  "updated_at": "2026-09-20T23:43:35.813Z",
+  "source_sequences": {
+    "budget": 6,
+    "environment": 4,
+    "combined": "6:4"
+  },
+  "animal": {
+    "species": "BIOMIMETIC_CEPHALOPOD",
+    "name": "OJO ORGANISM",
+    "metaphor": "Distributed nervous system; eight domain arms; mantle = whole-system state; skin = confidence/stress."
+  },
+  "state": {
+    "ts": "2026-09-20T23:43:35.812Z",
+    "source_seq": "6:4",
+    "strain": 0.2012,
+    "vigilance": 0.8829,
+    "asymmetry": 0.2825,
+    "arms": {
+      "macro": 0.32,
+      "budget": 0.1833,
+      "energy": 0.0234,
+      "finance": 0.0162,
+      "logistics": 0.8829,
+      "climate": 0,
+      "health": 0.0282,
+      "geopolitics": 0.0444
+    },
+    "regime": "SHOCK",
+    "top_arm": "logistics",
+    "heart_rate_visual": 74,
+    "respiration_visual": 16.1,
+    "contraction": 0.265,
+    "luminance": 0.803,
+    "sensor_health": 1,
+    "blindness": 0,
+    "active_arms": 1
+  },
+  "learning": {
+    "stage": "BOOTSTRAP",
+    "samples": 1,
+    "max_memory": 672,
+    "motifs": [],
+    "early_warning": {
+      "status": "CALIBRATION",
+      "samples": 1,
+      "note": "Au moins 16 états requis avant même un signal exploratoire."
+    },
+    "prediction": {
+      "status": "CALIBRATION",
+      "samples": 1,
+      "next": null,
+      "horizon_4": null
+    },
+    "regime_transitions": []
+  },
+  "control_readiness": {
+    "sensor_coverage": 1,
+    "mathematical_observability": "UNPROVEN",
+    "dynamic_edges_validated": 0,
+    "actuators_validated": 0,
+    "controllability": "UNPROVEN",
+    "closed_loop_control": "NOT_READY",
+    "reason": "Live sensing exists, but causal transfer functions between candidate levers and state variables are not yet empirically validated.",
+    "next_requirements": [
+      "historical backtests",
+      "causal/functional edge registry",
+      "forecast-error ledger",
+      "validated actuator response functions"
+    ]
+  },
+  "policy": {
+    "derived_indices": "VISUAL/ANALYTICAL, NOT OFFICIAL ECONOMIC METRICS",
+    "event_is_not_impact": true,
+    "simulation_is_not_recommendation": true,
+    "political_recommendation": "NONE"
+  },
+  "history": [
+    {
+      "ts": "2026-09-20T23:43:35.812Z",
+      "source_seq": "6:4",
+      "strain": 0.2012,
+      "vigilance": 0.8829,
+      "asymmetry": 0.2825,
+      "arms": {
+        "macro": 0.32,
+        "budget": 0.1833,
+        "energy": 0.0234,
+        "finance": 0.0162,
+        "logistics": 0.8829,
+        "climate": 0,
+        "health": 0.0282,
+        "geopolitics": 0.0444
+      },
+      "regime": "SHOCK",
+      "top_arm": "logistics",
+      "heart_rate_visual": 74,
+      "respiration_visual": 16.1,
+      "contraction": 0.265,
+      "luminance": 0.803,
+      "sensor_health": 1,
+      "blindness": 0,
+      "active_arms": 1
+    }
+  ]
 }
