@@ -1,0 +1,96 @@
+{
+  "sprint_id": "PROPERTY_RETURN_TWIN_VALIDATION_SPRINT_2026_09_20",
+  "status": "ACTIVE",
+  "start_date": "2026-09-20",
+  "decision_gate_date": "2026-10-04",
+  "objective": "Obtain one co-built real Case #01 with Valerii, freeze the first jointly reviewed canonical pack, publish the case, and sell 3 bespoke analyses before further product development.",
+  "offer": {
+    "name": "Founding Property Decision Analysis",
+    "price_eur": 199,
+    "available_slots": 3,
+    "revenue_target_eur": 597,
+    "delivery_target_hours": 48,
+    "positioning": "Bespoke evidence-backed decision dossier; not a SaaS subscription."
+  },
+  "primary_kpis": [
+    {
+      "metric": "joint_case_01_accepted",
+      "current": 0,
+      "target": 1
+    },
+    {
+      "metric": "joint_canonical_frozen",
+      "current": 0,
+      "target": 1
+    },
+    {
+      "metric": "case_01_published",
+      "current": 0,
+      "target": 1
+    },
+    {
+      "metric": "paid_analyses_sold",
+      "current": 0,
+      "target": 3
+    },
+    {
+      "metric": "revenue_collected_eur",
+      "current": 0,
+      "target": 597
+    }
+  ],
+  "driver_targets": [
+    {
+      "metric": "qualified_prospects_contacted",
+      "target": 20
+    },
+    {
+      "metric": "replies",
+      "target": 4
+    },
+    {
+      "metric": "discovery_calls_held",
+      "target": 5
+    }
+  ],
+  "decision_rules": [
+    {
+      "condition": "paid_analyses_sold >= 3",
+      "decision": "GO_PRODUCTIZE"
+    },
+    {
+      "condition": "paid_analyses_sold in [1,2]",
+      "decision": "ITERATE_OFFER_SEGMENT_PRICE"
+    },
+    {
+      "condition": "paid_analyses_sold == 0",
+      "decision": "STOP_BUILD_INTERVIEW_REPOSITION"
+    }
+  ],
+  "collaboration": {
+    "case_01_partner": "Valerii Emelianov",
+    "authorship_rule": "Valerii retains authorship of the original discovery layer; OJO/Nova Era authors the evidence and decision extension.",
+    "consent_rule": "No publication or joint-canonical status is inferred from a reply; explicit review is required."
+  },
+  "pricing_context": [
+    {
+      "name": "DealCheck Pro",
+      "price": "$20/month",
+      "url": "https://dealcheck.io/pricing/"
+    },
+    {
+      "name": "PropertyMetrics",
+      "price": "$129/month",
+      "url": "https://propertymetrics.com/argus-alternative/"
+    },
+    {
+      "name": "DealCheck DXB report",
+      "price": "AED 99/report",
+      "url": "https://dealcheck.ae/pricing"
+    }
+  ],
+  "artifacts": {
+    "public_lab": "https://nicolason84.github.io/nova-trust/valerii-real-estate-returns-osint-2026-09-19.html",
+    "canonical_pack": "https://nicolason84.github.io/nova-trust/data/property-return-canonical/current.json"
+  }
+}
