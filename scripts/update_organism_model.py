@@ -48,22 +48,29 @@ def source_health(env,bud):
     return healthy/total if total else 0
 
 def event_pressures(env):
-    vals={k:0.0 for k in ARMS}
+    stats={k:{"watch":0.0,"material":0.0,"critical":0.0} for k in ARMS}
     current=env.get("current_events",[])
     for e in current:
-        sev=SEV.get(e.get("severity"),.08)
         sc=SCOPE.get(e.get("scope"),.3)
         rec=recent_weight(e.get("occurred_at") or e.get("updated_at"))
-        base=sev*sc*rec
         tags=set((e.get("domains") or [])+(e.get("impact_channels") or []))
         touched=set()
         for t in tags:
             arm=DOMAIN_ARM.get(str(t).upper())
             if arm:touched.add(arm)
         if not touched:continue
-        for arm in touched:
-            vals[arm]+=base/max(1,len(touched))*.42
-    return {k:clamp(v) for k,v in vals.items()}
+        sev=str(e.get("severity") or "WATCH").upper()
+        bucket="critical" if sev=="CRITICAL" else "material" if sev=="MATERIAL" else "watch"
+        share=sc*rec/max(1,len(touched))
+        for arm in touched:stats[arm][bucket]+=share
+    vals={}
+    for arm,s in stats.items():
+        # Crowds of weak signals produce bounded vigilance, not a fake global shock.
+        watch=.16*(1-math.exp(-s["watch"]/8))
+        material=.48*(1-math.exp(-s["material"]/1.5))
+        critical=.82*(1-math.exp(-s["critical"]))
+        vals[arm]=clamp(watch+material+critical)
+    return vals
 
 def current_state(prev):
     env=load(ENV,{})
@@ -111,9 +118,9 @@ def current_state(prev):
     top_arm=max(arms,key=arms.get)
 
     if blind>=.35:regime="BLIND_SPOT"
-    elif strain>=.68 or vigilance>=.88:regime="SHOCK"
+    elif strain>=.68 or (vigilance>=.82 and active>=2):regime="SHOCK"
     elif prior and prev_strain>=.52 and strain<=.34:regime="RECOVERY"
-    elif strain>=.46:regime="STRESS"
+    elif strain>=.46 or (active>=3 and vigilance>=.55):regime="STRESS"
     elif strain>=.23 or vigilance>=.42:regime="VIGILANT"
     else:regime="CALM"
 
