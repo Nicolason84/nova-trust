@@ -1,0 +1,41 @@
+name: Verify KRIMI public APK download
+on:
+  push:
+    branches: [lab/krimi-android-20260920]
+    paths: [.github/workflows/krimi-public-download-check.yml]
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 3
+    steps:
+      - name: Fetch published URL and bytes anonymously
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import urllib.request,json,hashlib,pathlib,time
+          repo='Nicolason84/nova-trust';tag='krimi-native-1.0-926bb3cc'
+          headers={'User-Agent':'KRIMI-anonymous-final-verification','Accept':'application/vnd.github+json'}
+          url='https://api.github.com/repos/'+repo+'/releases/tags/'+tag
+          with urllib.request.urlopen(urllib.request.Request(url,headers=headers),timeout=30) as r:rel=json.load(r)
+          assert rel['id']==392360432 and rel['draft'] is False
+          asset=next(a for a in rel['assets'] if a['id']==576422015)
+          download=asset['browser_download_url']
+          assert download=='https://github.com/Nicolason84/nova-trust/releases/download/krimi-native-1.0-926bb3cc/KRIMI-Lab-1.0.apk'
+          expected='dcd70ad8eff6370333044fff50e2f55c67ddaa7ed3d3103cae3020e5f651d673'
+          assert asset['digest']=='sha256:'+expected and asset['size']==53749
+          with urllib.request.urlopen(urllib.request.Request(download,headers={'User-Agent':'KRIMI-anonymous-download'}),timeout=60) as r:
+              code=r.status;mime=r.headers.get('Content-Type');data=r.read()
+          assert code==200 and len(data)==53749 and hashlib.sha256(data).hexdigest()==expected
+          pathlib.Path('proof').mkdir();pathlib.Path('proof/KRIMI-Lab-1.0.apk').write_bytes(data)
+          result={'status':'PASS','anonymous_http_status':code,'authorization_header_used':False,'download_url':download,'release_url':rel['html_url'],'release_id':rel['id'],'asset_id':asset['id'],'sha256':expected,'bytes':len(data),'content_type':mime,'build_source_commit':'926bb3cc0367a1b6b2c3d17f231f6c19513f8e69','native_tests':{'passed':64,'failed':0,'build_run':35498450629},'physical_phone_tested':False,'SUPRA_connected':False,'time_utc':time.strftime('%Y-%m-%dT%H:%M:%SZ',time.gmtime())}
+          pathlib.Path('proof/publication-verification.json').write_text(json.dumps(result,indent=2));print(json.dumps(result,indent=2))
+          PY
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: krimi-public-download-proof
+          path: proof/
+          retention-days: 7
+          if-no-files-found: error
