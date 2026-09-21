@@ -1,11 +1,519 @@
 {
-  "schema":"OJO_FRANCE_ORGANISM_V1",
-  "version":"2026-09-21",
-  "updated_at":"2026-09-21T00:00:00Z",
-  "identity":{"name":"France","type":"DISTRIBUTED_TERRITORIAL_ORGANISM"},
-  "topology":{"counts":{},"regions":[]},
-  "physiology":{},
-  "environment":{},
-  "constitutional_rules":[],
-  "next_resolution":{}
+  "schema": "OJO_FRANCE_ORGANISM_V1",
+  "version": "2026-09-21",
+  "updated_at": "2026-09-21T01:28:33Z",
+  "identity": {
+    "name": "France",
+    "type": "DISTRIBUTED_TERRITORIAL_ORGANISM",
+    "metaphor": {
+      "body": "France",
+      "major_organs": "regions",
+      "sub_organs": "departments",
+      "functional_tissues": "EPCI",
+      "cells": "communes",
+      "transverse_systems": [
+        "macro",
+        "budget",
+        "energy",
+        "finance",
+        "logistics",
+        "climate",
+        "health",
+        "geopolitics"
+      ]
+    }
+  },
+  "topology": {
+    "source_generated_at": "2026-09-21T01:28:33Z",
+    "counts": {
+      "regions": 18,
+      "departments": 101,
+      "epcis": 1255,
+      "communes": 34969
+    },
+    "regions": [
+      {
+        "code": "01",
+        "name": "Guadeloupe",
+        "population": 384160,
+        "departments": 1,
+        "epcis": 6,
+        "communes": 32,
+        "population_share": 0.00562,
+        "state": "OBSERVED",
+        "local_pressure": "UNRESOLVED",
+        "systems": {
+          "macro": 0.32,
+          "budget": 0.1833,
+          "energy": 0.0257,
+          "finance": 0.0063,
+          "logistics": 0.153,
+          "climate": 0.0,
+          "health": 0.0108,
+          "geopolitics": 0.0167
+        },
+        "truth": "No region-specific pressure is inferred without territorially resolved evidence."
+      },
+      {
+        "code": "02",
+        "name": "Martinique",
+        "population": 360630,
+        "departments": 1,
+        "epcis": 3,
+        "communes": 34,
+        "population_share": 0.005276,
+        "state": "OBSERVED",
+        "local_pressure": "UNRESOLVED",
+        "systems": {
+          "macro": 0.32,
+          "budget": 0.1833,
+          "energy": 0.0257,
+          "finance": 0.0063,
+          "logistics": 0.153,
+          "climate": 0.0,
+          "health": 0.0108,
+          "geopolitics": 0.0167
+        },
+        "truth": "No region-specific pressure is inferred without territorially resolved evidence."
+      },
+      {
+        "code": "03",
+        "name": "Guyane",
+        "population": 293996,
+        "departments": 1,
+        "epcis": 4,
+        "communes": 22,
+        "population_share": 0.004301,
+        "state": "OBSERVED",
+        "local_pressure": "UNRESOLVED",
+        "systems": {
+          "macro": 0.32,
+          "budget": 0.1833,
+          "energy": 0.0257,
+          "finance": 0.0063,
+          "logistics": 0.153,
+          "climate": 0.0,
+          "health": 0.0108,
+          "geopolitics": 0.0167
+        },
+        "truth": "No region-specific pressure is inferred without territorially resolved evidence."
+      },
+      {
+        "code": "04",
+        "name": "La Réunion",
+        "population": 889679,
+        "departments": 1,
+        "epcis": 5,
+        "communes": 24,
+        "population_share": 0.013016,
+        "state": "OBSERVED",
+        "local_pressure": "UNRESOLVED",
+        "systems": {
+          "macro": 0.32,
+          "budget": 0.1833,
+          "energy": 0.0257,
+          "finance": 0.0063,
+          "logistics": 0.153,
+          "climate": 0.0,
+          "health": 0.0108,
+          "geopolitics": 0.0167
+        },
+        "truth": "No region-specific pressure is inferred without territorially resolved evidence."
+      },
+      {
+        "code": "06",
+        "name": "Mayotte",
+        "population": 256518,
+        "departments": 1,
+        "epcis": 5,
+        "communes": 17,
+        "population_share": 0.003753,
+        "state": "OBSERVED",
+        "local_pressure": "UNRESOLVED",
+        "systems": {
+          "macro": 0.32,
+          "budget": 0.1833,
+          "energy": 0.0257,
+          "finance": 0.0063,
+          "logistics": 0.153,
+          "climate": 0.0,
+          "health": 0.0108,
+          "geopolitics": 0.0167
+        },
+        "truth": "No region-specific pressure is inferred without territorially resolved evidence."
+      },
+      {
+        "code": "11",
+        "name": "Île-de-France",
+        "population": 12463067,
+        "departments": 8,
+        "epcis": 52,
+        "communes": 1266,
+        "population_share": 0.18234,
+        "state": "OBSERVED",
+        "local_pressure": "UNRESOLVED",
+        "systems": {
+          "macro": 0.32,
+          "budget": 0.1833,
+          "energy": 0.0257,
+          "finance": 0.0063,
+          "logistics": 0.153,
+          "climate": 0.0,
+          "health": 0.0108,
+          "geopolitics": 0.0167
+        },
+        "truth": "No region-specific pressure is inferred without territorially resolved evidence."
+      },
+      {
+        "code": "24",
+        "name": "Centre-Val de Loire",
+        "population": 2587031,
+        "departments": 6,
+        "epcis": 82,
+        "communes": 1754,
+        "population_share": 0.037849,
+        "state": "OBSERVED",
+        "local_pressure": "UNRESOLVED",
+        "systems": {
+          "macro": 0.32,
+          "budget": 0.1833,
+          "energy": 0.0257,
+          "finance": 0.0063,
+          "logistics": 0.153,
+          "climate": 0.0,
+          "health": 0.0108,
+          "geopolitics": 0.0167
+        },
+        "truth": "No region-specific pressure is inferred without territorially resolved evidence."
+      },
+      {
+        "code": "27",
+        "name": "Bourgogne-Franche-Comté",
+        "population": 2802670,
+        "departments": 8,
+        "epcis": 116,
+        "communes": 3685,
+        "population_share": 0.041004,
+        "state": "OBSERVED",
+        "local_pressure": "UNRESOLVED",
+        "systems": {
+          "macro": 0.32,
+          "budget": 0.1833,
+          "energy": 0.0257,
+          "finance": 0.0063,
+          "logistics": 0.153,
+          "climate": 0.0,
+          "health": 0.0108,
+          "geopolitics": 0.0167
+        },
+        "truth": "No region-specific pressure is inferred without territorially resolved evidence."
+      },
+      {
+        "code": "28",
+        "name": "Normandie",
+        "population": 3345842,
+        "departments": 5,
+        "epcis": 71,
+        "communes": 2644,
+        "population_share": 0.048951,
+        "state": "OBSERVED",
+        "local_pressure": "UNRESOLVED",
+        "systems": {
+          "macro": 0.32,
+          "budget": 0.1833,
+          "energy": 0.0257,
+          "finance": 0.0063,
+          "logistics": 0.153,
+          "climate": 0.0,
+          "health": 0.0108,
+          "geopolitics": 0.0167
+        },
+        "truth": "No region-specific pressure is inferred without territorially resolved evidence."
+      },
+      {
+        "code": "32",
+        "name": "Hauts-de-France",
+        "population": 5992194,
+        "departments": 5,
+        "epcis": 92,
+        "communes": 3782,
+        "population_share": 0.087668,
+        "state": "OBSERVED",
+        "local_pressure": "UNRESOLVED",
+        "systems": {
+          "macro": 0.32,
+          "budget": 0.1833,
+          "energy": 0.0257,
+          "finance": 0.0063,
+          "logistics": 0.153,
+          "climate": 0.0,
+          "health": 0.0108,
+          "geopolitics": 0.0167
+        },
+        "truth": "No region-specific pressure is inferred without territorially resolved evidence."
+      },
+      {
+        "code": "44",
+        "name": "Grand Est",
+        "population": 5563378,
+        "departments": 10,
+        "epcis": 150,
+        "communes": 5115,
+        "population_share": 0.081394,
+        "state": "OBSERVED",
+        "local_pressure": "UNRESOLVED",
+        "systems": {
+          "macro": 0.32,
+          "budget": 0.1833,
+          "energy": 0.0257,
+          "finance": 0.0063,
+          "logistics": 0.153,
+          "climate": 0.0,
+          "health": 0.0108,
+          "geopolitics": 0.0167
+        },
+        "truth": "No region-specific pressure is inferred without territorially resolved evidence."
+      },
+      {
+        "code": "52",
+        "name": "Pays de la Loire",
+        "population": 3907156,
+        "departments": 5,
+        "epcis": 71,
+        "communes": 1228,
+        "population_share": 0.057163,
+        "state": "OBSERVED",
+        "local_pressure": "UNRESOLVED",
+        "systems": {
+          "macro": 0.32,
+          "budget": 0.1833,
+          "energy": 0.0257,
+          "finance": 0.0063,
+          "logistics": 0.153,
+          "climate": 0.0,
+          "health": 0.0108,
+          "geopolitics": 0.0167
+        },
+        "truth": "No region-specific pressure is inferred without territorially resolved evidence."
+      },
+      {
+        "code": "53",
+        "name": "Bretagne",
+        "population": 3449370,
+        "departments": 4,
+        "epcis": 61,
+        "communes": 1202,
+        "population_share": 0.050466,
+        "state": "OBSERVED",
+        "local_pressure": "UNRESOLVED",
+        "systems": {
+          "macro": 0.32,
+          "budget": 0.1833,
+          "energy": 0.0257,
+          "finance": 0.0063,
+          "logistics": 0.153,
+          "climate": 0.0,
+          "health": 0.0108,
+          "geopolitics": 0.0167
+        },
+        "truth": "No region-specific pressure is inferred without territorially resolved evidence."
+      },
+      {
+        "code": "75",
+        "name": "Nouvelle-Aquitaine",
+        "population": 6150451,
+        "departments": 12,
+        "epcis": 156,
+        "communes": 4293,
+        "population_share": 0.089984,
+        "state": "OBSERVED",
+        "local_pressure": "UNRESOLVED",
+        "systems": {
+          "macro": 0.32,
+          "budget": 0.1833,
+          "energy": 0.0257,
+          "finance": 0.0063,
+          "logistics": 0.153,
+          "climate": 0.0,
+          "health": 0.0108,
+          "geopolitics": 0.0167
+        },
+        "truth": "No region-specific pressure is inferred without territorially resolved evidence."
+      },
+      {
+        "code": "76",
+        "name": "Occitanie",
+        "population": 6124653,
+        "departments": 13,
+        "epcis": 164,
+        "communes": 4446,
+        "population_share": 0.089606,
+        "state": "OBSERVED",
+        "local_pressure": "UNRESOLVED",
+        "systems": {
+          "macro": 0.32,
+          "budget": 0.1833,
+          "energy": 0.0257,
+          "finance": 0.0063,
+          "logistics": 0.153,
+          "climate": 0.0,
+          "health": 0.0108,
+          "geopolitics": 0.0167
+        },
+        "truth": "No region-specific pressure is inferred without territorially resolved evidence."
+      },
+      {
+        "code": "84",
+        "name": "Auvergne-Rhône-Alpes",
+        "population": 8205557,
+        "departments": 12,
+        "epcis": 172,
+        "communes": 4025,
+        "population_share": 0.120051,
+        "state": "OBSERVED",
+        "local_pressure": "UNRESOLVED",
+        "systems": {
+          "macro": 0.32,
+          "budget": 0.1833,
+          "energy": 0.0257,
+          "finance": 0.0063,
+          "logistics": 0.153,
+          "climate": 0.0,
+          "health": 0.0108,
+          "geopolitics": 0.0167
+        },
+        "truth": "No region-specific pressure is inferred without territorially resolved evidence."
+      },
+      {
+        "code": "93",
+        "name": "Provence-Alpes-Côte d'Azur",
+        "population": 5218960,
+        "departments": 6,
+        "epcis": 52,
+        "communes": 946,
+        "population_share": 0.076356,
+        "state": "OBSERVED",
+        "local_pressure": "UNRESOLVED",
+        "systems": {
+          "macro": 0.32,
+          "budget": 0.1833,
+          "energy": 0.0257,
+          "finance": 0.0063,
+          "logistics": 0.153,
+          "climate": 0.0,
+          "health": 0.0108,
+          "geopolitics": 0.0167
+        },
+        "truth": "No region-specific pressure is inferred without territorially resolved evidence."
+      },
+      {
+        "code": "94",
+        "name": "Corse",
+        "population": 355486,
+        "departments": 2,
+        "epcis": 19,
+        "communes": 360,
+        "population_share": 0.005201,
+        "state": "OBSERVED",
+        "local_pressure": "UNRESOLVED",
+        "systems": {
+          "macro": 0.32,
+          "budget": 0.1833,
+          "energy": 0.0257,
+          "finance": 0.0063,
+          "logistics": 0.153,
+          "climate": 0.0,
+          "health": 0.0108,
+          "geopolitics": 0.0167
+        },
+        "truth": "No region-specific pressure is inferred without territorially resolved evidence."
+      }
+    ]
+  },
+  "physiology": {
+    "regime": "CALM",
+    "strain": 0.108,
+    "vigilance": 0.32,
+    "heart_rate_visual": 60,
+    "respiration_visual": 10.7,
+    "sensor_health": 1.0,
+    "systems": {
+      "macro": 0.32,
+      "budget": 0.1833,
+      "energy": 0.0257,
+      "finance": 0.0063,
+      "logistics": 0.153,
+      "climate": 0.0,
+      "health": 0.0108,
+      "geopolitics": 0.0167
+    },
+    "learning": {
+      "stage": "BOOTSTRAP",
+      "samples": 3,
+      "max_memory": 672,
+      "motifs": [],
+      "early_warning": {
+        "status": "CALIBRATION",
+        "samples": 3,
+        "note": "Au moins 16 états requis avant même un signal exploratoire."
+      },
+      "prediction": {
+        "status": "CALIBRATION",
+        "samples": 3,
+        "next": null,
+        "horizon_4": null
+      },
+      "regime_transitions": [
+        {
+          "from": "CALM",
+          "to": "VIGILANT",
+          "count": 1
+        },
+        {
+          "from": "VIGILANT",
+          "to": "CALM",
+          "count": 1
+        }
+      ]
+    },
+    "control_readiness": {
+      "sensor_coverage": 1.0,
+      "mathematical_observability": "UNPROVEN",
+      "dynamic_edges_validated": 0,
+      "actuators_validated": 0,
+      "controllability": "UNPROVEN",
+      "closed_loop_control": "NOT_READY",
+      "reason": "Live sensing exists, but causal transfer functions between candidate levers and state variables are not yet empirically validated.",
+      "next_requirements": [
+        "historical backtests",
+        "causal/functional edge registry",
+        "forecast-error ledger",
+        "validated actuator response functions"
+      ]
+    }
+  },
+  "environment": {
+    "sequence": 6,
+    "summary": {
+      "sources": 8,
+      "healthy": 8,
+      "errors": 0,
+      "current_events": 285,
+      "new_events": 35
+    },
+    "note": "External events remain signals until a territorial transmission path is resolved."
+  },
+  "constitutional_rules": [
+    "Territorial structure is observed, not simplified for visual convenience.",
+    "Event is not impact.",
+    "National signal is not automatically a regional signal.",
+    "No region is ranked or politically scored.",
+    "Policy choices remain human; the organism may expose evidence, dependencies, stress and uncertainty."
+  ],
+  "next_resolution": {
+    "territorial_event_binding": "PENDING",
+    "region_specific_systems": "PENDING",
+    "department_epci_commune_drilldown": "TOPOLOGY_READY",
+    "historical_backtest": "PENDING"
+  }
 }
