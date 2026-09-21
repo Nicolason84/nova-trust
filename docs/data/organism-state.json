@@ -1,11 +1,11 @@
 {
   "schema": "OJO_ORGANISM_STATE_V1",
   "version": "2026-09-21",
-  "updated_at": "2026-09-20T23:45:11.654Z",
+  "updated_at": "2026-09-21T00:44:55Z",
   "source_sequences": {
-    "budget": 6,
-    "environment": 4,
-    "combined": "6:4"
+    "budget": 7,
+    "environment": 5,
+    "combined": "7:5"
   },
   "animal": {
     "species": "BIOMIMETIC_CEPHALOPOD",
@@ -13,51 +13,57 @@
     "metaphor": "Distributed nervous system; eight domain arms; mantle = whole-system state; skin = confidence/stress."
   },
   "state": {
-    "ts": "2026-09-20T23:45:11.653Z",
-    "source_seq": "6:4",
-    "strain": 0.1077,
-    "vigilance": 0.32,
-    "asymmetry": 0.11,
+    "ts": "2026-09-21T00:44:55Z",
+    "strain": 0.1682,
+    "vigilance": 0.55,
+    "asymmetry": 0.1892,
     "arms": {
       "macro": 0.32,
-      "budget": 0.1833,
-      "energy": 0.0234,
+      "budget": 0.55,
+      "energy": 0.0105,
       "finance": 0.0063,
       "logistics": 0.153,
-      "climate": 0,
+      "climate": 0.0,
       "health": 0.0108,
       "geopolitics": 0.0167
     },
-    "regime": "CALM",
-    "top_arm": "macro",
-    "heart_rate_visual": 60,
-    "respiration_visual": 10.7,
-    "contraction": 0.198,
-    "luminance": 0.848,
-    "sensor_health": 1,
-    "blindness": 0,
-    "active_arms": 0
+    "regime": "VIGILANT",
+    "top_arm": "budget",
+    "heart_rate_visual": 67,
+    "respiration_visual": 13.1,
+    "contraction": 0.241,
+    "luminance": 0.819,
+    "sensor_health": 1.0,
+    "blindness": 0.0,
+    "active_arms": 1,
+    "source_seq": "7:5"
   },
   "learning": {
     "stage": "BOOTSTRAP",
-    "samples": 1,
+    "samples": 2,
     "max_memory": 672,
     "motifs": [],
     "early_warning": {
       "status": "CALIBRATION",
-      "samples": 1,
+      "samples": 2,
       "note": "Au moins 16 états requis avant même un signal exploratoire."
     },
     "prediction": {
       "status": "CALIBRATION",
-      "samples": 1,
+      "samples": 2,
       "next": null,
       "horizon_4": null
     },
-    "regime_transitions": []
+    "regime_transitions": [
+      {
+        "from": "CALM",
+        "to": "VIGILANT",
+        "count": 1
+      }
+    ]
   },
   "control_readiness": {
-    "sensor_coverage": 1,
+    "sensor_coverage": 1.0,
     "mathematical_observability": "UNPROVEN",
     "dynamic_edges_validated": 0,
     "actuators_validated": 0,
@@ -103,26 +109,32 @@
       "sensor_health": 1,
       "blindness": 0,
       "active_arms": 0
-    }
-  ],
-  "heritage": {
-    "policy": "MEMORY_FIRST / RECOVER_BEFORE_RECREATE",
-    "references": [
-      {
-        "name": "SYSTEM_ORGANISM",
-        "path": "/Users/nicolasalonso/NOVA_LABS/NOVA_ORGANISM_CONTROL_CENTER_V1/snapshots/SYSTEM_ORGANISM_BASELINE_V1_20260520_230749",
-        "inventory_elements": 568,
-        "status": "RECOVERED_REFERENCE_ONLY",
-        "note": "Drive inventory confirms existence and size; internal semantics not yet ingested into this live model."
+    },
+    {
+      "ts": "2026-09-21T00:44:55Z",
+      "strain": 0.1682,
+      "vigilance": 0.55,
+      "asymmetry": 0.1892,
+      "arms": {
+        "macro": 0.32,
+        "budget": 0.55,
+        "energy": 0.0105,
+        "finance": 0.0063,
+        "logistics": 0.153,
+        "climate": 0.0,
+        "health": 0.0108,
+        "geopolitics": 0.0167
       },
-      {
-        "name": "PUCHERO_THEORY_LAB_V1",
-        "path": "/Users/nicolasalonso/NOVA_OS/PUCHERO_THEORY_LAB_V1/outputs",
-        "inventory_elements": 171,
-        "status": "RECOVERED_REFERENCE_ONLY",
-        "note": "Drive inventory confirms output group; semantics require targeted recovery before binding."
-      }
-    ],
-    "rule": "Fuse/reconcile equivalent recovered capabilities before promoting any new engine."
-  }
+      "regime": "VIGILANT",
+      "top_arm": "budget",
+      "heart_rate_visual": 67,
+      "respiration_visual": 13.1,
+      "contraction": 0.241,
+      "luminance": 0.819,
+      "sensor_health": 1.0,
+      "blindness": 0.0,
+      "active_arms": 1,
+      "source_seq": "7:5"
+    }
+  ]
 }
