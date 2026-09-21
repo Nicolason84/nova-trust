@@ -1,11 +1,11 @@
 {
   "schema": "OJO_ORGANISM_STATE_V1",
   "version": "2026-09-21",
-  "updated_at": "2026-09-21T01:30:38Z",
+  "updated_at": "2026-09-21T01:31:44Z",
   "source_sequences": {
-    "budget": 9,
-    "environment": 7,
-    "combined": "9:7"
+    "budget": 10,
+    "environment": 8,
+    "combined": "10:8"
   },
   "animal": {
     "species": "BIOMIMETIC_CEPHALOPOD",
@@ -13,7 +13,7 @@
     "metaphor": "Distributed nervous system; eight domain arms; mantle = whole-system state; skin = confidence/stress."
   },
   "state": {
-    "ts": "2026-09-21T01:30:38Z",
+    "ts": "2026-09-21T01:31:44Z",
     "strain": 0.1099,
     "vigilance": 0.32,
     "asymmetry": 0.1089,
@@ -36,25 +36,30 @@
     "sensor_health": 1.0,
     "blindness": 0.0,
     "active_arms": 0,
-    "source_seq": "9:7"
+    "source_seq": "10:8"
   },
   "learning": {
     "stage": "BOOTSTRAP",
-    "samples": 4,
+    "samples": 5,
     "max_memory": 672,
     "motifs": [],
     "early_warning": {
       "status": "CALIBRATION",
-      "samples": 4,
+      "samples": 5,
       "note": "Au moins 16 états requis avant même un signal exploratoire."
     },
     "prediction": {
       "status": "CALIBRATION",
-      "samples": 4,
+      "samples": 5,
       "next": null,
       "horizon_4": null
     },
     "regime_transitions": [
+      {
+        "from": "CALM",
+        "to": "CALM",
+        "count": 2
+      },
       {
         "from": "CALM",
         "to": "VIGILANT",
@@ -62,11 +67,6 @@
       },
       {
         "from": "VIGILANT",
-        "to": "CALM",
-        "count": 1
-      },
-      {
-        "from": "CALM",
         "to": "CALM",
         "count": 1
       }
@@ -197,6 +197,32 @@
       "blindness": 0.0,
       "active_arms": 0,
       "source_seq": "9:7"
+    },
+    {
+      "ts": "2026-09-21T01:31:44Z",
+      "strain": 0.1099,
+      "vigilance": 0.32,
+      "asymmetry": 0.1089,
+      "arms": {
+        "macro": 0.32,
+        "budget": 0.1833,
+        "energy": 0.039,
+        "finance": 0.0063,
+        "logistics": 0.153,
+        "climate": 0.0,
+        "health": 0.0108,
+        "geopolitics": 0.0167
+      },
+      "regime": "CALM",
+      "top_arm": "macro",
+      "heart_rate_visual": 60,
+      "respiration_visual": 10.7,
+      "contraction": 0.199,
+      "luminance": 0.847,
+      "sensor_health": 1.0,
+      "blindness": 0.0,
+      "active_arms": 0,
+      "source_seq": "10:8"
     }
   ]
 }

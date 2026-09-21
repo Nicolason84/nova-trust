@@ -1,7 +1,7 @@
 {
   "schema": "OJO_FRANCE_ORGANISM_V1",
   "version": "2026-09-21",
-  "updated_at": "2026-09-21T01:30:38Z",
+  "updated_at": "2026-09-21T01:31:53Z",
   "identity": {
     "name": "France",
     "type": "DISTRIBUTED_TERRITORIAL_ORGANISM",
@@ -24,12 +24,12 @@
     }
   },
   "topology": {
-    "source_generated_at": "2026-09-21T01:28:33Z",
+    "source_generated_at": "2026-09-21T01:31:53Z",
     "counts": {
       "regions": 18,
       "departments": 101,
-      "epcis": 1255,
-      "communes": 34969
+      "epcis": 1252,
+      "communes": 34875
     },
     "regions": [
       {
@@ -449,21 +449,26 @@
     },
     "learning": {
       "stage": "BOOTSTRAP",
-      "samples": 4,
+      "samples": 5,
       "max_memory": 672,
       "motifs": [],
       "early_warning": {
         "status": "CALIBRATION",
-        "samples": 4,
+        "samples": 5,
         "note": "Au moins 16 états requis avant même un signal exploratoire."
       },
       "prediction": {
         "status": "CALIBRATION",
-        "samples": 4,
+        "samples": 5,
         "next": null,
         "horizon_4": null
       },
       "regime_transitions": [
+        {
+          "from": "CALM",
+          "to": "CALM",
+          "count": 2
+        },
         {
           "from": "CALM",
           "to": "VIGILANT",
@@ -471,11 +476,6 @@
         },
         {
           "from": "VIGILANT",
-          "to": "CALM",
-          "count": 1
-        },
-        {
-          "from": "CALM",
           "to": "CALM",
           "count": 1
         }
@@ -498,7 +498,7 @@
     }
   },
   "environment": {
-    "sequence": 7,
+    "sequence": 8,
     "summary": {
       "sources": 8,
       "healthy": 8,
