@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 from __future__ import annotations
-import json, urllib.request
+import csv, io, json, urllib.request
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -14,6 +14,8 @@ REGIONS_URL="https://geo.api.gouv.fr/regions"
 DEPARTMENTS_URL="https://geo.api.gouv.fr/departements"
 EPCI_URL="https://geo.api.gouv.fr/epcis?fields=nom,code,codesRegions,codesDepartements,population,type,financement"
 COMMUNES_URL="https://geo.api.gouv.fr/communes?fields=nom,code,population,codeDepartement,codeRegion,codeEpci"
+COG_COMMUNES_URL="https://www.insee.fr/fr/statistiques/fichier/8740222/v_commune_2026.csv"
+OFFICIAL_COUNTS={"regions":18,"departments":101,"epcis":1252,"communes":34875}
 
 SYSTEMS=["macro","budget","energy","finance","logistics","climate","health","geopolitics"]
 
@@ -29,6 +31,22 @@ def fetch(url):
     with urllib.request.urlopen(req,timeout=45) as r:
         return json.loads(r.read().decode("utf-8"))
 
+def fetch_cog_commune_codes():
+    req=urllib.request.Request(COG_COMMUNES_URL,headers={"User-Agent":UA,"Accept":"text/csv,*/*"})
+    with urllib.request.urlopen(req,timeout=45) as r:
+        raw=r.read().decode("utf-8-sig")
+    try:
+        dialect=csv.Sniffer().sniff(raw[:8192],delimiters=",;\t")
+    except:
+        dialect=csv.excel
+    rows=csv.DictReader(io.StringIO(raw),dialect=dialect)
+    codes=set()
+    for row in rows:
+        if str(row.get("TYPECOM","")).strip()=="COM":
+            code=str(row.get("COM","")).strip()
+            if code: codes.add(code)
+    return codes
+
 def ensure_topology():
     old=load(TOPO,{})
     stamp=old.get("generated_at")
@@ -43,7 +61,9 @@ def ensure_topology():
     regions=fetch(REGIONS_URL)
     deps=fetch(DEPARTMENTS_URL)
     epcis=fetch(EPCI_URL)
-    communes=fetch(COMMUNES_URL)
+    communes_raw=fetch(COMMUNES_URL)
+    official_commune_codes=fetch_cog_commune_codes()
+    communes=[c for c in communes_raw if str(c.get("code") or "") in official_commune_codes]
 
     reg={str(x["code"]):{
         "code":str(x["code"]),
@@ -75,18 +95,22 @@ def ensure_topology():
       "generated_at":now(),
       "sources":[
         {"name":"API Découpage administratif","publisher":"Etalab / data.gouv.fr","url":"https://geo.api.gouv.fr/decoupage-administratif"},
-        {"name":"COG 2026","publisher":"Insee","url":"https://www.insee.fr/fr/information/8740222"}
+        {"name":"COG 2026","publisher":"Insee","url":"https://www.insee.fr/fr/information/8740222","commune_csv":COG_COMMUNES_URL},
+        {"name":"Collectivités locales en chiffres 2026","publisher":"DGCL","url":"https://www.collectivites-locales.gouv.fr/les-collectivites-locales-en-chiffres-2026"}
       ],
-      "counts":{
+      "counts":OFFICIAL_COUNTS,
+      "api_record_counts":{
         "regions":len(regions),
         "departments":len(deps),
         "epcis":len(epcis),
-        "communes":len(communes)
+        "communes_raw":len(communes_raw),
+        "communes_cog_filtered":len(communes)
       },
       "regions":sorted(reg.values(),key=lambda x:x["code"]),
       "departments_count":len(deps),
       "epcis_count":len(epcis),
       "communes_count":len(communes),
+      "official_communes_count":len(official_commune_codes),
       "model_note":"Administrative topology is descriptive. Special territorial arrangements must remain explicit rather than being forced into a uniform hierarchy."
     }
     TOPO.parent.mkdir(parents=True,exist_ok=True)
