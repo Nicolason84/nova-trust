@@ -54,7 +54,7 @@ def ensure_topology():
         try:
             t=datetime.fromisoformat(stamp.replace("Z","+00:00"))
             age=(datetime.now(timezone.utc)-t).total_seconds()
-            if age<86400 and old.get("regions") and old.get("communes_count"):
+            if age<86400 and old.get("schema")=="OJO_FRANCE_TOPOLOGY_V2" and old.get("regions") and old.get("official_communes_count")==OFFICIAL_COUNTS["communes"]:
                 return old
         except: pass
 
@@ -91,7 +91,7 @@ def ensure_topology():
             if isinstance(pop,(int,float)): reg[code]["population"]+=int(pop)
 
     topo={
-      "schema":"OJO_FRANCE_TOPOLOGY_V1",
+      "schema":"OJO_FRANCE_TOPOLOGY_V2",
       "generated_at":now(),
       "sources":[
         {"name":"API Découpage administratif","publisher":"Etalab / data.gouv.fr","url":"https://geo.api.gouv.fr/decoupage-administratif"},
