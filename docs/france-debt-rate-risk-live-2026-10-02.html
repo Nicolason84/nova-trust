@@ -126,20 +126,20 @@ body[data-evo-focus="evidence"] #rpEvidenceCard,body[data-evo-focus="decision"] 
 
 <section class="section" id="la-bete">
   <div class="head">
-    <div><div class="ey">LA BÊTE · DIGITAL TWIN VISUEL</div><h2>Donner du volume au temps.</h2></div>
-    <p>Le cœur représente le stock ; les anneaux représentent les années de propagation ; les huit bras représentent les canaux à surveiller. Le modèle 3D ne fabrique aucune donnée : sa géométrie se recale sur le manifeste live et sur le scénario de taux sélectionné.</p>
+    <div><div class="ey">LA BÊTE · DIGITAL TWIN VISUEL</div><h2>Voir où la pression entre, où elle circule, quand elle arrive.</h2></div>
+    <p>La Bête devient un organisme lisible : son cœur représente le stock, ses cinq halos la propagation dans le temps et ses huit membres les canaux à surveiller. Sa posture et sa lumière réagissent au scénario exploré ; aucune donnée ni causalité n’est inventée.</p>
   </div>
   <div class="beastShell">
     <div class="beastStage" id="beastStage">
       <video id="arVideo" playsinline muted autoplay aria-hidden="true"></video>
-      <div id="beastMount" aria-label="Visualisation 3D interactive de la dette, des taux et du refinancement"><svg class="beastFallback" viewBox="0 0 800 560" aria-hidden="true"><defs><radialGradient id="beastPearl"><stop offset="0" stop-color="#c2d4c5" stop-opacity=".8"/><stop offset=".42" stop-color="#466b72" stop-opacity=".6"/><stop offset="1" stop-color="#182b38" stop-opacity=".1"/></radialGradient></defs><g transform="translate(400 275)"><circle r="120" fill="url(#beastPearl)"/><g fill="none" stroke="#8bb2b5" stroke-opacity=".4"><ellipse rx="225" ry="73" transform="rotate(-25)"/><ellipse rx="195" ry="96" transform="rotate(36)"/><ellipse rx="155" ry="54" transform="rotate(72)"/><circle r="102" stroke-opacity=".18"/><path d="M-320 15Q-200 -140 0 0T315 -90M-250 170Q-55 155 0 0T180 -185M-220 -180Q-120 60 0 0T290 140"/></g><circle r="46" fill="none" stroke="#dca47c" stroke-opacity=".6"/><circle r="14" fill="#dca47c" fill-opacity=".8"/></g></svg></div>
+      <div id="beastMount" aria-label="Visualisation 3D interactive de la dette, des taux et du refinancement"><svg class="beastFallback" viewBox="0 0 900 650" aria-hidden="true"><defs><radialGradient id="beastPearl"><stop offset="0" stop-color="#e7bd72" stop-opacity=".86"/><stop offset=".24" stop-color="#587983" stop-opacity=".72"/><stop offset="1" stop-color="#16252d" stop-opacity=".12"/></radialGradient><filter id="beastGlow"><feGaussianBlur stdDeviation="8" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs><g transform="translate(450 250)" fill="none" stroke-linecap="round"><ellipse rx="125" ry="155" fill="url(#beastPearl)" stroke="#9bc8ca" stroke-opacity=".34"/><circle cy="12" r="48" fill="#e7bd72" fill-opacity=".18" stroke="#e7bd72" stroke-opacity=".68" filter="url(#beastGlow)"/><g fill="#f4ecd9" stroke="none" filter="url(#beastGlow)"><ellipse cx="-42" cy="-55" rx="11" ry="7"/><ellipse cx="42" cy="-55" rx="11" ry="7"/></g><g stroke="#89bdc4" stroke-opacity=".35"><ellipse rx="205" ry="66" transform="rotate(-16)"/><ellipse rx="245" ry="82" transform="rotate(15)"/><ellipse rx="285" ry="96" transform="rotate(-5)"/></g><g stroke="#9dcfd1" stroke-opacity=".56" stroke-width="10"><path d="M-45 120C-70 205-160 232-225 315"/><path d="M45 120C70 205 160 232 225 315"/><path d="M-78 98C-150 165-255 170-340 225"/><path d="M78 98C150 165 255 170 340 225"/><path d="M-102 62C-205 105-300 78-385 118"/><path d="M102 62C205 105 300 78 385 118"/><path d="M-112 20C-240 22-310-38-402-18"/><path d="M112 20C240 22 310-38 402-18"/></g><g fill="#d8ebe4" stroke="none"><circle cx="-225" cy="315" r="7"/><circle cx="225" cy="315" r="7"/><circle cx="-340" cy="225" r="7"/><circle cx="340" cy="225" r="7"/><circle cx="-385" cy="118" r="7"/><circle cx="385" cy="118" r="7"/><circle cx="-402" cy="-18" r="7"/><circle cx="402" cy="-18" r="7"/></g></g></svg></div>
       <div class="beastHud" aria-live="polite">
         <div><small>Cœur · stock</small><strong id="beastStock">2,896 T€</strong></div>
         <div><small>Signal · TEC10</small><strong id="beastRate">4,899 %</strong></div>
         <div><small>Choc exploré</small><strong id="beastShock">+100 pb</strong></div>
         <div><small>Propagation · an 5</small><strong id="beastY5">18,4 Md€</strong></div>
       </div>
-      <div class="beastTag" id="beastTag"><b>La Bête n’est pas un décor.</b> Glissez pour tourner, pincez ou utilisez la molette pour zoomer. Touchez un bras : la couche décisionnelle correspondante s’ouvre. L’intensité encode le scénario sélectionné, jamais une opinion.</div>
+      <div class="beastTag" id="beastTag"><b>Lisez son corps.</b> Cœur = stock · halos = temps · membres = canaux. Glissez pour tourner ; touchez un membre pour identifier sa fonction. La tension lumineuse encode le scénario sélectionné, jamais une opinion.</div>
     </div>
     <div class="beastTools"><span class="beastAudioBadge" id="beastAudioState">EN SILENCE</span>
       <button type="button" id="beastImmersive">Immersion plein écran</button>
@@ -723,65 +723,162 @@ async function initBeast(){
   const mount=$('beastMount'),stage=$('beastStage'); if(!mount||beast3d)return;
   try{
     const THREE=await import('https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js');
-    const scene=new THREE.Scene(),camera=new THREE.PerspectiveCamera(42,1,.1,100);
-    camera.position.set(0,1.0,12.6);
+    const scene=new THREE.Scene(),camera=new THREE.PerspectiveCamera(40,1,.1,100);
+    camera.position.set(0,.25,13.8);
     const renderer=new THREE.WebGLRenderer({antialias:true,alpha:true,powerPreference:'high-performance'});
-    renderer.setPixelRatio(Math.min(devicePixelRatio||1,1.7));renderer.setClearColor(0x000000,0);mount.appendChild(renderer.domElement);
-    const root=new THREE.Group();scene.add(root);
-    const amb=new THREE.AmbientLight(0x9ecbd7,1.6);scene.add(amb);
-    const key=new THREE.PointLight(0xc8f09a,4.5,35);key.position.set(4,5,7);scene.add(key);
-    const rim=new THREE.PointLight(0x8bd6e5,3.2,30);rim.position.set(-6,-1,4);scene.add(rim);
-    const coreMat=new THREE.MeshPhysicalMaterial({color:0x36535d,roughness:.13,metalness:.3,transmission:.22,emissive:0x10252c,emissiveIntensity:1.2,transparent:true,opacity:.97});
-    const core=new THREE.Mesh(new THREE.IcosahedronGeometry(2.1,5),coreMat);root.add(core);
-    const inner=new THREE.Mesh(new THREE.IcosahedronGeometry(1.42,3),new THREE.MeshBasicMaterial({color:0xc8f09a,wireframe:true,transparent:true,opacity:.11}));root.add(inner);
-    const ringGroup=new THREE.Group();root.add(ringGroup);
+    renderer.setPixelRatio(Math.min(devicePixelRatio||1,1.65));
+    renderer.setClearColor(0x000000,0);
+    if('outputColorSpace' in renderer)renderer.outputColorSpace=THREE.SRGBColorSpace;
+    if('toneMapping' in renderer){renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.08}
+    mount.appendChild(renderer.domElement);
+
+    const root=new THREE.Group();root.rotation.x=.05;scene.add(root);
+    scene.add(new THREE.HemisphereLight(0xbfe8ea,0x172027,2.05));
+    const key=new THREE.PointLight(0xf0c47b,8.2,35);key.position.set(4.5,6,7);scene.add(key);
+    const rim=new THREE.PointLight(0x8fd8e8,6.2,32);rim.position.set(-6,-1,5);scene.add(rim);
+    const under=new THREE.PointLight(0xbfe8a0,3.8,24);under.position.set(0,-6,3);scene.add(under);
+
+    const skinMat=new THREE.MeshPhysicalMaterial({
+      color:0x28434b,roughness:.22,metalness:.08,transmission:.22,thickness:1.6,
+      clearcoat:.85,clearcoatRoughness:.2,emissive:0x0f242a,emissiveIntensity:.88,
+      transparent:true,opacity:.97
+    });
+    const mantle=new THREE.Mesh(new THREE.SphereGeometry(1.75,64,48),skinMat);
+    mantle.scale.set(1.16,1.34,.82);mantle.position.y=.58;root.add(mantle);
+
+    const heartMat=new THREE.MeshPhysicalMaterial({
+      color:0xe7bd72,roughness:.17,metalness:.15,emissive:0x8b4d28,emissiveIntensity:1.35,
+      transparent:true,opacity:.94
+    });
+    const heart=new THREE.Mesh(new THREE.IcosahedronGeometry(.72,4),heartMat);
+    heart.position.set(0,.38,.55);heart.scale.set(1,.92,.82);root.add(heart);
+
+    const thorax=new THREE.Mesh(new THREE.TorusGeometry(1.35,.035,12,120),new THREE.MeshBasicMaterial({color:0x8fd8e8,transparent:true,opacity:.22}));
+    thorax.rotation.x=Math.PI/2;thorax.position.y=.1;root.add(thorax);
+
+    const eyeMat=new THREE.MeshStandardMaterial({color:0xf7f1dc,emissive:0xf0c47b,emissiveIntensity:2.1,roughness:.15});
+    const eyes=[];
+    [-.56,.56].forEach(x=>{const e=new THREE.Mesh(new THREE.SphereGeometry(.115,24,18),eyeMat);e.position.set(x,.92,1.42);e.scale.set(1.25,.72,.6);root.add(e);eyes.push(e)});
+
+    const crown=new THREE.Group();root.add(crown);
+    for(let i=0;i<7;i++){
+      const a=(i-3)*.22;
+      const g=new THREE.ConeGeometry(.08,.72,8);
+      const m=new THREE.MeshStandardMaterial({color:i===3?0xe7bd72:0x6eaeb8,emissive:i===3?0x6d351b:0x123a42,emissiveIntensity:.7,roughness:.3});
+      const spike=new THREE.Mesh(g,m);spike.position.set(Math.sin(a)*1.0,2.18+Math.cos(a)*.18,-.18);spike.rotation.z=-a*.85;spike.scale.y=.68+Math.cos(a)*.2;crown.add(spike)
+    }
+
+    const ringGroup=new THREE.Group();ringGroup.position.y=.28;root.add(ringGroup);
     const ringMats=[],rings=[];
-    for(let i=0;i<5;i++){const m=new THREE.MeshBasicMaterial({color:i<2?0x8bd6e5:0xe7bd72,transparent:true,opacity:.18,side:THREE.DoubleSide});const g=new THREE.TorusGeometry(2.8+i*.62,.018+i*.004,12,160);const r=new THREE.Mesh(g,m);r.rotation.x=Math.PI/2;r.rotation.z=i*.21;ringGroup.add(r);rings.push(r);ringMats.push(m)}
+    for(let i=0;i<5;i++){
+      const m=new THREE.MeshBasicMaterial({color:i<2?0x8fd8e8:0xe7bd72,transparent:true,opacity:.10,side:THREE.DoubleSide});
+      const g=new THREE.TorusGeometry(2.45+i*.58,.014+i*.003,10,180);
+      const r=new THREE.Mesh(g,m);r.rotation.x=Math.PI/2;r.rotation.z=i*.17;r.scale.y=.72+i*.045;ringGroup.add(r);rings.push(r);ringMats.push(m)
+    }
+
     const labels=[
-      ['Marché','Courbe des taux : signal observé, pas causalité.'],
+      ['Marché','Courbe des taux observée : signal de prix, pas causalité.'],
       ['Refinancement','Échéances : vitesse de transmission au stock.'],
       ['Émissions','Besoin nouveau : volume exposé aux conditions courantes.'],
       ['Intérêts','Charge : résultat budgétaire de la transmission.'],
       ['Stock','Dette existante : mémoire des coupons passés.'],
       ['Maturité','Durée de vie : amortisseur temporel du portefeuille.'],
       ['Déficit','Besoin de financement : flux à couvrir.'],
-      ['Temps','Persistance : variable qui transforme un signal en coût durable.']
+      ['Temps','Persistance : ce qui transforme un signal en coût durable.']
     ];
-    const arms=[];
-    for(let i=0;i<8;i++){
-      const a=i*Math.PI*2/8,dir=new THREE.Vector3(Math.cos(a),Math.sin(a)*.55,Math.sin(a)*.55).normalize();
-      const p0=dir.clone().multiplyScalar(1.85);
-      const p1=dir.clone().multiplyScalar(3.0).add(new THREE.Vector3(0,Math.sin(a*2)*.55,Math.cos(a*1.5)*.35));
-      const p2=dir.clone().multiplyScalar(4.55).add(new THREE.Vector3(Math.sin(a*1.7)*.65,Math.cos(a*1.3)*.7,Math.sin(a)*.35));
-      const curve=new THREE.CatmullRomCurve3([p0,p1,p2]);
-      const mat=new THREE.MeshStandardMaterial({color:i%2?0x8bd6e5:0xc8f09a,roughness:.35,metalness:.05,emissive:i%2?0x153742:0x23371c,emissiveIntensity:.5,transparent:true,opacity:.78});
-      const mesh=new THREE.Mesh(new THREE.TubeGeometry(curve,48,.065,10,false),mat);mesh.userData={idx:i,label:labels[i][0],detail:labels[i][1]};root.add(mesh);arms.push(mesh);
-      const tip=new THREE.Mesh(new THREE.SphereGeometry(.10,16,12),new THREE.MeshBasicMaterial({color:i%2?0x8bd6e5:0xc8f09a}));tip.position.copy(p2);root.add(tip);
+    const palette=[0x8fd8e8,0xbfe8a0,0x9bcfd7,0xe7bd72,0xc6d6d1,0x8fd8e8,0xe7bd72,0xbfe8a0];
+
+    function makeLabel(text,color){
+      const canvas=document.createElement('canvas');canvas.width=512;canvas.height=128;
+      const cx=canvas.getContext('2d');cx.clearRect(0,0,512,128);
+      cx.font='600 34px -apple-system,BlinkMacSystemFont,Segoe UI,sans-serif';
+      const w=Math.min(470,cx.measureText(text).width+58);
+      cx.fillStyle='rgba(8,15,20,.82)';cx.strokeStyle='rgba(190,220,220,.24)';cx.lineWidth=2;
+      const x=(512-w)/2;cx.beginPath();cx.roundRect(x,33,w,62,28);cx.fill();cx.stroke();
+      cx.fillStyle='#edf1e7';cx.textAlign='center';cx.textBaseline='middle';cx.fillText(text,256,64);
+      cx.fillStyle='#'+color.getHexString();cx.beginPath();cx.arc(x+24,64,6,0,Math.PI*2);cx.fill();
+      const tex=new THREE.CanvasTexture(canvas);tex.colorSpace=THREE.SRGBColorSpace;
+      const sprite=new THREE.Sprite(new THREE.SpriteMaterial({map:tex,transparent:true,depthTest:false,opacity:.92}));
+      sprite.scale.set(2.15,.54,1);return sprite
     }
-    const stars=new THREE.Points(new THREE.BufferGeometry(),new THREE.PointsMaterial({color:0x7b9dad,size:.022,transparent:true,opacity:.55}));
-    const pts=[];for(let i=0;i<500;i++){const r=5+Math.random()*8,a=Math.random()*Math.PI*2,b=(Math.random()-.5)*Math.PI;pts.push(r*Math.cos(a)*Math.cos(b),r*Math.sin(b),r*Math.sin(a)*Math.cos(b))}
-    stars.geometry.setAttribute('position',new THREE.Float32BufferAttribute(pts,3));scene.add(stars);
+
+    const arms=[],tips=[],armLabels=[];
+    for(let i=0;i<8;i++){
+      const side=i%2===0?-1:1,level=Math.floor(i/2);
+      const y0=.18-level*.18;
+      const x0=side*(.42+level*.16);
+      const spread=2.3+level*.58;
+      const drop=2.4+level*.52;
+      const zBend=(i%4<2?.65:-.35)+(level*.08);
+      const p0=new THREE.Vector3(x0,y0,.38);
+      const p1=new THREE.Vector3(side*(1.2+level*.28),-.52-level*.34,zBend);
+      const p2=new THREE.Vector3(side*spread,-drop*.58,zBend*.72);
+      const p3=new THREE.Vector3(side*(spread+1.08),-drop,-.18+Math.sin(i)*.28);
+      const curve=new THREE.CatmullRomCurve3([p0,p1,p2,p3]);
+      const mat=new THREE.MeshPhysicalMaterial({
+        color:palette[i],roughness:.34,metalness:.03,emissive:palette[i],emissiveIntensity:.24,
+        transparent:true,opacity:.77
+      });
+      const mesh=new THREE.Mesh(new THREE.TubeGeometry(curve,64,.075+level*.006,12,false),mat);
+      mesh.userData={idx:i,label:labels[i][0],detail:labels[i][1],baseOpacity:.77};root.add(mesh);arms.push(mesh);
+      const tip=new THREE.Mesh(new THREE.SphereGeometry(.11,18,14),new THREE.MeshStandardMaterial({color:palette[i],emissive:palette[i],emissiveIntensity:1.3,roughness:.15}));
+      tip.position.copy(p3);root.add(tip);tips.push(tip);
+      const sp=makeLabel(labels[i][0],new THREE.Color(palette[i]));sp.position.copy(p3.clone().add(new THREE.Vector3(side*.55,.08,.05)));root.add(sp);armLabels.push(sp);
+    }
+
+    const nerveMat=new THREE.LineBasicMaterial({color:0xbfe8a0,transparent:true,opacity:.16});
+    for(let i=0;i<8;i++){
+      const pos=new Float32Array([0,.35,.45, tips[i].position.x*.55,tips[i].position.y*.55,tips[i].position.z*.55, tips[i].position.x,tips[i].position.y,tips[i].position.z]);
+      const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.BufferAttribute(pos,3));root.add(new THREE.Line(g,nerveMat))
+    }
+
+    const particles=new THREE.Points(new THREE.BufferGeometry(),new THREE.PointsMaterial({color:0x8baab3,size:.025,transparent:true,opacity:.34}));
+    const pts=[];for(let i=0;i<700;i++){const r=5+Math.random()*8,a=Math.random()*Math.PI*2,b=(Math.random()-.5)*Math.PI;pts.push(r*Math.cos(a)*Math.cos(b),r*Math.sin(b),r*Math.sin(a)*Math.cos(b))}
+    particles.geometry.setAttribute('position',new THREE.Float32BufferAttribute(pts,3));scene.add(particles);
+
     const marketGeo=new THREE.BufferGeometry();
-    const marketLine=new THREE.Line(marketGeo,new THREE.LineBasicMaterial({color:0xe7bd72,transparent:true,opacity:.85}));
-    marketLine.position.z=2.2;root.add(marketLine);
-    window.updateBeastMarket=(rows)=>{if(!Array.isArray(rows)||rows.length<2)return;const rates=rows.map(r=>Number(r.rate_pct)),lo=Math.min(...rates),hi=Math.max(...rates),n=rows.length;const p=rows.map((r,i)=>new THREE.Vector3(-4.4+(8.8*i/(n-1)),-2.25+((Number(r.rate_pct)-lo)/Math.max(.01,hi-lo))*1.65,0));marketGeo.setFromPoints(p);marketLine.material.color.set(0xe7bd72);};
-    window.updateBeastStressShape=(shocks)=>{const base=historicState?.curve||state?.observed?.yield_curve||[];if(base.length<2)return;const stressed=base.map(r=>({...r,rate_pct:Number(r.rate_pct)+Number(shocks?.[String(r.tenor_years)]||0)/100}));window.updateBeastMarket(stressed);marketLine.material.color.set(0xff8f79);};
-    let rx=.12,ry=.2,homeZoom=12.6,zoom=12.6,drag=false,px=0,py=0;
+    const marketLine=new THREE.Line(marketGeo,new THREE.LineBasicMaterial({color:0xe7bd72,transparent:true,opacity:.9}));
+    marketLine.position.set(0,-3.55,1.15);root.add(marketLine);
+    window.updateBeastMarket=(rows)=>{if(!Array.isArray(rows)||rows.length<2)return;const rates=rows.map(r=>Number(r.rate_pct)),lo=Math.min(...rates),hi=Math.max(...rates),n=rows.length;const p=rows.map((r,i)=>new THREE.Vector3(-3.65+(7.3*i/(n-1)),((Number(r.rate_pct)-lo)/Math.max(.01,hi-lo))*1.0,0));marketGeo.setFromPoints(p);marketLine.material.color.set(0xe7bd72)};
+    window.updateBeastStressShape=(shocks)=>{const base=historicState?.curve||state?.observed?.yield_curve||[];if(base.length<2)return;const stressed=base.map(r=>({...r,rate_pct:Number(r.rate_pct)+Number(shocks?.[String(r.tenor_years)]||0)/100}));window.updateBeastMarket(stressed);marketLine.material.color.set(0xff8f79)};
+
+    let rx=.06,ry=.08,homeZoom=13.8,zoom=13.8,drag=false,downX=0,downY=0,px=0,py=0,stress=.5;
     const ray=new THREE.Raycaster(),pointer=new THREE.Vector2();
-    function resize(){const w=mount.clientWidth,h=mount.clientHeight;renderer.setSize(w,h,false);camera.aspect=w/Math.max(1,h);const previous=homeZoom;homeZoom=12.6*Math.max(1,1.22/Math.max(.1,camera.aspect));zoom*=homeZoom/previous;camera.position.z=zoom;camera.updateProjectionMatrix()}
+    function resize(){const w=mount.clientWidth,h=mount.clientHeight;renderer.setSize(w,h,false);camera.aspect=w/Math.max(1,h);const previous=homeZoom;homeZoom=13.8*Math.max(1,1.08/Math.max(.1,camera.aspect));zoom*=homeZoom/previous;camera.position.z=zoom;camera.updateProjectionMatrix()}
     const ro=new ResizeObserver(resize);ro.observe(mount);resize();
-    renderer.domElement.addEventListener('pointerdown',e=>{drag=true;px=e.clientX;py=e.clientY;renderer.domElement.setPointerCapture(e.pointerId)});
-    renderer.domElement.addEventListener('pointermove',e=>{if(!drag)return;ry+=(e.clientX-px)*.006;rx+=(e.clientY-py)*.004;px=e.clientX;py=e.clientY});
-    renderer.domElement.addEventListener('pointerup',e=>{if(drag&&Math.abs(e.clientX-px)<7&&Math.abs(e.clientY-py)<7){const rct=renderer.domElement.getBoundingClientRect();pointer.x=((e.clientX-rct.left)/rct.width)*2-1;pointer.y=-((e.clientY-rct.top)/rct.height)*2+1;ray.setFromCamera(pointer,camera);const hit=ray.intersectObjects(arms,false)[0];if(hit){const u=hit.object.userData;$('beastTag').innerHTML='<b>'+u.label+'</b> — '+u.detail}}drag=false});
-    renderer.domElement.addEventListener('wheel',e=>{zoom=Math.max(homeZoom*.55,Math.min(homeZoom*1.55,zoom+Math.sign(e.deltaY)*.7));e.preventDefault()},{passive:false});
-    function frame(t){if(!beastMotionOn){root.rotation.x+=(rx-root.rotation.x)*.055;if(!reducedMotion)root.rotation.y+=(ry-root.rotation.y)*.055}else if(!reducedMotion){root.rotation.y+=.0015}camera.position.z+=(zoom-camera.position.z)*.08;if(!reducedMotion){core.scale.setScalar(1+Math.sin(t*.0016)*.018+(beastResonance.active?Math.sin(t*.00145)*.009:0));inner.rotation.y+=.0025;ringGroup.rotation.z+=.0007;stars.rotation.y-=.00012}renderer.render(scene,camera);requestAnimationFrame(frame)}
+    renderer.domElement.addEventListener('pointerdown',e=>{drag=true;downX=px=e.clientX;downY=py=e.clientY;renderer.domElement.setPointerCapture(e.pointerId)});
+    renderer.domElement.addEventListener('pointermove',e=>{if(!drag)return;ry+=(e.clientX-px)*.0048;rx+=(e.clientY-py)*.0032;px=e.clientX;py=e.clientY});
+    renderer.domElement.addEventListener('pointerup',e=>{if(drag&&Math.hypot(e.clientX-downX,e.clientY-downY)<9){const rct=renderer.domElement.getBoundingClientRect();pointer.x=((e.clientX-rct.left)/rct.width)*2-1;pointer.y=-((e.clientY-rct.top)/rct.height)*2+1;ray.setFromCamera(pointer,camera);const hit=ray.intersectObjects(arms,false)[0];if(hit){const u=hit.object.userData;$('beastTag').innerHTML='<b>'+u.label+'</b> — '+u.detail;arms.forEach(a=>a.material.opacity=a===hit.object?.96:.38);beastTouch([16,34,10])}}drag=false});
+    renderer.domElement.addEventListener('wheel',e=>{zoom=Math.max(homeZoom*.58,Math.min(homeZoom*1.48,zoom+Math.sign(e.deltaY)*.62));e.preventDefault()},{passive:false});
+
+    function frame(t){
+      if(!beastMotionOn){root.rotation.x+=(rx-root.rotation.x)*.045;if(!reducedMotion)root.rotation.y+=(ry-root.rotation.y)*.045}else if(!reducedMotion){root.rotation.y+=.00065}
+      camera.position.z+=(zoom-camera.position.z)*.08;
+      if(!reducedMotion){
+        const breath=Math.sin(t*.00135);
+        mantle.scale.set(1.16+breath*.012,1.34+breath*.017,.82+breath*.01);
+        heart.scale.set(1+breath*(.018+.024*stress),.92+breath*(.015+.02*stress),.82+breath*.012);
+        heart.rotation.y+=.0016;ringGroup.rotation.z+=.00024;particles.rotation.y-=.00006;
+        eyes.forEach((e,i)=>{e.material.emissiveIntensity=1.75+.45*Math.sin(t*.002+i*.8)+stress*.55});
+        arms.forEach((a,i)=>{a.rotation.z=Math.sin(t*.00055+i*.62)*(.006+.006*stress)});
+      }
+      renderer.render(scene,camera);requestAnimationFrame(frame)
+    }
     requestAnimationFrame(frame);
-    mount.classList.add('webgl-ready');
-    beast3d={THREE,scene,camera,renderer,root,core,inner,rings,ringMats,arms,reset(){rx=.12;ry=.2;zoom=homeZoom}};
-    window.updateBeast=(shock,curve)=>{const f=shock/100,vals=curve.slice(0,5);rings.forEach((r,i)=>{const k=Math.max(.12,Math.min(1,(vals[i]*f)/(vals[4]*2)));r.scale.setScalar(.96+k*.12);ringMats[i].opacity=.08+k*.45});coreMat.emissiveIntensity=.65+Math.min(1.8,f)*.55;arms.forEach((a,i)=>{a.material.emissiveIntensity=.25+f*.3+(i===3?.25:0)})};
-    if(state){window.updateBeast(bps,state.sensitivity.pap2026.annual_extra_charge_bne);window.updateBeastMarket(state.observed?.yield_curve||[]);}
+    mount.classList.add('webgl-ready','organism-ready');
+    beast3d={THREE,scene,camera,renderer,root,mantle,heart,eyes,rings,ringMats,arms,armLabels,reset(){rx=.06;ry=.08;zoom=homeZoom;arms.forEach(a=>a.material.opacity=a.userData.baseOpacity||.77)}};
+    window.updateBeast=(shock,curve)=>{
+      const f=Math.max(.25,Math.min(2,shock/100));stress=Math.min(1.5,f);
+      const vals=curve.slice(0,5),den=Math.max(.1,Number(vals[4]||1)*2);
+      rings.forEach((r,i)=>{const k=Math.max(.08,Math.min(1,(Number(vals[i]||0)*f)/den));r.scale.set(1+k*.11,.72+i*.045+k*.05,1);ringMats[i].opacity=.055+k*.38});
+      skinMat.emissiveIntensity=.72+stress*.34;heartMat.emissiveIntensity=1.0+stress*.75;
+      arms.forEach((a,i)=>{a.material.emissiveIntensity=.14+stress*.22+(i===3?.18:0);a.material.opacity=(a.userData.baseOpacity||.77)});
+      const warn=Number(state?.summary?.warnings||0);nerveMat.opacity=.10+Math.min(.25,warn*.035);
+    };
+    if(state){window.updateBeast(bps,state.sensitivity.pap2026.annual_extra_charge_bne);window.updateBeastMarket(state.observed?.yield_curve||[])}
   }catch(e){$('beastTag').innerHTML='<b>Mode 3D indisponible.</b> La couche analytique reste intégralement accessible. '+esc(e.message)}
 }
+
 $('beastImmersive')?.addEventListener('click',async()=>{const s=$('beastStage');try{if(!document.fullscreenElement)await s.requestFullscreen();else await document.exitFullscreen()}catch(e){}});
 $('beastReset')?.addEventListener('click',()=>beast3d?.reset());
 $('beastCamera')?.addEventListener('click',async e=>{const button=e.currentTarget,v=$('arVideo'),s=$('beastStage');if(beastStream){beastStream.getTracks().forEach(t=>t.stop());beastStream=null;v.srcObject=null;s.classList.remove('ar-on');button.setAttribute('aria-pressed','false');return}try{beastStream=await navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:'environment'}},audio:false});v.srcObject=beastStream;s.classList.add('ar-on');button.setAttribute('aria-pressed','true')}catch(err){$('beastTag').innerHTML='<b>AR caméra non activée.</b> Autorisation caméra refusée ou indisponible sur ce navigateur.'}});
