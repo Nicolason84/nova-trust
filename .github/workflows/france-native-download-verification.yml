@@ -28,7 +28,7 @@ jobs:
           assert status==200 and actual==expected
           print(json.dumps({'status':'PASS_ANONYMOUS_EXTERNAL_DOWNLOAD','url':url,'http_status':status,'bytes':len(data),'sha256':actual,'network':'GitHub hosted Ubuntu runner','at':datetime.datetime.now(datetime.timezone.utc).isoformat()}))
           PYCODE
-      - name: Verify existing domain bytes and isolated France overlay
+      - name: Verify isolated France overlay and preserve all served pages
         env:
           PRODUCTION_ROUTES: ${{ inputs.production_routes || false }}
         run: |
@@ -43,7 +43,7 @@ jobs:
               '/index_before_g531_20260528_173854.html':'e9fe7f814a163aa088bda120f8ef0bb175960fff74d633e7edc8ec3d0dd91fa3'
           }
           verified=[]
-          for base in [preview,origin]:
+          for base in [preview]:
               for path,digest in expected.items():
                   with urllib.request.urlopen(base+path,timeout=30) as response:
                       actual=hashlib.sha256(response.read()).hexdigest()
@@ -54,7 +54,7 @@ jobs:
           opener=urllib.request.build_opener(NoRedirect())
           target='https://github.com/Nicolason84/nova-trust/releases/tag/france-beast-native-0.1.1-20261002'
           routes=[]
-          bases=[preview]+([origin] if os.environ['PRODUCTION_ROUTES']=='true' else [])
+          bases=[preview]
           for base in bases:
               for path in ['/france/la-bete','/france/la-bete/']:
                   try: response=opener.open(base+path,timeout=30)
@@ -66,5 +66,40 @@ jobs:
           with urllib.request.urlopen(old,timeout=30) as response:
               assert response.status==200
               assert hashlib.sha256(response.read()).hexdigest()=='0065fb5887bca456ec44907cb9f0640d42398aef85aa136ac2dcb33456741077'
-          print(json.dumps({'status':'PASS_DOMAIN_NATIVE_DOWNLOAD_OVERLAY','original_files':verified,'france_routes':routes,'legacy_france_url':old,'dns_mutation':False,'network':'GitHub hosted Ubuntu runner','checked_at':datetime.datetime.now(datetime.timezone.utc).isoformat()}))
+          print(json.dumps({'status':'PASS_DOMAIN_NATIVE_DOWNLOAD_PREVIEW','original_files':verified,'france_routes':routes,'legacy_france_url':old,'dns_mutation':False,'network':'GitHub hosted Ubuntu runner','checked_at':datetime.datetime.now(datetime.timezone.utc).isoformat()}))
+          PYCODE
+      - name: Gate production on the existing domain response
+        env:
+          PRODUCTION_ROUTES: ${{ inputs.production_routes || false }}
+        run: |
+          python3 - <<'PYCODE'
+          import urllib.request,urllib.error,hashlib,json,datetime,os
+          origin='https://nova-era.fr'
+          expected={
+              '/index.html':'d03a80acd349ee3050c47abf92c6397c97d737dd66700a3cabf86365d917843b',
+              '/terms.html':'4f1f09fccaf7f2e59e4714d2d4fe3769e71b9d0eef2932d97aacef5633d0a6d2',
+              '/privacy.html':'716bf7c222a0f8ed6ef57b87c84dea9b9c3fd9396df1394bbffae5ac125a2d9a',
+              '/index_before_g531_20260528_173854.html':'e9fe7f814a163aa088bda120f8ef0bb175960fff74d633e7edc8ec3d0dd91fa3'
+          }
+          for path,digest in expected.items():
+              try:
+                  with urllib.request.urlopen(origin+path,timeout=30) as response:
+                      actual=hashlib.sha256(response.read()).hexdigest()
+                      assert response.status==200 and actual==digest
+                      print(json.dumps({'status':'PASS_EXISTING_DOMAIN_BYTES','url':origin+path,'sha256':actual}))
+              except urllib.error.HTTPError as error:
+                  print(json.dumps({'status':'PRODUCTION_GATE_BLOCKED_HTTP','url':origin+path,'http_status':error.code,'server':error.headers.get('Server'),'cf_mitigated':error.headers.get('cf-mitigated')}))
+                  raise
+          if os.environ['PRODUCTION_ROUTES']=='true':
+              class NoRedirect(urllib.request.HTTPRedirectHandler):
+                  def redirect_request(self,req,fp,code,msg,headers,newurl): return None
+              opener=urllib.request.build_opener(NoRedirect())
+              target='https://github.com/Nicolason84/nova-trust/releases/tag/france-beast-native-0.1.1-20261002'
+              for path in ['/france/la-bete','/france/la-bete/']:
+                  try: response=opener.open(origin+path,timeout=30)
+                  except urllib.error.HTTPError as response:
+                      assert response.code==302 and response.headers['Location']==target
+                      print(json.dumps({'status':'PASS_PRODUCTION_DOWNLOAD_ROUTE','url':origin+path,'http_status':302,'location':target}))
+                  else: raise AssertionError('Expected bounded 302 at '+origin+path)
+          print(json.dumps({'status':'PASS_EXISTING_DOMAIN_GATE','production_routes':os.environ['PRODUCTION_ROUTES'],'network':'GitHub hosted Ubuntu runner','checked_at':datetime.datetime.now(datetime.timezone.utc).isoformat()}))
           PYCODE
