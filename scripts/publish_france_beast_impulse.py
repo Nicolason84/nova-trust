@@ -174,6 +174,14 @@ def main():
     parser.add_argument('--learning-registry',type=Path)
     parser.add_argument('--knowhow-receipt',type=Path)
     args=parser.parse_args()
+    import fcntl
+    args.receipt.parent.mkdir(parents=True,exist_ok=True)
+    observer_lock=args.receipt.with_suffix('.observer.lock').open('a')
+    try:
+        fcntl.flock(observer_lock,fcntl.LOCK_EX | fcntl.LOCK_NB)
+    except BlockingIOError:
+        print('SKIP_EXISTING_OBSERVER_ACTIVE')
+        return
     commit=github_json('repos/Nicolason84/nova-trust/commits/main')['sha']
     live=json.loads(github_text(commit,'docs/data/france-debt-rate-live.json'))
     print(publish(live,args.bus,args.receipt))

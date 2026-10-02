@@ -106,3 +106,15 @@ The host Megabus channel paths were reversibly bound to the single already-runni
 Validation: eight dedicated transfer tests cover actual routing before registration, the return route, deduplication, unrelated registry preservation, canonical mismatch, changed methods, stable heartbeat identity, registry identity and exclusion of capability execution. Existing convergence (10), health memory (16), evolution verifier and hydration checks pass.
 
 Runtime routing and projection evidence is recorded after installation below.
+
+Runtime verification:
+- Knowledge identity: `LA_BETE_METHODS_82695b3b05a0367520ca27b7`.
+- Immutable source commit: `325a68526953e1336a6f3f84552f4aa07c75aa99`.
+- Forward `MESSAGE_ROUTED`: `2026-10-02T21:11:27.445465+00:00`.
+- Return `MESSAGE_ROUTED`: `2026-10-02T21:11:50.058374+00:00`.
+- Existing registry contains five methods and retains its prior cockpit learning entry.
+- Transfer receipt: `ROUND_TRIP_CONFIRMED`, `registry_registered: true`, `applied: false`.
+- Pulse CI [37065281111](https://github.com/Nicolason84/nova-trust/actions/runs/37065281111): PASS, including the eight transfer tests.
+- Pages [37065308410](https://github.com/Nicolason84/nova-trust/actions/runs/37065308410): PASS.
+- Native projection was observed as LIVE after path reconciliation. Its most recent snapshot preceded these two knowledge messages; rendering those specific messages in the native UI was not established. The two bus event records and outbox records are the transfer proof.
+- One observer lock prevents concurrent watchdog/manual transfer runs. Existing cadence remains unchanged.
