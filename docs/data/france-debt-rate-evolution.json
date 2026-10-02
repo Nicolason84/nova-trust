@@ -1,9 +1,9 @@
 {
   "schema": "OJO_LA_BETE_VIRTUOUS_EVOLUTION_V1",
-  "generation": 2,
-  "updated_at": "2026-10-02T11:13:28Z",
-  "source_snapshot_id": "OJO-9944EAAB9D430610",
-  "source_sequence": 10,
+  "generation": 3,
+  "updated_at": "2026-10-02T11:33:30Z",
+  "source_snapshot_id": "OJO-03035CE5C9B6B290",
+  "source_sequence": 11,
   "dna": {
     "mode": "EVIDENCE_GUARD",
     "section_focus": "evidence",
@@ -27,7 +27,7 @@
       "warnings": 4,
       "healthy": 5,
       "monitored": 9,
-      "tec10_delta_bps": 110.3,
+      "tec10_delta_bps": 109.9,
       "curve_regime": "FLATTENING",
       "decision_delta_status": "MATERIAL_CHANGE"
     }
@@ -74,7 +74,7 @@
       "healthy": 5,
       "monitored": 9,
       "tec10_delta_bps": 110.3,
-      "curve_regime": "STEEPENING",
+      "curve_regime": "FLATTENING",
       "decision_delta_status": "MATERIAL_CHANGE"
     }
   },
@@ -102,12 +102,24 @@
         "Decision Delta status: MATERIAL_CHANGE."
       ],
       "verdict": "PROMOTED_AFTER_NON_REGRESSION"
+    },
+    {
+      "generation": 3,
+      "at": "2026-10-02T11:33:30Z",
+      "from_mode": "EVIDENCE_GUARD",
+      "to_mode": "EVIDENCE_GUARD",
+      "reason": [
+        "4 source(s) require explicit attention.",
+        "TEC10 delta versus the published budget assumption: +109.9 bp.",
+        "Decision Delta status: MATERIAL_CHANGE."
+      ],
+      "verdict": "PROMOTED_AFTER_NON_REGRESSION"
     }
   ],
   "status": "ACTIVE",
   "verification": {
-    "generation": 2,
-    "at": "2026-10-02T11:13:28Z",
+    "generation": 3,
+    "at": "2026-10-02T11:33:30Z",
     "verdict": "NON_REGRESSION_PASS",
     "checks": [
       "truth",
