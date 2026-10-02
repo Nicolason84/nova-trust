@@ -21,6 +21,20 @@ BDF_CSV=[
 AFT_RSS="https://www.aft.gouv.fr/fr/rss.xml"
 DGFIP_META="https://www.data.gouv.fr/api/1/datasets/dgfip-situation-mensuelle-de-letat/"
 PAP_CURVE=[3.1,7.5,11.3,15.0,18.4,21.7,24.8,27.7,30.2,32.1]
+TEC_TENORS=(1,2,3,5,7,10,15,20,25,30)
+
+# Official AFT outstanding-by-maturity vintage observed 2026-10-02.
+# Indexed bonds are shown separately because future redemption cash can differ with indexation.
+MATURITY_VINTAGE={
+ "as_of":"2026-10-02",
+ "source":"Agence France Trésor — encours détaillé OAT / OATi / OAT€i",
+ "years":[
+   {"year":2027,"oat_nominal_bne":165.642,"oati_bne":0.0,"oatei_bne":21.737},
+   {"year":2028,"oat_nominal_bne":228.417232603,"oati_bne":17.412,"oatei_bne":0.0},
+   {"year":2029,"oat_nominal_bne":249.525880462,"oati_bne":10.176144,"oatei_bne":24.041}
+ ],
+ "note":"Encours publié par millésime d'échéance; ce n'est ni le besoin annuel de financement ni le cash final d'amortissement après rachats/indexation."
+}
 
 PINNED={
  "debt_negotiable_eur":2896181146497,
@@ -58,11 +72,20 @@ def src(i,publisher,label,url,health="OK",digest=None,error=None,etag=None,lm=No
     if extra:d.update(extra)
     return d
 
-def parse_bdf_html(text):
+def parse_bdf_curve(text):
     text=norm(text)
-    m=re.search(r"TEC10\s+(.*?)(?:TEC15|Indices Hebdomadaires|Indices Mensuels)",text,re.I)
-    vals=re.findall(r"[0-9]+[,.][0-9]+",m.group(1) if m else "")
-    return fnum(vals[-1]) if vals else None
+    out={}
+    for i,tenor in enumerate(TEC_TENORS):
+        nxt = TEC_TENORS[i+1] if i+1 < len(TEC_TENORS) else None
+        if nxt is not None:
+            pat=rf"\bTEC{tenor}\b\s+(.*?)(?=\bTEC{nxt}\b)"
+        else:
+            pat=rf"\bTEC{tenor}\b\s+(.*?)(?=Indices Hebdomadaires|Indices Mensuels|$)"
+        m=re.search(pat,text,re.I|re.S)
+        vals=re.findall(r"(?<!\d)(\d{1,2}[,.]\d{3,4})(?!\d)",m.group(1) if m else "")
+        if vals:
+            out[tenor]=fnum(vals[-1])
+    return out
 
 def fetch_bdf_html():
     today=datetime.now(timezone.utc).date()
@@ -74,9 +97,15 @@ def fetch_bdf_html():
             try:
                 status,b,etag,lm,cs=req(url)
                 text=b.decode(cs or "utf-8","replace")
-                v=parse_bdf_html(text)
-                if v is not None:
-                    return src("BDF_TEC","Banque de France","TEC10 quotidien · page officielle",url,digest=hashlib.sha256(norm(text).encode()).hexdigest(),etag=etag,lm=lm),{"tec10_pct":v,"tec10_date":d.isoformat()}
+                curve=parse_bdf_curve(text)
+                if curve.get(10) is not None:
+                    curve_rows=[{"tenor_years":t,"rate_pct":curve[t]} for t in TEC_TENORS if t in curve]
+                    return src("BDF_TEC","Banque de France","Courbe TEC quotidienne · page officielle",url,digest=hashlib.sha256(norm(text).encode()).hexdigest(),etag=etag,lm=lm),{
+                        "tec10_pct":curve[10],
+                        "tec10_date":d.isoformat(),
+                        "yield_curve_date":d.isoformat(),
+                        "yield_curve":curve_rows
+                    }
             except Exception as e:
                 errs.append(f"{host}:{type(e).__name__}:{e}")
     return src("BDF_TEC","Banque de France","TEC10 quotidien · page officielle",BDF_HOSTS[0]+BDF_PATH+today.isoformat(),health="ERROR",error=" | ".join(errs[-4:])[:700]),{}
@@ -160,7 +189,7 @@ seq=int(prev.get("sequence",0))+(1 if events else 0)
 ok_states={"OK","PINNED"}
 manifest={
  "schema":"OJO_FRANCE_DEBT_RATE_LIVE_V1",
- "version":"2026-10-02.2",
+ "version":"2026-10-02.3",
  "sequence":seq,
  "updated_at":now(),
  "policy":{"political_recommendation":"NONE","market_yield_is_not_whole_debt_cost":True,"source_change":"DELTA_THEN_RECONCILE","typed_live_metrics":"OBSERVED_NOT_CAUSAL","sensitivity_model":"FIXED_OFFICIAL_VINTAGES","aft_html":"PINNED_DUE_TO_RUNNER_BLOCK"},
@@ -169,6 +198,7 @@ manifest={
    "pap2026":{"label":"PLF 2026 · PAP Engagements financiers de l’État","shock_bps":100,"annual_extra_charge_bne":PAP_CURVE,"start_year":2026},
    "aft_later":{"label":"AFT · estimation citée par le Sénat","shock_bps":100,"points_bne":{"1":3.2,"5":23.5,"9":33.5}}
  },
+ "maturity_ladder":MATURITY_VINTAGE,
  "sources":sources,
  "events":(prev.get("events",[])+events)[-120:],
  "material_changes":events,
