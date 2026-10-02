@@ -1,24 +1,116 @@
 <!doctype html>
 <html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#071019"><meta name="referrer" content="strict-origin-when-cross-origin">
-<title>ojO · France — le prix du temps</title>
-<meta name="description" content="Dette française, TEC10, refinancement et sensibilité aux taux : dossier OJO vivant, sourcé et auto-actualisé.">
+<title>ojO · La Bête — dette, taux & décision</title>
+<meta name="description" content="La Bête ojO : cockpit décisionnel 3D, immersif et auto-actualisé sur la dette française, les taux, le refinancement et leur transmission dans le temps.">
 <link rel="canonical" href="https://nicolason84.github.io/nova-trust/france-debt-rate-risk-live-2026-10-02.html">
 <style>
 :root{--bg:#071019;--ink:#eef5f2;--mut:#9fb1b7;--line:#29404b;--panel:#0e1a24;--panel2:#122431;--a:#c8f09a;--b:#8bd6e5;--gold:#e7bd72;--bad:#e9827d;--ok:#7ed8a0}
 *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(1100px 700px at 78% -180px,#173443 0,#0a151f 46%,#071019 100%);color:var(--ink);font:16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
 a{color:var(--b);text-underline-offset:4px}.wrap{max-width:1240px;margin:auto;padding:0 24px 80px}.top{position:sticky;top:0;z-index:10;display:flex;gap:9px;align-items:center;flex-wrap:wrap;padding:14px 0;background:#071019e8;backdrop-filter:blur(16px);border-bottom:1px solid var(--line)}.brand{font-size:26px;font-weight:900;letter-spacing:-1px}.brand i{font-style:normal;color:var(--a)}.grow{flex:1}.pill{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--line);border-radius:99px;padding:5px 10px;font-size:11px;color:var(--mut)}.dot{width:7px;height:7px;border-radius:50%;background:currentColor}.pill.ok{color:var(--ok)}.pill.warn{color:var(--gold)}.hero{padding:64px 0 40px;display:grid;grid-template-columns:1.45fr .75fr;gap:54px;align-items:end}.ey{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gold)}h1{font-size:clamp(52px,8.6vw,112px);line-height:.9;letter-spacing:-5px;margin:15px 0 26px;font-weight:600}h1 em{font-family:Georgia,serif;font-weight:400;color:var(--a)}.lead{font-size:20px;color:#cbd8dc;max-width:820px}.heroaside{border-left:1px solid var(--line);padding-left:28px}.heroaside .big{font-size:64px;line-height:1;font-weight:580;letter-spacing:-3px;color:var(--a)}.heroaside p{color:var(--mut);font-size:13px}.truth{border-left:3px solid var(--gold);padding:15px 18px;background:#171c1c;border-radius:0 10px 10px 0;margin-top:22px}.grid4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:10px 0 34px}.metric{border:1px solid var(--line);background:#0e1922bd;border-radius:14px;padding:20px;min-width:0}.metric small{display:block;color:var(--mut);font-size:10px;text-transform:uppercase;letter-spacing:.11em}.metric strong{display:block;font-size:31px;letter-spacing:-1px;margin:5px 0;font-variant-numeric:tabular-nums}.metric span{font-size:11px;color:var(--mut)}.section{border-top:1px solid var(--line);padding:52px 0}.head{display:grid;grid-template-columns:1fr 1fr;gap:45px;align-items:end;margin-bottom:25px}.head h2{font-size:clamp(30px,4vw,48px);line-height:1.04;letter-spacing:-2px;margin:8px 0}.head p{color:var(--mut)}.shockbar{display:flex;gap:8px;flex-wrap:wrap;margin:18px 0}.shockbar button{min-height:44px;padding:8px 15px;border-radius:9px;border:1px solid var(--line);background:transparent;color:var(--ink);font:inherit;cursor:pointer}.shockbar button[aria-pressed=true]{background:#263724;border-color:var(--a);color:var(--a)}.sim{display:grid;grid-template-columns:1.5fr .8fr;gap:14px}.chart,.card{border:1px solid var(--line);background:#0c1822cc;border-radius:16px;padding:22px}.bars{display:grid;gap:11px}.barrow{display:grid;grid-template-columns:48px 1fr 86px;gap:10px;align-items:center;font-size:12px}.track{height:24px;border-radius:8px;background:#0a121a;overflow:hidden;border:1px solid #203743}.fill{height:100%;background:linear-gradient(90deg,var(--b),var(--a));border-radius:7px}.v{text-align:right;font-variant-numeric:tabular-nums;font-weight:700}.summary{display:grid;gap:12px}.sum{border-bottom:1px solid var(--line);padding-bottom:12px}.sum:last-child{border:0}.sum small{color:var(--mut);display:block}.sum strong{font-size:28px;display:block;margin-top:2px}.equation{font:14px/1.8 ui-monospace,SFMono-Regular,Menlo,monospace;background:#050b11;border:1px solid var(--line);border-radius:12px;padding:18px;overflow-wrap:anywhere}.compare{display:grid;grid-template-columns:1fr 1fr;gap:14px}.vintage{border:1px solid var(--line);border-radius:15px;padding:22px;background:#0e1922}.vintage h3{margin:0 0 6px}.vintage p{color:var(--mut);font-size:13px}.triplet{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:18px}.triplet div{padding:11px;border:1px solid var(--line);border-radius:10px}.triplet b{display:block;font-size:21px}.triplet small{color:var(--mut)}.journal{display:grid;grid-template-columns:1.15fr .85fr;gap:14px}.events{max-height:420px;overflow:auto}.evt{padding:12px 13px;border-left:2px solid var(--gold);background:#101d28;margin:8px 0;border-radius:0 10px 10px 0}.evt .k{font-size:10px;letter-spacing:.08em;color:var(--gold)}.evt .d{font-size:12px;color:var(--mut)}.sources article{padding:12px 0;border-bottom:1px dashed var(--line)}.sources article:last-child{border:0}.sources b{display:block}.sources span{font-size:11px;color:var(--mut)}.share{background:#edf1e7;color:#152029;border-radius:18px;padding:28px}.share h2{font-size:34px;letter-spacing:-1.5px;margin:0 0 12px}.share p{white-space:pre-wrap}.share a{color:#25585f}.foot{color:var(--mut);font-size:11px;padding-top:24px}
 @media(max-width:850px){.hero,.head,.sim,.journal{grid-template-columns:1fr}.hero{gap:22px;padding-top:42px}.heroaside{border-left:0;border-top:1px solid var(--line);padding:20px 0 0}.grid4{grid-template-columns:1fr 1fr}.compare{grid-template-columns:1fr}h1{letter-spacing:-3px}.heroaside .big{font-size:50px}}@media(max-width:520px){.wrap{padding-left:17px;padding-right:17px}.grid4{grid-template-columns:1fr}.barrow{grid-template-columns:42px 1fr 72px}.metric strong{font-size:27px}.triplet{grid-template-columns:1fr}.share{padding:20px}h1{font-size:55px;letter-spacing:-2.8px}}@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
-</style></head><body><div class="wrap">
-<header class="top"><div class="brand">oj<i>O</i></div><span class="pill" id="runner"><span class="dot"></span>RUNNER —</span><span class="pill" id="feed"><span class="dot"></span>FEED —</span><div class="grow"></div><span class="pill">EVIDENCE-FIRST · 15 MIN</span></header>
 
-<section class="hero"><div><div class="ey">FRANCE · DETTE · TAUX · REFINANCEMENT</div><h1>Le taux monte.<br><em>La facture diffuse.</em></h1><p class="lead">4,90 % à dix ans n’est pas 4,90 % appliqué instantanément à toute la dette. Le risque se transmet à mesure que l’État émet et refinance. Ici, le stock, le temps et la courbe sont séparés — puis réconciliés à chaque nouvelle donnée publique.</p><div class="truth"><b>Contrat de vérité :</b> <code>SOURCE_CHANGED → DELTA → OBSERVATION → RECONCILIATION</code>. Un mouvement de marché n’est jamais transformé automatiquement en causalité politique.</div></div><aside class="heroaside"><div class="big" id="heroTec">4,903 %</div><p>TEC10 observé · Banque de France / AFT<br><span id="heroDate">01/10/2026</span></p><div class="equation">taux de marché ≠ coupon moyen du stock<br>stock ancien + nouvelles émissions + refinancement = transmission graduelle</div></aside></section>
+.execBand{border:1px solid var(--line);border-radius:18px;background:linear-gradient(135deg,#0d1a24d9,#101f2bd9);padding:18px;margin:8px 0 36px}
+.execTop{display:flex;align-items:flex-start;gap:18px;flex-wrap:wrap}.execTop h2{font-size:clamp(27px,3.4vw,43px);line-height:1.03;letter-spacing:-1.6px;margin:5px 0}.execTop p{margin:0;color:var(--mut);max-width:820px}.execBadge{margin-left:auto;border:1px solid #3b5866;border-radius:999px;padding:7px 11px;font-size:10px;letter-spacing:.12em;color:var(--a);white-space:nowrap}
+.execGrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-top:16px}.execCard{border:1px solid var(--line);border-radius:12px;padding:14px;background:#08131b}.execCard small{display:block;color:var(--mut);font-size:9px;letter-spacing:.11em;text-transform:uppercase}.execCard strong{display:block;font-size:22px;line-height:1.12;margin:5px 0}.execCard span{display:block;color:#b5c4ca;font-size:11px}
+.decisionRoom{display:grid;grid-template-columns:1.05fr .95fr;gap:14px;margin-top:14px}.decisionRoom .card h3{margin:0 0 10px}.decisionList{display:grid;gap:9px}.decisionItem{display:grid;grid-template-columns:120px 1fr;gap:10px;padding:10px 0;border-bottom:1px dashed var(--line);font-size:12px}.decisionItem:last-child{border:0}.decisionItem b{color:var(--a)}.decisionItem span{color:var(--mut)}.questionGrid{display:grid;grid-template-columns:1fr 1fr;gap:8px}.questionGrid div{border:1px solid var(--line);border-radius:10px;padding:10px 11px;font-size:11px;color:#c7d2d6}.questionGrid b{color:var(--gold)}
+.beastShell{border:1px solid var(--line);border-radius:22px;background:radial-gradient(740px 440px at 50% 42%,#173745 0,#0b1721 56%,#071019 100%);overflow:hidden;position:relative}.beastStage{position:relative;min-height:620px;isolation:isolate;overflow:hidden;touch-action:none}.beastStage:fullscreen{background:#050b10;min-height:100%;width:100%;height:100%}.beastStage:fullscreen #beastMount{height:100%}#beastMount{position:absolute;inset:0;z-index:2}#beastMount canvas{display:block;width:100%;height:100%;outline:none}
+#arVideo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;display:none;filter:saturate(.85) contrast(1.05)}.beastStage.ar-on #arVideo{display:block}.beastStage.ar-on{background:#000}.beastStage.ar-on:after{content:"AR CAMÉRA · SUPERPOSITION";position:absolute;right:12px;bottom:12px;z-index:5;font-size:9px;letter-spacing:.15em;color:#fff;background:#0008;padding:6px 8px;border-radius:20px}
+.beastHud{position:absolute;inset:16px 16px auto 16px;z-index:4;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;pointer-events:none}.beastHud>div{background:#071019cc;border:1px solid #34505d;border-radius:12px;padding:10px 12px;backdrop-filter:blur(12px)}.beastHud small{display:block;color:#9eb3bb;font-size:9px;letter-spacing:.11em;text-transform:uppercase}.beastHud strong{display:block;font-size:18px;font-variant-numeric:tabular-nums}
+.beastTag{position:absolute;left:16px;bottom:18px;z-index:4;max-width:550px;background:#071019df;border:1px solid #34505d;border-radius:12px;padding:11px 13px;font-size:11px;color:#b8c8ce;pointer-events:none}.beastTag b{color:var(--a)}
+.beastTools{display:flex;gap:8px;flex-wrap:wrap;padding:13px;border-top:1px solid var(--line);background:#08131c}.beastTools button{min-height:44px;padding:8px 13px;border:1px solid #385564;border-radius:9px;background:#0e1b25;color:var(--ink);font:inherit;cursor:pointer}.beastTools button:hover{border-color:var(--a)}.beastTools button[aria-pressed=true]{color:var(--a);border-color:var(--a);background:#1a2e23}.beastTools button:disabled{opacity:.42;cursor:not-allowed}
+.beastLegend{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-top:14px}.beastLegend div{border:1px solid var(--line);border-radius:10px;padding:10px 11px;font-size:11px;color:var(--mut)}.beastLegend b{display:block;color:var(--ink);font-size:12px}.beastExplain{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px}.beastExplain .card p{font-size:13px;color:var(--mut)}.decisionUse{color:var(--a);font-size:11px}
+@media(max-width:850px){.execGrid{grid-template-columns:1fr 1fr}.decisionRoom{grid-template-columns:1fr}.beastStage{min-height:540px}.beastHud{grid-template-columns:1fr 1fr}.beastLegend{grid-template-columns:1fr 1fr}.beastExplain{grid-template-columns:1fr}}
+@media(max-width:520px){.execGrid{grid-template-columns:1fr}.questionGrid{grid-template-columns:1fr}.decisionItem{grid-template-columns:1fr;gap:2px}.beastStage{min-height:500px}.beastHud{inset:10px 10px auto 10px}.beastHud strong{font-size:15px}.beastTag{left:10px;right:10px;bottom:10px;max-width:none}.beastLegend{grid-template-columns:1fr}.beastTools{padding:10px}}
+
+</style></head><body><div class="wrap">
+<header class="top"><div class="brand">oj<i>O</i></div><span class="pill" id="runner"><span class="dot"></span>RUNNER —</span><span class="pill" id="feed"><span class="dot"></span>FEED —</span><a class="pill" href="#executive-brief">BRIEF 60s</a><a class="pill" href="#la-bete">LA BÊTE 3D</a><div class="grow"></div><span class="pill">EVIDENCE-FIRST · 15 MIN</span></header>
+
+<section class="hero"><div><div class="ey">LA BÊTE · FRANCE · DETTE · TAUX · DÉCISION</div><h1>Voir le système.<br><em>Avant qu’il ne nous voie.</em></h1><p class="lead"><b>La Bête</b> est le jumeau visuel d’un mécanisme qui reste habituellement éclaté entre centaines de pages : stock de dette, courbe des taux, refinancement, temps, charge d’intérêts et besoin de financement. Elle ne décide pas à la place d’un responsable public ; elle transforme les mêmes preuves en une situation lisible en 60 secondes, approfondissable jusqu’à la source.</p><div class="truth"><b>Contrat de vérité :</b> <code>SOURCE_CHANGED → DELTA → OBSERVATION → RECONCILIATION</code>. Un mouvement de marché n’est jamais transformé automatiquement en causalité politique.</div></div><aside class="heroaside"><div class="big" id="heroTec">4,903 %</div><p>TEC10 observé · Banque de France / AFT<br><span id="heroDate">01/10/2026</span></p><div class="equation">taux de marché ≠ coupon moyen du stock<br>stock ancien + nouvelles émissions + refinancement = transmission graduelle</div></aside></section>
 
 <section class="grid4">
 <div class="metric"><small>Dette négociable État</small><strong id="debt">2 896 Md€</strong><span id="debtDate">30/09/2026</span></div>
 <div class="metric"><small>Vie moyenne</small><strong id="life">8 ans 158 j</strong><span>amortissement progressif</span></div>
 <div class="metric"><small>Besoin financement 2027</small><strong id="need">339,7 Md€</strong><span>AFT · PLF 2027</span></div>
 <div class="metric"><small>Écart vs scénario PLF 2026</small><strong id="delta">+110 pb</strong><span>TEC10 actuel vs hypothèse 3,8 % fin-2026 — comparaison, pas équivalence de courbe</span></div>
+</section>
+
+<section class="execBand" id="executive-brief">
+  <div class="execTop">
+    <div><div class="ey">EXECUTIVE BRIEF · 60 SECONDES</div><h2>Ce qu’un décideur doit pouvoir comprendre avant la réunion.</h2><p>Une seule surface sépare <b>fait observé</b>, <b>exposition</b>, <b>stress test</b>, <b>incertitude</b> et <b>question décisionnelle</b>. Aucun “verdict” politique : la Bête montre ce qui change, à quelle vitesse, sur quelle preuve et avec quelle sensibilité.</p></div>
+    <div class="execBadge">SOURCE → IMPACT → HORIZON → INCERTITUDE</div>
+  </div>
+  <div class="execGrid">
+    <div class="execCard"><small>Signal de marché</small><strong id="execRate">4,903 %</strong><span id="execRateSub">TEC10 · 01/10/2026</span></div>
+    <div class="execCard"><small>Exposition</small><strong id="execStock">2 896 Md€</strong><span>stock négociable, transmission graduelle</span></div>
+    <div class="execCard"><small>Besoin 2027</small><strong id="execNeed">339,7 Md€</strong><span>volume à financer, pas charge d’intérêts</span></div>
+    <div class="execCard"><small>Stress +100 pb · an 5</small><strong id="execY5">18,4 Md€</strong><span>PAP 2026 ; autre vintage officielle : 23,5 Md€</span></div>
+  </div>
+  <div class="decisionRoom">
+    <article class="card">
+      <h3>Surface de décision — sans recommander le choix</h3>
+      <div class="decisionList">
+        <div class="decisionItem"><b>Courbe</b><span>Le mouvement concerne-t-il seulement le 10 ans ou plusieurs maturités ? Un TEC10 élevé n’équivaut pas à un choc parallèle de toute la courbe.</span></div>
+        <div class="decisionItem"><b>Durée</b><span>Le choc est-il transitoire ou persistant ? La persistance change fortement la transmission cumulée.</span></div>
+        <div class="decisionItem"><b>Refinancement</b><span>Quel volume doit être renouvelé à 12, 36 et 60 mois ? C’est lui qui transforme progressivement le prix du marché en charge budgétaire.</span></div>
+        <div class="decisionItem"><b>Budget</b><span>Quel besoin de financement résulte du solde budgétaire et de l’amortissement, et comment évolue-t-il selon les scénarios ?</span></div>
+        <div class="decisionItem"><b>Hypothèses</b><span>Quels taux, croissance, inflation et conventions de dette sous-tendent chaque estimation publiée ?</span></div>
+        <div class="decisionItem"><b>Preuve</b><span>Quelle donnée est fraîche, laquelle est une vintage officielle figée, et où existe-t-il encore une source dégradée ?</span></div>
+      </div>
+    </article>
+    <article class="card">
+      <h3>Six questions avant toute décision</h3>
+      <div class="questionGrid">
+        <div><b>1.</b> Qu’est-ce qui a réellement changé depuis le dernier point ?</div>
+        <div><b>2.</b> Quel canal transmet ce changement au budget ?</div>
+        <div><b>3.</b> Quel horizon rend l’impact matériel ?</div>
+        <div><b>4.</b> Quelle fourchette donnent les vintages officielles ?</div>
+        <div><b>5.</b> Quelle hypothèse ferait changer la conclusion descriptive ?</div>
+        <div><b>6.</b> Quelle donnée manque encore avant d’engager une décision ?</div>
+      </div>
+      <p class="decisionUse">Usage visé : réunion interministérielle, cabinet, direction financière publique, comité de risques, journaliste économique ou citoyen expert — même socle de preuve, profondeur différente.</p>
+    </article>
+  </div>
+</section>
+
+<section class="section" id="la-bete">
+  <div class="head">
+    <div><div class="ey">LA BÊTE · DIGITAL TWIN VISUEL</div><h2>Donner du volume au temps.</h2></div>
+    <p>Le cœur représente le stock ; les anneaux représentent les années de propagation ; les huit bras représentent les canaux à surveiller. Le modèle 3D ne fabrique aucune donnée : sa géométrie se recale sur le manifeste live et sur le scénario de taux sélectionné.</p>
+  </div>
+  <div class="beastShell">
+    <div class="beastStage" id="beastStage">
+      <video id="arVideo" playsinline muted autoplay aria-hidden="true"></video>
+      <div id="beastMount" aria-label="Visualisation 3D interactive de la dette, des taux et du refinancement"></div>
+      <div class="beastHud" aria-live="polite">
+        <div><small>Cœur · stock</small><strong id="beastStock">2,896 T€</strong></div>
+        <div><small>Signal · TEC10</small><strong id="beastRate">4,903 %</strong></div>
+        <div><small>Choc exploré</small><strong id="beastShock">+100 pb</strong></div>
+        <div><small>Propagation · an 5</small><strong id="beastY5">18,4 Md€</strong></div>
+      </div>
+      <div class="beastTag" id="beastTag"><b>La Bête n’est pas un décor.</b> Glissez pour tourner, pincez ou utilisez la molette pour zoomer. Touchez un bras : la couche décisionnelle correspondante s’ouvre. L’intensité encode le scénario sélectionné, jamais une opinion.</div>
+    </div>
+    <div class="beastTools">
+      <button type="button" id="beastImmersive">Immersion plein écran</button>
+      <button type="button" id="beastMotion">Mouvement du téléphone</button>
+      <button type="button" id="beastCamera">AR caméra</button>
+      <button type="button" id="beastReset">Recentrer</button>
+    </div>
+  </div>
+  <div class="beastLegend" aria-label="Canaux de La Bête">
+    <div><b>01 · Marché</b>courbe des taux observée</div>
+    <div><b>02 · Refinancement</b>titres arrivant à maturité</div>
+    <div><b>03 · Émissions</b>nouveaux besoins de financement</div>
+    <div><b>04 · Intérêts</b>charge budgétaire transmise</div>
+    <div><b>05 · Stock</b>dette déjà émise</div>
+    <div><b>06 · Maturité</b>durée de vie du portefeuille</div>
+    <div><b>07 · Déficit</b>besoin de financement</div>
+    <div><b>08 · Temps</b>mémoire des coupons émis</div>
+  </div>
+  <div class="beastExplain">
+    <article class="card"><h3>3D utile</h3><p>Le rayon du cœur encode le stock observé. Les cinq anneaux utilisent la courbe officielle de sensibilité à 1–5 ans. Le scénario +50 / +100 / +150 / +200 pb modifie instantanément l’épaisseur et l’intensité des couches pour montrer la propagation, pas pour prédire le marché.</p></article>
+    <article class="card"><h3>Immersion & réalité augmentée</h3><p>Le mode plein écran transforme la page en salle de situation. Le mouvement du téléphone permet de “tourner autour” du système. Le mode AR caméra superpose La Bête au monde réel quand le navigateur autorise la caméra. Aucune image de caméra n’est envoyée ni stockée par cette page.</p></article>
+  </div>
 </section>
 
 <section class="section"><div class="head"><div><div class="ey">FILM DE TRANSMISSION</div><h2>+100 pb ne frappe pas 2 896 Md€ le premier jour.</h2></div><p>Le PLF 2026 publiait une courbe complète de sensibilité pour un choc parallèle et durable sur toutes les maturités. On peut donc regarder comment le coût additionnel se propage année après année — et tester des amplitudes par simple proportion, comme approximation.</p></div>
@@ -35,7 +127,7 @@ a{color:var(--b);text-underline-offset:4px}.wrap{max-width:1240px;margin:auto;pa
 <div class="journal"><div class="card"><h3>Journal des deltas</h3><div class="events" id="events"><div class="evt"><div class="k">CONNECTING</div><div class="d">Chargement du manifeste live…</div></div></div></div><div class="card sources"><h3>Sources surveillées</h3><div id="sources"></div><article><b>Assemblée nationale · PAP 2026</b><span>Courbe annuelle de sensibilité +100 pb</span><br><a href="https://www.assemblee-nationale.fr/dyn/contenu/visualisation/1087975/file/PAP2026_BG_Engagements_financiers_Etat_EB.pdf">source officielle</a></article><article><b>Sénat · Engagements financiers de l’État</b><span>Estimation AFT plus récente : 1 / 5 / 9 ans</span><br><a href="https://www.senat.fr/rap/l25-139-312/l25-139-3121.html">source officielle</a></article></div></div>
 </section>
 
-<section class="section"><div class="share"><div class="ey" style="color:#5a5a3d">LE POINT À EMPORTER</div><h2>La vraie question n’est pas « 4,8 %, est-ce beaucoup ? »</h2><p>C’est : <b>combien de temps ces taux restent-ils élevés, quelle part de la courbe bouge, quel volume doit être refinancé, et à quelle vitesse la charge supplémentaire se transforme-t-elle en nouveau déficit ?</b>
+<section class="section"><div class="share"><div class="ey" style="color:#5a5a3d">LE POINT À EMPORTER</div><h2>Un décideur ne devrait pas recevoir un chiffre. Il devrait recevoir un système.</h2><p>C’est : <b>combien de temps ces taux restent-ils élevés, quelle part de la courbe bouge, quel volume doit être refinancé, et à quelle vitesse la charge supplémentaire se transforme-t-elle en nouveau déficit ?</b>
 
 Le signal de marché est instantané. Le coût budgétaire, lui, a une mémoire.</p></div></section>
 
@@ -49,10 +141,74 @@ const $=x=>document.getElementById(x),fmt=(n,d=1)=>Number(n).toLocaleString('fr-
 function ago(x){if(!x)return'—';const m=Math.floor((Date.now()-Date.parse(x))/60000);if(m<1)return'à l’instant';if(m<60)return'il y a '+m+' min';const h=Math.floor(m/60);return h<48?'il y a '+h+' h':'il y a '+Math.floor(h/24)+' j'}
 function pill(el,text,cls){el.className='pill '+(cls||'');el.innerHTML='<span class="dot"></span>'+text}
 function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
-function renderSim(){if(!state)return;const curve=state.sensitivity.pap2026.annual_extra_charge_bne,f=bps/100,max=curve[4]*f;const rows=curve.slice(0,5).map((v,i)=>{const x=v*f;return '<div class="barrow"><span>An '+(i+1)+'</span><div class="track"><div class="fill" style="width:'+Math.max(4,x/max*100)+'%"></div></div><span class="v">'+fmt(x)+' Md€</span></div>'}).join('');$('bars').innerHTML=rows;$('y1').textContent=fmt(curve[0]*f)+' Md€';$('y3').textContent=fmt(curve[2]*f)+' Md€';$('y5').textContent=fmt(curve[4]*f)+' Md€';$('cum5').textContent=fmt(curve.slice(0,5).reduce((a,v)=>a+v,0)*f)+' Md€';document.querySelectorAll('[data-bps]').forEach(b=>b.setAttribute('aria-pressed',Number(b.dataset.bps)===bps?'true':'false'))}
-function render(j){state=j;const o=j.observed||{};$('heroTec').textContent=fmt(o.tec10_pct,3)+' %';$('heroDate').textContent=(o.tec10_date||'—').split('-').reverse().join('/');$('debt').textContent=fmt((o.debt_negotiable_eur||0)/1e9,0)+' Md€';$('debtDate').textContent=(o.debt_date||o.debt_avg_life_date||'—').split('-').reverse().join('/');$('life').textContent=(o.debt_avg_life_years||'—')+' ans '+(o.debt_avg_life_days||'—')+' j';$('need').textContent=fmt(o.financing_need_2027_bne)+' Md€';$('delta').textContent=(o.tec10_vs_plf_assumption_bps>=0?'+':'')+fmt(o.tec10_vs_plf_assumption_bps,0)+' pb';const sm={};(j.sources||[]).forEach(s=>sm[s.id]=s);$('sources').innerHTML=(j.sources||[]).map(s=>'<article><b>'+esc(s.publisher)+'</b><span>'+esc(s.label)+' · '+esc(s.health)+' · '+ago(s.checked_at)+'</span><br><a href="'+esc(s.url)+'">source</a></article>').join('');const ev=(j.events||[]).slice(-10).reverse();$('events').innerHTML=ev.length?ev.map(e=>'<div class="evt"><div class="k">'+esc(e.kind)+(e.metric?' · '+esc(e.metric):'')+'</div><div>'+esc(e.detail)+'</div><div class="d">'+ago(e.at)+'</div></div>').join(''):'<div class="evt"><div class="k">STABLE</div><div class="d">Aucun delta matériel enregistré.</div></div>';const s=j.summary||{};pill($('feed'),'FEED #'+(j.sequence||0)+' · '+ago(j.updated_at),s.warnings?'warn':'ok');renderSim()}
+function renderSim(){if(!state)return;const curve=state.sensitivity.pap2026.annual_extra_charge_bne,f=bps/100,max=curve[4]*f;const rows=curve.slice(0,5).map((v,i)=>{const x=v*f;return '<div class="barrow"><span>An '+(i+1)+'</span><div class="track"><div class="fill" style="width:'+Math.max(4,x/max*100)+'%"></div></div><span class="v">'+fmt(x)+' Md€</span></div>'}).join('');$('bars').innerHTML=rows;$('y1').textContent=fmt(curve[0]*f)+' Md€';$('y3').textContent=fmt(curve[2]*f)+' Md€';$('y5').textContent=fmt(curve[4]*f)+' Md€';$('cum5').textContent=fmt(curve.slice(0,5).reduce((a,v)=>a+v,0)*f)+' Md€';$('execY5').textContent=fmt(curve[4]*f)+' Md€';$('beastShock').textContent='+'+bps+' pb';$('beastY5').textContent=fmt(curve[4]*f)+' Md€';document.querySelectorAll('[data-bps]').forEach(b=>b.setAttribute('aria-pressed',Number(b.dataset.bps)===bps?'true':'false'));if(window.updateBeast)window.updateBeast(bps,curve)}
+function render(j){state=j;const o=j.observed||{};$('heroTec').textContent=fmt(o.tec10_pct,3)+' %';$('heroDate').textContent=(o.tec10_date||'—').split('-').reverse().join('/');$('debt').textContent=fmt((o.debt_negotiable_eur||0)/1e9,0)+' Md€';$('debtDate').textContent=(o.debt_date||o.debt_avg_life_date||'—').split('-').reverse().join('/');$('life').textContent=(o.debt_avg_life_years||'—')+' ans '+(o.debt_avg_life_days||'—')+' j';$('need').textContent=fmt(o.financing_need_2027_bne)+' Md€';$('delta').textContent=(o.tec10_vs_plf_assumption_bps>=0?'+':'')+fmt(o.tec10_vs_plf_assumption_bps,0)+' pb';$('execRate').textContent=fmt(o.tec10_pct,3)+' %';$('execRateSub').textContent='TEC10 · '+(o.tec10_date||'—').split('-').reverse().join('/');$('execStock').textContent=fmt((o.debt_negotiable_eur||0)/1e9,0)+' Md€';$('execNeed').textContent=fmt(o.financing_need_2027_bne)+' Md€';$('beastStock').textContent=fmt((o.debt_negotiable_eur||0)/1e12,3)+' T€';$('beastRate').textContent=fmt(o.tec10_pct,3)+' %';const sm={};(j.sources||[]).forEach(s=>sm[s.id]=s);$('sources').innerHTML=(j.sources||[]).map(s=>'<article><b>'+esc(s.publisher)+'</b><span>'+esc(s.label)+' · '+esc(s.health)+' · '+ago(s.checked_at)+'</span><br><a href="'+esc(s.url)+'">source</a></article>').join('');const ev=(j.events||[]).slice(-10).reverse();$('events').innerHTML=ev.length?ev.map(e=>'<div class="evt"><div class="k">'+esc(e.kind)+(e.metric?' · '+esc(e.metric):'')+'</div><div>'+esc(e.detail)+'</div><div class="d">'+ago(e.at)+'</div></div>').join(''):'<div class="evt"><div class="k">STABLE</div><div class="d">Aucun delta matériel enregistré.</div></div>';const s=j.summary||{};pill($('feed'),'FEED #'+(j.sequence||0)+' · '+ago(j.updated_at),s.warnings?'warn':'ok');renderSim()}
 async function load(){try{const r=await fetch(FEED+'?t='+Date.now(),{cache:'no-store'});if(!r.ok)throw Error('HTTP '+r.status);render(await r.json())}catch(e){pill($('feed'),'FEED OFFLINE','warn')}}
 async function run(){try{const r=await fetch(RUNS,{cache:'no-store',headers:{Accept:'application/vnd.github+json'}});const j=await r.json(),x=(j.workflow_runs||[])[0];if(!x)throw Error('no run');const good=x.status==='completed'&&x.conclusion==='success',fresh=Date.now()-Date.parse(x.run_started_at||x.created_at)<45*60000;pill($('runner'),'RUNNER '+(good?'OK':String(x.status||x.conclusion).toUpperCase())+' · '+ago(x.run_started_at||x.created_at),good&&fresh?'ok':'warn')}catch(e){pill($('runner'),'RUNNER —','warn')}}
 document.querySelectorAll('[data-bps]').forEach(b=>b.addEventListener('click',()=>{bps=Number(b.dataset.bps);renderSim()}));
+
+let beast3d=null,beastStream=null,beastMotionOn=false;
+async function initBeast(){
+  const mount=$('beastMount'),stage=$('beastStage'); if(!mount||beast3d)return;
+  try{
+    const THREE=await import('https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js');
+    const scene=new THREE.Scene(),camera=new THREE.PerspectiveCamera(42,1,.1,100);
+    camera.position.set(0,1.0,12.6);
+    const renderer=new THREE.WebGLRenderer({antialias:true,alpha:true,powerPreference:'high-performance'});
+    renderer.setPixelRatio(Math.min(devicePixelRatio||1,2));renderer.setClearColor(0x000000,0);mount.appendChild(renderer.domElement);
+    const root=new THREE.Group();scene.add(root);
+    const amb=new THREE.AmbientLight(0x9ecbd7,1.6);scene.add(amb);
+    const key=new THREE.PointLight(0xc8f09a,4.5,35);key.position.set(4,5,7);scene.add(key);
+    const rim=new THREE.PointLight(0x8bd6e5,3.2,30);rim.position.set(-6,-1,4);scene.add(rim);
+    const coreMat=new THREE.MeshPhysicalMaterial({color:0x163949,roughness:.25,metalness:.15,transmission:.15,emissive:0x09212b,emissiveIntensity:1.2,transparent:true,opacity:.97});
+    const core=new THREE.Mesh(new THREE.IcosahedronGeometry(2.1,5),coreMat);root.add(core);
+    const inner=new THREE.Mesh(new THREE.IcosahedronGeometry(1.42,3),new THREE.MeshBasicMaterial({color:0xc8f09a,wireframe:true,transparent:true,opacity:.11}));root.add(inner);
+    const ringGroup=new THREE.Group();root.add(ringGroup);
+    const ringMats=[],rings=[];
+    for(let i=0;i<5;i++){const m=new THREE.MeshBasicMaterial({color:i<2?0x8bd6e5:0xe7bd72,transparent:true,opacity:.18,side:THREE.DoubleSide});const g=new THREE.TorusGeometry(2.8+i*.62,.018+i*.004,12,160);const r=new THREE.Mesh(g,m);r.rotation.x=Math.PI/2;r.rotation.z=i*.21;ringGroup.add(r);rings.push(r);ringMats.push(m)}
+    const labels=[
+      ['Marché','Courbe des taux : signal observé, pas causalité.'],
+      ['Refinancement','Échéances : vitesse de transmission au stock.'],
+      ['Émissions','Besoin nouveau : volume exposé aux conditions courantes.'],
+      ['Intérêts','Charge : résultat budgétaire de la transmission.'],
+      ['Stock','Dette existante : mémoire des coupons passés.'],
+      ['Maturité','Durée de vie : amortisseur temporel du portefeuille.'],
+      ['Déficit','Besoin de financement : flux à couvrir.'],
+      ['Temps','Persistance : variable qui transforme un signal en coût durable.']
+    ];
+    const arms=[];
+    for(let i=0;i<8;i++){
+      const a=i*Math.PI*2/8,dir=new THREE.Vector3(Math.cos(a),Math.sin(a)*.55,Math.sin(a)*.55).normalize();
+      const p0=dir.clone().multiplyScalar(1.85);
+      const p1=dir.clone().multiplyScalar(3.0).add(new THREE.Vector3(0,Math.sin(a*2)*.55,Math.cos(a*1.5)*.35));
+      const p2=dir.clone().multiplyScalar(4.55).add(new THREE.Vector3(Math.sin(a*1.7)*.65,Math.cos(a*1.3)*.7,Math.sin(a)*.35));
+      const curve=new THREE.CatmullRomCurve3([p0,p1,p2]);
+      const mat=new THREE.MeshStandardMaterial({color:i%2?0x8bd6e5:0xc8f09a,roughness:.35,metalness:.05,emissive:i%2?0x153742:0x23371c,emissiveIntensity:.5,transparent:true,opacity:.78});
+      const mesh=new THREE.Mesh(new THREE.TubeGeometry(curve,48,.11,10,false),mat);mesh.userData={idx:i,label:labels[i][0],detail:labels[i][1]};root.add(mesh);arms.push(mesh);
+      const tip=new THREE.Mesh(new THREE.SphereGeometry(.14,16,12),new THREE.MeshBasicMaterial({color:i%2?0x8bd6e5:0xc8f09a}));tip.position.copy(p2);root.add(tip);
+    }
+    const stars=new THREE.Points(new THREE.BufferGeometry(),new THREE.PointsMaterial({color:0x7b9dad,size:.022,transparent:true,opacity:.55}));
+    const pts=[];for(let i=0;i<500;i++){const r=5+Math.random()*8,a=Math.random()*Math.PI*2,b=(Math.random()-.5)*Math.PI;pts.push(r*Math.cos(a)*Math.cos(b),r*Math.sin(b),r*Math.sin(a)*Math.cos(b))}
+    stars.geometry.setAttribute('position',new THREE.Float32BufferAttribute(pts,3));scene.add(stars);
+    let rx=.12,ry=.2,zoom=12.6,drag=false,px=0,py=0;
+    const ray=new THREE.Raycaster(),pointer=new THREE.Vector2();
+    function resize(){const w=mount.clientWidth,h=mount.clientHeight;renderer.setSize(w,h,false);camera.aspect=w/Math.max(1,h);camera.updateProjectionMatrix()}
+    const ro=new ResizeObserver(resize);ro.observe(mount);resize();
+    renderer.domElement.addEventListener('pointerdown',e=>{drag=true;px=e.clientX;py=e.clientY;renderer.domElement.setPointerCapture(e.pointerId)});
+    renderer.domElement.addEventListener('pointermove',e=>{if(!drag)return;ry+=(e.clientX-px)*.006;rx+=(e.clientY-py)*.004;px=e.clientX;py=e.clientY});
+    renderer.domElement.addEventListener('pointerup',e=>{if(drag&&Math.abs(e.clientX-px)<7&&Math.abs(e.clientY-py)<7){const rct=renderer.domElement.getBoundingClientRect();pointer.x=((e.clientX-rct.left)/rct.width)*2-1;pointer.y=-((e.clientY-rct.top)/rct.height)*2+1;ray.setFromCamera(pointer,camera);const hit=ray.intersectObjects(arms,false)[0];if(hit){const u=hit.object.userData;$('beastTag').innerHTML='<b>'+u.label+'</b> — '+u.detail}}drag=false});
+    renderer.domElement.addEventListener('wheel',e=>{zoom=Math.max(7,Math.min(19,zoom+Math.sign(e.deltaY)*.7));e.preventDefault()},{passive:false});
+    function frame(t){if(!beastMotionOn){root.rotation.x+=(rx-root.rotation.x)*.055;root.rotation.y+=(ry-root.rotation.y)*.055}else{root.rotation.y+=.0015}camera.position.z+=(zoom-camera.position.z)*.08;core.scale.setScalar(1+Math.sin(t*.0016)*.018);inner.rotation.y+=.0025;ringGroup.rotation.z+=.0007;stars.rotation.y-=.00012;renderer.render(scene,camera);requestAnimationFrame(frame)}
+    requestAnimationFrame(frame);
+    beast3d={THREE,scene,camera,renderer,root,core,inner,rings,ringMats,arms,reset(){rx=.12;ry=.2;zoom=12.6}};
+    window.updateBeast=(shock,curve)=>{const f=shock/100,vals=curve.slice(0,5);rings.forEach((r,i)=>{const k=Math.max(.12,Math.min(1,(vals[i]*f)/(vals[4]*2)));r.scale.setScalar(.96+k*.12);ringMats[i].opacity=.08+k*.45});coreMat.emissiveIntensity=.65+Math.min(1.8,f)*.55;arms.forEach((a,i)=>{a.material.emissiveIntensity=.25+f*.3+(i===3?.25:0)})};
+    if(state)window.updateBeast(bps,state.sensitivity.pap2026.annual_extra_charge_bne);
+  }catch(e){$('beastTag').innerHTML='<b>Mode 3D indisponible.</b> La couche analytique reste intégralement accessible. '+esc(e.message)}
+}
+$('beastImmersive')?.addEventListener('click',async()=>{const s=$('beastStage');try{if(!document.fullscreenElement)await s.requestFullscreen();else await document.exitFullscreen()}catch(e){}});
+$('beastReset')?.addEventListener('click',()=>beast3d?.reset());
+$('beastCamera')?.addEventListener('click',async e=>{const v=$('arVideo'),s=$('beastStage');if(beastStream){beastStream.getTracks().forEach(t=>t.stop());beastStream=null;v.srcObject=null;s.classList.remove('ar-on');e.currentTarget.setAttribute('aria-pressed','false');return}try{beastStream=await navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:'environment'}},audio:false});v.srcObject=beastStream;s.classList.add('ar-on');e.currentTarget.setAttribute('aria-pressed','true')}catch(err){$('beastTag').innerHTML='<b>AR caméra non activée.</b> Autorisation caméra refusée ou indisponible sur ce navigateur.'}});
+$('beastMotion')?.addEventListener('click',async e=>{try{if(typeof DeviceOrientationEvent!=='undefined'&&typeof DeviceOrientationEvent.requestPermission==='function'){const p=await DeviceOrientationEvent.requestPermission();if(p!=='granted')throw Error('permission refusée')}beastMotionOn=!beastMotionOn;e.currentTarget.setAttribute('aria-pressed',String(beastMotionOn));if(beastMotionOn){window.addEventListener('deviceorientation',ev=>{if(!beast3d)return;const beta=(ev.beta||0)*Math.PI/180,gamma=(ev.gamma||0)*Math.PI/180;beast3d.root.rotation.x=beta*.35;beast3d.root.rotation.y=gamma*.55},{passive:true})}}catch(err){$('beastTag').innerHTML='<b>Mouvement non activé.</b> '+esc(err.message)}});
+initBeast();
 load();run();setInterval(load,30000);setInterval(run,120000);
 </script></body></html>
