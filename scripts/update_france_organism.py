@@ -188,6 +188,15 @@ def main():
         "historical_backtest":"PENDING"
       }
     }
+    # Reference the existing debt truth; never duplicate its numbers or model.
+    contract=load(Path('docs/data/FRANCE_BEAST_BINDING.json'),{})
+    if contract.get('country_object_id')=='OJO_FRANCE_ORGANISM_V1#/identity':
+        out['instrumented_organs']=[{
+          'organ_id':contract['organ_id'], 'system_id':contract['system_id'],
+          'binding_ref':'docs/data/FRANCE_BEAST_BINDING.json',
+          'canonical_truth_ref':contract['single_truth'],
+          'territorial_scope':'NATIONAL_ONLY', 'territorial_imputation':False
+        }]
     OUT.write_text(json.dumps(out,ensure_ascii=False,indent=2)+"\n")
     print(json.dumps({"status":"WROTE","regions":len(regions),"counts":out["topology"]["counts"]}))
 

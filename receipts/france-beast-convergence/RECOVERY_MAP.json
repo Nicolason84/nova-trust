@@ -1,0 +1,135 @@
+{
+  "scope": "TARGETED_RECOVERY",
+  "artifacts": [
+    {
+      "artifact": "france-organism.json",
+      "path": "docs/data/france-organism.json",
+      "role": "COUNTRY_CANON",
+      "status": "CANONICAL",
+      "authority": "NICOLAS / existing main 6e983219",
+      "dependencies": [],
+      "canonical_candidate": true,
+      "supersedes": null,
+      "superseded_by": null,
+      "sha256": "8f9e8a09124cedb67b5948632b80facf90d4ea7f8406b681948a89e5177283cf"
+    },
+    {
+      "artifact": "france-topology.json",
+      "path": "docs/data/france-topology.json",
+      "role": "TERRITORIAL_TOPOLOGY",
+      "status": "CANONICAL",
+      "authority": "NICOLAS / existing main 6e983219",
+      "dependencies": [],
+      "canonical_candidate": true,
+      "supersedes": null,
+      "superseded_by": null,
+      "sha256": "ec9cb5b49ede4de31dd20f7649b7f347f23bc213813cc66cb60115186876f749"
+    },
+    {
+      "artifact": "france-debt-rate-live.json",
+      "path": "docs/data/france-debt-rate-live.json",
+      "role": "DEBT_RATE_CANON",
+      "status": "CANONICAL",
+      "authority": "NICOLAS / existing main 6e983219",
+      "dependencies": [],
+      "canonical_candidate": true,
+      "supersedes": null,
+      "superseded_by": null,
+      "sha256": "4a0fa737c138ca8203c104a1bdac0109df86fc8640ed306f96cdeb0aa5ed06e8"
+    },
+    {
+      "artifact": "france-debt-rate-evolution.json",
+      "path": "docs/data/france-debt-rate-evolution.json",
+      "role": "EVOLUTION_PROJECTION",
+      "status": "CANONICAL",
+      "authority": "NICOLAS / existing main 6e983219",
+      "dependencies": [],
+      "canonical_candidate": true,
+      "supersedes": null,
+      "superseded_by": null,
+      "sha256": "d6a19cd69ddfaa4abe607105b0b013e6e722fb2a97daaf24fc1dfc4855edc539"
+    },
+    {
+      "artifact": "update_france_organism.py",
+      "path": "scripts/update_france_organism.py",
+      "role": "FRANCE_PROJECTOR",
+      "status": "CANONICAL",
+      "authority": "NICOLAS / existing main 6e983219",
+      "dependencies": [],
+      "canonical_candidate": true,
+      "supersedes": null,
+      "superseded_by": null,
+      "sha256": "e13d422dccdb453f8a4c3e349af58a6052a67c1d4d96f4f4005ad5e0e9977dfe"
+    },
+    {
+      "artifact": "update_france_debt_rate_live.py",
+      "path": "scripts/update_france_debt_rate_live.py",
+      "role": "SOURCE_RECONCILER",
+      "status": "CANONICAL",
+      "authority": "NICOLAS / existing main 6e983219",
+      "dependencies": [],
+      "canonical_candidate": true,
+      "supersedes": null,
+      "superseded_by": null,
+      "sha256": "d9dd712992986a8553585fc5b109d0b5f452085a49fef158b4bea19f5c472f4b"
+    },
+    {
+      "artifact": "evolve_france_debt_rate.py",
+      "path": "scripts/evolve_france_debt_rate.py",
+      "role": "BOUNDED_EVOLUTION",
+      "status": "CANONICAL",
+      "authority": "NICOLAS / existing main 6e983219",
+      "dependencies": [],
+      "canonical_candidate": true,
+      "supersedes": null,
+      "superseded_by": null,
+      "sha256": "350a9087c8adbde9e6ecef98d3e45b51217a304f2b286682707cfbafaf2606dd"
+    },
+    {
+      "artifact": "france-debt-rate-live.yml",
+      "path": ".github/workflows/france-debt-rate-live.yml",
+      "role": ".PUBLIC_REFRESH",
+      "status": "CANONICAL",
+      "authority": "NICOLAS / existing main 6e983219",
+      "dependencies": [],
+      "canonical_candidate": true,
+      "supersedes": null,
+      "superseded_by": null,
+      "sha256": "afa6e397818d123153820fe099cf3a7d76ea1ac18145534ee22e436e29d4afb5"
+    },
+    {
+      "artifact": "FranceOrganismNativeView.swift",
+      "path": "/Users/nicolasalonso/NOVA_DEV/SUPRA_REPRODUCIBLE_SOURCE_TRUTH_20261002/SUPRA/FranceOrganismNativeView.swift",
+      "role": "NATIVE_FRANCE_CONSUMER",
+      "status": "ACTIVE",
+      "authority": "RECOVERED_SOURCE_ONLY",
+      "dependencies": [
+        "docs/data/france-organism.json"
+      ],
+      "canonical_candidate": true,
+      "supersedes": null,
+      "superseded_by": null
+    },
+    {
+      "artifact": "SUPRALivingBodyProjection.swift",
+      "path": "/Users/nicolasalonso/NOVA_DEV/SUPRA_REPRODUCIBLE_SOURCE_TRUTH_20261002/SUPRA/SUPRALivingBodyProjection.swift",
+      "role": "BODY_AND_NERVOUS_PROJECTION",
+      "status": "ACTIVE",
+      "authority": "RECOVERED_SOURCE_ONLY",
+      "dependencies": [
+        "EXISTING_SUPRA_TERMINAL_MEGABUS_V1"
+      ],
+      "canonical_candidate": true,
+      "supersedes": null,
+      "superseded_by": null
+    }
+  ],
+  "classification_note": "No duplicate promoted; native runtime untouched; existing structural identities are schema + JSON pointers.",
+  "reconciled_latest_main": "045c102f703b20588be608e5882655e8436f7e94",
+  "upstream_updates_preserved": [
+    "budget-2027-live.json",
+    "environment-live.json",
+    "organism-state.json",
+    "france-organism.json"
+  ]
+}

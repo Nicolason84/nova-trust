@@ -183,6 +183,49 @@ def document_period(title):
         if m:return (int(m.group(1)),month)
     return (0,0)
 
+def parse_dgfip_date(value):
+    """French dates are D/M/Y; ISO stays ISO. Never infer locale or swap ISO."""
+    text=str(value or '').strip().lower()
+    m=re.fullmatch(r'(\d{2})/(\d{2})/(\d{4})',text)
+    if m:
+        day,month,year=map(int,m.groups())
+        return datetime(year,month,day).date().isoformat()
+    if re.fullmatch(r'\d{4}-\d{2}-\d{2}',text):
+        return datetime.strptime(text,'%Y-%m-%d').date().isoformat()
+    months={'janvier':1,'février':2,'mars':3,'avril':4,'mai':5,'juin':6,
+            'juillet':7,'août':8,'septembre':9,'octobre':10,'novembre':11,'décembre':12}
+    m=re.fullmatch(r'(\d{1,2})\s+([a-zéû]+)\s+(20\d{2})',text)
+    if m and m[2] in months:
+        return datetime(int(m[3]),months[m[2]],int(m[1])).date().isoformat()
+    raise ValueError('DGFIP_DATE_FORMAT_UNKNOWN')
+
+def normalize_dgfip_publication(doc, period, evidence=None):
+    raw=doc.get('date_publication')
+    if evidence is None:
+        try: evidence=json.loads(Path('docs/data/dgfip-publication-evidence.json').read_text())
+        except (OSError,ValueError): evidence={}
+    result={'date_publication_raw':raw,'date_publication':None,
+            'publication_date_state':'UNKNOWN','publication_date_reason':'No matching original publication proof.'}
+    # Upstream Opendatasoft ISO export was already inverted. Correct only by an
+    # original-source literal attached to this exact PDF AND monthly vintage.
+    if evidence.get('document_url')==doc.get('url_fichier') and evidence.get('period')==period:
+        result.update(date_publication=parse_dgfip_date(evidence['publication_text']),
+            publication_date_state=evidence.get('health','OFFICIAL_VINTAGE'),
+            publication_date_reason='Original DGFiP listing overrides contradicted export date; ISO is never blindly swapped.',
+            publication_date_proof=evidence)
+    else:
+        try:
+            parsed=parse_dgfip_date(raw)
+            # Publication cannot precede the end of the accounting month.
+            y,m=map(int,period.split('-'))
+            month_end=(datetime(y+1,1,1) if m==12 else datetime(y,m+1,1))-timedelta(days=1)
+            if datetime.fromisoformat(parsed)>=month_end:
+                result.update(date_publication=parsed,publication_date_state='LIVE_VERIFIED',
+                              publication_date_reason='Explicit source date format; chronology guard passed.')
+            else: result['publication_date_reason']='Export date precedes accounting month; UNKNOWN until source reconciliation.'
+        except (ValueError,TypeError): pass
+    return result
+
 def fetch_dgfip_execution():
     try:
         status,b,etag,lm,cs=req(DGFIP_EXPORT,"application/json,*/*;q=0.8")
@@ -196,7 +239,7 @@ def fetch_dgfip_execution():
         y,m=document_period(latest.get("titre_document"))
         obs={
           "period":f"{y:04d}-{m:02d}",
-          "date_publication_raw":latest.get("date_publication"),
+          **normalize_dgfip_publication(latest,f"{y:04d}-{m:02d}"),
           "titre_document":latest.get("titre_document"),
           "url_fichier":latest.get("url_fichier"),
           "dataset_rows":len(rows)
@@ -415,196 +458,228 @@ def what_would_change_reading():
       {"reading":"TEC10 is cross-checked.","change_conditions":["Page/Webstat divergence exceeds 1 bp","Publication date mismatch","One source becomes unavailable"],"sensitive_assumption":"Same official observation vintage","review_source":"Banque de France page + Webstat"}
     ]
 
-try:
-    prev=json.loads(OUT.read_text())
-except Exception:
-    prev={}
+def main():
+    try:
+        prev=json.loads(OUT.read_text())
+    except Exception:
+        prev={}
 
-oldobs=prev.get("observed",{})
-observed={**PINNED,**oldobs}
-sources=[]
+    oldobs=prev.get("observed",{})
+    observed={**PINNED,**oldobs}
+    sources=[]
 
-bdf,bvals=fetch_bdf_html()
-sources.append(bdf)
-observed.update(bvals)
+    bdf,bvals=fetch_bdf_html()
+    sources.append(bdf)
+    observed.update(bvals)
 
-webstat,wvals=fetch_bdf_csv()
-sources.append(webstat)
-# Webstat is both an independent official cross-check and a last-good fallback.
-if "tec10_pct" not in bvals and wvals.get("webstat_tec10_last_pct") is not None:
-    observed["tec10_pct"]=wvals["webstat_tec10_last_pct"]
-    observed["tec10_date"]=wvals.get("webstat_last_date")
-    observed["yield_curve_date"]=wvals.get("webstat_last_date")
-    observed["yield_curve"]=wvals.get("webstat_curve_latest",[])
+    webstat,wvals=fetch_bdf_csv()
+    sources.append(webstat)
+    # Webstat is both an independent official cross-check and a last-good fallback.
+    if "tec10_pct" not in bvals and wvals.get("webstat_tec10_last_pct") is not None:
+        observed["tec10_pct"]=wvals["webstat_tec10_last_pct"]
+        observed["tec10_date"]=wvals.get("webstat_last_date")
+        observed["yield_curve_date"]=wvals.get("webstat_last_date")
+        observed["yield_curve"]=wvals.get("webstat_curve_latest",[])
 
-sources.append(fetch_watch("AFT_RSS","Agence France Trésor","Flux RSS des publications","https://www.aft.gouv.fr/fr/rss.xml","application/rss+xml,application/xml,text/xml,*/*;q=0.8"))
-dgfip_source,budget_execution=fetch_dgfip_execution()
-sources.append(dgfip_source)
-sources.append(src("AFT_SNAPSHOT","Agence France Trésor","Ancre officielle · encours, maturité, financement 2027","https://www.aft.gouv.fr/fr",health="PINNED",digest=hashlib.sha256(json.dumps(PINNED,sort_keys=True).encode()).hexdigest(),extra={"published_through":"2026-10-01","note":"Pinned canonical anchor; live detailed maturity pages are attempted separately."}))
+    sources.append(fetch_watch("AFT_RSS","Agence France Trésor","Flux RSS des publications","https://www.aft.gouv.fr/fr/rss.xml","application/rss+xml,application/xml,text/xml,*/*;q=0.8"))
+    dgfip_source,budget_execution=fetch_dgfip_execution()
+    if not budget_execution and prev.get('budget_execution'):
+        budget_execution=dict(prev['budget_execution'])
+        budget_execution['retention_state']='RETAINED_LAST_GOOD'
+        budget_execution['retention_reason']='DGFiP export temporarily unavailable.'
+        dgfip_source['retained_period']=budget_execution.get('period')
+    sources.append(dgfip_source)
+    sources.append(src("AFT_SNAPSHOT","Agence France Trésor","Ancre officielle · encours, maturité, financement 2027","https://www.aft.gouv.fr/fr",health="PINNED",digest=hashlib.sha256(json.dumps(PINNED,sort_keys=True).encode()).hexdigest(),extra={"published_through":"2026-10-01","note":"Pinned canonical anchor; live detailed maturity pages are attempted separately."}))
 
-maturity_ladder,maturity_sources=fetch_aft_maturity(prev)
-sources.extend(maturity_sources)
+    maturity_ladder,maturity_sources=fetch_aft_maturity(prev)
+    sources.extend(maturity_sources)
 
-crosscheck_bps=round((float(observed.get("tec10_pct"))-float(wvals.get("webstat_tec10_last_pct")))*100,1) if observed.get("tec10_pct") is not None and wvals.get("webstat_tec10_last_pct") is not None else None
-for s in sources:
-    sid=s.get("id","")
-    raw=s.get("health")
-    if raw=="ERROR":
-        s["health"]="UNAVAILABLE"
-    elif sid=="AFT_SNAPSHOT":
-        s["health"]="OFFICIAL_VINTAGE"
-    elif sid=="BDF_WEBSTAT" and crosscheck_bps is not None and abs(crosscheck_bps)<=1:
-        s["health"]="CROSSCHECKED"
-    elif raw in ("OK","PINNED"):
-        s["health"]="LIVE_VERIFIED"
-if maturity_ladder.get("mode")=="RETAINED_LAST_GOOD":
-    sources.append(src(
-      "AFT_MATURITY_RETAINED","Agence France Trésor",
-      "Échéancier officiel conservé — dernier bon état",
-      "https://www.aft.gouv.fr/fr",health="RETAINED_LAST_GOOD",
-      digest=hashlib.sha256(json.dumps(maturity_ladder.get("years",[]),sort_keys=True).encode()).hexdigest(),
-      extra={"vintage":maturity_ladder.get("as_of"),"reason":"Detailed pages unavailable to the runner."}
-    ))
+    # A fallback cannot cross-check itself. Compare two real observations of the same vintage.
+    comparable=(bvals.get('tec10_pct') is not None and wvals.get('webstat_tec10_last_pct') is not None
+                and bvals.get('tec10_date') == wvals.get('webstat_last_date'))
+    crosscheck_bps=round((float(bvals['tec10_pct'])-float(wvals['webstat_tec10_last_pct']))*100,1) if comparable else None
+    for s in sources:
+        sid=s.get("id","")
+        raw=s.get("health")
+        if raw=="ERROR":
+            s["health"]="UNAVAILABLE"
+        elif sid=="AFT_SNAPSHOT":
+            s["health"]="OFFICIAL_VINTAGE"
+        elif sid=="BDF_WEBSTAT" and crosscheck_bps is not None and abs(crosscheck_bps)<=1:
+            s["health"]="CROSSCHECKED"
+        elif raw in ("OK","PINNED"):
+            s["health"]="LIVE_VERIFIED"
+    if maturity_ladder.get("mode")=="RETAINED_LAST_GOOD":
+        sources.append(src(
+          "AFT_MATURITY_RETAINED","Agence France Trésor",
+          "Échéancier officiel conservé — dernier bon état",
+          "https://www.aft.gouv.fr/fr",health="RETAINED_LAST_GOOD",
+          digest=hashlib.sha256(json.dumps(maturity_ladder.get("years",[]),sort_keys=True).encode()).hexdigest(),
+          extra={"vintage":maturity_ladder.get("as_of"),"reason":"Detailed pages unavailable to the runner."}
+        ))
 
-if observed.get("tec10_pct") is not None:
-    observed["tec10_vs_plf_assumption_bps"]=round((float(observed["tec10_pct"])-3.8)*100,1)
+    if observed.get("tec10_pct") is not None:
+        observed["tec10_vs_plf_assumption_bps"]=round((float(observed["tec10_pct"])-3.8)*100,1)
 
-old_sources={x.get("id"):x for x in prev.get("sources",[]) if isinstance(x,dict)}
-events=[]
-for s in sources:
-    p=old_sources.get(s["id"])
-    if not p:
-        events.append({"kind":"SOURCE_BASELINED","source_id":s["id"],"at":s["checked_at"],"detail":"First fingerprint captured."})
-    elif p.get("health")!=s.get("health"):
-        events.append({"kind":"SOURCE_HEALTH_CHANGED","source_id":s["id"],"at":s["checked_at"],"detail":f"{p.get('health')} → {s.get('health')}"})
-    elif s.get("digest") and p.get("digest")!=s.get("digest"):
-        events.append({"kind":"SOURCE_CHANGED","source_id":s["id"],"at":s["checked_at"],"detail":"Public source fingerprint changed."})
+    old_sources={x.get("id"):x for x in prev.get("sources",[]) if isinstance(x,dict)}
+    events=[]
+    for s in sources:
+        p=old_sources.get(s["id"])
+        if not p:
+            events.append({"kind":"SOURCE_BASELINED","source_id":s["id"],"at":s["checked_at"],"detail":"First fingerprint captured."})
+        elif p.get("health")!=s.get("health"):
+            events.append({"kind":"SOURCE_HEALTH_CHANGED","source_id":s["id"],"at":s["checked_at"],"detail":f"{p.get('health')} → {s.get('health')}"})
+        elif s.get("digest") and p.get("digest")!=s.get("digest"):
+            events.append({"kind":"SOURCE_CHANGED","source_id":s["id"],"at":s["checked_at"],"detail":"Public source fingerprint changed."})
 
-for k,v in observed.items():
-    if k in oldobs and oldobs.get(k)!=v:
-        events.append({"kind":"METRIC_CHANGED","metric":k,"at":now(),"detail":f"{oldobs.get(k)} → {v}"})
+    for k,v in observed.items():
+        if k in oldobs and oldobs.get(k)!=v:
+            events.append({"kind":"METRIC_CHANGED","metric":k,"at":now(),"detail":f"{oldobs.get(k)} → {v}"})
 
-curve_history=append_curve_history(prev,observed,wvals.get("webstat_history",[]))
-curve_delta_bps=curve_delta(curve_history)
-regime_memory=curve_regime_memory(curve_history)
-tec_claim_state="CROSSCHECKED" if crosscheck_bps is not None and abs(crosscheck_bps)<=1 else ("LIVE_VERIFIED" if bvals.get("tec10_pct") is not None else "DEGRADED")
-maturity_claim_state="LIVE_VERIFIED" if maturity_ladder.get("mode")=="LIVE_PARSED" else "RETAINED_LAST_GOOD"
-derived={
-  **curve_metrics(observed.get("yield_curve",[])),
-  "curve_delta_vs_previous_bps":curve_delta_bps,
-  "curve_history_points":len(curve_history),
-  "model_divergence_5y_bne":round(abs(float(23.5)-float(PAP_CURVE[4])),1),
-  "maturity_mode":maturity_ladder.get("mode","UNKNOWN"),
-  "latest_budget_execution_period":budget_execution.get("period"),
-  "webstat_crosscheck_bps":crosscheck_bps,
-}
-refinancing=refinancing_twin(observed,maturity_ladder)
-delta=decision_delta(curve_history,regime_memory,tec_claim_state)
-claims=[
-  {"claim_id":"TEC10","label":"TEC10 observé","type":"OBSERVED","value":observed.get("tec10_pct"),"unit":"pct","date":observed.get("tec10_date"),"state":tec_claim_state,"confidence":"HIGH" if tec_claim_state=="CROSSCHECKED" else "MEDIUM","source_ids":["BDF_TEC","BDF_WEBSTAT"]},
-  {"claim_id":"TEC_CURVE","label":"Courbe TEC 1–30 ans","type":"OBSERVED","value":observed.get("yield_curve"),"date":observed.get("yield_curve_date"),"state":tec_claim_state,"confidence":"HIGH" if len(observed.get("yield_curve",[]))>=8 else "LOW","source_ids":["BDF_TEC","BDF_WEBSTAT"]},
-  {"claim_id":"CURVE_REGIME","label":"Régime descriptif de courbe","type":"DERIVED","value":regime_memory.get("regime"),"date":regime_memory.get("as_of"),"state":"DERIVED_FROM_OFFICIAL","confidence":"MEDIUM","source_ids":["BDF_TEC","BDF_WEBSTAT"]},
-  {"claim_id":"MATURITY_LADDER","label":"Encours par échéance","type":"OBSERVED","value":maturity_ladder.get("years"),"date":maturity_ladder.get("as_of"),"state":maturity_claim_state,"confidence":"MEDIUM" if maturity_claim_state=="RETAINED_LAST_GOOD" else "HIGH","source_ids":["AFT_MATURITY_RETAINED"] if maturity_claim_state=="RETAINED_LAST_GOOD" else ["AFT_MATURITY_OAT","AFT_MATURITY_OATI","AFT_MATURITY_OATEI"]},
-  {"claim_id":"PAP_STRESS","label":"Sensibilité +100 pb","type":"STRESS","value":PAP_CURVE,"date":"OFFICIAL_VINTAGE","state":"OFFICIAL_VINTAGE","confidence":"MODEL_BOUND","source_ids":["PAP2026"]},
-]
-evidence_graph={
-  "schema":"SUPRA_PROOFGRAPH_PUBLIC_PROJECTION_V1",
-  "nodes":[
-    {"id":"BDF_TEC","kind":"SOURCE","label":"Banque de France · page TEC"},
-    {"id":"BDF_WEBSTAT","kind":"SOURCE","label":"Banque de France · Webstat"},
-    {"id":"TEC_CURVE","kind":"METRIC","label":"Courbe TEC observée"},
-    {"id":"CURVE_REGIME","kind":"DERIVED_METRIC","label":"Régime descriptif"},
-    {"id":"PAP2026","kind":"PUBLICATION","label":"PAP 2026"},
-    {"id":"PAP_STRESS","kind":"SCENARIO","label":"Stress parallèle"},
-    {"id":"EXECUTIVE_OUTPUT","kind":"OUTPUT","label":"Executive Decision Room"}
-  ],
-  "edges":[
-    {"from":"BDF_TEC","to":"TEC_CURVE","relation":"OBSERVES"},
-    {"from":"BDF_WEBSTAT","to":"TEC_CURVE","relation":"CROSSCHECKS"},
-    {"from":"TEC_CURVE","to":"CURVE_REGIME","relation":"DERIVES"},
-    {"from":"PAP2026","to":"PAP_STRESS","relation":"PARAMETERIZES"},
-    {"from":"TEC_CURVE","to":"EXECUTIVE_OUTPUT","relation":"INFORMS"},
-    {"from":"CURVE_REGIME","to":"EXECUTIVE_OUTPUT","relation":"INFORMS"},
-    {"from":"PAP_STRESS","to":"EXECUTIVE_OUTPUT","relation":"STRESSES"}
-  ],
-  "black_box":False
-}
-stress_shapes={
-  "parallel":{"label":"Parallèle","type":"STRESS","tenor_shock_bps":{str(t):100 for t in TEC_TENORS}},
-  "short_term":{"label":"Court terme","type":"STRESS","tenor_shock_bps":{str(t):(100 if t<=3 else 50 if t==5 else 0) for t in TEC_TENORS}},
-  "long_term":{"label":"Long terme","type":"STRESS","tenor_shock_bps":{str(t):(100 if t>=10 else 0) for t in TEC_TENORS}},
-  "steepener":{"label":"Pentification","type":"STRESS","tenor_shock_bps":{str(t):(-50 if t<=3 else 50 if t>=10 else 0) for t in TEC_TENORS}},
-  "flattener":{"label":"Aplatissement","type":"STRESS","tenor_shock_bps":{str(t):(50 if t<=3 else -50 if t>=10 else 0) for t in TEC_TENORS}},
-}
-seq=int(prev.get("sequence",0))+(1 if events else 0)
-ok_states={"LIVE_VERIFIED","CROSSCHECKED","OFFICIAL_VINTAGE","RETAINED_LAST_GOOD"}
-source_state_counts={state:sum(s.get("health")==state for s in sources) for state in ("LIVE_VERIFIED","CROSSCHECKED","OFFICIAL_VINTAGE","RETAINED_LAST_GOOD","DEGRADED","UNAVAILABLE","CONTRADICTED")}
-snapshot_payload=json.dumps({"observed":observed,"maturity_ladder":maturity_ladder,"sensitivity":{"pap2026":PAP_CURVE},"decision_delta":delta},sort_keys=True,ensure_ascii=False)
-snapshot_id="OJO-"+hashlib.sha256(snapshot_payload.encode()).hexdigest()[:16].upper()
-manifest={
- "schema":"OJO_FRANCE_DEBT_RATE_LIVE_V1",
- "version":"2026-10-02.7",
- "snapshot_id":snapshot_id,
- "sequence":seq,
- "updated_at":now(),
- "policy":{"political_recommendation":"NONE","market_yield_is_not_whole_debt_cost":True,"maturity_stock_is_not_financing_need":True,"stress_test_is_not_forecast":True,"model_output_is_not_policy_recommendation":True,"source_change":"DELTA_THEN_RECONCILE","typed_live_metrics":"OBSERVED_DERIVED_HYPOTHESIS_STRESS_UNKNOWN","sensitivity_model":"FIXED_OFFICIAL_VINTAGES","aft_html":"PINNED_DUE_TO_RUNNER_BLOCK"},
- "observed":observed,
- "sensitivity":{
-   "pap2026":{"label":"PLF 2026 · PAP Engagements financiers de l’État","shock_bps":100,"annual_extra_charge_bne":PAP_CURVE,"start_year":2026},
-   "aft_later":{"label":"AFT · estimation citée par le Sénat","shock_bps":100,"points_bne":{"1":3.2,"5":23.5,"9":33.5}},
-   "stress_shapes":stress_shapes
- },
- "maturity_ladder":maturity_ladder,
- "refinancing_twin":refinancing,
- "budget_execution":budget_execution,
- "curve_history":curve_history,
- "curve_regime_memory":regime_memory,
- "decision_delta":delta,
- "what_would_change_the_reading":what_would_change_reading(),
- "claims":claims,
- "evidence_graph":evidence_graph,
- "derived":derived,
- "supra_bindings":{
-   "mode":"READ_ONLY_PUBLIC_PROJECTION",
-   "no_second_runtime":True,
-   "capabilities_reused":["Decision Twin","ProofGraph","Context Engine","Scenario / Counterfactual Reasoning","Canonical Store","Pattern Memory","Chronology","Claim Confidence","Executive Cockpit","Verification","Non-Regression","Executive Brief"]
- },
- "capabilities":{
-   "scheduled_refresh_minutes":5,
-   "browser_poll_seconds":30,
-   "live_full_yield_curve":True,
-   "last_good_retention":True,
-   "curve_history":True,
-   "curve_delta_bps":True,
-   "curve_regime_memory":True,
-   "decision_delta":True,
-   "refinancing_twin":True,
-   "time_machine":True,
-   "claim_confidence":True,
-   "evidence_graph":True,
-   "what_would_change_the_reading":True,
-   "webstat_historical_backfill":True,
-   "monthly_budget_execution_discovery":True,
-   "maturity_auto_refresh":maturity_ladder.get("mode")=="LIVE_PARSED",
-   "official_model_vintages":2,
-   "political_recommendation":False
- },
- "sources":sources,
- "events":(prev.get("events",[])+events)[-120:],
- "material_changes":events,
- "summary":{"healthy":sum(s.get("health") in ok_states for s in sources),"monitored":len(sources),"warnings":sum(s.get("health") not in ok_states for s in sources),"source_state_counts":source_state_counts,"changed_this_sequence":len(events),
-            "curve_history_points":len(curve_history),"maturity_mode":maturity_ladder.get("mode","UNKNOWN"),"decision_delta_status":delta.get("status")}
-}
-OUT.parent.mkdir(parents=True,exist_ok=True)
-encoded=json.dumps(manifest,ensure_ascii=False,indent=2)+"\n"
+    curve_history=append_curve_history(prev,observed,wvals.get("webstat_history",[]))
+    curve_delta_bps=curve_delta(curve_history)
+    regime_memory=curve_regime_memory(curve_history)
+    tec_claim_state=("CROSSCHECKED" if crosscheck_bps is not None and abs(crosscheck_bps)<=1 else
+                     "CONTRADICTED" if crosscheck_bps is not None else
+                     "LIVE_VERIFIED" if bvals.get('tec10_pct') is not None or wvals.get('webstat_tec10_last_pct') is not None else
+                     "RETAINED_LAST_GOOD")
+    if tec_claim_state=='RETAINED_LAST_GOOD':
+        sources.append(src('BDF_TEC_RETAINED','Banque de France','Dernière courbe officielle conservée',
+          next((s['url'] for s in prev.get('sources',[]) if s.get('id')=='BDF_TEC'),bdf['url']),health='RETAINED_LAST_GOOD',
+          digest=hashlib.sha256(json.dumps(observed.get('yield_curve',[]),sort_keys=True).encode()).hexdigest(),
+          extra={'vintage':observed.get('yield_curve_date'),'reason':'Both official observations unavailable.',
+                 'confidence':'MEDIUM','replacement_condition':'A verified newer Banque de France observation of the same scope.'}))
+    maturity_claim_state="LIVE_VERIFIED" if maturity_ladder.get("mode")=="LIVE_PARSED" else "RETAINED_LAST_GOOD"
+    derived={
+      **curve_metrics(observed.get("yield_curve",[])),
+      "curve_delta_vs_previous_bps":curve_delta_bps,
+      "curve_history_points":len(curve_history),
+      "model_divergence_5y_bne":round(abs(float(23.5)-float(PAP_CURVE[4])),1),
+      "maturity_mode":maturity_ladder.get("mode","UNKNOWN"),
+      "latest_budget_execution_period":budget_execution.get("period"),
+      "webstat_crosscheck_bps":crosscheck_bps,
+    }
+    refinancing=refinancing_twin(observed,maturity_ladder)
+    delta=decision_delta(curve_history,regime_memory,tec_claim_state)
+    claims=[
+      {"claim_id":"TEC10","label":"TEC10 observé","type":"OBSERVED","value":observed.get("tec10_pct"),"unit":"pct","date":observed.get("tec10_date"),"state":tec_claim_state,"confidence":"HIGH" if tec_claim_state=="CROSSCHECKED" else "MEDIUM","source_ids":["BDF_TEC_RETAINED"] if tec_claim_state=='RETAINED_LAST_GOOD' else ["BDF_TEC","BDF_WEBSTAT"]},
+      {"claim_id":"TEC_CURVE","label":"Courbe TEC 1–30 ans","type":"OBSERVED","value":observed.get("yield_curve"),"date":observed.get("yield_curve_date"),"state":tec_claim_state,"confidence":"HIGH" if tec_claim_state=='CROSSCHECKED' and len(observed.get("yield_curve",[]))>=8 else "MEDIUM","source_ids":["BDF_TEC_RETAINED"] if tec_claim_state=='RETAINED_LAST_GOOD' else ["BDF_TEC","BDF_WEBSTAT"]},
+      {"claim_id":"CURVE_REGIME","label":"Régime descriptif de courbe","type":"DERIVED","value":regime_memory.get("regime"),"date":regime_memory.get("as_of"),"state":"DERIVED_FROM_OFFICIAL","confidence":"MEDIUM","source_ids":["BDF_TEC","BDF_WEBSTAT"]},
+      {"claim_id":"MATURITY_LADDER","label":"Encours par échéance","type":"OBSERVED","value":maturity_ladder.get("years"),"date":maturity_ladder.get("as_of"),"state":maturity_claim_state,"confidence":"MEDIUM" if maturity_claim_state=="RETAINED_LAST_GOOD" else "HIGH","source_ids":["AFT_MATURITY_RETAINED"] if maturity_claim_state=="RETAINED_LAST_GOOD" else ["AFT_MATURITY_OAT","AFT_MATURITY_OATI","AFT_MATURITY_OATEI"]},
+      {"claim_id":"PAP_STRESS","label":"Sensibilité +100 pb","type":"STRESS","value":PAP_CURVE,"date":"OFFICIAL_VINTAGE","state":"OFFICIAL_VINTAGE","confidence":"MODEL_BOUND","source_ids":["PAP2026"]},
+    ]
+    evidence_graph={
+      "schema":"SUPRA_PROOFGRAPH_PUBLIC_PROJECTION_V1",
+      "nodes":[
+        {"id":"BDF_TEC","kind":"SOURCE","label":"Banque de France · page TEC"},
+        {"id":"BDF_WEBSTAT","kind":"SOURCE","label":"Banque de France · Webstat"},
+        {"id":"TEC_CURVE","kind":"METRIC","label":"Courbe TEC observée"},
+        {"id":"CURVE_REGIME","kind":"DERIVED_METRIC","label":"Régime descriptif"},
+        {"id":"PAP2026","kind":"PUBLICATION","label":"PAP 2026"},
+        {"id":"PAP_STRESS","kind":"SCENARIO","label":"Stress parallèle"},
+        {"id":"EXECUTIVE_OUTPUT","kind":"OUTPUT","label":"Executive Decision Room"}
+      ],
+      "edges":[
+        {"from":"BDF_TEC","to":"TEC_CURVE","relation":"OBSERVES"},
+        {"from":"BDF_WEBSTAT","to":"TEC_CURVE","relation":"CROSSCHECKS"},
+        {"from":"TEC_CURVE","to":"CURVE_REGIME","relation":"DERIVES"},
+        {"from":"PAP2026","to":"PAP_STRESS","relation":"PARAMETERIZES"},
+        {"from":"TEC_CURVE","to":"EXECUTIVE_OUTPUT","relation":"INFORMS"},
+        {"from":"CURVE_REGIME","to":"EXECUTIVE_OUTPUT","relation":"INFORMS"},
+        {"from":"PAP_STRESS","to":"EXECUTIVE_OUTPUT","relation":"STRESSES"}
+      ],
+      "black_box":False
+    }
+    stress_shapes={
+      "parallel":{"label":"Parallèle","type":"STRESS","tenor_shock_bps":{str(t):100 for t in TEC_TENORS}},
+      "short_term":{"label":"Court terme","type":"STRESS","tenor_shock_bps":{str(t):(100 if t<=3 else 50 if t==5 else 0) for t in TEC_TENORS}},
+      "long_term":{"label":"Long terme","type":"STRESS","tenor_shock_bps":{str(t):(100 if t>=10 else 0) for t in TEC_TENORS}},
+      "steepener":{"label":"Pentification","type":"STRESS","tenor_shock_bps":{str(t):(-50 if t<=3 else 50 if t>=10 else 0) for t in TEC_TENORS}},
+      "flattener":{"label":"Aplatissement","type":"STRESS","tenor_shock_bps":{str(t):(50 if t<=3 else -50 if t>=10 else 0) for t in TEC_TENORS}},
+    }
+    seq=int(prev.get("sequence",0))+(1 if events else 0)
+    ok_states={"LIVE_VERIFIED","CROSSCHECKED","OFFICIAL_VINTAGE","RETAINED_LAST_GOOD"}
+    source_state_counts={state:sum(s.get("health")==state for s in sources) for state in ("LIVE_VERIFIED","CROSSCHECKED","OFFICIAL_VINTAGE","RETAINED_LAST_GOOD","DEGRADED","UNAVAILABLE","CONTRADICTED")}
+    snapshot_payload=json.dumps({"observed":observed,"maturity_ladder":maturity_ladder,"sensitivity":{"pap2026":PAP_CURVE},"decision_delta":delta},sort_keys=True,ensure_ascii=False)
+    snapshot_id="OJO-"+hashlib.sha256(snapshot_payload.encode()).hexdigest()[:16].upper()
+    manifest={
+     "schema":"OJO_FRANCE_DEBT_RATE_LIVE_V1",
+     "version":"2026-10-02.7",
+     "snapshot_id":snapshot_id,
+     "sequence":seq,
+     "updated_at":now(),
+     "policy":{"political_recommendation":"NONE","market_yield_is_not_whole_debt_cost":True,"maturity_stock_is_not_financing_need":True,"stress_test_is_not_forecast":True,"model_output_is_not_policy_recommendation":True,"source_change":"DELTA_THEN_RECONCILE","typed_live_metrics":"OBSERVED_DERIVED_HYPOTHESIS_STRESS_UNKNOWN","sensitivity_model":"FIXED_OFFICIAL_VINTAGES","aft_html":"PINNED_DUE_TO_RUNNER_BLOCK"},
+     "observed":observed,
+     "sensitivity":{
+       "pap2026":{"label":"PLF 2026 · PAP Engagements financiers de l’État","shock_bps":100,"annual_extra_charge_bne":PAP_CURVE,"start_year":2026},
+       "aft_later":{"label":"AFT · estimation citée par le Sénat","shock_bps":100,"points_bne":{"1":3.2,"5":23.5,"9":33.5}},
+       "stress_shapes":stress_shapes
+     },
+     "maturity_ladder":maturity_ladder,
+     "refinancing_twin":refinancing,
+     "budget_execution":budget_execution,
+     "curve_history":curve_history,
+     "curve_regime_memory":regime_memory,
+     "decision_delta":delta,
+     "what_would_change_the_reading":what_would_change_reading(),
+     "claims":claims,
+     "evidence_graph":evidence_graph,
+     "derived":derived,
+     "supra_bindings":{
+       "mode":"READ_ONLY_PUBLIC_PROJECTION",
+       "no_second_runtime":True,
+       "capabilities_reused":["Decision Twin","ProofGraph","Context Engine","Scenario / Counterfactual Reasoning","Canonical Store","Pattern Memory","Chronology","Claim Confidence","Executive Cockpit","Verification","Non-Regression","Executive Brief"]
+     },
+     "capabilities":{
+       "scheduled_refresh_minutes":5,
+       "browser_poll_seconds":30,
+       "live_full_yield_curve":True,
+       "last_good_retention":True,
+       "curve_history":True,
+       "curve_delta_bps":True,
+       "curve_regime_memory":True,
+       "decision_delta":True,
+       "refinancing_twin":True,
+       "time_machine":True,
+       "claim_confidence":True,
+       "evidence_graph":True,
+       "what_would_change_the_reading":True,
+       "webstat_historical_backfill":True,
+       "monthly_budget_execution_discovery":True,
+       "maturity_auto_refresh":maturity_ladder.get("mode")=="LIVE_PARSED",
+       "official_model_vintages":2,
+       "political_recommendation":False
+     },
+     "sources":sources,
+     "events":(prev.get("events",[])+events)[-120:],
+     "material_changes":events,
+     "summary":{"healthy":sum(s.get("health") in ok_states for s in sources),"monitored":len(sources),"warnings":sum(s.get("health") not in ok_states for s in sources),"source_state_counts":source_state_counts,"changed_this_sequence":len(events),
+                "curve_history_points":len(curve_history),"maturity_mode":maturity_ladder.get("mode","UNKNOWN"),"decision_delta_status":delta.get("status")}
+    }
+    from france_beast_binding import enrich
+    enrich(manifest)
+    OUT.parent.mkdir(parents=True,exist_ok=True)
+    encoded=json.dumps(manifest,ensure_ascii=False,indent=2)+"\n"
 
-if prev:
-    core_prev={k:v for k,v in prev.items() if k not in ("updated_at","material_changes","sources","summary")}
-    core_new={k:v for k,v in manifest.items() if k not in ("updated_at","material_changes","sources","summary")}
-    src_same=all(old_sources.get(s["id"],{}).get("digest")==s.get("digest") and old_sources.get(s["id"],{}).get("health")==s.get("health") for s in sources)
-    if core_prev==core_new and src_same:
-        print("NO_MATERIAL_CHANGE")
-        raise SystemExit(0)
+    if prev:
+        def stable_core(value):
+            value=json.loads(json.dumps(value))
+            for k in ('updated_at','material_changes','sources','summary','freshness'):
+                value.pop(k,None)
+            for c in value.get('claims',[]):
+                for proof in c.get('proof',[]):
+                    for k in ('checked_at','error','etag','last_modified'):
+                        proof.pop(k,None)
+            return value
+        core_prev=stable_core(prev)
+        core_new=stable_core(manifest)
+        src_same=all(old_sources.get(s["id"],{}).get("digest")==s.get("digest") and old_sources.get(s["id"],{}).get("health")==s.get("health") for s in sources)
+        if core_prev==core_new and src_same:
+            print("NO_MATERIAL_CHANGE")
+            raise SystemExit(0)
 
-OUT.write_text(encoded)
-print(json.dumps({"status":"WROTE","sequence":seq,"events":len(events),"summary":manifest["summary"],"tec10":observed.get("tec10_pct")},ensure_ascii=False))
+    OUT.write_text(encoded)
+    print(json.dumps({"status":"WROTE","sequence":seq,"events":len(events),"summary":manifest["summary"],"tec10":observed.get("tec10_pct")},ensure_ascii=False))
+
+if __name__ == '__main__':
+    main()

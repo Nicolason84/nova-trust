@@ -1,0 +1,37 @@
+const fs=require('node:fs'),vm=require('node:vm'),assert=require('node:assert/strict');
+const page=fs.readFileSync('docs/france-debt-rate-risk-live-2026-10-02.html','utf8');
+const script=page.match(/<script>([\s\S]*?)<\/script>/)[1];
+const j=JSON.parse(fs.readFileSync('docs/data/france-debt-rate-live.json','utf8'));
+const node=()=>({textContent:'',innerHTML:'',dataset:{},classList:{add(){},remove(){}},style:{setProperty(){}},querySelector(){return node()},setAttribute(){},addEventListener(){},animate(){}});
+const nodes=new Map(),document={getElementById(id){if(!nodes.has(id))nodes.set(id,node());return nodes.get(id);},querySelectorAll(){return[]},body:node(),documentElement:node()};
+const c=vm.createContext({document,window:{matchMedia(){return{matches:true}}},console,Date,Number,Math,String,Array,Object,JSON,setTimeout(){},Blob:class{},URL,ResizeObserver:class{},snapshot:j});
+vm.runInContext(script.slice(0,script.lastIndexOf('\ninitBeast();')),c,{timeout:3000});
+const evaluate=s=>vm.runInContext(s,c,{timeout:3000});
+assert(evaluate('acceptCanonical(snapshot)'));
+const headline=nodes.get('realityHeadline').textContent;
+const older=structuredClone(j);older.sequence--;c.candidate=older;
+assert.equal(evaluate('acceptCanonical(candidate)'),false);
+assert.equal(nodes.get('realityHeadline').textContent,headline);
+const bad=structuredClone(j);bad.policy.political_recommendation='AUTO';c.candidate=bad;
+assert.equal(evaluate('acceptCanonical(candidate)'),false);
+bad.policy.political_recommendation='NONE';bad.france_binding.territorial_imputation=true;
+assert.equal(evaluate('acceptCanonical(candidate)'),false);
+const fresh=structuredClone(j);fresh.sequence++;fresh.updated_at=new Date(Date.parse(j.updated_at)+1000).toISOString();c.candidate=fresh;
+assert(evaluate('acceptCanonical(candidate)'));
+async function test(){
+ c.fetch=async()=>{throw Error('Network OFF')};await evaluate('load()');
+ assert.match(nodes.get('feed').innerHTML,/SNAPSHOT CONSERVÉ/);
+ assert.equal(nodes.get('realityHeadline').textContent,headline);
+ c.fetch=async()=>({ok:true,json:async()=>older});await evaluate('load()');
+ assert.match(nodes.get('feed').innerHTML,/SNAPSHOT CONSERVÉ/);
+ c.fetch=async()=>({ok:true,json:async()=>fresh});await evaluate('load()');
+ assert.match(nodes.get('feed').innerHTML,/ÉTAT/);
+ c.fetch=async()=>({ok:false,json:async()=>({})});await evaluate('run()');
+ assert.match(nodes.get('runner').innerHTML,/UNKNOWN/);
+ assert.equal(nodes.get('realityHeadline').textContent,headline);
+ const functions=['renderDecisionTwin','renderMarket','renderTimeMachine','renderSim','buildBrief','initBeast'];
+ for(const f of functions)assert.equal(evaluate('typeof '+f),'function');
+ assert.match(evaluate('buildBrief(state)'),/national ≠ territorial/);
+ console.log('HYDRATION_JS_ON_NETWORK_ON_OFF_FRESH_STALE_INVALID_API_UNAVAILABLE_PASS');
+}
+test().catch(e=>{console.error(e);process.exit(1)});

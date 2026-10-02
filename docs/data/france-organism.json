@@ -541,5 +541,15 @@
     "region_specific_systems": "PENDING",
     "department_epci_commune_drilldown": "TOPOLOGY_READY",
     "historical_backtest": "PENDING"
-  }
+  },
+  "instrumented_organs": [
+    {
+      "organ_id": "OJO_FRANCE_DEBT_RATE_LIVE_V1",
+      "system_id": "OJO_FRANCE_ORGANISM_V1#/physiology/systems/finance",
+      "binding_ref": "docs/data/FRANCE_BEAST_BINDING.json",
+      "canonical_truth_ref": "docs/data/france-debt-rate-live.json",
+      "territorial_scope": "NATIONAL_ONLY",
+      "territorial_imputation": false
+    }
+  ]
 }

@@ -2,8 +2,8 @@
   "schema": "OJO_FRANCE_DEBT_RATE_LIVE_V1",
   "version": "2026-10-02.7",
   "snapshot_id": "OJO-4515367AB5E005E7",
-  "sequence": 8,
-  "updated_at": "2026-10-02T07:10:55Z",
+  "sequence": 9,
+  "updated_at": "2026-10-02T10:08:26Z",
   "policy": {
     "political_recommendation": "NONE",
     "market_yield_is_not_whole_debt_cost": true,
@@ -13,7 +13,8 @@
     "source_change": "DELTA_THEN_RECONCILE",
     "typed_live_metrics": "OBSERVED_DERIVED_HYPOTHESIS_STRESS_UNKNOWN",
     "sensitivity_model": "FIXED_OFFICIAL_VINTAGES",
-    "aft_html": "PINNED_DUE_TO_RUNNER_BLOCK"
+    "aft_html": "PINNED_DUE_TO_RUNNER_BLOCK",
+    "national_signal_is_not_territorial_effect": true
   },
   "observed": {
     "debt_negotiable_eur": 2896181146497,
@@ -282,7 +283,22 @@
     "date_publication_raw": "2026-03-09",
     "titre_document": "Situation mensuelle de l'État - Juillet 2026",
     "url_fichier": "https://www.economie.gouv.fr/files/files/directions_services/dgfip/media-document/SME_2026-07.pdf",
-    "dataset_rows": 212
+    "dataset_rows": 212,
+    "date_publication": "2026-09-03",
+    "publication_date_state": "OFFICIAL_VINTAGE",
+    "publication_date_reason": "Original DGFiP listing overrides contradicted export date; ISO is never blindly swapped.",
+    "publication_date_proof": {
+      "source_url": "https://www.economie.gouv.fr/dgfip/la-situation-mensuelle-de-letat",
+      "retrieved_at": "2026-10-02T10:00:00Z",
+      "retrieval": "official webpage via web search/open",
+      "document_url": "https://www.economie.gouv.fr/files/files/directions_services/dgfip/media-document/SME_2026-07.pdf",
+      "period": "2026-07",
+      "title": "Situation mensuelle de l'État - Juillet 2026",
+      "publication_text": "03 septembre 2026",
+      "upstream_export_value": "2026-03-09",
+      "health": "OFFICIAL_VINTAGE",
+      "replacement_condition": "Same document matched in freshly parsed official listing; new documents require new source evidence."
+    }
   },
   "curve_history": [
     {
@@ -5601,6 +5617,45 @@
       "source_ids": [
         "BDF_TEC",
         "BDF_WEBSTAT"
+      ],
+      "country_object_id": "OJO_FRANCE_ORGANISM_V1#/identity",
+      "system_id": "OJO_FRANCE_ORGANISM_V1#/physiology/systems/finance",
+      "organ_id": "OJO_FRANCE_DEBT_RATE_LIVE_V1",
+      "output_id": "EXECUTIVE_OUTPUT",
+      "metric_id": "TEC10",
+      "observation_id": "TEC10:61add75f94372c8f8db4",
+      "transformation_id": "SOURCE_OBSERVATION_IDENTITY",
+      "scenario_id": null,
+      "source_id": "BDF_TEC",
+      "metric_ref": "docs/data/france-debt-rate-live.json#/observed/tec10_pct",
+      "proof": [
+        {
+          "id": "BDF_TEC",
+          "publisher": "Banque de France",
+          "label": "Courbe TEC quotidienne · page officielle",
+          "url": "https://www.banque-france.fr/fr/statistiques/taux-et-cours/indices-obligataires-2026-10-01",
+          "health": "LIVE_VERIFIED",
+          "digest": "e4f8e545bbee7f2c36733d24ccf5e8c4846150db0db69a3bbef5a7041a2349c5",
+          "checked_at": "2026-10-02T07:10:49Z",
+          "error": null,
+          "etag": "\"1790924574-gzip\"",
+          "last_modified": "Fri, 02 Oct 2026 07:02:54 GMT",
+          "observation_date": "2026-10-01"
+        },
+        {
+          "id": "BDF_WEBSTAT",
+          "publisher": "Banque de France · Webstat",
+          "label": "Historique CNO-TEC · export CSV",
+          "url": "https://webstat.banque-france.fr/export/csv-columns/fr/selection/5385693",
+          "health": "CROSSCHECKED",
+          "digest": "95f599603dbe4675692cbe98279fb6456a153b122352da29e94a4b5b6e3d2d55",
+          "checked_at": "2026-10-02T07:10:51Z",
+          "error": null,
+          "etag": null,
+          "last_modified": "Thu, 01 Oct 2026 11:01:26 UTC",
+          "history_rows": 120,
+          "observation_date": "2026-10-01"
+        }
       ]
     },
     {
@@ -5655,6 +5710,45 @@
       "source_ids": [
         "BDF_TEC",
         "BDF_WEBSTAT"
+      ],
+      "country_object_id": "OJO_FRANCE_ORGANISM_V1#/identity",
+      "system_id": "OJO_FRANCE_ORGANISM_V1#/physiology/systems/finance",
+      "organ_id": "OJO_FRANCE_DEBT_RATE_LIVE_V1",
+      "output_id": "EXECUTIVE_OUTPUT",
+      "metric_id": "TEC_CURVE",
+      "observation_id": "TEC_CURVE:7a8f7b38d4d05c547601",
+      "transformation_id": "SOURCE_OBSERVATION_IDENTITY",
+      "scenario_id": null,
+      "source_id": "BDF_TEC",
+      "metric_ref": "docs/data/france-debt-rate-live.json#/observed/yield_curve",
+      "proof": [
+        {
+          "id": "BDF_TEC",
+          "publisher": "Banque de France",
+          "label": "Courbe TEC quotidienne · page officielle",
+          "url": "https://www.banque-france.fr/fr/statistiques/taux-et-cours/indices-obligataires-2026-10-01",
+          "health": "LIVE_VERIFIED",
+          "digest": "e4f8e545bbee7f2c36733d24ccf5e8c4846150db0db69a3bbef5a7041a2349c5",
+          "checked_at": "2026-10-02T07:10:49Z",
+          "error": null,
+          "etag": "\"1790924574-gzip\"",
+          "last_modified": "Fri, 02 Oct 2026 07:02:54 GMT",
+          "observation_date": "2026-10-01"
+        },
+        {
+          "id": "BDF_WEBSTAT",
+          "publisher": "Banque de France · Webstat",
+          "label": "Historique CNO-TEC · export CSV",
+          "url": "https://webstat.banque-france.fr/export/csv-columns/fr/selection/5385693",
+          "health": "CROSSCHECKED",
+          "digest": "95f599603dbe4675692cbe98279fb6456a153b122352da29e94a4b5b6e3d2d55",
+          "checked_at": "2026-10-02T07:10:51Z",
+          "error": null,
+          "etag": null,
+          "last_modified": "Thu, 01 Oct 2026 11:01:26 UTC",
+          "history_rows": 120,
+          "observation_date": "2026-10-01"
+        }
       ]
     },
     {
@@ -5668,6 +5762,45 @@
       "source_ids": [
         "BDF_TEC",
         "BDF_WEBSTAT"
+      ],
+      "country_object_id": "OJO_FRANCE_ORGANISM_V1#/identity",
+      "system_id": "OJO_FRANCE_ORGANISM_V1#/physiology/systems/finance",
+      "organ_id": "OJO_FRANCE_DEBT_RATE_LIVE_V1",
+      "output_id": "EXECUTIVE_OUTPUT",
+      "metric_id": "CURVE_REGIME",
+      "observation_id": "CURVE_REGIME:0d80e63df7e2985d2f0b",
+      "transformation_id": "curve_regime_memory",
+      "scenario_id": null,
+      "source_id": "BDF_TEC",
+      "metric_ref": "docs/data/france-debt-rate-live.json#/curve_regime_memory/regime",
+      "proof": [
+        {
+          "id": "BDF_TEC",
+          "publisher": "Banque de France",
+          "label": "Courbe TEC quotidienne · page officielle",
+          "url": "https://www.banque-france.fr/fr/statistiques/taux-et-cours/indices-obligataires-2026-10-01",
+          "health": "LIVE_VERIFIED",
+          "digest": "e4f8e545bbee7f2c36733d24ccf5e8c4846150db0db69a3bbef5a7041a2349c5",
+          "checked_at": "2026-10-02T07:10:49Z",
+          "error": null,
+          "etag": "\"1790924574-gzip\"",
+          "last_modified": "Fri, 02 Oct 2026 07:02:54 GMT",
+          "observation_date": "2026-10-01"
+        },
+        {
+          "id": "BDF_WEBSTAT",
+          "publisher": "Banque de France · Webstat",
+          "label": "Historique CNO-TEC · export CSV",
+          "url": "https://webstat.banque-france.fr/export/csv-columns/fr/selection/5385693",
+          "health": "CROSSCHECKED",
+          "digest": "95f599603dbe4675692cbe98279fb6456a153b122352da29e94a4b5b6e3d2d55",
+          "checked_at": "2026-10-02T07:10:51Z",
+          "error": null,
+          "etag": null,
+          "last_modified": "Thu, 01 Oct 2026 11:01:26 UTC",
+          "history_rows": 120,
+          "observation_date": "2026-10-01"
+        }
       ]
     },
     {
@@ -5699,6 +5832,33 @@
       "confidence": "MEDIUM",
       "source_ids": [
         "AFT_MATURITY_RETAINED"
+      ],
+      "country_object_id": "OJO_FRANCE_ORGANISM_V1#/identity",
+      "system_id": "OJO_FRANCE_ORGANISM_V1#/physiology/systems/finance",
+      "organ_id": "OJO_FRANCE_DEBT_RATE_LIVE_V1",
+      "output_id": "EXECUTIVE_OUTPUT",
+      "metric_id": "MATURITY_LADDER",
+      "observation_id": "MATURITY_LADDER:16d80fef95d6b6891be7",
+      "transformation_id": "SOURCE_OBSERVATION_IDENTITY",
+      "scenario_id": null,
+      "source_id": "AFT_MATURITY_RETAINED",
+      "metric_ref": "docs/data/france-debt-rate-live.json#/maturity_ladder/years",
+      "proof": [
+        {
+          "id": "AFT_MATURITY_RETAINED",
+          "publisher": "Agence France Trésor",
+          "label": "Échéancier officiel conservé — dernier bon état",
+          "url": "https://www.aft.gouv.fr/fr",
+          "health": "RETAINED_LAST_GOOD",
+          "digest": "9410017f63f2964a204534faec4e7ef4f3403cb822d423b239dff66d8a969318",
+          "checked_at": "2026-10-02T07:10:55Z",
+          "error": null,
+          "etag": null,
+          "last_modified": null,
+          "vintage": "2026-10-02",
+          "reason": "Detailed pages unavailable to the runner.",
+          "observation_date": "2026-10-02"
+        }
       ]
     },
     {
@@ -5722,6 +5882,26 @@
       "confidence": "MODEL_BOUND",
       "source_ids": [
         "PAP2026"
+      ],
+      "country_object_id": "OJO_FRANCE_ORGANISM_V1#/identity",
+      "system_id": "OJO_FRANCE_ORGANISM_V1#/physiology/systems/finance",
+      "organ_id": "OJO_FRANCE_DEBT_RATE_LIVE_V1",
+      "output_id": "EXECUTIVE_OUTPUT",
+      "metric_id": "PAP_STRESS",
+      "observation_id": "PAP_STRESS:5a7c613cc9ce28f0d54c",
+      "transformation_id": "PAP2026_FIXED_VINTAGE_SENSITIVITY",
+      "scenario_id": "PAP_STRESS",
+      "source_id": "PAP2026",
+      "metric_ref": "docs/data/france-debt-rate-live.json#/sensitivity/pap2026/annual_extra_charge_bne",
+      "proof": [
+        {
+          "id": "PAP2026",
+          "publisher": "Assemblée nationale",
+          "url": "https://www.assemblee-nationale.fr/dyn/contenu/visualisation/1087975/file/PAP2026_BG_Engagements_financiers_Etat_EB.pdf",
+          "health": "OFFICIAL_VINTAGE",
+          "vintage": "PLF 2026",
+          "observation_date": "OFFICIAL_VINTAGE"
+        }
       ]
     }
   ],
@@ -5762,6 +5942,21 @@
         "id": "EXECUTIVE_OUTPUT",
         "kind": "OUTPUT",
         "label": "Executive Decision Room"
+      },
+      {
+        "id": "OJO_FRANCE_ORGANISM_V1#/identity",
+        "kind": "COUNTRY",
+        "label": "France"
+      },
+      {
+        "id": "OJO_FRANCE_ORGANISM_V1#/physiology/systems/finance",
+        "kind": "SYSTEM",
+        "label": "Finances publiques · finance / budget"
+      },
+      {
+        "id": "OJO_FRANCE_DEBT_RATE_LIVE_V1",
+        "kind": "ORGAN",
+        "label": "Dette / Taux / Refinancement"
       }
     ],
     "edges": [
@@ -5799,9 +5994,37 @@
         "from": "PAP_STRESS",
         "to": "EXECUTIVE_OUTPUT",
         "relation": "STRESSES"
+      },
+      {
+        "from": "OJO_FRANCE_ORGANISM_V1#/identity",
+        "to": "OJO_FRANCE_ORGANISM_V1#/physiology/systems/finance",
+        "relation": "CONTAINS"
+      },
+      {
+        "from": "OJO_FRANCE_ORGANISM_V1#/physiology/systems/finance",
+        "to": "OJO_FRANCE_DEBT_RATE_LIVE_V1",
+        "relation": "INSTRUMENTED_BY"
+      },
+      {
+        "from": "OJO_FRANCE_DEBT_RATE_LIVE_V1",
+        "to": "EXECUTIVE_OUTPUT",
+        "relation": "PROJECTS"
       }
     ],
-    "black_box": false
+    "black_box": false,
+    "publication_refs": {
+      "PAP2026": {
+        "id": "PAP2026",
+        "publisher": "Assemblée nationale",
+        "url": "https://www.assemblee-nationale.fr/dyn/contenu/visualisation/1087975/file/PAP2026_BG_Engagements_financiers_Etat_EB.pdf",
+        "health": "OFFICIAL_VINTAGE",
+        "vintage": "PLF 2026"
+      }
+    },
+    "country_object_id": "OJO_FRANCE_ORGANISM_V1#/identity",
+    "system_id": "OJO_FRANCE_ORGANISM_V1#/physiology/systems/finance",
+    "organ_id": "OJO_FRANCE_DEBT_RATE_LIVE_V1",
+    "output_id": "EXECUTIVE_OUTPUT"
   },
   "derived": {
     "slope_2s10s_bps": 121.5,
@@ -5975,7 +6198,9 @@
       "etag": null,
       "last_modified": null,
       "vintage": "2026-10-02",
-      "reason": "Detailed pages unavailable to the runner."
+      "reason": "Detailed pages unavailable to the runner.",
+      "confidence": "MEDIUM",
+      "replacement_condition": "A complete, verified same-scope official vintage becomes accessible."
     }
   ],
   "events": [
@@ -6163,9 +6388,22 @@
       "source_id": "AFT_MATURITY_RETAINED",
       "at": "2026-10-02T03:18:27Z",
       "detail": "First fingerprint captured."
+    },
+    {
+      "kind": "SOURCE_DATE_RECONCILED",
+      "source_id": "DGFIP_EXECUTION",
+      "at": "2026-10-02T10:08:26Z",
+      "detail": "Original same-PDF listing establishes 2026-09-03; contradicted upstream ISO preserved."
     }
   ],
-  "material_changes": [],
+  "material_changes": [
+    {
+      "kind": "SOURCE_DATE_RECONCILED",
+      "source_id": "DGFIP_EXECUTION",
+      "at": "2026-10-02T10:08:26Z",
+      "detail": "Original same-PDF listing establishes 2026-09-03; contradicted upstream ISO preserved."
+    }
+  ],
   "summary": {
     "healthy": 5,
     "monitored": 9,
@@ -6183,5 +6421,40 @@
     "curve_history_points": 120,
     "maturity_mode": "RETAINED_LAST_GOOD",
     "decision_delta_status": "MATERIAL_CHANGE"
+  },
+  "france_binding": {
+    "schema": "FRANCE_BEAST_BINDING_V1",
+    "mode": "REFERENCES_TO_EXISTING_CANONICAL_OBJECTS",
+    "country_object_id": "OJO_FRANCE_ORGANISM_V1#/identity",
+    "system_id": "OJO_FRANCE_ORGANISM_V1#/physiology/systems/finance",
+    "related_system_ids": [
+      "OJO_FRANCE_ORGANISM_V1#/physiology/systems/budget"
+    ],
+    "organ_id": "OJO_FRANCE_DEBT_RATE_LIVE_V1",
+    "output_id": "EXECUTIVE_OUTPUT",
+    "label": "France → Finances publiques → Dette / Taux / Refinancement",
+    "country_ref": "docs/data/france-organism.json#/identity",
+    "system_ref": "docs/data/france-organism.json#/physiology/systems/finance",
+    "organ_ref": "docs/data/france-debt-rate-live.json",
+    "projection_ref": "docs/france-debt-rate-risk-live-2026-10-02.html",
+    "territorial_scope": "NATIONAL_ONLY",
+    "territorial_imputation": false,
+    "territorial_evidence_required": true,
+    "territorial_topology_ref": "docs/data/france-topology.json",
+    "body_schema": "SUPRA_BODY_SCHEMA_V1",
+    "nervous_system": "SUPRA_NERVOUS_SYSTEM_V1",
+    "event_bus": "EXISTING_SUPRA_TERMINAL_MEGABUS_V1",
+    "signal_semantics": "OBSERVATION_DELTA_NOT_POLITICAL_CAUSALITY",
+    "single_truth": "docs/data/france-debt-rate-live.json",
+    "new_runtime": false,
+    "new_country": false,
+    "new_beast": false,
+    "identity_note": "Existing schema + JSON pointer is the identity where no opaque ID existed. No second country object is allocated."
+  },
+  "freshness": {
+    "last_material_change_at": "2026-10-02T10:08:26Z",
+    "last_market_observation_date": "2026-10-01",
+    "runner_truth": "GitHub Actions workflow run status; independent from material state",
+    "runner_api_unavailable": "UNKNOWN_KEEP_LAST_MATERIAL_STATE"
   }
 }
