@@ -10,6 +10,8 @@ on:
       - "scripts/evolve_france_debt_rate.py"
       - "scripts/verify_la_bete_evolution.py"
       - "scripts/test_la_bete_evolution.py"
+      - "scripts/render_la_bete_social_card.py"
+      - "scripts/test_la_bete_distribution.py"
       - "scripts/france_beast_binding.py"
       - "scripts/publish_france_beast_impulse.py"
       - "scripts/prerender_france_beast.py"
@@ -17,6 +19,12 @@ on:
       - "scripts/test_france_beast_convergence.py"
       - "scripts/test_france_beast_hydration.cjs"
       - "scripts/test_beast_resonance.cjs"
+      - "docs/manifest.webmanifest"
+      - "docs/assets/la-bete-favicon.svg"
+      - "docs/assets/la-bete-social-card.png"
+      - "docs/assets/la-bete-icon-192.png"
+      - "docs/assets/la-bete-icon-512.png"
+      - "docs/assets/la-bete-apple-touch-icon.png"
       - "docs/data/FRANCE_BEAST_BINDING.json"
       - "docs/data/dgfip-publication-evidence.json"
       - "docs/france-debt-rate-risk-live-2026-10-02.html"
@@ -57,6 +65,9 @@ jobs:
             echo "- sha: ${{ github.sha }}"
             echo "- triggered_at_utc: $triggered_at"
           } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Install social-card renderer dependency
+        run: python3 -m pip install --quiet pillow==11.3.0
 
       - name: Refresh official debt and rate evidence
         run: python3 scripts/update_france_debt_rate_live.py
@@ -134,18 +145,29 @@ jobs:
           python3 scripts/prerender_france_beast.py
           PYTHONPATH=scripts python3 scripts/test_france_beast_convergence.py
           node scripts/test_beast_resonance.cjs
+          node scripts/test_france_beast_hydration.cjs
           python3 scripts/verify_la_bete_evolution.py
+
+      - name: Render and validate public distribution entrypoint
+        shell: bash
+        run: |
+          python3 scripts/render_la_bete_social_card.py
+          python3 -m http.server 8765 --directory docs >/tmp/la-bete-http.log 2>&1 &
+          server_pid=$!
+          trap 'kill "$server_pid" 2>/dev/null || true' EXIT
+          LA_BETE_TEST_BASE_URL=http://127.0.0.1:8765 python3 scripts/test_la_bete_distribution.py
 
       - name: Commit material state
         shell: bash
         run: |
-          if git diff --quiet -- docs/data/france-debt-rate-live.json docs/data/france-debt-rate-evolution.json docs/data/FRANCE_BEAST_BINDING.json docs/france-debt-rate-risk-live-2026-10-02.html; then
-            echo "No material state delta. Heartbeat successful."
+          tracked=(docs/data/france-debt-rate-live.json docs/data/france-debt-rate-evolution.json docs/data/FRANCE_BEAST_BINDING.json docs/france-debt-rate-risk-live-2026-10-02.html docs/manifest.webmanifest docs/assets/la-bete-favicon.svg docs/assets/la-bete-social-card.png docs/assets/la-bete-icon-192.png docs/assets/la-bete-icon-512.png docs/assets/la-bete-apple-touch-icon.png)
+          if git diff --quiet -- "${tracked[@]}"; then
+            echo "No material state or distribution delta. Heartbeat successful."
             exit 0
           fi
           git config user.name "ojo-reality-pulse[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add docs/data/france-debt-rate-live.json docs/data/france-debt-rate-evolution.json docs/data/FRANCE_BEAST_BINDING.json docs/france-debt-rate-risk-live-2026-10-02.html
+          git add "${tracked[@]}"
           git commit -m "data: France debt and evolution pulse"
           for attempt in 1 2 3; do
             if git push; then
@@ -165,12 +187,15 @@ jobs:
               python3 scripts/prerender_france_beast.py
               PYTHONPATH=scripts python3 scripts/test_france_beast_convergence.py
               node scripts/test_beast_resonance.cjs
+              node scripts/test_france_beast_hydration.cjs
               python3 scripts/verify_la_bete_evolution.py
-              if git diff --quiet -- docs/data/france-debt-rate-live.json docs/data/france-debt-rate-evolution.json docs/data/FRANCE_BEAST_BINDING.json docs/france-debt-rate-risk-live-2026-10-02.html; then
-                echo "Remote already contains equivalent material state."
+              python3 scripts/render_la_bete_social_card.py
+              python3 scripts/test_la_bete_distribution.py
+              if git diff --quiet -- "${tracked[@]}"; then
+                echo "Remote already contains equivalent material state and distribution surface."
                 exit 0
               fi
-              git add docs/data/france-debt-rate-live.json docs/data/france-debt-rate-evolution.json docs/data/FRANCE_BEAST_BINDING.json docs/france-debt-rate-risk-live-2026-10-02.html
+              git add "${tracked[@]}"
               git commit -m "data: France debt and evolution pulse"
             fi
           done
