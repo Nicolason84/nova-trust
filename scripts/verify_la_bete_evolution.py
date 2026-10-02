@@ -39,9 +39,28 @@ def main() -> None:
     require(policy.get("truth_mutation") is False, "truth mutation forbidden")
     require(policy.get("political_recommendation") is False, "political recommendation forbidden")
     require(policy.get("semantic_claim_autopromotion") is False, "semantic autopromotion forbidden")
+    require(policy.get("subjective_consciousness_claim") is False, "subjective consciousness claim forbidden")
+    require(policy.get("self_diagnosis") is True, "self diagnosis missing")
+    require(policy.get("bounded_self_care") is True, "bounded self care missing")
     require(policy.get("rollback_required") is True, "rollback invariant missing")
     gates = set(policy.get("human_gate", []))
-    require({"truth", "sources", "claims", "security", "privacy", "camera", "political_semantics"} <= gates, "human gates incomplete")
+    require({"truth", "sources", "claims", "security", "privacy", "camera", "political_semantics", "self_modification"} <= gates, "human gates incomplete")
+
+    self_model = evolution.get("self_model", {})
+    require(self_model.get("schema") == "OJO_LA_BETE_OPERATIONAL_SELF_MODEL_V1", "self model schema mismatch")
+    require(self_model.get("mode") == "OPERATIONAL_SELF_MONITORING", "self model mode mismatch")
+    require(self_model.get("subjective_consciousness_claim") is False, "self model consciousness claim forbidden")
+    require(self_model.get("identity", {}).get("canonical_truth") == "docs/data/france-debt-rate-live.json", "self model second truth forbidden")
+    wellbeing = self_model.get("wellbeing", {})
+    require(wellbeing.get("state") in {"HEALTHY", "ATTENTION", "DEGRADED", "CRITICAL"}, "invalid self health")
+    dimension_ids = {x.get("id") for x in wellbeing.get("dimensions", [])}
+    require({"truth_integrity", "observability", "resilience", "maturity_coverage", "uncertainty", "reversibility"} <= dimension_ids, "self health dimensions incomplete")
+    self_care = self_model.get("self_care", {})
+    require(self_care.get("may_change_truth") is False, "self care truth mutation forbidden")
+    require(self_care.get("may_make_political_recommendation") is False, "self care political recommendation forbidden")
+    require(self_care.get("may_bypass_human_gate") is False, "self care human gate bypass forbidden")
+    require(self_care.get("requires_non_regression") is True, "self care non-regression missing")
+    require(len(self_model.get("limits", [])) >= 4, "self model limits missing")
     dna = evolution.get("dna", {})
     require(dna.get("mode") in {"BALANCED", "HIGH_SIGNAL", "EVIDENCE_GUARD"}, "invalid evolution mode")
     require(dna.get("section_focus") in {"market", "decision", "evidence"}, "invalid section focus")
@@ -55,7 +74,7 @@ def main() -> None:
     parser.feed(page)
     duplicates = sorted({value for value in parser.ids if parser.ids.count(value) > 1})
     require(not duplicates, f"duplicate HTML ids: {duplicates}")
-    for element_id in ("runner", "feed", "evolution", "reality-pulse", "realityHeadline", "realitySituation", "realityChanged", "realityEvidence", "realityHorizon", "realityUncertainty", "realityAdaptation", "evoAdaptive", "evolutionRail", "evidence-graph", "change-reading", "la-bete"):
+    for element_id in ("runner", "feed", "evolution", "reality-pulse", "realityHeadline", "realitySituation", "realityChanged", "realityEvidence", "realityHorizon", "realityUncertainty", "realityAdaptation", "evoAdaptive", "evolutionRail", "evidence-graph", "change-reading", "la-bete", "selfAwareness", "selfVoice", "selfHealth", "selfNeed", "selfAilments", "selfCare"):
         require(element_id in parser.ids, f"missing required element {element_id}")
     for marker in (
         "data/france-debt-rate-live.json",
@@ -68,6 +87,9 @@ def main() -> None:
         "renderRealityPulse",
         "EXECUTIVE REALITY PULSE · 5 SECONDES",
         "aucune réécriture sémantique",
+        "AUTO-DIAGNOSTIC · VOIX DE STATUT",
+        "auto-rapport opérationnel",
+        "renderSelfModel",
     ):
         require(marker in page or marker in json.dumps(live), f"missing invariant marker: {marker}")
     require(page.index('id="reality-pulse"') < page.index('class="hero"'), "reality pulse must precede legacy hero")
@@ -90,7 +112,7 @@ def main() -> None:
             "generation": generation,
             "at": at,
             "verdict": "NON_REGRESSION_PASS",
-            "checks": ["truth", "policy", "html_ids", "javascript_syntax", "rollback", "human_gates"],
+            "checks": ["truth", "policy", "self_model", "html_ids", "javascript_syntax", "rollback", "human_gates"],
         }
         if evolution.get("receipts"):
             evolution["receipts"][-1]["verdict"] = "PROMOTED_AFTER_NON_REGRESSION"
