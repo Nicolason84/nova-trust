@@ -2,7 +2,7 @@
 
 One public France canon, two native projections. SwiftUI + SceneKit on iOS; Android Activity + OpenGL ES. No main-screen WebView. No financial transformations, runtime, event bus or source scheduler added. The bundled public snapshot is a named fallback projection; it retains its original evidence age.
 
-Identity: `com.novaera.france.beast`. iOS candidate: version `0.1.0`, build `2026100201`. Android preview: version `0.1.1`, versionCode `2026100202`. This is a separate France candidate, never a rename or update of Hélène/KRIMI/SUPRA. Existing main SUPRA sources are untouched.
+Identity: `com.novaera.france.beast`. iOS candidate: version `0.1.1`, build `2026100202`. Android preview: version `0.1.1`, versionCode `2026100202`. This is a separate France candidate, never a rename or update of Hélène/KRIMI/SUPRA. Existing main SUPRA sources are untouched.
 
 ## Reproduce
 
@@ -21,3 +21,5 @@ Android refresh retains the active scene and scroll position when the verified s
 External official source documents open through the OS. Optional haptics only acknowledge presentation gestures. Audio stops on inactive/background, focus loss and headphone removal; it never resumes automatically. Android observes the public client feed only while foreground; iOS observes on opening/foreground/manual refresh. No server heartbeat is inferred from the app lifecycle.
 
 Rollback: remove this additive module or check out its parent commit. Cache format v1 is a disposable public projection and never changes the canon.
+
+iOS client tests exercise loader failure, HTTP failure, malformed/stale/conflicting snapshots, corrupted cache, exact-byte fresh replacement, cache reopening, write failure and unchanged-snapshot reverification. Loader failures use a controlled URLProtocol, not an OS-wide network outage. An unchanged snapshot is persisted if needed without republishing the scene. Native AVAudioPlayer tests record the actual engine duration, sample rate, channels, bounded volume and elapsed playback; these do not certify physical perception or peripherals. LaunchPerformanceTests runs three Release simulator measurements with Apple's XCTApplicationLaunchMetric(waitUntilResponsive: true); keep the measurement run separate from functional assertion counts and physical performance.

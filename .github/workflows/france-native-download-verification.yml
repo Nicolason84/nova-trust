@@ -4,6 +4,11 @@ on:
     branches: [mission/france-beast-native-mobile-20261002]
     paths: [.github/workflows/france-native-download-verification.yml]
   workflow_dispatch:
+    inputs:
+      production_routes:
+        description: Verify the two France paths after publishing the tested overlay
+        type: boolean
+        default: false
 permissions:
   contents: read
 jobs:
@@ -22,4 +27,44 @@ jobs:
           expected='b9edd9d483c4955fb44686d48cc025ab7deb0e3aefc66e00cd9a3be06ff07005'
           assert status==200 and actual==expected
           print(json.dumps({'status':'PASS_ANONYMOUS_EXTERNAL_DOWNLOAD','url':url,'http_status':status,'bytes':len(data),'sha256':actual,'network':'GitHub hosted Ubuntu runner','at':datetime.datetime.now(datetime.timezone.utc).isoformat()}))
+          PYCODE
+      - name: Verify existing domain bytes and isolated France overlay
+        env:
+          PRODUCTION_ROUTES: ${{ inputs.production_routes || false }}
+        run: |
+          python3 - <<'PYCODE'
+          import urllib.request,urllib.error,hashlib,json,datetime,os
+          origin='https://nova-era.fr'
+          preview='https://6abfc2281b2c6910722d9f43--guileless-kashata-8d282e.netlify.app'
+          expected={
+              '/index.html':'e19773e347eec0ea52c3c7fca54651c8006b1b8a9a572a0bbf90448089274e69',
+              '/terms.html':'015661e480178b097a0cda209de37fa58a081f47c8317c70bad57df68f2ea608',
+              '/privacy.html':'992d4fb7e276b972343827ccd41696221fbabb2353bfdbcf2ab5386d1f621992',
+              '/index_before_g531_20260528_173854.html':'e9fe7f814a163aa088bda120f8ef0bb175960fff74d633e7edc8ec3d0dd91fa3'
+          }
+          verified=[]
+          for base in [preview,origin]:
+              for path,digest in expected.items():
+                  with urllib.request.urlopen(base+path,timeout=30) as response:
+                      actual=hashlib.sha256(response.read()).hexdigest()
+                      assert response.status==200 and actual==digest,(base,path,actual)
+                  verified.append({'url':base+path,'sha256':actual})
+          class NoRedirect(urllib.request.HTTPRedirectHandler):
+              def redirect_request(self,req,fp,code,msg,headers,newurl): return None
+          opener=urllib.request.build_opener(NoRedirect())
+          target='https://github.com/Nicolason84/nova-trust/releases/tag/france-beast-native-0.1.1-20261002'
+          routes=[]
+          bases=[preview]+([origin] if os.environ['PRODUCTION_ROUTES']=='true' else [])
+          for base in bases:
+              for path in ['/france/la-bete','/france/la-bete/']:
+                  try: response=opener.open(base+path,timeout=30)
+                  except urllib.error.HTTPError as response:
+                      assert response.code==302 and response.headers['Location']==target
+                      routes.append({'url':base+path,'status':response.code,'location':response.headers['Location']})
+                  else: raise AssertionError('Expected bounded 302 at '+base+path)
+          old='https://nicolason84.github.io/nova-trust/france-debt-rate-risk-live-2026-10-02.html'
+          with urllib.request.urlopen(old,timeout=30) as response:
+              assert response.status==200
+              assert hashlib.sha256(response.read()).hexdigest()=='0065fb5887bca456ec44907cb9f0640d42398aef85aa136ac2dcb33456741077'
+          print(json.dumps({'status':'PASS_DOMAIN_NATIVE_DOWNLOAD_OVERLAY','original_files':verified,'france_routes':routes,'legacy_france_url':old,'dns_mutation':False,'network':'GitHub hosted Ubuntu runner','checked_at':datetime.datetime.now(datetime.timezone.utc).isoformat()}))
           PYCODE

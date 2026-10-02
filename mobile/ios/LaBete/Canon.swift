@@ -73,19 +73,28 @@ struct Canon {
     @Published var transport = "Chargement du canon…"
     @Published var busy = false
     private let cache: URL
-    init() {
-        cache = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask)[0].appendingPathComponent("france-canonical-projection-v1.json")
-        if let raw = try? Data(contentsOf: cache), let c = try? Canon(raw) { canon = c; transport = "Cache vérifié · âge conservé" }
-        else if let u = Bundle.main.url(forResource: "canonical-seed", withExtension: "json"), let raw = try? Data(contentsOf: u), let c = try? Canon(raw) { canon = c; transport = "Snapshot fourni avec ce build · âge conservé" }
+    private let session: URLSession
+    private var cacheVerified = false
+    init(cache: URL? = nil, seed: Data? = nil, session: URLSession = .shared) {
+        self.cache = cache ?? FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask)[0].appendingPathComponent("france-canonical-projection-v1.json")
+        self.session = session
+        let fallback = seed ?? Bundle.main.url(forResource: "canonical-seed", withExtension: "json").flatMap { try? Data(contentsOf: $0) }
+        if let raw = try? Data(contentsOf: self.cache), let c = try? Canon(raw) { canon = c; cacheVerified = true; transport = "Cache vérifié · âge conservé" }
+        else if let raw = fallback, let c = try? Canon(raw) { canon = c; transport = "Snapshot fourni avec ce build · âge conservé" }
     }
     func refresh() async {
         guard !busy else { return }; busy = true; defer { busy = false }
         do {
             var request = URLRequest(url: Canon.url); request.timeoutInterval = 15; request.cachePolicy = .reloadIgnoringLocalCacheData
-            let (raw, response) = try await URLSession.shared.data(for: request)
+            let (raw, response) = try await session.data(for: request)
             guard (response as? HTTPURLResponse)?.statusCode == 200 else { throw CanonError.invalid }
             let next = try Canon(raw); try next.checkReplacement(canon)
-            try raw.write(to: cache, options: .atomic); canon = next; transport = "Canon récupéré · états de preuve inchangés"
+            if let current = canon, next.sequence == current.sequence {
+                if !cacheVerified { try current.raw.write(to: cache, options: .atomic); cacheVerified = true }
+                transport = "Canon revérifié · même snapshot et âge conservé"
+                return
+            }
+            try raw.write(to: cache, options: .atomic); cacheVerified = true; canon = next; transport = "Canon récupéré · états de preuve inchangés"
         } catch { transport = canon == nil ? "Canon indisponible · aucun chiffre supposé" : "Dernier snapshot valide conservé · réseau ou version refusée" }
     }
 }

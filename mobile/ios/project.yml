@@ -6,8 +6,8 @@ options:
 settings:
   base:
     SWIFT_VERSION: '5.0'
-    MARKETING_VERSION: '0.1.0'
-    CURRENT_PROJECT_VERSION: '2026100201'
+    MARKETING_VERSION: '0.1.1'
+    CURRENT_PROJECT_VERSION: '2026100202'
     CODE_SIGN_STYLE: Automatic
     DEVELOPMENT_TEAM: 2XQ2KGW9SB
 targets:
@@ -49,3 +49,10 @@ schemes:
         LaBete: all
     test:
       targets: [LaBeteTests, LaBeteUITests]
+  LaBetePerformance:
+    build:
+      targets:
+        LaBeteUITests: all
+    test:
+      config: Release
+      targets: [LaBeteUITests]

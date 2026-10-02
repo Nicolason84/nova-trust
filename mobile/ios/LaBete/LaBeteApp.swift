@@ -8,6 +8,15 @@ let pearl = Color(red: 0.91, green: 0.92, blue: 0.87)
 let copper = Color(red: 0.88, green: 0.66, blue: 0.44)
 let jade = Color(red: 0.64, green: 0.82, blue: 0.73)
 
+struct AudioEngineMeasurement: Codable {
+    let playing: Bool
+    let channels: Int
+    let sampleRate: Double
+    let durationSeconds: Double
+    let elapsedSeconds: Double
+    let actualVolume: Float
+}
+
 @main struct LaBeteApp: App {
     @StateObject private var store = CanonStore()
     var body: some Scene { WindowGroup { RootView().environmentObject(store).preferredColorScheme(.dark) } }
@@ -19,6 +28,10 @@ let jade = Color(red: 0.64, green: 0.82, blue: 0.73)
     @Published var volume: Float = 0.25 { didSet { player?.volume = min(0.5, max(0, volume)) } }
     @Published var message = "Silence. Une texture artistique, indépendante des chiffres."
     private var player: AVAudioPlayer?
+    var engineMeasurement: AudioEngineMeasurement? {
+        guard let p = player else { return nil }
+        return AudioEngineMeasurement(playing: p.isPlaying, channels: p.numberOfChannels, sampleRate: p.format.sampleRate, durationSeconds: p.duration, elapsedSeconds: p.currentTime, actualVolume: p.volume)
+    }
     func toggle() {
         if active { stop(); return }
         do {
@@ -26,7 +39,7 @@ let jade = Color(red: 0.64, green: 0.82, blue: 0.73)
             try AVAudioSession.sharedInstance().setCategory(.ambient, mode: .default)
             try AVAudioSession.sharedInstance().setActive(true)
             guard let u = Bundle.main.url(forResource: "resonance", withExtension: "wav") else { return }
-            player = try AVAudioPlayer(contentsOf: u); player?.numberOfLoops = -1; player?.volume = volume
+            player = try AVAudioPlayer(contentsOf: u); player?.numberOfLoops = -1; player?.volume = min(0.5, max(0, volume))
             active = player?.play() == true; message = active ? "Résonance active · volume doux" : "Lecture indisponible"
         } catch { stop(); message = "Son indisponible sur cet appareil" }
     }
