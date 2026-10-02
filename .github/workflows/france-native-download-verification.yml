@@ -15,11 +15,11 @@ jobs:
         run: |
           python3 - <<'PYCODE'
           import urllib.request,hashlib,json,datetime
-          url='https://github.com/Nicolason84/nova-trust/releases/download/france-beast-native-0.1.0-20261002/La-Bete-France-0.1.0.apk'
+          url='https://github.com/Nicolason84/nova-trust/releases/download/france-beast-native-0.1.1-20261002/La-Bete-France-0.1.1.apk'
           with urllib.request.urlopen(url,timeout=60) as response:
               data=response.read();status=response.status
           actual=hashlib.sha256(data).hexdigest()
-          expected='cc28599aef71856496ed7103e071bb027c209b816c6f8b3a213e096e7da2d32e'
+          expected='b9edd9d483c4955fb44686d48cc025ab7deb0e3aefc66e00cd9a3be06ff07005'
           assert status==200 and actual==expected
           print(json.dumps({'status':'PASS_ANONYMOUS_EXTERNAL_DOWNLOAD','url':url,'http_status':status,'bytes':len(data),'sha256':actual,'network':'GitHub hosted Ubuntu runner','at':datetime.datetime.now(datetime.timezone.utc).isoformat()}))
           PYCODE
