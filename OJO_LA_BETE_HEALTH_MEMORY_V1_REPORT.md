@@ -65,3 +65,28 @@ and care tests pass, including bounded goal history, migration, missing evidence
 late recovery and recurrence, with existing convergence and distribution checks.
 The real migration opened four pending goals at health cycle 4 and preserved all
 three preceding observations and all prior treatment counters.
+
+## Progression and propagation speed — 02 October extension
+
+Independent BDF HTML, Webstat, AFT RSS, DGFiP and AFT maturity groups now collect
+concurrently with five bounded workers; reconciliation and canonical writes remain
+serial. Source order, fallback rules, care thresholds and proof gates are preserved.
+Actual collection duration is recorded in the transient pulse receipt and its health
+history row. Historical measurements are not backfilled. The UI reports measured
+collection duration and cadence from real executed observations.
+
+The existing page polling is consolidated into one non-overlapping pulse. Successful
+visible-page checks wait 10 seconds instead of 30 between refreshes; hidden pages wait
+120 seconds. Failures back off to 20/40/80/120 seconds. Returning to visibility checks
+immediately. Feed and evolution requests can revalidate cached responses; the GitHub
+runner API remains limited to one check per minute. Requests abort after 15 seconds.
+Identical verified feed/evolution payloads skip full redraws. A fetched evolution must
+refer to the displayed canonical snapshot before it can be applied.
+
+Tests cover actual five-way overlap with a barrier, retained-source behavior,
+visible/hidden polling, backoff/recovery, no overlapping requests, timeout, stale canon
+binding and unchanged-state redraw suppression. The real local parallel collection
+measured 254.6 ms; this is a single measurement, not a promised speedup factor.
+The canonical feed stayed byte-identical. GitHub's scheduled server heartbeat remains
+five minutes and can be delayed; faster page checks do not manufacture observations
+or accelerate official publication. No additional scheduler or runtime is created.

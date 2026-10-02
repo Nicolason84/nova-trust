@@ -46,6 +46,20 @@ class Convergence(unittest.TestCase):
         for field in ['url','vintage','reason','confidence','replacement_condition']:self.assertTrue(proof[field])
         self.assertIsNone(retained['derived']['webstat_crosscheck_bps'])
 
+    def test_independent_source_groups_really_overlap(self):
+        import threading
+        import update_france_debt_rate_live as updater
+        barrier=threading.Barrier(5)
+        def result(value):
+            def work(*args):
+                barrier.wait(timeout=3)
+                return value
+            return work
+        with patch.object(updater,'fetch_bdf_html',side_effect=result(('BDF',{}))),patch.object(updater,'fetch_bdf_csv',side_effect=result(('WEBSTAT',{}))),patch.object(updater,'fetch_watch',side_effect=result('RSS')),patch.object(updater,'fetch_dgfip_execution',side_effect=result(('DGFIP',{}))),patch.object(updater,'fetch_aft_maturity',side_effect=result(('MATURITY',[]))):
+            sources=updater.collect_sources({})
+        self.assertEqual(list(sources),['bdf','webstat','rss','dgfip','maturity'])
+        self.assertEqual(sources['maturity'],('MATURITY',[]))
+
     def test_french_dates_and_iso(self):
         for raw, expected in [('03/09/2026','2026-09-03'),('09/03/2026','2026-03-09'),
                               ('03 septembre 2026','2026-09-03'),('2026-03-09','2026-03-09'),

@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 from __future__ import annotations
-import csv, gzip, hashlib, html, io, json, re, urllib.request, os, uuid
+import csv, gzip, hashlib, html, io, json, re, urllib.request, os, uuid, time
+from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
@@ -458,6 +459,19 @@ def what_would_change_reading():
       {"reading":"TEC10 is cross-checked.","change_conditions":["Page/Webstat divergence exceeds 1 bp","Publication date mismatch","One source becomes unavailable"],"sensitive_assumption":"Same official observation vintage","review_source":"Banque de France page + Webstat"}
     ]
 
+def collect_sources(previous):
+    """Independent source groups overlap; canonical reconciliation stays serial."""
+    with ThreadPoolExecutor(max_workers=5, thread_name_prefix="la-bete-source") as pool:
+        jobs = {
+            "bdf": pool.submit(fetch_bdf_html),
+            "webstat": pool.submit(fetch_bdf_csv),
+            "rss": pool.submit(fetch_watch, "AFT_RSS", "Agence France Trésor", "Flux RSS des publications", "https://www.aft.gouv.fr/fr/rss.xml", "application/rss+xml,application/xml,text/xml,*/*;q=0.8"),
+            "dgfip": pool.submit(fetch_dgfip_execution),
+            "maturity": pool.submit(fetch_aft_maturity, previous),
+        }
+        return {key: future.result() for key, future in jobs.items()}
+
+
 def main():
     try:
         prev=json.loads(OUT.read_text())
@@ -468,11 +482,14 @@ def main():
     observed={**PINNED,**oldobs}
     sources=[]
 
-    bdf,bvals=fetch_bdf_html()
+    collection_started = time.perf_counter()
+    collected = collect_sources(prev)
+    collection_ms = round((time.perf_counter() - collection_started) * 1000, 1)
+    bdf,bvals=collected["bdf"]
     sources.append(bdf)
     observed.update(bvals)
 
-    webstat,wvals=fetch_bdf_csv()
+    webstat,wvals=collected["webstat"]
     sources.append(webstat)
     # Webstat is both an independent official cross-check and a last-good fallback.
     if "tec10_pct" not in bvals and wvals.get("webstat_tec10_last_pct") is not None:
@@ -481,8 +498,8 @@ def main():
         observed["yield_curve_date"]=wvals.get("webstat_last_date")
         observed["yield_curve"]=wvals.get("webstat_curve_latest",[])
 
-    sources.append(fetch_watch("AFT_RSS","Agence France Trésor","Flux RSS des publications","https://www.aft.gouv.fr/fr/rss.xml","application/rss+xml,application/xml,text/xml,*/*;q=0.8"))
-    dgfip_source,budget_execution=fetch_dgfip_execution()
+    sources.append(collected["rss"])
+    dgfip_source,budget_execution=collected["dgfip"]
     if not budget_execution and prev.get('budget_execution'):
         budget_execution=dict(prev['budget_execution'])
         budget_execution['retention_state']='RETAINED_LAST_GOOD'
@@ -491,7 +508,7 @@ def main():
     sources.append(dgfip_source)
     sources.append(src("AFT_SNAPSHOT","Agence France Trésor","Ancre officielle · encours, maturité, financement 2027","https://www.aft.gouv.fr/fr",health="PINNED",digest=hashlib.sha256(json.dumps(PINNED,sort_keys=True).encode()).hexdigest(),extra={"published_through":"2026-10-01","note":"Pinned canonical anchor; live detailed maturity pages are attempted separately."}))
 
-    maturity_ladder,maturity_sources=fetch_aft_maturity(prev)
+    maturity_ladder,maturity_sources=collected["maturity"]
     sources.extend(maturity_sources)
 
     # A fallback cannot cross-check itself. Compare two real observations of the same vintage.
@@ -670,6 +687,7 @@ def main():
             "cycle_id": "github-run:" + os.environ["GITHUB_RUN_ID"] if os.environ.get("GITHUB_RUN_ID") else "manual-pulse:" + str(uuid.uuid4()),
             "observed_at": now(), "source_snapshot_id": snapshot_id,
             "sources": sources,
+            "performance": {"collection_ms": collection_ms, "parallel_source_groups": 5},
             "executed_source_ids": [s["id"] for s in sources if s["id"] in {"BDF_TEC", "BDF_WEBSTAT", "AFT_RSS", "DGFIP_EXECUTION", "AFT_MATURITY_OAT", "AFT_MATURITY_OATI", "AFT_MATURITY_OATEI"}],
         }
         Path(receipt_path).write_text(json.dumps(receipt, ensure_ascii=False))

@@ -264,6 +264,7 @@ def build_health_memory(live, model, previous=None, observation=None):
         "source_checks": [{"id": x.get("id"), "state": x.get("health"), "checked_at": x.get("checked_at"), "executed": x.get("id") in executed} for x in sources],
         "active_issues": [k for k, v in memory["issues"].items() if v["status"] != "RECOVERED"],
         "observation_kind": "EXECUTED_PULSE" if observation else "SNAPSHOT_BOOTSTRAP",
+        "performance": (observation or {}).get("performance", {}),
     }])[-HISTORY_LIMIT:]
     memory["policy"] = {"chronic_after_consecutive_cycles": CHRONIC_CYCLES, "recovery_confirmation_cycles": RECOVERY_CYCLES,
         "escalation_after_failed_attempts": 3, "history_limit": HISTORY_LIMIT,

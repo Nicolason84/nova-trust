@@ -77,7 +77,7 @@ def main() -> None:
     parser.feed(page)
     duplicates = sorted({value for value in parser.ids if parser.ids.count(value) > 1})
     require(not duplicates, f"duplicate HTML ids: {duplicates}")
-    for element_id in ("runner", "feed", "evolution", "reality-pulse", "realityHeadline", "realitySituation", "realityChanged", "realityEvidence", "realityHorizon", "realityUncertainty", "realityAdaptation", "evoAdaptive", "evolutionRail", "evidence-graph", "change-reading", "la-bete", "selfAwareness", "selfVoice", "selfHealth", "selfNeed", "selfAilments", "selfCare", "selfMemorySummary", "selfMemoryIssues", "selfCarePlan", "selfHealthHistory", "selfLearningSummary", "selfCareLearning"):
+    for element_id in ("runner", "feed", "evolution", "reality-pulse", "realityHeadline", "realitySituation", "realityChanged", "realityEvidence", "realityHorizon", "realityUncertainty", "realityAdaptation", "evoAdaptive", "evolutionRail", "evidence-graph", "change-reading", "la-bete", "selfAwareness", "selfVoice", "selfHealth", "selfNeed", "selfAilments", "selfCare", "selfMemorySummary", "selfMemoryIssues", "selfCarePlan", "selfHealthHistory", "selfLearningSummary", "selfCareLearning", "selfProgression", "progressCadence", "progressCollect", "progressPropagation"):
         require(element_id in parser.ids, f"missing required element {element_id}")
     for marker in (
         "data/france-debt-rate-live.json",
