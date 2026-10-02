@@ -51,6 +51,21 @@ jobs:
           curve=j.get("sensitivity",{}).get("pap2026",{}).get("annual_extra_charge_bne",[])
           if len(curve)!=10 or any(float(x)<=0 for x in curve):
               raise SystemExit("sensitivity curve invalid")
+          yc=o.get("yield_curve",[])
+          if len(yc)<8:
+              raise SystemExit(f"yield curve incomplete: {len(yc)} points")
+          tenors=[int(x.get("tenor_years",0)) for x in yc]
+          if 10 not in tenors or 30 not in tenors:
+              raise SystemExit("critical yield-curve tenors missing")
+          hist=j.get("curve_history",[])
+          if len(hist)>120:
+              raise SystemExit("curve history overflow")
+          caps=j.get("capabilities",{})
+          if caps.get("live_full_yield_curve") is not True or caps.get("last_good_retention") is not True:
+              raise SystemExit("autoevolution capability invariant broken")
+          ladder=j.get("maturity_ladder",{})
+          if not ladder.get("years"):
+              raise SystemExit("maturity ladder missing")
           if j.get("policy",{}).get("political_recommendation")!="NONE":
               raise SystemExit("neutrality invariant broken")
           print("FRANCE_DEBT_RATE_LIVE_INVARIANTS_PASS")
