@@ -23,6 +23,8 @@ HISTORY_FILE = RUNTIME / "trust_history.json"
 
 INDEX_FILE = APP / "index.html"
 TRUST_FILE = APP / "trust.html"
+IDENTITY_FILE = APP / "system_identity.json"
+IDENTITY_ASSETS = BASE.parent / "docs" / "assets"
 
 
 def read_text(path: Path, fallback: str = "") -> str:
@@ -78,6 +80,22 @@ class Handler(BaseHTTPRequestHandler):
                 print("TRUST ERROR:", e, flush=True)
                 self._set_headers(404)
                 self.wfile.write(b"TRUST NOT FOUND")
+
+        elif path == "/api/system/identity":
+            data = read_json(IDENTITY_FILE, {})
+            self._set_headers(200, "application/json; charset=utf-8")
+            self.wfile.write(json.dumps(data, ensure_ascii=False).encode("utf-8"))
+
+        elif path in {"/assets/supra-human-butterfly.svg", "/assets/supra-noir-humanoid-butterfly.webp", "/assets/system-identity.css", "/assets/system-identity.js"}:
+            asset_name = path.rsplit("/", 1)[1]
+            asset = IDENTITY_ASSETS / asset_name
+            content_type = {".svg": "image/svg+xml", ".webp": "image/webp", ".css": "text/css; charset=utf-8", ".js": "application/javascript; charset=utf-8"}[asset.suffix]
+            try:
+                self._set_headers(200, content_type)
+                self.wfile.write(asset.read_bytes())
+            except OSError:
+                self._set_headers(404)
+                self.wfile.write(b"ASSET NOT FOUND")
 
         elif path == "/api/trust/live":
             data = read_json(LIVE_RUNTIME, {

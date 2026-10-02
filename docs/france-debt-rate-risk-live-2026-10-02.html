@@ -77,7 +77,9 @@ body[data-evo-focus="evidence"] #rpEvidenceCard,body[data-evo-focus="decision"] 
 @media(max-width:520px){body{overflow-x:hidden}.realityPulse{display:flex;flex-direction:column;margin:8px 0 18px;padding:13px;border-radius:17px}.rpTop{order:1;gap:8px}.sourceAlert{order:2;margin-top:7px;padding:9px 10px}.rpGrid{order:3;display:flex;overflow-x:auto;overscroll-behavior-x:contain;scroll-snap-type:x mandatory;gap:7px;margin:10px -4px 0;padding:0 4px 5px;scrollbar-width:none}.freshnessNote{order:4}.rpFooter{order:5;margin-top:10px}.rpHeadline{font-size:31px;line-height:1;letter-spacing:-1.45px;margin:5px 0 7px}.rpSub{font-size:11px;line-height:1.42}.rpAdapt{padding:9px 10px}.rpAdapt .signalSculpture{display:none}.rpAdapt strong{font-size:14px}.rpAdapt span{font-size:9px}.rpGrid::-webkit-scrollbar{display:none}.rpGrid .rpCard,.rpGrid .rpCard:first-child{grid-column:auto;flex:0 0 min(76vw,286px);scroll-snap-align:start;padding:10px}.rpGrid .rpCard strong{font-size:14px}.sourceAlert summary{grid-template-columns:1fr auto;gap:3px 8px}.sourceAlert summary small,.sourceAlert summary span{grid-column:1}.sourceAlert summary span{text-align:left}.sourceAlert summary:after{grid-column:2;grid-row:1/4;align-self:center}.rpFooter nav{display:flex;overflow-x:auto;gap:7px;scrollbar-width:none}.rpFooter nav::-webkit-scrollbar{display:none}.rpFooter nav a{white-space:nowrap}}
 </style>
 <link rel="stylesheet" href="assets/la-bete-art.css">
-</head><body><div class="wrap">
+<link rel="stylesheet" href="assets/system-identity.css">
+<script src="assets/system-identity.js" defer></script>
+</head><body data-identity-url="system_identity.json"><div class="wrap">
 <header class="top"><a class="brand" href="#reality-pulse" aria-label="ojO · revenir au pouls" style="text-decoration:none;color:var(--ink)">oj<i>O</i></a><nav class="topNav" aria-label="Lecture de La Bête"><a href="#reality-pulse">Le pouls</a><a href="#la-bete">La Bête</a><a href="#market-anatomy">Analyse</a><a href="#evidence-graph">Preuves</a></nav><a class="soundShortcut" href="#beast-resonance"><span class="miniWave" aria-hidden="true"><i></i><i></i><i></i><i></i></span>Son</a></header>
 <div class="liveSignals" aria-label="Les trois horloges de La Bête"><span class="pill" id="runner"><span class="dot"></span>RUNNER UNKNOWN · SNAPSHOT STATIQUE</span><span class="pill" id="feed"><span class="dot"></span>ÉTAT #11 · 2026-10-02T11:33:30Z</span><span class="pill" id="evolution"><span class="dot"></span>ÉVOLUTION G24 · EVIDENCE GUARD</span><a class="pill" href="#autoevolution">Preuve de vie ↗</a></div>
 
@@ -170,6 +172,17 @@ body[data-evo-focus="evidence"] #rpEvidenceCard,body[data-evo-focus="decision"] 
   <div class="resonancePanel" id="beast-resonance">
     <div class="resonanceIntro"><div class="resonanceGlyph" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div><div><small>EXPÉRIENCE SENSORIELLE</small><h3>Entendre sa présence.</h3><p>Un grave doux, des harmoniques, une respiration. Une texture artistique ; les chiffres gardent leur propre voix.</p></div></div>
     <div class="resonanceControls"><button type="button" id="beastSound" aria-pressed="false">Faire résonner</button><button type="button" id="beastHaptic" aria-pressed="false">Vibration tactile</button><label class="volumeControl" for="beastVolume">Volume <input type="range" id="beastVolume" min="0" max="60" value="24" step="1"><output id="beastVolumeValue" for="beastVolume">24 %</output></label><noscript><p class="resonanceStatus">La résonance et la vibration nécessitent JavaScript. La lecture des preuves reste disponible.</p></noscript><p class="resonanceStatus" id="resonanceStatus" role="status">En silence. Le son s’active au toucher ; la vibration dépend de votre appareil.</p></div>
+    <section class="systemIdentity" aria-label="Identité artistique de La Bête et SUPRA">
+      <img data-identity-art src="assets/supra-noir-humanoid-butterfly.webp" alt="Silhouette humanoïde à aile de papillon, rouge dans la brume de la ville, lumière blanche et reflets de cuivre.">
+      <div><span class="rpEy">IDENTITÉ VISUELLE · LA BÊTE / SUPRA</span><h3 data-identity-name>Réparer le chaos</h3>
+      <p>Un corps humanoïde porte des ailes de verre fractal ; la lumière rouge traverse la brume et révèle la cicatrice de cuivre.</p></div>
+    </section>
+    <section class="systemTrack" data-track aria-label="Blade Runner Blues par Vangelis">
+      <span class="rpEy">IDENTITÉ SONORE · LA BÊTE / SUPRA</span><p data-track-title>Blade Runner Blues · Vangelis</p>
+      <button type="button" data-track-play aria-pressed="false">Charger le lecteur</button>
+      <a data-track-link href="https://open.spotify.com/track/575blCgesVtCu0HEYaIcas" target="_blank" rel="noopener noreferrer">Ouvrir le catalogue ↗</a>
+      <div data-identity-error hidden>Lecteur indisponible.</div>
+    </section>
   </div>
   <div class="beastLegend" aria-label="Canaux de La Bête">
     <div><b>01 · Marché</b>courbe des taux observée</div>

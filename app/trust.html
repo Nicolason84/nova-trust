@@ -3,7 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>NOVA TRUST · V10.1 EXPERIENCE</title>
+<title>La Bête · SUPRA — Réparer le chaos</title>
+<link rel="stylesheet" href="/assets/system-identity.css">
 <style>
 html, body {
   margin: 0;
@@ -249,17 +250,18 @@ button:hover {
 }
 </style>
 </head>
-<body>
+<body data-identity-url="/api/system/identity">
 <div id="bg"></div>
 <div id="starfield"></div>
 <div id="veil"></div>
 
-<div id="title">NOVA TRUST · V10.1 EXPERIENCE</div>
-<div id="subtitle">Presence qui aide a decider</div>
-<div id="desc">Colle un lien. Observe la reaction. Sens le verdict.</div>
+<div id="title">LA BÊTE · SUPRA</div>
+<div id="subtitle">Un organe qui observe, apprend et répare.</div>
+<div id="desc">La proposition « <span data-identity-name>Réparer le chaos</span> » donne forme à la mémoire du système.</div>
 
 <div id="scene">
   <div id="eyeWrap">
+    <img id="systemAvatar" data-identity-art src="assets/supra-noir-humanoid-butterfly.webp" alt="Corps humanoïde avec une aile de papillon fractale, baigné de lumière rouge dans la brume.">
     <div id="eyeAura"></div>
     <div id="eyeShell"></div>
     <div id="eyeCore">
@@ -278,7 +280,13 @@ button:hover {
     <button id="refreshBtn">Refresh live</button>
   </div>
   <div id="verdict" class="waitText">En attente</div>
-  <div id="micro">oeil vivant · tracking · respiration · son reactif</div>
+  <div id="micro">PAPILLON HUMANOÏDE · MÉMOIRE CUIVRE · SON À LA DEMANDE</div>
+  <section class="systemTrack" data-track aria-label="Signature musicale SUPRA">
+    <span data-track-title>Blade Runner Blues · Vangelis</span><br>
+    <button type="button" data-track-play aria-pressed="false">Écouter</button>
+    <a data-track-link href="https://open.spotify.com/track/575blCgesVtCu0HEYaIcas" target="_blank" rel="noopener noreferrer">Catalogue Spotify ↗</a>
+    <div data-identity-error hidden>Lecteur indisponible.</div>
+  </section>
 </div>
 
 <script>
@@ -321,9 +329,9 @@ document.addEventListener("mousemove", (e) => {
   const cy = window.innerHeight / 2;
   const dx = (e.clientX - cx) / cx;
   const dy = (e.clientY - cy) / cy;
-  eyeCore.style.transform = ;
-  eyeWrap.style.transform = ;
-  document.getElementById("bg").style.transform = ;
+  eyeCore.style.transform = `translate(${dx * 18}px, ${dy * 18}px)`;
+  eyeWrap.style.transform = `translate(${dx * 8}px, ${dy * 8}px)`;
+  document.getElementById("bg").style.transform = `translate(${dx * -3}px, ${dy * -3}px)`;
 });
 
 async function loadLive() {
@@ -379,5 +387,6 @@ setTimeout(async () => {
   applyVerdict(data.verdict || "WAIT", data.fusion_score || 0);
 }, 300);
 </script>
+<script src="/assets/system-identity.js" defer></script>
 </body>
 </html>
