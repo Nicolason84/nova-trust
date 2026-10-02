@@ -1,0 +1,544 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		427DFDF514B5B71D3C3EEDBE /* canonical-seed.json in Resources */ = {isa = PBXBuildFile; fileRef = 65478A5F93C6894A2203833D /* canonical-seed.json */; };
+		6B3DE8D7829FA33B6B0195D7 /* CanonTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9668CAFC66D246B9433D5DBF /* CanonTests.swift */; };
+		7CE9BBD4606E6E045B411579 /* NativeUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD80767028545BD22496761D /* NativeUITests.swift */; };
+		9248AABD960D7380025602F5 /* Canon.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6D47204BDBB7647A9FBB7E /* Canon.swift */; };
+		9D06D22DBAEF971957F67090 /* resonance.wav in Resources */ = {isa = PBXBuildFile; fileRef = ED5853D8995B3E075179623A /* resonance.wav */; };
+		A4B98BCEDEF18E9B0C7F1E6E /* LaBeteApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2479C31DCAAB914FD06DFD84 /* LaBeteApp.swift */; };
+		BA5081C4705AFD5E976B082E /* canonical-seed.json in Resources */ = {isa = PBXBuildFile; fileRef = 60C9BD4298700508936B69B9 /* canonical-seed.json */; };
+		C2C5DDD3D20944B4DCAB0785 /* BeastScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 183A63FB22941B632585739E /* BeastScene.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		1BC0F371013FC5920CAA5929 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 28B9C40CD39E094ABA1738C1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 0B4409EF3859EC2562228149;
+			remoteInfo = LaBete;
+		};
+		50C2763C0211A2881834C07C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 28B9C40CD39E094ABA1738C1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 0B4409EF3859EC2562228149;
+			remoteInfo = LaBete;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		0E2E95FC2359AEE6C9F65BC8 /* LaBeteUITests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = LaBeteUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		183A63FB22941B632585739E /* BeastScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeastScene.swift; sourceTree = "<group>"; };
+		1C37C56BBCE5872DEA363BF6 /* LaBeteTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = LaBeteTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		2479C31DCAAB914FD06DFD84 /* LaBeteApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaBeteApp.swift; sourceTree = "<group>"; };
+		60C9BD4298700508936B69B9 /* canonical-seed.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "canonical-seed.json"; sourceTree = "<group>"; };
+		65478A5F93C6894A2203833D /* canonical-seed.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "canonical-seed.json"; sourceTree = "<group>"; };
+		9668CAFC66D246B9433D5DBF /* CanonTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CanonTests.swift; sourceTree = "<group>"; };
+		AB6D47204BDBB7647A9FBB7E /* Canon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Canon.swift; sourceTree = "<group>"; };
+		DD80767028545BD22496761D /* NativeUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NativeUITests.swift; sourceTree = "<group>"; };
+		ED5853D8995B3E075179623A /* resonance.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = resonance.wav; sourceTree = "<group>"; };
+		FF22F154D4149D5A276BF955 /* LaBete.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = LaBete.app; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		0C521C02A97FFA32267FA0B2 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				FF22F154D4149D5A276BF955 /* LaBete.app */,
+				1C37C56BBCE5872DEA363BF6 /* LaBeteTests.xctest */,
+				0E2E95FC2359AEE6C9F65BC8 /* LaBeteUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		4A4B395F6EFC34B5641F69A9 = {
+			isa = PBXGroup;
+			children = (
+				83DC3AE0F91DCD4820943242 /* LaBete */,
+				E5DE3D3E55CB3342FE5643A0 /* Tests */,
+				C28C0C1115352E2DBF28C6C0 /* UITests */,
+				0C521C02A97FFA32267FA0B2 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		83DC3AE0F91DCD4820943242 /* LaBete */ = {
+			isa = PBXGroup;
+			children = (
+				183A63FB22941B632585739E /* BeastScene.swift */,
+				AB6D47204BDBB7647A9FBB7E /* Canon.swift */,
+				65478A5F93C6894A2203833D /* canonical-seed.json */,
+				2479C31DCAAB914FD06DFD84 /* LaBeteApp.swift */,
+				ED5853D8995B3E075179623A /* resonance.wav */,
+			);
+			path = LaBete;
+			sourceTree = "<group>";
+		};
+		C28C0C1115352E2DBF28C6C0 /* UITests */ = {
+			isa = PBXGroup;
+			children = (
+				DD80767028545BD22496761D /* NativeUITests.swift */,
+			);
+			path = UITests;
+			sourceTree = "<group>";
+		};
+		E5DE3D3E55CB3342FE5643A0 /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				60C9BD4298700508936B69B9 /* canonical-seed.json */,
+				9668CAFC66D246B9433D5DBF /* CanonTests.swift */,
+			);
+			path = Tests;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		0B4409EF3859EC2562228149 /* LaBete */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F4B6B0B239DC6A12AB3396EB /* Build configuration list for PBXNativeTarget "LaBete" */;
+			buildPhases = (
+				C5045EA5027302EEF0FCB7FC /* Sources */,
+				6FAD01EA0DA5879E880A773E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = LaBete;
+			packageProductDependencies = (
+			);
+			productName = LaBete;
+			productReference = FF22F154D4149D5A276BF955 /* LaBete.app */;
+			productType = "com.apple.product-type.application";
+		};
+		6A45338E141F34E44CE6CC32 /* LaBeteTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8DB5B828EEA2D1C078A503EE /* Build configuration list for PBXNativeTarget "LaBeteTests" */;
+			buildPhases = (
+				FAEA42F742668589CEDC3643 /* Sources */,
+				45274A2FA530AA8075962E4E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				2E2FE3FE27CA441306A4F63E /* PBXTargetDependency */,
+			);
+			name = LaBeteTests;
+			packageProductDependencies = (
+			);
+			productName = LaBeteTests;
+			productReference = 1C37C56BBCE5872DEA363BF6 /* LaBeteTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		F942DAACE21A4874A1A783EF /* LaBeteUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4BF8F9912592D08528578454 /* Build configuration list for PBXNativeTarget "LaBeteUITests" */;
+			buildPhases = (
+				175E648781763421257FCCF4 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				0C79C49B97E69CE2C688B24A /* PBXTargetDependency */,
+			);
+			name = LaBeteUITests;
+			packageProductDependencies = (
+			);
+			productName = LaBeteUITests;
+			productReference = 0E2E95FC2359AEE6C9F65BC8 /* LaBeteUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		28B9C40CD39E094ABA1738C1 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1430;
+				TargetAttributes = {
+					0B4409EF3859EC2562228149 = {
+						DevelopmentTeam = 2XQ2KGW9SB;
+						ProvisioningStyle = Automatic;
+					};
+					6A45338E141F34E44CE6CC32 = {
+						DevelopmentTeam = 2XQ2KGW9SB;
+						ProvisioningStyle = Automatic;
+					};
+					F942DAACE21A4874A1A783EF = {
+						DevelopmentTeam = 2XQ2KGW9SB;
+						ProvisioningStyle = Automatic;
+						TestTargetID = 0B4409EF3859EC2562228149;
+					};
+				};
+			};
+			buildConfigurationList = BDE205434D6972A3093E71DC /* Build configuration list for PBXProject "LaBete" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = 4A4B395F6EFC34B5641F69A9;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 0C521C02A97FFA32267FA0B2 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				0B4409EF3859EC2562228149 /* LaBete */,
+				6A45338E141F34E44CE6CC32 /* LaBeteTests */,
+				F942DAACE21A4874A1A783EF /* LaBeteUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		45274A2FA530AA8075962E4E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BA5081C4705AFD5E976B082E /* canonical-seed.json in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6FAD01EA0DA5879E880A773E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				427DFDF514B5B71D3C3EEDBE /* canonical-seed.json in Resources */,
+				9D06D22DBAEF971957F67090 /* resonance.wav in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		175E648781763421257FCCF4 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7CE9BBD4606E6E045B411579 /* NativeUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C5045EA5027302EEF0FCB7FC /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C2C5DDD3D20944B4DCAB0785 /* BeastScene.swift in Sources */,
+				9248AABD960D7380025602F5 /* Canon.swift in Sources */,
+				A4B98BCEDEF18E9B0C7F1E6E /* LaBeteApp.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FAEA42F742668589CEDC3643 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6B3DE8D7829FA33B6B0195D7 /* CanonTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		0C79C49B97E69CE2C688B24A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 0B4409EF3859EC2562228149 /* LaBete */;
+			targetProxy = 1BC0F371013FC5920CAA5929 /* PBXContainerItemProxy */;
+		};
+		2E2FE3FE27CA441306A4F63E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 0B4409EF3859EC2562228149 /* LaBete */;
+			targetProxy = 50C2763C0211A2881834C07C /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		07F460517CF86BEEAEC0E7F2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "La Bête · France";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.novaera.france.beast;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		13BF8AC05EAACBDDF4159556 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 2026100201;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = 2XQ2KGW9SB;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MARKETING_VERSION = 0.1.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		3140D188635E0240933AFD85 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 2026100201;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = 2XQ2KGW9SB;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MARKETING_VERSION = 0.1.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		971B0C7763AD4C0E08ACB34F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "La Bête · France";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.novaera.france.beast;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		A58ADC9239B12E101DAC3B98 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.novaera.france.LaBeteTests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/LaBete.app/LaBete";
+			};
+			name = Release;
+		};
+		BDBBDAD0331CB8A8759BD45C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.novaera.france.LaBeteUITests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = LaBete;
+			};
+			name = Debug;
+		};
+		BFB1F56D13F9588BB0DEBDD8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.novaera.france.LaBeteUITests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = LaBete;
+			};
+			name = Release;
+		};
+		DF72E8046906263DD7D8D30C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.novaera.france.LaBeteTests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/LaBete.app/LaBete";
+			};
+			name = Debug;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		4BF8F9912592D08528578454 /* Build configuration list for PBXNativeTarget "LaBeteUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BDBBDAD0331CB8A8759BD45C /* Debug */,
+				BFB1F56D13F9588BB0DEBDD8 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		8DB5B828EEA2D1C078A503EE /* Build configuration list for PBXNativeTarget "LaBeteTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DF72E8046906263DD7D8D30C /* Debug */,
+				A58ADC9239B12E101DAC3B98 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		BDE205434D6972A3093E71DC /* Build configuration list for PBXProject "LaBete" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3140D188635E0240933AFD85 /* Debug */,
+				13BF8AC05EAACBDDF4159556 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		F4B6B0B239DC6A12AB3396EB /* Build configuration list for PBXNativeTarget "LaBete" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				07F460517CF86BEEAEC0E7F2 /* Debug */,
+				971B0C7763AD4C0E08ACB34F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 28B9C40CD39E094ABA1738C1 /* Project object */;
+}
