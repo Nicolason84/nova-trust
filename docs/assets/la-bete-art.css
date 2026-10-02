@@ -297,3 +297,23 @@ body[data-matter-regime="regeneration"] #beastMount canvas{filter:saturate(1.07)
  .matterRegime strong{font-size:17px}.beastStage{background:radial-gradient(ellipse at 50% 40%,rgba(143,216,232,.045),transparent 38%)}
 }
 @media(prefers-reduced-motion:reduce){.matterRegime strong::before{animation:none}}
+
+
+/* MOBILE CINEMATIC LEGIBILITY V3.1 */
+@media(max-width:480px){
+ html,body{max-width:100%;overflow-x:hidden}
+ .wrap,.realityPulse,.hero,.grid4,.section,.execBand,.beastShell{width:100%;max-width:100%;min-width:0}
+ .realityPulse{display:block;margin-inline:0;padding:16px 14px}
+ .rpTop,.rpGrid,.rpFooter{width:100%;min-width:0}
+ .rpGrid{display:grid!important;grid-template-columns:minmax(0,1fr)!important;gap:8px!important;overflow:visible!important;margin:12px 0 0!important;padding:0!important}
+ .rpGrid .rpCard,.rpGrid .rpCard:first-child{grid-column:auto!important;width:100%!important;min-width:0!important;max-width:100%!important;flex:none!important;min-height:0}
+ .rpCard strong,.rpCard span,.rpCard small{overflow-wrap:anywhere;word-break:normal}
+ .rpFooter{display:grid;grid-template-columns:minmax(0,1fr);overflow:hidden}
+ .rpFooter nav{display:flex;max-width:100%;overflow-x:auto;overscroll-behavior-x:contain;padding-bottom:2px}
+ .sourceAlert,.sourceAlert summary,.sourceAlertList,.sourceAlertItem{max-width:100%;min-width:0}
+ .hero{display:block}.hero>*{min-width:0}
+ .grid4{display:grid;grid-template-columns:minmax(0,1fr)}
+ .metric{border-right:0!important}
+ .bodyBinding{display:block}.artWordmark{font-size:50px;margin-bottom:18px;white-space:normal}
+ #la-bete .head{width:100%;min-width:0}
+}
