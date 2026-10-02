@@ -9,7 +9,8 @@ on:
       - "scripts/update_france_debt_rate_live.py"
       - "docs/france-debt-rate-risk-live-2026-10-02.html"
   schedule:
-    - cron: "*/15 * * * *"
+    # Staggered away from :00/:15/:30/:45 to reduce GitHub scheduler congestion.
+    - cron: "11,26,41,56 * * * *"
 
 permissions:
   contents: write
@@ -27,6 +28,22 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 1
+
+      - name: Record trigger receipt
+        shell: bash
+        run: |
+          triggered_at="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          printf "TRIGGER_RECEIPT event=%s run_id=%s attempt=%s sha=%s ref=%s at=%s\\n" \
+            "${{ github.event_name }}" "${{ github.run_id }}" "${{ github.run_attempt }}" \
+            "${{ github.sha }}" "${{ github.ref }}" "$triggered_at"
+          {
+            echo "### France Debt Rate trigger receipt"
+            echo "- event: ${{ github.event_name }}"
+            echo "- run_id: ${{ github.run_id }}"
+            echo "- attempt: ${{ github.run_attempt }}"
+            echo "- sha: ${{ github.sha }}"
+            echo "- triggered_at_utc: $triggered_at"
+          } >> "$GITHUB_STEP_SUMMARY"
 
       - name: Refresh official debt and rate evidence
         run: python3 scripts/update_france_debt_rate_live.py
