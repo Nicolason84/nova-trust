@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 from __future__ import annotations
-import csv, gzip, hashlib, html, io, json, re, urllib.request
+import csv, gzip, hashlib, html, io, json, re, urllib.request, os, uuid
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
@@ -661,6 +661,19 @@ def main():
     OUT.parent.mkdir(parents=True,exist_ok=True)
     encoded=json.dumps(manifest,ensure_ascii=False,indent=2)+"\n"
 
+    def record_health_observation(snapshot_id):
+        receipt_path = os.environ.get("LA_BETE_OBSERVATION_PATH")
+        if not receipt_path:
+            return
+        receipt = {
+            "schema": "OJO_LA_BETE_PULSE_OBSERVATION_V1",
+            "cycle_id": "github-run:" + os.environ["GITHUB_RUN_ID"] if os.environ.get("GITHUB_RUN_ID") else "manual-pulse:" + str(uuid.uuid4()),
+            "observed_at": now(), "source_snapshot_id": snapshot_id,
+            "sources": sources,
+            "executed_source_ids": [s["id"] for s in sources if s["id"] in {"BDF_TEC", "BDF_WEBSTAT", "AFT_RSS", "DGFIP_EXECUTION", "AFT_MATURITY_OAT", "AFT_MATURITY_OATI", "AFT_MATURITY_OATEI"}],
+        }
+        Path(receipt_path).write_text(json.dumps(receipt, ensure_ascii=False))
+
     if prev:
         def stable_core(value):
             value=json.loads(json.dumps(value))
@@ -675,10 +688,12 @@ def main():
         core_new=stable_core(manifest)
         src_same=all(old_sources.get(s["id"],{}).get("digest")==s.get("digest") and old_sources.get(s["id"],{}).get("health")==s.get("health") for s in sources)
         if core_prev==core_new and src_same:
+            record_health_observation(prev.get("snapshot_id"))
             print("NO_MATERIAL_CHANGE")
             raise SystemExit(0)
 
     OUT.write_text(encoded)
+    record_health_observation(manifest.get("snapshot_id"))
     print(json.dumps({"status":"WROTE","sequence":seq,"events":len(events),"summary":manifest["summary"],"tec10":observed.get("tec10_pct")},ensure_ascii=False))
 
 if __name__ == '__main__':

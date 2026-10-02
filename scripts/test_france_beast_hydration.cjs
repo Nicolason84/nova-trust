@@ -18,6 +18,15 @@ bad.policy.political_recommendation='NONE';bad.france_binding.territorial_imputa
 assert.equal(evaluate('acceptCanonical(candidate)'),false);
 const fresh=structuredClone(j);fresh.sequence++;fresh.updated_at=new Date(Date.parse(j.updated_at)+1000).toISOString();c.candidate=fresh;
 assert(evaluate('acceptCanonical(candidate)'));
+const selfModel=JSON.parse(fs.readFileSync('docs/data/france-debt-rate-evolution.json','utf8')).self_model;
+c.selfModel=selfModel;evaluate('renderSelfModel(selfModel)');
+assert.match(nodes.get('selfMemorySummary').textContent,new RegExp(String(selfModel.health_memory.total_cycles)+' cycles'));
+assert.match(nodes.get('selfCarePlan').innerHTML,/plan proposé, pas une exécution/);
+const unsafe=structuredClone(selfModel);const first=Object.values(unsafe.health_memory.issues)[0];first.label='<img src=x onerror=alert(1)>';
+c.selfModel=unsafe;evaluate('renderSelfModel(selfModel)');
+assert(!nodes.get('selfMemoryIssues').innerHTML.includes('<img'));
+evaluate('renderSelfModel(null)');assert.equal(nodes.get('selfCarePlan').innerHTML,'');
+c.selfModel=selfModel;evaluate('renderSelfModel(selfModel)');
 async function test(){
  c.fetch=async()=>{throw Error('Network OFF')};await evaluate('load()');
  assert.match(nodes.get('feed').innerHTML,/SNAPSHOT CONSERVÉ/);

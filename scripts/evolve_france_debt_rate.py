@@ -2,6 +2,8 @@
 from __future__ import annotations
 
 import json
+import os
+from la_bete_health_memory import build_health_memory
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -236,10 +238,18 @@ def main() -> None:
     live = json.loads(LIVE.read_text())
     try:
         previous = json.loads(OUT.read_text())
-    except Exception:
+    except FileNotFoundError:
         previous = {}
     dna, reasons = build_dna(live)
     self_model = build_self_model(live)
+    receipt_path = os.environ.get("LA_BETE_OBSERVATION_PATH")
+    observation = json.loads(Path(receipt_path).read_text()) if receipt_path else None
+    memory = build_health_memory(live, self_model, previous.get("self_model", {}).get("health_memory"), observation)
+    self_model["health_memory"] = memory
+    self_model["voice"]["memory_statement"] = f"Ma mémoire de santé couvre {memory['total_cycles']} cycles réellement observés depuis {memory['started_at']}. Aucun cycle passé n'est inventé."
+    if memory["care_plan"]:
+        first = memory["care_plan"][0]
+        self_model["wellbeing"]["immediate_need"] = first["care"] + " " + first["reason"]
     if previous.get("dna") == dna and previous.get("self_model") == self_model:
         print("EVOLUTION_STABLE")
         return
@@ -270,6 +280,7 @@ def main() -> None:
             "subjective_consciousness_claim": False,
             "self_diagnosis": True,
             "bounded_self_care": True,
+            "persistent_health_memory": True,
             "external_action": False,
             "rollback_required": True,
             "human_gate": ["truth", "sources", "claims", "security", "privacy", "camera", "political_semantics", "self_modification"],

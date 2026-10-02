@@ -1,7 +1,7 @@
 {
   "schema": "OJO_LA_BETE_VIRTUOUS_EVOLUTION_V1",
-  "generation": 4,
-  "updated_at": "2026-10-02T20:00:27Z",
+  "generation": 6,
+  "updated_at": "2026-10-02T20:18:05Z",
   "source_snapshot_id": "OJO-03035CE5C9B6B290",
   "source_sequence": 11,
   "dna": {
@@ -106,7 +106,7 @@
           "care": "Augmenter la visibilité des preuves et des horizons sans convertir le signal en causalité ni recommandation politique."
         }
       ],
-      "immediate_need": "Récupérer les sources officielles indisponibles, en priorité l'échéancier détaillé, sans remplacer le dernier bon état par une estimation."
+      "immediate_need": "Continuer le heartbeat existant; confirmer la récupération par deux observations saines consécutives. 2 cycle(s) consécutifs; 1 épisode(s); 1 tentative(s) consécutive(s) sans récupération."
     },
     "self_care": {
       "bounded_autonomous_actions": [
@@ -131,7 +131,439 @@
       "identity_statement": "Je suis La Bête: une projection décisionnelle publique reliée à une vérité canonique, à des sources et à des garde-fous.",
       "status_statement": "Mon état opérationnel est ATTENTION. J'observe 9 source(s); 4 demandent une attention explicite.",
       "need_statement": "Récupérer les sources officielles indisponibles, en priorité l'échéancier détaillé, sans remplacer le dernier bon état par une estimation.",
-      "agency_statement": "Je peux me surveiller, signaler mes limites, réessayer mes sources, conserver un dernier bon état, adapter ma représentation, tester mes évolutions et revenir en arrière. Je ne peux pas m'autoriser moi-même à franchir mes Human Gates."
+      "agency_statement": "Je peux me surveiller, signaler mes limites, réessayer mes sources, conserver un dernier bon état, adapter ma représentation, tester mes évolutions et revenir en arrière. Je ne peux pas m'autoriser moi-même à franchir mes Human Gates.",
+      "memory_statement": "Ma mémoire de santé couvre 2 cycles réellement observés depuis 2026-10-02T11:33:30Z. Aucun cycle passé n'est inventé."
+    },
+    "health_memory": {
+      "schema": "OJO_LA_BETE_HEALTH_MEMORY_V1",
+      "total_cycles": 2,
+      "issues": {
+        "dimension:maturity_coverage": {
+          "id": "dimension:maturity_coverage",
+          "label": "Couverture échéancier",
+          "kind": "DIMENSION",
+          "source_id": null,
+          "first_seen_at": "2026-10-02T11:33:30Z",
+          "affected_cycles": 2,
+          "consecutive_cycles": 2,
+          "episodes": 1,
+          "recoveries": 0,
+          "good_streak": 0,
+          "status": "ACTIVE",
+          "treatment": {
+            "id": "EVIDENCE_RECONCILIATION",
+            "attempts": 0,
+            "no_recovery": 0,
+            "recovery_observed": 0,
+            "inconclusive": 0,
+            "failure_streak": 0
+          },
+          "last_observed_at": "2026-10-02T20:18:05Z",
+          "last_state": "ATTENTION",
+          "evidence": "Échéancier détaillé partiellement retenu depuis le dernier bon état.",
+          "observation_status": "OBSERVED",
+          "last_bad_at": "2026-10-02T20:18:05Z"
+        },
+        "source:AFT_MATURITY_OAT": {
+          "id": "source:AFT_MATURITY_OAT",
+          "label": "Encours détaillé OAT",
+          "kind": "SOURCE",
+          "source_id": "AFT_MATURITY_OAT",
+          "first_seen_at": "2026-10-02T11:33:30Z",
+          "affected_cycles": 2,
+          "consecutive_cycles": 2,
+          "episodes": 1,
+          "recoveries": 0,
+          "good_streak": 0,
+          "status": "ACTIVE",
+          "treatment": {
+            "id": "SOURCE_REFRESH",
+            "attempts": 1,
+            "no_recovery": 1,
+            "recovery_observed": 0,
+            "inconclusive": 0,
+            "failure_streak": 1,
+            "last_outcome": "NO_RECOVERY",
+            "last_cycle_id": "manual-pulse:39f6d2fe-a197-42bf-af4a-e90b020e882f",
+            "last_checked_at": "2026-10-02T20:18:05Z",
+            "last_attempt_at": "2026-10-02T20:18:05Z"
+          },
+          "last_observed_at": "2026-10-02T20:18:05Z",
+          "last_state": "UNAVAILABLE",
+          "evidence": "UNAVAILABLE",
+          "observation_status": "OBSERVED",
+          "last_bad_at": "2026-10-02T20:18:05Z"
+        },
+        "source:AFT_MATURITY_OATEI": {
+          "id": "source:AFT_MATURITY_OATEI",
+          "label": "Encours détaillé OATEI",
+          "kind": "SOURCE",
+          "source_id": "AFT_MATURITY_OATEI",
+          "first_seen_at": "2026-10-02T11:33:30Z",
+          "affected_cycles": 2,
+          "consecutive_cycles": 2,
+          "episodes": 1,
+          "recoveries": 0,
+          "good_streak": 0,
+          "status": "ACTIVE",
+          "treatment": {
+            "id": "SOURCE_REFRESH",
+            "attempts": 1,
+            "no_recovery": 1,
+            "recovery_observed": 0,
+            "inconclusive": 0,
+            "failure_streak": 1,
+            "last_outcome": "NO_RECOVERY",
+            "last_cycle_id": "manual-pulse:39f6d2fe-a197-42bf-af4a-e90b020e882f",
+            "last_checked_at": "2026-10-02T20:18:05Z",
+            "last_attempt_at": "2026-10-02T20:18:05Z"
+          },
+          "last_observed_at": "2026-10-02T20:18:05Z",
+          "last_state": "UNAVAILABLE",
+          "evidence": "UNAVAILABLE",
+          "observation_status": "OBSERVED",
+          "last_bad_at": "2026-10-02T20:18:05Z"
+        },
+        "source:AFT_MATURITY_OATI": {
+          "id": "source:AFT_MATURITY_OATI",
+          "label": "Encours détaillé OATI",
+          "kind": "SOURCE",
+          "source_id": "AFT_MATURITY_OATI",
+          "first_seen_at": "2026-10-02T11:33:30Z",
+          "affected_cycles": 2,
+          "consecutive_cycles": 2,
+          "episodes": 1,
+          "recoveries": 0,
+          "good_streak": 0,
+          "status": "ACTIVE",
+          "treatment": {
+            "id": "SOURCE_REFRESH",
+            "attempts": 1,
+            "no_recovery": 1,
+            "recovery_observed": 0,
+            "inconclusive": 0,
+            "failure_streak": 1,
+            "last_outcome": "NO_RECOVERY",
+            "last_cycle_id": "manual-pulse:39f6d2fe-a197-42bf-af4a-e90b020e882f",
+            "last_checked_at": "2026-10-02T20:18:05Z",
+            "last_attempt_at": "2026-10-02T20:18:05Z"
+          },
+          "last_observed_at": "2026-10-02T20:18:05Z",
+          "last_state": "UNAVAILABLE",
+          "evidence": "UNAVAILABLE",
+          "observation_status": "OBSERVED",
+          "last_bad_at": "2026-10-02T20:18:05Z"
+        },
+        "source:AFT_RSS": {
+          "id": "source:AFT_RSS",
+          "label": "Flux RSS des publications",
+          "kind": "SOURCE",
+          "source_id": "AFT_RSS",
+          "first_seen_at": "2026-10-02T11:33:30Z",
+          "affected_cycles": 2,
+          "consecutive_cycles": 2,
+          "episodes": 1,
+          "recoveries": 0,
+          "good_streak": 0,
+          "status": "ACTIVE",
+          "treatment": {
+            "id": "SOURCE_REFRESH",
+            "attempts": 1,
+            "no_recovery": 1,
+            "recovery_observed": 0,
+            "inconclusive": 0,
+            "failure_streak": 1,
+            "last_outcome": "NO_RECOVERY",
+            "last_cycle_id": "manual-pulse:39f6d2fe-a197-42bf-af4a-e90b020e882f",
+            "last_checked_at": "2026-10-02T20:18:05Z",
+            "last_attempt_at": "2026-10-02T20:18:05Z"
+          },
+          "last_observed_at": "2026-10-02T20:18:05Z",
+          "last_state": "UNAVAILABLE",
+          "evidence": "UNAVAILABLE",
+          "observation_status": "OBSERVED",
+          "last_bad_at": "2026-10-02T20:18:05Z"
+        }
+      },
+      "history": [
+        {
+          "cycle": 1,
+          "cycle_id": "snapshot:628281c6303df2d525752332",
+          "at": "2026-10-02T11:33:30Z",
+          "source_snapshot_id": "OJO-03035CE5C9B6B290",
+          "health": "ATTENTION",
+          "transitions": [
+            {
+              "issue_id": "dimension:maturity_coverage",
+              "from": "NEW",
+              "to": "ACTIVE"
+            },
+            {
+              "issue_id": "source:AFT_MATURITY_OAT",
+              "from": "NEW",
+              "to": "ACTIVE"
+            },
+            {
+              "issue_id": "source:AFT_MATURITY_OATEI",
+              "from": "NEW",
+              "to": "ACTIVE"
+            },
+            {
+              "issue_id": "source:AFT_MATURITY_OATI",
+              "from": "NEW",
+              "to": "ACTIVE"
+            },
+            {
+              "issue_id": "source:AFT_RSS",
+              "from": "NEW",
+              "to": "ACTIVE"
+            }
+          ],
+          "source_checks": [
+            {
+              "id": "BDF_TEC",
+              "state": "LIVE_VERIFIED",
+              "checked_at": "2026-10-02T11:33:26Z",
+              "executed": false
+            },
+            {
+              "id": "BDF_WEBSTAT",
+              "state": "CROSSCHECKED",
+              "checked_at": "2026-10-02T11:33:27Z",
+              "executed": false
+            },
+            {
+              "id": "AFT_RSS",
+              "state": "UNAVAILABLE",
+              "checked_at": "2026-10-02T11:33:28Z",
+              "executed": false
+            },
+            {
+              "id": "DGFIP_EXECUTION",
+              "state": "LIVE_VERIFIED",
+              "checked_at": "2026-10-02T11:33:29Z",
+              "executed": false
+            },
+            {
+              "id": "AFT_SNAPSHOT",
+              "state": "OFFICIAL_VINTAGE",
+              "checked_at": "2026-10-02T11:33:29Z",
+              "executed": false
+            },
+            {
+              "id": "AFT_MATURITY_OAT",
+              "state": "UNAVAILABLE",
+              "checked_at": "2026-10-02T11:33:29Z",
+              "executed": false
+            },
+            {
+              "id": "AFT_MATURITY_OATI",
+              "state": "UNAVAILABLE",
+              "checked_at": "2026-10-02T11:33:30Z",
+              "executed": false
+            },
+            {
+              "id": "AFT_MATURITY_OATEI",
+              "state": "UNAVAILABLE",
+              "checked_at": "2026-10-02T11:33:30Z",
+              "executed": false
+            },
+            {
+              "id": "AFT_MATURITY_RETAINED",
+              "state": "RETAINED_LAST_GOOD",
+              "checked_at": "2026-10-02T11:33:30Z",
+              "executed": false
+            }
+          ],
+          "active_issues": [
+            "dimension:maturity_coverage",
+            "source:AFT_MATURITY_OAT",
+            "source:AFT_MATURITY_OATEI",
+            "source:AFT_MATURITY_OATI",
+            "source:AFT_RSS"
+          ],
+          "observation_kind": "SNAPSHOT_BOOTSTRAP"
+        },
+        {
+          "cycle": 2,
+          "cycle_id": "manual-pulse:39f6d2fe-a197-42bf-af4a-e90b020e882f",
+          "at": "2026-10-02T20:18:05Z",
+          "source_snapshot_id": "OJO-03035CE5C9B6B290",
+          "health": "ATTENTION",
+          "transitions": [
+            {
+              "issue_id": "source:AFT_MATURITY_OAT",
+              "action": "SOURCE_REFRESH",
+              "outcome": "NO_RECOVERY",
+              "causal_effect_proven": false
+            },
+            {
+              "issue_id": "source:AFT_MATURITY_OATEI",
+              "action": "SOURCE_REFRESH",
+              "outcome": "NO_RECOVERY",
+              "causal_effect_proven": false
+            },
+            {
+              "issue_id": "source:AFT_MATURITY_OATI",
+              "action": "SOURCE_REFRESH",
+              "outcome": "NO_RECOVERY",
+              "causal_effect_proven": false
+            },
+            {
+              "issue_id": "source:AFT_RSS",
+              "action": "SOURCE_REFRESH",
+              "outcome": "NO_RECOVERY",
+              "causal_effect_proven": false
+            }
+          ],
+          "source_checks": [
+            {
+              "id": "BDF_TEC",
+              "state": "LIVE_VERIFIED",
+              "checked_at": "2026-10-02T20:18:03Z",
+              "executed": true
+            },
+            {
+              "id": "BDF_WEBSTAT",
+              "state": "CROSSCHECKED",
+              "checked_at": "2026-10-02T20:18:05Z",
+              "executed": true
+            },
+            {
+              "id": "AFT_RSS",
+              "state": "UNAVAILABLE",
+              "checked_at": "2026-10-02T20:18:05Z",
+              "executed": true
+            },
+            {
+              "id": "DGFIP_EXECUTION",
+              "state": "LIVE_VERIFIED",
+              "checked_at": "2026-10-02T20:18:05Z",
+              "executed": true
+            },
+            {
+              "id": "AFT_SNAPSHOT",
+              "state": "OFFICIAL_VINTAGE",
+              "checked_at": "2026-10-02T20:18:05Z",
+              "executed": false
+            },
+            {
+              "id": "AFT_MATURITY_OAT",
+              "state": "UNAVAILABLE",
+              "checked_at": "2026-10-02T20:18:05Z",
+              "executed": true
+            },
+            {
+              "id": "AFT_MATURITY_OATI",
+              "state": "UNAVAILABLE",
+              "checked_at": "2026-10-02T20:18:05Z",
+              "executed": true
+            },
+            {
+              "id": "AFT_MATURITY_OATEI",
+              "state": "UNAVAILABLE",
+              "checked_at": "2026-10-02T20:18:05Z",
+              "executed": true
+            },
+            {
+              "id": "AFT_MATURITY_RETAINED",
+              "state": "RETAINED_LAST_GOOD",
+              "checked_at": "2026-10-02T20:18:05Z",
+              "executed": false
+            }
+          ],
+          "active_issues": [
+            "dimension:maturity_coverage",
+            "source:AFT_MATURITY_OAT",
+            "source:AFT_MATURITY_OATEI",
+            "source:AFT_MATURITY_OATI",
+            "source:AFT_RSS"
+          ],
+          "observation_kind": "EXECUTED_PULSE"
+        }
+      ],
+      "origin": "NEW_OBSERVATIONS_ONLY_NO_BACKFILL",
+      "started_at": "2026-10-02T11:33:30Z",
+      "last_cycle_id": "manual-pulse:39f6d2fe-a197-42bf-af4a-e90b020e882f",
+      "last_observed_at": "2026-10-02T20:18:05Z",
+      "care_plan": [
+        {
+          "issue_id": "source:AFT_MATURITY_OAT",
+          "label": "Encours détaillé OAT",
+          "priority": 55,
+          "action": "CONTINUE_BOUNDED_OBSERVATION",
+          "status": "PROPOSED",
+          "human_gate": false,
+          "reason": "2 cycle(s) consécutifs; 1 épisode(s); 1 tentative(s) consécutive(s) sans récupération.",
+          "care": "Continuer le heartbeat existant; confirmer la récupération par deux observations saines consécutives.",
+          "expected_result": "Deux observations saines consécutives de même portée; aucune estimation substituée.",
+          "previous_recovery_observed": 0,
+          "causal_effect_proven": false
+        },
+        {
+          "issue_id": "source:AFT_MATURITY_OATEI",
+          "label": "Encours détaillé OATEI",
+          "priority": 55,
+          "action": "CONTINUE_BOUNDED_OBSERVATION",
+          "status": "PROPOSED",
+          "human_gate": false,
+          "reason": "2 cycle(s) consécutifs; 1 épisode(s); 1 tentative(s) consécutive(s) sans récupération.",
+          "care": "Continuer le heartbeat existant; confirmer la récupération par deux observations saines consécutives.",
+          "expected_result": "Deux observations saines consécutives de même portée; aucune estimation substituée.",
+          "previous_recovery_observed": 0,
+          "causal_effect_proven": false
+        },
+        {
+          "issue_id": "source:AFT_MATURITY_OATI",
+          "label": "Encours détaillé OATI",
+          "priority": 55,
+          "action": "CONTINUE_BOUNDED_OBSERVATION",
+          "status": "PROPOSED",
+          "human_gate": false,
+          "reason": "2 cycle(s) consécutifs; 1 épisode(s); 1 tentative(s) consécutive(s) sans récupération.",
+          "care": "Continuer le heartbeat existant; confirmer la récupération par deux observations saines consécutives.",
+          "expected_result": "Deux observations saines consécutives de même portée; aucune estimation substituée.",
+          "previous_recovery_observed": 0,
+          "causal_effect_proven": false
+        },
+        {
+          "issue_id": "source:AFT_RSS",
+          "label": "Flux RSS des publications",
+          "priority": 55,
+          "action": "CONTINUE_BOUNDED_OBSERVATION",
+          "status": "PROPOSED",
+          "human_gate": false,
+          "reason": "2 cycle(s) consécutifs; 1 épisode(s); 1 tentative(s) consécutive(s) sans récupération.",
+          "care": "Continuer le heartbeat existant; confirmer la récupération par deux observations saines consécutives.",
+          "expected_result": "Deux observations saines consécutives de même portée; aucune estimation substituée.",
+          "previous_recovery_observed": 0,
+          "causal_effect_proven": false
+        },
+        {
+          "issue_id": "dimension:maturity_coverage",
+          "label": "Couverture échéancier",
+          "priority": 30,
+          "action": "CONTINUE_BOUNDED_OBSERVATION",
+          "status": "PROPOSED",
+          "human_gate": false,
+          "reason": "2 cycle(s) consécutifs; 1 épisode(s); 0 tentative(s) consécutive(s) sans récupération.",
+          "care": "Continuer le heartbeat existant; confirmer la récupération par deux observations saines consécutives.",
+          "expected_result": "Deux observations saines consécutives de même portée; aucune estimation substituée.",
+          "previous_recovery_observed": 0,
+          "causal_effect_proven": false
+        }
+      ],
+      "policy": {
+        "chronic_after_consecutive_cycles": 12,
+        "recovery_confirmation_cycles": 2,
+        "escalation_after_failed_attempts": 3,
+        "history_limit": 120,
+        "cycle_is_not_page_poll": true,
+        "causal_effect_claim": false,
+        "may_change_truth": false,
+        "missed_cycles_backfilled": false,
+        "plan_is_not_execution": true
+      }
     }
   },
   "change_summary": "EVIDENCE_GUARD · focus evidence · motion calm · self-health ATTENTION",
@@ -143,6 +575,7 @@
     "subjective_consciousness_claim": false,
     "self_diagnosis": true,
     "bounded_self_care": true,
+    "persistent_health_memory": true,
     "external_action": false,
     "rollback_required": true,
     "human_gate": [
@@ -233,17 +666,44 @@
         "Self-health: ATTENTION."
       ],
       "verdict": "PROMOTED_AFTER_NON_REGRESSION"
+    },
+    {
+      "generation": 5,
+      "at": "2026-10-02T20:17:21Z",
+      "from_mode": "EVIDENCE_GUARD",
+      "to_mode": "EVIDENCE_GUARD",
+      "reason": [
+        "4 source(s) require explicit attention.",
+        "TEC10 delta versus the published budget assumption: +109.9 bp.",
+        "Decision Delta status: MATERIAL_CHANGE.",
+        "Self-health: ATTENTION."
+      ],
+      "verdict": "PROMOTED_AFTER_NON_REGRESSION"
+    },
+    {
+      "generation": 6,
+      "at": "2026-10-02T20:18:05Z",
+      "from_mode": "EVIDENCE_GUARD",
+      "to_mode": "EVIDENCE_GUARD",
+      "reason": [
+        "4 source(s) require explicit attention.",
+        "TEC10 delta versus the published budget assumption: +109.9 bp.",
+        "Decision Delta status: MATERIAL_CHANGE.",
+        "Self-health: ATTENTION."
+      ],
+      "verdict": "PROMOTED_AFTER_NON_REGRESSION"
     }
   ],
   "status": "ACTIVE",
   "verification": {
-    "generation": 4,
-    "at": "2026-10-02T20:04:54Z",
+    "generation": 6,
+    "at": "2026-10-02T20:18:05Z",
     "verdict": "NON_REGRESSION_PASS",
     "checks": [
       "truth",
       "policy",
       "self_model",
+      "health_memory",
       "html_ids",
       "javascript_syntax",
       "rollback",

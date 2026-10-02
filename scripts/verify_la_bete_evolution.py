@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import json
+from la_bete_health_memory import validate_memory
 import re
 import subprocess
 import tempfile
@@ -61,6 +62,8 @@ def main() -> None:
     require(self_care.get("may_bypass_human_gate") is False, "self care human gate bypass forbidden")
     require(self_care.get("requires_non_regression") is True, "self care non-regression missing")
     require(len(self_model.get("limits", [])) >= 4, "self model limits missing")
+    validate_memory(self_model.get("health_memory", {}))
+    require(policy.get("persistent_health_memory") is True, "health memory policy missing")
     dna = evolution.get("dna", {})
     require(dna.get("mode") in {"BALANCED", "HIGH_SIGNAL", "EVIDENCE_GUARD"}, "invalid evolution mode")
     require(dna.get("section_focus") in {"market", "decision", "evidence"}, "invalid section focus")
@@ -74,7 +77,7 @@ def main() -> None:
     parser.feed(page)
     duplicates = sorted({value for value in parser.ids if parser.ids.count(value) > 1})
     require(not duplicates, f"duplicate HTML ids: {duplicates}")
-    for element_id in ("runner", "feed", "evolution", "reality-pulse", "realityHeadline", "realitySituation", "realityChanged", "realityEvidence", "realityHorizon", "realityUncertainty", "realityAdaptation", "evoAdaptive", "evolutionRail", "evidence-graph", "change-reading", "la-bete", "selfAwareness", "selfVoice", "selfHealth", "selfNeed", "selfAilments", "selfCare"):
+    for element_id in ("runner", "feed", "evolution", "reality-pulse", "realityHeadline", "realitySituation", "realityChanged", "realityEvidence", "realityHorizon", "realityUncertainty", "realityAdaptation", "evoAdaptive", "evolutionRail", "evidence-graph", "change-reading", "la-bete", "selfAwareness", "selfVoice", "selfHealth", "selfNeed", "selfAilments", "selfCare", "selfMemorySummary", "selfMemoryIssues", "selfCarePlan", "selfHealthHistory"):
         require(element_id in parser.ids, f"missing required element {element_id}")
     for marker in (
         "data/france-debt-rate-live.json",
@@ -105,7 +108,7 @@ def main() -> None:
     checked = subprocess.run(["node", "--check", module_path], capture_output=True, text=True)
     require(checked.returncode == 0, "JavaScript syntax failure: " + checked.stderr.strip())
     generation = int(evolution["generation"])
-    expected_checks = ["truth", "policy", "self_model", "html_ids", "javascript_syntax", "rollback", "human_gates"]
+    expected_checks = ["truth", "policy", "self_model", "health_memory", "html_ids", "javascript_syntax", "rollback", "human_gates"]
     verification = evolution.get("verification", {})
     if (
         verification.get("generation") != generation

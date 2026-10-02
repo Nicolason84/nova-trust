@@ -10,7 +10,7 @@ class Convergence(unittest.TestCase):
     def test_isolated_evolution_gate_and_rollback(self):
         files=['docs/data/france-debt-rate-live.json','docs/data/france-debt-rate-evolution.json',
                'docs/france-debt-rate-risk-live-2026-10-02.html','scripts/evolve_france_debt_rate.py',
-               'scripts/verify_la_bete_evolution.py']
+               'scripts/verify_la_bete_evolution.py','scripts/la_bete_health_memory.py']
         with tempfile.TemporaryDirectory() as tmp:
             root=Path(tmp)
             for name in files:
@@ -18,14 +18,14 @@ class Convergence(unittest.TestCase):
             evo=root/files[1];good=evo.read_bytes();original=json.loads(good)
             live=root/files[0];fixture=json.loads(live.read_text());fixture['summary']['warnings']=0
             live.write_text(json.dumps(fixture))
-            subprocess.run(['python3','scripts/evolve_france_debt_rate.py'],cwd=root,check=True,capture_output=True)
+            subprocess.run(['python3','scripts/evolve_france_debt_rate.py'],cwd=root,env={k:v for k,v in os.environ.items() if k!="LA_BETE_OBSERVATION_PATH"},check=True,capture_output=True)
             candidate=json.loads(evo.read_text());self.assertEqual(candidate['previous_dna'],original['dna'])
-            subprocess.run(['python3','scripts/verify_la_bete_evolution.py'],cwd=root,check=True,capture_output=True)
+            subprocess.run(['python3','scripts/verify_la_bete_evolution.py'],cwd=root,env={k:v for k,v in os.environ.items() if k!="LA_BETE_OBSERVATION_PATH"},check=True,capture_output=True)
             candidate=json.loads(evo.read_text());candidate['policy']['truth_mutation']=True;evo.write_text(json.dumps(candidate))
             rejected=subprocess.run(['python3','scripts/verify_la_bete_evolution.py'],cwd=root,capture_output=True)
             self.assertNotEqual(rejected.returncode,0);self.assertIn(b'truth mutation forbidden',rejected.stderr)
             evo.write_bytes(good)
-            subprocess.run(['python3','scripts/verify_la_bete_evolution.py'],cwd=root,check=True,capture_output=True)
+            subprocess.run(['python3','scripts/verify_la_bete_evolution.py'],cwd=root,env={k:v for k,v in os.environ.items() if k!="LA_BETE_OBSERVATION_PATH"},check=True,capture_output=True)
             self.assertEqual(evo.read_bytes(),good)
 
     def test_actual_updater_retains_values_when_sources_unavailable(self):
@@ -35,7 +35,7 @@ class Convergence(unittest.TestCase):
         def failed(key):return {**sources[key],'health':'ERROR','error':'TEST_SOURCE_UNAVAILABLE'}
         with tempfile.TemporaryDirectory() as tmp:
             out=Path(tmp)/'live.json';out.write_text(json.dumps(live))
-            with patch.object(updater,'OUT',out),patch.object(updater,'fetch_bdf_html',return_value=(failed('BDF_TEC'),{})),patch.object(updater,'fetch_bdf_csv',return_value=(failed('BDF_WEBSTAT'),{})),patch.object(updater,'fetch_watch',return_value=failed('AFT_RSS')),patch.object(updater,'fetch_dgfip_execution',return_value=(failed('DGFIP_EXECUTION'),{})),patch.object(updater,'fetch_aft_maturity',return_value=({**live['maturity_ladder'],'mode':'RETAINED_LAST_GOOD'},[])):
+            with patch.dict(os.environ, {"LA_BETE_OBSERVATION_PATH":""}),patch.object(updater,'OUT',out),patch.object(updater,'fetch_bdf_html',return_value=(failed('BDF_TEC'),{})),patch.object(updater,'fetch_bdf_csv',return_value=(failed('BDF_WEBSTAT'),{})),patch.object(updater,'fetch_watch',return_value=failed('AFT_RSS')),patch.object(updater,'fetch_dgfip_execution',return_value=(failed('DGFIP_EXECUTION'),{})),patch.object(updater,'fetch_aft_maturity',return_value=({**live['maturity_ladder'],'mode':'RETAINED_LAST_GOOD'},[])):
                 updater.main()
             retained=json.loads(out.read_text())
         self.assertEqual(retained['observed']['yield_curve'],live['observed']['yield_curve'])
