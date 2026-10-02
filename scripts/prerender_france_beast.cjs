@@ -20,5 +20,7 @@ context.snapshot=input.live;context.evo=input.evolution;
 // repository churn merely because wall-clock time passes.
 vm.runInContext("ago=x=>x?String(x):'UNKNOWN';",context);
 vm.runInContext('render(snapshot); applyEvolution(evo); renderFranceBinding(snapshot);',context,{timeout:3000});
+// Archived HTML records absolute canonical time, never an age that changes at build time.
+vm.runInContext("setEvo('evoFeed',snapshot.updated_at,'séquence #'+snapshot.sequence+' · '+(snapshot.summary?.warnings||0)+' source(s) en alerte'); pill($('runner'),'RUNNER UNKNOWN · SNAPSHOT STATIQUE','warn'); setEvo('evoRunner','UNKNOWN','Heartbeat accessible avec JavaScript ; indépendant du snapshot','warn');",context);
 const out={};for(const [id,n] of nodes){const html=n.output();if(n.changed)out[id]=html;}
 process.stdout.write(JSON.stringify(out));
