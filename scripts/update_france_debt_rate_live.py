@@ -22,6 +22,12 @@ AFT_RSS="https://www.aft.gouv.fr/fr/rss.xml"
 DGFIP_META="https://www.data.gouv.fr/api/1/datasets/dgfip-situation-mensuelle-de-letat/"
 PAP_CURVE=[3.1,7.5,11.3,15.0,18.4,21.7,24.8,27.7,30.2,32.1]
 TEC_TENORS=(1,2,3,5,7,10,15,20,25,30)
+HISTORY_LIMIT=120
+AFT_MATURITY_URLS={
+ "oat":"https://www.aft.gouv.fr/fr/encours-detaille-oat",
+ "oati":"https://www.aft.gouv.fr/fr/encours-detaille-oati",
+ "oatei":"https://www.aft.gouv.fr/fr/encours-detaille-oatei",
+}
 
 # Official AFT outstanding-by-maturity vintage observed 2026-10-02.
 # Indexed bonds are shown separately because future redemption cash can differ with indexation.
@@ -143,6 +149,87 @@ def fetch_watch(i,publisher,label,url,accept):
     except Exception as e:
         return src(i,publisher,label,url,health="ERROR",error=f"{type(e).__name__}: {e}"[:500])
 
+def parse_aft_maturities(text):
+    text=norm(text)
+    out={}
+    for year,amount in re.findall(r"Échéance\s+(20\d{2}|21\d{2})\s+([0-9][0-9 ]{5,})",text,re.I):
+        digits=re.sub(r"\D","",amount)
+        if digits:
+            out[int(year)]=int(digits)/1e9
+    return out
+
+def fetch_aft_maturity(previous):
+    tables={}
+    sources=[]
+    for kind,url in AFT_MATURITY_URLS.items():
+        try:
+            status,b,etag,lm,cs=req(url)
+            text=b.decode(cs or "utf-8","replace")
+            table=parse_aft_maturities(text)
+            if not table:
+                raise ValueError("NO_MATURITY_ROWS_PARSED")
+            tables[kind]=table
+            sources.append(src("AFT_MATURITY_"+kind.upper(),"Agence France Trésor",
+                               "Encours détaillé "+kind.upper(),url,health="OK",
+                               digest=hashlib.sha256(norm(text).encode()).hexdigest(),
+                               etag=etag,lm=lm,extra={"rows":len(table)}))
+        except Exception as e:
+            sources.append(src("AFT_MATURITY_"+kind.upper(),"Agence France Trésor",
+                               "Encours détaillé "+kind.upper(),url,health="ERROR",
+                               error=f"{type(e).__name__}: {e}"[:500]))
+    if len(tables)==3:
+        years=sorted(set().union(*[set(x) for x in tables.values()]))
+        rows=[]
+        for y in years:
+            rows.append({
+              "year":y,
+              "oat_nominal_bne":round(tables["oat"].get(y,0.0),9),
+              "oati_bne":round(tables["oati"].get(y,0.0),9),
+              "oatei_bne":round(tables["oatei"].get(y,0.0),9),
+            })
+        return {
+          "as_of":datetime.now(timezone.utc).date().isoformat(),
+          "source":"Agence France Trésor — encours détaillé OAT / OATi / OAT€i",
+          "mode":"LIVE_PARSED",
+          "years":rows,
+          "note":"Encours publié par millésime d'échéance; ce n'est ni le besoin annuel de financement ni le cash final d'amortissement après rachats/indexation."
+        },sources
+    old=previous.get("maturity_ladder") if isinstance(previous,dict) else None
+    retained=old if isinstance(old,dict) and old.get("years") else MATURITY_VINTAGE
+    retained=dict(retained)
+    retained["mode"]="RETAINED_LAST_GOOD"
+    retained["retained_at"]=now()
+    return retained,sources
+
+def curve_map(rows):
+    return {int(x["tenor_years"]):float(x["rate_pct"]) for x in rows or [] if isinstance(x,dict) and "tenor_years" in x and "rate_pct" in x}
+
+def curve_metrics(rows):
+    m=curve_map(rows)
+    out={}
+    if 2 in m and 10 in m: out["slope_2s10s_bps"]=round((m[10]-m[2])*100,1)
+    if 10 in m and 30 in m: out["slope_10s30s_bps"]=round((m[30]-m[10])*100,1)
+    if 1 in m and 30 in m: out["slope_1s30s_bps"]=round((m[30]-m[1])*100,1)
+    return out
+
+def append_curve_history(previous,observed):
+    hist=list(previous.get("curve_history",[])) if isinstance(previous,dict) else []
+    rows=observed.get("yield_curve") or []
+    if not rows:return hist[-HISTORY_LIMIT:]
+    item={"date":observed.get("yield_curve_date"),"captured_at":now(),"curve":rows}
+    sig=json.dumps({"date":item["date"],"curve":rows},sort_keys=True,separators=(",",":"))
+    prevsig=None
+    if hist:
+        prevsig=json.dumps({"date":hist[-1].get("date"),"curve":hist[-1].get("curve")},sort_keys=True,separators=(",",":"))
+    if sig!=prevsig: hist.append(item)
+    return hist[-HISTORY_LIMIT:]
+
+def curve_delta(history):
+    if len(history)<2:return {}
+    a=curve_map(history[-2].get("curve",[])); b=curve_map(history[-1].get("curve",[]))
+    common=sorted(set(a)&set(b))
+    return {str(t):round((b[t]-a[t])*100,1) for t in common}
+
 try:
     prev=json.loads(OUT.read_text())
 except Exception:
@@ -165,7 +252,10 @@ if "tec10_pct" not in bvals and wvals.get("webstat_tec10_last_pct") is not None:
 
 sources.append(fetch_watch("AFT_RSS","Agence France Trésor","Flux RSS des publications","https://www.aft.gouv.fr/fr/rss.xml","application/rss+xml,application/xml,text/xml,*/*;q=0.8"))
 sources.append(fetch_watch("DGFIP_META","DGFiP / data.gouv.fr","Situation mensuelle de l'État · métadonnées","https://www.data.gouv.fr/api/1/datasets/dgfip-situation-mensuelle-de-letat/","application/json,*/*;q=0.8"))
-sources.append(src("AFT_SNAPSHOT","Agence France Trésor","Ancre officielle · encours, maturité, financement 2027","https://www.aft.gouv.fr/fr",health="PINNED",digest=hashlib.sha256(json.dumps(PINNED,sort_keys=True).encode()).hexdigest(),extra={"published_through":"2026-10-01","note":"Pinned because AFT HTML blocks unattended GitHub runners; publication RSS remains live-monitored."}))
+sources.append(src("AFT_SNAPSHOT","Agence France Trésor","Ancre officielle · encours, maturité, financement 2027","https://www.aft.gouv.fr/fr",health="PINNED",digest=hashlib.sha256(json.dumps(PINNED,sort_keys=True).encode()).hexdigest(),extra={"published_through":"2026-10-01","note":"Pinned canonical anchor; live detailed maturity pages are attempted separately."}))
+
+maturity_ladder,maturity_sources=fetch_aft_maturity(prev)
+sources.extend(maturity_sources)
 
 if observed.get("tec10_pct") is not None:
     observed["tec10_vs_plf_assumption_bps"]=round((float(observed["tec10_pct"])-3.8)*100,1)
@@ -185,11 +275,20 @@ for k,v in observed.items():
     if k in oldobs and oldobs.get(k)!=v:
         events.append({"kind":"METRIC_CHANGED","metric":k,"at":now(),"detail":f"{oldobs.get(k)} → {v}"})
 
+curve_history=append_curve_history(prev,observed)
+curve_delta_bps=curve_delta(curve_history)
+derived={
+  **curve_metrics(observed.get("yield_curve",[])),
+  "curve_delta_vs_previous_bps":curve_delta_bps,
+  "curve_history_points":len(curve_history),
+  "model_divergence_5y_bne":round(abs(float(23.5)-float(PAP_CURVE[4])),1),
+  "maturity_mode":maturity_ladder.get("mode","UNKNOWN"),
+}
 seq=int(prev.get("sequence",0))+(1 if events else 0)
 ok_states={"OK","PINNED"}
 manifest={
  "schema":"OJO_FRANCE_DEBT_RATE_LIVE_V1",
- "version":"2026-10-02.3",
+ "version":"2026-10-02.4",
  "sequence":seq,
  "updated_at":now(),
  "policy":{"political_recommendation":"NONE","market_yield_is_not_whole_debt_cost":True,"source_change":"DELTA_THEN_RECONCILE","typed_live_metrics":"OBSERVED_NOT_CAUSAL","sensitivity_model":"FIXED_OFFICIAL_VINTAGES","aft_html":"PINNED_DUE_TO_RUNNER_BLOCK"},
@@ -198,11 +297,25 @@ manifest={
    "pap2026":{"label":"PLF 2026 · PAP Engagements financiers de l’État","shock_bps":100,"annual_extra_charge_bne":PAP_CURVE,"start_year":2026},
    "aft_later":{"label":"AFT · estimation citée par le Sénat","shock_bps":100,"points_bne":{"1":3.2,"5":23.5,"9":33.5}}
  },
- "maturity_ladder":MATURITY_VINTAGE,
+ "maturity_ladder":maturity_ladder,
+ "curve_history":curve_history,
+ "derived":derived,
+ "capabilities":{
+   "scheduled_refresh_minutes":15,
+   "browser_poll_seconds":30,
+   "live_full_yield_curve":True,
+   "last_good_retention":True,
+   "curve_history":True,
+   "curve_delta_bps":True,
+   "maturity_auto_refresh":maturity_ladder.get("mode")=="LIVE_PARSED",
+   "official_model_vintages":2,
+   "political_recommendation":False
+ },
  "sources":sources,
  "events":(prev.get("events",[])+events)[-120:],
  "material_changes":events,
- "summary":{"healthy":sum(s.get("health") in ok_states for s in sources),"monitored":len(sources),"warnings":sum(s.get("health") not in ok_states for s in sources),"changed_this_sequence":len(events)}
+ "summary":{"healthy":sum(s.get("health") in ok_states for s in sources),"monitored":len(sources),"warnings":sum(s.get("health") not in ok_states for s in sources),"changed_this_sequence":len(events),
+            "curve_history_points":len(curve_history),"maturity_mode":maturity_ladder.get("mode","UNKNOWN")}
 }
 OUT.parent.mkdir(parents=True,exist_ok=True)
 encoded=json.dumps(manifest,ensure_ascii=False,indent=2)+"\n"
