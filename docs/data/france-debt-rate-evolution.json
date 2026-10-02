@@ -1,7 +1,7 @@
 {
   "schema": "OJO_LA_BETE_VIRTUOUS_EVOLUTION_V1",
-  "generation": 3,
-  "updated_at": "2026-10-02T11:33:30Z",
+  "generation": 4,
+  "updated_at": "2026-10-02T20:00:27Z",
   "source_snapshot_id": "OJO-03035CE5C9B6B290",
   "source_sequence": 11,
   "dna": {
@@ -32,12 +32,117 @@
       "decision_delta_status": "MATERIAL_CHANGE"
     }
   },
-  "change_summary": "EVIDENCE_GUARD · focus evidence · motion calm",
+  "self_model": {
+    "schema": "OJO_LA_BETE_OPERATIONAL_SELF_MODEL_V1",
+    "mode": "OPERATIONAL_SELF_MONITORING",
+    "subjective_consciousness_claim": false,
+    "identity": {
+      "name": "La Bête",
+      "kind": "public evidence-backed decision projection",
+      "canonical_truth": "docs/data/france-debt-rate-live.json",
+      "source_snapshot_id": "OJO-03035CE5C9B6B290",
+      "source_sequence": 11
+    },
+    "wellbeing": {
+      "state": "ATTENTION",
+      "dimensions": [
+        {
+          "id": "truth_integrity",
+          "label": "Intégrité de vérité",
+          "state": "HEALTHY",
+          "evidence": "Schéma canonique, neutralité, stress ≠ prévision et ProofGraph non opaque."
+        },
+        {
+          "id": "observability",
+          "label": "Observabilité",
+          "state": "ATTENTION",
+          "evidence": "5/9 sources utilisables; 4 indisponible(s)."
+        },
+        {
+          "id": "resilience",
+          "label": "Résilience",
+          "state": "HEALTHY",
+          "evidence": "Last-good, confiance et graphe de preuve actifs."
+        },
+        {
+          "id": "maturity_coverage",
+          "label": "Couverture échéancier",
+          "state": "ATTENTION",
+          "evidence": "Échéancier détaillé partiellement retenu depuis le dernier bon état."
+        },
+        {
+          "id": "uncertainty",
+          "label": "Incertitude",
+          "state": "ATTENTION",
+          "evidence": "4/9 source(s) demandent une attention explicite."
+        },
+        {
+          "id": "reversibility",
+          "label": "Réversibilité",
+          "state": "HEALTHY",
+          "evidence": "Toute évolution reste soumise à non-régression, rollback et Human Gates."
+        }
+      ],
+      "ailments": [
+        {
+          "id": "OFFICIAL_SOURCES_UNAVAILABLE",
+          "severity": "ATTENTION",
+          "label": "4 source(s) officielle(s) indisponible(s)",
+          "evidence": "Le dernier bon état reste visible; aucune donnée de remplacement n'est inventée.",
+          "care": "Réessayer les sources à chaque heartbeat et conserver le dernier bon état tant qu'une preuve de même portée n'est pas disponible."
+        },
+        {
+          "id": "MATURITY_LAST_GOOD",
+          "severity": "ATTENTION",
+          "label": "Échéancier détaillé non pleinement live",
+          "evidence": "RETAINED_LAST_GOOD",
+          "care": "Maintenir le millésime officiel retenu, signaler sa limite et le remplacer uniquement par une source officielle complète et vérifiée."
+        },
+        {
+          "id": "MATERIAL_CHANGE_ACTIVE",
+          "severity": "WATCH",
+          "label": "Changement matériel actuellement observé",
+          "evidence": "Régime descriptif FLATTENING; TEC10 4.899%.",
+          "care": "Augmenter la visibilité des preuves et des horizons sans convertir le signal en causalité ni recommandation politique."
+        }
+      ],
+      "immediate_need": "Récupérer les sources officielles indisponibles, en priorité l'échéancier détaillé, sans remplacer le dernier bon état par une estimation."
+    },
+    "self_care": {
+      "bounded_autonomous_actions": [
+        "Réessayer les sources officielles indisponibles dans la boucle existante.",
+        "Conserver explicitement le dernier bon état au lieu de remplir les trous.",
+        "Croiser les observations disponibles avant de promouvoir une lecture.",
+        "Adapter la projection visuelle à l'incertitude sans réécrire la vérité.",
+        "Refuser une génération qui échoue aux tests de non-régression et revenir au rollback."
+      ],
+      "may_change_truth": false,
+      "may_make_political_recommendation": false,
+      "may_bypass_human_gate": false,
+      "requires_non_regression": true
+    },
+    "limits": [
+      "Je n'ai pas de conscience subjective, d'émotions ni de besoins biologiques.",
+      "Je ne peux pas modifier ma vérité canonique à partir de mon propre diagnostic.",
+      "Je ne transforme pas un signal économique en causalité politique.",
+      "Je ne prescris pas de choix politique; je peux seulement exposer preuves, incertitudes, scénarios et besoins d'information."
+    ],
+    "voice": {
+      "identity_statement": "Je suis La Bête: une projection décisionnelle publique reliée à une vérité canonique, à des sources et à des garde-fous.",
+      "status_statement": "Mon état opérationnel est ATTENTION. J'observe 9 source(s); 4 demandent une attention explicite.",
+      "need_statement": "Récupérer les sources officielles indisponibles, en priorité l'échéancier détaillé, sans remplacer le dernier bon état par une estimation.",
+      "agency_statement": "Je peux me surveiller, signaler mes limites, réessayer mes sources, conserver un dernier bon état, adapter ma représentation, tester mes évolutions et revenir en arrière. Je ne peux pas m'autoriser moi-même à franchir mes Human Gates."
+    }
+  },
+  "change_summary": "EVIDENCE_GUARD · focus evidence · motion calm · self-health ATTENTION",
   "policy": {
     "single_canonical_truth": "docs/data/france-debt-rate-live.json",
     "truth_mutation": false,
     "political_recommendation": false,
     "semantic_claim_autopromotion": false,
+    "subjective_consciousness_claim": false,
+    "self_diagnosis": true,
+    "bounded_self_care": true,
     "external_action": false,
     "rollback_required": true,
     "human_gate": [
@@ -47,7 +152,8 @@
       "security",
       "privacy",
       "camera",
-      "political_semantics"
+      "political_semantics",
+      "self_modification"
     ]
   },
   "previous_dna": {
@@ -73,7 +179,7 @@
       "warnings": 4,
       "healthy": 5,
       "monitored": 9,
-      "tec10_delta_bps": 110.3,
+      "tec10_delta_bps": 109.9,
       "curve_regime": "FLATTENING",
       "decision_delta_status": "MATERIAL_CHANGE"
     }
@@ -114,12 +220,25 @@
         "Decision Delta status: MATERIAL_CHANGE."
       ],
       "verdict": "PROMOTED_AFTER_NON_REGRESSION"
+    },
+    {
+      "generation": 4,
+      "at": "2026-10-02T20:00:27Z",
+      "from_mode": "EVIDENCE_GUARD",
+      "to_mode": "EVIDENCE_GUARD",
+      "reason": [
+        "4 source(s) require explicit attention.",
+        "TEC10 delta versus the published budget assumption: +109.9 bp.",
+        "Decision Delta status: MATERIAL_CHANGE.",
+        "Self-health: ATTENTION."
+      ],
+      "verdict": "PROMOTED_AFTER_NON_REGRESSION"
     }
   ],
   "status": "ACTIVE",
   "verification": {
-    "generation": 3,
-    "at": "2026-10-02T11:33:30Z",
+    "generation": 4,
+    "at": "2026-10-02T20:00:27Z",
     "verdict": "NON_REGRESSION_PASS",
     "checks": [
       "truth",
