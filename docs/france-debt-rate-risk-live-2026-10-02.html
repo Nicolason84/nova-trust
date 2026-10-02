@@ -139,6 +139,16 @@ body[data-evo-focus="evidence"] #rpEvidenceCard,body[data-evo-focus="decision"] 
         <div><small>Choc exploré</small><strong id="beastShock">+100 pb</strong></div>
         <div><small>Propagation · an 5</small><strong id="beastY5">18,4 Md€</strong></div>
       </div>
+      <aside class="beastMatter" id="beastMatter" aria-label="Indices visuels de matière. Ce ne sont pas des grandeurs physiques.">
+        <small>MATIÈRE ACTIVE · INDICES VISUELS</small>
+        <div class="matterRow"><span>Viscosité</span><i><b id="matterViscosity"></b></i><output id="matterViscosityValue">—</output></div>
+        <div class="matterRow"><span>Fluidité</span><i><b id="matterFluidity"></b></i><output id="matterFluidityValue">—</output></div>
+        <div class="matterRow"><span>Élasticité</span><i><b id="matterElasticity"></b></i><output id="matterElasticityValue">—</output></div>
+        <div class="matterRow"><span>Tension</span><i><b id="matterTension"></b></i><output id="matterTensionValue">—</output></div>
+        <div class="matterRow"><span>Turbulence</span><i><b id="matterTurbulence"></b></i><output id="matterTurbulenceValue">—</output></div>
+        <div class="matterRow"><span>Mémoire</span><i><b id="matterMemory"></b></i><output id="matterMemoryValue">—</output></div>
+        <p>Indices de représentation dérivés du stock, de la maturité, du scénario et de l’état des sources — jamais des propriétés physiques mesurées.</p>
+      </aside>
       <div class="beastTag" id="beastTag"><b>Lisez son corps.</b> Cœur = stock · halos = temps · membres = canaux. Glissez pour tourner ; touchez un membre pour identifier sa fonction. La tension lumineuse encode le scénario sélectionné, jamais une opinion.</div>
     </div>
     <div class="beastTools"><span class="beastAudioBadge" id="beastAudioState">EN SILENCE</span>
@@ -745,6 +755,9 @@ async function initBeast(){
     });
     const mantle=new THREE.Mesh(new THREE.SphereGeometry(1.75,64,48),skinMat);
     mantle.scale.set(1.16,1.34,.82);mantle.position.y=.58;root.add(mantle);
+    const mantlePosition=mantle.geometry.attributes.position;
+    const mantleBase=new Float32Array(mantlePosition.array);
+    let lastSkinUpdate=0;
 
     const heartMat=new THREE.MeshPhysicalMaterial({
       color:0xe7bd72,roughness:.17,metalness:.15,emissive:0x8b4d28,emissiveIntensity:1.35,
@@ -843,6 +856,25 @@ async function initBeast(){
     window.updateBeastStressShape=(shocks)=>{const base=historicState?.curve||state?.observed?.yield_curve||[];if(base.length<2)return;const stressed=base.map(r=>({...r,rate_pct:Number(r.rate_pct)+Number(shocks?.[String(r.tenor_years)]||0)/100}));window.updateBeastMarket(stressed);marketLine.material.color.set(0xff8f79)};
 
     let rx=.06,ry=.08,homeZoom=13.8,zoom=13.8,drag=false,downX=0,downY=0,px=0,py=0,stress=.5;
+    let materialState={viscosity:.78,fluidity:.36,elasticity:.62,tension:.5,turbulence:.35,memory:.82,compression:.5};
+    function clamp01(v){return Math.max(0,Math.min(1,Number(v)||0))}
+    function matterWord(v,kind){
+      const x=clamp01(v);
+      if(kind==='viscosity')return x>.72?'dense':x>.42?'souple':'mobile';
+      if(kind==='fluidity')return x>.68?'rapide':x>.38?'progressive':'lente';
+      if(kind==='elasticity')return x>.68?'élastique':x>.38?'souple':'rigide';
+      if(kind==='tension')return x>.7?'haute':x>.4?'présente':'basse';
+      if(kind==='turbulence')return x>.65?'agitée':x>.34?'variable':'calme';
+      return x>.7?'longue':x>.4?'moyenne':'courte';
+    }
+    function setMatter(name,value){
+      const v=clamp01(value),bar=$('matter'+name[0].toUpperCase()+name.slice(1)),out=$('matter'+name[0].toUpperCase()+name.slice(1)+'Value');
+      if(bar)bar.style.width=Math.round(v*100)+'%';
+      if(out)out.textContent=matterWord(v,name);
+    }
+    function renderMatter(){
+      for(const k of ['viscosity','fluidity','elasticity','tension','turbulence','memory'])setMatter(k,materialState[k]);
+    }
     const ray=new THREE.Raycaster(),pointer=new THREE.Vector2();
     function resize(){const w=mount.clientWidth,h=mount.clientHeight;renderer.setSize(w,h,false);camera.aspect=w/Math.max(1,h);const previous=homeZoom;homeZoom=13.8*Math.max(1,1.08/Math.max(.1,camera.aspect));zoom*=homeZoom/previous;camera.position.z=zoom;camera.updateProjectionMatrix()}
     const ro=new ResizeObserver(resize);ro.observe(mount);resize();
@@ -855,12 +887,26 @@ async function initBeast(){
       if(!beastMotionOn){root.rotation.x+=(rx-root.rotation.x)*.045;if(!reducedMotion)root.rotation.y+=(ry-root.rotation.y)*.045}else if(!reducedMotion){root.rotation.y+=.00065}
       camera.position.z+=(zoom-camera.position.z)*.08;
       if(!reducedMotion){
-        const breath=Math.sin(t*.00135);
-        mantle.scale.set(1.16+breath*.012,1.34+breath*.017,.82+breath*.01);
-        heart.scale.set(1+breath*(.018+.024*stress),.92+breath*(.015+.02*stress),.82+breath*.012);
-        heart.rotation.y+=.0016;ringGroup.rotation.z+=.00024;particles.rotation.y-=.00006;
-        eyes.forEach((e,i)=>{e.material.emissiveIntensity=1.75+.45*Math.sin(t*.002+i*.8)+stress*.55});
-        arms.forEach((a,i)=>{a.rotation.z=Math.sin(t*.00055+i*.62)*(.006+.006*stress)});
+        const viscosity=materialState.viscosity,fluidity=materialState.fluidity,elasticity=materialState.elasticity,tension=materialState.tension,turbulence=materialState.turbulence,memory=materialState.memory;
+        const breath=Math.sin(t*(.00072+.00072*(1-viscosity)));
+        const compress=1-materialState.compression*.018;
+        mantle.scale.set((1.16+breath*(.006+.012*fluidity))*compress,1.34+breath*(.009+.016*elasticity),(.82+breath*(.006+.012*fluidity))*compress);
+        heart.scale.set(1+breath*(.014+.036*tension),.92+breath*(.012+.03*elasticity),.82+breath*(.009+.018*tension));
+        heart.rotation.y+=.0008+.0015*fluidity;ringGroup.rotation.z+=.00008+.00028*fluidity;particles.rotation.y-=.000025+.00007*turbulence;
+        eyes.forEach((e,i)=>{e.material.emissiveIntensity=1.55+.25*Math.sin(t*(.0014+.0014*turbulence)+i*.8)+tension*.85});
+        const armSpeed=.00028+.00068*fluidity,armAmp=.003+.013*elasticity+.006*turbulence;
+        arms.forEach((a,i)=>{a.rotation.z=Math.sin(t*armSpeed+i*.62)*armAmp*(.75+(i%3)*.12);a.rotation.x=Math.cos(t*armSpeed*.72+i*.41)*armAmp*.36});
+        if(t-lastSkinUpdate>42){
+          const arr=mantlePosition.array,base=mantleBase,phase=t*(.00035+.00105*fluidity),amp=.0035+.010*fluidity+.007*turbulence;
+          for(let k=0;k<arr.length;k+=3){
+            const x=base[k],y=base[k+1],z=base[k+2];
+            const wave=Math.sin(y*4.8+phase+x*1.7)+.48*Math.sin(x*3.3-phase*.74+z*2.1)+.24*Math.cos(z*5.1+phase*.43);
+            const lag=Math.sin(phase*.52-y*2.4)*memory*.35;
+            const d=1+(wave+lag)*amp;
+            arr[k]=x*d;arr[k+1]=y*(1+(wave*.78+lag)*amp);arr[k+2]=z*(1+(wave*.55-lag*.2)*amp);
+          }
+          mantlePosition.needsUpdate=true;lastSkinUpdate=t;
+        }
       }
       renderer.render(scene,camera);requestAnimationFrame(frame)
     }
@@ -871,9 +917,29 @@ async function initBeast(){
       const f=Math.max(.25,Math.min(2,shock/100));stress=Math.min(1.5,f);
       const vals=curve.slice(0,5),den=Math.max(.1,Number(vals[4]||1)*2);
       rings.forEach((r,i)=>{const k=Math.max(.08,Math.min(1,(Number(vals[i]||0)*f)/den));r.scale.set(1+k*.11,.72+i*.045+k*.05,1);ringMats[i].opacity=.055+k*.38});
-      skinMat.emissiveIntensity=.72+stress*.34;heartMat.emissiveIntensity=1.0+stress*.75;
-      arms.forEach((a,i)=>{a.material.emissiveIntensity=.14+stress*.22+(i===3?.18:0);a.material.opacity=(a.userData.baseOpacity||.77)});
-      const warn=Number(state?.summary?.warnings||0);nerveMat.opacity=.10+Math.min(.25,warn*.035);
+      const o=state?.observed||{},avgLife=Math.max(0,Number(o.debt_avg_life_years||0)+Number(o.debt_avg_life_days||0)/365);
+      const early=Math.max(0,Number(vals[0]||0)),late=Math.max(.1,Number(vals[4]||1));
+      const warn=Math.max(0,Number(state?.summary?.warnings||0)),mon=Math.max(1,Number(state?.summary?.monitored||1));
+      const curveRows=Array.isArray(o.yield_curve)?o.yield_curve:[];
+      const curveRange=curveRows.length?Math.max(...curveRows.map(x=>Number(x.rate_pct)||0))-Math.min(...curveRows.map(x=>Number(x.rate_pct)||0)):0;
+      materialState={
+        viscosity:clamp01(.28+avgLife/14),
+        fluidity:clamp01(.22+(early/late)*1.55),
+        elasticity:clamp01(.34+Math.abs(Number(shock)||0)/220),
+        tension:clamp01(Math.abs(Number(shock)||0)/180),
+        turbulence:clamp01((warn/mon)*.72+Math.min(.28,curveRange/10)),
+        memory:clamp01(.24+avgLife/12),
+        compression:clamp01(.22+Math.abs(Number(shock)||0)/260)
+      };
+      skinMat.emissiveIntensity=.62+materialState.tension*.5;
+      skinMat.roughness=.42-materialState.fluidity*.17+materialState.turbulence*.08;
+      skinMat.transmission=.10+materialState.fluidity*.28;
+      skinMat.clearcoat=.58+materialState.viscosity*.34;
+      heartMat.emissiveIntensity=.92+materialState.tension*.96;
+      thorax.material.opacity=.12+materialState.tension*.22;
+      arms.forEach((a,i)=>{a.material.emissiveIntensity=.12+materialState.tension*.28+(i===3?.2:0);a.material.opacity=(a.userData.baseOpacity||.77)});
+      nerveMat.opacity=.08+materialState.turbulence*.28;
+      renderMatter();
     };
     if(state){window.updateBeast(bps,state.sensitivity.pap2026.annual_extra_charge_bne);window.updateBeastMarket(state.observed?.yield_curve||[])}
   }catch(e){$('beastTag').innerHTML='<b>Mode 3D indisponible.</b> La couche analytique reste intégralement accessible. '+esc(e.message)}
