@@ -182,6 +182,15 @@ def main():
     except BlockingIOError:
         print('SKIP_EXISTING_OBSERVER_ACTIVE')
         return
+    if args.learning_registry:
+        from la_bete_bridge_health import advance
+        projection=args.bus.parent/'SUPRA_GRANDE_MISSION_V1'/'NERVOUS_SYSTEM.json'
+        transfer=args.knowhow_receipt or args.receipt.with_name('la-bete-supra-knowhow-receipt.json')
+        try:
+            print('BRIDGE_HEALTH', json.dumps(advance(args.learning_registry,args.bus,transfer,projection),sort_keys=True))
+        except Exception as exc:
+            # A failed health adapter cannot suppress canonical observation/transfer.
+            print('BRIDGE_HEALTH_BLOCKED', type(exc).__name__, str(exc))
     commit=github_json('repos/Nicolason84/nova-trust/commits/main')['sha']
     live=json.loads(github_text(commit,'docs/data/france-debt-rate-live.json'))
     print(publish(live,args.bus,args.receipt))

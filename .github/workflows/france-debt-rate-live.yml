@@ -17,6 +17,8 @@ on:
       - "scripts/france_beast_binding.py"
       - "scripts/publish_france_beast_impulse.py"
       - "scripts/test_la_bete_supra_knowhow.py"
+      - "scripts/la_bete_bridge_health.py"
+      - "scripts/test_la_bete_bridge_health.py"
       - "scripts/prerender_france_beast.py"
       - "scripts/prerender_france_beast.cjs"
       - "scripts/test_france_beast_convergence.py"
@@ -144,6 +146,7 @@ jobs:
           PYTHONPATH=scripts python3 scripts/test_la_bete_evolution.py
           PYTHONPATH=scripts python3 scripts/test_la_bete_health_memory.py
           PYTHONPATH=scripts python3 scripts/test_la_bete_supra_knowhow.py
+          PYTHONPATH=scripts python3 scripts/test_la_bete_bridge_health.py
           python3 scripts/verify_la_bete_evolution.py
 
       - name: Project same canonical snapshot into HTML and verify convergence
