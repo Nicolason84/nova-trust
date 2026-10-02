@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		118284ED2F21EFA0AF0EAEE2 /* LaunchPerformanceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7C45CD8559DBD2E271D5F76 /* LaunchPerformanceTests.swift */; };
 		427DFDF514B5B71D3C3EEDBE /* canonical-seed.json in Resources */ = {isa = PBXBuildFile; fileRef = 65478A5F93C6894A2203833D /* canonical-seed.json */; };
 		6B3DE8D7829FA33B6B0195D7 /* CanonTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9668CAFC66D246B9433D5DBF /* CanonTests.swift */; };
 		7CE9BBD4606E6E045B411579 /* NativeUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD80767028545BD22496761D /* NativeUITests.swift */; };
@@ -15,6 +16,7 @@
 		A4B98BCEDEF18E9B0C7F1E6E /* LaBeteApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2479C31DCAAB914FD06DFD84 /* LaBeteApp.swift */; };
 		BA5081C4705AFD5E976B082E /* canonical-seed.json in Resources */ = {isa = PBXBuildFile; fileRef = 60C9BD4298700508936B69B9 /* canonical-seed.json */; };
 		C2C5DDD3D20944B4DCAB0785 /* BeastScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 183A63FB22941B632585739E /* BeastScene.swift */; };
+		C5F39744CAE4AD49C2B9493F /* ClientLifecycleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7639D306562F46B04660F707 /* ClientLifecycleTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -41,8 +43,10 @@
 		2479C31DCAAB914FD06DFD84 /* LaBeteApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaBeteApp.swift; sourceTree = "<group>"; };
 		60C9BD4298700508936B69B9 /* canonical-seed.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "canonical-seed.json"; sourceTree = "<group>"; };
 		65478A5F93C6894A2203833D /* canonical-seed.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "canonical-seed.json"; sourceTree = "<group>"; };
+		7639D306562F46B04660F707 /* ClientLifecycleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientLifecycleTests.swift; sourceTree = "<group>"; };
 		9668CAFC66D246B9433D5DBF /* CanonTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CanonTests.swift; sourceTree = "<group>"; };
 		AB6D47204BDBB7647A9FBB7E /* Canon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Canon.swift; sourceTree = "<group>"; };
+		C7C45CD8559DBD2E271D5F76 /* LaunchPerformanceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchPerformanceTests.swift; sourceTree = "<group>"; };
 		DD80767028545BD22496761D /* NativeUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NativeUITests.swift; sourceTree = "<group>"; };
 		ED5853D8995B3E075179623A /* resonance.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = resonance.wav; sourceTree = "<group>"; };
 		FF22F154D4149D5A276BF955 /* LaBete.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = LaBete.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -84,6 +88,7 @@
 		C28C0C1115352E2DBF28C6C0 /* UITests */ = {
 			isa = PBXGroup;
 			children = (
+				C7C45CD8559DBD2E271D5F76 /* LaunchPerformanceTests.swift */,
 				DD80767028545BD22496761D /* NativeUITests.swift */,
 			);
 			path = UITests;
@@ -94,6 +99,7 @@
 			children = (
 				60C9BD4298700508936B69B9 /* canonical-seed.json */,
 				9668CAFC66D246B9433D5DBF /* CanonTests.swift */,
+				7639D306562F46B04660F707 /* ClientLifecycleTests.swift */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -226,6 +232,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				118284ED2F21EFA0AF0EAEE2 /* LaunchPerformanceTests.swift in Sources */,
 				7CE9BBD4606E6E045B411579 /* NativeUITests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -245,6 +252,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6B3DE8D7829FA33B6B0195D7 /* CanonTests.swift in Sources */,
+				C5F39744CAE4AD49C2B9493F /* ClientLifecycleTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -319,7 +327,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 2026100201;
+				CURRENT_PROJECT_VERSION = 2026100202;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 2XQ2KGW9SB;
 				ENABLE_NS_ASSERTIONS = NO;
@@ -333,7 +341,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
-				MARKETING_VERSION = 0.1.0;
+				MARKETING_VERSION = 0.1.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -379,7 +387,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 2026100201;
+				CURRENT_PROJECT_VERSION = 2026100202;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = 2XQ2KGW9SB;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -399,7 +407,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
-				MARKETING_VERSION = 0.1.0;
+				MARKETING_VERSION = 0.1.1;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
