@@ -43,9 +43,9 @@ Le commit principal promeut le Decision Twin V2. Le correctif 731fc9f conserve l
 
 AUTOEVOLUTION_SCHEDULE_PROVEN = NO
 
-Preuve négative au cutoff 2026-10-02T03:55:18Z : {"runs":[],"total_count":0}
+Preuve négative au cutoff 2026-10-02T04:05:27Z : {"runs":[],"total_count":0}
 
-Deux créneaux ont été observés après promotion, 03:30 et 03:45 UTC. Aucun run dont event=schedule n’a été émis par GitHub. Les runs manuels ou de push ne sont pas utilisés comme substitut de preuve.
+Trois créneaux ont été observés après promotion, 03:30, 03:45 et 04:00 UTC. Aucun run dont event=schedule n’a été émis par GitHub. Les runs manuels ou de push ne sont pas utilisés comme substitut de preuve.
 
 ## SOURCE_HEALTH
 
