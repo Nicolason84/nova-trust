@@ -8,7 +8,7 @@ Projet : SUPRA / ojO / LA BÊTE
 
 **PROMOTED_WITH_EXPLICIT_LIMITATIONS.**
 
-La page canonique existante a été amplifiée sans nouvelle page principale, sans second runtime, sans second registre de vérité et sans nouveau moteur générique. La V2 est publique, auditable et politiquement neutre. L’auto-évolution est opérationnelle sur événements push et workflow_dispatch, mais **le scheduler GitHub n’est pas prouvé** : aucun run event=schedule n’a été observé avant le cutoff.
+La page canonique existante a été amplifiée sans nouvelle page principale, sans second runtime, sans second registre de vérité et sans nouveau moteur générique. La V2 est publique, auditable et politiquement neutre. L’auto-évolution est opérationnelle sur événements push et workflow_dispatch. Le scheduler a été durci par une cadence décalée et un reçu de déclenchement auditable, mais **il n’est pas encore prouvé** : aucun run event=schedule n’a été observé au cutoff.
 
 ## URL PUBLIQUE
 
@@ -18,15 +18,17 @@ HTTP 200 confirmé. Même URL. Feed public : OJO_FRANCE_DEBT_RATE_LIVE_V1, versi
 
 ## COMMIT FINAL
 
-Commit fonctionnel final : a2be65aafca204e110c1ed3e1f1307810c45e7bc
+Commit fonctionnel final : e2bd3810a1fbd309af4701ed879ce5d0af6092cc
 Commit principal V2 : 669f0d82d4a396e490f77ab305248ada29dc4f05
 Correctif AR/orientation : 731fc9fa303e97441c42d2d9f4d9499902667e76
+Durcissement mobile : a2be65aafca204e110c1ed3e1f1307810c45e7bc
 
-Le commit principal promeut le Decision Twin V2. Le correctif 731fc9f conserve les contrôles AR/orientation à travers les attentes asynchrones. Le commit final a2be65a durcit le hero live et les grilles pour les écrans mobiles.
+Le commit principal promeut le Decision Twin V2. Le correctif 731fc9f conserve les contrôles AR/orientation à travers les attentes asynchrones. Le commit a2be65a durcit le hero live et les grilles mobiles. Le commit e2bd381 décale le cron hors des quarts d’heure congestionnés et journalise un reçu explicite event / run_id / attempt / SHA / timestamp.
 
 ## AUTOEVOLUTION_STATUS
 
-- Workflow actif : France Debt Rate Reality Pulse, cron */15 * * * *.
+- Workflow actif : France Debt Rate Reality Pulse, cron 11,26,41,56 * * * * (cadence 15 min, décalée hors des pics).
+- Push run 36965250204 : **SUCCESS** sur e2bd381; reçu `event=push`; NO_MATERIAL_CHANGE; invariants **PASS**.
 - Push run 36960038138 : **SUCCESS** sur 669f0d8.
 - Push run 36960761930 : **SUCCESS** sur 731fc9f.
 - Push run 36961294085 : **SUCCESS** sur a2be65a.
@@ -37,15 +39,15 @@ Le commit principal promeut le Decision Twin V2. Le correctif 731fc9f conserve l
 - Source indisponible réelle : pages AFT détaillées en UNAVAILABLE; échéancier maintenu en RETAINED_LAST_GOOD.
 - Donnée identique : aucun commit inutile sur trois exécutions observées.
 - Donnée matérielle : feed V2 versionné et publié; Decision Delta mémorise le passage 2026-09-30 → 2026-10-01.
-- Pages : HTTP 200, propagation du correctif confirmée, last-modified 2026-10-02 03:34:57 UTC.
+- Pages : build **SUCCESS** depuis e2bd381, créé à 04:35:54 UTC et terminé à 04:36:31 UTC; URL canonique HTTP 200 et rendu navigateur confirmés.
 
 ## SCHEDULE_PROOF
 
 AUTOEVOLUTION_SCHEDULE_PROVEN = NO
 
-Preuve négative au cutoff 2026-10-02T04:05:27Z : {"runs":[],"total_count":0}
+Preuve négative actualisée au cutoff 2026-10-02T05:01:08Z : {"runs":[],"total_count":0}
 
-Trois créneaux ont été observés après promotion, 03:30, 03:45 et 04:00 UTC. Aucun run dont event=schedule n’a été émis par GitHub. Les runs manuels ou de push ne sont pas utilisés comme substitut de preuve.
+Après les créneaux initiaux sans émission, le cron a été décalé vers 11/26/41/56 et un reçu d’exécution a été injecté. Le run push de contrôle a réussi, mais aucun run dont event=schedule n’a été émis après les créneaux 04:41 et 04:56 UTC. Les runs manuels ou de push ne sont pas utilisés comme substitut de preuve.
 
 ## SOURCE_HEALTH
 
@@ -58,6 +60,9 @@ Trois créneaux ont été observés après promotion, 03:30, 03:45 et 04:00 UTC.
 | Sensibilité +100 pb | STRESS | OFFICIAL_VINTAGE | MODEL_BOUND |
 
 Comptage des sources : 2 LIVE_VERIFIED, 1 CROSSCHECKED, 1 OFFICIAL_VINTAGE, 1 RETAINED_LAST_GOOD, 4 UNAVAILABLE, 0 CONTRADICTED.
+
+Fallback officiel identifié : bulletin mensuel AFT n°436, fichier PDF versionné contenant l’échéancier jusqu’en 2036 et au-delà. Le fichier renvoie également HTTP 403 au runtime automatisé; il n’est donc pas présenté comme live ni fusionné silencieusement avec la vintage retenue plus fraîche.
+
 ## SUPRA_CAPABILITIES_REUSED
 
 Decision Twin, ProofGraph, Context Engine, Scenario / Counterfactual Reasoning, Canonical Store, Pattern Memory, Chronology, Claim Confidence, Executive Cockpit, Verification, Non-Regression, Executive Brief.
@@ -117,10 +122,10 @@ La disponibilité 3D matérielle n’est pas certifiée dans cet environnement s
 
 ## OPEN_LIMITATIONS
 
-1. Aucun run event=schedule observé : scheduler non prouvé.
+1. Aucun run event=schedule observé au cutoff : scheduler non prouvé malgré workflow actif, cadence décalée et reçu auditable.
 2. WebGL indisponible dans le navigateur de test : rendu 3D effectif non certifié, fallback certifié.
 3. Safari iPhone/macOS et mobile physique portrait/paysage non instrumentés; CSS responsive et branches de permissions vérifiés seulement.
-4. AFT détaillé reste UNAVAILABLE; l’échéancier demeure RETAINED_LAST_GOOD.
+4. AFT détaillé reste UNAVAILABLE; l’échéancier demeure RETAINED_LAST_GOOD. Le bulletin officiel n°436 a été identifié comme fallback versionné, mais son PDF renvoie HTTP 403 au runtime et sa vintage au 31 août ne doit pas être mêlée sans marquage aux lignes plus fraîches.
 5. Les vues 60/120 mois sont partielles; coupons, rachats, émissions futures et coût moyen du stock ne sont pas encore tous alimentés en live.
 6. Les trois générateurs d’export et leurs contrôles sont présents; le navigateur cloud n’a pas exposé le fichier Blob à son intercepteur, donc le payload téléchargé n’a pas été byte-ouvert dans ce test.
 7. La 3D dépend de Three.js CDN; le dossier analytique reste compréhensible et fonctionnel sans ce CDN.
@@ -129,6 +134,6 @@ La disponibilité 3D matérielle n’est pas certifiée dans cet environnement s
 
 OJO_LA_BETE_SCHEDULE_WITNESS_AND_REFINANCING_SOURCE_CONVERGENCE_V1
 
-Priorité immédiate : observer et archiver le premier vrai run event=schedule de bout en bout, puis compléter l’échéancier AFT par une source officielle machine-readable ou un snapshot officiel versionné, sans contourner les protections et sans créer un second registre de vérité.
+Priorité immédiate : observer et archiver le premier vrai run event=schedule via le reçu ajouté au workflow, puis intégrer le bulletin mensuel AFT n°436 comme snapshot officiel versionné distinct — avec vintage par ligne — sans contourner les protections, mélanger les dates ni créer un second registre de vérité.
 
 FINAL_STATE=PROMOTED_WITH_EXPLICIT_LIMITATIONS
