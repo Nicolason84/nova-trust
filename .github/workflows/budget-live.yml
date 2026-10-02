@@ -101,4 +101,13 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add docs/data/budget-2027-live.json docs/data/environment-live.json docs/data/organism-state.json docs/data/france-organism.json docs/data/france-topology.json
           git commit -m "data: France organism pulse"
-          git push
+          # Preserve independently updated organs when their pulses share main.
+          for attempt in 1 2 3; do
+            if git push; then
+              exit 0
+            fi
+            git fetch origin main
+            git rebase origin/main
+          done
+          echo "Unable to publish the France organism after 3 fast-forward retries."
+          exit 1
