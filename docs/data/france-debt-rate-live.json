@@ -1,0 +1,87 @@
+{
+  "schema": "OJO_FRANCE_DEBT_RATE_LIVE_V1",
+  "version": "2026-10-02",
+  "sequence": 1,
+  "updated_at": "2026-10-02T01:30:00Z",
+  "policy": {
+    "political_recommendation": "NONE",
+    "market_yield_is_not_whole_debt_cost": true,
+    "source_change": "DELTA_THEN_RECONCILE",
+    "typed_live_metrics": "OBSERVED_NOT_CAUSAL",
+    "sensitivity_model": "FIXED_OFFICIAL_VINTAGES"
+  },
+  "observed": {
+    "tec10_pct": 4.903,
+    "tec10_date": "2026-10-01",
+    "debt_negotiable_eur": 2896181146497,
+    "debt_avg_life_years": 8,
+    "debt_avg_life_days": 158,
+    "weighted_oat_issuance_pct": 3.55,
+    "weighted_oat_date": "2026-09-30",
+    "financing_need_2027_bne": 339.7,
+    "issuance_mlt_2027_bne": 340,
+    "plf2026_end_2026_10y_assumption_pct": 3.8,
+    "tec10_vs_plf_assumption_bps": 110.3
+  },
+  "sensitivity": {
+    "pap2026": {
+      "label": "PLF 2026 · PAP Engagements financiers de l’État",
+      "shock_bps": 100,
+      "annual_extra_charge_bne": [
+        3.1,
+        7.5,
+        11.3,
+        15,
+        18.4,
+        21.7,
+        24.8,
+        27.7,
+        30.2,
+        32.1
+      ],
+      "start_year": 2026
+    },
+    "aft_later": {
+      "label": "AFT · estimation citée par le Sénat",
+      "shock_bps": 100,
+      "points_bne": {
+        "1": 3.2,
+        "5": 23.5,
+        "9": 33.5
+      }
+    }
+  },
+  "sources": [
+    {
+      "id": "AFT_HOME",
+      "publisher": "Agence France Trésor",
+      "label": "Dette négociable, maturité, TEC10, taux moyen pondéré",
+      "url": "https://www.aft.gouv.fr/fr",
+      "health": "BASELINE",
+      "checked_at": "2026-10-02T01:30:00Z"
+    },
+    {
+      "id": "AFT_BUDGET",
+      "publisher": "Agence France Trésor",
+      "label": "Besoin et ressources de financement 2027",
+      "url": "https://www.aft.gouv.fr/fr/budget-etat",
+      "health": "BASELINE",
+      "checked_at": "2026-10-02T01:30:00Z"
+    },
+    {
+      "id": "BDF_TEC",
+      "publisher": "Banque de France",
+      "label": "Indices obligataires TEC",
+      "url": "https://www.banque-france.fr/fr/statistiques/taux-et-cours/indices-obligataires-2026-10-01",
+      "health": "BASELINE",
+      "checked_at": "2026-10-02T01:30:00Z"
+    }
+  ],
+  "events": [
+    {
+      "kind": "BASELINE_CREATED",
+      "at": "2026-10-02T01:30:00Z",
+      "detail": "Live debt-rate monitor initialized from official public sources."
+    }
+  ]
+}
