@@ -767,12 +767,55 @@ async function initBeast(){
     const mantleBase=new Float32Array(mantlePosition.array);
     let lastSkinUpdate=0;
 
+    const membraneMat=new THREE.ShaderMaterial({
+      transparent:true,depthWrite:false,blending:THREE.AdditiveBlending,
+      uniforms:{
+        uTime:{value:0},uTurbulence:{value:.35},uTension:{value:.5},uFluidity:{value:.36},uAlpha:{value:.62},
+        uColorA:{value:new THREE.Color(0x8fd8e8)},uColorB:{value:new THREE.Color(0xe7bd72)}
+      },
+      vertexShader:`
+        uniform float uTime; uniform float uTurbulence; uniform float uFluidity;
+        varying vec3 vN; varying vec3 vV; varying float vWave;
+        void main(){
+          vec3 p=position;
+          float w=sin(p.y*4.7+uTime*(.55+uFluidity*.9));
+          w+=.55*sin(p.x*3.2-uTime*.47+p.z*1.8);
+          w+=.24*cos(p.z*5.4+uTime*.31);
+          p+=normal*w*(.012+.042*uTurbulence);
+          vec4 mv=modelViewMatrix*vec4(p,1.0);
+          vN=normalize(normalMatrix*normal);vV=normalize(-mv.xyz);vWave=w;
+          gl_Position=projectionMatrix*mv;
+        }`,
+      fragmentShader:`
+        uniform float uTension; uniform float uAlpha; uniform vec3 uColorA; uniform vec3 uColorB;
+        varying vec3 vN; varying vec3 vV; varying float vWave;
+        void main(){
+          float fres=pow(1.0-max(dot(normalize(vN),normalize(vV)),0.0),2.15);
+          float phase=clamp(.48+.22*vWave+.2*uTension,0.0,1.0);
+          vec3 col=mix(uColorA,uColorB,phase);
+          float a=(.035+.33*fres+.055*abs(vWave))*uAlpha;
+          gl_FragColor=vec4(col,a);
+        }`
+    });
+    const membrane=new THREE.Mesh(mantle.geometry,membraneMat);
+    membrane.position.copy(mantle.position);membrane.scale.copy(mantle.scale).multiplyScalar(1.026);root.add(membrane);
+
+    const glowCanvas=document.createElement('canvas');glowCanvas.width=128;glowCanvas.height=128;
+    const glowCtx=glowCanvas.getContext('2d'),glowGrad=glowCtx.createRadialGradient(64,64,2,64,64,62);
+    glowGrad.addColorStop(0,'rgba(255,248,226,1)');glowGrad.addColorStop(.16,'rgba(231,189,114,.92)');
+    glowGrad.addColorStop(.48,'rgba(143,216,232,.28)');glowGrad.addColorStop(1,'rgba(143,216,232,0)');
+    glowCtx.fillStyle=glowGrad;glowCtx.fillRect(0,0,128,128);
+    const glowTex=new THREE.CanvasTexture(glowCanvas);glowTex.colorSpace=THREE.SRGBColorSpace;
+
     const heartMat=new THREE.MeshPhysicalMaterial({
       color:0xe7bd72,roughness:.17,metalness:.15,emissive:0x8b4d28,emissiveIntensity:1.35,
       transparent:true,opacity:.94
     });
     const heart=new THREE.Mesh(new THREE.IcosahedronGeometry(.72,4),heartMat);
     heart.position.set(0,.38,.55);heart.scale.set(1,.92,.82);root.add(heart);
+
+    const heartAura=new THREE.Sprite(new THREE.SpriteMaterial({map:glowTex,color:0xe7bd72,transparent:true,opacity:.42,depthWrite:false,blending:THREE.AdditiveBlending}));
+    heartAura.position.copy(heart.position);heartAura.scale.set(2.65,2.65,1);root.add(heartAura);
 
     const thorax=new THREE.Mesh(new THREE.TorusGeometry(1.35,.035,12,120),new THREE.MeshBasicMaterial({color:0x8fd8e8,transparent:true,opacity:.22}));
     thorax.rotation.x=Math.PI/2;thorax.position.y=.1;root.add(thorax);
@@ -819,11 +862,11 @@ async function initBeast(){
       cx.fillStyle='#edf1e7';cx.textAlign='center';cx.textBaseline='middle';cx.fillText(text,256,64);
       cx.fillStyle='#'+color.getHexString();cx.beginPath();cx.arc(x+24,64,6,0,Math.PI*2);cx.fill();
       const tex=new THREE.CanvasTexture(canvas);tex.colorSpace=THREE.SRGBColorSpace;
-      const sprite=new THREE.Sprite(new THREE.SpriteMaterial({map:tex,transparent:true,depthTest:false,opacity:.92}));
-      sprite.scale.set(2.15,.54,1);return sprite
+      const sprite=new THREE.Sprite(new THREE.SpriteMaterial({map:tex,transparent:true,depthTest:false,opacity:window.innerWidth<620?.38:.62}));
+      sprite.scale.set(1.82,.46,1);return sprite
     }
 
-    const arms=[],tips=[],armLabels=[];
+    const arms=[],tips=[],armLabels=[],armCurves=[],flowDots=[];
     for(let i=0;i<8;i++){
       const side=i%2===0?-1:1,level=Math.floor(i/2);
       const y0=.18-level*.18;
@@ -836,6 +879,7 @@ async function initBeast(){
       const p2=new THREE.Vector3(side*spread,-drop*.58,zBend*.72);
       const p3=new THREE.Vector3(side*(spread+1.08),-drop,-.18+Math.sin(i)*.28);
       const curve=new THREE.CatmullRomCurve3([p0,p1,p2,p3]);
+      armCurves.push(curve);
       const mat=new THREE.MeshPhysicalMaterial({
         color:palette[i],roughness:.34,metalness:.03,emissive:palette[i],emissiveIntensity:.24,
         transparent:true,opacity:.77
@@ -845,6 +889,12 @@ async function initBeast(){
       const tip=new THREE.Mesh(new THREE.SphereGeometry(.11,18,14),new THREE.MeshStandardMaterial({color:palette[i],emissive:palette[i],emissiveIntensity:1.3,roughness:.15}));
       tip.position.copy(p3);root.add(tip);tips.push(tip);
       const sp=makeLabel(labels[i][0],new THREE.Color(palette[i]));sp.position.copy(p3.clone().add(new THREE.Vector3(side*.55,.08,.05)));root.add(sp);armLabels.push(sp);
+
+      for(let q=0;q<3;q++){
+        const sm=new THREE.SpriteMaterial({map:glowTex,color:palette[i],transparent:true,opacity:.42,depthWrite:false,blending:THREE.AdditiveBlending});
+        const sd=new THREE.Sprite(sm);sd.scale.set(.24,.24,1);sd.position.copy(curve.getPoint((q+1)/4));root.add(sd);
+        flowDots.push({sprite:sd,curve,offset:(q/3+i*.071)%1,index:i});
+      }
     }
 
     const nerveMat=new THREE.LineBasicMaterial({color:0xbfe8a0,transparent:true,opacity:.16});
@@ -928,7 +978,10 @@ async function initBeast(){
     renderer.domElement.addEventListener('wheel',e=>{zoom=Math.max(homeZoom*.58,Math.min(homeZoom*1.48,zoom+Math.sign(e.deltaY)*.62));e.preventDefault()},{passive:false});
 
     function frame(t){
-      if(!beastMotionOn){root.rotation.x+=(rx-root.rotation.x)*.045;if(!reducedMotion)root.rotation.y+=(ry-root.rotation.y)*.045}else if(!reducedMotion){root.rotation.y+=.00065}
+      if(!beastMotionOn){
+        const drift=(!drag&&!reducedMotion)?Math.sin(t*.000115)*.055:0;
+        root.rotation.x+=(rx-root.rotation.x)*.045;if(!reducedMotion)root.rotation.y+=(ry+drift-root.rotation.y)*.045
+      }else if(!reducedMotion){root.rotation.y+=.00065}
       camera.position.z+=(zoom-camera.position.z)*.08;
       if(!reducedMotion){
         const viscosity=materialState.viscosity,fluidity=materialState.fluidity,elasticity=materialState.elasticity,tension=materialState.tension,turbulence=materialState.turbulence,memory=materialState.memory;
@@ -936,7 +989,13 @@ async function initBeast(){
         const compress=1-materialState.compression*.018;
         mantle.scale.set((1.16+breath*(.006+.012*fluidity))*compress,1.34+breath*(.009+.016*elasticity),(.82+breath*(.006+.012*fluidity))*compress);
         heart.scale.set(1+breath*(.014+.036*tension),.92+breath*(.012+.03*elasticity),.82+breath*(.009+.018*tension));
+        membrane.scale.copy(mantle.scale).multiplyScalar(1.026);
+        membraneMat.uniforms.uTime.value=t*.001;
+        membraneMat.uniforms.uTurbulence.value=turbulence;membraneMat.uniforms.uTension.value=tension;membraneMat.uniforms.uFluidity.value=fluidity;
+        heartAura.scale.setScalar(2.25+breath*.15+tension*.62);heartAura.material.opacity=.22+tension*.28;
         heart.rotation.y+=.0008+.0015*fluidity;ringGroup.rotation.z+=.00008+.00028*fluidity;particles.rotation.y-=.000025+.00007*turbulence;
+        const flowSpeed=.000022+.000065*fluidity;
+        flowDots.forEach((f,j)=>{const u=(t*flowSpeed+f.offset)%1,p=f.curve.getPoint(u);f.sprite.position.copy(p);f.sprite.scale.setScalar(.16+.13*tension+.035*Math.sin(t*.004+j));f.sprite.material.opacity=(.18+.42*fluidity)*(document.body.dataset.matterRegime==='rupture'?.46:1)});
         eyes.forEach((e,i)=>{e.material.emissiveIntensity=1.55+.25*Math.sin(t*(.0014+.0014*turbulence)+i*.8)+tension*.85});
         const armSpeed=.00028+.00068*fluidity,armAmp=.003+.013*elasticity+.006*turbulence;
         const regime=document.body.dataset.matterRegime||'tension';
@@ -957,7 +1016,7 @@ async function initBeast(){
     }
     requestAnimationFrame(frame);
     mount.classList.add('webgl-ready','organism-ready');
-    beast3d={THREE,scene,camera,renderer,root,mantle,heart,eyes,rings,ringMats,arms,armLabels,reset(){rx=.06;ry=.08;zoom=homeZoom;arms.forEach(a=>a.material.opacity=a.userData.baseOpacity||.77)}};
+    beast3d={THREE,scene,camera,renderer,root,mantle,membrane,heart,heartAura,eyes,rings,ringMats,arms,armLabels,flowDots,reset(){rx=.06;ry=.08;zoom=homeZoom;arms.forEach(a=>a.material.opacity=a.userData.baseOpacity||.77)}};
     window.updateBeast=(shock,curve)=>{
       const f=Math.max(.25,Math.min(2,shock/100));stress=Math.min(1.5,f);
       const vals=curve.slice(0,5),den=Math.max(.1,Number(vals[4]||1)*2);
@@ -977,6 +1036,21 @@ async function initBeast(){
         compression:clamp01(.22+Math.abs(Number(shock)||0)/260)
       };
       const regimeInfo=deriveMatterRegime(),rp=regimeInfo.profile;
+
+      const lightProfiles={
+        FLUIDE:[0x9ee9e7,0xbfe8a0,0x6fb4c1,0x8fd8e8,0xbfe8a0],
+        TENSION:[0xf0c47b,0x8fd8e8,0xbfe8a0,0x8fd8e8,0xe7bd72],
+        TURBULENCE:[0xf2b178,0x7fd7e6,0xe9827d,0x8fd8e8,0xf0a36f],
+        SATURATION:[0xe9827d,0xb38975,0xdca47c,0xd4a182,0xe9827d],
+        FRAGMENTATION:[0xff8f79,0x8cb8c4,0xe9827d,0xa7cbd0,0xff8f79],
+        RUPTURE:[0xff7165,0x718b95,0xe55f58,0x89a8b0,0xff7165],
+        'RÉGÉNÉRATION':[0x9fe1aa,0x8fd8e8,0xbfe8a0,0x8fd8e8,0x9fe1aa]
+      };
+      const lp=lightProfiles[regimeInfo.regime]||lightProfiles.TENSION;
+      key.color.setHex(lp[0]);rim.color.setHex(lp[1]);under.color.setHex(lp[2]);
+      key.intensity=5.8+materialState.tension*4.4;rim.intensity=4.0+materialState.turbulence*3.0;under.intensity=2.4+materialState.fluidity*3.0;
+      membraneMat.uniforms.uColorA.value.setHex(lp[3]);membraneMat.uniforms.uColorB.value.setHex(lp[4]);
+      heartAura.material.color.setHex(lp[4]);
       for(const k of ['viscosity','fluidity','elasticity','tension','turbulence','compression'])materialState[k]=clamp01(materialState[k]+Number(rp[k]||0));
       skinMat.color.setHex(rp.skin);heartMat.color.setHex(rp.heart);
       skinMat.emissiveIntensity=.62+materialState.tension*.5;
