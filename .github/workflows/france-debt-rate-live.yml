@@ -16,7 +16,7 @@ permissions:
 
 concurrency:
   group: france-debt-rate-reality-pulse
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 jobs:
   pulse:
@@ -82,4 +82,24 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add docs/data/france-debt-rate-live.json
           git commit -m "data: France debt-rate reality pulse"
-          git push
+          for attempt in 1 2 3; do
+            if git push; then
+              exit 0
+            fi
+            echo "Push race detected (attempt $attempt). Rebasing on origin/main..."
+            git fetch origin main
+            if ! git rebase origin/main; then
+              git rebase --abort || true
+              echo "Rebase conflict: rerun updater against fresh main."
+              git reset --hard origin/main
+              python3 scripts/update_france_debt_rate_live.py
+              if git diff --quiet -- docs/data/france-debt-rate-live.json; then
+                echo "Remote already contains equivalent material state."
+                exit 0
+              fi
+              git add docs/data/france-debt-rate-live.json
+              git commit -m "data: France debt-rate reality pulse"
+            fi
+          done
+          echo "Unable to publish material state after 3 attempts."
+          exit 1
