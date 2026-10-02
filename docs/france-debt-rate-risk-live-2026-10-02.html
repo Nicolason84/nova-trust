@@ -141,7 +141,7 @@ body[data-evo-focus="evidence"] #rpEvidenceCard,body[data-evo-focus="decision"] 
 
   <div class="resonancePanel" id="beast-resonance">
     <div class="resonanceIntro"><div class="resonanceGlyph" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div><div><small>EXPÉRIENCE SENSORIELLE</small><h3>Entendre sa présence.</h3><p>Un grave doux, des harmoniques, une respiration. Une texture artistique ; les chiffres gardent leur propre voix.</p></div></div>
-    <div class="resonanceControls"><button type="button" id="beastSound" aria-pressed="false">Faire résonner</button><button type="button" id="beastHaptic" aria-pressed="false">Vibration tactile</button><label class="volumeControl" for="beastVolume">Volume <input type="range" id="beastVolume" min="0" max="60" value="24" step="1"><output id="beastVolumeValue" for="beastVolume">24 %</output></label><p class="resonanceStatus" id="resonanceStatus" role="status">En silence. Le son s’active au toucher ; la vibration dépend de votre appareil.</p></div>
+    <div class="resonanceControls"><button type="button" id="beastSound" aria-pressed="false">Faire résonner</button><button type="button" id="beastHaptic" aria-pressed="false">Vibration tactile</button><label class="volumeControl" for="beastVolume">Volume <input type="range" id="beastVolume" min="0" max="60" value="24" step="1"><output id="beastVolumeValue" for="beastVolume">24 %</output></label><noscript><p class="resonanceStatus">La résonance et la vibration nécessitent JavaScript. La lecture des preuves reste disponible.</p></noscript><p class="resonanceStatus" id="resonanceStatus" role="status">En silence. Le son s’active au toucher ; la vibration dépend de votre appareil.</p></div>
   </div>
   <div class="beastLegend" aria-label="Canaux de La Bête">
     <div><b>01 · Marché</b>courbe des taux observée</div>
@@ -681,7 +681,7 @@ async function toggleBeastResonance(){
 }
 function beastTouch(pattern=18){
   if(!beastResonance.haptic||document.hidden)return;
-  try{if(navigator.vibrate(pattern)===false){beastResonance.haptic=false;$('beastHaptic').setAttribute('aria-pressed','false');resonanceStatus('Vibration non disponible sur cet appareil ; le son reste utilisable.');}}catch(e){beastResonance.haptic=false;$('beastHaptic').setAttribute('aria-pressed','false');}
+  try{if(navigator.vibrate(pattern)===false){beastResonance.haptic=false;$('beastHaptic').setAttribute('aria-pressed','false');$('beastHaptic').textContent='Vibration non disponible';resonanceStatus('Vibration non disponible sur cet appareil ; le son reste utilisable.');}}catch(e){beastResonance.haptic=false;$('beastHaptic').setAttribute('aria-pressed','false');$('beastHaptic').textContent='Vibration non disponible';}
 }
 function initResonance(){
   const sound=$('beastSound'),touch=$('beastHaptic'),volume=$('beastVolume');if(!sound||!touch||!volume)return;
@@ -743,18 +743,18 @@ async function initBeast(){
     marketLine.position.z=2.2;root.add(marketLine);
     window.updateBeastMarket=(rows)=>{if(!Array.isArray(rows)||rows.length<2)return;const rates=rows.map(r=>Number(r.rate_pct)),lo=Math.min(...rates),hi=Math.max(...rates),n=rows.length;const p=rows.map((r,i)=>new THREE.Vector3(-4.4+(8.8*i/(n-1)),-2.25+((Number(r.rate_pct)-lo)/Math.max(.01,hi-lo))*1.65,0));marketGeo.setFromPoints(p);marketLine.material.color.set(0xe7bd72);};
     window.updateBeastStressShape=(shocks)=>{const base=historicState?.curve||state?.observed?.yield_curve||[];if(base.length<2)return;const stressed=base.map(r=>({...r,rate_pct:Number(r.rate_pct)+Number(shocks?.[String(r.tenor_years)]||0)/100}));window.updateBeastMarket(stressed);marketLine.material.color.set(0xff8f79);};
-    let rx=.12,ry=.2,zoom=12.6,drag=false,px=0,py=0;
+    let rx=.12,ry=.2,homeZoom=12.6,zoom=12.6,drag=false,px=0,py=0;
     const ray=new THREE.Raycaster(),pointer=new THREE.Vector2();
-    function resize(){const w=mount.clientWidth,h=mount.clientHeight;renderer.setSize(w,h,false);camera.aspect=w/Math.max(1,h);camera.updateProjectionMatrix()}
+    function resize(){const w=mount.clientWidth,h=mount.clientHeight;renderer.setSize(w,h,false);camera.aspect=w/Math.max(1,h);const previous=homeZoom;homeZoom=12.6*Math.max(1,1.22/Math.max(.1,camera.aspect));zoom*=homeZoom/previous;camera.position.z=zoom;camera.updateProjectionMatrix()}
     const ro=new ResizeObserver(resize);ro.observe(mount);resize();
     renderer.domElement.addEventListener('pointerdown',e=>{drag=true;px=e.clientX;py=e.clientY;renderer.domElement.setPointerCapture(e.pointerId)});
     renderer.domElement.addEventListener('pointermove',e=>{if(!drag)return;ry+=(e.clientX-px)*.006;rx+=(e.clientY-py)*.004;px=e.clientX;py=e.clientY});
     renderer.domElement.addEventListener('pointerup',e=>{if(drag&&Math.abs(e.clientX-px)<7&&Math.abs(e.clientY-py)<7){const rct=renderer.domElement.getBoundingClientRect();pointer.x=((e.clientX-rct.left)/rct.width)*2-1;pointer.y=-((e.clientY-rct.top)/rct.height)*2+1;ray.setFromCamera(pointer,camera);const hit=ray.intersectObjects(arms,false)[0];if(hit){const u=hit.object.userData;$('beastTag').innerHTML='<b>'+u.label+'</b> — '+u.detail}}drag=false});
-    renderer.domElement.addEventListener('wheel',e=>{zoom=Math.max(7,Math.min(19,zoom+Math.sign(e.deltaY)*.7));e.preventDefault()},{passive:false});
+    renderer.domElement.addEventListener('wheel',e=>{zoom=Math.max(homeZoom*.55,Math.min(homeZoom*1.55,zoom+Math.sign(e.deltaY)*.7));e.preventDefault()},{passive:false});
     function frame(t){if(!beastMotionOn){root.rotation.x+=(rx-root.rotation.x)*.055;if(!reducedMotion)root.rotation.y+=(ry-root.rotation.y)*.055}else if(!reducedMotion){root.rotation.y+=.0015}camera.position.z+=(zoom-camera.position.z)*.08;if(!reducedMotion){core.scale.setScalar(1+Math.sin(t*.0016)*.018+(beastResonance.active?Math.sin(t*.00145)*.009:0));inner.rotation.y+=.0025;ringGroup.rotation.z+=.0007;stars.rotation.y-=.00012}renderer.render(scene,camera);requestAnimationFrame(frame)}
     requestAnimationFrame(frame);
     mount.classList.add('webgl-ready');
-    beast3d={THREE,scene,camera,renderer,root,core,inner,rings,ringMats,arms,reset(){rx=.12;ry=.2;zoom=12.6}};
+    beast3d={THREE,scene,camera,renderer,root,core,inner,rings,ringMats,arms,reset(){rx=.12;ry=.2;zoom=homeZoom}};
     window.updateBeast=(shock,curve)=>{const f=shock/100,vals=curve.slice(0,5);rings.forEach((r,i)=>{const k=Math.max(.12,Math.min(1,(vals[i]*f)/(vals[4]*2)));r.scale.setScalar(.96+k*.12);ringMats[i].opacity=.08+k*.45});coreMat.emissiveIntensity=.65+Math.min(1.8,f)*.55;arms.forEach((a,i)=>{a.material.emissiveIntensity=.25+f*.3+(i===3?.25:0)})};
     if(state){window.updateBeast(bps,state.sensitivity.pap2026.annual_extra_charge_bne);window.updateBeastMarket(state.observed?.yield_curve||[]);}
   }catch(e){$('beastTag').innerHTML='<b>Mode 3D indisponible.</b> La couche analytique reste intégralement accessible. '+esc(e.message)}
