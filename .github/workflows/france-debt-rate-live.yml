@@ -1,0 +1,70 @@
+name: France Debt Rate Reality Pulse
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/france-debt-rate-live.yml"
+      - "scripts/update_france_debt_rate_live.py"
+      - "docs/france-debt-rate-risk-live-2026-10-02.html"
+  schedule:
+    - cron: "*/15 * * * *"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: france-debt-rate-reality-pulse
+  cancel-in-progress: false
+
+jobs:
+  pulse:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Refresh official debt and rate evidence
+        run: python3 scripts/update_france_debt_rate_live.py
+
+      - name: Validate feed invariants
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import json
+          p="docs/data/france-debt-rate-live.json"
+          j=json.load(open(p))
+          if j.get("schema")!="OJO_FRANCE_DEBT_RATE_LIVE_V1":
+              raise SystemExit("schema mismatch")
+          o=j.get("observed",{})
+          for k in ("debt_negotiable_eur","debt_avg_life_years","tec10_pct","financing_need_2027_bne"):
+              if k not in o:
+                  raise SystemExit(f"missing {k}")
+          if not (0 < float(o["tec10_pct"]) < 20):
+              raise SystemExit("TEC10 out of bounds")
+          if int(o["debt_negotiable_eur"]) < 1_000_000_000_000:
+              raise SystemExit("debt magnitude invalid")
+          curve=j.get("sensitivity",{}).get("pap2026",{}).get("annual_extra_charge_bne",[])
+          if len(curve)!=10 or any(float(x)<=0 for x in curve):
+              raise SystemExit("sensitivity curve invalid")
+          if j.get("policy",{}).get("political_recommendation")!="NONE":
+              raise SystemExit("neutrality invariant broken")
+          print("FRANCE_DEBT_RATE_LIVE_INVARIANTS_PASS")
+          PY
+
+      - name: Commit material state
+        shell: bash
+        run: |
+          if git diff --quiet -- docs/data/france-debt-rate-live.json; then
+            echo "No material state delta. Heartbeat successful."
+            exit 0
+          fi
+          git config user.name "ojo-reality-pulse[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/data/france-debt-rate-live.json
+          git commit -m "data: France debt-rate reality pulse"
+          git push
