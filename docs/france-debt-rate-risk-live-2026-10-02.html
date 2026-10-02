@@ -825,6 +825,8 @@ async function initBeast(){
     [-.56,.56].forEach(x=>{const e=new THREE.Mesh(new THREE.SphereGeometry(.115,24,18),eyeMat);e.position.set(x,.92,1.42);e.scale.set(1.25,.72,.6);root.add(e);eyes.push(e)});
 
     const crown=new THREE.Group();root.add(crown);
+    const crownHalo=new THREE.Mesh(new THREE.TorusGeometry(1.12,.012,8,128),new THREE.MeshBasicMaterial({color:0xe7bd72,transparent:true,opacity:.16,blending:THREE.AdditiveBlending,depthWrite:false}));
+    crownHalo.rotation.x=Math.PI/2;crownHalo.position.y=1.98;crownHalo.scale.y=.38;root.add(crownHalo);
     for(let i=0;i<7;i++){
       const a=(i-3)*.22;
       const g=new THREE.ConeGeometry(.08,.72,8);
@@ -906,6 +908,11 @@ async function initBeast(){
     const particles=new THREE.Points(new THREE.BufferGeometry(),new THREE.PointsMaterial({color:0x8baab3,size:.025,transparent:true,opacity:.34}));
     const pts=[];for(let i=0;i<700;i++){const r=5+Math.random()*8,a=Math.random()*Math.PI*2,b=(Math.random()-.5)*Math.PI;pts.push(r*Math.cos(a)*Math.cos(b),r*Math.sin(b),r*Math.sin(a)*Math.cos(b))}
     particles.geometry.setAttribute('position',new THREE.Float32BufferAttribute(pts,3));scene.add(particles);
+    const veilGeo=new THREE.BufferGeometry(),veilPts=[];
+    for(let i=0;i<180;i++){const a=Math.random()*Math.PI*2,r=2.4+Math.random()*3.6,y=(Math.random()-.5)*5.8;veilPts.push(Math.cos(a)*r,y,Math.sin(a)*r*.45)}
+    veilGeo.setAttribute('position',new THREE.Float32BufferAttribute(veilPts,3));
+    const veilMat=new THREE.PointsMaterial({color:0x8fd8e8,size:.018,transparent:true,opacity:.16,depthWrite:false,blending:THREE.AdditiveBlending});
+    const veil=new THREE.Points(veilGeo,veilMat);root.add(veil);
 
     const marketGeo=new THREE.BufferGeometry();
     const marketLine=new THREE.Line(marketGeo,new THREE.LineBasicMaterial({color:0xe7bd72,transparent:true,opacity:.9}));
@@ -994,6 +1001,8 @@ async function initBeast(){
         membraneMat.uniforms.uTurbulence.value=turbulence;membraneMat.uniforms.uTension.value=tension;membraneMat.uniforms.uFluidity.value=fluidity;
         heartAura.scale.setScalar(2.25+breath*.15+tension*.62);heartAura.material.opacity=.22+tension*.28;
         heart.rotation.y+=.0008+.0015*fluidity;ringGroup.rotation.z+=.00008+.00028*fluidity;particles.rotation.y-=.000025+.00007*turbulence;
+        crownHalo.rotation.z+=.00018+.00032*tension;crownHalo.material.opacity=.07+.19*tension;
+        veil.rotation.y-=.00008+.00016*fluidity;veil.rotation.z=Math.sin(t*.00017)*.035;veilMat.opacity=.07+.16*fluidity+.12*turbulence;
         const flowSpeed=.000022+.000065*fluidity;
         flowDots.forEach((f,j)=>{const u=(t*flowSpeed+f.offset)%1,p=f.curve.getPoint(u);f.sprite.position.copy(p);f.sprite.scale.setScalar(.16+.13*tension+.035*Math.sin(t*.004+j));f.sprite.material.opacity=(.18+.42*fluidity)*(document.body.dataset.matterRegime==='rupture'?.46:1)});
         eyes.forEach((e,i)=>{e.material.emissiveIntensity=1.55+.25*Math.sin(t*(.0014+.0014*turbulence)+i*.8)+tension*.85});
@@ -1050,7 +1059,7 @@ async function initBeast(){
       key.color.setHex(lp[0]);rim.color.setHex(lp[1]);under.color.setHex(lp[2]);
       key.intensity=5.8+materialState.tension*4.4;rim.intensity=4.0+materialState.turbulence*3.0;under.intensity=2.4+materialState.fluidity*3.0;
       membraneMat.uniforms.uColorA.value.setHex(lp[3]);membraneMat.uniforms.uColorB.value.setHex(lp[4]);
-      heartAura.material.color.setHex(lp[4]);
+      heartAura.material.color.setHex(lp[4]);crownHalo.material.color.setHex(lp[0]);veilMat.color.setHex(lp[3]);
       for(const k of ['viscosity','fluidity','elasticity','tension','turbulence','compression'])materialState[k]=clamp01(materialState[k]+Number(rp[k]||0));
       skinMat.color.setHex(rp.skin);heartMat.color.setHex(rp.heart);
       skinMat.emissiveIntensity=.62+materialState.tension*.5;
