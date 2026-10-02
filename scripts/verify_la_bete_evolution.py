@@ -55,7 +55,7 @@ def main() -> None:
     parser.feed(page)
     duplicates = sorted({value for value in parser.ids if parser.ids.count(value) > 1})
     require(not duplicates, f"duplicate HTML ids: {duplicates}")
-    for element_id in ("runner", "feed", "evolution", "evoAdaptive", "evolutionRail", "evidence-graph", "change-reading", "la-bete"):
+    for element_id in ("runner", "feed", "evolution", "reality-pulse", "realityHeadline", "realitySituation", "realityChanged", "realityEvidence", "realityHorizon", "realityUncertainty", "realityAdaptation", "evoAdaptive", "evolutionRail", "evidence-graph", "change-reading", "la-bete"):
         require(element_id in parser.ids, f"missing required element {element_id}")
     for marker in (
         "data/france-debt-rate-live.json",
@@ -65,8 +65,13 @@ def main() -> None:
         "La décision, elle, reste humaine.",
         "applyEvolution",
         "loadEvolution",
+        "renderRealityPulse",
+        "EXECUTIVE REALITY PULSE · 5 SECONDES",
+        "aucune réécriture sémantique",
     ):
         require(marker in page or marker in json.dumps(live), f"missing invariant marker: {marker}")
+    require(page.index('id="reality-pulse"') < page.index('class="hero"'), "reality pulse must precede legacy hero")
+    require("encours échéant ≠ besoin total" in page, "horizon separation marker missing")
     require("eval(" not in page, "eval forbidden")
     require("document.write(" not in page, "document.write forbidden")
     require(len(page) > 70000, "page unexpectedly truncated")
