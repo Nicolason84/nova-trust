@@ -2,7 +2,7 @@
 
 One public France canon, two native projections. SwiftUI + SceneKit on iOS; Android Activity + OpenGL ES. No main-screen WebView. No financial transformations, runtime, event bus or source scheduler added. The bundled public snapshot is a named fallback projection; it retains its original evidence age.
 
-Identity: `com.novaera.france.beast`, version `0.1.0`, build `2026100201`. This is a separate France candidate, never a rename or update of Hélène/KRIMI/SUPRA. Existing main SUPRA sources are untouched.
+Identity: `com.novaera.france.beast`. iOS candidate: version `0.1.0`, build `2026100201`. Android preview: version `0.1.1`, versionCode `2026100202`. This is a separate France candidate, never a rename or update of Hélène/KRIMI/SUPRA. Existing main SUPRA sources are untouched.
 
 ## Reproduce
 
@@ -15,6 +15,8 @@ With existing JDK 17 and Android SDK 35: `ANDROID_HOME=/path/to/sdk bash mobile/
 ## Scope of proof
 
 Native tests cover canon validation/replacement, missing values, political/territorial constraints, byte-preserving export, native screens, audio opt-in and interruption handling. Emulator/simulator evidence does not certify physical haptics, headphones/Bluetooth, accessibility with a human reader, TestFlight, Google Play, or production distribution. Keep these verdicts separate.
+
+Android refresh retains the active scene and scroll position when the verified snapshot is unchanged or the network fails. New verified snapshots replace the presentation while preserving its position and camera. To run the additional OS network outage recipe, disable networking only on the isolated test emulator, run instrumentation with `-e offline_recipe true`, then restore its recorded network settings. This checks the visibly retained snapshot and exact cache provenance after an actual network failure.
 
 External official source documents open through the OS. Optional haptics only acknowledge presentation gestures. Audio stops on inactive/background, focus loss and headphone removal; it never resumes automatically. Android observes the public client feed only while foreground; iOS observes on opening/foreground/manual refresh. No server heartbeat is inferred from the app lifecycle.
 

@@ -21,7 +21,7 @@ import java.util.concurrent.*;
 public class MainActivity extends Activity {
     static final int INK=Color.rgb(7,12,16), PEARL=Color.rgb(232,236,222), COPPER=Color.rgb(224,169,112), JADE=Color.rgb(164,209,186);
     Canon canon; String transport="Chargement du canon…"; int page=0, history=-1;
-    LinearLayout body, shell, tabs; BeastView beast; MediaPlayer player; boolean haptic=false, foreground=false, busy=false, light=false;
+    LinearLayout body, shell, tabs; ScrollView screenScroll; TextView transportView, clockView; BeastView beast; MediaPlayer player; boolean haptic=false, foreground=false, busy=false, light=false;
     float volume=.25f; ExecutorService network=Executors.newSingleThreadExecutor(); Handler handler=new Handler(Looper.getMainLooper());
     final Runnable poll=new Runnable(){public void run(){if(foreground){refresh();handler.postDelayed(this,30000);}}};
     final AudioManager.OnAudioFocusChangeListener focus=change->{if(change<0)stopSound();};
@@ -40,24 +40,32 @@ public class MainActivity extends Activity {
     void refresh(){if(busy)return;busy=true;network.execute(()->{Canon next=null;String status;try{
         HttpsURLConnection c=(HttpsURLConnection)new URL(Canon.FEED).openConnection();c.setConnectTimeout(12000);c.setReadTimeout(15000);c.setUseCaches(false);
         try{if(c.getResponseCode()!=200)throw new IOException("HTTP");next=new Canon(read(c.getInputStream()));}finally{c.disconnect();}
-        final Canon candidate=next;handler.post(()->{try{candidate.replaces(canon);File tmp=new File(getCacheDir(),"canon.tmp");try(FileOutputStream f=new FileOutputStream(tmp)){f.write(candidate.raw);f.getFD().sync();}if(!tmp.renameTo(cache()))throw new IOException("CACHE");canon=candidate;transport="Canon récupéré · états de preuve inchangés";}catch(Exception e){transport="Dernier bon état conservé · version refusée";}busy=false;if(foreground&&page==0)render();});return;
-        }catch(Exception e){status="Réseau indisponible · dernier snapshot valide conservé";}final String state=status;handler.post(()->{transport=state;busy=false;if(foreground&&page==0)render();});});}
+        final Canon candidate=next;handler.post(()->{acceptCandidate(candidate);busy=false;});return;
+        }catch(Exception e){status="Réseau indisponible · dernier snapshot valide conservé";}final String state=status;handler.post(()->{showTransport(state);busy=false;});});}
+    void showTransport(String state){transport=state;if(transportView!=null)transportView.setText(state);if(clockView!=null&&canon!=null)clockView.setText(clockText());}
+    String clockText(){return "Marché : "+canon.text("observed.tec10_date")+"\nÉtat matériel : "+canon.text("updated_at")+"\nÂge : "+Math.max(0,Duration.between(canon.date,Instant.now()).toMinutes())+" min";}
+    void acceptCandidate(Canon candidate){try{
+        candidate.replaces(canon);boolean changed=canon==null||candidate.sequence!=canon.sequence;
+        if(changed||!cache().isFile()){File tmp=new File(getCacheDir(),"canon.tmp");try(FileOutputStream f=new FileOutputStream(tmp)){f.write(candidate.raw);f.getFD().sync();}if(!tmp.renameTo(cache()))throw new IOException("CACHE");}
+        canon=candidate;showTransport("Canon récupéré · états de preuve inchangés");
+        if(changed&&foreground&&page!=3){int y=screenScroll==null?0:screenScroll.getScrollY();float yaw=beast==null?12:beast.renderer.yaw,pitch=beast==null?8:beast.renderer.pitch,zoom=beast==null?17:beast.renderer.zoom;render();if(beast!=null){beast.renderer.yaw=yaw;beast.renderer.pitch=pitch;beast.renderer.zoom=zoom;beast.requestRender();}screenScroll.post(()->screenScroll.scrollTo(0,y));}
+    }catch(Exception e){showTransport("Dernier bon état conservé · version refusée");}}
     int dp(float v){return (int)(v*getResources().getDisplayMetrics().density+.5f);}
     TextView text(String s,float size,int color){TextView t=new TextView(this);t.setText(s);t.setTextSize(size);t.setTextColor(color);t.setLineSpacing(dp(3),1);t.setPadding(0,dp(3),0,dp(7));return t;}
     TextView eyebrow(String s){TextView t=text(s.toUpperCase(Locale.FRANCE),11,COPPER);t.setLetterSpacing(.15f);return t;}
     LinearLayout card(){LinearLayout c=new LinearLayout(this);c.setOrientation(1);c.setPadding(dp(18),dp(16),dp(18),dp(16));GradientDrawable bg=new GradientDrawable();bg.setColor(Color.rgb(18,28,33));bg.setCornerRadius(dp(22));bg.setStroke(dp(1),Color.rgb(66,57,45));c.setBackground(bg);LinearLayout.LayoutParams p=new LinearLayout.LayoutParams(-1,-2);p.bottomMargin=dp(18);body.addView(c,p);return c;}
     Button button(String label,Runnable r){Button b=new Button(this);b.setText(label);b.setAllCaps(false);b.setTextColor(COPPER);b.setBackgroundTintList(android.content.res.ColorStateList.valueOf(Color.rgb(28,38,42)));b.setOnClickListener(v->{touch();r.run();});return b;}
     void navigate(int p){if(beast!=null)beast.onPause();page=p;render();}
-    void render(){if(beast!=null){beast.onPause();beast=null;}
+    void render(){transportView=null;clockView=null;if(beast!=null){beast.onPause();beast=null;}
         shell=new LinearLayout(this);shell.setOrientation(1);shell.setBackground(new GradientDrawable(GradientDrawable.Orientation.TL_BR,new int[]{INK,Color.rgb(19,29,34),INK}));
         shell.setOnApplyWindowInsetsListener((v,insets)->{v.setPadding(insets.getSystemWindowInsetLeft(),insets.getSystemWindowInsetTop(),insets.getSystemWindowInsetRight(),insets.getSystemWindowInsetBottom());return insets;});
-        ScrollView scroll=new ScrollView(this);scroll.setFillViewport(true);body=new LinearLayout(this);body.setOrientation(1);body.setPadding(dp(22),dp(22),dp(22),dp(18));scroll.addView(body);shell.addView(scroll,new LinearLayout.LayoutParams(-1,0,1));
+        screenScroll=new ScrollView(this);screenScroll.setFillViewport(true);body=new LinearLayout(this);body.setOrientation(1);body.setPadding(dp(22),dp(22),dp(22),dp(18));screenScroll.addView(body);shell.addView(screenScroll,new LinearLayout.LayoutParams(-1,0,1));
         tabs=new LinearLayout(this);for(int i=0;i<4;i++){final int x=i;Button b=button(new String[]{"Pouls","Lecture","Preuves","Présence"}[i],()->navigate(x));b.setTextSize(12);tabs.addView(b,new LinearLayout.LayoutParams(0,dp(58),1));}shell.addView(tabs);setContentView(shell);
         try{if(page==0)pulse();else if(page==1)reading();else if(page==2)evidence(null);else presence();}catch(Exception e){body.addView(text("Lecture indisponible. Le snapshot reste conservé.",18,PEARL));}
     }
     void pulse()throws Exception{
         body.addView(eyebrow("SUPRA × ojO / France / Finances publiques"));TextView title=text("La France\na un pouls.",38,PEARL);title.setTypeface(Typeface.create("serif",Typeface.NORMAL));body.addView(title);
-        if(canon==null){body.addView(text(transport,18,COPPER));body.addView(button("Réessayer",this::refresh));return;}
+        if(canon==null){transportView=text(transport,18,COPPER);body.addView(transportView);body.addView(button("Réessayer",this::refresh));return;}
         body.addView(text(canon.number("observed.tec10_pct",3," %"),48,PEARL));body.addView(text("TEC 10 · OBSERVÉ · "+canon.text("observed.tec10_date"),12,JADE));
         LinearLayout c=card();c.addView(eyebrow("Ce qui change"));c.addView(text("10 ans : "+canon.number("decision_delta.delta_bps.10",1," pb")+" depuis l’observation précédente.",21,PEARL));c.addView(text(canon.text("decision_delta.status")+" · "+canon.text("decision_delta.confidence"),12,JADE));c.addView(button("Ouvrir la preuve Banque de France",()->{navigate(2);}));
         boolean reduced=android.provider.Settings.Global.getFloat(getContentResolver(),android.provider.Settings.Global.ANIMATOR_DURATION_SCALE,1)==0||((PowerManager)getSystemService(POWER_SERVICE)).isPowerSaveMode();
@@ -67,7 +75,7 @@ public class MainActivity extends Activity {
         Spinner arms=new Spinner(this);arms.setAdapter(new ArrayAdapter<String>(this,android.R.layout.simple_spinner_dropdown_item,BeastView.LABELS));arms.setContentDescription("Sélection des huit bras de la Bête");arms.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){public void onNothingSelected(AdapterView<?>p){}public void onItemSelected(AdapterView<?>p,View v,int i,long id){detail.setText(BeastView.DETAILS[i]);}});stage.addView(arms);stage.addView(detail);
         stage.addView(button("Recentrer",()->{if(beast!=null)beast.reset();}));stage.addView(button(light?"Rendu 3D":"Mode léger",()->{light=!light;render();}));
         c=card();c.addView(eyebrow("Horizon · incertitude"));c.addView(text("Le marché se transmet au stock par les émissions et le refinancement, progressivement.",18,PEARL));c.addView(text("Échéancier : "+canon.text("maturity_ladder.mode")+". Coût moyen du stock : inconnu dans ce feed.",13,COPPER));c.addView(text("Un signal national ne prouve aucun effet régional.",12,PEARL));
-        c=card();c.addView(eyebrow("Trois horloges"));c.addView(text("Marché : "+canon.text("observed.tec10_date")+"\nÉtat matériel : "+canon.text("updated_at")+"\nÂge : "+Math.max(0,Duration.between(canon.date,Instant.now()).toMinutes())+" min",13,PEARL));c.addView(text("Runner : non observé par ce client. L’ouverture de l’app ne prouve aucune exécution serveur.",12,COPPER));c.addView(text(transport,12,JADE));
+        c=card();c.addView(eyebrow("Trois horloges"));clockView=text(clockText(),13,PEARL);c.addView(clockView);c.addView(text("Runner : non observé par ce client. L’ouverture de l’app ne prouve aucune exécution serveur.",12,COPPER));transportView=text(transport,12,JADE);c.addView(transportView);
         body.addView(button("Actualiser le canon",this::refresh));body.addView(button("Partager le snapshot et ses preuves",this::share));
     }
     void reading()throws Exception{
