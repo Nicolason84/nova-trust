@@ -46,3 +46,22 @@ paths are tested with fixtures. The current inaccessible sources remain unresolv
 A proposed reconciliation does not stop the existing refresh loop or claim a cure.
 Scheduled execution depends on GitHub Actions; missed or rejected runs do not create
 synthetic cycles. This is operational homeostasis, without subjective-consciousness claims.
+
+## Prospective care evaluation — 02 October extension
+
+The same health memory now declares a checkable recovery goal after an executed
+source refresh: two consecutive healthy checks within the next three fresh source
+observations. Outcome is recorded as PENDING, GOAL_MET or NOT_MET. Missing, unknown,
+or unexecuted observations defer evaluation and cannot establish success or failure.
+A missed goal increases reconciliation priority and proposes strategy review through
+the existing Human Gate. Ordinary retries do not repeatedly open identical experiments.
+A confirmed new episode can open a new goal. A recovery after the window is labelled
+late and does not rewrite the original failed goal.
+
+Eight recent goal records per issue are retained; lifetime result counts remain.
+No retrospective goals or causal treatment effects are invented. The public voice
+and expected/observed/revision cards expose the current learning state. Sixteen memory
+and care tests pass, including bounded goal history, migration, missing evidence,
+late recovery and recurrence, with existing convergence and distribution checks.
+The real migration opened four pending goals at health cycle 4 and preserved all
+three preceding observations and all prior treatment counters.

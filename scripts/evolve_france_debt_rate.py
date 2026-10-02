@@ -247,6 +247,8 @@ def main() -> None:
     memory = build_health_memory(live, self_model, previous.get("self_model", {}).get("health_memory"), observation)
     self_model["health_memory"] = memory
     self_model["voice"]["memory_statement"] = f"Ma mémoire de santé couvre {memory['total_cycles']} cycles réellement observés depuis {memory['started_at']}. Aucun cycle passé n'est inventé."
+    learning = memory.get("care_learning_summary", {})
+    self_model["voice"]["learning_statement"] = f"Je vérifie {learning.get('pending', 0)} objectifs de soin en cours; {learning.get('goals_met', 0)} ont été atteints et {learning.get('goals_not_met', 0)} non atteints dans leur fenêtre observée."
     if memory["care_plan"]:
         first = memory["care_plan"][0]
         self_model["wellbeing"]["immediate_need"] = first["care"] + " " + first["reason"]

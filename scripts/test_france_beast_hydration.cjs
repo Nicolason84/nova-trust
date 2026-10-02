@@ -22,10 +22,12 @@ const selfModel=JSON.parse(fs.readFileSync('docs/data/france-debt-rate-evolution
 c.selfModel=selfModel;evaluate('renderSelfModel(selfModel)');
 assert.match(nodes.get('selfMemorySummary').textContent,new RegExp(String(selfModel.health_memory.total_cycles)+' cycles'));
 assert.match(nodes.get('selfCarePlan').innerHTML,/plan proposé, pas une exécution/);
+assert.match(nodes.get('selfLearningSummary').textContent,/objectifs atteints/);
+assert.match(nodes.get('selfCareLearning').innerHTML,/Attendu dès le cycle/);
 const unsafe=structuredClone(selfModel);const first=Object.values(unsafe.health_memory.issues)[0];first.label='<img src=x onerror=alert(1)>';
 c.selfModel=unsafe;evaluate('renderSelfModel(selfModel)');
 assert(!nodes.get('selfMemoryIssues').innerHTML.includes('<img'));
-evaluate('renderSelfModel(null)');assert.equal(nodes.get('selfCarePlan').innerHTML,'');
+evaluate('renderSelfModel(null)');assert.equal(nodes.get('selfCarePlan').innerHTML,'');assert.equal(nodes.get('selfCareLearning').innerHTML,'');
 c.selfModel=selfModel;evaluate('renderSelfModel(selfModel)');
 async function test(){
  c.fetch=async()=>{throw Error('Network OFF')};await evaluate('load()');
