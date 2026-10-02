@@ -1,8 +1,8 @@
 {
   "schema": "OJO_FRANCE_DEBT_RATE_LIVE_V1",
   "version": "2026-10-02",
-  "sequence": 1,
-  "updated_at": "2026-10-02T01:30:00Z",
+  "sequence": 2,
+  "updated_at": "2026-10-02T01:51:33Z",
   "policy": {
     "political_recommendation": "NONE",
     "market_yield_is_not_whole_debt_cost": true,
@@ -31,7 +31,7 @@
         3.1,
         7.5,
         11.3,
-        15,
+        15.0,
         18.4,
         21.7,
         24.8,
@@ -57,24 +57,36 @@
       "publisher": "Agence France Trésor",
       "label": "Dette négociable, maturité, TEC10, taux moyen pondéré",
       "url": "https://www.aft.gouv.fr/fr",
-      "health": "BASELINE",
-      "checked_at": "2026-10-02T01:30:00Z"
+      "health": "ERROR",
+      "digest": null,
+      "checked_at": "2026-10-02T01:51:26Z",
+      "error": "HTTPError: HTTP Error 403: Forbidden",
+      "etag": null,
+      "last_modified": null
     },
     {
       "id": "AFT_BUDGET",
       "publisher": "Agence France Trésor",
       "label": "Besoin et ressources de financement 2027",
       "url": "https://www.aft.gouv.fr/fr/budget-etat",
-      "health": "BASELINE",
-      "checked_at": "2026-10-02T01:30:00Z"
+      "health": "ERROR",
+      "digest": null,
+      "checked_at": "2026-10-02T01:51:27Z",
+      "error": "HTTPError: HTTP Error 403: Forbidden",
+      "etag": null,
+      "last_modified": null
     },
     {
       "id": "BDF_TEC",
       "publisher": "Banque de France",
       "label": "Indices obligataires TEC",
-      "url": "https://www.banque-france.fr/fr/statistiques/taux-et-cours/indices-obligataires-2026-10-01",
-      "health": "BASELINE",
-      "checked_at": "2026-10-02T01:30:00Z"
+      "url": "https://www.banque-france.fr/fr/statistiques/taux-et-cours/indices-obligataires-2026-10-02",
+      "health": "ERROR",
+      "digest": null,
+      "checked_at": "2026-10-02T01:51:33Z",
+      "error": "HTTPError: HTTP Error 404: Not Found",
+      "etag": null,
+      "last_modified": null
     }
   ],
   "events": [
@@ -82,6 +94,50 @@
       "kind": "BASELINE_CREATED",
       "at": "2026-10-02T01:30:00Z",
       "detail": "Live debt-rate monitor initialized from official public sources."
+    },
+    {
+      "kind": "SOURCE_HEALTH_CHANGED",
+      "source_id": "AFT_HOME",
+      "at": "2026-10-02T01:51:26Z",
+      "detail": "BASELINE → ERROR"
+    },
+    {
+      "kind": "SOURCE_HEALTH_CHANGED",
+      "source_id": "AFT_BUDGET",
+      "at": "2026-10-02T01:51:27Z",
+      "detail": "BASELINE → ERROR"
+    },
+    {
+      "kind": "SOURCE_HEALTH_CHANGED",
+      "source_id": "BDF_TEC",
+      "at": "2026-10-02T01:51:33Z",
+      "detail": "BASELINE → ERROR"
     }
-  ]
+  ],
+  "material_changes": [
+    {
+      "kind": "SOURCE_HEALTH_CHANGED",
+      "source_id": "AFT_HOME",
+      "at": "2026-10-02T01:51:26Z",
+      "detail": "BASELINE → ERROR"
+    },
+    {
+      "kind": "SOURCE_HEALTH_CHANGED",
+      "source_id": "AFT_BUDGET",
+      "at": "2026-10-02T01:51:27Z",
+      "detail": "BASELINE → ERROR"
+    },
+    {
+      "kind": "SOURCE_HEALTH_CHANGED",
+      "source_id": "BDF_TEC",
+      "at": "2026-10-02T01:51:33Z",
+      "detail": "BASELINE → ERROR"
+    }
+  ],
+  "summary": {
+    "healthy": 0,
+    "monitored": 3,
+    "warnings": 3,
+    "changed_this_sequence": 3
+  }
 }
