@@ -33,8 +33,12 @@ a{color:var(--b);text-underline-offset:4px}.wrap{max-width:1240px;margin:auto;pa
 .marketGrid{display:grid;grid-template-columns:1.25fr .75fr;gap:14px}.curvePanel,.ladderPanel{border:1px solid var(--line);background:#0b1720;border-radius:16px;padding:18px;min-width:0}.curvePanel h3,.ladderPanel h3{margin:0 0 4px}.curveMeta{font-size:11px;color:var(--mut);margin-bottom:10px}.curveSvg{width:100%;height:auto;display:block;overflow:visible}.curveSvg text{fill:#9fb1b7;font-size:10px}.curveSvg .axis{stroke:#35505d;stroke-width:1}.curveSvg .grid{stroke:#203641;stroke-width:1;stroke-dasharray:3 5}.curveSvg .curve{fill:none;stroke:var(--a);stroke-width:3}.curveSvg .dotc{fill:var(--a);stroke:#071019;stroke-width:2}.curveSvg .plf{stroke:var(--gold);stroke-width:1.4;stroke-dasharray:7 6;opacity:.8}.ladderRows{display:grid;gap:11px;margin-top:14px}.ladderRow{display:grid;grid-template-columns:46px 1fr 78px;gap:9px;align-items:center;font-size:11px}.ladderTrack{height:28px;border:1px solid #29404b;border-radius:8px;background:#071019;overflow:hidden}.ladderFill{height:100%;background:linear-gradient(90deg,#284f5b,#8bd6e5);border-radius:7px}.ladderVal{text-align:right;font-weight:700}.ladderDetail{margin-top:12px;font-size:10px;color:var(--mut);line-height:1.5}.changeGrid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:9px;margin-top:14px}.changeGrid article{border:1px solid var(--line);border-radius:11px;padding:12px;background:#09151e}.changeGrid small{display:block;color:var(--gold);font-size:9px;letter-spacing:.11em;text-transform:uppercase}.changeGrid b{display:block;margin:4px 0;font-size:12px}.changeGrid span{font-size:10px;color:var(--mut)}.modelRange{color:var(--a);font-weight:700}.modelNote{font-size:10px;color:var(--mut);margin-top:6px}
 @media(max-width:850px){.marketGrid{grid-template-columns:1fr}.changeGrid{grid-template-columns:1fr 1fr}}
 @media(max-width:520px){.changeGrid{grid-template-columns:1fr}}
+
+.evoGrid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:9px}.evoCard{border:1px solid var(--line);border-radius:12px;background:#09151e;padding:13px;min-width:0}.evoCard small{display:block;color:var(--mut);font-size:9px;text-transform:uppercase;letter-spacing:.1em}.evoCard strong{display:block;font-size:18px;margin:4px 0;overflow-wrap:anywhere}.evoCard span{font-size:10px;color:var(--mut)}.evoCard.ok strong{color:var(--ok)}.evoCard.warn strong{color:var(--gold)}.deltaStrip{margin-top:12px;border:1px solid var(--line);border-radius:12px;background:#07131b;padding:13px}.deltaStrip h3{margin:0 0 7px}.deltaChips{display:flex;gap:7px;flex-wrap:wrap}.deltaChip{border:1px solid #34505d;border-radius:999px;padding:5px 9px;font-size:10px}.exportBar{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.exportBar button,.exportBar a{min-height:42px;padding:8px 12px;border:1px solid var(--line);border-radius:9px;background:#0a1720;color:var(--ink);font:inherit;text-decoration:none;display:inline-flex;align-items:center;cursor:pointer}.exportBar button:hover,.exportBar a:hover{border-color:var(--a)}.timelineMini{margin-top:12px;padding:12px;border:1px solid var(--line);border-radius:12px;background:#08131b}.timelineMini svg{width:100%;height:auto;display:block}.timelineMini text{fill:var(--mut);font-size:9px}.timelineMini .line{fill:none;stroke:var(--b);stroke-width:2}.timelineMini .axis{stroke:#2d4550;stroke-width:1}
+@media(max-width:850px){.evoGrid{grid-template-columns:1fr 1fr}}
+@media(max-width:520px){.evoGrid{grid-template-columns:1fr}}
 </style></head><body><div class="wrap">
-<header class="top"><div class="brand">oj<i>O</i></div><span class="pill" id="runner"><span class="dot"></span>RUNNER —</span><span class="pill" id="feed"><span class="dot"></span>FEED —</span><a class="pill" href="#executive-brief">BRIEF 60s</a><a class="pill" href="#market-anatomy">COURBE + ÉCHÉANCES</a><a class="pill" href="#la-bete">LA BÊTE 3D</a><div class="grow"></div><span class="pill">EVIDENCE-FIRST · 15 MIN</span></header>
+<header class="top"><div class="brand">oj<i>O</i></div><span class="pill" id="runner"><span class="dot"></span>RUNNER —</span><span class="pill" id="feed"><span class="dot"></span>FEED —</span><a class="pill" href="#executive-brief">BRIEF 60s</a><a class="pill" href="#autoevolution">AUTO-ÉVOLUTION</a><a class="pill" href="#market-anatomy">COURBE + ÉCHÉANCES</a><a class="pill" href="#la-bete">LA BÊTE 3D</a><div class="grow"></div><span class="pill">EVIDENCE-FIRST · 15 MIN</span></header>
 
 <section class="hero"><div><div class="ey">LA BÊTE · FRANCE · DETTE · TAUX · DÉCISION</div><h1>4,903 % n’est pas<br><em>le diagnostic.</em></h1><p class="lead">C’est un signal d’entrée. <b>La Bête</b> relie ce signal à la courbe 1–30 ans, au stock de dette, aux échéances, aux émissions, au temps et à la charge d’intérêts. Elle sépare ce qui est <b>observé</b>, ce qui est <b>stressé</b>, ce qui est <b>supposé</b> et ce qui reste <b>incertain</b> — afin qu’un décideur puisse comprendre en 60 secondes puis descendre jusqu’à la preuve.</p><div class="truth"><b>Contrat de vérité :</b> <code>SOURCE_CHANGED → DELTA → OBSERVATION → RECONCILIATION</code>. Un mouvement de marché n’est jamais transformé automatiquement en causalité politique.</div></div><aside class="heroaside"><div class="big" id="heroTec">4,903 %</div><p>TEC10 observé · Banque de France / AFT<br><span id="heroDate">01/10/2026</span></p><div class="equation">taux de marché ≠ coupon moyen du stock<br>stock ancien + nouvelles émissions + refinancement = transmission graduelle</div></aside></section>
 
@@ -93,6 +97,33 @@ a{color:var(--b);text-underline-offset:4px}.wrap{max-width:1240px;margin:auto;pa
       </div>
       <p class="decisionUse">Usage visé : réunion interministérielle, cabinet, direction financière publique, comité de risques, journaliste économique ou citoyen expert — même socle de preuve, profondeur différente.</p>
     </article>
+  </div>
+</section>
+
+<section class="section" id="autoevolution">
+  <div class="head">
+    <div><div class="ey">AUTO-ÉVOLUTION · PREUVE DE VIE</div><h2>La Bête doit savoir dire quand elle sait… et quand elle ne sait plus.</h2></div>
+    <p>Le système vérifie les sources automatiquement, conserve le dernier bon état en cas de panne, mémorise les courbes successives et n’écrit dans GitHub que lorsqu’un état matériel change. Une source indisponible n’est jamais masquée.</p>
+  </div>
+  <div class="evoGrid">
+    <div class="evoCard" id="evoRunner"><small>Runner GitHub</small><strong>—</strong><span>exécution planifiée toutes les 15 min</span></div>
+    <div class="evoCard" id="evoFeed"><small>Manifeste live</small><strong>—</strong><span>rafraîchi côté navigateur toutes les 30 s</span></div>
+    <div class="evoCard" id="evoCurve"><small>Courbe TEC</small><strong>—</strong><span>1–30 ans · dernier état officiel</span></div>
+    <div class="evoCard" id="evoHistory"><small>Mémoire temporelle</small><strong>—</strong><span>jusqu’à 120 états matériels</span></div>
+    <div class="evoCard" id="evoMaturity"><small>Échéancier AFT</small><strong>—</strong><span>live si accessible, dernier bon état sinon</span></div>
+  </div>
+  <div class="deltaStrip">
+    <h3>Decision Delta — ce qui a changé depuis la précédente courbe</h3>
+    <div class="deltaChips" id="deltaChips"><span class="deltaChip">En attente d’un second état historique…</span></div>
+  </div>
+  <div class="timelineMini">
+    <div class="curveMeta" id="historyMeta">Mémoire de la courbe 10 ans</div>
+    <svg id="historySvg" viewBox="0 0 760 150" role="img" aria-label="Historique des observations TEC10 mémorisées"></svg>
+  </div>
+  <div class="exportBar">
+    <button type="button" id="downloadBrief">Télécharger le brief courant</button>
+    <button type="button" id="downloadSnapshot">Télécharger le snapshot JSON</button>
+    <a href="data/france-debt-rate-live.json" target="_blank" rel="noopener">Ouvrir le manifeste brut</a>
   </div>
 </section>
 
@@ -237,9 +268,64 @@ function renderMarket(j){
   }
   if(window.updateBeastMarket)window.updateBeastMarket(rows);
 }
-function render(j){state=j;const o=j.observed||{};$('heroTec').textContent=fmt(o.tec10_pct,3)+' %';$('heroDate').textContent=(o.tec10_date||'—').split('-').reverse().join('/');$('debt').textContent=fmt((o.debt_negotiable_eur||0)/1e9,0)+' Md€';$('debtDate').textContent=(o.debt_date||o.debt_avg_life_date||'—').split('-').reverse().join('/');$('life').textContent=(o.debt_avg_life_years||'—')+' ans '+(o.debt_avg_life_days||'—')+' j';$('need').textContent=fmt(o.financing_need_2027_bne)+' Md€';$('delta').textContent=(o.tec10_vs_plf_assumption_bps>=0?'+':'')+fmt(o.tec10_vs_plf_assumption_bps,0)+' pb';$('execRate').textContent=fmt(o.tec10_pct,3)+' %';$('execRateSub').textContent='TEC10 · '+(o.tec10_date||'—').split('-').reverse().join('/');$('execStock').textContent=fmt((o.debt_negotiable_eur||0)/1e9,0)+' Md€';$('execNeed').textContent=fmt(o.financing_need_2027_bne)+' Md€';$('beastStock').textContent=fmt((o.debt_negotiable_eur||0)/1e12,3)+' T€';$('beastRate').textContent=fmt(o.tec10_pct,3)+' %';const sm={};(j.sources||[]).forEach(s=>sm[s.id]=s);$('sources').innerHTML=(j.sources||[]).map(s=>'<article><b>'+esc(s.publisher)+'</b><span>'+esc(s.label)+' · '+esc(s.health)+' · '+ago(s.checked_at)+'</span><br><a href="'+esc(s.url)+'">source</a></article>').join('');const ev=(j.events||[]).slice(-10).reverse();$('events').innerHTML=ev.length?ev.map(e=>'<div class="evt"><div class="k">'+esc(e.kind)+(e.metric?' · '+esc(e.metric):'')+'</div><div>'+esc(e.detail)+'</div><div class="d">'+ago(e.at)+'</div></div>').join(''):'<div class="evt"><div class="k">STABLE</div><div class="d">Aucun delta matériel enregistré.</div></div>';const s=j.summary||{};pill($('feed'),'FEED #'+(j.sequence||0)+' · '+ago(j.updated_at),s.warnings?'warn':'ok');renderMarket(j);renderSim()}
+function setEvo(id,strong,sub,cls){const el=$(id);if(!el)return;el.className='evoCard '+(cls||'');el.querySelector('strong').textContent=strong;if(sub)el.querySelector('span').textContent=sub}
+function renderEvolution(j){
+  const o=j.observed||{},caps=j.capabilities||{},sum=j.summary||{},hist=j.curve_history||[],derived=j.derived||{};
+  const feedAgeMin=j.updated_at?Math.max(0,Math.floor((Date.now()-Date.parse(j.updated_at))/60000)):null;
+  setEvo('evoFeed',feedAgeMin===null?'—':feedAgeMin+' min', 'séquence #'+(j.sequence||0)+' · '+(sum.warnings||0)+' source(s) en alerte',feedAgeMin!==null&&feedAgeMin<60?'ok':'warn');
+  setEvo('evoCurve',(o.yield_curve_date||'—').split('-').reverse().join('/'),(o.yield_curve||[]).length+' maturités · TEC10 '+(o.tec10_pct!=null?fmt(o.tec10_pct,3)+' %':'—'),(o.yield_curve||[]).length>=8?'ok':'warn');
+  setEvo('evoHistory',String(hist.length),'état(s) matériel(s) mémorisé(s) · plafond '+(caps.curve_history?120:'—'),hist.length>0?'ok':'warn');
+  const mm=j.maturity_ladder?.mode||derived.maturity_mode||'UNKNOWN';
+  setEvo('evoMaturity',mm==='LIVE_PARSED'?'LIVE':'RETAINED',mm==='LIVE_PARSED'?'pages AFT parsées automatiquement':'dernier bon état conservé explicitement',mm==='LIVE_PARSED'?'ok':'warn');
+  const dc=derived.curve_delta_vs_previous_bps||{},chips=$('deltaChips');
+  if(chips){
+    const keys=Object.keys(dc);
+    chips.innerHTML=keys.length?keys.map(k=>'<span class="deltaChip">'+k+'a '+(Number(dc[k])>=0?'+':'')+Number(dc[k]).toFixed(1)+' pb</span>').join(''):'<span class="deltaChip">Pas encore de deuxième courbe différente : aucun delta temporel calculable.</span>';
+  }
+  const svg=$('historySvg');
+  if(svg){
+    const pts=hist.map(h=>{const row=(h.curve||[]).find(x=>Number(x.tenor_years)===10);return row?{date:h.date,v:Number(row.rate_pct)}:null}).filter(Boolean);
+    if(pts.length){
+      const W=760,H=150,p={l:46,r:18,t:18,b:30},vals=pts.map(x=>x.v),lo=Math.min(...vals)-.05,hi=Math.max(...vals)+.05;
+      const x=i=>p.l+(pts.length===1?(W-p.l-p.r)/2:i/(pts.length-1)*(W-p.l-p.r));
+      const y=v=>p.t+(hi-v)/Math.max(.001,hi-lo)*(H-p.t-p.b);
+      let s='<line class="axis" x1="'+p.l+'" y1="'+(H-p.b)+'" x2="'+(W-p.r)+'" y2="'+(H-p.b)+'"></line>';
+      if(pts.length>1)s+='<polyline class="line" points="'+pts.map((q,i)=>x(i)+','+y(q.v)).join(' ')+'"></polyline>';
+      pts.forEach((q,i)=>{s+='<circle cx="'+x(i)+'" cy="'+y(q.v)+'" r="4" fill="var(--b)"></circle><text x="'+x(i)+'" y="'+(H-10)+'" text-anchor="middle">'+(q.date||'').slice(5)+'</text>'});
+      svg.innerHTML=s;$('historyMeta').textContent='Mémoire TEC10 · '+pts.length+' observation(s) distincte(s)';
+    }else svg.innerHTML='<text x="20" y="35">Aucun historique exploitable.</text>';
+  }
+}
+function buildBrief(j){
+  const o=j.observed||{},d=j.derived||{},m=j.maturity_ladder||{},s=j.summary||{},curve=o.yield_curve||[];
+  return [
+    'ojO / SUPRA — EXECUTIVE BRIEF DETTE & TAUX',
+    'Généré: '+new Date().toISOString(),
+    '',
+    'OBSERVÉ',
+    '- TEC10: '+(o.tec10_pct??'—')+' % ('+(o.tec10_date||'—')+')',
+    '- Courbe TEC: '+curve.map(x=>x.tenor_years+'a='+x.rate_pct+'%').join(' · '),
+    '- Dette négociable: '+((o.debt_negotiable_eur||0)/1e9).toFixed(1)+' Md€',
+    '- Besoin de financement 2027: '+(o.financing_need_2027_bne??'—')+' Md€',
+    '',
+    'DÉRIVÉ',
+    '- pente 2s10s: '+(d.slope_2s10s_bps??'—')+' pb',
+    '- pente 10s30s: '+(d.slope_10s30s_bps??'—')+' pb',
+    '- divergence modèles à 5 ans (+100 pb): '+(d.model_divergence_5y_bne??'—')+' Md€',
+    '',
+    'ÉCHÉANCIER',
+    '- mode: '+(m.mode||'—')+' · vintage: '+(m.as_of||'—'),
+    '',
+    'SOURCES',
+    '- saines: '+(s.healthy??'—')+'/'+(s.monitored??'—')+' · alertes: '+(s.warnings??'—'),
+    '',
+    'RÈGLE: aucune recommandation politique. Observé, scénario et hypothèse restent séparés.'
+  ].join('\n');
+}
+function downloadText(name,text,type='text/plain'){const b=new Blob([text],{type});const u=URL.createObjectURL(b),a=document.createElement('a');a.href=u;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),1000)}
+function render(j){state=j;const o=j.observed||{};$('heroTec').textContent=fmt(o.tec10_pct,3)+' %';$('heroDate').textContent=(o.tec10_date||'—').split('-').reverse().join('/');$('debt').textContent=fmt((o.debt_negotiable_eur||0)/1e9,0)+' Md€';$('debtDate').textContent=(o.debt_date||o.debt_avg_life_date||'—').split('-').reverse().join('/');$('life').textContent=(o.debt_avg_life_years||'—')+' ans '+(o.debt_avg_life_days||'—')+' j';$('need').textContent=fmt(o.financing_need_2027_bne)+' Md€';$('delta').textContent=(o.tec10_vs_plf_assumption_bps>=0?'+':'')+fmt(o.tec10_vs_plf_assumption_bps,0)+' pb';$('execRate').textContent=fmt(o.tec10_pct,3)+' %';$('execRateSub').textContent='TEC10 · '+(o.tec10_date||'—').split('-').reverse().join('/');$('execStock').textContent=fmt((o.debt_negotiable_eur||0)/1e9,0)+' Md€';$('execNeed').textContent=fmt(o.financing_need_2027_bne)+' Md€';$('beastStock').textContent=fmt((o.debt_negotiable_eur||0)/1e12,3)+' T€';$('beastRate').textContent=fmt(o.tec10_pct,3)+' %';const sm={};(j.sources||[]).forEach(s=>sm[s.id]=s);$('sources').innerHTML=(j.sources||[]).map(s=>'<article><b>'+esc(s.publisher)+'</b><span>'+esc(s.label)+' · '+esc(s.health)+' · '+ago(s.checked_at)+'</span><br><a href="'+esc(s.url)+'">source</a></article>').join('');const ev=(j.events||[]).slice(-10).reverse();$('events').innerHTML=ev.length?ev.map(e=>'<div class="evt"><div class="k">'+esc(e.kind)+(e.metric?' · '+esc(e.metric):'')+'</div><div>'+esc(e.detail)+'</div><div class="d">'+ago(e.at)+'</div></div>').join(''):'<div class="evt"><div class="k">STABLE</div><div class="d">Aucun delta matériel enregistré.</div></div>';const s=j.summary||{};pill($('feed'),'FEED #'+(j.sequence||0)+' · '+ago(j.updated_at),s.warnings?'warn':'ok');renderEvolution(j);renderMarket(j);renderSim()}
 async function load(){try{const r=await fetch(FEED+'?t='+Date.now(),{cache:'no-store'});if(!r.ok)throw Error('HTTP '+r.status);render(await r.json())}catch(e){pill($('feed'),'FEED OFFLINE','warn')}}
-async function run(){try{const r=await fetch(RUNS,{cache:'no-store',headers:{Accept:'application/vnd.github+json'}});const j=await r.json(),x=(j.workflow_runs||[])[0];if(!x)throw Error('no run');const good=x.status==='completed'&&x.conclusion==='success',fresh=Date.now()-Date.parse(x.run_started_at||x.created_at)<45*60000;pill($('runner'),'RUNNER '+(good?'OK':String(x.status||x.conclusion).toUpperCase())+' · '+ago(x.run_started_at||x.created_at),good&&fresh?'ok':'warn')}catch(e){pill($('runner'),'RUNNER —','warn')}}
+async function run(){try{const r=await fetch(RUNS,{cache:'no-store',headers:{Accept:'application/vnd.github+json'}});const j=await r.json(),x=(j.workflow_runs||[])[0];if(!x)throw Error('no run');const good=x.status==='completed'&&x.conclusion==='success',fresh=Date.now()-Date.parse(x.run_started_at||x.created_at)<45*60000;pill($('runner'),'RUNNER '+(good?'OK':String(x.status||x.conclusion).toUpperCase())+' · '+ago(x.run_started_at||x.created_at),good&&fresh?'ok':'warn');setEvo('evoRunner',good?'SUCCESS':String(x.status||x.conclusion).toUpperCase(),(x.event||'run')+' · '+ago(x.run_started_at||x.created_at),good&&fresh?'ok':'warn')}catch(e){pill($('runner'),'RUNNER —','warn');setEvo('evoRunner','INJOIGNABLE','API GitHub indisponible côté navigateur','warn')}}
 document.querySelectorAll('[data-bps]').forEach(b=>b.addEventListener('click',()=>{bps=Number(b.dataset.bps);renderSim()}));
 
 let beast3d=null,beastStream=null,beastMotionOn=false;
@@ -308,6 +394,8 @@ $('beastImmersive')?.addEventListener('click',async()=>{const s=$('beastStage');
 $('beastReset')?.addEventListener('click',()=>beast3d?.reset());
 $('beastCamera')?.addEventListener('click',async e=>{const v=$('arVideo'),s=$('beastStage');if(beastStream){beastStream.getTracks().forEach(t=>t.stop());beastStream=null;v.srcObject=null;s.classList.remove('ar-on');e.currentTarget.setAttribute('aria-pressed','false');return}try{beastStream=await navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:'environment'}},audio:false});v.srcObject=beastStream;s.classList.add('ar-on');e.currentTarget.setAttribute('aria-pressed','true')}catch(err){$('beastTag').innerHTML='<b>AR caméra non activée.</b> Autorisation caméra refusée ou indisponible sur ce navigateur.'}});
 $('beastMotion')?.addEventListener('click',async e=>{try{if(typeof DeviceOrientationEvent!=='undefined'&&typeof DeviceOrientationEvent.requestPermission==='function'){const p=await DeviceOrientationEvent.requestPermission();if(p!=='granted')throw Error('permission refusée')}beastMotionOn=!beastMotionOn;e.currentTarget.setAttribute('aria-pressed',String(beastMotionOn));if(beastMotionOn){window.addEventListener('deviceorientation',ev=>{if(!beast3d)return;const beta=(ev.beta||0)*Math.PI/180,gamma=(ev.gamma||0)*Math.PI/180;beast3d.root.rotation.x=beta*.35;beast3d.root.rotation.y=gamma*.55},{passive:true})}}catch(err){$('beastTag').innerHTML='<b>Mouvement non activé.</b> '+esc(err.message)}});
+$('downloadBrief')?.addEventListener('click',()=>{if(state)downloadText('ojo-france-dette-brief.txt',buildBrief(state))});
+$('downloadSnapshot')?.addEventListener('click',()=>{if(state)downloadText('ojo-france-dette-snapshot.json',JSON.stringify(state,null,2),'application/json')});
 initBeast();
 load();run();setInterval(load,30000);setInterval(run,120000);
 </script></body></html>
