@@ -69,10 +69,13 @@ body[data-evo-focus="evidence"] #rpEvidenceCard,body[data-evo-focus="decision"] 
 
 .bodyBinding{margin:18px 0;color:var(--mut);display:grid;gap:5px}.bodyBinding>span{font-size:10px;letter-spacing:.15em;color:var(--gold)}.bodyBinding>b{color:var(--ink,#e7eff2);font-size:14px}.bodyBinding>small{font-size:11px}.proofTrace{margin:10px 0;border:1px solid var(--line);border-radius:14px;padding:14px}.proofTrace summary{cursor:pointer;color:var(--a)}.proofTrace p{overflow-wrap:anywhere;font-size:12px}.proofRelations{font-size:11px;color:var(--mut);line-height:1.8;overflow-wrap:anywhere}.freshnessNote{color:var(--mut);font-size:12px;line-height:1.7;margin-top:10px}@media print{.top,.beastControls{display:none}.realityPulse{break-inside:avoid}body{background:#fff;color:#111}.rpCard{border-color:#aaa}.rpCard span,.rpSub{color:#333}}
 @media(max-width:520px){.execBadge{white-space:normal;max-width:100%;overflow-wrap:anywhere}.sourceStates>*{max-width:100%;overflow-wrap:anywhere}.exportBar button{min-height:44px}}
-</style></head><body><div class="wrap">
-<header class="top"><div class="brand">oj<i>O</i></div><span class="pill" id="runner"><span class="dot"></span>RUNNER UNKNOWN · SNAPSHOT STATIQUE</span><span class="pill" id="feed"><span class="dot"></span>ÉTAT #9 · 2026-10-02T10:08:26Z</span><span class="pill" id="evolution"><span class="dot"></span>ÉVOLUTION G1 · EVIDENCE GUARD</span><a class="pill" href="#executive-brief">BRIEF 60s</a><a class="pill" href="#autoevolution">AUTO-ÉVOLUTION</a><a class="pill" href="#market-anatomy">COURBE + ÉCHÉANCES</a><a class="pill" href="#la-bete">LA BÊTE 3D</a><div class="grow"></div><span class="pill">EVIDENCE-FIRST · 5 MIN</span></header>
+</style>
+<link rel="stylesheet" href="assets/la-bete-art.css">
+</head><body><div class="wrap">
+<header class="top"><a class="brand" href="#reality-pulse" aria-label="ojO · revenir au pouls" style="text-decoration:none;color:var(--ink)">oj<i>O</i></a><nav class="topNav" aria-label="Lecture de La Bête"><a href="#reality-pulse">Le pouls</a><a href="#la-bete">La Bête</a><a href="#market-anatomy">Analyse</a><a href="#evidence-graph">Preuves</a></nav><a class="soundShortcut" href="#beast-resonance"><span class="miniWave" aria-hidden="true"><i></i><i></i><i></i><i></i></span>Son</a></header>
+<div class="liveSignals" aria-label="Les trois horloges de La Bête"><span class="pill" id="runner"><span class="dot"></span>RUNNER UNKNOWN · SNAPSHOT STATIQUE</span><span class="pill" id="feed"><span class="dot"></span>ÉTAT #9 · 2026-10-02T10:08:26Z</span><span class="pill" id="evolution"><span class="dot"></span>ÉVOLUTION G1 · EVIDENCE GUARD</span><a class="pill" href="#autoevolution">Preuve de vie ↗</a></div>
 
-<nav class="bodyBinding" aria-label="Objet France"><span>FRANCE · UN SEUL CORPS</span><b id="franceBindingLabel">France → Finances publiques → Dette / Taux / Refinancement</b><small>Portée nationale. Aucun effet régional imputé sans preuve territoriale. <a href="data/FRANCE_BEAST_BINDING.json">Contrat canonique</a></small></nav>
+<nav class="bodyBinding" aria-label="Objet France"><div class="bodySignature"><span>FRANCE · UN SEUL CORPS</span><b id="franceBindingLabel">France → Finances publiques → Dette / Taux / Refinancement</b><small>Portée nationale. Aucun effet régional imputé sans preuve territoriale. <a href="data/FRANCE_BEAST_BINDING.json">Contrat canonique</a></small></div><div class="artWordmark" aria-hidden="true">La Bête<span>.</span></div></nav>
 <section class="realityPulse" id="reality-pulse" aria-labelledby="realityHeadline">
   <div class="rpTop">
     <div>
@@ -81,6 +84,7 @@ body[data-evo-focus="evidence"] #rpEvidenceCard,body[data-evo-focus="decision"] 
       <p class="rpSub" id="realityNow">Depuis 30/09/2026, plusieurs maturités ont changé. La Bête expose le signal, sa preuve et sa transmission possible sans transformer ce mouvement en causalité politique ni en montant budgétaire automatique.</p>
     </div>
     <aside class="rpAdapt" aria-live="polite">
+      <svg class="signalSculpture" viewBox="0 0 360 220" aria-hidden="true"><ellipse class="orbit" cx="180" cy="105" rx="137" ry="46" transform="rotate(-24 180 105)"/><ellipse class="orbit" cx="180" cy="105" rx="101" ry="65" transform="rotate(37 180 105)"/><ellipse class="orbit" cx="180" cy="105" rx="80" ry="39" transform="rotate(-54 180 105)"/><path class="tendon" d="M38 124Q126 27 180 105T325 72M85 33Q212 52 180 105T268 175M68 164Q161 162 180 105T257 28"/><circle class="nucleus" cx="180" cy="105" r="16"/><circle class="satellite" cx="77" cy="158" r="3"/><circle class="satellite" cx="293" cy="56" r="3"/><circle class="satellite" cx="248" cy="176" r="2"/></svg>
       <small>Surface adaptative</small>
       <strong id="realityAdaptation">G1 · priorité preuves</strong>
       <span id="realityAdaptationSub">EVIDENCE GUARD · régime STEEPENING · mise en évidence visuelle seulement · aucune réécriture sémantique.</span>
@@ -108,6 +112,61 @@ body[data-evo-focus="evidence"] #rpEvidenceCard,body[data-evo-focus="decision"] 
 <div class="metric"><small>Vie moyenne</small><strong id="life">8 ans 158 j</strong><span>amortissement progressif</span></div>
 <div class="metric"><small>Besoin financement 2027</small><strong id="need">339,7 Md€</strong><span>AFT · PLF 2027</span></div>
 <div class="metric"><small>Écart vs scénario PLF 2026</small><strong id="delta">+110 pb</strong><span>TEC10 actuel vs hypothèse 3,8 % fin-2026 — comparaison, pas équivalence de courbe</span></div>
+</section>
+
+<section class="section" id="la-bete">
+  <div class="head">
+    <div><div class="ey">LA BÊTE · DIGITAL TWIN VISUEL</div><h2>Donner du volume au temps.</h2></div>
+    <p>Le cœur représente le stock ; les anneaux représentent les années de propagation ; les huit bras représentent les canaux à surveiller. Le modèle 3D ne fabrique aucune donnée : sa géométrie se recale sur le manifeste live et sur le scénario de taux sélectionné.</p>
+  </div>
+  <div class="beastShell">
+    <div class="beastStage" id="beastStage">
+      <video id="arVideo" playsinline muted autoplay aria-hidden="true"></video>
+      <div id="beastMount" aria-label="Visualisation 3D interactive de la dette, des taux et du refinancement"><svg class="beastFallback" viewBox="0 0 800 560" aria-hidden="true"><defs><radialGradient id="beastPearl"><stop offset="0" stop-color="#c2d4c5" stop-opacity=".8"/><stop offset=".42" stop-color="#466b72" stop-opacity=".6"/><stop offset="1" stop-color="#182b38" stop-opacity=".1"/></radialGradient></defs><g transform="translate(400 275)"><circle r="120" fill="url(#beastPearl)"/><g fill="none" stroke="#8bb2b5" stroke-opacity=".4"><ellipse rx="225" ry="73" transform="rotate(-25)"/><ellipse rx="195" ry="96" transform="rotate(36)"/><ellipse rx="155" ry="54" transform="rotate(72)"/><circle r="102" stroke-opacity=".18"/><path d="M-320 15Q-200 -140 0 0T315 -90M-250 170Q-55 155 0 0T180 -185M-220 -180Q-120 60 0 0T290 140"/></g><circle r="46" fill="none" stroke="#dca47c" stroke-opacity=".6"/><circle r="14" fill="#dca47c" fill-opacity=".8"/></g></svg></div>
+      <div class="beastHud" aria-live="polite">
+        <div><small>Cœur · stock</small><strong id="beastStock">2,896 T€</strong></div>
+        <div><small>Signal · TEC10</small><strong id="beastRate">4,903 %</strong></div>
+        <div><small>Choc exploré</small><strong id="beastShock">+100 pb</strong></div>
+        <div><small>Propagation · an 5</small><strong id="beastY5">18,4 Md€</strong></div>
+      </div>
+      <div class="beastTag" id="beastTag"><b>La Bête n’est pas un décor.</b> Glissez pour tourner, pincez ou utilisez la molette pour zoomer. Touchez un bras : la couche décisionnelle correspondante s’ouvre. L’intensité encode le scénario sélectionné, jamais une opinion.</div>
+    </div>
+    <div class="beastTools"><span class="beastAudioBadge" id="beastAudioState">EN SILENCE</span>
+      <button type="button" id="beastImmersive">Immersion plein écran</button>
+      <button type="button" id="beastMotion">Mouvement du téléphone</button>
+      <button type="button" id="beastCamera">AR caméra</button>
+      <button type="button" id="beastReset">Recentrer</button>
+    </div>
+  </div>
+
+  <div class="resonancePanel" id="beast-resonance">
+    <div class="resonanceIntro"><div class="resonanceGlyph" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div><div><small>EXPÉRIENCE SENSORIELLE</small><h3>Entendre sa présence.</h3><p>Un grave doux, des harmoniques, une respiration. Une texture artistique ; les chiffres gardent leur propre voix.</p></div></div>
+    <div class="resonanceControls"><button type="button" id="beastSound" aria-pressed="false">Faire résonner</button><button type="button" id="beastHaptic" aria-pressed="false">Vibration tactile</button><label class="volumeControl" for="beastVolume">Volume <input type="range" id="beastVolume" min="0" max="60" value="24" step="1"><output id="beastVolumeValue" for="beastVolume">24 %</output></label><p class="resonanceStatus" id="resonanceStatus" role="status">En silence. Le son s’active au toucher ; la vibration dépend de votre appareil.</p></div>
+  </div>
+  <div class="beastLegend" aria-label="Canaux de La Bête">
+    <div><b>01 · Marché</b>courbe des taux observée</div>
+    <div><b>02 · Refinancement</b>titres arrivant à maturité</div>
+    <div><b>03 · Émissions</b>nouveaux besoins de financement</div>
+    <div><b>04 · Intérêts</b>charge budgétaire transmise</div>
+    <div><b>05 · Stock</b>dette déjà émise</div>
+    <div><b>06 · Maturité</b>durée de vie du portefeuille</div>
+    <div><b>07 · Déficit</b>besoin de financement</div>
+    <div><b>08 · Temps</b>mémoire des coupons émis</div>
+  </div>
+  <div class="beastExplain">
+    <article class="card"><h3>3D utile</h3><p>Le rayon du cœur encode le stock observé. Les cinq anneaux utilisent la courbe officielle de sensibilité à 1–5 ans. Le scénario +50 / +100 / +150 / +200 pb modifie instantanément l’épaisseur et l’intensité des couches pour montrer la propagation, pas pour prédire le marché.</p></article>
+    <article class="card"><h3>Immersion & réalité augmentée</h3><p>Le mode plein écran transforme la page en salle de situation. Le mouvement du téléphone permet de “tourner autour” du système. Le mode AR caméra superpose La Bête au monde réel quand le navigateur autorise la caméra. Aucune image de caméra n’est envoyée ni stockée par cette page.</p></article>
+  </div>
+  <div class="beastConcept" aria-label="Anatomie conceptuelle de La Bête">
+    <div><small>Les sens</small><b>Sources publiques</b><span>Chaque capteur garde son état : frais, vintage, dégradé ou indisponible.</span></div>
+    <div><small>Le système nerveux</small><b>Deltas & événements</b><span>Un changement de source devient un signal à réconcilier, jamais une vérité automatique.</span></div>
+    <div><small>Le cœur</small><b>État canonique</b><span>Les nombres actuellement retenus, leur date et leur provenance restent séparés des scénarios.</span></div>
+    <div><small>La mémoire</small><b>Vintages officielles</b><span>Les anciens modèles ne sont pas écrasés : ils permettent de comprendre pourquoi une estimation évolue.</span></div>
+    <div><small>Les muscles</small><b>Stress tests</b><span>+50 / +100 / +150 / +200 pb montrent la sensibilité mécanique du modèle choisi.</span></div>
+    <div><small>La peau</small><b>Incertitude visible</b><span>Source dégradée, hypothèse approximative ou divergence de modèle restent visibles à l’écran.</span></div>
+    <div><small>Les yeux</small><b>3D, immersion, AR</b><span>Le volume sert à lire simultanément stock, horizon et propagation au lieu de juxtaposer des tableaux.</span></div>
+    <div><small>Le cerveau souverain</small><b>Reste humain</b><span>La Bête structure le réel et les conséquences ; elle ne remplace ni le jugement ni la responsabilité du décideur.</span></div>
+  </div>
 </section>
 
 <section class="execBand" id="executive-brief">
@@ -279,55 +338,7 @@ body[data-evo-focus="evidence"] #rpEvidenceCard,body[data-evo-focus="decision"] 
   <div id="changeReadings"><article class="changeReading"><small>READING 1</small><b>Market conditions transmit progressively to the debt stock.</b><span>Hypothèse sensible : Persistence and refinancing volume · source à revoir : Banque de France curve + AFT financing programme</span><ul><li>Sustained curve reversal</li><li>Material issuance-programme change</li><li>Significant buybacks</li><li>Change in average maturity</li></ul></article><article class="changeReading"><small>READING 2</small><b>Current maturity exposure is only partially live.</b><span>Hypothèse sensible : Retained-last-good ladder · source à revoir : AFT detailed OAT/OATi/OAT€i outstanding</span><ul><li>Machine-readable AFT file becomes available</li><li>AFT pages become runner-accessible</li><li>New official maturity vintage</li></ul></article><article class="changeReading"><small>READING 3</small><b>Stress outputs are sensitivities, not forecasts.</b><span>Hypothèse sensible : Linear scaling of fixed official vintages · source à revoir : PAP / AFT official publications</span><ul><li>New official sensitivity model</li><li>Non-linear official estimates</li><li>Different shock shape or start date</li></ul></article><article class="changeReading"><small>READING 4</small><b>TEC10 is cross-checked.</b><span>Hypothèse sensible : Same official observation vintage · source à revoir : Banque de France page + Webstat</span><ul><li>Page/Webstat divergence exceeds 1 bp</li><li>Publication date mismatch</li><li>One source becomes unavailable</li></ul></article></div>
 </section>
 
-<section class="section" id="la-bete">
-  <div class="head">
-    <div><div class="ey">LA BÊTE · DIGITAL TWIN VISUEL</div><h2>Donner du volume au temps.</h2></div>
-    <p>Le cœur représente le stock ; les anneaux représentent les années de propagation ; les huit bras représentent les canaux à surveiller. Le modèle 3D ne fabrique aucune donnée : sa géométrie se recale sur le manifeste live et sur le scénario de taux sélectionné.</p>
-  </div>
-  <div class="beastShell">
-    <div class="beastStage" id="beastStage">
-      <video id="arVideo" playsinline muted autoplay aria-hidden="true"></video>
-      <div id="beastMount" aria-label="Visualisation 3D interactive de la dette, des taux et du refinancement"></div>
-      <div class="beastHud" aria-live="polite">
-        <div><small>Cœur · stock</small><strong id="beastStock">2,896 T€</strong></div>
-        <div><small>Signal · TEC10</small><strong id="beastRate">4,903 %</strong></div>
-        <div><small>Choc exploré</small><strong id="beastShock">+100 pb</strong></div>
-        <div><small>Propagation · an 5</small><strong id="beastY5">18,4 Md€</strong></div>
-      </div>
-      <div class="beastTag" id="beastTag"><b>La Bête n’est pas un décor.</b> Glissez pour tourner, pincez ou utilisez la molette pour zoomer. Touchez un bras : la couche décisionnelle correspondante s’ouvre. L’intensité encode le scénario sélectionné, jamais une opinion.</div>
-    </div>
-    <div class="beastTools">
-      <button type="button" id="beastImmersive">Immersion plein écran</button>
-      <button type="button" id="beastMotion">Mouvement du téléphone</button>
-      <button type="button" id="beastCamera">AR caméra</button>
-      <button type="button" id="beastReset">Recentrer</button>
-    </div>
-  </div>
-  <div class="beastLegend" aria-label="Canaux de La Bête">
-    <div><b>01 · Marché</b>courbe des taux observée</div>
-    <div><b>02 · Refinancement</b>titres arrivant à maturité</div>
-    <div><b>03 · Émissions</b>nouveaux besoins de financement</div>
-    <div><b>04 · Intérêts</b>charge budgétaire transmise</div>
-    <div><b>05 · Stock</b>dette déjà émise</div>
-    <div><b>06 · Maturité</b>durée de vie du portefeuille</div>
-    <div><b>07 · Déficit</b>besoin de financement</div>
-    <div><b>08 · Temps</b>mémoire des coupons émis</div>
-  </div>
-  <div class="beastExplain">
-    <article class="card"><h3>3D utile</h3><p>Le rayon du cœur encode le stock observé. Les cinq anneaux utilisent la courbe officielle de sensibilité à 1–5 ans. Le scénario +50 / +100 / +150 / +200 pb modifie instantanément l’épaisseur et l’intensité des couches pour montrer la propagation, pas pour prédire le marché.</p></article>
-    <article class="card"><h3>Immersion & réalité augmentée</h3><p>Le mode plein écran transforme la page en salle de situation. Le mouvement du téléphone permet de “tourner autour” du système. Le mode AR caméra superpose La Bête au monde réel quand le navigateur autorise la caméra. Aucune image de caméra n’est envoyée ni stockée par cette page.</p></article>
-  </div>
-  <div class="beastConcept" aria-label="Anatomie conceptuelle de La Bête">
-    <div><small>Les sens</small><b>Sources publiques</b><span>Chaque capteur garde son état : frais, vintage, dégradé ou indisponible.</span></div>
-    <div><small>Le système nerveux</small><b>Deltas & événements</b><span>Un changement de source devient un signal à réconcilier, jamais une vérité automatique.</span></div>
-    <div><small>Le cœur</small><b>État canonique</b><span>Les nombres actuellement retenus, leur date et leur provenance restent séparés des scénarios.</span></div>
-    <div><small>La mémoire</small><b>Vintages officielles</b><span>Les anciens modèles ne sont pas écrasés : ils permettent de comprendre pourquoi une estimation évolue.</span></div>
-    <div><small>Les muscles</small><b>Stress tests</b><span>+50 / +100 / +150 / +200 pb montrent la sensibilité mécanique du modèle choisi.</span></div>
-    <div><small>La peau</small><b>Incertitude visible</b><span>Source dégradée, hypothèse approximative ou divergence de modèle restent visibles à l’écran.</span></div>
-    <div><small>Les yeux</small><b>3D, immersion, AR</b><span>Le volume sert à lire simultanément stock, horizon et propagation au lieu de juxtaposer des tableaux.</span></div>
-    <div><small>Le cerveau souverain</small><b>Reste humain</b><span>La Bête structure le réel et les conséquences ; elle ne remplace ni le jugement ni la responsabilité du décideur.</span></div>
-  </div>
-</section>
+
 
 <section class="section"><div class="head"><div><div class="ey">FILM DE TRANSMISSION</div><h2>+100 pb ne frappe pas 2 896 Md€ le premier jour.</h2></div><p>Le PLF 2026 publiait une courbe complète de sensibilité pour un choc parallèle et durable sur toutes les maturités. On peut donc regarder comment le coût additionnel se propage année après année — et tester des amplitudes par simple proportion, comme approximation.</p></div>
 <div class="shockbar" role="group" aria-label="Amplitude du choc"><button data-bps="50">+50 pb</button><button data-bps="100" aria-pressed="true">+100 pb</button><button data-bps="150">+150 pb</button><button data-bps="200">+200 pb</button></div>
@@ -628,6 +639,62 @@ async function load(){try{const r=await fetch(FEED+'?t='+Date.now(),{cache:'no-s
 async function run(){try{const r=await fetch(RUNS,{cache:'no-store',headers:{Accept:'application/vnd.github+json'}});const j=await r.json(),x=(j.workflow_runs||[])[0];if(!r.ok||!x)throw Error('no run');const good=x.status==='completed'&&x.conclusion==='success',fresh=Date.now()-Date.parse(x.run_started_at||x.created_at)<8*60000;pill($('runner'),'RUNNER '+(good?'OK':String(x.status||x.conclusion).toUpperCase())+' · '+ago(x.run_started_at||x.created_at),good&&fresh?'ok':'warn');setEvo('evoRunner',good?'SUCCESS':String(x.status||x.conclusion).toUpperCase(),(x.event||'run')+' · '+ago(x.run_started_at||x.created_at),good&&fresh?'ok':'warn')}catch(e){pill($('runner'),'RUNNER UNKNOWN · API INJOIGNABLE','warn');setEvo('evoRunner','UNKNOWN','API GitHub indisponible ; état matériel conservé','warn')}}
 document.querySelectorAll('[data-bps]').forEach(b=>b.addEventListener('click',()=>{bps=Number(b.dataset.bps);renderSim()}));
 
+// Optional sensory presentation. No metric sonification, permission request or source I/O.
+const beastResonance={context:null,master:null,modulation:null,voices:[],active:false,busy:false,haptic:false};
+function resonanceStatus(text){const el=$('resonanceStatus');if(el)el.textContent=text;}
+function resonanceVolume(){return Math.max(0,Math.min(60,Number($('beastVolume')?.value||24)))/100*.16;}
+function resonanceUI(){
+  document.body.dataset.resonance=beastResonance.active?'on':'off';
+  const button=$('beastSound');if(button){button.setAttribute('aria-pressed',String(beastResonance.active));button.textContent=beastResonance.active?'Couper le son':'Faire résonner';button.disabled=beastResonance.busy;}
+  const badge=$('beastAudioState');if(badge)badge.textContent=beastResonance.active?'RÉSONANCE ACTIVE':'EN SILENCE';
+}
+function stopBeastResonance(immediate=false){
+  const c=beastResonance.context;beastResonance.active=false;beastResonance.context=null;
+  if(c){try{const t=c.currentTime;beastResonance.master.gain.cancelScheduledValues(t);beastResonance.master.gain.setTargetAtTime(0,t,.025);beastResonance.voices.forEach(v=>v.stop(t+.1));
+    if(immediate){c.close().catch(()=>{});}else setTimeout(()=>c.close().catch(()=>{}),140);
+  }catch(e){c.close().catch(()=>{});}}
+  beastResonance.voices=[];beastResonance.master=null;beastResonance.modulation=null;resonanceUI();
+  resonanceStatus('En silence. Texture sonore artistique, indépendante des données.');
+}
+async function toggleBeastResonance(){
+  if(beastResonance.busy)return;if(beastResonance.active){stopBeastResonance();return;}
+  const Constructor=window.AudioContext||window.webkitAudioContext;
+  if(!Constructor){resonanceStatus('Le son n’est pas disponible dans ce navigateur.');return;}
+  beastResonance.busy=true;resonanceUI();let c;
+  try{
+    // Construct AND resume in the user's click, never during hydration or refresh.
+    c=new Constructor();beastResonance.context=c;
+    const master=c.createGain(),compressor=c.createDynamicsCompressor();master.gain.value=0;
+    compressor.threshold.value=-22;compressor.knee.value=20;compressor.ratio.value=2;compressor.attack.value=.008;compressor.release.value=.3;
+    master.connect(compressor);compressor.connect(c.destination);beastResonance.master=master;
+    for(const [hz,gain,type] of [[72,.26,'triangle'],[108,.14,'sine'],[144.6,.12,'sine'],[216,.19,'sine'],[324,.16,'sine'],[648,.08,'sine']]){
+      const o=c.createOscillator(),g=c.createGain();o.frequency.value=hz;o.type=type;g.gain.value=gain;o.connect(g);g.connect(master);o.start();beastResonance.voices.push(o);
+    }
+    const breath=c.createOscillator(),amount=c.createGain();breath.frequency.value=.23;amount.gain.value=resonanceVolume()*.14;breath.connect(amount);amount.connect(master.gain);breath.start();beastResonance.voices.push(breath);beastResonance.modulation=amount;
+    await c.resume();if(document.hidden||beastResonance.context!==c){stopBeastResonance(true);return;}
+    if(c.state!=='running')throw Error('Lecture sonore suspendue');
+    master.gain.setTargetAtTime(resonanceVolume(),c.currentTime,.24);beastResonance.active=true;
+    c.onstatechange=()=>{if(beastResonance.active&&beastResonance.context===c&&c.state!=='running')stopBeastResonance(true);};
+    resonanceStatus('Résonance active · grave doux et harmoniques. Réglez le volume à votre goût.');
+  }catch(e){stopBeastResonance(true);resonanceStatus('Son indisponible ici. Touchez à nouveau pour réessayer.');}
+  finally{beastResonance.busy=false;resonanceUI();}
+}
+function beastTouch(pattern=18){
+  if(!beastResonance.haptic||document.hidden)return;
+  try{if(navigator.vibrate(pattern)===false){beastResonance.haptic=false;$('beastHaptic').setAttribute('aria-pressed','false');resonanceStatus('Vibration non disponible sur cet appareil ; le son reste utilisable.');}}catch(e){beastResonance.haptic=false;$('beastHaptic').setAttribute('aria-pressed','false');}
+}
+function initResonance(){
+  const sound=$('beastSound'),touch=$('beastHaptic'),volume=$('beastVolume');if(!sound||!touch||!volume)return;
+  sound.addEventListener('click',toggleBeastResonance);
+  if(!(window.AudioContext||window.webkitAudioContext)){sound.disabled=true;sound.textContent='Son indisponible';}
+  if(typeof navigator.vibrate!=='function'){touch.disabled=true;touch.textContent='Vibration non disponible';}
+  else touch.addEventListener('click',()=>{beastResonance.haptic=!beastResonance.haptic;touch.setAttribute('aria-pressed',String(beastResonance.haptic));touch.textContent=beastResonance.haptic?'Vibration active':'Vibration tactile';if(beastResonance.haptic)beastTouch([18,45,18]);else navigator.vibrate(0);});
+  volume.addEventListener('input',()=>{$('beastVolumeValue').textContent=volume.value+' %';if(beastResonance.active){const t=beastResonance.context.currentTime;beastResonance.master.gain.setTargetAtTime(resonanceVolume(),t,.06);beastResonance.modulation.gain.setTargetAtTime(resonanceVolume()*.14,t,.06);}});
+  document.addEventListener('click',e=>{if(e.target.closest?.('[data-bps],[data-shape],.timeControls button,.beastTools button'))beastTouch();});
+  const silence=()=>{stopBeastResonance(true);if(beastResonance.haptic){try{navigator.vibrate(0);}catch(e){}beastResonance.haptic=false;touch.setAttribute('aria-pressed','false');touch.textContent='Vibration tactile';}};
+  document.addEventListener('visibilitychange',()=>{if(document.hidden)silence();});window.addEventListener('pagehide',silence);
+}
+
 let beast3d=null,beastStream=null,beastMotionOn=false;
 async function initBeast(){
   const mount=$('beastMount'),stage=$('beastStage'); if(!mount||beast3d)return;
@@ -636,12 +703,12 @@ async function initBeast(){
     const scene=new THREE.Scene(),camera=new THREE.PerspectiveCamera(42,1,.1,100);
     camera.position.set(0,1.0,12.6);
     const renderer=new THREE.WebGLRenderer({antialias:true,alpha:true,powerPreference:'high-performance'});
-    renderer.setPixelRatio(Math.min(devicePixelRatio||1,2));renderer.setClearColor(0x000000,0);mount.appendChild(renderer.domElement);
+    renderer.setPixelRatio(Math.min(devicePixelRatio||1,1.7));renderer.setClearColor(0x000000,0);mount.appendChild(renderer.domElement);
     const root=new THREE.Group();scene.add(root);
     const amb=new THREE.AmbientLight(0x9ecbd7,1.6);scene.add(amb);
     const key=new THREE.PointLight(0xc8f09a,4.5,35);key.position.set(4,5,7);scene.add(key);
     const rim=new THREE.PointLight(0x8bd6e5,3.2,30);rim.position.set(-6,-1,4);scene.add(rim);
-    const coreMat=new THREE.MeshPhysicalMaterial({color:0x163949,roughness:.25,metalness:.15,transmission:.15,emissive:0x09212b,emissiveIntensity:1.2,transparent:true,opacity:.97});
+    const coreMat=new THREE.MeshPhysicalMaterial({color:0x36535d,roughness:.13,metalness:.3,transmission:.22,emissive:0x10252c,emissiveIntensity:1.2,transparent:true,opacity:.97});
     const core=new THREE.Mesh(new THREE.IcosahedronGeometry(2.1,5),coreMat);root.add(core);
     const inner=new THREE.Mesh(new THREE.IcosahedronGeometry(1.42,3),new THREE.MeshBasicMaterial({color:0xc8f09a,wireframe:true,transparent:true,opacity:.11}));root.add(inner);
     const ringGroup=new THREE.Group();root.add(ringGroup);
@@ -665,8 +732,8 @@ async function initBeast(){
       const p2=dir.clone().multiplyScalar(4.55).add(new THREE.Vector3(Math.sin(a*1.7)*.65,Math.cos(a*1.3)*.7,Math.sin(a)*.35));
       const curve=new THREE.CatmullRomCurve3([p0,p1,p2]);
       const mat=new THREE.MeshStandardMaterial({color:i%2?0x8bd6e5:0xc8f09a,roughness:.35,metalness:.05,emissive:i%2?0x153742:0x23371c,emissiveIntensity:.5,transparent:true,opacity:.78});
-      const mesh=new THREE.Mesh(new THREE.TubeGeometry(curve,48,.11,10,false),mat);mesh.userData={idx:i,label:labels[i][0],detail:labels[i][1]};root.add(mesh);arms.push(mesh);
-      const tip=new THREE.Mesh(new THREE.SphereGeometry(.14,16,12),new THREE.MeshBasicMaterial({color:i%2?0x8bd6e5:0xc8f09a}));tip.position.copy(p2);root.add(tip);
+      const mesh=new THREE.Mesh(new THREE.TubeGeometry(curve,48,.065,10,false),mat);mesh.userData={idx:i,label:labels[i][0],detail:labels[i][1]};root.add(mesh);arms.push(mesh);
+      const tip=new THREE.Mesh(new THREE.SphereGeometry(.10,16,12),new THREE.MeshBasicMaterial({color:i%2?0x8bd6e5:0xc8f09a}));tip.position.copy(p2);root.add(tip);
     }
     const stars=new THREE.Points(new THREE.BufferGeometry(),new THREE.PointsMaterial({color:0x7b9dad,size:.022,transparent:true,opacity:.55}));
     const pts=[];for(let i=0;i<500;i++){const r=5+Math.random()*8,a=Math.random()*Math.PI*2,b=(Math.random()-.5)*Math.PI;pts.push(r*Math.cos(a)*Math.cos(b),r*Math.sin(b),r*Math.sin(a)*Math.cos(b))}
@@ -684,8 +751,9 @@ async function initBeast(){
     renderer.domElement.addEventListener('pointermove',e=>{if(!drag)return;ry+=(e.clientX-px)*.006;rx+=(e.clientY-py)*.004;px=e.clientX;py=e.clientY});
     renderer.domElement.addEventListener('pointerup',e=>{if(drag&&Math.abs(e.clientX-px)<7&&Math.abs(e.clientY-py)<7){const rct=renderer.domElement.getBoundingClientRect();pointer.x=((e.clientX-rct.left)/rct.width)*2-1;pointer.y=-((e.clientY-rct.top)/rct.height)*2+1;ray.setFromCamera(pointer,camera);const hit=ray.intersectObjects(arms,false)[0];if(hit){const u=hit.object.userData;$('beastTag').innerHTML='<b>'+u.label+'</b> — '+u.detail}}drag=false});
     renderer.domElement.addEventListener('wheel',e=>{zoom=Math.max(7,Math.min(19,zoom+Math.sign(e.deltaY)*.7));e.preventDefault()},{passive:false});
-    function frame(t){if(!beastMotionOn){root.rotation.x+=(rx-root.rotation.x)*.055;if(!reducedMotion)root.rotation.y+=(ry-root.rotation.y)*.055}else if(!reducedMotion){root.rotation.y+=.0015}camera.position.z+=(zoom-camera.position.z)*.08;if(!reducedMotion){core.scale.setScalar(1+Math.sin(t*.0016)*.018);inner.rotation.y+=.0025;ringGroup.rotation.z+=.0007;stars.rotation.y-=.00012}renderer.render(scene,camera);requestAnimationFrame(frame)}
+    function frame(t){if(!beastMotionOn){root.rotation.x+=(rx-root.rotation.x)*.055;if(!reducedMotion)root.rotation.y+=(ry-root.rotation.y)*.055}else if(!reducedMotion){root.rotation.y+=.0015}camera.position.z+=(zoom-camera.position.z)*.08;if(!reducedMotion){core.scale.setScalar(1+Math.sin(t*.0016)*.018+(beastResonance.active?Math.sin(t*.00145)*.009:0));inner.rotation.y+=.0025;ringGroup.rotation.z+=.0007;stars.rotation.y-=.00012}renderer.render(scene,camera);requestAnimationFrame(frame)}
     requestAnimationFrame(frame);
+    mount.classList.add('webgl-ready');
     beast3d={THREE,scene,camera,renderer,root,core,inner,rings,ringMats,arms,reset(){rx=.12;ry=.2;zoom=12.6}};
     window.updateBeast=(shock,curve)=>{const f=shock/100,vals=curve.slice(0,5);rings.forEach((r,i)=>{const k=Math.max(.12,Math.min(1,(vals[i]*f)/(vals[4]*2)));r.scale.setScalar(.96+k*.12);ringMats[i].opacity=.08+k*.45});coreMat.emissiveIntensity=.65+Math.min(1.8,f)*.55;arms.forEach((a,i)=>{a.material.emissiveIntensity=.25+f*.3+(i===3?.25:0)})};
     if(state){window.updateBeast(bps,state.sensitivity.pap2026.annual_extra_charge_bne);window.updateBeastMarket(state.observed?.yield_curve||[]);}
@@ -700,5 +768,6 @@ $('downloadBriefHtml')?.addEventListener('click',()=>{if(state)downloadText('EXE
 $('downloadSnapshot')?.addEventListener('click',()=>{if(state)downloadText('SNAPSHOT.json',JSON.stringify(state,null,2),'application/json')});
 try{const initial=JSON.parse($('canonicalSnapshot').textContent);if(!acceptCanonical(initial))throw Error('Snapshot invalide');const evo=JSON.parse($('canonicalEvolution').textContent);if(evo.status==='ACTIVE'&&evo.verification?.generation===evo.generation)applyEvolution(evo);}catch(e){pill($('feed'),'SNAPSHOT NON VÉRIFIÉ','warn')}
 initBeast();
+initResonance();
 load();loadEvolution();run();setInterval(load,30000);setInterval(loadEvolution,30000);setInterval(run,60000);
 </script></body></html>
