@@ -5,35 +5,26 @@ from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 OUT=Path("docs/data/france-debt-rate-live.json")
-UA="Mozilla/5.0 (compatible; OJO-France-Debt-Rate-Live/1.1; +https://github.com/Nicolason84/nova-trust)"
-MAX=3_000_000
-BDF_HOSTS=[
- "https://www.banque-france.fr",
- "https://acpr.banque-france.fr",
- "https://www.abe-infoservice.fr",
- "https://esurfi.banque-france.fr",
-]
-BDF_PATH="/fr/statistiques/taux-et-cours/indices-obligataires-"
-BDF_CSV=[
- "https://webstat.banque-france.fr/export/csv-columns/fr/selection/5385693",
- "https://webstat.banque-france.fr/fr/downloadFile.do?id=5385693&exportType=csv",
-]
-AFT_RSS="https://www.aft.gouv.fr/fr/rss.xml"
-DGFIP_META="https://www.data.gouv.fr/api/1/datasets/dgfip-situation-mensuelle-de-letat/"
-PAP_CURVE=[3.1,7.5,11.3,15.0,18.4,21.7,24.8,27.7,30.2,32.1]
+UA="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 Chrome/129 Safari/537.36 OJO-France-Debt-Rate-Live/1.1"
+BDF_PREFIX="https://www.banque-france.fr/fr/statistiques/taux-et-cours/indices-obligataires-"
 
-PINNED={
+# Official AFT vintages. These are deliberately versioned anchors, not pseudo-live values.
+AFT_DEBT={
  "debt_negotiable_eur":2896181146497,
  "debt_date":"2026-09-30",
  "debt_avg_life_years":8,
  "debt_avg_life_days":158,
  "debt_avg_life_date":"2026-09-30",
  "weighted_oat_issuance_pct":3.55,
- "weighted_oat_date":"2026-09-30",
+ "weighted_oat_date":"2026-09-30"
+}
+AFT_2027={
  "financing_need_2027_bne":339.7,
  "issuance_mlt_2027_bne":340.0,
- "plf2026_end_2026_10y_assumption_pct":3.8,
+ "debt_charge_2027_bne":72.9,
+ "debt_charge_2026_bne":62.6
 }
+PAP_CURVE=[3.1,7.5,11.3,15.0,18.4,21.7,24.8,27.7,30.2,32.1]
 
 def now():
     return datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00","Z")
@@ -44,146 +35,148 @@ def norm(s):
     s=re.sub(r"(?s)<[^>]+>"," ",s)
     return re.sub(r"\s+"," ",html.unescape(s)).strip()
 
-def req(url,accept="text/html,*/*;q=0.8"):
-    r=urllib.request.Request(url,headers={"User-Agent":UA,"Accept":accept,"Accept-Language":"fr-FR,fr;q=0.9,en;q=0.6"})
-    with urllib.request.urlopen(r,timeout=25) as x:
-        b=x.read(MAX)
-        return getattr(x,"status",200),b,x.headers.get("etag"),x.headers.get("last-modified"),x.headers.get_content_charset()
+def get(url):
+    req=urllib.request.Request(url,headers={
+      "User-Agent":UA,
+      "Accept":"text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+      "Accept-Language":"fr-FR,fr;q=0.9,en;q=0.7",
+      "Cache-Control":"no-cache"
+    })
+    with urllib.request.urlopen(req,timeout=25) as r:
+        raw=r.read(3_000_000).decode("utf-8","replace")
+        return getattr(r,"status",200),norm(raw),r.headers.get("etag"),r.headers.get("last-modified")
 
 def fnum(s):
     return float(s.replace("\u00a0"," ").replace(" ","").replace(",", "."))
 
-def src(i,publisher,label,url,health="OK",digest=None,error=None,etag=None,lm=None,extra=None):
-    d={"id":i,"publisher":publisher,"label":label,"url":url,"health":health,"digest":digest,"checked_at":now(),"error":error,"etag":etag,"last_modified":lm}
-    if extra:d.update(extra)
-    return d
+def source_record(i,publisher,label,url,health,checked_at=None,digest=None,error=None,etag=None,lm=None):
+    return {"id":i,"publisher":publisher,"label":label,"url":url,"health":health,"digest":digest,
+            "checked_at":checked_at or now(),"error":error,"etag":etag,"last_modified":lm}
 
-def parse_bdf_html(text):
-    text=norm(text)
-    m=re.search(r"TEC10\s+(.*?)(?:TEC15|Indices Hebdomadaires|Indices Mensuels)",text,re.I)
-    vals=re.findall(r"[0-9]+[,.][0-9]+",m.group(1) if m else "")
-    return fnum(vals[-1]) if vals else None
-
-def fetch_bdf_html():
-    today=datetime.now(timezone.utc).date()
-    errs=[]
-    for back in range(0,10):
-        d=today-timedelta(days=back)
-        for host in BDF_HOSTS:
-            url=host+BDF_PATH+d.isoformat()
-            try:
-                status,b,etag,lm,cs=req(url)
-                text=b.decode(cs or "utf-8","replace")
-                v=parse_bdf_html(text)
-                if v is not None:
-                    return src("BDF_TEC","Banque de France","TEC10 quotidien · page officielle",url,digest=hashlib.sha256(norm(text).encode()).hexdigest(),etag=etag,lm=lm),{"tec10_pct":v,"tec10_date":d.isoformat()}
-            except Exception as e:
-                errs.append(f"{host}:{type(e).__name__}:{e}")
-    return src("BDF_TEC","Banque de France","TEC10 quotidien · page officielle",BDF_HOSTS[0]+BDF_PATH+today.isoformat(),health="ERROR",error=" | ".join(errs[-4:])[:700]),{}
-
-def fetch_bdf_csv():
-    errs=[]
-    for url in BDF_CSV:
+def fetch_bdf_latest(previous):
+    start=datetime.now(timezone.utc).date()
+    errors=[]
+    for back in range(0,12):
+        d=start-timedelta(days=back)
+        url=BDF_PREFIX+d.isoformat()
         try:
-            status,b,etag,lm,cs=req(url,"text/csv,text/plain,*/*;q=0.8")
-            text=b.decode(cs or "utf-8","replace")
-            dates=re.findall(r"(?:\d{2}/\d{2}/\d{4}|\d{4}-\d{2}-\d{2})",text)
-            # Flexible extraction: inspect TEC10 row/record first, then neighboring fields.
-            chunks=[x for x in re.split(r"[\r\n]+",text) if re.search(r"TEC\s*10|TEC10",x,re.I)]
-            vals=[]
-            for c in chunks:
-                vals += [fnum(x) for x in re.findall(r"(?<!\d)(\d+[,.]\d{2,4})(?!\d)",c)]
+            _,text,etag,lm=get(url)
+            block=re.search(r"\bTEC10\b(.*?)\bTEC15\b",text,re.I|re.S)
+            vals=re.findall(r"(?<!\d)(\d{1,2}[,.]\d{3,4})(?!\d)",block.group(1) if block else "")
+            if not vals:
+                # Fallback if page markup/order changes: inspect a bounded window after TEC10.
+                i=text.upper().find("TEC10")
+                window=text[i:i+700] if i>=0 else ""
+                vals=re.findall(r"(?<!\d)(\d{1,2}[,.]\d{3,4})(?!\d)",window)
             if vals:
-                v=vals[-1]
-                date=None
-                if dates:
-                    z=dates[-1]
-                    if "/" in z:
-                        dd,mm,yy=z.split("/"); date=f"{yy}-{mm}-{dd}"
-                    else: date=z
-                return src("BDF_WEBSTAT","Banque de France · Webstat","Historique CNO-TEC · export CSV",url,digest=hashlib.sha256(b).hexdigest(),etag=etag,lm=lm),{"webstat_tec10_last_pct":v,"webstat_last_date":date}
-            return src("BDF_WEBSTAT","Banque de France · Webstat","Historique CNO-TEC · export CSV",url,health="PARSE_WARN",digest=hashlib.sha256(b).hexdigest(),etag=etag,lm=lm,error="CSV fetched but TEC10 record not parsed."),{}
+                value=fnum(vals[-1])
+                return (
+                  source_record("BDF_TEC","Banque de France","TEC10 quotidien",url,"OK_LIVE",
+                                digest=hashlib.sha256(text.encode()).hexdigest(),etag=etag,lm=lm),
+                  {"tec10_pct":value,"tec10_date":d.isoformat(),"bdf_latest_page_date":d.isoformat()}
+                )
+            errors.append(f"{d}: parse")
         except Exception as e:
-            errs.append(f"{type(e).__name__}: {e}")
-    return src("BDF_WEBSTAT","Banque de France · Webstat","Historique CNO-TEC · export CSV",BDF_CSV[0],health="ERROR",error=" | ".join(errs)[:500]),{}
-
-def fetch_watch(i,publisher,label,url,accept):
-    try:
-        status,b,etag,lm,cs=req(url,accept)
-        return src(i,publisher,label,url,digest=hashlib.sha256(b).hexdigest(),etag=etag,lm=lm,extra={"bytes":len(b)})
-    except Exception as e:
-        return src(i,publisher,label,url,health="ERROR",error=f"{type(e).__name__}: {e}"[:500])
+            errors.append(f"{d}: {type(e).__name__} {getattr(e,'code','')}")
+    old=(previous or {}).get("observed",{})
+    retained={}
+    for k in ("tec10_pct","tec10_date","bdf_latest_page_date"):
+        if k in old: retained[k]=old[k]
+    return (
+      source_record("BDF_TEC","Banque de France","TEC10 quotidien",BDF_PREFIX+start.isoformat(),
+                    "DEGRADED_RETAINED",error="; ".join(errors[:5])[:500]),
+      retained
+    )
 
 try:
     prev=json.loads(OUT.read_text())
 except Exception:
     prev={}
 
-oldobs=prev.get("observed",{})
-observed={**PINNED,**oldobs}
-sources=[]
+observed={}
+observed.update(AFT_DEBT)
+observed.update(AFT_2027)
+observed["plf2026_end_2026_10y_assumption_pct"]=3.8
 
-bdf,bvals=fetch_bdf_html()
-sources.append(bdf)
-observed.update(bvals)
-
-webstat,wvals=fetch_bdf_csv()
-sources.append(webstat)
-# Only use CSV as a fallback live TEC observation if page mirror did not bind.
-if "tec10_pct" not in bvals and wvals.get("webstat_tec10_last_pct") is not None:
-    observed["tec10_pct"]=wvals["webstat_tec10_last_pct"]
-    if wvals.get("webstat_last_date"): observed["tec10_date"]=wvals["webstat_last_date"]
-
-sources.append(fetch_watch("AFT_RSS","Agence France Trésor","Flux RSS des publications","https://www.aft.gouv.fr/fr/rss.xml","application/rss+xml,application/xml,text/xml,*/*;q=0.8"))
-sources.append(fetch_watch("DGFIP_META","DGFiP / data.gouv.fr","Situation mensuelle de l'État · métadonnées","https://www.data.gouv.fr/api/1/datasets/dgfip-situation-mensuelle-de-letat/","application/json,*/*;q=0.8"))
-sources.append(src("AFT_SNAPSHOT","Agence France Trésor","Ancre officielle · encours, maturité, financement 2027","https://www.aft.gouv.fr/fr",health="PINNED",digest=hashlib.sha256(json.dumps(PINNED,sort_keys=True).encode()).hexdigest(),extra={"published_through":"2026-10-01","note":"Pinned because AFT HTML blocks unattended GitHub runners; publication RSS remains live-monitored."}))
-
+sources=[
+ source_record(
+   "AFT_DEBT_VINTAGE","Agence France Trésor",
+   "Encours, durée de vie et taux moyen pondéré — vintage 30/09/2026",
+   "https://www.aft.gouv.fr/fr","OFFICIAL_VINTAGE",checked_at="2026-09-30T00:00:00Z"
+ ),
+ source_record(
+   "AFT_2027_VINTAGE","Agence France Trésor",
+   "Besoins et ressources de financement 2027 — publication 29/09/2026",
+   "https://www.aft.gouv.fr/fr/publications/communiques-presse/29092026-besoins-et-ressources-financement-letat-en-2027-et-point",
+   "OFFICIAL_VINTAGE",checked_at="2026-09-29T00:00:00Z"
+ )
+]
+bdf_source,bdf_obs=fetch_bdf_latest(prev)
+sources.append(bdf_source)
+observed.update(bdf_obs)
 if observed.get("tec10_pct") is not None:
-    observed["tec10_vs_plf_assumption_bps"]=round((float(observed["tec10_pct"])-3.8)*100,1)
+    observed["tec10_vs_plf_assumption_bps"]=round((observed["tec10_pct"]-3.8)*100,1)
 
-old_sources={x.get("id"):x for x in prev.get("sources",[]) if isinstance(x,dict)}
+oldobs=prev.get("observed",{})
+oldsrc={s.get("id"):s for s in prev.get("sources",[]) if isinstance(s,dict)}
 events=[]
+
 for s in sources:
-    p=old_sources.get(s["id"])
+    p=oldsrc.get(s["id"])
     if not p:
-        events.append({"kind":"SOURCE_BASELINED","source_id":s["id"],"at":s["checked_at"],"detail":"First fingerprint captured."})
+        events.append({"kind":"SOURCE_BASELINED","source_id":s["id"],"at":now(),"detail":"Source initialized."})
     elif p.get("health")!=s.get("health"):
-        events.append({"kind":"SOURCE_HEALTH_CHANGED","source_id":s["id"],"at":s["checked_at"],"detail":f"{p.get('health')} → {s.get('health')}"})
-    elif s.get("digest") and p.get("digest")!=s.get("digest"):
-        events.append({"kind":"SOURCE_CHANGED","source_id":s["id"],"at":s["checked_at"],"detail":"Public source fingerprint changed."})
+        events.append({"kind":"SOURCE_HEALTH_CHANGED","source_id":s["id"],"at":now(),"detail":f"{p.get('health')} → {s.get('health')}"})
 
 for k,v in observed.items():
     if k in oldobs and oldobs.get(k)!=v:
         events.append({"kind":"METRIC_CHANGED","metric":k,"at":now(),"detail":f"{oldobs.get(k)} → {v}"})
 
+# Ignore the old source IDs created by v1.0; emit one migration event, never a permanent warning.
+if any(x in oldsrc for x in ("AFT_HOME","AFT_BUDGET")):
+    if not any(e.get("kind")=="SOURCE_MODEL_MIGRATED" for e in prev.get("events",[])):
+        events.append({"kind":"SOURCE_MODEL_MIGRATED","at":now(),
+                       "detail":"AFT values moved to explicit official vintages; only TEC10 remains live-polled."})
+
 seq=int(prev.get("sequence",0))+(1 if events else 0)
-ok_states={"OK","PINNED"}
 manifest={
  "schema":"OJO_FRANCE_DEBT_RATE_LIVE_V1",
  "version":"2026-10-02.1",
  "sequence":seq,
  "updated_at":now(),
- "policy":{"political_recommendation":"NONE","market_yield_is_not_whole_debt_cost":True,"source_change":"DELTA_THEN_RECONCILE","typed_live_metrics":"OBSERVED_NOT_CAUSAL","sensitivity_model":"FIXED_OFFICIAL_VINTAGES","aft_html":"PINNED_DUE_TO_RUNNER_BLOCK"},
+ "policy":{
+   "political_recommendation":"NONE",
+   "market_yield_is_not_whole_debt_cost":True,
+   "source_change":"DELTA_THEN_RECONCILE",
+   "typed_live_metrics":"OBSERVED_NOT_CAUSAL",
+   "aft_values":"EXPLICIT_OFFICIAL_VINTAGES",
+   "sensitivity_model":"FIXED_OFFICIAL_VINTAGES"
+ },
  "observed":observed,
  "sensitivity":{
-   "pap2026":{"label":"PLF 2026 · PAP Engagements financiers de l’État","shock_bps":100,"annual_extra_charge_bne":PAP_CURVE,"start_year":2026},
-   "aft_later":{"label":"AFT · estimation citée par le Sénat","shock_bps":100,"points_bne":{"1":3.2,"5":23.5,"9":33.5}}
+   "pap2026":{"label":"PLF 2026 · PAP Engagements financiers de l’État","shock_bps":100,
+              "annual_extra_charge_bne":PAP_CURVE,"start_year":2026},
+   "aft_later":{"label":"AFT · estimation citée par le Sénat","shock_bps":100,
+                "points_bne":{"1":3.2,"5":23.5,"9":33.5}}
  },
  "sources":sources,
  "events":(prev.get("events",[])+events)[-120:],
  "material_changes":events,
- "summary":{"healthy":sum(s.get("health") in ok_states for s in sources),"monitored":len(sources),"warnings":sum(s.get("health") not in ok_states for s in sources),"changed_this_sequence":len(events)}
+ "summary":{
+   "monitored":len(sources),
+   "live_ok":sum(s.get("health")=="OK_LIVE" for s in sources),
+   "official_vintages":sum(s.get("health")=="OFFICIAL_VINTAGE" for s in sources),
+   "degraded":sum(s.get("health")=="DEGRADED_RETAINED" for s in sources),
+   "changed_this_sequence":len(events)
+ }
 }
+
+# No heartbeat-only commits. The runner can execute every 15 min without polluting history.
+if prev and not events:
+    print("NO_MATERIAL_CHANGE")
+    raise SystemExit(0)
+
 OUT.parent.mkdir(parents=True,exist_ok=True)
-encoded=json.dumps(manifest,ensure_ascii=False,indent=2)+"\n"
-
-if prev:
-    core_prev={k:v for k,v in prev.items() if k not in ("updated_at","material_changes","sources","summary")}
-    core_new={k:v for k,v in manifest.items() if k not in ("updated_at","material_changes","sources","summary")}
-    src_same=all(old_sources.get(s["id"],{}).get("digest")==s.get("digest") and old_sources.get(s["id"],{}).get("health")==s.get("health") for s in sources)
-    if core_prev==core_new and src_same:
-        print("NO_MATERIAL_CHANGE")
-        raise SystemExit(0)
-
-OUT.write_text(encoded)
-print(json.dumps({"status":"WROTE","sequence":seq,"events":len(events),"summary":manifest["summary"],"tec10":observed.get("tec10_pct")},ensure_ascii=False))
+OUT.write_text(json.dumps(manifest,ensure_ascii=False,indent=2)+"\n")
+print(json.dumps({"status":"WROTE","sequence":seq,"events":len(events),"tec10":observed.get("tec10_pct"),
+                  "tec10_date":observed.get("tec10_date"),"bdf_health":bdf_source["health"]},ensure_ascii=False))
