@@ -75,12 +75,14 @@ async function test(){
  const hung=evaluate('pulseFetch(FEED,{cache:"no-cache"})');
  const deadline=Array.from(timers.values()).find(x=>x.ms===15000);assert(deadline);deadline.fn();
  await assert.rejects(hung,/timeout/);
- c.fetch=async(url,options)=>({ok:true,json:async()=>new Promise((resolve,reject)=>{options.signal.reject=reject;})});
- const bodyHung=evaluate('pulseFetch(FEED,{cache:"no-cache"})');await Promise.resolve();await Promise.resolve();
+ let bodyReady;const bodyStarted=new Promise(resolve=>{bodyReady=resolve;});
+ c.fetch=async(url,options)=>({ok:true,json:async()=>new Promise((resolve,reject)=>{options.signal.reject=reject;bodyReady();})});
+ const bodyHung=evaluate('pulseFetch(FEED,{cache:"no-cache"})');await bodyStarted;
  const bodyDeadline=Array.from(timers.values()).find(x=>x.ms===15000);assert(bodyDeadline);bodyDeadline.fn();
  await assert.rejects(bodyHung,/timeout/);
  const wrong=structuredClone(evolution);wrong.source_snapshot_id='OJO-WRONG';
  c.fetch=async()=>({ok:true,json:async()=>wrong});assert.equal(await evaluate('loadEvolution()'),false);
  console.log('HYDRATION_AND_FAST_PULSE_VISIBLE_HIDDEN_BACKOFF_NO_OVERLAP_TIMEOUT_CANON_BINDING_PASS');
 }
-test().catch(e=>{console.error(e);process.exit(1)});
+const watchdog=setTimeout(()=>{console.error("Hydration test did not complete");process.exit(1)},5000);
+test().then(()=>clearTimeout(watchdog)).catch(e=>{console.error(e);process.exit(1)});
