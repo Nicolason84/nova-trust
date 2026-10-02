@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 from __future__ import annotations
-import hashlib, html, json, re, urllib.request
+import csv, gzip, hashlib, html, io, json, re, urllib.request
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
@@ -20,6 +20,7 @@ BDF_CSV=[
 ]
 AFT_RSS="https://www.aft.gouv.fr/fr/rss.xml"
 DGFIP_META="https://www.data.gouv.fr/api/1/datasets/dgfip-situation-mensuelle-de-letat/"
+DGFIP_EXPORT="https://data.economie.gouv.fr/api/explore/v2.1/catalog/datasets/situation-mensuelle-de-l-etat/exports/json"
 PAP_CURVE=[3.1,7.5,11.3,15.0,18.4,21.7,24.8,27.7,30.2,32.1]
 TEC_TENORS=(1,2,3,5,7,10,15,20,25,30)
 HISTORY_LIMIT=120
@@ -65,9 +66,11 @@ def norm(s):
     return re.sub(r"\s+"," ",html.unescape(s)).strip()
 
 def req(url,accept="text/html,*/*;q=0.8"):
-    r=urllib.request.Request(url,headers={"User-Agent":UA,"Accept":accept,"Accept-Language":"fr-FR,fr;q=0.9,en;q=0.6"})
+    r=urllib.request.Request(url,headers={"User-Agent":UA,"Accept":accept,"Accept-Language":"fr-FR,fr;q=0.9,en;q=0.6","Accept-Encoding":"gzip"})
     with urllib.request.urlopen(r,timeout=25) as x:
         b=x.read(MAX)
+        if (x.headers.get("content-encoding") or "").lower()=="gzip":
+            b=gzip.decompress(b)
         return getattr(x,"status",200),b,x.headers.get("etag"),x.headers.get("last-modified"),x.headers.get_content_charset()
 
 def fnum(s):
@@ -121,23 +124,43 @@ def fetch_bdf_csv():
     for url in BDF_CSV:
         try:
             status,b,etag,lm,cs=req(url,"text/csv,text/plain,*/*;q=0.8")
-            text=b.decode(cs or "utf-8","replace")
-            dates=re.findall(r"(?:\d{2}/\d{2}/\d{4}|\d{4}-\d{2}-\d{2})",text)
-            # Flexible extraction: inspect TEC10 row/record first, then neighboring fields.
-            chunks=[x for x in re.split(r"[\r\n]+",text) if re.search(r"TEC\s*10|TEC10",x,re.I)]
-            vals=[]
-            for c in chunks:
-                vals += [fnum(x) for x in re.findall(r"(?<!\d)(\d+[,.]\d{2,4})(?!\d)",c)]
-            if vals:
-                v=vals[-1]
-                date=None
-                if dates:
-                    z=dates[-1]
-                    if "/" in z:
-                        dd,mm,yy=z.split("/"); date=f"{yy}-{mm}-{dd}"
-                    else: date=z
-                return src("BDF_WEBSTAT","Banque de France · Webstat","Historique CNO-TEC · export CSV",url,digest=hashlib.sha256(b).hexdigest(),etag=etag,lm=lm),{"webstat_tec10_last_pct":v,"webstat_last_date":date}
-            return src("BDF_WEBSTAT","Banque de France · Webstat","Historique CNO-TEC · export CSV",url,health="PARSE_WARN",digest=hashlib.sha256(b).hexdigest(),etag=etag,lm=lm,error="CSV fetched but TEC10 record not parsed."),{}
+            text=b.decode(cs or "utf-8-sig","replace").lstrip("\ufeff")
+            rows=list(csv.reader(io.StringIO(text),delimiter=";"))
+            if not rows:
+                raise ValueError("EMPTY_CSV")
+            header=rows[0]
+            tenors={}
+            for i,name in enumerate(header):
+                m=re.search(r"Echéance Constante\s*-\s*(\d+)\s*ans",name,re.I)
+                if m: tenors[i]=int(m.group(1))
+            if 10 not in tenors.values() or len(tenors)<8:
+                raise ValueError("TEC_COLUMNS_NOT_FOUND")
+            hist=[]
+            for row in rows[1:]:
+                if not row or not re.fullmatch(r"\d{4}-\d{2}-\d{2}",(row[0] or "").strip()):
+                    continue
+                curve=[]
+                for idx,tenor in tenors.items():
+                    if idx>=len(row): continue
+                    raw=(row[idx] or "").strip()
+                    if raw in ("","-"): continue
+                    try: curve.append({"tenor_years":tenor,"rate_pct":fnum(raw)})
+                    except Exception: pass
+                if len(curve)>=8:
+                    curve=sorted(curve,key=lambda x:x["tenor_years"])
+                    hist.append({"date":row[0].strip(),"curve":curve})
+                if len(hist)>=HISTORY_LIMIT:
+                    break
+            if not hist:
+                raise ValueError("NO_VALID_TEC_ROWS")
+            latest=hist[0]
+            m=curve_map(latest["curve"])
+            return src("BDF_WEBSTAT","Banque de France · Webstat","Historique CNO-TEC · export CSV",url,health="OK",digest=hashlib.sha256(b).hexdigest(),etag=etag,lm=lm,extra={"history_rows":len(hist)}),{
+              "webstat_tec10_last_pct":m.get(10),
+              "webstat_last_date":latest["date"],
+              "webstat_curve_latest":latest["curve"],
+              "webstat_history":list(reversed(hist))
+            }
         except Exception as e:
             errs.append(f"{type(e).__name__}: {e}")
     return src("BDF_WEBSTAT","Banque de France · Webstat","Historique CNO-TEC · export CSV",BDF_CSV[0],health="ERROR",error=" | ".join(errs)[:500]),{}
@@ -148,6 +171,26 @@ def fetch_watch(i,publisher,label,url,accept):
         return src(i,publisher,label,url,digest=hashlib.sha256(b).hexdigest(),etag=etag,lm=lm,extra={"bytes":len(b)})
     except Exception as e:
         return src(i,publisher,label,url,health="ERROR",error=f"{type(e).__name__}: {e}"[:500])
+
+def fetch_dgfip_execution():
+    try:
+        status,b,etag,lm,cs=req(DGFIP_EXPORT,"application/json,*/*;q=0.8")
+        rows=json.loads(b.decode(cs or "utf-8","replace"))
+        if not isinstance(rows,list) or not rows:
+            raise ValueError("EMPTY_DGFIP_DATASET")
+        docs=[x for x in rows if isinstance(x,dict) and x.get("date_publication") and x.get("url_fichier")]
+        if not docs: raise ValueError("NO_DGFIP_DOCUMENTS")
+        latest=max(docs,key=lambda x:str(x.get("date_publication")))
+        obs={
+          "date_publication":latest.get("date_publication"),
+          "titre_document":latest.get("titre_document"),
+          "url_fichier":latest.get("url_fichier"),
+          "dataset_rows":len(rows)
+        }
+        return src("DGFIP_EXECUTION","DGFiP / data.economie.gouv.fr","Situation mensuelle de l'État · dernier document",DGFIP_EXPORT,health="OK",digest=hashlib.sha256(b).hexdigest(),etag=etag,lm=lm,extra={"latest_publication":obs["date_publication"]}),obs
+    except Exception as e:
+        return src("DGFIP_EXECUTION","DGFiP / data.economie.gouv.fr","Situation mensuelle de l'État · dernier document",DGFIP_EXPORT,health="ERROR",error=f"{type(e).__name__}: {e}"[:500]),{}
+
 
 def parse_aft_maturities(text):
     text=norm(text)
@@ -212,17 +255,16 @@ def curve_metrics(rows):
     if 1 in m and 30 in m: out["slope_1s30s_bps"]=round((m[30]-m[1])*100,1)
     return out
 
-def append_curve_history(previous,observed):
+def append_curve_history(previous,observed,seed=None):
     hist=list(previous.get("curve_history",[])) if isinstance(previous,dict) else []
+    merged={}
+    for item in (seed or [])+hist:
+        if isinstance(item,dict) and item.get("date") and item.get("curve"):
+            merged[item["date"]]={"date":item["date"],"captured_at":item.get("captured_at") or now(),"curve":item["curve"]}
     rows=observed.get("yield_curve") or []
-    if not rows:return hist[-HISTORY_LIMIT:]
-    item={"date":observed.get("yield_curve_date"),"captured_at":now(),"curve":rows}
-    sig=json.dumps({"date":item["date"],"curve":rows},sort_keys=True,separators=(",",":"))
-    prevsig=None
-    if hist:
-        prevsig=json.dumps({"date":hist[-1].get("date"),"curve":hist[-1].get("curve")},sort_keys=True,separators=(",",":"))
-    if sig!=prevsig: hist.append(item)
-    return hist[-HISTORY_LIMIT:]
+    if rows and observed.get("yield_curve_date"):
+        merged[observed["yield_curve_date"]]={"date":observed["yield_curve_date"],"captured_at":now(),"curve":rows}
+    return [merged[k] for k in sorted(merged)][-HISTORY_LIMIT:]
 
 def curve_delta(history):
     if len(history)<2:return {}
@@ -245,13 +287,16 @@ observed.update(bvals)
 
 webstat,wvals=fetch_bdf_csv()
 sources.append(webstat)
-# Only use CSV as a fallback live TEC observation if page mirror did not bind.
+# Webstat is both an independent official cross-check and a last-good fallback.
 if "tec10_pct" not in bvals and wvals.get("webstat_tec10_last_pct") is not None:
     observed["tec10_pct"]=wvals["webstat_tec10_last_pct"]
-    if wvals.get("webstat_last_date"): observed["tec10_date"]=wvals["webstat_last_date"]
+    observed["tec10_date"]=wvals.get("webstat_last_date")
+    observed["yield_curve_date"]=wvals.get("webstat_last_date")
+    observed["yield_curve"]=wvals.get("webstat_curve_latest",[])
 
 sources.append(fetch_watch("AFT_RSS","Agence France Trésor","Flux RSS des publications","https://www.aft.gouv.fr/fr/rss.xml","application/rss+xml,application/xml,text/xml,*/*;q=0.8"))
-sources.append(fetch_watch("DGFIP_META","DGFiP / data.gouv.fr","Situation mensuelle de l'État · métadonnées","https://www.data.gouv.fr/api/1/datasets/dgfip-situation-mensuelle-de-letat/","application/json,*/*;q=0.8"))
+dgfip_source,budget_execution=fetch_dgfip_execution()
+sources.append(dgfip_source)
 sources.append(src("AFT_SNAPSHOT","Agence France Trésor","Ancre officielle · encours, maturité, financement 2027","https://www.aft.gouv.fr/fr",health="PINNED",digest=hashlib.sha256(json.dumps(PINNED,sort_keys=True).encode()).hexdigest(),extra={"published_through":"2026-10-01","note":"Pinned canonical anchor; live detailed maturity pages are attempted separately."}))
 
 maturity_ladder,maturity_sources=fetch_aft_maturity(prev)
@@ -275,7 +320,7 @@ for k,v in observed.items():
     if k in oldobs and oldobs.get(k)!=v:
         events.append({"kind":"METRIC_CHANGED","metric":k,"at":now(),"detail":f"{oldobs.get(k)} → {v}"})
 
-curve_history=append_curve_history(prev,observed)
+curve_history=append_curve_history(prev,observed,wvals.get("webstat_history",[]))
 curve_delta_bps=curve_delta(curve_history)
 derived={
   **curve_metrics(observed.get("yield_curve",[])),
@@ -283,12 +328,14 @@ derived={
   "curve_history_points":len(curve_history),
   "model_divergence_5y_bne":round(abs(float(23.5)-float(PAP_CURVE[4])),1),
   "maturity_mode":maturity_ladder.get("mode","UNKNOWN"),
+  "latest_budget_execution_date":budget_execution.get("date_publication"),
+  "webstat_crosscheck_bps":round((float(observed.get("tec10_pct"))-float(wvals.get("webstat_tec10_last_pct")))*100,1) if observed.get("tec10_pct") is not None and wvals.get("webstat_tec10_last_pct") is not None else None,
 }
 seq=int(prev.get("sequence",0))+(1 if events else 0)
 ok_states={"OK","PINNED"}
 manifest={
  "schema":"OJO_FRANCE_DEBT_RATE_LIVE_V1",
- "version":"2026-10-02.4",
+ "version":"2026-10-02.5",
  "sequence":seq,
  "updated_at":now(),
  "policy":{"political_recommendation":"NONE","market_yield_is_not_whole_debt_cost":True,"source_change":"DELTA_THEN_RECONCILE","typed_live_metrics":"OBSERVED_NOT_CAUSAL","sensitivity_model":"FIXED_OFFICIAL_VINTAGES","aft_html":"PINNED_DUE_TO_RUNNER_BLOCK"},
@@ -298,6 +345,7 @@ manifest={
    "aft_later":{"label":"AFT · estimation citée par le Sénat","shock_bps":100,"points_bne":{"1":3.2,"5":23.5,"9":33.5}}
  },
  "maturity_ladder":maturity_ladder,
+ "budget_execution":budget_execution,
  "curve_history":curve_history,
  "derived":derived,
  "capabilities":{
@@ -307,6 +355,8 @@ manifest={
    "last_good_retention":True,
    "curve_history":True,
    "curve_delta_bps":True,
+   "webstat_historical_backfill":True,
+   "monthly_budget_execution_discovery":True,
    "maturity_auto_refresh":maturity_ladder.get("mode")=="LIVE_PARSED",
    "official_model_vintages":2,
    "political_recommendation":False
