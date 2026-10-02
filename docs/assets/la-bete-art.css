@@ -317,3 +317,21 @@ body[data-matter-regime="regeneration"] #beastMount canvas{filter:saturate(1.07)
  .bodyBinding{display:block}.artWordmark{font-size:50px;margin-bottom:18px;white-space:normal}
  #la-bete .head{width:100%;min-width:0}
 }
+
+
+/* LIVING SCULPTURE V4 — iconic stage, less dashboard chrome */
+#la-bete .head{padding-inline:18px}
+.beastShell{position:relative;overflow:hidden}
+.beastShell::before{content:"";position:absolute;z-index:0;inset:-22%;pointer-events:none;background:conic-gradient(from 180deg at 50% 48%,transparent 0 18%,rgba(143,216,232,.035) 24%,transparent 31% 58%,rgba(231,189,114,.028) 66%,transparent 76%);filter:blur(26px);animation:beastAura 24s linear infinite}
+.beastStage{isolation:isolate}
+.beastStage:after{opacity:.30}
+.beastHud,.beastMatter{transition:opacity .35s ease,transform .35s ease}
+.beastLegend{background:#091318;border-color:rgba(118,151,157,.22)}
+.beastLegend div{background:transparent;border-right:1px solid rgba(118,151,157,.14);transition:background .2s,transform .2s}
+.beastLegend div:hover{background:rgba(143,216,232,.045);transform:translateY(-2px)}
+.beastExplain .card{background:linear-gradient(145deg,rgba(18,31,37,.82),rgba(8,16,20,.76))}
+.resonancePanel{background:radial-gradient(ellipse at 100% 0,rgba(220,164,124,.11),transparent 45%),linear-gradient(145deg,#101b21,#0a1419)}
+@keyframes beastAura{to{transform:rotate(360deg)}}
+@media(min-width:900px){.beastStage{min-height:820px}.beastHud{opacity:.82}.beastMatter{opacity:.86}.beastTag{bottom:30px;width:min(690px,calc(100% - 48px))}}
+@media(max-width:620px){.beastShell::before{inset:-35%;opacity:.65}.beastHud,.beastMatter{opacity:.94}}
+@media(prefers-reduced-motion:reduce){.beastShell::before{animation:none}}
