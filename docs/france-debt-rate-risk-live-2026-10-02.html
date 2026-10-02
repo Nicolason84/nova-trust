@@ -139,7 +139,15 @@ body[data-evo-focus="evidence"] #rpEvidenceCard,body[data-evo-focus="decision"] 
         <div><small>Choc exploré</small><strong id="beastShock">+100 pb</strong></div>
         <div><small>Propagation · an 5</small><strong id="beastY5">18,4 Md€</strong></div>
       </div>
-      <aside class="beastMatter" id="beastMatter" aria-label="Indices visuels de matière. Ce ne sont pas des grandeurs physiques.">
+      <aside class="beastMatter" id="beastMatter" aria-label="État et indices visuels de matière. Ce ne sont pas des grandeurs physiques ni un diagnostic national.">
+        <div class="matterRegime">
+          <small>ÉTAT DE MATIÈRE · PROJECTION</small>
+          <strong id="matterRegime">—</strong>
+          <span id="matterRegimeReason">Lecture de la projection en attente.</span>
+        </div>
+        <div class="matterPhases" id="matterPhases" aria-label="Cycle des états de matière">
+          <i data-regime="FLUIDE" title="Fluide"></i><i data-regime="TENSION" title="Tension"></i><i data-regime="TURBULENCE" title="Turbulence"></i><i data-regime="SATURATION" title="Saturation"></i><i data-regime="FRAGMENTATION" title="Fragmentation"></i><i data-regime="RUPTURE" title="Rupture"></i><i data-regime="RÉGÉNÉRATION" title="Régénération"></i>
+        </div>
         <small>MATIÈRE ACTIVE · INDICES VISUELS</small>
         <div class="matterRow"><span>Viscosité</span><i><b id="matterViscosity"></b></i><output id="matterViscosityValue">—</output></div>
         <div class="matterRow"><span>Fluidité</span><i><b id="matterFluidity"></b></i><output id="matterFluidityValue">—</output></div>
@@ -875,6 +883,42 @@ async function initBeast(){
     function renderMatter(){
       for(const k of ['viscosity','fluidity','elasticity','tension','turbulence','memory'])setMatter(k,materialState[k]);
     }
+
+    const matterRegimeProfiles={
+      FLUIDE:{viscosity:-.05,fluidity:.10,elasticity:-.04,tension:-.12,turbulence:-.16,compression:-.08,spread:.98,skin:0x31545b,heart:0xbfe8a0,armOpacity:.80},
+      TENSION:{viscosity:.02,fluidity:-.02,elasticity:.08,tension:.08,turbulence:.02,compression:.04,spread:1.00,skin:0x3b5055,heart:0xe7bd72,armOpacity:.80},
+      TURBULENCE:{viscosity:-.04,fluidity:.12,elasticity:.16,tension:.14,turbulence:.22,compression:.04,spread:1.04,skin:0x36535d,heart:0xf0a36f,armOpacity:.76},
+      SATURATION:{viscosity:.18,fluidity:-.24,elasticity:-.08,tension:.20,turbulence:.10,compression:.16,spread:1.03,skin:0x4c4943,heart:0xe9827d,armOpacity:.69},
+      FRAGMENTATION:{viscosity:-.08,fluidity:.04,elasticity:.24,tension:.24,turbulence:.34,compression:.10,spread:1.13,skin:0x4c3e43,heart:0xff8f79,armOpacity:.58},
+      RUPTURE:{viscosity:-.18,fluidity:-.08,elasticity:.30,tension:.34,turbulence:.44,compression:.22,spread:1.22,skin:0x3e3034,heart:0xff796f,armOpacity:.43},
+      'RÉGÉNÉRATION':{viscosity:.04,fluidity:.08,elasticity:.06,tension:-.08,turbulence:-.12,compression:-.05,spread:1.00,skin:0x31564f,heart:0x9fe1aa,armOpacity:.82}
+    };
+    function deriveMatterRegime(){
+      const s=state?.summary||{},counts=s.source_state_counts||{};
+      const warnings=Math.max(0,Number(s.warnings||0)),monitored=Math.max(1,Number(s.monitored||0));
+      const unavailable=Math.max(0,Number(counts.UNAVAILABLE||0)),contradicted=Math.max(0,Number(counts.CONTRADICTED||0));
+      const warningRatio=warnings/monitored,materialChange=String(s.decision_delta_status||'').toUpperCase()==='MATERIAL_CHANGE';
+      const validTruth=state?.schema==='OJO_FRANCE_DEBT_RATE_LIVE_V1'&&state?.policy?.political_recommendation==='NONE';
+      let regime='FLUIDE',reason='Aucune friction matérielle de projection détectée.';
+      if(!validTruth){regime='RUPTURE';reason='Projection canonique non vérifiée : la matière se désolidarise au lieu d’inventer une continuité.'}
+      else if(contradicted>=2){regime='FRAGMENTATION';reason=contradicted+' contradictions de sources : cohérence de preuve fragmentée.'}
+      else if(warningRatio>=.65&&unavailable>=5&&materialChange){regime='SATURATION';reason=warnings+'/'+monitored+' sources en attention et changement matériel : capacité d’observation fortement contrainte.'}
+      else if(warningRatio>=.35&&materialChange){regime='TURBULENCE';reason=warnings+'/'+monitored+' sources en attention + changement matériel observé : propagation visuelle active.'}
+      else if(warnings>0||materialChange){regime='TENSION';reason=(warnings?warnings+'/'+monitored+' sources en attention':'changement matériel observé')+' : friction visible mais cohérence canonique conservée.'}
+      const prev=sessionStorage.getItem('laBeteMatterRegime');
+      const severity={FLUIDE:0,TENSION:1,TURBULENCE:2,SATURATION:3,FRAGMENTATION:4,RUPTURE:5,'RÉGÉNÉRATION':1};
+      if(prev&&severity[prev]>severity[regime]&&regime!=='RUPTURE'&&regime!=='FRAGMENTATION'){
+        reason='Conditions de projection améliorées depuis '+prev.toLowerCase()+' : retour progressif, encore surveillé.';
+        regime='RÉGÉNÉRATION';
+      }
+      sessionStorage.setItem('laBeteMatterRegime',regime==='RÉGÉNÉRATION'?'TENSION':regime);
+      const el=$('matterRegime'),why=$('matterRegimeReason');
+      if(el)el.textContent=regime;
+      if(why)why.textContent=reason+' Ce régime décrit la projection, pas “l’état de la France”.';
+      document.body.dataset.matterRegime=regime.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
+      document.querySelectorAll('#matterPhases i').forEach(i=>i.classList.toggle('active',i.dataset.regime===regime));
+      return {regime,profile:matterRegimeProfiles[regime]||matterRegimeProfiles.TENSION};
+    }
     const ray=new THREE.Raycaster(),pointer=new THREE.Vector2();
     function resize(){const w=mount.clientWidth,h=mount.clientHeight;renderer.setSize(w,h,false);camera.aspect=w/Math.max(1,h);const previous=homeZoom;homeZoom=13.8*Math.max(1,1.08/Math.max(.1,camera.aspect));zoom*=homeZoom/previous;camera.position.z=zoom;camera.updateProjectionMatrix()}
     const ro=new ResizeObserver(resize);ro.observe(mount);resize();
@@ -895,7 +939,8 @@ async function initBeast(){
         heart.rotation.y+=.0008+.0015*fluidity;ringGroup.rotation.z+=.00008+.00028*fluidity;particles.rotation.y-=.000025+.00007*turbulence;
         eyes.forEach((e,i)=>{e.material.emissiveIntensity=1.55+.25*Math.sin(t*(.0014+.0014*turbulence)+i*.8)+tension*.85});
         const armSpeed=.00028+.00068*fluidity,armAmp=.003+.013*elasticity+.006*turbulence;
-        arms.forEach((a,i)=>{a.rotation.z=Math.sin(t*armSpeed+i*.62)*armAmp*(.75+(i%3)*.12);a.rotation.x=Math.cos(t*armSpeed*.72+i*.41)*armAmp*.36});
+        const regime=document.body.dataset.matterRegime||'tension';
+        arms.forEach((a,i)=>{const jitter=regime==='rupture'?(i%2?1.75:.72):regime==='fragmentation'?(1.25+(i%3)*.18):1;a.rotation.z=Math.sin(t*armSpeed+i*.62)*armAmp*(.75+(i%3)*.12)*jitter;a.rotation.x=Math.cos(t*armSpeed*.72+i*.41)*armAmp*.36*jitter});
         if(t-lastSkinUpdate>42){
           const arr=mantlePosition.array,base=mantleBase,phase=t*(.00035+.00105*fluidity),amp=.0035+.010*fluidity+.007*turbulence;
           for(let k=0;k<arr.length;k+=3){
@@ -931,13 +976,18 @@ async function initBeast(){
         memory:clamp01(.24+avgLife/12),
         compression:clamp01(.22+Math.abs(Number(shock)||0)/260)
       };
+      const regimeInfo=deriveMatterRegime(),rp=regimeInfo.profile;
+      for(const k of ['viscosity','fluidity','elasticity','tension','turbulence','compression'])materialState[k]=clamp01(materialState[k]+Number(rp[k]||0));
+      skinMat.color.setHex(rp.skin);heartMat.color.setHex(rp.heart);
       skinMat.emissiveIntensity=.62+materialState.tension*.5;
       skinMat.roughness=.42-materialState.fluidity*.17+materialState.turbulence*.08;
       skinMat.transmission=.10+materialState.fluidity*.28;
       skinMat.clearcoat=.58+materialState.viscosity*.34;
       heartMat.emissiveIntensity=.92+materialState.tension*.96;
       thorax.material.opacity=.12+materialState.tension*.22;
-      arms.forEach((a,i)=>{a.material.emissiveIntensity=.12+materialState.tension*.28+(i===3?.2:0);a.material.opacity=(a.userData.baseOpacity||.77)});
+      arms.forEach((a,i)=>{a.material.emissiveIntensity=.12+materialState.tension*.28+(i===3?.2:0);a.material.opacity=Math.min(a.userData.baseOpacity||.77,rp.armOpacity);a.scale.set(rp.spread,1+(rp.spread-1)*.62,1)});
+      armLabels.forEach((sp,i)=>{sp.material.opacity=regimeInfo.regime==='RUPTURE'?(i%2?.34:.74):regimeInfo.regime==='FRAGMENTATION'?(i%3?.62:.92):.92});
+      ringGroup.scale.setScalar(regimeInfo.regime==='SATURATION'?.94:regimeInfo.regime==='RUPTURE'?1.10:1);
       nerveMat.opacity=.08+materialState.turbulence*.28;
       renderMatter();
     };
