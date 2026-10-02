@@ -172,22 +172,36 @@ def fetch_watch(i,publisher,label,url,accept):
     except Exception as e:
         return src(i,publisher,label,url,health="ERROR",error=f"{type(e).__name__}: {e}"[:500])
 
+def document_period(title):
+    months={
+      "janvier":1,"février":2,"fevrier":2,"mars":3,"avril":4,"mai":5,"juin":6,
+      "juillet":7,"août":8,"aout":8,"septembre":9,"octobre":10,"novembre":11,"décembre":12,"decembre":12
+    }
+    t=(title or "").lower()
+    for name,month in months.items():
+        m=re.search(r"\b"+re.escape(name)+r"\s+(20\d{2})\b",t)
+        if m:return (int(m.group(1)),month)
+    return (0,0)
+
 def fetch_dgfip_execution():
     try:
         status,b,etag,lm,cs=req(DGFIP_EXPORT,"application/json,*/*;q=0.8")
         rows=json.loads(b.decode(cs or "utf-8","replace"))
         if not isinstance(rows,list) or not rows:
             raise ValueError("EMPTY_DGFIP_DATASET")
-        docs=[x for x in rows if isinstance(x,dict) and x.get("date_publication") and x.get("url_fichier")]
+        docs=[x for x in rows if isinstance(x,dict) and x.get("titre_document") and x.get("url_fichier")]
+        docs=[x for x in docs if document_period(x.get("titre_document"))!=(0,0)]
         if not docs: raise ValueError("NO_DGFIP_DOCUMENTS")
-        latest=max(docs,key=lambda x:str(x.get("date_publication")))
+        latest=max(docs,key=lambda x:document_period(x.get("titre_document")))
+        y,m=document_period(latest.get("titre_document"))
         obs={
-          "date_publication":latest.get("date_publication"),
+          "period":f"{y:04d}-{m:02d}",
+          "date_publication_raw":latest.get("date_publication"),
           "titre_document":latest.get("titre_document"),
           "url_fichier":latest.get("url_fichier"),
           "dataset_rows":len(rows)
         }
-        return src("DGFIP_EXECUTION","DGFiP / data.economie.gouv.fr","Situation mensuelle de l'État · dernier document",DGFIP_EXPORT,health="OK",digest=hashlib.sha256(b).hexdigest(),etag=etag,lm=lm,extra={"latest_publication":obs["date_publication"]}),obs
+        return src("DGFIP_EXECUTION","DGFiP / data.economie.gouv.fr","Situation mensuelle de l'État · dernier document",DGFIP_EXPORT,health="OK",digest=hashlib.sha256(b).hexdigest(),etag=etag,lm=lm,extra={"latest_period":obs["period"]}),obs
     except Exception as e:
         return src("DGFIP_EXECUTION","DGFiP / data.economie.gouv.fr","Situation mensuelle de l'État · dernier document",DGFIP_EXPORT,health="ERROR",error=f"{type(e).__name__}: {e}"[:500]),{}
 
@@ -328,14 +342,14 @@ derived={
   "curve_history_points":len(curve_history),
   "model_divergence_5y_bne":round(abs(float(23.5)-float(PAP_CURVE[4])),1),
   "maturity_mode":maturity_ladder.get("mode","UNKNOWN"),
-  "latest_budget_execution_date":budget_execution.get("date_publication"),
+  "latest_budget_execution_period":budget_execution.get("period"),
   "webstat_crosscheck_bps":round((float(observed.get("tec10_pct"))-float(wvals.get("webstat_tec10_last_pct")))*100,1) if observed.get("tec10_pct") is not None and wvals.get("webstat_tec10_last_pct") is not None else None,
 }
 seq=int(prev.get("sequence",0))+(1 if events else 0)
 ok_states={"OK","PINNED"}
 manifest={
  "schema":"OJO_FRANCE_DEBT_RATE_LIVE_V1",
- "version":"2026-10-02.5",
+ "version":"2026-10-02.6",
  "sequence":seq,
  "updated_at":now(),
  "policy":{"political_recommendation":"NONE","market_yield_is_not_whole_debt_cost":True,"source_change":"DELTA_THEN_RECONCILE","typed_live_metrics":"OBSERVED_NOT_CAUSAL","sensitivity_model":"FIXED_OFFICIAL_VINTAGES","aft_html":"PINNED_DUE_TO_RUNNER_BLOCK"},
