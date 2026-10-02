@@ -1,26 +1,29 @@
 {
   "schema": "OJO_FRANCE_DEBT_RATE_LIVE_V1",
-  "version": "2026-10-02",
-  "sequence": 2,
-  "updated_at": "2026-10-02T01:51:33Z",
+  "version": "2026-10-02.1",
+  "sequence": 3,
+  "updated_at": "2026-10-02T01:54:52Z",
   "policy": {
     "political_recommendation": "NONE",
     "market_yield_is_not_whole_debt_cost": true,
     "source_change": "DELTA_THEN_RECONCILE",
     "typed_live_metrics": "OBSERVED_NOT_CAUSAL",
-    "sensitivity_model": "FIXED_OFFICIAL_VINTAGES"
+    "sensitivity_model": "FIXED_OFFICIAL_VINTAGES",
+    "aft_html": "PINNED_DUE_TO_RUNNER_BLOCK"
   },
   "observed": {
-    "tec10_pct": 4.903,
-    "tec10_date": "2026-10-01",
     "debt_negotiable_eur": 2896181146497,
+    "debt_date": "2026-09-30",
     "debt_avg_life_years": 8,
     "debt_avg_life_days": 158,
+    "debt_avg_life_date": "2026-09-30",
     "weighted_oat_issuance_pct": 3.55,
     "weighted_oat_date": "2026-09-30",
     "financing_need_2027_bne": 339.7,
     "issuance_mlt_2027_bne": 340,
     "plf2026_end_2026_10y_assumption_pct": 3.8,
+    "tec10_pct": 4.903,
+    "tec10_date": "2026-10-01",
     "tec10_vs_plf_assumption_bps": 110.3
   },
   "sensitivity": {
@@ -53,40 +56,67 @@
   },
   "sources": [
     {
-      "id": "AFT_HOME",
-      "publisher": "Agence France Trésor",
-      "label": "Dette négociable, maturité, TEC10, taux moyen pondéré",
-      "url": "https://www.aft.gouv.fr/fr",
-      "health": "ERROR",
-      "digest": null,
-      "checked_at": "2026-10-02T01:51:26Z",
-      "error": "HTTPError: HTTP Error 403: Forbidden",
-      "etag": null,
-      "last_modified": null
-    },
-    {
-      "id": "AFT_BUDGET",
-      "publisher": "Agence France Trésor",
-      "label": "Besoin et ressources de financement 2027",
-      "url": "https://www.aft.gouv.fr/fr/budget-etat",
-      "health": "ERROR",
-      "digest": null,
-      "checked_at": "2026-10-02T01:51:27Z",
-      "error": "HTTPError: HTTP Error 403: Forbidden",
-      "etag": null,
-      "last_modified": null
-    },
-    {
       "id": "BDF_TEC",
       "publisher": "Banque de France",
-      "label": "Indices obligataires TEC",
-      "url": "https://www.banque-france.fr/fr/statistiques/taux-et-cours/indices-obligataires-2026-10-02",
+      "label": "TEC10 quotidien · page officielle",
+      "url": "https://www.banque-france.fr/fr/statistiques/taux-et-cours/indices-obligataires-2026-10-01",
+      "health": "OK",
+      "digest": "e4f8e545bbee7f2c36733d24ccf5e8c4846150db0db69a3bbef5a7041a2349c5",
+      "checked_at": "2026-10-02T01:54:49Z",
+      "error": null,
+      "etag": "\"1790895399-gzip\"",
+      "last_modified": "Thu, 01 Oct 2026 22:56:39 GMT"
+    },
+    {
+      "id": "BDF_WEBSTAT",
+      "publisher": "Banque de France · Webstat",
+      "label": "Historique CNO-TEC · export CSV",
+      "url": "https://webstat.banque-france.fr/export/csv-columns/fr/selection/5385693",
+      "health": "PARSE_WARN",
+      "digest": "95f599603dbe4675692cbe98279fb6456a153b122352da29e94a4b5b6e3d2d55",
+      "checked_at": "2026-10-02T01:54:50Z",
+      "error": "CSV fetched but TEC10 record not parsed.",
+      "etag": null,
+      "last_modified": "Thu, 01 Oct 2026 11:01:26 UTC"
+    },
+    {
+      "id": "AFT_RSS",
+      "publisher": "Agence France Trésor",
+      "label": "Flux RSS des publications",
+      "url": "https://www.aft.gouv.fr/fr/rss.xml",
       "health": "ERROR",
       "digest": null,
-      "checked_at": "2026-10-02T01:51:33Z",
-      "error": "HTTPError: HTTP Error 404: Not Found",
+      "checked_at": "2026-10-02T01:54:51Z",
+      "error": "HTTPError: HTTP Error 403: Forbidden",
       "etag": null,
       "last_modified": null
+    },
+    {
+      "id": "DGFIP_META",
+      "publisher": "DGFiP / data.gouv.fr",
+      "label": "Situation mensuelle de l'État · métadonnées",
+      "url": "https://www.data.gouv.fr/api/1/datasets/dgfip-situation-mensuelle-de-letat/",
+      "health": "OK",
+      "digest": "8e247df8590aa8e0cf4a6a462b06923c4108d09789d4cd86cca817f0ced79eeb",
+      "checked_at": "2026-10-02T01:54:52Z",
+      "error": null,
+      "etag": null,
+      "last_modified": null,
+      "bytes": 10398
+    },
+    {
+      "id": "AFT_SNAPSHOT",
+      "publisher": "Agence France Trésor",
+      "label": "Ancre officielle · encours, maturité, financement 2027",
+      "url": "https://www.aft.gouv.fr/fr",
+      "health": "PINNED",
+      "digest": "4e5bb942ec1b466f53d1eda4d5bff3e28c8e8848da2071d5d23a97ca4bc67127",
+      "checked_at": "2026-10-02T01:54:52Z",
+      "error": null,
+      "etag": null,
+      "last_modified": null,
+      "published_through": "2026-10-01",
+      "note": "Pinned because AFT HTML blocks unattended GitHub runners; publication RSS remains live-monitored."
     }
   ],
   "events": [
@@ -112,32 +142,74 @@
       "source_id": "BDF_TEC",
       "at": "2026-10-02T01:51:33Z",
       "detail": "BASELINE → ERROR"
+    },
+    {
+      "kind": "SOURCE_HEALTH_CHANGED",
+      "source_id": "BDF_TEC",
+      "at": "2026-10-02T01:54:49Z",
+      "detail": "ERROR → OK"
+    },
+    {
+      "kind": "SOURCE_BASELINED",
+      "source_id": "BDF_WEBSTAT",
+      "at": "2026-10-02T01:54:50Z",
+      "detail": "First fingerprint captured."
+    },
+    {
+      "kind": "SOURCE_BASELINED",
+      "source_id": "AFT_RSS",
+      "at": "2026-10-02T01:54:51Z",
+      "detail": "First fingerprint captured."
+    },
+    {
+      "kind": "SOURCE_BASELINED",
+      "source_id": "DGFIP_META",
+      "at": "2026-10-02T01:54:52Z",
+      "detail": "First fingerprint captured."
+    },
+    {
+      "kind": "SOURCE_BASELINED",
+      "source_id": "AFT_SNAPSHOT",
+      "at": "2026-10-02T01:54:52Z",
+      "detail": "First fingerprint captured."
     }
   ],
   "material_changes": [
     {
       "kind": "SOURCE_HEALTH_CHANGED",
-      "source_id": "AFT_HOME",
-      "at": "2026-10-02T01:51:26Z",
-      "detail": "BASELINE → ERROR"
-    },
-    {
-      "kind": "SOURCE_HEALTH_CHANGED",
-      "source_id": "AFT_BUDGET",
-      "at": "2026-10-02T01:51:27Z",
-      "detail": "BASELINE → ERROR"
-    },
-    {
-      "kind": "SOURCE_HEALTH_CHANGED",
       "source_id": "BDF_TEC",
-      "at": "2026-10-02T01:51:33Z",
-      "detail": "BASELINE → ERROR"
+      "at": "2026-10-02T01:54:49Z",
+      "detail": "ERROR → OK"
+    },
+    {
+      "kind": "SOURCE_BASELINED",
+      "source_id": "BDF_WEBSTAT",
+      "at": "2026-10-02T01:54:50Z",
+      "detail": "First fingerprint captured."
+    },
+    {
+      "kind": "SOURCE_BASELINED",
+      "source_id": "AFT_RSS",
+      "at": "2026-10-02T01:54:51Z",
+      "detail": "First fingerprint captured."
+    },
+    {
+      "kind": "SOURCE_BASELINED",
+      "source_id": "DGFIP_META",
+      "at": "2026-10-02T01:54:52Z",
+      "detail": "First fingerprint captured."
+    },
+    {
+      "kind": "SOURCE_BASELINED",
+      "source_id": "AFT_SNAPSHOT",
+      "at": "2026-10-02T01:54:52Z",
+      "detail": "First fingerprint captured."
     }
   ],
   "summary": {
-    "healthy": 0,
-    "monitored": 3,
-    "warnings": 3,
-    "changed_this_sequence": 3
+    "healthy": 3,
+    "monitored": 5,
+    "warnings": 2,
+    "changed_this_sequence": 5
   }
 }
