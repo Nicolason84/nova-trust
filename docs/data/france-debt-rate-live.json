@@ -1,8 +1,8 @@
 {
   "schema": "OJO_FRANCE_DEBT_RATE_LIVE_V1",
-  "version": "2026-10-02.5",
+  "version": "2026-10-02.6",
   "sequence": 7,
-  "updated_at": "2026-10-02T02:59:27Z",
+  "updated_at": "2026-10-02T03:01:29Z",
   "policy": {
     "political_recommendation": "NONE",
     "market_yield_is_not_whole_debt_cost": true,
@@ -124,12 +124,13 @@
     ],
     "note": "Encours publié par millésime d'échéance; ce n'est ni le besoin annuel de financement ni le cash final d'amortissement après rachats/indexation.",
     "mode": "RETAINED_LAST_GOOD",
-    "retained_at": "2026-10-02T02:59:27Z"
+    "retained_at": "2026-10-02T03:01:29Z"
   },
   "budget_execution": {
-    "date_publication": "2026-07-05",
-    "titre_document": "Situation mensuelle de l'état - Mars 2026",
-    "url_fichier": "https://www.economie.gouv.fr/files/files/directions_services/dgfip/media-document/SME_2026-03.pdf",
+    "period": "2026-07",
+    "date_publication_raw": "2026-03-09",
+    "titre_document": "Situation mensuelle de l'État - Juillet 2026",
+    "url_fichier": "https://www.economie.gouv.fr/files/files/directions_services/dgfip/media-document/SME_2026-07.pdf",
     "dataset_rows": 212
   },
   "curve_history": [
@@ -5133,7 +5134,7 @@
     },
     {
       "date": "2026-10-01",
-      "captured_at": "2026-10-02T02:59:27Z",
+      "captured_at": "2026-10-02T03:01:29Z",
       "curve": [
         {
           "tenor_years": 1,
@@ -5196,7 +5197,7 @@
     "curve_history_points": 120,
     "model_divergence_5y_bne": 5.1,
     "maturity_mode": "RETAINED_LAST_GOOD",
-    "latest_budget_execution_date": "2026-07-05",
+    "latest_budget_execution_period": "2026-07",
     "webstat_crosscheck_bps": 0.0
   },
   "capabilities": {
@@ -5220,7 +5221,7 @@
       "url": "https://www.banque-france.fr/fr/statistiques/taux-et-cours/indices-obligataires-2026-10-01",
       "health": "OK",
       "digest": "e4f8e545bbee7f2c36733d24ccf5e8c4846150db0db69a3bbef5a7041a2349c5",
-      "checked_at": "2026-10-02T02:59:22Z",
+      "checked_at": "2026-10-02T03:01:24Z",
       "error": null,
       "etag": "\"1790895399-gzip\"",
       "last_modified": "Thu, 01 Oct 2026 22:56:39 GMT"
@@ -5232,7 +5233,7 @@
       "url": "https://webstat.banque-france.fr/export/csv-columns/fr/selection/5385693",
       "health": "OK",
       "digest": "95f599603dbe4675692cbe98279fb6456a153b122352da29e94a4b5b6e3d2d55",
-      "checked_at": "2026-10-02T02:59:24Z",
+      "checked_at": "2026-10-02T03:01:26Z",
       "error": null,
       "etag": null,
       "last_modified": "Thu, 01 Oct 2026 11:01:26 UTC",
@@ -5245,7 +5246,7 @@
       "url": "https://www.aft.gouv.fr/fr/rss.xml",
       "health": "ERROR",
       "digest": null,
-      "checked_at": "2026-10-02T02:59:24Z",
+      "checked_at": "2026-10-02T03:01:27Z",
       "error": "HTTPError: HTTP Error 403: Forbidden",
       "etag": null,
       "last_modified": null
@@ -5257,11 +5258,11 @@
       "url": "https://data.economie.gouv.fr/api/explore/v2.1/catalog/datasets/situation-mensuelle-de-l-etat/exports/json",
       "health": "OK",
       "digest": "70a012d524d65a4015910181cfff0305576d3a9a45b043d8c814e7900845fb3e",
-      "checked_at": "2026-10-02T02:59:25Z",
+      "checked_at": "2026-10-02T03:01:27Z",
       "error": null,
       "etag": null,
       "last_modified": null,
-      "latest_publication": "2026-07-05"
+      "latest_period": "2026-07"
     },
     {
       "id": "AFT_SNAPSHOT",
@@ -5270,7 +5271,7 @@
       "url": "https://www.aft.gouv.fr/fr",
       "health": "PINNED",
       "digest": "4e5bb942ec1b466f53d1eda4d5bff3e28c8e8848da2071d5d23a97ca4bc67127",
-      "checked_at": "2026-10-02T02:59:25Z",
+      "checked_at": "2026-10-02T03:01:27Z",
       "error": null,
       "etag": null,
       "last_modified": null,
@@ -5284,7 +5285,7 @@
       "url": "https://www.aft.gouv.fr/fr/encours-detaille-oat",
       "health": "ERROR",
       "digest": null,
-      "checked_at": "2026-10-02T02:59:26Z",
+      "checked_at": "2026-10-02T03:01:28Z",
       "error": "HTTPError: HTTP Error 403: Forbidden",
       "etag": null,
       "last_modified": null
@@ -5296,7 +5297,7 @@
       "url": "https://www.aft.gouv.fr/fr/encours-detaille-oati",
       "health": "ERROR",
       "digest": null,
-      "checked_at": "2026-10-02T02:59:26Z",
+      "checked_at": "2026-10-02T03:01:28Z",
       "error": "HTTPError: HTTP Error 403: Forbidden",
       "etag": null,
       "last_modified": null
@@ -5308,7 +5309,7 @@
       "url": "https://www.aft.gouv.fr/fr/encours-detaille-oatei",
       "health": "ERROR",
       "digest": null,
-      "checked_at": "2026-10-02T02:59:27Z",
+      "checked_at": "2026-10-02T03:01:29Z",
       "error": "HTTPError: HTTP Error 403: Forbidden",
       "etag": null,
       "last_modified": null
@@ -5447,25 +5448,12 @@
       "detail": "First fingerprint captured."
     }
   ],
-  "material_changes": [
-    {
-      "kind": "SOURCE_HEALTH_CHANGED",
-      "source_id": "BDF_WEBSTAT",
-      "at": "2026-10-02T02:59:24Z",
-      "detail": "PARSE_WARN → OK"
-    },
-    {
-      "kind": "SOURCE_BASELINED",
-      "source_id": "DGFIP_EXECUTION",
-      "at": "2026-10-02T02:59:25Z",
-      "detail": "First fingerprint captured."
-    }
-  ],
+  "material_changes": [],
   "summary": {
     "healthy": 4,
     "monitored": 8,
     "warnings": 4,
-    "changed_this_sequence": 2,
+    "changed_this_sequence": 0,
     "curve_history_points": 120,
     "maturity_mode": "RETAINED_LAST_GOOD"
   }
