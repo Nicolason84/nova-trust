@@ -1,0 +1,82 @@
+{
+  "schema": "OJO_LA_BETE_VIRTUOUS_EVOLUTION_V1",
+  "generation": 1,
+  "updated_at": "2026-10-02T07:31:03Z",
+  "source_snapshot_id": "OJO-4515367AB5E005E7",
+  "source_sequence": 8,
+  "dna": {
+    "mode": "EVIDENCE_GUARD",
+    "section_focus": "evidence",
+    "motion": "calm",
+    "palette": {
+      "accent_a": "#bfe8a0",
+      "accent_b": "#8fd8e8",
+      "gold": "#f0c47b",
+      "glow": "#3c3425"
+    },
+    "feature_flags": {
+      "adaptive_palette": true,
+      "freshness_guard": true,
+      "emphasize_evidence": true,
+      "emphasize_decision": false,
+      "emphasize_market": false,
+      "compact_sources": false,
+      "semantic_reordering": false
+    },
+    "signal": {
+      "warnings": 4,
+      "healthy": 5,
+      "monitored": 9,
+      "tec10_delta_bps": 110.3,
+      "curve_regime": "STEEPENING",
+      "decision_delta_status": "MATERIAL_CHANGE"
+    }
+  },
+  "change_summary": "EVIDENCE_GUARD · focus evidence · motion calm",
+  "policy": {
+    "single_canonical_truth": "docs/data/france-debt-rate-live.json",
+    "truth_mutation": false,
+    "political_recommendation": false,
+    "semantic_claim_autopromotion": false,
+    "external_action": false,
+    "rollback_required": true,
+    "human_gate": [
+      "truth",
+      "sources",
+      "claims",
+      "security",
+      "privacy",
+      "camera",
+      "political_semantics"
+    ]
+  },
+  "previous_dna": null,
+  "receipts": [
+    {
+      "generation": 1,
+      "at": "2026-10-02T07:31:03Z",
+      "from_mode": null,
+      "to_mode": "EVIDENCE_GUARD",
+      "reason": [
+        "4 source(s) require explicit attention.",
+        "TEC10 delta versus the published budget assumption: +110.3 bp.",
+        "Decision Delta status: MATERIAL_CHANGE."
+      ],
+      "verdict": "PROMOTED_AFTER_NON_REGRESSION"
+    }
+  ],
+  "status": "ACTIVE",
+  "verification": {
+    "generation": 1,
+    "at": "2026-10-02T07:31:03Z",
+    "verdict": "NON_REGRESSION_PASS",
+    "checks": [
+      "truth",
+      "policy",
+      "html_ids",
+      "javascript_syntax",
+      "rollback",
+      "human_gates"
+    ]
+  }
+}
