@@ -1,0 +1,60 @@
+{
+  "at": "2026-10-02T11:34:34.127561+00:00",
+  "status": "PREPARATION_ONLY",
+  "authority": "NICOLAS",
+  "web": {
+    "repository": "Nicolason84/nova-trust",
+    "pages": {
+      "build_type": "legacy",
+      "cname": null,
+      "https_enforced": true,
+      "source": {
+        "branch": "main",
+        "path": "/docs"
+      }
+    },
+    "native_or_domain_artifacts_found": []
+  },
+  "native_candidates": [
+    {
+      "artifact": "SUPRA",
+      "path": "ACTIVE_REVIEW/NOVA_OS/SUPRA/SUPRA.xcodeproj",
+      "status": "CANONICAL_AUTHORITY_UNRESOLVED",
+      "platform_observed": "macosx",
+      "iphone_target_found": false
+    },
+    {
+      "artifact": "SUPRA_RUNTIME_EVIDENCE_READONLY",
+      "path": "ACTIVE_REVIEW/NOVA_OS/SUPRA_RUNTIME_EVIDENCE_READONLY/SUPRA.xcodeproj",
+      "status": "CANONICAL_AUTHORITY_UNRESOLVED",
+      "platform_observed": "macosx",
+      "iphone_target_found": false
+    },
+    {
+      "artifact": "SUPRA_FRESH",
+      "path": "ACTIVE_REVIEW/NOVA_OS/SUPRA_FRESH/SUPRA.xcodeproj",
+      "status": "CANONICAL_AUTHORITY_UNRESOLVED",
+      "platform_observed": "macosx",
+      "iphone_target_found": false
+    },
+    {
+      "artifact": "SUPRA_BISECT",
+      "path": "ACTIVE_REVIEW/NOVA_OS/SUPRA_BISECT/SUPRA.xcodeproj",
+      "status": "CANONICAL_AUTHORITY_UNRESOLVED",
+      "platform_observed": "macosx",
+      "iphone_target_found": false
+    }
+  ],
+  "scope": "Repository inventory and four existing SUPRA project configurations; not exhaustive archive reconciliation",
+  "canonical_binding": "docs/data/FRANCE_BEAST_BINDING.json",
+  "canonical_feed": "docs/data/france-debt-rate-live.json",
+  "native_app_created": false,
+  "domain_purchased": false,
+  "dns_changed": false,
+  "distribution_performed": false,
+  "missing_for_distribution": [
+    "Chosen owned domain and DNS authority",
+    "Verified active SUPRA native source",
+    "Authorized Apple distribution identity and testing route"
+  ]
+}
