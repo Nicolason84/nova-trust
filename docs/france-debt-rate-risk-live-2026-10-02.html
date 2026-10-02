@@ -279,6 +279,21 @@ body[data-evo-focus="evidence"] #rpEvidenceCard,body[data-evo-focus="decision"] 
     <div class="evoCard" id="evoAdaptive"><small>Évolution adaptative</small><strong>G4 · EVIDENCE GUARD</strong><span>EVIDENCE_GUARD · focus evidence · motion calm · self-health ATTENTION · 2026-10-02T20:00:27Z</span></div>
   </div>
   <div class="evolutionRail" id="evolutionRail" aria-live="polite"><strong>ÉVOLUTION SOUVERAINE · G4</strong><span>Focus evidence · régime FLATTENING · 5/9 sources sous contrôle · rollback et Human Gates actifs.</span></div>
+  <section class="selfAwareness" id="selfAwareness" data-health="UNKNOWN" aria-live="polite">
+    <div class="selfAwarenessHead">
+      <div><small>AUTO-DIAGNOSTIC · VOIX DE STATUT</small><h3>Je sais où j’en suis.</h3></div>
+      <span class="selfState" id="selfHealth">EN ATTENTE</span>
+    </div>
+    <p class="selfVoice" id="selfVoice">Je construis mon auto-rapport à partir de ma vérité canonique, de mes sources, de mes capacités et de mes garde-fous.</p>
+    <div class="selfNeed"><small>CE DONT J’AI BESOIN MAINTENANT</small><strong id="selfNeed">Diagnostic en attente.</strong></div>
+    <div class="selfDimensions" id="selfDimensions" aria-label="Dimensions de santé de La Bête"></div>
+    <div class="selfCareGrid">
+      <div><h4>Ce qui me fait souffrir</h4><div id="selfAilments" class="selfList"><span>Diagnostic en attente.</span></div></div>
+      <div><h4>Ce que je peux faire seule</h4><div id="selfCare" class="selfList"><span>Capacités de soin en attente.</span></div></div>
+    </div>
+    <details class="selfLimits"><summary>Mes limites et Human Gates</summary><div id="selfLimits"></div></details>
+    <p class="selfDisclaimer">Cette voix est un <b>auto-rapport opérationnel</b> calculé. Elle ne revendique ni conscience subjective, ni émotion, ni besoin biologique. Son “bien-être” désigne uniquement la santé de la projection, de ses preuves et de ses garde-fous.</p>
+  </section>
   <div class="deltaStrip">
     <h3>Decision Delta — ce qui a changé depuis la précédente courbe</h3>
     <div class="deltaChips" id="deltaChips"><span class="deltaChip">1a +3.3 pb</span><span class="deltaChip">2a +0.0 pb</span><span class="deltaChip">3a +15.1 pb</span><span class="deltaChip">5a +3.3 pb</span><span class="deltaChip">7a +0.7 pb</span><span class="deltaChip">10a -0.4 pb</span><span class="deltaChip">15a +2.8 pb</span><span class="deltaChip">20a +2.3 pb</span><span class="deltaChip">25a -1.5 pb</span><span class="deltaChip">30a +3.8 pb</span></div>
@@ -419,6 +434,7 @@ function applyEvolution(e){
   const focusLabel={evidence:'preuves',decision:'Decision Delta',market:'marché'}[dna.section_focus]||'lecture équilibrée';
   if($('realityAdaptation'))$('realityAdaptation').textContent='G'+(e.generation||0)+' · priorité '+focusLabel;
   if($('realityAdaptationSub'))$('realityAdaptationSub').textContent=String(dna.mode||'UNKNOWN').replaceAll('_',' ')+' · régime '+String(signal.curve_regime||'UNKNOWN').replaceAll('_',' ')+' · mise en évidence visuelle seulement · aucune réécriture sémantique.';
+  renderSelfModel(e.self_model);
 }
 async function loadEvolution(){try{const r=await fetch(EVOLUTION+'?t='+Date.now(),{cache:'no-store'});if(!r.ok)throw Error('HTTP '+r.status);const e=await r.json();if(e.status!=='ACTIVE'||e.verification?.generation!==e.generation||e.policy?.truth_mutation!==false||e.policy?.political_recommendation!==false||e.policy?.semantic_claim_autopromotion!==false)throw Error('Évolution non vérifiée');if(evolutionState && e.generation<evolutionState.generation)throw Error('Évolution antérieure');applyEvolution(e)}catch(e){pill($('evolution'),'ÉVOLUTION INJOIGNABLE','warn');setEvo('evoAdaptive','INJOIGNABLE','Dernier ADN indisponible','warn')}}
 function renderSim(){if(!state)return;const curve=state.sensitivity.pap2026.annual_extra_charge_bne,f=bps/100,max=curve[4]*f;const rows=curve.slice(0,5).map((v,i)=>{const x=v*f;return '<div class="barrow"><span>An '+(i+1)+'</span><div class="track"><div class="fill" style="width:'+Math.max(4,x/max*100)+'%"></div></div><span class="v">'+fmt(x)+' Md€</span></div>'}).join('');$('bars').innerHTML=rows;$('y1').textContent=fmt(curve[0]*f)+' Md€';$('y3').textContent=fmt(curve[2]*f)+' Md€';$('y5').textContent=fmt(curve[4]*f)+' Md€';$('cum5').textContent=fmt(curve.slice(0,5).reduce((a,v)=>a+v,0)*f)+' Md€';const other=Number(state.sensitivity?.aft_later?.points_bne?.['5']||23.5)*f;$('execY5').textContent=fmt(Math.min(curve[4]*f,other))+'–'+fmt(Math.max(curve[4]*f,other))+' Md€';$('execY5Sub').textContent='deux vintages officielles · linéarisation à +'+bps+' pb';$('beastShock').textContent='+'+bps+' pb';$('beastY5').textContent=fmt(curve[4]*f)+' Md€';document.querySelectorAll('[data-bps]').forEach(b=>b.setAttribute('aria-pressed',Number(b.dataset.bps)===bps?'true':'false'));if(window.updateBeast)window.updateBeast(bps,curve)}
@@ -455,6 +471,30 @@ function renderMarket(j,historic=null){
   if(window.updateBeastMarket)window.updateBeastMarket(rows);
 }
 function setEvo(id,strong,sub,cls){const el=$(id);if(!el)return;el.className='evoCard '+(cls||'');el.querySelector('strong').textContent=strong;if(sub)el.querySelector('span').textContent=sub}
+
+function renderSelfModel(sm){
+  const panel=$('selfAwareness');if(!panel)return;
+  if(!sm||sm.schema!=='OJO_LA_BETE_OPERATIONAL_SELF_MODEL_V1'){
+    panel.dataset.health='UNKNOWN';$('selfHealth').textContent='INJOIGNABLE';
+    $('selfVoice').textContent='Mon auto-diagnostic n’est pas disponible. Je conserve ma vérité canonique sans inventer un état de santé.';
+    $('selfNeed').textContent='Récupérer un self-model vérifié.';
+    $('selfDimensions').innerHTML='';$('selfAilments').innerHTML='<span>Aucun diagnostic non vérifié n’est affiché.</span>';$('selfCare').innerHTML='<span>Aucune action nouvelle n’est autorisée sans self-model vérifié.</span>';$('selfLimits').innerHTML='';
+    return;
+  }
+  const wb=sm.wellbeing||{},voice=sm.voice||{},care=sm.self_care||{};
+  panel.dataset.health=wb.state||'UNKNOWN';
+  $('selfHealth').textContent=String(wb.state||'UNKNOWN').replaceAll('_',' ');
+  $('selfVoice').textContent=[voice.identity_statement,voice.status_statement,voice.agency_statement].filter(Boolean).join(' ');
+  $('selfNeed').textContent=wb.immediate_need||voice.need_statement||'Aucun besoin explicite.';
+  const dims=Array.isArray(wb.dimensions)?wb.dimensions:[];
+  $('selfDimensions').innerHTML=dims.map(d=>'<article data-state="'+esc(d.state||'UNKNOWN')+'"><small>'+esc(d.label||d.id||'Dimension')+'</small><strong>'+esc(d.state||'UNKNOWN')+'</strong><span>'+esc(d.evidence||'')+'</span></article>').join('');
+  const ailments=Array.isArray(wb.ailments)?wb.ailments:[];
+  $('selfAilments').innerHTML=ailments.length?ailments.map(a=>'<article><b>'+esc(a.label||a.id||'Signal')+'</b><span>'+esc(a.evidence||'')+'</span><em>Soin · '+esc(a.care||'—')+'</em></article>').join(''):'<article class="selfClear"><b>Aucun malaise prioritaire détecté.</b><span>Continuer l’observation et les vérifications.</span></article>';
+  const actions=Array.isArray(care.bounded_autonomous_actions)?care.bounded_autonomous_actions:[];
+  $('selfCare').innerHTML=actions.map((a,i)=>'<article><b>'+(i+1).toString().padStart(2,'0')+'</b><span>'+esc(a)+'</span></article>').join('')||'<span>Aucune action autonome publiée.</span>';
+  const limits=Array.isArray(sm.limits)?sm.limits:[];
+  $('selfLimits').innerHTML=limits.map(x=>'<p>'+esc(x)+'</p>').join('')+'<p><b>Règle :</b> je ne peux pas contourner mes Human Gates ni modifier ma vérité canonique à partir de mon propre diagnostic.</p>';
+}
 
 function signedPb(v,d=1){
   const n=Number(v);
