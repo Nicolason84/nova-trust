@@ -255,7 +255,7 @@ def fetch_aft_maturity(previous):
     retained=old if isinstance(old,dict) and old.get("years") else MATURITY_VINTAGE
     retained=dict(retained)
     retained["mode"]="RETAINED_LAST_GOOD"
-    retained["retained_at"]=now()
+    retained["retained_at"]=retained.get("retained_at") or now()
     return retained,sources
 
 def curve_map(rows):
@@ -277,7 +277,10 @@ def append_curve_history(previous,observed,seed=None):
             merged[item["date"]]={"date":item["date"],"captured_at":item.get("captured_at") or now(),"curve":item["curve"]}
     rows=observed.get("yield_curve") or []
     if rows and observed.get("yield_curve_date"):
-        merged[observed["yield_curve_date"]]={"date":observed["yield_curve_date"],"captured_at":now(),"curve":rows}
+        date=observed["yield_curve_date"]
+        existing=merged.get(date)
+        captured_at=existing.get("captured_at") if existing and existing.get("curve")==rows else now()
+        merged[date]={"date":date,"captured_at":captured_at,"curve":rows}
     return [merged[k] for k in sorted(merged)][-HISTORY_LIMIT:]
 
 def curve_delta(history):
@@ -285,6 +288,132 @@ def curve_delta(history):
     a=curve_map(history[-2].get("curve",[])); b=curve_map(history[-1].get("curve",[]))
     common=sorted(set(a)&set(b))
     return {str(t):round((b[t]-a[t])*100,1) for t in common}
+
+def curve_change(history, days):
+    usable=[x for x in history if isinstance(x,dict) and x.get("date") and x.get("curve")]
+    if len(usable)<2:return {"days_requested":days,"available":False,"changes_bps":{}}
+    current=usable[-1]
+    cur_date=datetime.fromisoformat(current["date"]).date()
+    cutoff=cur_date-timedelta(days=days)
+    candidates=[x for x in usable[:-1] if datetime.fromisoformat(x["date"]).date()<=cutoff]
+    reference=(candidates[-1] if candidates else usable[0])
+    a,b=curve_map(reference["curve"]),curve_map(current["curve"])
+    common=sorted(set(a)&set(b))
+    return {
+      "days_requested":days,
+      "available":bool(common),
+      "from_date":reference["date"],
+      "to_date":current["date"],
+      "actual_days":(cur_date-datetime.fromisoformat(reference["date"]).date()).days,
+      "changes_bps":{str(t):round((b[t]-a[t])*100,1) for t in common}
+    }
+
+def curve_regime_memory(history):
+    usable=[x for x in history if isinstance(x,dict) and x.get("date") and x.get("curve")]
+    if not usable:return {"regime":"UNKNOWN","forecast":False,"similar_historical_configurations":[]}
+    horizons={f"{d}d":curve_change(usable,d) for d in (1,7,30,90)}
+    daily=horizons["1d"].get("changes_bps",{})
+    vals=[float(v) for v in daily.values()]
+    avg=sum(vals)/len(vals) if vals else 0.0
+    dispersion=(sum((v-avg)**2 for v in vals)/len(vals))**0.5 if vals else 0.0
+    short=[float(v) for k,v in daily.items() if int(k)<=3]
+    long=[float(v) for k,v in daily.items() if int(k)>=10]
+    short_avg=sum(short)/len(short) if short else 0.0
+    long_avg=sum(long)/len(long) if long else 0.0
+    if vals and abs(avg)>=3 and dispersion<=3:
+        regime="PARALLEL_UP" if avg>0 else "PARALLEL_DOWN"
+    elif vals and long_avg-short_avg>=3:
+        regime="STEEPENING"
+    elif vals and long_avg-short_avg<=-3:
+        regime="FLATTENING"
+    else:
+        regime="MIXED_OR_STABLE"
+    current=curve_map(usable[-1]["curve"])
+    anchor=current.get(10)
+    similar=[]
+    if anchor is not None:
+        shape={t:current[t]-anchor for t in current}
+        for item in usable[:-1]:
+            m=curve_map(item["curve"])
+            if 10 not in m:continue
+            common=sorted(set(shape)&set(m))
+            if len(common)<8:continue
+            rmse=(sum(((m[t]-m[10])-shape[t])**2 for t in common)/len(common))**0.5*100
+            similar.append({"date":item["date"],"shape_rmse_bps":round(rmse,1)})
+    similar=sorted(similar,key=lambda x:x["shape_rmse_bps"])[:5]
+    return {
+      "as_of":usable[-1]["date"],
+      "regime":regime,
+      "daily_mean_move_bps":round(avg,1),
+      "daily_dispersion_bps":round(dispersion,1),
+      "short_vs_long_bps":round(long_avg-short_avg,1),
+      "horizon_changes_bps":horizons,
+      "similar_historical_configurations":similar,
+      "method":"Descriptive curve-shape comparison; no causal attribution and no forecast.",
+      "forecast":False
+    }
+
+def refinancing_twin(observed,maturity):
+    rows=maturity.get("years",[]) if isinstance(maturity,dict) else []
+    as_of=datetime.fromisoformat((maturity.get("as_of") or datetime.now(timezone.utc).date().isoformat())[:10]).date()
+    last_year=max([int(r.get("year",0)) for r in rows] or [as_of.year])
+    views=[]
+    for months in (12,36,60,120):
+        end_year=as_of.year+(months+11)//12
+        selected=[r for r in rows if as_of.year<int(r.get("year",0))<=end_year]
+        nominal=sum(float(r.get("oat_nominal_bne",0)) for r in selected)
+        indexed=sum(float(r.get("oati_bne",0))+float(r.get("oatei_bne",0)) for r in selected)
+        views.append({
+          "horizon_months":months,
+          "maturity_stock_bne":round(nominal+indexed,3),
+          "nominal_stock_bne":round(nominal,3),
+          "indexed_stock_bne":round(indexed,3),
+          "included_years":[int(r["year"]) for r in selected],
+          "coverage":"OFFICIAL_VINTAGE" if end_year<=last_year else "PARTIAL_OFFICIAL_VINTAGE",
+          "financing_need_bne":float(observed["financing_need_2027_bne"]) if months==12 and observed.get("financing_need_2027_bne") is not None else None,
+          "financing_need_scope":"ANNUAL_2027_VINTAGE_NOT_HORIZON_SUM" if months==12 else "UNKNOWN_NOT_SUMMED",
+        })
+    return {
+      "as_of":maturity.get("as_of"),
+      "mode":maturity.get("mode","UNKNOWN"),
+      "views":views,
+      "stock_definition":"Outstanding securities by maturity year.",
+      "financing_need_definition":"Budget deficit financing plus debt amortisation and other cash items; not equal to maturity stock.",
+      "average_stock_cost":"UNKNOWN_FROM_CURRENT_PUBLIC_FEED",
+      "market_yield_proxy":"TEC curve is marginal market evidence, not average stock cost.",
+      "transmission":"New issuance, refinancing, buybacks and indexation transmit market conditions progressively.",
+    }
+
+def decision_delta(history,regime,claim_state):
+    if len(history)<2:
+        return {"status":"INSUFFICIENT_HISTORY","confidence":claim_state,"what_requires_review":["Wait for a second distinct official curve state."]}
+    previous,current=history[-2],history[-1]
+    changes=curve_delta(history)
+    material={k:v for k,v in changes.items() if abs(float(v))>=0.1}
+    return {
+      "status":"MATERIAL_CHANGE" if material else "NO_MATERIAL_CURVE_CHANGE",
+      "previous_state":{"date":previous.get("date"),"curve":previous.get("curve")},
+      "current_state":{"date":current.get("date"),"curve":current.get("curve")},
+      "delta_bps":changes,
+      "transmission_channel":"Yield curve → new issuance/refinancing → portfolio average cost → interest charge over time.",
+      "possible_impact":"Directional exposure may change if the move persists and reaches maturities that must be financed; no automatic budget amount is inferred from TEC10 alone.",
+      "curve_regime":regime.get("regime","UNKNOWN"),
+      "confidence":claim_state,
+      "what_requires_review":[
+        "Persistence of the observed curve move.",
+        "Maturity stock actually exposed after buybacks and indexation.",
+        "Updated financing programme and budget execution.",
+        "Any newer official sensitivity vintage."
+      ]
+    }
+
+def what_would_change_reading():
+    return [
+      {"reading":"Market conditions transmit progressively to the debt stock.","change_conditions":["Sustained curve reversal","Material issuance-programme change","Significant buybacks","Change in average maturity"],"sensitive_assumption":"Persistence and refinancing volume","review_source":"Banque de France curve + AFT financing programme"},
+      {"reading":"Current maturity exposure is only partially live.","change_conditions":["Machine-readable AFT file becomes available","AFT pages become runner-accessible","New official maturity vintage"],"sensitive_assumption":"Retained-last-good ladder","review_source":"AFT detailed OAT/OATi/OAT€i outstanding"},
+      {"reading":"Stress outputs are sensitivities, not forecasts.","change_conditions":["New official sensitivity model","Non-linear official estimates","Different shock shape or start date"],"sensitive_assumption":"Linear scaling of fixed official vintages","review_source":"PAP / AFT official publications"},
+      {"reading":"TEC10 is cross-checked.","change_conditions":["Page/Webstat divergence exceeds 1 bp","Publication date mismatch","One source becomes unavailable"],"sensitive_assumption":"Same official observation vintage","review_source":"Banque de France page + Webstat"}
+    ]
 
 try:
     prev=json.loads(OUT.read_text())
@@ -316,6 +445,27 @@ sources.append(src("AFT_SNAPSHOT","Agence France Trésor","Ancre officielle · e
 maturity_ladder,maturity_sources=fetch_aft_maturity(prev)
 sources.extend(maturity_sources)
 
+crosscheck_bps=round((float(observed.get("tec10_pct"))-float(wvals.get("webstat_tec10_last_pct")))*100,1) if observed.get("tec10_pct") is not None and wvals.get("webstat_tec10_last_pct") is not None else None
+for s in sources:
+    sid=s.get("id","")
+    raw=s.get("health")
+    if raw=="ERROR":
+        s["health"]="UNAVAILABLE"
+    elif sid=="AFT_SNAPSHOT":
+        s["health"]="OFFICIAL_VINTAGE"
+    elif sid=="BDF_WEBSTAT" and crosscheck_bps is not None and abs(crosscheck_bps)<=1:
+        s["health"]="CROSSCHECKED"
+    elif raw in ("OK","PINNED"):
+        s["health"]="LIVE_VERIFIED"
+if maturity_ladder.get("mode")=="RETAINED_LAST_GOOD":
+    sources.append(src(
+      "AFT_MATURITY_RETAINED","Agence France Trésor",
+      "Échéancier officiel conservé — dernier bon état",
+      "https://www.aft.gouv.fr/fr",health="RETAINED_LAST_GOOD",
+      digest=hashlib.sha256(json.dumps(maturity_ladder.get("years",[]),sort_keys=True).encode()).hexdigest(),
+      extra={"vintage":maturity_ladder.get("as_of"),"reason":"Detailed pages unavailable to the runner."}
+    ))
+
 if observed.get("tec10_pct") is not None:
     observed["tec10_vs_plf_assumption_bps"]=round((float(observed["tec10_pct"])-3.8)*100,1)
 
@@ -336,6 +486,9 @@ for k,v in observed.items():
 
 curve_history=append_curve_history(prev,observed,wvals.get("webstat_history",[]))
 curve_delta_bps=curve_delta(curve_history)
+regime_memory=curve_regime_memory(curve_history)
+tec_claim_state="CROSSCHECKED" if crosscheck_bps is not None and abs(crosscheck_bps)<=1 else ("LIVE_VERIFIED" if bvals.get("tec10_pct") is not None else "DEGRADED")
+maturity_claim_state="LIVE_VERIFIED" if maturity_ladder.get("mode")=="LIVE_PARSED" else "RETAINED_LAST_GOOD"
 derived={
   **curve_metrics(observed.get("yield_curve",[])),
   "curve_delta_vs_previous_bps":curve_delta_bps,
@@ -343,25 +496,79 @@ derived={
   "model_divergence_5y_bne":round(abs(float(23.5)-float(PAP_CURVE[4])),1),
   "maturity_mode":maturity_ladder.get("mode","UNKNOWN"),
   "latest_budget_execution_period":budget_execution.get("period"),
-  "webstat_crosscheck_bps":round((float(observed.get("tec10_pct"))-float(wvals.get("webstat_tec10_last_pct")))*100,1) if observed.get("tec10_pct") is not None and wvals.get("webstat_tec10_last_pct") is not None else None,
+  "webstat_crosscheck_bps":crosscheck_bps,
+}
+refinancing=refinancing_twin(observed,maturity_ladder)
+delta=decision_delta(curve_history,regime_memory,tec_claim_state)
+claims=[
+  {"claim_id":"TEC10","label":"TEC10 observé","type":"OBSERVED","value":observed.get("tec10_pct"),"unit":"pct","date":observed.get("tec10_date"),"state":tec_claim_state,"confidence":"HIGH" if tec_claim_state=="CROSSCHECKED" else "MEDIUM","source_ids":["BDF_TEC","BDF_WEBSTAT"]},
+  {"claim_id":"TEC_CURVE","label":"Courbe TEC 1–30 ans","type":"OBSERVED","value":observed.get("yield_curve"),"date":observed.get("yield_curve_date"),"state":tec_claim_state,"confidence":"HIGH" if len(observed.get("yield_curve",[]))>=8 else "LOW","source_ids":["BDF_TEC","BDF_WEBSTAT"]},
+  {"claim_id":"CURVE_REGIME","label":"Régime descriptif de courbe","type":"DERIVED","value":regime_memory.get("regime"),"date":regime_memory.get("as_of"),"state":"DERIVED_FROM_OFFICIAL","confidence":"MEDIUM","source_ids":["BDF_TEC","BDF_WEBSTAT"]},
+  {"claim_id":"MATURITY_LADDER","label":"Encours par échéance","type":"OBSERVED","value":maturity_ladder.get("years"),"date":maturity_ladder.get("as_of"),"state":maturity_claim_state,"confidence":"MEDIUM" if maturity_claim_state=="RETAINED_LAST_GOOD" else "HIGH","source_ids":["AFT_MATURITY_RETAINED"] if maturity_claim_state=="RETAINED_LAST_GOOD" else ["AFT_MATURITY_OAT","AFT_MATURITY_OATI","AFT_MATURITY_OATEI"]},
+  {"claim_id":"PAP_STRESS","label":"Sensibilité +100 pb","type":"STRESS","value":PAP_CURVE,"date":"OFFICIAL_VINTAGE","state":"OFFICIAL_VINTAGE","confidence":"MODEL_BOUND","source_ids":["PAP2026"]},
+]
+evidence_graph={
+  "schema":"SUPRA_PROOFGRAPH_PUBLIC_PROJECTION_V1",
+  "nodes":[
+    {"id":"BDF_TEC","kind":"SOURCE","label":"Banque de France · page TEC"},
+    {"id":"BDF_WEBSTAT","kind":"SOURCE","label":"Banque de France · Webstat"},
+    {"id":"TEC_CURVE","kind":"METRIC","label":"Courbe TEC observée"},
+    {"id":"CURVE_REGIME","kind":"DERIVED_METRIC","label":"Régime descriptif"},
+    {"id":"PAP2026","kind":"PUBLICATION","label":"PAP 2026"},
+    {"id":"PAP_STRESS","kind":"SCENARIO","label":"Stress parallèle"},
+    {"id":"EXECUTIVE_OUTPUT","kind":"OUTPUT","label":"Executive Decision Room"}
+  ],
+  "edges":[
+    {"from":"BDF_TEC","to":"TEC_CURVE","relation":"OBSERVES"},
+    {"from":"BDF_WEBSTAT","to":"TEC_CURVE","relation":"CROSSCHECKS"},
+    {"from":"TEC_CURVE","to":"CURVE_REGIME","relation":"DERIVES"},
+    {"from":"PAP2026","to":"PAP_STRESS","relation":"PARAMETERIZES"},
+    {"from":"TEC_CURVE","to":"EXECUTIVE_OUTPUT","relation":"INFORMS"},
+    {"from":"CURVE_REGIME","to":"EXECUTIVE_OUTPUT","relation":"INFORMS"},
+    {"from":"PAP_STRESS","to":"EXECUTIVE_OUTPUT","relation":"STRESSES"}
+  ],
+  "black_box":False
+}
+stress_shapes={
+  "parallel":{"label":"Parallèle","type":"STRESS","tenor_shock_bps":{str(t):100 for t in TEC_TENORS}},
+  "short_term":{"label":"Court terme","type":"STRESS","tenor_shock_bps":{str(t):(100 if t<=3 else 50 if t==5 else 0) for t in TEC_TENORS}},
+  "long_term":{"label":"Long terme","type":"STRESS","tenor_shock_bps":{str(t):(100 if t>=10 else 0) for t in TEC_TENORS}},
+  "steepener":{"label":"Pentification","type":"STRESS","tenor_shock_bps":{str(t):(-50 if t<=3 else 50 if t>=10 else 0) for t in TEC_TENORS}},
+  "flattener":{"label":"Aplatissement","type":"STRESS","tenor_shock_bps":{str(t):(50 if t<=3 else -50 if t>=10 else 0) for t in TEC_TENORS}},
 }
 seq=int(prev.get("sequence",0))+(1 if events else 0)
-ok_states={"OK","PINNED"}
+ok_states={"LIVE_VERIFIED","CROSSCHECKED","OFFICIAL_VINTAGE","RETAINED_LAST_GOOD"}
+source_state_counts={state:sum(s.get("health")==state for s in sources) for state in ("LIVE_VERIFIED","CROSSCHECKED","OFFICIAL_VINTAGE","RETAINED_LAST_GOOD","DEGRADED","UNAVAILABLE","CONTRADICTED")}
+snapshot_payload=json.dumps({"observed":observed,"maturity_ladder":maturity_ladder,"sensitivity":{"pap2026":PAP_CURVE},"decision_delta":delta},sort_keys=True,ensure_ascii=False)
+snapshot_id="OJO-"+hashlib.sha256(snapshot_payload.encode()).hexdigest()[:16].upper()
 manifest={
  "schema":"OJO_FRANCE_DEBT_RATE_LIVE_V1",
- "version":"2026-10-02.6",
+ "version":"2026-10-02.7",
+ "snapshot_id":snapshot_id,
  "sequence":seq,
  "updated_at":now(),
- "policy":{"political_recommendation":"NONE","market_yield_is_not_whole_debt_cost":True,"source_change":"DELTA_THEN_RECONCILE","typed_live_metrics":"OBSERVED_NOT_CAUSAL","sensitivity_model":"FIXED_OFFICIAL_VINTAGES","aft_html":"PINNED_DUE_TO_RUNNER_BLOCK"},
+ "policy":{"political_recommendation":"NONE","market_yield_is_not_whole_debt_cost":True,"maturity_stock_is_not_financing_need":True,"stress_test_is_not_forecast":True,"model_output_is_not_policy_recommendation":True,"source_change":"DELTA_THEN_RECONCILE","typed_live_metrics":"OBSERVED_DERIVED_HYPOTHESIS_STRESS_UNKNOWN","sensitivity_model":"FIXED_OFFICIAL_VINTAGES","aft_html":"PINNED_DUE_TO_RUNNER_BLOCK"},
  "observed":observed,
  "sensitivity":{
    "pap2026":{"label":"PLF 2026 · PAP Engagements financiers de l’État","shock_bps":100,"annual_extra_charge_bne":PAP_CURVE,"start_year":2026},
-   "aft_later":{"label":"AFT · estimation citée par le Sénat","shock_bps":100,"points_bne":{"1":3.2,"5":23.5,"9":33.5}}
+   "aft_later":{"label":"AFT · estimation citée par le Sénat","shock_bps":100,"points_bne":{"1":3.2,"5":23.5,"9":33.5}},
+   "stress_shapes":stress_shapes
  },
  "maturity_ladder":maturity_ladder,
+ "refinancing_twin":refinancing,
  "budget_execution":budget_execution,
  "curve_history":curve_history,
+ "curve_regime_memory":regime_memory,
+ "decision_delta":delta,
+ "what_would_change_the_reading":what_would_change_reading(),
+ "claims":claims,
+ "evidence_graph":evidence_graph,
  "derived":derived,
+ "supra_bindings":{
+   "mode":"READ_ONLY_PUBLIC_PROJECTION",
+   "no_second_runtime":True,
+   "capabilities_reused":["Decision Twin","ProofGraph","Context Engine","Scenario / Counterfactual Reasoning","Canonical Store","Pattern Memory","Chronology","Claim Confidence","Executive Cockpit","Verification","Non-Regression","Executive Brief"]
+ },
  "capabilities":{
    "scheduled_refresh_minutes":15,
    "browser_poll_seconds":30,
@@ -369,6 +576,13 @@ manifest={
    "last_good_retention":True,
    "curve_history":True,
    "curve_delta_bps":True,
+   "curve_regime_memory":True,
+   "decision_delta":True,
+   "refinancing_twin":True,
+   "time_machine":True,
+   "claim_confidence":True,
+   "evidence_graph":True,
+   "what_would_change_the_reading":True,
    "webstat_historical_backfill":True,
    "monthly_budget_execution_discovery":True,
    "maturity_auto_refresh":maturity_ladder.get("mode")=="LIVE_PARSED",
@@ -378,8 +592,8 @@ manifest={
  "sources":sources,
  "events":(prev.get("events",[])+events)[-120:],
  "material_changes":events,
- "summary":{"healthy":sum(s.get("health") in ok_states for s in sources),"monitored":len(sources),"warnings":sum(s.get("health") not in ok_states for s in sources),"changed_this_sequence":len(events),
-            "curve_history_points":len(curve_history),"maturity_mode":maturity_ladder.get("mode","UNKNOWN")}
+ "summary":{"healthy":sum(s.get("health") in ok_states for s in sources),"monitored":len(sources),"warnings":sum(s.get("health") not in ok_states for s in sources),"source_state_counts":source_state_counts,"changed_this_sequence":len(events),
+            "curve_history_points":len(curve_history),"maturity_mode":maturity_ladder.get("mode","UNKNOWN"),"decision_delta_status":delta.get("status")}
 }
 OUT.parent.mkdir(parents=True,exist_ok=True)
 encoded=json.dumps(manifest,ensure_ascii=False,indent=2)+"\n"

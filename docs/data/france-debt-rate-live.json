@@ -1,13 +1,17 @@
 {
   "schema": "OJO_FRANCE_DEBT_RATE_LIVE_V1",
-  "version": "2026-10-02.6",
-  "sequence": 7,
-  "updated_at": "2026-10-02T03:02:23Z",
+  "version": "2026-10-02.7",
+  "snapshot_id": "OJO-4515367AB5E005E7",
+  "sequence": 8,
+  "updated_at": "2026-10-02T03:19:01Z",
   "policy": {
     "political_recommendation": "NONE",
     "market_yield_is_not_whole_debt_cost": true,
+    "maturity_stock_is_not_financing_need": true,
+    "stress_test_is_not_forecast": true,
+    "model_output_is_not_policy_recommendation": true,
     "source_change": "DELTA_THEN_RECONCILE",
-    "typed_live_metrics": "OBSERVED_NOT_CAUSAL",
+    "typed_live_metrics": "OBSERVED_DERIVED_HYPOTHESIS_STRESS_UNKNOWN",
     "sensitivity_model": "FIXED_OFFICIAL_VINTAGES",
     "aft_html": "PINNED_DUE_TO_RUNNER_BLOCK"
   },
@@ -97,6 +101,88 @@
         "5": 23.5,
         "9": 33.5
       }
+    },
+    "stress_shapes": {
+      "parallel": {
+        "label": "Parallèle",
+        "type": "STRESS",
+        "tenor_shock_bps": {
+          "1": 100,
+          "2": 100,
+          "3": 100,
+          "5": 100,
+          "7": 100,
+          "10": 100,
+          "15": 100,
+          "20": 100,
+          "25": 100,
+          "30": 100
+        }
+      },
+      "short_term": {
+        "label": "Court terme",
+        "type": "STRESS",
+        "tenor_shock_bps": {
+          "1": 100,
+          "2": 100,
+          "3": 100,
+          "5": 50,
+          "7": 0,
+          "10": 0,
+          "15": 0,
+          "20": 0,
+          "25": 0,
+          "30": 0
+        }
+      },
+      "long_term": {
+        "label": "Long terme",
+        "type": "STRESS",
+        "tenor_shock_bps": {
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "5": 0,
+          "7": 0,
+          "10": 100,
+          "15": 100,
+          "20": 100,
+          "25": 100,
+          "30": 100
+        }
+      },
+      "steepener": {
+        "label": "Pentification",
+        "type": "STRESS",
+        "tenor_shock_bps": {
+          "1": -50,
+          "2": -50,
+          "3": -50,
+          "5": 0,
+          "7": 0,
+          "10": 50,
+          "15": 50,
+          "20": 50,
+          "25": 50,
+          "30": 50
+        }
+      },
+      "flattener": {
+        "label": "Aplatissement",
+        "type": "STRESS",
+        "tenor_shock_bps": {
+          "1": 50,
+          "2": 50,
+          "3": 50,
+          "5": 0,
+          "7": 0,
+          "10": -50,
+          "15": -50,
+          "20": -50,
+          "25": -50,
+          "30": -50
+        }
+      }
     }
   },
   "maturity_ladder": {
@@ -125,6 +211,71 @@
     "note": "Encours publié par millésime d'échéance; ce n'est ni le besoin annuel de financement ni le cash final d'amortissement après rachats/indexation.",
     "mode": "RETAINED_LAST_GOOD",
     "retained_at": "2026-10-02T03:02:23Z"
+  },
+  "refinancing_twin": {
+    "as_of": "2026-10-02",
+    "mode": "RETAINED_LAST_GOOD",
+    "views": [
+      {
+        "horizon_months": 12,
+        "maturity_stock_bne": 187.379,
+        "nominal_stock_bne": 165.642,
+        "indexed_stock_bne": 21.737,
+        "included_years": [
+          2027
+        ],
+        "coverage": "OFFICIAL_VINTAGE",
+        "financing_need_bne": 339.7,
+        "financing_need_scope": "ANNUAL_2027_VINTAGE_NOT_HORIZON_SUM"
+      },
+      {
+        "horizon_months": 36,
+        "maturity_stock_bne": 716.951,
+        "nominal_stock_bne": 643.585,
+        "indexed_stock_bne": 73.366,
+        "included_years": [
+          2027,
+          2028,
+          2029
+        ],
+        "coverage": "OFFICIAL_VINTAGE",
+        "financing_need_bne": null,
+        "financing_need_scope": "UNKNOWN_NOT_SUMMED"
+      },
+      {
+        "horizon_months": 60,
+        "maturity_stock_bne": 716.951,
+        "nominal_stock_bne": 643.585,
+        "indexed_stock_bne": 73.366,
+        "included_years": [
+          2027,
+          2028,
+          2029
+        ],
+        "coverage": "PARTIAL_OFFICIAL_VINTAGE",
+        "financing_need_bne": null,
+        "financing_need_scope": "UNKNOWN_NOT_SUMMED"
+      },
+      {
+        "horizon_months": 120,
+        "maturity_stock_bne": 716.951,
+        "nominal_stock_bne": 643.585,
+        "indexed_stock_bne": 73.366,
+        "included_years": [
+          2027,
+          2028,
+          2029
+        ],
+        "coverage": "PARTIAL_OFFICIAL_VINTAGE",
+        "financing_need_bne": null,
+        "financing_need_scope": "UNKNOWN_NOT_SUMMED"
+      }
+    ],
+    "stock_definition": "Outstanding securities by maturity year.",
+    "financing_need_definition": "Budget deficit financing plus debt amortisation and other cash items; not equal to maturity stock.",
+    "average_stock_cost": "UNKNOWN_FROM_CURRENT_PUBLIC_FEED",
+    "market_yield_proxy": "TEC curve is marginal market evidence, not average stock cost.",
+    "transmission": "New issuance, refinancing, buybacks and indexation transmit market conditions progressively."
   },
   "budget_execution": {
     "period": "2026-07",
@@ -5134,7 +5285,7 @@
     },
     {
       "date": "2026-10-01",
-      "captured_at": "2026-10-02T03:02:23Z",
+      "captured_at": "2026-10-02T03:19:01Z",
       "curve": [
         {
           "tenor_years": 1,
@@ -5179,6 +5330,479 @@
       ]
     }
   ],
+  "curve_regime_memory": {
+    "as_of": "2026-10-01",
+    "regime": "STEEPENING",
+    "daily_mean_move_bps": 10.1,
+    "daily_dispersion_bps": 4.2,
+    "short_vs_long_bps": 7.4,
+    "horizon_changes_bps": {
+      "1d": {
+        "days_requested": 1,
+        "available": true,
+        "from_date": "2026-09-30",
+        "to_date": "2026-10-01",
+        "actual_days": 1,
+        "changes_bps": {
+          "2": 8.3,
+          "3": 0.0,
+          "5": 9.9,
+          "7": 15.2,
+          "10": 15.2,
+          "15": 10.6,
+          "20": 11.0,
+          "25": 10.5,
+          "30": 10.5
+        }
+      },
+      "7d": {
+        "days_requested": 7,
+        "available": true,
+        "from_date": "2026-09-24",
+        "to_date": "2026-10-01",
+        "actual_days": 7,
+        "changes_bps": {
+          "2": 9.4,
+          "3": 1.5,
+          "5": 13.1,
+          "7": 20.1,
+          "10": 23.4,
+          "15": 23.2,
+          "20": 23.3,
+          "25": 21.1,
+          "30": 22.3
+        }
+      },
+      "30d": {
+        "days_requested": 30,
+        "available": true,
+        "from_date": "2026-09-01",
+        "to_date": "2026-10-01",
+        "actual_days": 30,
+        "changes_bps": {
+          "2": 55.9,
+          "3": 51.2,
+          "5": 65.5,
+          "7": 71.2,
+          "10": 70.9,
+          "15": 65.2,
+          "20": 59.7,
+          "25": 48.2,
+          "30": 50.0
+        }
+      },
+      "90d": {
+        "days_requested": 90,
+        "available": true,
+        "from_date": "2026-07-03",
+        "to_date": "2026-10-01",
+        "actual_days": 90,
+        "changes_bps": {
+          "2": 100.8,
+          "3": 98.2,
+          "5": 116.0,
+          "7": 122.3,
+          "10": 121.3,
+          "15": 114.1,
+          "20": 105.8,
+          "25": 91.5,
+          "30": 92.6
+        }
+      }
+    },
+    "similar_historical_configurations": [
+      {
+        "date": "2026-09-30",
+        "shape_rmse_bps": 6.6
+      },
+      {
+        "date": "2026-09-29",
+        "shape_rmse_bps": 7.3
+      },
+      {
+        "date": "2026-09-28",
+        "shape_rmse_bps": 7.9
+      },
+      {
+        "date": "2026-09-24",
+        "shape_rmse_bps": 9.4
+      },
+      {
+        "date": "2026-09-25",
+        "shape_rmse_bps": 9.7
+      }
+    ],
+    "method": "Descriptive curve-shape comparison; no causal attribution and no forecast.",
+    "forecast": false
+  },
+  "decision_delta": {
+    "status": "MATERIAL_CHANGE",
+    "previous_state": {
+      "date": "2026-09-30",
+      "curve": [
+        {
+          "tenor_years": 2,
+          "rate_pct": 3.605
+        },
+        {
+          "tenor_years": 3,
+          "rate_pct": 3.762
+        },
+        {
+          "tenor_years": 5,
+          "rate_pct": 4.081
+        },
+        {
+          "tenor_years": 7,
+          "rate_pct": 4.381
+        },
+        {
+          "tenor_years": 10,
+          "rate_pct": 4.751
+        },
+        {
+          "tenor_years": 15,
+          "rate_pct": 5.075
+        },
+        {
+          "tenor_years": 20,
+          "rate_pct": 5.228
+        },
+        {
+          "tenor_years": 25,
+          "rate_pct": 5.24
+        },
+        {
+          "tenor_years": 30,
+          "rate_pct": 5.351
+        }
+      ]
+    },
+    "current_state": {
+      "date": "2026-10-01",
+      "curve": [
+        {
+          "tenor_years": 1,
+          "rate_pct": 3.333
+        },
+        {
+          "tenor_years": 2,
+          "rate_pct": 3.688
+        },
+        {
+          "tenor_years": 3,
+          "rate_pct": 3.762
+        },
+        {
+          "tenor_years": 5,
+          "rate_pct": 4.18
+        },
+        {
+          "tenor_years": 7,
+          "rate_pct": 4.533
+        },
+        {
+          "tenor_years": 10,
+          "rate_pct": 4.903
+        },
+        {
+          "tenor_years": 15,
+          "rate_pct": 5.181
+        },
+        {
+          "tenor_years": 20,
+          "rate_pct": 5.338
+        },
+        {
+          "tenor_years": 25,
+          "rate_pct": 5.345
+        },
+        {
+          "tenor_years": 30,
+          "rate_pct": 5.456
+        }
+      ]
+    },
+    "delta_bps": {
+      "2": 8.3,
+      "3": 0.0,
+      "5": 9.9,
+      "7": 15.2,
+      "10": 15.2,
+      "15": 10.6,
+      "20": 11.0,
+      "25": 10.5,
+      "30": 10.5
+    },
+    "transmission_channel": "Yield curve → new issuance/refinancing → portfolio average cost → interest charge over time.",
+    "possible_impact": "Directional exposure may change if the move persists and reaches maturities that must be financed; no automatic budget amount is inferred from TEC10 alone.",
+    "curve_regime": "STEEPENING",
+    "confidence": "CROSSCHECKED",
+    "what_requires_review": [
+      "Persistence of the observed curve move.",
+      "Maturity stock actually exposed after buybacks and indexation.",
+      "Updated financing programme and budget execution.",
+      "Any newer official sensitivity vintage."
+    ]
+  },
+  "what_would_change_the_reading": [
+    {
+      "reading": "Market conditions transmit progressively to the debt stock.",
+      "change_conditions": [
+        "Sustained curve reversal",
+        "Material issuance-programme change",
+        "Significant buybacks",
+        "Change in average maturity"
+      ],
+      "sensitive_assumption": "Persistence and refinancing volume",
+      "review_source": "Banque de France curve + AFT financing programme"
+    },
+    {
+      "reading": "Current maturity exposure is only partially live.",
+      "change_conditions": [
+        "Machine-readable AFT file becomes available",
+        "AFT pages become runner-accessible",
+        "New official maturity vintage"
+      ],
+      "sensitive_assumption": "Retained-last-good ladder",
+      "review_source": "AFT detailed OAT/OATi/OAT€i outstanding"
+    },
+    {
+      "reading": "Stress outputs are sensitivities, not forecasts.",
+      "change_conditions": [
+        "New official sensitivity model",
+        "Non-linear official estimates",
+        "Different shock shape or start date"
+      ],
+      "sensitive_assumption": "Linear scaling of fixed official vintages",
+      "review_source": "PAP / AFT official publications"
+    },
+    {
+      "reading": "TEC10 is cross-checked.",
+      "change_conditions": [
+        "Page/Webstat divergence exceeds 1 bp",
+        "Publication date mismatch",
+        "One source becomes unavailable"
+      ],
+      "sensitive_assumption": "Same official observation vintage",
+      "review_source": "Banque de France page + Webstat"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "TEC10",
+      "label": "TEC10 observé",
+      "type": "OBSERVED",
+      "value": 4.903,
+      "unit": "pct",
+      "date": "2026-10-01",
+      "state": "CROSSCHECKED",
+      "confidence": "HIGH",
+      "source_ids": [
+        "BDF_TEC",
+        "BDF_WEBSTAT"
+      ]
+    },
+    {
+      "claim_id": "TEC_CURVE",
+      "label": "Courbe TEC 1–30 ans",
+      "type": "OBSERVED",
+      "value": [
+        {
+          "tenor_years": 1,
+          "rate_pct": 3.333
+        },
+        {
+          "tenor_years": 2,
+          "rate_pct": 3.688
+        },
+        {
+          "tenor_years": 3,
+          "rate_pct": 3.762
+        },
+        {
+          "tenor_years": 5,
+          "rate_pct": 4.18
+        },
+        {
+          "tenor_years": 7,
+          "rate_pct": 4.533
+        },
+        {
+          "tenor_years": 10,
+          "rate_pct": 4.903
+        },
+        {
+          "tenor_years": 15,
+          "rate_pct": 5.181
+        },
+        {
+          "tenor_years": 20,
+          "rate_pct": 5.338
+        },
+        {
+          "tenor_years": 25,
+          "rate_pct": 5.345
+        },
+        {
+          "tenor_years": 30,
+          "rate_pct": 5.456
+        }
+      ],
+      "date": "2026-10-01",
+      "state": "CROSSCHECKED",
+      "confidence": "HIGH",
+      "source_ids": [
+        "BDF_TEC",
+        "BDF_WEBSTAT"
+      ]
+    },
+    {
+      "claim_id": "CURVE_REGIME",
+      "label": "Régime descriptif de courbe",
+      "type": "DERIVED",
+      "value": "STEEPENING",
+      "date": "2026-10-01",
+      "state": "DERIVED_FROM_OFFICIAL",
+      "confidence": "MEDIUM",
+      "source_ids": [
+        "BDF_TEC",
+        "BDF_WEBSTAT"
+      ]
+    },
+    {
+      "claim_id": "MATURITY_LADDER",
+      "label": "Encours par échéance",
+      "type": "OBSERVED",
+      "value": [
+        {
+          "year": 2027,
+          "oat_nominal_bne": 165.642,
+          "oati_bne": 0.0,
+          "oatei_bne": 21.737
+        },
+        {
+          "year": 2028,
+          "oat_nominal_bne": 228.417232603,
+          "oati_bne": 17.412,
+          "oatei_bne": 0.0
+        },
+        {
+          "year": 2029,
+          "oat_nominal_bne": 249.525880462,
+          "oati_bne": 10.176144,
+          "oatei_bne": 24.041
+        }
+      ],
+      "date": "2026-10-02",
+      "state": "RETAINED_LAST_GOOD",
+      "confidence": "MEDIUM",
+      "source_ids": [
+        "AFT_MATURITY_RETAINED"
+      ]
+    },
+    {
+      "claim_id": "PAP_STRESS",
+      "label": "Sensibilité +100 pb",
+      "type": "STRESS",
+      "value": [
+        3.1,
+        7.5,
+        11.3,
+        15.0,
+        18.4,
+        21.7,
+        24.8,
+        27.7,
+        30.2,
+        32.1
+      ],
+      "date": "OFFICIAL_VINTAGE",
+      "state": "OFFICIAL_VINTAGE",
+      "confidence": "MODEL_BOUND",
+      "source_ids": [
+        "PAP2026"
+      ]
+    }
+  ],
+  "evidence_graph": {
+    "schema": "SUPRA_PROOFGRAPH_PUBLIC_PROJECTION_V1",
+    "nodes": [
+      {
+        "id": "BDF_TEC",
+        "kind": "SOURCE",
+        "label": "Banque de France · page TEC"
+      },
+      {
+        "id": "BDF_WEBSTAT",
+        "kind": "SOURCE",
+        "label": "Banque de France · Webstat"
+      },
+      {
+        "id": "TEC_CURVE",
+        "kind": "METRIC",
+        "label": "Courbe TEC observée"
+      },
+      {
+        "id": "CURVE_REGIME",
+        "kind": "DERIVED_METRIC",
+        "label": "Régime descriptif"
+      },
+      {
+        "id": "PAP2026",
+        "kind": "PUBLICATION",
+        "label": "PAP 2026"
+      },
+      {
+        "id": "PAP_STRESS",
+        "kind": "SCENARIO",
+        "label": "Stress parallèle"
+      },
+      {
+        "id": "EXECUTIVE_OUTPUT",
+        "kind": "OUTPUT",
+        "label": "Executive Decision Room"
+      }
+    ],
+    "edges": [
+      {
+        "from": "BDF_TEC",
+        "to": "TEC_CURVE",
+        "relation": "OBSERVES"
+      },
+      {
+        "from": "BDF_WEBSTAT",
+        "to": "TEC_CURVE",
+        "relation": "CROSSCHECKS"
+      },
+      {
+        "from": "TEC_CURVE",
+        "to": "CURVE_REGIME",
+        "relation": "DERIVES"
+      },
+      {
+        "from": "PAP2026",
+        "to": "PAP_STRESS",
+        "relation": "PARAMETERIZES"
+      },
+      {
+        "from": "TEC_CURVE",
+        "to": "EXECUTIVE_OUTPUT",
+        "relation": "INFORMS"
+      },
+      {
+        "from": "CURVE_REGIME",
+        "to": "EXECUTIVE_OUTPUT",
+        "relation": "INFORMS"
+      },
+      {
+        "from": "PAP_STRESS",
+        "to": "EXECUTIVE_OUTPUT",
+        "relation": "STRESSES"
+      }
+    ],
+    "black_box": false
+  },
   "derived": {
     "slope_2s10s_bps": 121.5,
     "slope_10s30s_bps": 55.3,
@@ -5200,6 +5824,24 @@
     "latest_budget_execution_period": "2026-07",
     "webstat_crosscheck_bps": 0.0
   },
+  "supra_bindings": {
+    "mode": "READ_ONLY_PUBLIC_PROJECTION",
+    "no_second_runtime": true,
+    "capabilities_reused": [
+      "Decision Twin",
+      "ProofGraph",
+      "Context Engine",
+      "Scenario / Counterfactual Reasoning",
+      "Canonical Store",
+      "Pattern Memory",
+      "Chronology",
+      "Claim Confidence",
+      "Executive Cockpit",
+      "Verification",
+      "Non-Regression",
+      "Executive Brief"
+    ]
+  },
   "capabilities": {
     "scheduled_refresh_minutes": 15,
     "browser_poll_seconds": 30,
@@ -5207,6 +5849,13 @@
     "last_good_retention": true,
     "curve_history": true,
     "curve_delta_bps": true,
+    "curve_regime_memory": true,
+    "decision_delta": true,
+    "refinancing_twin": true,
+    "time_machine": true,
+    "claim_confidence": true,
+    "evidence_graph": true,
+    "what_would_change_the_reading": true,
     "webstat_historical_backfill": true,
     "monthly_budget_execution_discovery": true,
     "maturity_auto_refresh": false,
@@ -5219,9 +5868,9 @@
       "publisher": "Banque de France",
       "label": "Courbe TEC quotidienne · page officielle",
       "url": "https://www.banque-france.fr/fr/statistiques/taux-et-cours/indices-obligataires-2026-10-01",
-      "health": "OK",
+      "health": "LIVE_VERIFIED",
       "digest": "e4f8e545bbee7f2c36733d24ccf5e8c4846150db0db69a3bbef5a7041a2349c5",
-      "checked_at": "2026-10-02T03:02:19Z",
+      "checked_at": "2026-10-02T03:19:01Z",
       "error": null,
       "etag": "\"1790895399-gzip\"",
       "last_modified": "Thu, 01 Oct 2026 22:56:39 GMT"
@@ -5231,9 +5880,9 @@
       "publisher": "Banque de France · Webstat",
       "label": "Historique CNO-TEC · export CSV",
       "url": "https://webstat.banque-france.fr/export/csv-columns/fr/selection/5385693",
-      "health": "OK",
+      "health": "CROSSCHECKED",
       "digest": "95f599603dbe4675692cbe98279fb6456a153b122352da29e94a4b5b6e3d2d55",
-      "checked_at": "2026-10-02T03:02:20Z",
+      "checked_at": "2026-10-02T03:19:01Z",
       "error": null,
       "etag": null,
       "last_modified": "Thu, 01 Oct 2026 11:01:26 UTC",
@@ -5244,9 +5893,9 @@
       "publisher": "Agence France Trésor",
       "label": "Flux RSS des publications",
       "url": "https://www.aft.gouv.fr/fr/rss.xml",
-      "health": "ERROR",
+      "health": "UNAVAILABLE",
       "digest": null,
-      "checked_at": "2026-10-02T03:02:21Z",
+      "checked_at": "2026-10-02T03:19:01Z",
       "error": "HTTPError: HTTP Error 403: Forbidden",
       "etag": null,
       "last_modified": null
@@ -5256,9 +5905,9 @@
       "publisher": "DGFiP / data.economie.gouv.fr",
       "label": "Situation mensuelle de l'État · dernier document",
       "url": "https://data.economie.gouv.fr/api/explore/v2.1/catalog/datasets/situation-mensuelle-de-l-etat/exports/json",
-      "health": "OK",
+      "health": "LIVE_VERIFIED",
       "digest": "70a012d524d65a4015910181cfff0305576d3a9a45b043d8c814e7900845fb3e",
-      "checked_at": "2026-10-02T03:02:21Z",
+      "checked_at": "2026-10-02T03:19:01Z",
       "error": null,
       "etag": null,
       "last_modified": null,
@@ -5269,9 +5918,9 @@
       "publisher": "Agence France Trésor",
       "label": "Ancre officielle · encours, maturité, financement 2027",
       "url": "https://www.aft.gouv.fr/fr",
-      "health": "PINNED",
+      "health": "OFFICIAL_VINTAGE",
       "digest": "4e5bb942ec1b466f53d1eda4d5bff3e28c8e8848da2071d5d23a97ca4bc67127",
-      "checked_at": "2026-10-02T03:02:21Z",
+      "checked_at": "2026-10-02T03:19:01Z",
       "error": null,
       "etag": null,
       "last_modified": null,
@@ -5283,9 +5932,9 @@
       "publisher": "Agence France Trésor",
       "label": "Encours détaillé OAT",
       "url": "https://www.aft.gouv.fr/fr/encours-detaille-oat",
-      "health": "ERROR",
+      "health": "UNAVAILABLE",
       "digest": null,
-      "checked_at": "2026-10-02T03:02:22Z",
+      "checked_at": "2026-10-02T03:19:01Z",
       "error": "HTTPError: HTTP Error 403: Forbidden",
       "etag": null,
       "last_modified": null
@@ -5295,9 +5944,9 @@
       "publisher": "Agence France Trésor",
       "label": "Encours détaillé OATI",
       "url": "https://www.aft.gouv.fr/fr/encours-detaille-oati",
-      "health": "ERROR",
+      "health": "UNAVAILABLE",
       "digest": null,
-      "checked_at": "2026-10-02T03:02:23Z",
+      "checked_at": "2026-10-02T03:19:01Z",
       "error": "HTTPError: HTTP Error 403: Forbidden",
       "etag": null,
       "last_modified": null
@@ -5307,12 +5956,26 @@
       "publisher": "Agence France Trésor",
       "label": "Encours détaillé OATEI",
       "url": "https://www.aft.gouv.fr/fr/encours-detaille-oatei",
-      "health": "ERROR",
+      "health": "UNAVAILABLE",
       "digest": null,
-      "checked_at": "2026-10-02T03:02:23Z",
+      "checked_at": "2026-10-02T03:19:01Z",
       "error": "HTTPError: HTTP Error 403: Forbidden",
       "etag": null,
       "last_modified": null
+    },
+    {
+      "id": "AFT_MATURITY_RETAINED",
+      "publisher": "Agence France Trésor",
+      "label": "Échéancier officiel conservé — dernier bon état",
+      "url": "https://www.aft.gouv.fr/fr",
+      "health": "RETAINED_LAST_GOOD",
+      "digest": "9410017f63f2964a204534faec4e7ef4f3403cb822d423b239dff66d8a969318",
+      "checked_at": "2026-10-02T03:19:01Z",
+      "error": null,
+      "etag": null,
+      "last_modified": null,
+      "vintage": "2026-10-02",
+      "reason": "Detailed pages unavailable to the runner."
     }
   ],
   "events": [
@@ -5446,15 +6109,79 @@
       "source_id": "DGFIP_EXECUTION",
       "at": "2026-10-02T02:59:25Z",
       "detail": "First fingerprint captured."
+    },
+    {
+      "kind": "SOURCE_HEALTH_CHANGED",
+      "source_id": "BDF_TEC",
+      "at": "2026-10-02T03:18:27Z",
+      "detail": "OK → LIVE_VERIFIED"
+    },
+    {
+      "kind": "SOURCE_HEALTH_CHANGED",
+      "source_id": "BDF_WEBSTAT",
+      "at": "2026-10-02T03:18:27Z",
+      "detail": "OK → CROSSCHECKED"
+    },
+    {
+      "kind": "SOURCE_HEALTH_CHANGED",
+      "source_id": "AFT_RSS",
+      "at": "2026-10-02T03:18:27Z",
+      "detail": "ERROR → UNAVAILABLE"
+    },
+    {
+      "kind": "SOURCE_HEALTH_CHANGED",
+      "source_id": "DGFIP_EXECUTION",
+      "at": "2026-10-02T03:18:27Z",
+      "detail": "OK → LIVE_VERIFIED"
+    },
+    {
+      "kind": "SOURCE_HEALTH_CHANGED",
+      "source_id": "AFT_SNAPSHOT",
+      "at": "2026-10-02T03:18:27Z",
+      "detail": "PINNED → OFFICIAL_VINTAGE"
+    },
+    {
+      "kind": "SOURCE_HEALTH_CHANGED",
+      "source_id": "AFT_MATURITY_OAT",
+      "at": "2026-10-02T03:18:27Z",
+      "detail": "ERROR → UNAVAILABLE"
+    },
+    {
+      "kind": "SOURCE_HEALTH_CHANGED",
+      "source_id": "AFT_MATURITY_OATI",
+      "at": "2026-10-02T03:18:27Z",
+      "detail": "ERROR → UNAVAILABLE"
+    },
+    {
+      "kind": "SOURCE_HEALTH_CHANGED",
+      "source_id": "AFT_MATURITY_OATEI",
+      "at": "2026-10-02T03:18:27Z",
+      "detail": "ERROR → UNAVAILABLE"
+    },
+    {
+      "kind": "SOURCE_BASELINED",
+      "source_id": "AFT_MATURITY_RETAINED",
+      "at": "2026-10-02T03:18:27Z",
+      "detail": "First fingerprint captured."
     }
   ],
   "material_changes": [],
   "summary": {
-    "healthy": 4,
-    "monitored": 8,
+    "healthy": 5,
+    "monitored": 9,
     "warnings": 4,
+    "source_state_counts": {
+      "LIVE_VERIFIED": 2,
+      "CROSSCHECKED": 1,
+      "OFFICIAL_VINTAGE": 1,
+      "RETAINED_LAST_GOOD": 1,
+      "DEGRADED": 0,
+      "UNAVAILABLE": 4,
+      "CONTRADICTED": 0
+    },
     "changed_this_sequence": 0,
     "curve_history_points": 120,
-    "maturity_mode": "RETAINED_LAST_GOOD"
+    "maturity_mode": "RETAINED_LAST_GOOD",
+    "decision_delta_status": "MATERIAL_CHANGE"
   }
 }

@@ -63,10 +63,29 @@ jobs:
           caps=j.get("capabilities",{})
           if caps.get("live_full_yield_curve") is not True or caps.get("last_good_retention") is not True:
               raise SystemExit("autoevolution capability invariant broken")
+          for required in ("decision_delta","refinancing_twin","time_machine","claim_confidence","evidence_graph","what_would_change_the_reading"):
+              if caps.get(required) is not True:
+                  raise SystemExit(f"missing Decision Twin capability: {required}")
           ladder=j.get("maturity_ladder",{})
           if not ladder.get("years"):
               raise SystemExit("maturity ladder missing")
-          if j.get("policy",{}).get("political_recommendation")!="NONE":
+          views=j.get("refinancing_twin",{}).get("views",[])
+          if [x.get("horizon_months") for x in views] != [12,36,60,120]:
+              raise SystemExit("refinancing horizons invalid")
+          if any(x.get("financing_need_scope") is None for x in views):
+              raise SystemExit("maturity stock / financing need separation missing")
+          allowed={"LIVE_VERIFIED","CROSSCHECKED","OFFICIAL_VINTAGE","RETAINED_LAST_GOOD","DEGRADED","UNAVAILABLE","CONTRADICTED"}
+          if any(x.get("health") not in allowed for x in j.get("sources",[])):
+              raise SystemExit("source health taxonomy invalid")
+          claim_types={x.get("type") for x in j.get("claims",[])}
+          if not {"OBSERVED","DERIVED","STRESS"}.issubset(claim_types):
+              raise SystemExit("typed claims missing")
+          if j.get("evidence_graph",{}).get("black_box") is not False:
+              raise SystemExit("evidence graph opacity invariant broken")
+          if not str(j.get("snapshot_id","")).startswith("OJO-"):
+              raise SystemExit("snapshot id missing")
+          policy=j.get("policy",{})
+          if policy.get("political_recommendation")!="NONE" or policy.get("stress_test_is_not_forecast") is not True:
               raise SystemExit("neutrality invariant broken")
           print("FRANCE_DEBT_RATE_LIVE_INVARIANTS_PASS")
           PY
