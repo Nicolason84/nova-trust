@@ -570,7 +570,7 @@ manifest={
    "capabilities_reused":["Decision Twin","ProofGraph","Context Engine","Scenario / Counterfactual Reasoning","Canonical Store","Pattern Memory","Chronology","Claim Confidence","Executive Cockpit","Verification","Non-Regression","Executive Brief"]
  },
  "capabilities":{
-   "scheduled_refresh_minutes":15,
+   "scheduled_refresh_minutes":5,
    "browser_poll_seconds":30,
    "live_full_yield_curve":True,
    "last_good_retention":True,

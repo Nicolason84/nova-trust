@@ -9,8 +9,8 @@ on:
       - "scripts/update_france_debt_rate_live.py"
       - "docs/france-debt-rate-risk-live-2026-10-02.html"
   schedule:
-    # Staggered away from :00/:15/:30/:45 to reduce GitHub scheduler congestion.
-    - cron: "11,26,41,56 * * * *"
+    # Five-minute heartbeat, offset from :00 to reduce scheduler congestion.
+    - cron: "2-59/5 * * * *"
 
 permissions:
   contents: write
