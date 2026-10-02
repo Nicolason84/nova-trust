@@ -848,7 +848,7 @@ async function initBeast(){
     const ro=new ResizeObserver(resize);ro.observe(mount);resize();
     renderer.domElement.addEventListener('pointerdown',e=>{drag=true;downX=px=e.clientX;downY=py=e.clientY;renderer.domElement.setPointerCapture(e.pointerId)});
     renderer.domElement.addEventListener('pointermove',e=>{if(!drag)return;ry+=(e.clientX-px)*.0048;rx+=(e.clientY-py)*.0032;px=e.clientX;py=e.clientY});
-    renderer.domElement.addEventListener('pointerup',e=>{if(drag&&Math.hypot(e.clientX-downX,e.clientY-downY)<9){const rct=renderer.domElement.getBoundingClientRect();pointer.x=((e.clientX-rct.left)/rct.width)*2-1;pointer.y=-((e.clientY-rct.top)/rct.height)*2+1;ray.setFromCamera(pointer,camera);const hit=ray.intersectObjects(arms,false)[0];if(hit){const u=hit.object.userData;$('beastTag').innerHTML='<b>'+u.label+'</b> — '+u.detail;arms.forEach(a=>a.material.opacity=a===hit.object?.96:.38);beastTouch([16,34,10])}}drag=false});
+    renderer.domElement.addEventListener('pointerup',e=>{if(drag&&Math.hypot(e.clientX-downX,e.clientY-downY)<9){const rct=renderer.domElement.getBoundingClientRect();pointer.x=((e.clientX-rct.left)/rct.width)*2-1;pointer.y=-((e.clientY-rct.top)/rct.height)*2+1;ray.setFromCamera(pointer,camera);const hit=ray.intersectObjects(arms,false)[0];if(hit){const u=hit.object.userData;$('beastTag').innerHTML='<b>'+u.label+'</b> — '+u.detail;arms.forEach(a=>a.material.opacity=(a===hit.object ? .96 : .38));beastTouch([16,34,10])}}drag=false});
     renderer.domElement.addEventListener('wheel',e=>{zoom=Math.max(homeZoom*.58,Math.min(homeZoom*1.48,zoom+Math.sign(e.deltaY)*.62));e.preventDefault()},{passive:false});
 
     function frame(t){
