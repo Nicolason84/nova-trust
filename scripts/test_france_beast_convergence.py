@@ -1,12 +1,33 @@
 #!/usr/bin/env python3
 """Regression tests for real source ambiguity, identity binding and projections."""
-import copy, hashlib, json, os, re, subprocess, tempfile, unittest
+import copy, hashlib, json, os, re, subprocess, tempfile, unittest, shutil
 from unittest.mock import patch
 from pathlib import Path
 from update_france_debt_rate_live import parse_dgfip_date, normalize_dgfip_publication
 from france_beast_binding import binding, enrich
 
 class Convergence(unittest.TestCase):
+    def test_isolated_evolution_gate_and_rollback(self):
+        files=['docs/data/france-debt-rate-live.json','docs/data/france-debt-rate-evolution.json',
+               'docs/france-debt-rate-risk-live-2026-10-02.html','scripts/evolve_france_debt_rate.py',
+               'scripts/verify_la_bete_evolution.py']
+        with tempfile.TemporaryDirectory() as tmp:
+            root=Path(tmp)
+            for name in files:
+                dest=root/name;dest.parent.mkdir(parents=True,exist_ok=True);shutil.copyfile(name,dest)
+            evo=root/files[1];good=evo.read_bytes();original=json.loads(good)
+            live=root/files[0];fixture=json.loads(live.read_text());fixture['summary']['warnings']=0
+            live.write_text(json.dumps(fixture))
+            subprocess.run(['python3','scripts/evolve_france_debt_rate.py'],cwd=root,check=True,capture_output=True)
+            candidate=json.loads(evo.read_text());self.assertEqual(candidate['previous_dna'],original['dna'])
+            subprocess.run(['python3','scripts/verify_la_bete_evolution.py'],cwd=root,check=True,capture_output=True)
+            candidate=json.loads(evo.read_text());candidate['policy']['truth_mutation']=True;evo.write_text(json.dumps(candidate))
+            rejected=subprocess.run(['python3','scripts/verify_la_bete_evolution.py'],cwd=root,capture_output=True)
+            self.assertNotEqual(rejected.returncode,0);self.assertIn(b'truth mutation forbidden',rejected.stderr)
+            evo.write_bytes(good)
+            subprocess.run(['python3','scripts/verify_la_bete_evolution.py'],cwd=root,check=True,capture_output=True)
+            self.assertEqual(evo.read_bytes(),good)
+
     def test_actual_updater_retains_values_when_sources_unavailable(self):
         import update_france_debt_rate_live as updater
         live=json.loads(Path('docs/data/france-debt-rate-live.json').read_text())

@@ -1,0 +1,66 @@
+{
+  "status": "PASS_RUNTIME_OBSERVED",
+  "at": "2026-10-02T10:37:24.821968+00:00",
+  "message": {
+    "message_id": "france-debt-observation-5984bbfa9996062a0c2f5b64",
+    "source": "OJO_FRANCE_DEBT_RATE_LIVE_V1",
+    "target": "supra.megabus",
+    "type": "FRANCE_DEBT_RATE_CANONICAL_OBSERVATION_DELTA",
+    "payload": {
+      "country_object_id": "OJO_FRANCE_ORGANISM_V1#/identity",
+      "system_id": "OJO_FRANCE_ORGANISM_V1#/physiology/systems/finance",
+      "organ_id": "OJO_FRANCE_DEBT_RATE_LIVE_V1",
+      "snapshot_id": "OJO-4515367AB5E005E7",
+      "sequence": "9",
+      "observed_at": "2026-10-02T10:08:26Z",
+      "territorial_scope": "NATIONAL_ONLY",
+      "territorial_imputation": "false",
+      "political_causality": "NONE",
+      "requested_action": "OBSERVE_ONLY",
+      "proof_url": "https://nicolason84.github.io/nova-trust/data/france-debt-rate-live.json",
+      "binding_url": "https://nicolason84.github.io/nova-trust/data/FRANCE_BEAST_BINDING.json"
+    },
+    "routed_at": "2026-10-02T10:26:56.814419+00:00",
+    "status": "ROUTED"
+  },
+  "routing_event": {
+    "event_id": "f2f5aa67-2b6f-4771-a4ca-59343f4e85c2",
+    "type": "MESSAGE_ROUTED",
+    "timestamp": "2026-10-02T10:26:56.814939+00:00",
+    "message_id": "france-debt-observation-5984bbfa9996062a0c2f5b64",
+    "source": "OJO_FRANCE_DEBT_RATE_LIVE_V1",
+    "target": "supra.megabus",
+    "message_type": "FRANCE_DEBT_RATE_CANONICAL_OBSERVATION_DELTA",
+    "local_agent_dispatch": null
+  },
+  "outbox_sha256": "3de010ca8ffa95d92bdfd819e7651c5fb98878295297ec83c73d1f6b64aef392",
+  "body_schema": "SUPRA_BODY_SCHEMA_V1",
+  "nervous_schema": "SUPRA_NERVOUS_SYSTEM_V1",
+  "existing_bus": "EXISTING_SUPRA_TERMINAL_MEGABUS_V1",
+  "same_daemon_alive": true,
+  "organ": {
+    "CANONICAL_ID": "OJO_FRANCE_DEBT_RATE_LIVE_V1",
+    "ORGAN_ID": "OJO_FRANCE_DEBT_RATE_LIVE_V1",
+    "PROOF_LEVEL": "RUNTIME_OBSERVED",
+    "RUNTIME_EXISTENCE": "DORMANT",
+    "OUTPUTS": [
+      "supra.megabus"
+    ],
+    "LAST_ACTIVITY": "2026-10-02T10:26:56.815Z"
+  },
+  "impulse": {
+    "IMPULSE_ID": "f2f5aa67-2b6f-4771-a4ca-59343f4e85c2",
+    "CAUSAL_ROOT": "france-debt-observation-5984bbfa9996062a0c2f5b64",
+    "STIMULUS": "FRANCE_DEBT_RATE_CANONICAL_OBSERVATION_DELTA",
+    "SOURCE_ORGAN": "OJO_FRANCE_DEBT_RATE_LIVE_V1",
+    "TARGET_ORGAN": "supra.megabus",
+    "EXECUTED_ACTION": "ROUTE_TO_TARGET",
+    "RESULT": "ROUTED",
+    "TIMESTAMP": "2026-10-02T10:26:56.814939+00:00"
+  },
+  "duplicate_event_behavior": "NO_EVENT_NO_IMPULSE observed on next existing watchdog tick",
+  "new_daemon": false,
+  "new_bus": false,
+  "capability_execution_request": false,
+  "numeric_truth_copied": false
+}

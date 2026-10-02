@@ -1,0 +1,23 @@
+{
+  "status": "PASS",
+  "at": "2026-10-02T10:44:30.307257+00:00",
+  "build": "scripts/prerender_france_beast.py + same page JavaScript renderer in bounded Node VM",
+  "single_truth": "docs/data/france-debt-rate-live.json",
+  "snapshot_id": "OJO-4515367AB5E005E7",
+  "sequence": 9,
+  "html_json_equality": "PUBLIC_URL_VERIFICATION.json",
+  "absolute_static_time": true,
+  "runner_static_status": "UNKNOWN",
+  "hydration_policy": "Verified schema, policy, identities and bounded metrics; reject older sequence/time; retain existing snapshot on failure.",
+  "cases": {
+    "JS_ON": "PASS_PUBLIC_BROWSER",
+    "JS_OFF": "PASS_PUBLIC_BROWSER",
+    "NETWORK_ON": "PASS_PUBLIC_BROWSER",
+    "FEED_AND_GITHUB_API_OFF": "PASS_PUBLIC_BROWSER_WITH_REQUEST_FAILURES",
+    "STALE_FEED": "PASS_ACTUAL_PAGE_JS_VM",
+    "INVALID_FEED": "PASS_ACTUAL_PAGE_JS_VM",
+    "NEWER_VERIFIED_FEED": "PASS_ACTUAL_PAGE_JS_VM"
+  },
+  "offline_limit": "No service worker added. An already retrieved HTML file remains useful; an uncached page cannot be downloaded with all network access absent.",
+  "browser_receipt": "PUBLIC_BROWSER_CHECKS.json"
+}

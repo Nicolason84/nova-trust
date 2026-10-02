@@ -1,0 +1,46 @@
+{
+  "status": "PASS",
+  "at": "2026-10-02T10:44:30.307257+00:00",
+  "existing_loop": "scripts/evolve_france_debt_rate.py → existing verification → added convergence checks → commit only on PASS",
+  "loop": [
+    "OBSERVE",
+    "DNA",
+    "CANDIDATE",
+    "SIMULATE_THREE_REGIMES",
+    "TEST",
+    "COMPARE_DNA",
+    "PROMOTE_IF_PASS",
+    "FREEZE_VERIFIED_GENERATION",
+    "ROLLBACK_AVAILABLE"
+  ],
+  "generation": 1,
+  "last_promotion": "2026-10-02T07:31:03Z",
+  "policy": {
+    "single_canonical_truth": "docs/data/france-debt-rate-live.json",
+    "truth_mutation": false,
+    "political_recommendation": false,
+    "semantic_claim_autopromotion": false,
+    "external_action": false,
+    "rollback_required": true,
+    "human_gate": [
+      "truth",
+      "sources",
+      "claims",
+      "security",
+      "privacy",
+      "camera",
+      "political_semantics"
+    ]
+  },
+  "tests": [
+    "Existing three DNA regimes PASS",
+    "Existing HTML / JS / policy audit PASS",
+    "9 convergence tests PASS",
+    "Candidate retains previous_dna in isolated test",
+    "Truth-mutating candidate rejected by actual verifier",
+    "Known-good evolution bytes restored and actual verifier PASS"
+  ],
+  "new_functional_claims": false,
+  "permitted_changes": "Existing bounded palette, focus, motion and presentation flags only. No semantic reordering.",
+  "rollback_receipt": "ROLLBACK_RECEIPT.json"
+}

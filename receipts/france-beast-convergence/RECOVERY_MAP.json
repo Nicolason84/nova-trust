@@ -122,14 +122,121 @@
       "canonical_candidate": true,
       "supersedes": null,
       "superseded_by": null
+    },
+    {
+      "artifact": "Active Megabus registry",
+      "path": "SUPRA sandbox/NOVA_OS/SUPRA_TERMINAL_MEGABUS_V1/REGISTRY/CURRENT.json",
+      "role": "EXISTING_RUNTIME_REGISTRY",
+      "status": "ACTIVE",
+      "authority": "NICOLAS / recovered existing artifacts",
+      "dependencies": [],
+      "canonical_candidate": true,
+      "supersedes": null,
+      "superseded_by": null
+    },
+    {
+      "artifact": "Body Schema output",
+      "path": "SUPRA sandbox/NOVA_OS/SUPRA_GRANDE_MISSION_V1/BODY_SCHEMA.json",
+      "role": "EXISTING_BODY_PROJECTION",
+      "status": "ACTIVE",
+      "authority": "NICOLAS / recovered existing artifacts",
+      "dependencies": [
+        "EXISTING_SUPRA_TERMINAL_MEGABUS_V1"
+      ],
+      "canonical_candidate": true,
+      "supersedes": null,
+      "superseded_by": null
+    },
+    {
+      "artifact": "Nervous System output",
+      "path": "SUPRA sandbox/NOVA_OS/SUPRA_GRANDE_MISSION_V1/NERVOUS_SYSTEM.json",
+      "role": "EXISTING_NERVOUS_PROJECTION",
+      "status": "ACTIVE",
+      "authority": "NICOLAS / recovered existing artifacts",
+      "dependencies": [
+        "EXISTING_SUPRA_TERMINAL_MEGABUS_V1"
+      ],
+      "canonical_candidate": true,
+      "supersedes": null,
+      "superseded_by": null
+    },
+    {
+      "artifact": "Legacy host registry",
+      "path": "Host HOME/NOVA_OS/SUPRA_TERMINAL_MEGABUS_V1/REGISTRY/CURRENT.json",
+      "role": "STALE_HOST_DATA",
+      "status": "DUPLICATE",
+      "authority": "NICOLAS / recovered existing artifacts",
+      "dependencies": [],
+      "canonical_candidate": false,
+      "supersedes": null,
+      "superseded_by": "Active Megabus registry"
+    },
+    {
+      "artifact": "Pre-convergence public snapshot",
+      "path": "6e983219ae2a913b21e41f7ccf10cd97956a69ff",
+      "role": "ROLLBACK_BASELINE",
+      "status": "FROZEN",
+      "authority": "NICOLAS / recovered existing artifacts",
+      "dependencies": [],
+      "canonical_candidate": false,
+      "supersedes": null,
+      "superseded_by": null
+    },
+    {
+      "artifact": "Pre-repair watchdog threshold420",
+      "path": "Existing watchdog .before-france-convergence",
+      "role": "OPERATIONAL_ROLLBACK",
+      "status": "SUPERSEDED",
+      "authority": "NICOLAS / recovered existing artifacts",
+      "dependencies": [],
+      "canonical_candidate": false,
+      "supersedes": null,
+      "superseded_by": "Existing watchdog threshold290"
+    },
+    {
+      "artifact": "budget-2027-live.json",
+      "path": "docs/data/budget-2027-live.json",
+      "role": "EXISTING_BUDGET_CANON",
+      "status": "CANONICAL",
+      "authority": "NICOLAS / recovered existing artifacts",
+      "dependencies": [],
+      "canonical_candidate": true,
+      "supersedes": null,
+      "superseded_by": null
+    },
+    {
+      "artifact": "organism-state.json",
+      "path": "docs/data/organism-state.json",
+      "role": "EXISTING_STATE_PROJECTION",
+      "status": "CANONICAL",
+      "authority": "NICOLAS / recovered existing artifacts",
+      "dependencies": [
+        "docs/data/environment-live.json"
+      ],
+      "canonical_candidate": true,
+      "supersedes": null,
+      "superseded_by": null
+    },
+    {
+      "artifact": "Local review harness",
+      "path": "scratch/review-mobile.html",
+      "role": "UNPUBLISHED_TEST_HARNESS",
+      "status": "EXPERIMENTAL",
+      "authority": "NICOLAS / recovered existing artifacts",
+      "dependencies": [],
+      "canonical_candidate": false,
+      "supersedes": null,
+      "superseded_by": null
     }
   ],
-  "classification_note": "No duplicate promoted; native runtime untouched; existing structural identities are schema + JSON pointers.",
+  "classification_note": "Active sandbox bus proven by live pid, routed event, Body and Nervous outputs; stale host registry is not selected. Original native code untouched. Existing France schema + JSON pointers reused.",
   "reconciled_latest_main": "045c102f703b20588be608e5882655e8436f7e94",
   "upstream_updates_preserved": [
     "budget-2027-live.json",
     "environment-live.json",
     "organism-state.json",
     "france-organism.json"
-  ]
+  ],
+  "hash_phase": "BEFORE_PATCH",
+  "recovery_limit": "Targeted repository, native source and live bus recovery; not an exhaustive search of every connected application."
 }

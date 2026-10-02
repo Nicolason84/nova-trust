@@ -1,0 +1,30 @@
+{
+  "status": "PASS",
+  "at": "2026-10-02T10:44:30.307257+00:00",
+  "root_cause": "Opendatasoft ISO export already contains the inverted July publication date; original updater stored it raw. Original DGFiP listing explicitly says 03 septembre 2026 for the exact same PDF.",
+  "source_fix": "scripts/update_france_debt_rate_live.py: parse_dgfip_date / normalize_dgfip_publication / fetch_dgfip_execution",
+  "source_evidence": "docs/data/dgfip-publication-evidence.json",
+  "upstream_raw_preserved": "2026-03-09",
+  "normalized_publication": "2026-09-03",
+  "tests": {
+    "03/09/2026": "2026-09-03",
+    "09/03/2026": "2026-03-09",
+    "01/02/2026": "2026-02-01",
+    "29/02/2024": "2024-02-29",
+    "2026-03-09": "2026-03-09 unchanged ISO"
+  },
+  "guards": [
+    "Exact PDF URL AND month match for upstream correction",
+    "No general day/month swap",
+    "Publication earlier than month end becomes UNKNOWN",
+    "Invalid dates rejected"
+  ],
+  "unchanged_numerical_sections": [
+    "observed",
+    "sensitivity",
+    "decision_delta",
+    "maturity_ladder",
+    "refinancing_twin",
+    "curve_history"
+  ]
+}

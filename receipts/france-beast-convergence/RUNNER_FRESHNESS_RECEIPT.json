@@ -1,0 +1,57 @@
+{
+  "status": "PASS_WITH_EXPLICIT_DEPENDENCY",
+  "at": "2026-10-02T10:44:30.307257+00:00",
+  "workflow_id": 372716031,
+  "workflow_state": "active",
+  "declared_cron": "2-59/5 * * * *",
+  "native_github_schedule_execution": "NOT_OBSERVED",
+  "actual_trigger": "Existing Mac LaunchAgent watchdog → workflow_dispatch → existing GitHub workflow",
+  "existing_timer_seconds": 300,
+  "old_age_threshold_seconds": 420,
+  "repaired_age_threshold_seconds": 290,
+  "autonomous_runs": [
+    {
+      "id": 36993713439,
+      "at": "2026-10-02T10:07:28Z",
+      "conclusion": "success"
+    },
+    {
+      "id": 36994186597,
+      "at": "2026-10-02T10:12:31Z",
+      "conclusion": "success"
+    },
+    {
+      "id": 36994660796,
+      "at": "2026-10-02T10:17:34Z",
+      "conclusion": "success"
+    },
+    {
+      "id": 36995124394,
+      "at": "2026-10-02T10:22:38Z",
+      "conclusion": "success"
+    }
+  ],
+  "observed_gaps_seconds": [
+    303,
+    303,
+    304
+  ],
+  "code_validation_runs": [
+    36995495704,
+    36995771986,
+    36996313127
+  ],
+  "dependency": "Mac awake, LaunchAgent registered, gh authorized and network available. Fresh or running push jobs suppress duplicate dispatch. No exact wall-clock guarantee.",
+  "material_updated_at": "2026-10-02T10:08:26Z",
+  "market_observation_date": "2026-10-01",
+  "last_evolution_promotion": "2026-10-02T07:31:03Z",
+  "runner_is_material_freshness": false,
+  "github_api_failure": "UNKNOWN; retain last material truth",
+  "new_scheduler": false,
+  "latest_observed_autonomous_run": {
+    "id": 36996983059,
+    "at": "2026-10-02T10:42:46Z",
+    "event": "workflow_dispatch",
+    "conclusion": "success"
+  }
+}

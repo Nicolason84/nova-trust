@@ -1,0 +1,29 @@
+{
+  "schema": "FRANCE_BEAST_BINDING_V1",
+  "mode": "REFERENCES_TO_EXISTING_CANONICAL_OBJECTS",
+  "country_object_id": "OJO_FRANCE_ORGANISM_V1#/identity",
+  "system_id": "OJO_FRANCE_ORGANISM_V1#/physiology/systems/finance",
+  "related_system_ids": [
+    "OJO_FRANCE_ORGANISM_V1#/physiology/systems/budget"
+  ],
+  "organ_id": "OJO_FRANCE_DEBT_RATE_LIVE_V1",
+  "output_id": "EXECUTIVE_OUTPUT",
+  "label": "France → Finances publiques → Dette / Taux / Refinancement",
+  "country_ref": "docs/data/france-organism.json#/identity",
+  "system_ref": "docs/data/france-organism.json#/physiology/systems/finance",
+  "organ_ref": "docs/data/france-debt-rate-live.json",
+  "projection_ref": "docs/france-debt-rate-risk-live-2026-10-02.html",
+  "territorial_scope": "NATIONAL_ONLY",
+  "territorial_imputation": false,
+  "territorial_evidence_required": true,
+  "territorial_topology_ref": "docs/data/france-topology.json",
+  "body_schema": "SUPRA_BODY_SCHEMA_V1",
+  "nervous_system": "SUPRA_NERVOUS_SYSTEM_V1",
+  "event_bus": "EXISTING_SUPRA_TERMINAL_MEGABUS_V1",
+  "signal_semantics": "OBSERVATION_DELTA_NOT_POLITICAL_CAUSALITY",
+  "single_truth": "docs/data/france-debt-rate-live.json",
+  "new_runtime": false,
+  "new_country": false,
+  "new_beast": false,
+  "identity_note": "Existing schema + JSON pointer is the identity where no opaque ID existed. No second country object is allocated."
+}
