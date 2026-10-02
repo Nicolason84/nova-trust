@@ -23,6 +23,12 @@ a{color:var(--b);text-underline-offset:4px}.wrap{max-width:1240px;margin:auto;pa
 @media(max-width:850px){.execGrid{grid-template-columns:1fr 1fr}.decisionRoom{grid-template-columns:1fr}.beastStage{min-height:540px}.beastHud{grid-template-columns:1fr 1fr}.beastLegend{grid-template-columns:1fr 1fr}.beastExplain{grid-template-columns:1fr}}
 @media(max-width:520px){.execGrid{grid-template-columns:1fr}.questionGrid{grid-template-columns:1fr}.decisionItem{grid-template-columns:1fr;gap:2px}.beastStage{min-height:500px}.beastHud{inset:10px 10px auto 10px}.beastHud strong{font-size:15px}.beastTag{left:10px;right:10px;bottom:10px;max-width:none}.beastLegend{grid-template-columns:1fr}.beastTools{padding:10px}}
 
+
+.beastConcept{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px;margin-top:14px}.beastConcept div{border:1px solid var(--line);border-radius:12px;padding:13px;background:#09151e}.beastConcept small{display:block;color:var(--gold);font-size:9px;letter-spacing:.11em;text-transform:uppercase}.beastConcept b{display:block;margin:3px 0 4px}.beastConcept span{font-size:11px;color:var(--mut)}
+.execScenario{margin-top:15px;padding-top:14px;border-top:1px solid var(--line);display:flex;gap:10px;align-items:center;flex-wrap:wrap}.execScenario>span{font-size:10px;color:var(--mut);letter-spacing:.1em;text-transform:uppercase}.execScenario button{min-height:40px;padding:7px 12px;border-radius:9px;border:1px solid var(--line);background:#08131b;color:var(--ink);font:inherit;cursor:pointer}.execScenario button[aria-pressed=true]{border-color:var(--a);color:var(--a);background:#1a2e23}
+.depthGrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:14px}.depthGrid div{border:1px solid var(--line);border-radius:11px;padding:12px;background:#0a151e}.depthGrid b{display:block;color:var(--a)}.depthGrid span{font-size:11px;color:var(--mut)}
+@media(max-width:850px){.beastConcept{grid-template-columns:1fr 1fr}.depthGrid{grid-template-columns:1fr}}
+@media(max-width:520px){.beastConcept{grid-template-columns:1fr}}
 </style></head><body><div class="wrap">
 <header class="top"><div class="brand">oj<i>O</i></div><span class="pill" id="runner"><span class="dot"></span>RUNNER —</span><span class="pill" id="feed"><span class="dot"></span>FEED —</span><a class="pill" href="#executive-brief">BRIEF 60s</a><a class="pill" href="#la-bete">LA BÊTE 3D</a><div class="grow"></div><span class="pill">EVIDENCE-FIRST · 15 MIN</span></header>
 
@@ -45,6 +51,19 @@ a{color:var(--b);text-underline-offset:4px}.wrap{max-width:1240px;margin:auto;pa
     <div class="execCard"><small>Exposition</small><strong id="execStock">2 896 Md€</strong><span>stock négociable, transmission graduelle</span></div>
     <div class="execCard"><small>Besoin 2027</small><strong id="execNeed">339,7 Md€</strong><span>volume à financer, pas charge d’intérêts</span></div>
     <div class="execCard"><small>Stress +100 pb · an 5</small><strong id="execY5">18,4 Md€</strong><span>PAP 2026 ; autre vintage officielle : 23,5 Md€</span></div>
+  </div>
+  <div class="execScenario" aria-label="Scénario de stress exécutif">
+    <span>Stress à explorer</span>
+    <button type="button" data-bps="50">+50 pb</button>
+    <button type="button" data-bps="100" aria-pressed="true">+100 pb</button>
+    <button type="button" data-bps="150">+150 pb</button>
+    <button type="button" data-bps="200">+200 pb</button>
+    <span id="execScenarioNote">Même choc, même modèle, profondeur différente.</span>
+  </div>
+  <div class="depthGrid">
+    <div><b>60 secondes</b><span>Signal, exposition, horizon, fourchette et qualité des sources.</span></div>
+    <div><b>5 minutes</b><span>Transmission 1/3/5 ans, deux vintages officielles, scénario alternatif.</span></div>
+    <div><b>Audit</b><span>Manifeste JSON, journal des deltas, source exacte et hypothèse reproductible.</span></div>
   </div>
   <div class="decisionRoom">
     <article class="card">
@@ -111,6 +130,16 @@ a{color:var(--b);text-underline-offset:4px}.wrap{max-width:1240px;margin:auto;pa
     <article class="card"><h3>3D utile</h3><p>Le rayon du cœur encode le stock observé. Les cinq anneaux utilisent la courbe officielle de sensibilité à 1–5 ans. Le scénario +50 / +100 / +150 / +200 pb modifie instantanément l’épaisseur et l’intensité des couches pour montrer la propagation, pas pour prédire le marché.</p></article>
     <article class="card"><h3>Immersion & réalité augmentée</h3><p>Le mode plein écran transforme la page en salle de situation. Le mouvement du téléphone permet de “tourner autour” du système. Le mode AR caméra superpose La Bête au monde réel quand le navigateur autorise la caméra. Aucune image de caméra n’est envoyée ni stockée par cette page.</p></article>
   </div>
+  <div class="beastConcept" aria-label="Anatomie conceptuelle de La Bête">
+    <div><small>Les sens</small><b>Sources publiques</b><span>Chaque capteur garde son état : frais, vintage, dégradé ou indisponible.</span></div>
+    <div><small>Le système nerveux</small><b>Deltas & événements</b><span>Un changement de source devient un signal à réconcilier, jamais une vérité automatique.</span></div>
+    <div><small>Le cœur</small><b>État canonique</b><span>Les nombres actuellement retenus, leur date et leur provenance restent séparés des scénarios.</span></div>
+    <div><small>La mémoire</small><b>Vintages officielles</b><span>Les anciens modèles ne sont pas écrasés : ils permettent de comprendre pourquoi une estimation évolue.</span></div>
+    <div><small>Les muscles</small><b>Stress tests</b><span>+50 / +100 / +150 / +200 pb montrent la sensibilité mécanique du modèle choisi.</span></div>
+    <div><small>La peau</small><b>Incertitude visible</b><span>Source dégradée, hypothèse approximative ou divergence de modèle restent visibles à l’écran.</span></div>
+    <div><small>Les yeux</small><b>3D, immersion, AR</b><span>Le volume sert à lire simultanément stock, horizon et propagation au lieu de juxtaposer des tableaux.</span></div>
+    <div><small>Le cerveau souverain</small><b>Reste humain</b><span>La Bête structure le réel et les conséquences ; elle ne remplace ni le jugement ni la responsabilité du décideur.</span></div>
+  </div>
 </section>
 
 <section class="section"><div class="head"><div><div class="ey">FILM DE TRANSMISSION</div><h2>+100 pb ne frappe pas 2 896 Md€ le premier jour.</h2></div><p>Le PLF 2026 publiait une courbe complète de sensibilité pour un choc parallèle et durable sur toutes les maturités. On peut donc regarder comment le coût additionnel se propage année après année — et tester des amplitudes par simple proportion, comme approximation.</p></div>
@@ -127,9 +156,11 @@ a{color:var(--b);text-underline-offset:4px}.wrap{max-width:1240px;margin:auto;pa
 <div class="journal"><div class="card"><h3>Journal des deltas</h3><div class="events" id="events"><div class="evt"><div class="k">CONNECTING</div><div class="d">Chargement du manifeste live…</div></div></div></div><div class="card sources"><h3>Sources surveillées</h3><div id="sources"></div><article><b>Assemblée nationale · PAP 2026</b><span>Courbe annuelle de sensibilité +100 pb</span><br><a href="https://www.assemblee-nationale.fr/dyn/contenu/visualisation/1087975/file/PAP2026_BG_Engagements_financiers_Etat_EB.pdf">source officielle</a></article><article><b>Sénat · Engagements financiers de l’État</b><span>Estimation AFT plus récente : 1 / 5 / 9 ans</span><br><a href="https://www.senat.fr/rap/l25-139-312/l25-139-3121.html">source officielle</a></article></div></div>
 </section>
 
-<section class="section"><div class="share"><div class="ey" style="color:#5a5a3d">LE POINT À EMPORTER</div><h2>Un décideur ne devrait pas recevoir un chiffre. Il devrait recevoir un système.</h2><p>C’est : <b>combien de temps ces taux restent-ils élevés, quelle part de la courbe bouge, quel volume doit être refinancé, et à quelle vitesse la charge supplémentaire se transforme-t-elle en nouveau déficit ?</b>
+<section class="section"><div class="share"><div class="ey" style="color:#5a5a3d">LE POINT À EMPORTER</div><h2>Un décideur ne devrait pas recevoir un chiffre. Il devrait recevoir un système.</h2><p>Il devrait pouvoir passer, sur le même objet, de <b>60 secondes de situation</b> à <b>5 minutes de scénarios</b>, puis à <b>l’audit complet des preuves</b>.
 
-Le signal de marché est instantané. Le coût budgétaire, lui, a une mémoire.</p></div></section>
+La question n’est donc pas seulement « quel est le taux ? », mais : <b>combien de temps persiste-t-il, quelle partie de la courbe bouge, quel volume est exposé au refinancement, quand la charge devient-elle matérielle, et quelle hypothèse ferait changer l’analyse ?</b>
+
+Le signal de marché est instantané. Le coût budgétaire, lui, a une mémoire. La décision, elle, reste humaine.</p></div></section>
 
 <footer class="foot">ojO / SUPRA · contribution analytique indépendante · données publiques · état des sources visible · aucune recommandation politique. <a href="data/france-debt-rate-live.json">Manifeste JSON live</a> · <a href="https://github.com/Nicolason84/nova-trust">code source</a></footer>
 </div>
