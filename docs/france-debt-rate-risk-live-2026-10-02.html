@@ -34,7 +34,7 @@ a{color:var(--b);text-underline-offset:4px}.wrap{max-width:1240px;margin:auto;pa
 @media(max-width:850px){.marketGrid{grid-template-columns:1fr}.changeGrid{grid-template-columns:1fr 1fr}}
 @media(max-width:520px){.changeGrid{grid-template-columns:1fr}}
 
-.evoGrid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:9px}.evoCard{border:1px solid var(--line);border-radius:12px;background:#09151e;padding:13px;min-width:0}.evoCard small{display:block;color:var(--mut);font-size:9px;text-transform:uppercase;letter-spacing:.1em}.evoCard strong{display:block;font-size:18px;margin:4px 0;overflow-wrap:anywhere}.evoCard span{font-size:10px;color:var(--mut)}.evoCard.ok strong{color:var(--ok)}.evoCard.warn strong{color:var(--gold)}.deltaStrip{margin-top:12px;border:1px solid var(--line);border-radius:12px;background:#07131b;padding:13px}.deltaStrip h3{margin:0 0 7px}.deltaChips{display:flex;gap:7px;flex-wrap:wrap}.deltaChip{border:1px solid #34505d;border-radius:999px;padding:5px 9px;font-size:10px}.exportBar{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.exportBar button,.exportBar a{min-height:42px;padding:8px 12px;border:1px solid var(--line);border-radius:9px;background:#0a1720;color:var(--ink);font:inherit;text-decoration:none;display:inline-flex;align-items:center;cursor:pointer}.exportBar button:hover,.exportBar a:hover{border-color:var(--a)}.timelineMini{margin-top:12px;padding:12px;border:1px solid var(--line);border-radius:12px;background:#08131b}.timelineMini svg{width:100%;height:auto;display:block}.timelineMini text{fill:var(--mut);font-size:9px}.timelineMini .line{fill:none;stroke:var(--b);stroke-width:2}.timelineMini .axis{stroke:#2d4550;stroke-width:1}
+.evoGrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px}.evoCard{border:1px solid var(--line);border-radius:12px;background:#09151e;padding:13px;min-width:0}.evoCard small{display:block;color:var(--mut);font-size:9px;text-transform:uppercase;letter-spacing:.1em}.evoCard strong{display:block;font-size:18px;margin:4px 0;overflow-wrap:anywhere}.evoCard span{font-size:10px;color:var(--mut)}.evoCard.ok strong{color:var(--ok)}.evoCard.warn strong{color:var(--gold)}.deltaStrip{margin-top:12px;border:1px solid var(--line);border-radius:12px;background:#07131b;padding:13px}.deltaStrip h3{margin:0 0 7px}.deltaChips{display:flex;gap:7px;flex-wrap:wrap}.deltaChip{border:1px solid #34505d;border-radius:999px;padding:5px 9px;font-size:10px}.exportBar{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.exportBar button,.exportBar a{min-height:42px;padding:8px 12px;border:1px solid var(--line);border-radius:9px;background:#0a1720;color:var(--ink);font:inherit;text-decoration:none;display:inline-flex;align-items:center;cursor:pointer}.exportBar button:hover,.exportBar a:hover{border-color:var(--a)}.timelineMini{margin-top:12px;padding:12px;border:1px solid var(--line);border-radius:12px;background:#08131b}.timelineMini svg{width:100%;height:auto;display:block}.timelineMini text{fill:var(--mut);font-size:9px}.timelineMini .line{fill:none;stroke:var(--b);stroke-width:2}.timelineMini .axis{stroke:#2d4550;stroke-width:1}
 @media(max-width:850px){.evoGrid{grid-template-columns:1fr 1fr}}
 @media(max-width:520px){.evoGrid{grid-template-columns:1fr}}
 </style></head><body><div class="wrap">
@@ -111,6 +111,8 @@ a{color:var(--b);text-underline-offset:4px}.wrap{max-width:1240px;margin:auto;pa
     <div class="evoCard" id="evoCurve"><small>Courbe TEC</small><strong>—</strong><span>1–30 ans · dernier état officiel</span></div>
     <div class="evoCard" id="evoHistory"><small>Mémoire temporelle</small><strong>—</strong><span>jusqu’à 120 états matériels</span></div>
     <div class="evoCard" id="evoMaturity"><small>Échéancier AFT</small><strong>—</strong><span>live si accessible, dernier bon état sinon</span></div>
+    <div class="evoCard" id="evoCrosscheck"><small>Cross-check Banque de France</small><strong>—</strong><span>page officielle vs Webstat</span></div>
+    <div class="evoCard" id="evoBudget"><small>Exécution budgétaire DGFiP</small><strong>—</strong><span>dernier document découvert automatiquement</span></div>
   </div>
   <div class="deltaStrip">
     <h3>Decision Delta — ce qui a changé depuis la précédente courbe</h3>
@@ -276,7 +278,11 @@ function renderEvolution(j){
   setEvo('evoCurve',(o.yield_curve_date||'—').split('-').reverse().join('/'),(o.yield_curve||[]).length+' maturités · TEC10 '+(o.tec10_pct!=null?fmt(o.tec10_pct,3)+' %':'—'),(o.yield_curve||[]).length>=8?'ok':'warn');
   setEvo('evoHistory',String(hist.length),'état(s) matériel(s) mémorisé(s) · plafond '+(caps.curve_history?120:'—'),hist.length>0?'ok':'warn');
   const mm=j.maturity_ladder?.mode||derived.maturity_mode||'UNKNOWN';
-  setEvo('evoMaturity',mm==='LIVE_PARSED'?'LIVE':'RETAINED',mm==='LIVE_PARSED'?'pages AFT parsées automatiquement':'dernier bon état conservé explicitement',mm==='LIVE_PARSED'?'ok':'warn');
+  setEvo('evoMaturity',mm==='LIVE_PARSED'?'LIVE':'RETAINED',mm==='LIVE_PARSED'?'pages AFT parsées automatiquement':'AFT bloque le runner ; dernier bon état conservé explicitement',mm==='LIVE_PARSED'?'ok':'warn');
+  const cc=derived.webstat_crosscheck_bps;
+  setEvo('evoCrosscheck',cc==null?'—':(Number(cc)>=0?'+':'')+Number(cc).toFixed(1)+' pb','TEC10 page officielle vs export Webstat',cc!=null&&Math.abs(Number(cc))<=1?'ok':'warn');
+  const be=j.budget_execution||{};
+  setEvo('evoBudget',be.period||'—',be.titre_document||'dernier document non résolu',be.period?'ok':'warn');
   const dc=derived.curve_delta_vs_previous_bps||{},chips=$('deltaChips');
   if(chips){
     const keys=Object.keys(dc);
@@ -312,6 +318,10 @@ function buildBrief(j){
     '- pente 2s10s: '+(d.slope_2s10s_bps??'—')+' pb',
     '- pente 10s30s: '+(d.slope_10s30s_bps??'—')+' pb',
     '- divergence modèles à 5 ans (+100 pb): '+(d.model_divergence_5y_bne??'—')+' Md€',
+    '- cross-check TEC10 page vs Webstat: '+(d.webstat_crosscheck_bps??'—')+' pb',
+    '',
+    'EXÉCUTION BUDGÉTAIRE',
+    '- dernier document DGFiP: '+(j.budget_execution?.period||'—')+' · '+(j.budget_execution?.titre_document||'—'),
     '',
     'ÉCHÉANCIER',
     '- mode: '+(m.mode||'—')+' · vintage: '+(m.as_of||'—'),
