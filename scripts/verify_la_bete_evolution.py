@@ -105,14 +105,20 @@ def main() -> None:
     checked = subprocess.run(["node", "--check", module_path], capture_output=True, text=True)
     require(checked.returncode == 0, "JavaScript syntax failure: " + checked.stderr.strip())
     generation = int(evolution["generation"])
-    if evolution.get("verification", {}).get("generation") != generation:
+    expected_checks = ["truth", "policy", "self_model", "html_ids", "javascript_syntax", "rollback", "human_gates"]
+    verification = evolution.get("verification", {})
+    if (
+        verification.get("generation") != generation
+        or verification.get("verdict") != "NON_REGRESSION_PASS"
+        or verification.get("checks") != expected_checks
+    ):
         at = datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")
         evolution["status"] = "ACTIVE"
         evolution["verification"] = {
             "generation": generation,
             "at": at,
             "verdict": "NON_REGRESSION_PASS",
-            "checks": ["truth", "policy", "self_model", "html_ids", "javascript_syntax", "rollback", "human_gates"],
+            "checks": expected_checks,
         }
         if evolution.get("receipts"):
             evolution["receipts"][-1]["verdict"] = "PROMOTED_AFTER_NON_REGRESSION"
