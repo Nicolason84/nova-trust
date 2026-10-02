@@ -90,3 +90,19 @@ measured 254.6 ms; this is a single measurement, not a promised speedup factor.
 The canonical feed stayed byte-identical. GitHub's scheduled server heartbeat remains
 five minutes and can be delayed; faster page checks do not manufacture observations
 or accelerate official publication. No additional scheduler or runtime is created.
+
+## SUPRA know-how communication — 2026-10-02
+
+Extended the existing one-shot `publish_france_beast_impulse.py` observer, invoked by the existing 300-second watchdog. No additional daemon or execution engine.
+
+Five methods are transferred: evidenced health history, prospective care evaluation, strategy revision after failures, bounded parallel collection, and adaptive propagation. Each package has a method digest and immutable code/test links. Changing only a pulse commit or embedded observation does not produce another knowledge event. Canonical feed and evolution must agree.
+
+The existing Megabus routes the knowledge envelope to `supra.megabus`. Only after an actual `ROUTED` outbox record, the adapter upserts `LEARN_LA_BETE_HOMEOSTASIS` into the existing `LEARNING_LOOP_REGISTRY_V1`, preserving unrelated entries and backing up the previous file. It sends `SUPRA_KNOW_HOW_RECEIVED` back to `ojo.la_bete`; the receipt reaches `ROUND_TRIP_CONFIRMED` only after that return envelope is actually routed. All payload values are strings, compatible with the native projection.
+
+The package is received, not automatically applied to other organs. Its thresholds, cadence and resource limits require organ-specific calibration and measured validation. Routing and registration do not prove application or causality.
+
+The host Megabus channel paths were reversibly bound to the single already-running sandbox bus (six symlinks including the same lock inode). Prior host channels were moved intact into a dated recovery directory, not replayed. The native nervous projection subsequently reported `LIVE` instead of `STALE`.
+
+Validation: eight dedicated transfer tests cover actual routing before registration, the return route, deduplication, unrelated registry preservation, canonical mismatch, changed methods, stable heartbeat identity, registry identity and exclusion of capability execution. Existing convergence (10), health memory (16), evolution verifier and hydration checks pass.
+
+Runtime routing and projection evidence is recorded after installation below.
