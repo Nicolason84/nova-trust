@@ -47,7 +47,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 6
     env:
-      LA_BETE_OBSERVATION_PATH: ${{ runner.temp }}/la-bete-pulse-observation.json
+      LA_BETE_OBSERVATION_PATH: /tmp/la-bete-pulse-observation.json
     steps:
       - name: Checkout
         uses: actions/checkout@v4
