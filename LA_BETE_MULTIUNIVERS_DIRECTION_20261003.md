@@ -26,7 +26,7 @@ Les anciennes pages `budget-2027-living-world-v5-2026-09-21.html` et `budget-202
 
 Un atlas d’entrée expose les objets réellement disponibles, leurs relations et leur état de preuve. Il permet recherche, retour à l’accueil, historique de navigation et chemins partageables. Il n’exige pas de comprendre l’architecture interne.
 
-Les univers sont des vues reliées d’un même graphe :
+Les univers sont des vues reliées d’un même graphe. Les parcours ci-dessous sont des exemples d’exploration, pas des silos imposés ni des registres à créer :
 
 - Territoires : France → région → département → intercommunalité → commune, lorsque les données de ce niveau sont effectivement disponibles.
 - Systèmes : finances publiques → dette/taux/refinancement, puis uniquement les domaines documentés.
@@ -77,3 +77,19 @@ Une contribution n’est ni un fait, ni une permission, ni une adoption. Le pass
 Ouvrir directement un objet, recharger la route, revenir en arrière, traverser une relation et partager le même état doivent fonctionner sur mobile et ordinateur. Les chiffres et leurs identifiants restent inchangés. Une donnée absente n’est jamais remplacée par un décor, un score ou une estimation silencieuse.
 
 Cette note fixe la prochaine étape. Elle ne prouve pas que l’interface multiunivers est déjà déployée.
+
+## Précision de direction — foyer stable et univers contextuels
+
+La demande réitérée du 3 octobre autorise le passage au multiunivers comme prochaine étape de présentation. Elle ne demande ni une nouvelle architecture d’exécution ni l’exposition du système privé.
+
+Réutiliser la doctrine PRYSM déjà définie : espace navigable à foyer stable, une réalité canonique, un objectif repère, un objet courant, des relations nommées et un retour exact. Cette référence est doctrinale ; aucun composant PRYSM natif ni aucune liaison d’exécution PRYSM n’est déclaré récupéré ou déployé par cette note.
+
+L’univers émerge de l’objet et de l’intention de l’utilisateur. Une organisation peut être accessible depuis une source, un territoire, une question ou une démarche sans être dupliquée. La navigation ne doit pas imposer une succession de catégories abstraites avant d’atteindre l’objet recherché.
+
+Trois gestes structurent l’exploration : entrer dans un objet, traverser une relation explicitement nommée, revenir exactement au contexte quitté. Recherche directe et fil de navigation restent disponibles. Le système ne recentre ni ne recompose automatiquement la scène pendant la lecture ; les mises à jour signalent leurs changements sans déplacer le foyer.
+
+Le même échange accompagne la navigation en conservant l’attribution de chaque message à son objet et à sa version. Le panneau média ou preuve montre la pièce sélectionnée et conserve page, position ou horodatage lorsqu’ils existent. Changer d’objet ne doit ni effacer le brouillon ni réattribuer silencieusement une ancienne réponse au nouvel objet.
+
+Pas de taxonomie FOCUS/FIELD/DEPTH ajoutée, pas d’activité ambiante fictive, pas de constellation uniquement décorative. Une relation causalement non établie reste descriptive, hypothétique ou inconnue, même lorsqu’elle apparaît dans une vue immersive.
+
+La nouvelle navigation doit se voir et se pratiquer : une grille d’ancres vers la page longue ne satisfait pas cette demande. La page longue peut rester un mode lecture ou un secours, mais ne reste pas le modèle principal de l’expérience cible.
