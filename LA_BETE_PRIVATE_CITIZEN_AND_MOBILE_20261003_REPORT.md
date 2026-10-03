@@ -2,7 +2,7 @@
 
 Mission #3 : espace privé citoyen, sécurité des données et parcours sans ressaisie inutile. Le pilote décrit ici utilise exclusivement deux identités fictives. L’espace mobile public est une projection séparée des canaux de distribution vérifiés.
 
-État source : IMPLEMENTED_AND_LOCALLY_TESTED. La publication et les contrôles du nouvel espace mobile sur l’adresse publique doivent être établis par un reçu distinct. Le pilote privé n’est pas ouvert sur Internet.
+État : MOBILE_HUB_PUBLICLY_TESTED_PRIVATE_PILOT_LOCAL_ONLY. Le reçu `receipts/LA_BETE_PRIVATE_PILOT_MOBILE_PUBLIC_PROOF.json` établit le déploiement public et 44 contrôles navigateur. Le pilote privé reste exclusivement local, synthétique et non ouvert sur Internet.
 
 ## Ce qui est appliqué
 
