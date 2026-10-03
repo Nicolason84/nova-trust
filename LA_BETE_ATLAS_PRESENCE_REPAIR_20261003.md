@@ -2,7 +2,7 @@
 
 Demande de Nicolas : La Bête est retrouvée mais n’occupe pas une place prédominante. Cette correction remplace sa relégation dans un univers secondaire par sa présence principale dès l’accueil.
 
-État source : IMPLEMENTED_AND_LOCALLY_TESTED. Le reçu public séparé établira la publication et le test sur l’adresse publique.
+État : DEPLOYED_AND_PUBLICLY_BROWSER_TESTED. Le reçu `receipts/LA_BETE_ATLAS_PRESENCE_REPAIR_PUBLIC_PROOF.json` établit la publication, les empreintes des fichiers publics et les 25 contrôles de navigation sur l’adresse publique.
 
 ## Modification
 
