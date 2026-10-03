@@ -1,7 +1,8 @@
 # La Bête — transition vers un espace multiunivers
 
-Statut : V1_IMPLEMENTED_AND_TESTED_PUBLICATION_PENDING.
-La mise en œuvre V1 est décrite dans `LA_BETE_MULTIUNIVERS_V1_REPORT.md`. Le reçu public séparé établira la publication ; les sections suivantes conservent la direction initiale et ses invariants.
+Statut : V1_DEPLOYED_AND_PUBLICLY_BROWSER_TESTED.
+Preuve : `receipts/LA_BETE_MULTIUNIVERS_V1_PUBLIC_PROOF.json`.
+La mise en œuvre V1 est décrite dans `LA_BETE_MULTIUNIVERS_V1_REPORT.md`. Le reçu public séparé établit la publication ; les sections suivantes conservent la direction initiale et ses invariants.
 Direction demandée par Nicolas le 3 octobre 2026, après la livraison du dialogue public et de la préparation des démarches.
 
 ## Changement de présentation
@@ -94,3 +95,7 @@ Le même échange accompagne la navigation en conservant l’attribution de chaq
 Pas de taxonomie FOCUS/FIELD/DEPTH ajoutée, pas d’activité ambiante fictive, pas de constellation uniquement décorative. Une relation causalement non établie reste descriptive, hypothétique ou inconnue, même lorsqu’elle apparaît dans une vue immersive.
 
 La nouvelle navigation doit se voir et se pratiquer : une grille d’ancres vers la page longue ne satisfait pas cette demande. La page longue peut rester un mode lecture ou un secours, mais ne reste pas le modèle principal de l’expérience cible.
+
+## État V1 publié
+
+L’Atlas, les routes par objet, les relations, le chat contextuel, le retour et les composants existants à la demande sont déployés. La preuve publique comprend 44 tests de navigation et 21 contrôles dans un navigateur sur la véritable adresse publique. Les formulations prospectives ci-dessus décrivent la direction initiale ; le rapport V1 et le reçu précisent ce qui est réalisé et ses limites.

@@ -1,6 +1,6 @@
 # La Bête — interface multiunivers V1
 
-État source : IMPLEMENTED_AND_LOCALLY_TESTED. Le reçu public séparé doit établir le commit, le workflow, Pages et le test sur l’adresse publique.
+État : DEPLOYED_AND_PUBLICLY_BROWSER_TESTED. Le reçu `receipts/LA_BETE_MULTIUNIVERS_V1_PUBLIC_PROOF.json` établit le commit, le workflow, Pages et 21 contrôles de navigation sur l’adresse publique.
 
 ## Interface
 
