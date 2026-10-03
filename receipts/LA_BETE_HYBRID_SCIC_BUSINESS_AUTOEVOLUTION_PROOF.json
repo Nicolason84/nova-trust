@@ -1,15 +1,15 @@
 {
   "schema": "LA_BETE_HYBRID_SCIC_BUSINESS_AUTOEVOLUTION_PROOF_V1",
-  "verdict": "LOCAL_PROVEN_READY_FOR_PUBLICATION_HUMAN_GATE",
-  "proved_at": "2026-10-03T22:45:53Z",
+  "verdict": "PUBLICATION_CANDIDATE_PROVEN_LOCAL_PRE_PUSH",
+  "proved_at": "2026-10-03T22:48:31Z",
   "branch": "mission/ora-nova-scic-launch-v1-20261003",
   "base_head": "cb9183eb566e312ef3e5d88bf3385a31c34eaddd",
   "source_snapshot_id": "OJO-03035CE5C9B6B290",
-  "evolution_generation": 129,
+  "evolution_generation": 147,
   "evolution_status": "ACTIVE",
   "verification": {
-    "generation": 129,
-    "at": "2026-10-03T22:43:59Z",
+    "generation": 147,
+    "at": "2026-10-03T22:47:36Z",
     "verdict": "NON_REGRESSION_PASS",
     "checks": [
       "truth",
@@ -57,7 +57,8 @@
     "browser_checks": 48,
     "browser_uncaught_exceptions": 0,
     "art_dna_assertions": 310,
-    "git_diff_check": "PASS"
+    "git_diff_check": "PASS",
+    "publication_candidate_browser_result": "PASS"
   },
   "boundaries": {
     "public_information_free": true,
@@ -80,5 +81,7 @@
     "scripts/test_la_bete_acquisition.py": "c16205a1b78ff01b500836d46bdd2988006ea2ae72382e8b1165d26157591c80",
     "scripts/test_la_bete_explorer.cjs": "0679bc4bd1eee47ea1a3f16fa692d83e04134398f6ffc4a165c9bd15c702c95b",
     "scripts/test_la_bete_explorer_browser.cjs": "52cfbbd916a3e824584ea771d23016b36e91e9f6ce7830bcd10931d959a4f579"
-  }
+  },
+  "publication_base_main": "8475607da3862efb53b480d69597bcddf7fa87f3",
+  "publication_feature_commit": "e8a74d8e6188c40cec415f6f44ba3cac82e2cbf1"
 }

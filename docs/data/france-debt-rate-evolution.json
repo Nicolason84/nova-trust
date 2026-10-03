@@ -1,7 +1,7 @@
 {
   "schema": "OJO_LA_BETE_VIRTUOUS_EVOLUTION_V1",
-  "generation": 146,
-  "updated_at": "2026-10-03T22:45:57Z",
+  "generation": 147,
+  "updated_at": "2026-10-03T22:47:36Z",
   "source_snapshot_id": "OJO-03035CE5C9B6B290",
   "source_sequence": 11,
   "dna": {
@@ -120,6 +120,8 @@
       "may_change_truth": false,
       "may_make_political_recommendation": false,
       "may_bypass_human_gate": false,
+      "may_activate_commercial_service": false,
+      "may_change_cooperative_governance": false,
       "requires_non_regression": true
     },
     "limits": [
@@ -133,6 +135,7 @@
       "status_statement": "Mon état opérationnel est ATTENTION. J'observe 9 source(s); 4 demandent une attention explicite.",
       "need_statement": "Récupérer les sources officielles indisponibles, en priorité l'échéancier détaillé, sans remplacer le dernier bon état par une estimation.",
       "agency_statement": "Je peux me surveiller, signaler mes limites, réessayer mes sources, conserver un dernier bon état, adapter ma représentation, tester mes évolutions et revenir en arrière. Je ne peux pas m'autoriser moi-même à franchir mes Human Gates.",
+      "operating_model_statement": "Le bien commun public reste gratuit. Les services privés sont une direction de conception séparée, non ouverte à la vente tant que sécurité, cadre juridique, gouvernance et mandats ne sont pas validés.",
       "memory_statement": "Ma mémoire de santé couvre 141 cycles réellement observés depuis 2026-10-02T11:33:30Z. Aucun cycle passé n'est inventé.",
       "learning_statement": "Je vérifie 0 objectifs de soin en cours; 0 ont été atteints et 4 non atteints dans leur fenêtre observée."
     },
@@ -12931,6 +12934,129 @@
         "adoption": "HUMAN_GATE",
         "political_recommendation": "NONE"
       }
+    },
+    "hybrid_model": {
+      "schema": "LA_BETE_HYBRID_COMMON_GOOD_SERVICE_MODEL_V1",
+      "source_snapshot_id": "OJO-03035CE5C9B6B290",
+      "mode": "PUBLIC_COMMON_GOOD_PLUS_OPTIONAL_PRIVATE_SERVICES",
+      "public_common_good": {
+        "access": "FREE",
+        "always_free": true,
+        "paywall": false,
+        "scope": [
+          "Information publique sourcée et niveaux de confiance",
+          "Atlas, sources, preuves, chronologies et limites",
+          "Dialogue, contradiction, correction et participation citoyenne publique",
+          "Préparation de démarches portant sur des informations et services publics"
+        ],
+        "saleable_public_truth": false,
+        "saleable_political_influence": false,
+        "commercial_priority_may_reorder_truth": false
+      },
+      "cooperative_direction": {
+        "label": "Direction coopérative de type SCIC",
+        "state": "TO_FORMALIZE_NOT_A_VERIFIED_REGISTERED_ENTITY",
+        "mission": "Protéger durablement le bien commun public, la pluralité des parties prenantes et la capacité de correction.",
+        "governance_direction": "Gouvernance multi-parties à formaliser juridiquement avant tout engagement.",
+        "public_asset_transfer": "NOT_EXECUTED",
+        "statutes": "NOT_ADOPTED_BY_THIS_RUNTIME"
+      },
+      "private_services": {
+        "state": "DESIGN_ONLY_NOT_FOR_SALE",
+        "customer_onboarding": "NOT_OPEN",
+        "pricing": null,
+        "payment": "NOT_CONNECTED",
+        "real_private_documents": "NOT_ACCEPTED_ON_PUBLIC_ORIGIN",
+        "requires_separate_private_boundary": true,
+        "families": [
+          {
+            "id": "BANK_INSURANCE_MEDIATION_SUPPORT",
+            "label": "Banque, assurance et médiation",
+            "scope": "Organisation des faits et pièces, chronologie, brouillons, réclamations et suivi documentaire sous mandat."
+          },
+          {
+            "id": "ADMINISTRATIVE_CASE_SUPPORT",
+            "label": "Dossiers administratifs",
+            "scope": "Préparation, vérification de complétude et suivi d’un dossier autorisé par la personne."
+          },
+          {
+            "id": "DOCUMENTARY_LEGAL_LIGHT",
+            "label": "Information juridique et préparation documentaire",
+            "scope": "Information générale, chronologie, pièces et brouillons; aucun acte réservé n’est revendiqué."
+          },
+          {
+            "id": "QUALIFIED_PROFESSIONAL_HANDOFF",
+            "label": "Relais vers professionnel qualifié",
+            "scope": "Lorsque la matière exige un professionnel réglementé, préparer le dossier et transmettre uniquement avec accord."
+          }
+        ],
+        "reserved_legal_acts": "EXCLUDED_UNLESS_HANDLED_BY_A_QUALIFIED_PROFESSIONAL",
+        "external_action": "HUMAN_MANDATE_REQUIRED"
+      },
+      "economic_bridge": {
+        "state": "DIRECTION_NOT_EXECUTED",
+        "principle": "Des revenus de services privés pourront contribuer à la pérennité du bien commun public, sous séparation juridique, comptable et de gouvernance à formaliser.",
+        "public_information_remains_free": true,
+        "commercial_customer_may_buy_public_truth": false,
+        "commercial_customer_may_buy_political_output": false,
+        "conflict_disclosure_required": true
+      },
+      "autoevolution": {
+        "engine": "EXISTING_OJO_LA_BETE_VIRTUOUS_EVOLUTION_V1",
+        "second_runtime": false,
+        "cycle": [
+          "observer",
+          "détecter un manque documenté",
+          "compiler une proposition bornée",
+          "tester la non-régression",
+          "exposer sans auto-autorisation"
+        ],
+        "signals": {
+          "documented_public_requests": 1,
+          "prepared_civic_initiatives": 3,
+          "source_warnings": 4,
+          "private_service_demand": "UNPROVEN_UNTIL_EXPLICIT_PRIVATE_OPT_IN"
+        },
+        "next_best_move": {
+          "id": "PUBLIC_ACTION_PATH",
+          "state": "PROPOSAL_ONLY",
+          "reason": "1 démarche(s) publique(s) préparée(s) restent sans envoi ni mandat.",
+          "action": "Rendre la chaîne preuve → manque → démarche → résultat plus lisible et mesurable, sans exécuter l’action extérieure."
+        },
+        "may_autonomously": [
+          "Réévaluer les manques déjà documentés",
+          "Préparer des propositions et parcours publics réversibles",
+          "Adapter la présentation à l’incertitude",
+          "Tester puis rejeter une évolution en cas de non-régression échouée"
+        ],
+        "may_not_autonomously": [
+          "Créer ou déclarer une entité juridique",
+          "Fixer un prix ou encaisser un paiement",
+          "Ouvrir un compte citoyen ou accepter des données privées réelles",
+          "Donner un mandat, envoyer une démarche ou représenter une personne",
+          "Changer la vérité canonique, une source ou une affirmation sans Human Gate"
+        ],
+        "human_gates": [
+          "truth",
+          "sources",
+          "claims",
+          "security",
+          "privacy",
+          "pricing",
+          "payments",
+          "customer_onboarding",
+          "legal_scope",
+          "external_action",
+          "governance_commitment"
+        ]
+      },
+      "separation_guards": [
+        "Le bien commun public ne devient pas un produit payant.",
+        "Les besoins privés ne sont pas inférés depuis la navigation publique.",
+        "Les données privées réelles ne sont pas stockées sur l’origine publique.",
+        "Le chiffre d’affaires ne peut ni acheter une vérité, ni un classement, ni une recommandation politique.",
+        "Tout résultat privé réinjecté dans le public doit être anonymisé, vérifié et autorisé avant exposition."
+      ]
     }
   },
   "change_summary": "EVIDENCE_GUARD · focus evidence · motion calm · self-health ATTENTION",
@@ -12944,6 +13070,9 @@
     "bounded_self_care": true,
     "persistent_health_memory": true,
     "external_action": false,
+    "public_truth_paywall": false,
+    "second_evolution_runtime": false,
+    "commercial_activation": false,
     "rollback_required": true,
     "human_gate": [
       "truth",
@@ -12953,7 +13082,13 @@
       "privacy",
       "camera",
       "political_semantics",
-      "self_modification"
+      "self_modification",
+      "pricing",
+      "payments",
+      "customer_onboarding",
+      "legal_scope",
+      "external_action",
+      "governance_commitment"
     ]
   },
   "previous_dna": {
@@ -12985,19 +13120,6 @@
     }
   },
   "receipts": [
-    {
-      "generation": 107,
-      "at": "2026-10-03T19:20:08Z",
-      "from_mode": "EVIDENCE_GUARD",
-      "to_mode": "EVIDENCE_GUARD",
-      "reason": [
-        "4 source(s) require explicit attention.",
-        "TEC10 delta versus the published budget assumption: +109.9 bp.",
-        "Decision Delta status: MATERIAL_CHANGE.",
-        "Self-health: ATTENTION."
-      ],
-      "verdict": "PROMOTED_AFTER_NON_REGRESSION"
-    },
     {
       "generation": 108,
       "at": "2026-10-03T19:21:06Z",
@@ -13504,18 +13626,32 @@
         "Self-health: ATTENTION."
       ],
       "verdict": "PROMOTED_AFTER_NON_REGRESSION"
+    },
+    {
+      "generation": 147,
+      "at": "2026-10-03T22:47:36Z",
+      "from_mode": "EVIDENCE_GUARD",
+      "to_mode": "EVIDENCE_GUARD",
+      "reason": [
+        "4 source(s) require explicit attention.",
+        "TEC10 delta versus the published budget assumption: +109.9 bp.",
+        "Decision Delta status: MATERIAL_CHANGE.",
+        "Self-health: ATTENTION."
+      ],
+      "verdict": "PROMOTED_AFTER_NON_REGRESSION"
     }
   ],
   "status": "ACTIVE",
   "verification": {
-    "generation": 146,
-    "at": "2026-10-03T22:46:00Z",
+    "generation": 147,
+    "at": "2026-10-03T22:47:36Z",
     "verdict": "NON_REGRESSION_PASS",
     "checks": [
       "truth",
       "policy",
       "self_model",
       "health_memory",
+      "hybrid_model",
       "html_ids",
       "javascript_syntax",
       "rollback",

@@ -1,6 +1,6 @@
 # La Bête — modèle hybride SCIC × business × autoévolution
 
-Verdict local : **PROVEN / READY FOR PUBLICATION HUMAN GATE**.
+Verdict pré-publication : **PROVEN / PUBLICATION CANDIDATE**.
 
 ## Matérialisation
 
@@ -17,7 +17,7 @@ Routes produit matérialisées :
 
 La boucle existante compile le modèle à chaque heartbeat à partir du même snapshot canonique. Le moteur déclaré est EXISTING_OJO_LA_BETE_VIRTUOUS_EVOLUTION_V1 et second_runtime=false.
 
-Après la génération 129, un second passage a rendu EVOLUTION_STABLE : aucun churn artificiel.
+Après la génération 147, un second passage a rendu EVOLUTION_STABLE : aucun churn artificiel.
 
 Le mouvement actuel reste PROPOSAL_ONLY : Rendre la chaîne preuve → manque → démarche → résultat plus lisible et mesurable, sans exécuter l’action extérieure.
 
@@ -40,4 +40,8 @@ L'hypothèse économique est seulement une direction : des revenus privés pourr
 - convergence, hydratation, résonance, identité et vérificateur d'évolution : PASS
 - git diff --check : PASS
 
-Aucun push, déploiement Pages, vente, paiement, création de SCIC ou action administrative externe n'a été effectué dans cette mission.
+Au moment de ce reçu pré-publication, aucun push ni déploiement Pages n’a encore été effectué. Aucune vente, aucun paiement, aucune création juridique de SCIC et aucune action administrative externe ne sont réalisés par ce changement.
+
+## Candidat de publication
+
+Base origin/main : 8475607da3862efb53b480d69597bcddf7fa87f3. Génération autoévolutive : 147 / ACTIVE / NON_REGRESSION_PASS. Preuve navigateur finale : 48 contrôles, 0 exception.
