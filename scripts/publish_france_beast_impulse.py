@@ -191,6 +191,11 @@ def main():
         except Exception as exc:
             # A failed health adapter cannot suppress canonical observation/transfer.
             print('BRIDGE_HEALTH_BLOCKED', type(exc).__name__, str(exc))
+    if args.learning_registry:
+        try:
+            print('ART_KNOWHOW_CONTINUITY',json.dumps(reconcile_art_exchange(args.bus,args.learning_registry,projection),sort_keys=True),flush=True)
+        except Exception as exc:
+            print('ART_KNOWHOW_BLOCKED',type(exc).__name__,str(exc),flush=True)
     commit=github_json('repos/Nicolason84/nova-trust/commits/main')['sha']
     live=json.loads(github_text(commit,'docs/data/france-debt-rate-live.json'))
     print(publish(live,args.bus,args.receipt))
@@ -201,4 +206,174 @@ def main():
         receipt=args.knowhow_receipt or args.receipt.with_name('la-bete-supra-knowhow-receipt.json')
         print(publish_knowhow(package,args.bus,args.learning_registry,receipt))
 
-if __name__=='__main__': main()
+
+
+# Narrow adoption of already registered methods: data and read-only observations.
+# No process lifecycle control, executable payload, new scheduler, native mutation,
+# endpoint discovery, permission changes, or external publication occurs here.
+ART_ENTRY = 'LEARN_LA_BETE_ART_DNA_AND_PRISM_ASSIMILATION_V1'
+ART_RECIPIENTS = frozenset(('ojo.human_graph','ojo.la_bete','supra.action_center',
+    'supra.bridge_health','supra.homeostasis','supra.learning_registry',
+    'supra.living_beast','supra.local_execution_agent','supra.megabus',
+    'supra.runtime.observatory','supra.sovereign_boot_health'))
+
+
+def classify_observation_time(value, now_s, max_age_s):
+    """Pure, non-executable method: UNKNOWN is never silently healthy."""
+    import math
+    if not isinstance(value,str) or not math.isfinite(now_s) or max_age_s<=0:
+        return {'state':'UNKNOWN','age_s':None,'reason':'MISSING_OR_INVALID_TIME'}
+    try:
+        instant=datetime.fromisoformat(value.replace('Z','+00:00'))
+        if instant.tzinfo is None:raise ValueError('timezone required')
+        age=now_s-instant.timestamp()
+        if not math.isfinite(age) or age < -1:raise ValueError('clock anomaly')
+    except (ValueError,TypeError,OverflowError):
+        return {'state':'UNKNOWN','age_s':None,'reason':'INVALID_TIME_OR_CLOCK'}
+    return {'state':'FRESH' if age<=max_age_s else 'STALE','age_s':max(0,age),
+            'reason':'OBSERVATION_AGE_ONLY_NOT_GENERAL_HEALTH'}
+
+
+def read_art_clock(path,schema,key,now_s,bound):
+    """Consume only a fixed existing producer file; no embedded action is used."""
+    result={'source':str(path),'max_age_s':bound,'source_sha256':None,'observed_at':None}
+    try:
+        with path.open('rb') as handle:raw=handle.read(1048577)
+        if len(raw)>1048576:raise ValueError('source bound')
+        doc=json.loads(raw)
+        if not isinstance(doc,dict) or doc.get('schema',doc.get('SCHEMA'))!=schema:
+            raise ValueError('source schema')
+        if key=='terminals':
+            value=max([r.get('seen_at','') for r in doc.get('terminals',[])
+                       if isinstance(r,dict) and str(r.get('pid','')).isdigit()],default=None)
+        else:value=doc.get(key)
+        result.update(source_sha256=hashlib.sha256(raw).hexdigest(),observed_at=value)
+        result.update(classify_observation_time(value,now_s,bound))
+    except (OSError,ValueError,TypeError):
+        result.update(state='UNKNOWN',age_s=None,reason='SOURCE_MISSING_OR_INVALID')
+    return result
+
+
+def reconcile_art_exchange(bus,registry,projection,at=None):
+    """Called by the pre-existing observer; local references only, never eval."""
+    import fcntl,re
+    now=datetime.fromisoformat(at.replace('Z','+00:00')) if at else datetime.now(timezone.utc)
+    if now.tzinfo is None:raise ValueError('OBSERVATION_TIMEZONE_REQUIRED')
+    now_s=now.timestamp();stamp=now.isoformat()
+    with registry.with_suffix('.lock').open('a') as lock:
+        fcntl.flock(lock,fcntl.LOCK_EX)
+        original=registry.read_text();data=json.loads(original)
+        if data.get('schema')!='LEARNING_LOOP_REGISTRY_V1' or data.get('authority')!='NICOLAS':
+            raise ValueError('EXISTING_LEARNING_REGISTRY_MISMATCH')
+        entry=next((e for e in data['entries'] if e.get('id')==ART_ENTRY),None)
+        if entry is None:return {'status':'NO_REGISTERED_ART_PACKET','native_adoption':'UNPROVEN'}
+        packet=entry.get('knowledge',{})
+        if packet.get('policy')!={'requested_action':'OBSERVE_ONLY','capability_execution':False,'automatic_promotion':False}:
+            raise ValueError('ART_METHOD_POLICY_REJECTED')
+        expected=hashlib.sha256(json.dumps({'patterns':packet.get('patterns'),
+            'evidence':packet.get('evidence')},sort_keys=True).encode()).hexdigest()
+        if packet.get('method_digest')!=expected:raise ValueError('ART_METHOD_DIGEST_MISMATCH')
+        methods={p.get('id') for p in packet.get('patterns',[]) if isinstance(p,dict)}
+        if not {'TRUTHFUL_FRESHNESS','RECEIPT_NOT_ASSIMILATION'}.issubset(methods):
+            raise ValueError('REQUIRED_APPROVED_CONTRACT_MISSING')
+        recipients=entry.get('receivers',{})
+        if not isinstance(recipients,dict) or not set(recipients).issubset(ART_RECIPIENTS):
+            raise ValueError('UNREGISTERED_RECIPIENT_REJECTED')
+        bus_clock=read_art_clock(bus/'TERMINALS/CURRENT.json','SUPRA_TERMINAL_REGISTRY_V1','terminals',now_s,15)
+        bus_available=bus_clock['state']=='FRESH'
+        # Validate references before doing any write. The original routing IDs
+        # and registry entry remain authoritative; no second method store.
+        for target,row in recipients.items():
+            mid=row.get('message_id','')
+            token=hashlib.sha256((expected+'|'+target).encode()).hexdigest()[:24]
+            if mid!='la-bete-art-dna-organ-'+token:raise ValueError('RECIPIENT_REFERENCE_MISMATCH')
+            p=bus/'OUTBOX'/(mid+'.json')
+            if p.exists():
+                routed_doc=json.loads(p.read_text())
+                if routed_doc.get('target')!=target or routed_doc.get('payload',{}).get('method_digest')!=expected:
+                    raise ValueError('ROUTED_REFERENCE_MISMATCH')
+        continuity=entry.setdefault('readonly_continuity',{
+            'schema':'LA_BETE_READONLY_KNOWHOW_CONTINUITY_V1','installed_at':stamp,
+            'method_digest':expected,'scope':'EXISTING_OBSERVER_ONLY','native_adoption':'UNPROVEN',
+            'pilots':{},'pending_results':{},'returned_results':[]})
+        if continuity.get('method_digest')!=expected:raise ValueError('METHOD_REVISION_REQUIRES_REVALIDATION')
+        for target,row in recipients.items():
+            if bus_available:
+                submit(bus,{'message_id':row['message_id'],'source':'supra.learning_registry',
+                    'target':target,'type':'LA_BETE_KNOW_HOW_REFERENCE','payload':{
+                        'knowledge_id':packet['knowledge_id'],'method_digest':expected,
+                        'registry_entry':ART_ENTRY,'requested_action':'OBSERVE_ONLY',
+                        'adoption_status':'AVAILABLE_NOT_APPLIED'}})
+            row['transport']='ROUTED' if routed(bus,row['message_id']) else 'PENDING'
+            # Routing is not execution; keep receiver-side state separate.
+            row.setdefault('adoption','UNPROVEN');row.setdefault('effectiveness','UNPROVEN')
+        roots=projection.parent
+        clocks={
+            'supra.megabus':bus_clock,
+            'supra.action_center':read_art_clock(roots/'AUTONOMY_HEARTBEAT.json',
+                'SUPRA_CONTINUOUS_AUTONOMY_HEARTBEAT_V1','timestamp',now_s,180),
+            'supra.homeostasis':read_art_clock(roots/'HOMEOSTASIS.json',
+                'SUPRA_HOMEOSTASIS_V1','observed_at',now_s,180)}
+        for target,observation in clocks.items():
+            if target not in recipients:continue
+            pilot=continuity['pilots'].get(target)
+            if pilot is None:
+                continuity['pilots'][target]={'method':'TRUTHFUL_FRESHNESS','context':'REAL',
+                    'declared_at':stamp,'window_s':900,'required_distinct_observations':2,
+                    'goal':'Classify two distinct post-declaration producer timestamps, preserving unknown/stale semantics.',
+                    'implementation_scope':'EXISTING_BRIDGE_OBSERVER_READ_ONLY',
+                    'status':'DECLARED','observations':[],'causal_effect_proven':False}
+                continue  # A goal is persisted before execution, never backfilled.
+            declared=datetime.fromisoformat(pilot['declared_at']).timestamp()
+            if pilot['status']=='DECLARED':pilot['status']='RUNNING'
+            if observation['source_sha256'] and observation['observed_at']:
+                try:producer_at=datetime.fromisoformat(observation['observed_at'].replace('Z','+00:00')).timestamp()
+                except (ValueError,TypeError):producer_at=None
+                seen={x['producer_at'] for x in pilot['observations']}
+                if producer_at is not None and declared<producer_at<=now_s+1 and observation['observed_at'] not in seen:
+                    pilot['observations'].append({'producer_at':observation['observed_at'],
+                        'checked_at':stamp,'source_sha256':observation['source_sha256'],
+                        'state':observation['state'],'source':observation['source']})
+                    pilot['observations']=pilot['observations'][-12:]
+            pilot['latest_observation']=observation
+            if pilot['status'] in ('DECLARED','RUNNING'):
+                eligible=[x for x in pilot['observations'] if x['state']!='UNKNOWN']
+                within=[x for x in eligible if datetime.fromisoformat(x['checked_at']).timestamp()<=declared+pilot['window_s']]
+                if len(within)>=pilot['required_distinct_observations']:pilot.update(status='APPLIED_OBSERVATION_VERIFIED',result_at=stamp)
+                elif now_s>declared+pilot['window_s']:pilot.update(status='NOT_MET',result_at=stamp)
+            # A completed trial is immutable. Later observations do not relabel a failure.
+            if pilot['status'] in ('APPLIED_OBSERVATION_VERIFIED','NOT_MET'):
+                result={'target':target,'method':'TRUTHFUL_FRESHNESS','status':pilot['status'],
+                    'declared_at':pilot['declared_at'],'result_at':pilot['result_at'],
+                    'scope':'BRIDGE_OBSERVER_NOT_NATIVE_CODE','native_adoption':'UNPROVEN',
+                    'causal_effect_proven':False,'method_digest':expected}
+                digest=hashlib.sha256(json.dumps(result,sort_keys=True).encode()).hexdigest()
+                mid='la-bete-art-readonly-result-'+digest[:24]
+                continuity['pending_results'].setdefault(mid,{'result':result,'digest':digest,'state':'PENDING'})
+        for mid,row in continuity['pending_results'].items():
+            if bus_available:
+                submit(bus,{'message_id':mid,'source':'supra.bridge_health','target':'ojo.la_bete',
+                    'type':'SUPRA_READ_ONLY_METHOD_RESULT','payload':{'requested_action':'OBSERVE_ONLY',
+                        'result_digest':row['digest'],'result_json':json.dumps(row['result'],sort_keys=True)}})
+            if routed(bus,mid):
+                p=bus/'OUTBOX'/(mid+'.json');raw=p.read_bytes();doc=json.loads(raw)
+                result=json.loads(doc.get('payload',{}).get('result_json','{}'))
+                if hashlib.sha256(json.dumps(result,sort_keys=True).encode()).hexdigest()!=row['digest']:
+                    raise ValueError('RETURNED_RESULT_CONTENT_MISMATCH')
+                row['state']='RETURNED_AND_CONSUMED_BY_EXISTING_OBSERVER'
+                if mid not in continuity['returned_results']:continuity['returned_results'].append(mid)
+        continuity['status']='RUNNING_IN_EXISTING_OBSERVER'
+        continuity['last_observed_at']=stamp
+        continuity['bus_observation']=bus_clock
+        continuity['receiver_delivery_count']=sum(x['transport']=='ROUTED' for x in recipients.values())
+        continuity['applied_observer_pilot_count']=sum(x['status']=='APPLIED_OBSERVATION_VERIFIED' for x in continuity['pilots'].values())
+        continuity['returned_result_count']=len(continuity['returned_results'])
+        # Persist only the existing entry; unrelated knowledge and protected state are untouched.
+        if json.loads(original)!=data:atomic_json(registry,data)
+        return {'status':continuity['status'],'observed_at':stamp,'receiver_count':len(recipients),
+            'delivery_count':continuity['receiver_delivery_count'],
+            'pilots':{k:v['status'] for k,v in continuity['pilots'].items()},
+            'returned_result_count':continuity['returned_result_count'],
+            'bus':bus_clock['state'],'native_adoption':'UNPROVEN'}
+
+if __name__=='__main__':main()
