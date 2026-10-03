@@ -1,0 +1,832 @@
+{
+  "schema": "LA_BETE_TERRITORIES_INITIATIVES_PUBLIC_PROOF_V1",
+  "verdict": "DEPLOYED_AND_PUBLICLY_BROWSER_TESTED",
+  "recorded_at": "2026-10-03T19:49:36.479990+00:00",
+  "feature_source_commit": "63306f05a9ecd9ed75b475f1b87ed0f7f2883e16",
+  "final_source_commit": "63a105398657b116a95ba5d51dd518447a1dbd6f",
+  "deployed_descendant": "b499c956e7e57884ba6e98ee1bebe22648d81555",
+  "entrypoint": "https://nicolason84.github.io/nova-trust/france-debt-rate-risk-live-2026-10-02.html#/atlas",
+  "validation_run": {
+    "id": 37149066653,
+    "conclusion": "success"
+  },
+  "territorial_collector_run": {
+    "id": 37149008129,
+    "conclusion": "success"
+  },
+  "pages_run": {
+    "id": 37149084587,
+    "conclusion": "success"
+  },
+  "initial_validation_repaired": {
+    "run": 37149008137,
+    "cause": "Positive enrichment unit test was invoked before real candidate verification and expected visible health nodes. Unit fixture now declares its positive verified context explicitly; production gate not bypassed."
+  },
+  "public_territories": {
+    "snapshot_id": "FR-TOPO-43287a81359296e3b1ff8def",
+    "observed_at": "2026-10-03T19:31:31Z",
+    "counts": {
+      "regions": 18,
+      "departments": 101,
+      "epcis_catalog": 1255,
+      "communes_cog": 34875
+    },
+    "fields_present": {
+      "population": 34875,
+      "postal_codes": 34875,
+      "siren": 34875,
+      "surface_api": 34875,
+      "center": 34875,
+      "epci_code": 34871
+    },
+    "verified_public_shards": 101,
+    "verified_public_communes": 34875,
+    "source_evidence": [
+      {
+        "url": "https://geo.api.gouv.fr/regions",
+        "retrieved_at": "2026-10-03T19:31:19Z",
+        "sha256": "9d35c4a69354199ab65e26ed7772802a60af8d78ea65bc978a4cf49eb178301b",
+        "last_modified": null
+      },
+      {
+        "url": "https://geo.api.gouv.fr/departements",
+        "retrieved_at": "2026-10-03T19:31:19Z",
+        "sha256": "f2b5f93b288effd230d0ae5e1f721a741d4ba2984389090d03d241519459c4f9",
+        "last_modified": null
+      },
+      {
+        "url": "https://geo.api.gouv.fr/epcis?fields=nom,code,codesRegions,codesDepartements,population,type,financement",
+        "retrieved_at": "2026-10-03T19:31:19Z",
+        "sha256": "747d9acfdb2a4d8b4ba181113d94272ff060f06c12661ce497ef2f06659e9343",
+        "last_modified": null
+      },
+      {
+        "url": "https://geo.api.gouv.fr/communes?fields=nom,code,population,codeDepartement,codeRegion,codeEpci,codesPostaux,siren,surface,centre",
+        "retrieved_at": "2026-10-03T19:31:19Z",
+        "sha256": "73d3a6e10acc56930585b2799c6e768e73c5caee3abce2ee4ae50f908bfe11cf",
+        "last_modified": null
+      },
+      {
+        "url": "https://www.insee.fr/fr/statistiques/fichier/8740222/v_commune_2026.csv",
+        "retrieved_at": "2026-10-03T19:31:31Z",
+        "sha256": "7be1153de3a63df48fa0ca77f8490c8a0c5c9c4eb12f5cec1ca7f70b0237b1d3",
+        "last_modified": null
+      }
+    ],
+    "population_epoch": "NOT_PROVIDED_BY_API_RESPONSE",
+    "epci_scope": "API catalog, not silently equated to the fiscal-EPCI statistical perimeter",
+    "unresolved_epci_links": []
+  },
+  "enrichment": {
+    "financial_fields": 8,
+    "refinancing_horizons": 4,
+    "historical_observations": 120,
+    "conditional_stress_shapes": 5,
+    "operational_health_dimensions": 6
+  },
+  "initiatives": [
+    {
+      "id": "LA_BETE_MUNICIPAL_DIALOGUE_60463_V1",
+      "kind": "OUTREACH",
+      "state": "DRAFT_READY",
+      "external_action": "NOT_EXECUTED",
+      "channel": "EMAIL_DRAFT_ONLY",
+      "automatic_publication": false
+    },
+    {
+      "id": "LA_BETE_EDITORIAL_COMMUNE_AUDIO_V1",
+      "kind": "EDITORIAL",
+      "state": "DRAFT_READY",
+      "external_action": "NOT_EXECUTED",
+      "channel": "PODCAST_SCRIPT_ONLY",
+      "automatic_publication": false
+    },
+    {
+      "id": "LA_BETE_EDITORIAL_EXPLORER_VIDEO_V1",
+      "kind": "EDITORIAL",
+      "state": "DRAFT_READY",
+      "external_action": "NOT_EXECUTED",
+      "channel": "VIDEO_STORYBOARD_ONLY",
+      "automatic_publication": false
+    }
+  ],
+  "tests": {
+    "territorial_unit": 16,
+    "enrichment_unit": 27,
+    "new_initiative_unit": 4,
+    "acquisition_unit_total": 21,
+    "existing_non_regression": "PASS",
+    "public_browser": {
+      "schema": "LA_BETE_MULTIUNIVERS_BROWSER_PROOF_V1",
+      "result": "PASS",
+      "tested_at": "2026-10-03T19:46:55.005Z",
+      "url": "https://nicolason84.github.io/nova-trust/france-debt-rate-risk-live-2026-10-02.html?verification=territories-initiatives-v1",
+      "checks": [
+        "atlas is default, legacy monolith not primary",
+        "existing 3D beast is the Atlas focus without an extra canvas",
+        "desktop beast occupies the main initial viewport",
+        "Atlas presence does not activate camera or sound",
+        "territorial document is lazy",
+        "actual country-finance-debt-source-organization-gap-request traversal",
+        "browser back restores exact object, open draft and scroll",
+        "contextual chat keeps old attribution and unsent draft",
+        "new observation signals without recentering or rewriting current object",
+        "regional drilldown descriptive, no inferred local rates",
+        "search results and filter restored after exploration",
+        "proof viewer native dialog and keyboard dismissal",
+        "unavailable pinned snapshot blocks silent substitution including chat",
+        "deep link resolves after complete page reload",
+        "direct object entry still avoids loading unused 3D",
+        "mobile beast appears before the universes without scrolling",
+        "mobile atlas has no horizontal page overflow",
+        "mobile object traversal and proof relations fit viewport",
+        "mobile contextual dialog and escaped user content",
+        "detail view moves the same existing canvas and stage",
+        "read-only legacy fallback restores original components without duplicate IDs",
+        "return from reading mode to atlas",
+        "region-department drilldown with bounded relationship rendering",
+        "hashed commune details and unknown demographic epoch are explicit",
+        "commune links to real intercommunality and members",
+        "deep commune link independently restores index and verified shard",
+        "municipal initiative has a sourced contact and a draft, not a sent message",
+        "podcast script and six-shot video plan are explorable, not falsely published",
+        "financial fields and four horizons recovered as linked objects",
+        "six operational health dimensions exposed without scoring people",
+        "La Bete remains predominant after data enrichment",
+        "general idea follow-up retains its own context",
+        "no-JavaScript canonical reading remains available",
+        "zero uncaught browser exceptions"
+      ],
+      "desktop": [
+        1440,
+        1050
+      ],
+      "mobile_emulation": [
+        390,
+        844
+      ],
+      "physical_iphone": false,
+      "widths": {
+        "viewport": 390,
+        "document": 390
+      },
+      "uncaught_exceptions": 0,
+      "presence_geometry": {
+        "desktop": {
+          "top": 318.765625,
+          "bottom": 828.734375,
+          "width": 656.328125,
+          "height": 509.96875,
+          "viewport": 1050,
+          "ready": true
+        },
+        "mobile": {
+          "top": 316.671875,
+          "bottom": 661.671875,
+          "width": 340,
+          "height": 345,
+          "viewport": 844,
+          "firstUniverse": 753.65625
+        }
+      },
+      "screen_captures": [
+        "commune-mobile.png",
+        "municipal-initiative-mobile.png",
+        "atlas-desktop.png",
+        "demarche-desktop.png",
+        "atlas-mobile.png",
+        "source-mobile.png",
+        "dialogue-mobile.png"
+      ]
+    }
+  },
+  "published_asset_sha256": {
+    "la-bete-explorer.js": "c167d9f1b15d5751a06cfe42868f9cfddec69260ed9d7fcf8aa60706fe69708f",
+    "la-bete-explorer-model.js": "1da036c9ed8b257239182ad2dc8a18daaf6322aa3581e1553d6d6ec2dc7fedc8",
+    "la-bete-explorer.css": "82a21510da9bc3fe163b36634d41a56f8fe6795efdfe3ada4c9bfe9c87db7042",
+    "la-bete-dialogue.js": "bad9378674b964d66e8e6150f3c628571ea22f4bfc26b50259ba8f02cc756b0e",
+    "la-bete-participation.js": "ba6bd76d1b4fcc91db3c2c1a45ec986b3cce0db7329a315db1cc87f4e2168b15"
+  },
+  "public_shard_validation": [
+    {
+      "department": "01",
+      "count": 391,
+      "sha256": "e3504714f74e2786cf5fa883a78e566475c403d45ded4529d3996c1ff28b6199",
+      "status": "PASS"
+    },
+    {
+      "department": "02",
+      "count": 797,
+      "sha256": "825cdd671529741fe371264730cb4489effad181c49c61ce85f68c4ec7ac77a7",
+      "status": "PASS"
+    },
+    {
+      "department": "03",
+      "count": 317,
+      "sha256": "3a4fc3d7b3c6b6559a8c73dd64b1e16c4c8abeff325b6d610641022619d3d142",
+      "status": "PASS"
+    },
+    {
+      "department": "04",
+      "count": 198,
+      "sha256": "a783b901b8d9336cc88cdd95109a7aaa472376b44da5c3134f85dbcc2c52b9b4",
+      "status": "PASS"
+    },
+    {
+      "department": "05",
+      "count": 162,
+      "sha256": "eecc15628c12e1ae66060c00078721e7cc926f411d9701c83b9de9d8aefb8c10",
+      "status": "PASS"
+    },
+    {
+      "department": "06",
+      "count": 163,
+      "sha256": "b25bbb8512e15a4d6f3abc96534e9b49493e1ca5299c24ed122cee5ea9db4b2f",
+      "status": "PASS"
+    },
+    {
+      "department": "07",
+      "count": 335,
+      "sha256": "e755fe716f6a6e08e54e7327631d8cde70cfe3df83a127d2d45e6d14b3a7bd34",
+      "status": "PASS"
+    },
+    {
+      "department": "08",
+      "count": 447,
+      "sha256": "6b54fb8ba651fa4a66436bd6503e7501e8a4490475c70c4ac4c0f68f565090d1",
+      "status": "PASS"
+    },
+    {
+      "department": "09",
+      "count": 325,
+      "sha256": "240442825839b0111269d93e7bb0f5013fa2065931fa921b8ca7942058c2bd93",
+      "status": "PASS"
+    },
+    {
+      "department": "10",
+      "count": 431,
+      "sha256": "235ec219d5e8f81e7ed1df418346084f048361bbf882e523adbddc4e4f61aa60",
+      "status": "PASS"
+    },
+    {
+      "department": "11",
+      "count": 433,
+      "sha256": "6d2833e7ee7a1c81ffe43e9d698b05ba9cc69fde44354b9715a2d439456f9ca1",
+      "status": "PASS"
+    },
+    {
+      "department": "12",
+      "count": 285,
+      "sha256": "124d3ee6b1aca495ca8ed4086d2f2d7e4a3a8a1db91e080113bec155a86e64bd",
+      "status": "PASS"
+    },
+    {
+      "department": "13",
+      "count": 119,
+      "sha256": "52289a7420a11ab22500cd150e0e9d4c900b502c08ae0f31d65323ad7def4b62",
+      "status": "PASS"
+    },
+    {
+      "department": "14",
+      "count": 526,
+      "sha256": "736f330ab4fe109974af53541873041ec3cba700100b414f305f8ad4fa423de7",
+      "status": "PASS"
+    },
+    {
+      "department": "15",
+      "count": 250,
+      "sha256": "0b3e3a30a4a9df850ea943ff1cbe2e0ab741016c86e9d4c77a4d40eb6e8b59e0",
+      "status": "PASS"
+    },
+    {
+      "department": "16",
+      "count": 359,
+      "sha256": "469152565580d924bcd8a64029bea786322c4d27a2df4a4a96ebf3cc0c4cb478",
+      "status": "PASS"
+    },
+    {
+      "department": "17",
+      "count": 462,
+      "sha256": "30a0d7bdbd3e69d841c9c8480eae2903ca3005d2aa5f8b8bfefb9a162433d6dd",
+      "status": "PASS"
+    },
+    {
+      "department": "18",
+      "count": 286,
+      "sha256": "33ce58eb4eb665cffd86639c49ade097ace5319df5d3a0fa33736a37f233452e",
+      "status": "PASS"
+    },
+    {
+      "department": "19",
+      "count": 277,
+      "sha256": "e1ce3733a90e14252be7427b7a9259c2d943e72a1cf64fcd30cbc1a133510091",
+      "status": "PASS"
+    },
+    {
+      "department": "21",
+      "count": 698,
+      "sha256": "848385145ca002f4e9a2a8efd26d262875707d74ed815c3a3a80629ea25ce649",
+      "status": "PASS"
+    },
+    {
+      "department": "22",
+      "count": 344,
+      "sha256": "0d9534e33294860a8a2b2ff68a8cfe6eab67cbdbdf79d762619a8745fcc4c7ab",
+      "status": "PASS"
+    },
+    {
+      "department": "23",
+      "count": 255,
+      "sha256": "2701300ff2f1a0d2b105e14c8a0df8ffe3f985c9154d4145d3fec9a17c42335e",
+      "status": "PASS"
+    },
+    {
+      "department": "24",
+      "count": 503,
+      "sha256": "1a2d596cb7dabd60191bd1f65156410fc3e89e0f0f7f2e463b74dffa73828fbe",
+      "status": "PASS"
+    },
+    {
+      "department": "25",
+      "count": 563,
+      "sha256": "5ff4143c4ec34e8162baa363c7adbf93bb85a48b6d98857ef702bf72ae4bce00",
+      "status": "PASS"
+    },
+    {
+      "department": "26",
+      "count": 362,
+      "sha256": "e8214407fa72eabf91f37c5ee24dcc25159de6ec1ce145ad53dcf24a4a3a5f01",
+      "status": "PASS"
+    },
+    {
+      "department": "27",
+      "count": 585,
+      "sha256": "43fd215f7c6185dc9959d8640d550ea834fca7ef1061db6d13c747b0d9d8206b",
+      "status": "PASS"
+    },
+    {
+      "department": "28",
+      "count": 363,
+      "sha256": "90b3104eefe91cc0cd3b64b8a062067c3ccf5add200f3e715f0d487b8b5768fc",
+      "status": "PASS"
+    },
+    {
+      "department": "29",
+      "count": 277,
+      "sha256": "40821e613b3c0e712ca5d181057b6a071b0714f9fd7bd9707d59e0e41941f498",
+      "status": "PASS"
+    },
+    {
+      "department": "2A",
+      "count": 124,
+      "sha256": "217b67bbb21ea7c858fc9917fb1b46bb11f21ce376eb48bb86778dedb49c1c47",
+      "status": "PASS"
+    },
+    {
+      "department": "2B",
+      "count": 236,
+      "sha256": "195dca21e8d4fff70b6a615a14a3bcd14786b851c14fadf75d00af83bc202501",
+      "status": "PASS"
+    },
+    {
+      "department": "30",
+      "count": 350,
+      "sha256": "5c493a555edc277301cc75fe6bd80fd624f1df3b5111d0e8d141f19fb9c0afa5",
+      "status": "PASS"
+    },
+    {
+      "department": "31",
+      "count": 586,
+      "sha256": "72f63e3d2f1abfbe9f3cd98736cbb368d247a3c1104eed1d2667647153f9facd",
+      "status": "PASS"
+    },
+    {
+      "department": "32",
+      "count": 458,
+      "sha256": "ef2fd801523ba26a9bfd08a465dae34fee47c48d9e1a054e586ae4c7cdd77b09",
+      "status": "PASS"
+    },
+    {
+      "department": "33",
+      "count": 534,
+      "sha256": "58b8873374380fe96e175a38045cb3ed18983e4f4e51ab09154d0f183f37e439",
+      "status": "PASS"
+    },
+    {
+      "department": "34",
+      "count": 341,
+      "sha256": "5abcce9adcc6dd299330a29fe467b7916398fc565c87c5d0ad31c3d8d6dcfc4d",
+      "status": "PASS"
+    },
+    {
+      "department": "35",
+      "count": 332,
+      "sha256": "41adb4f962266b234c66f99370b98e94c08f087e80987c81e3f85673c591d6bd",
+      "status": "PASS"
+    },
+    {
+      "department": "36",
+      "count": 241,
+      "sha256": "33595d32222202bb1627c71477062cba082aced60e4e0829551eaf03142bde0f",
+      "status": "PASS"
+    },
+    {
+      "department": "37",
+      "count": 272,
+      "sha256": "eb8fd8489488f853aac88838f0e3e1bb31873dc49c390c0a99684c715802a3a4",
+      "status": "PASS"
+    },
+    {
+      "department": "38",
+      "count": 512,
+      "sha256": "3df957d15122a8d288843827ac963314317a5d04d35eaec675ae778b49fb0225",
+      "status": "PASS"
+    },
+    {
+      "department": "39",
+      "count": 492,
+      "sha256": "5d6e58ae7f28127339e0ffcb9d4081fad0bf7d22e9591a053dfc2cc010bfdefa",
+      "status": "PASS"
+    },
+    {
+      "department": "40",
+      "count": 327,
+      "sha256": "561626b1b5501292b4e963562f17901b463be57dda285d44d46a54930ab271e2",
+      "status": "PASS"
+    },
+    {
+      "department": "41",
+      "count": 267,
+      "sha256": "db82daad1f62f4ed11a001c95d116aefc8f256ab51b77dc0ffb9150b5511ff05",
+      "status": "PASS"
+    },
+    {
+      "department": "42",
+      "count": 320,
+      "sha256": "43e81cabd1d0df10fc4e653d302463ac526d3ec57c8bc7e89636ab5dd0997f22",
+      "status": "PASS"
+    },
+    {
+      "department": "43",
+      "count": 257,
+      "sha256": "4dcc54960bd1eb3bcb21bc6e766193294a3432e483e2ff1349e8de302fa685b8",
+      "status": "PASS"
+    },
+    {
+      "department": "44",
+      "count": 207,
+      "sha256": "d061ed0c640617417433faf56d6aca0e203442c3364038a0f1c1896e5720eaf9",
+      "status": "PASS"
+    },
+    {
+      "department": "45",
+      "count": 325,
+      "sha256": "79f616519c0d1dc332b6145651ebed7a1e7f70821ea75622c7f5a09427a93909",
+      "status": "PASS"
+    },
+    {
+      "department": "46",
+      "count": 312,
+      "sha256": "d7e06d30a56220ba29b93c75c42bbb261cce130a9b73b0e11fe5333b241ef8ef",
+      "status": "PASS"
+    },
+    {
+      "department": "47",
+      "count": 319,
+      "sha256": "abd388072e196b8cc632e0baff4c58a236660677661aabe09e03eed5649de16b",
+      "status": "PASS"
+    },
+    {
+      "department": "48",
+      "count": 152,
+      "sha256": "8092f32adab17d93acbb238c4673eff378ccdbceeb8817532045c7f730262a18",
+      "status": "PASS"
+    },
+    {
+      "department": "49",
+      "count": 176,
+      "sha256": "774842d5579c56bc7370e9b52d5d8873b154c9038c1d63386977e8d26bb6e003",
+      "status": "PASS"
+    },
+    {
+      "department": "50",
+      "count": 445,
+      "sha256": "179686b7fa23284e62972e84502a804d726bf49549b670c3b31bc72851b9e09b",
+      "status": "PASS"
+    },
+    {
+      "department": "51",
+      "count": 610,
+      "sha256": "94a7261287d374ebecb002913b145406dd87531d6dc4a2d40291c668a4a9425d",
+      "status": "PASS"
+    },
+    {
+      "department": "52",
+      "count": 426,
+      "sha256": "d3c0460f7fac79260fc4ed46c637841eaaef7314a322afa3ed143cad335a2c1b",
+      "status": "PASS"
+    },
+    {
+      "department": "53",
+      "count": 240,
+      "sha256": "284495999282b7f20e334304b59f7359fa844c67371daf95c2f77d4306893ed1",
+      "status": "PASS"
+    },
+    {
+      "department": "54",
+      "count": 591,
+      "sha256": "5ad82ef216d4d579085aba4043631cfc6abd4b4a5976413e3375b3463ef978b7",
+      "status": "PASS"
+    },
+    {
+      "department": "55",
+      "count": 499,
+      "sha256": "1f3c137b8805d66111943993df8e982ace553cb291b10cb777cdaa805bc995be",
+      "status": "PASS"
+    },
+    {
+      "department": "56",
+      "count": 249,
+      "sha256": "e64ba529c278c23608341235ef20b351bc08761f9e86f927691c771078f02f64",
+      "status": "PASS"
+    },
+    {
+      "department": "57",
+      "count": 725,
+      "sha256": "084a3d50b4e37907b2ba7ea8a58c923a9d19d3a54e4697e4f89de8a4c99bc1c0",
+      "status": "PASS"
+    },
+    {
+      "department": "58",
+      "count": 309,
+      "sha256": "0b7d689add2977d81d5e1b961eace290ad0032c45f84c271e546852ecef95c16",
+      "status": "PASS"
+    },
+    {
+      "department": "59",
+      "count": 647,
+      "sha256": "1b62e9bf47cb1cf663e2e2799d2719a094f95950cdafe20483cd16ce1f9b5d30",
+      "status": "PASS"
+    },
+    {
+      "department": "60",
+      "count": 680,
+      "sha256": "73abaf6ead618b2bc72aed077063c8080a039c3c88e9ad1e300b702af363f02b",
+      "status": "PASS"
+    },
+    {
+      "department": "61",
+      "count": 381,
+      "sha256": "da691a7408c39542bee319fa1f44d30f5a85e9694a443483c3c546a4c9e2d0b9",
+      "status": "PASS"
+    },
+    {
+      "department": "62",
+      "count": 887,
+      "sha256": "80391217b9faad0cb7cfd8f914b5dabc7c6912a0ee7cec8f19b0624517c17973",
+      "status": "PASS"
+    },
+    {
+      "department": "63",
+      "count": 463,
+      "sha256": "24405314dbf0dfe0729a54dcb3bd3816c0a3323b9df9e9c6cdd3fe964c67fa5e",
+      "status": "PASS"
+    },
+    {
+      "department": "64",
+      "count": 545,
+      "sha256": "2a370bc352cc19be24821c092bd09683a846136d9dd1b4fe2092382b4933cbab",
+      "status": "PASS"
+    },
+    {
+      "department": "65",
+      "count": 469,
+      "sha256": "62333fc36a109b58bb6a3040e067b60896bee11a69f6a086308a2fb736dc86bc",
+      "status": "PASS"
+    },
+    {
+      "department": "66",
+      "count": 226,
+      "sha256": "bcd07582c8de433b3aeeec46cd4836b363c37088ba189c6c69bc624bd5af9189",
+      "status": "PASS"
+    },
+    {
+      "department": "67",
+      "count": 514,
+      "sha256": "d0a1e709c3e24271a65b553107eabe5e9b8fa744e14c292ec40945f07d707720",
+      "status": "PASS"
+    },
+    {
+      "department": "68",
+      "count": 366,
+      "sha256": "05bd5be179243ec1c9acd8a18f7e15159e37f3cbde8be5077724783e24917ab1",
+      "status": "PASS"
+    },
+    {
+      "department": "69",
+      "count": 266,
+      "sha256": "6eb8d94c13634800cc4abf947edb0f437b88e1d33d01a6166caea53f35b44918",
+      "status": "PASS"
+    },
+    {
+      "department": "70",
+      "count": 536,
+      "sha256": "1012625de7b5227bac1d6095d2eef1be4906034c696261df57fe529253efd53f",
+      "status": "PASS"
+    },
+    {
+      "department": "71",
+      "count": 563,
+      "sha256": "79b26538cd1af6b8c7fd05666bc55344c157d5ffe0d8c298e5914e49428345bc",
+      "status": "PASS"
+    },
+    {
+      "department": "72",
+      "count": 352,
+      "sha256": "8809f6b175e977a07ea50cb82063b3333502917c5366451f44f8472a959e8dbc",
+      "status": "PASS"
+    },
+    {
+      "department": "73",
+      "count": 273,
+      "sha256": "b196deb514bb99768024083e7483458fe63597c46e627765e2fa2888c0cffcdd",
+      "status": "PASS"
+    },
+    {
+      "department": "74",
+      "count": 279,
+      "sha256": "7592c5c31cd99811e02f18bbcfe64f0372d1a5aff80e99db2a7d8b8fbc2f6958",
+      "status": "PASS"
+    },
+    {
+      "department": "75",
+      "count": 1,
+      "sha256": "e361f445a953b8bbcca1826333c526b164babc32f52f965d5d0afcf95940bf7e",
+      "status": "PASS"
+    },
+    {
+      "department": "76",
+      "count": 707,
+      "sha256": "d03f8b696d1fe12c003af3a7e6c88945e408a789bb27d93e8a054b35e13943c1",
+      "status": "PASS"
+    },
+    {
+      "department": "77",
+      "count": 507,
+      "sha256": "c747e100e4751adeeb0a4914d301f7107cb36c5c6aa86185ee0ea57aa0057ecd",
+      "status": "PASS"
+    },
+    {
+      "department": "78",
+      "count": 259,
+      "sha256": "4f85c78775bfe927d07b1adbf7470ad7572e98f0b3b630f9f33486db6692cabf",
+      "status": "PASS"
+    },
+    {
+      "department": "79",
+      "count": 252,
+      "sha256": "5484f1725b4ee4135b99caf05c4aca882cf194b33ce24f7a9c0924f0194e8ccb",
+      "status": "PASS"
+    },
+    {
+      "department": "80",
+      "count": 771,
+      "sha256": "6f87561adae3d25e9547cd89fbf3cdbf251f8845b16e9ca834defe9f95b1a376",
+      "status": "PASS"
+    },
+    {
+      "department": "81",
+      "count": 314,
+      "sha256": "0f24a8c47596e2dc6e0e5832b730d38bd1e62d44401b27e8e46f557bf5ffec8d",
+      "status": "PASS"
+    },
+    {
+      "department": "82",
+      "count": 195,
+      "sha256": "39d719308d0c7dba193898a2c4d86677a781cb073d8546604f3f83bbc46c0c80",
+      "status": "PASS"
+    },
+    {
+      "department": "83",
+      "count": 153,
+      "sha256": "27a0f145cbcb419405c80359cdf91cea1bbe286f5752a6b4f648e181aedd07b4",
+      "status": "PASS"
+    },
+    {
+      "department": "84",
+      "count": 151,
+      "sha256": "890dbbba9e9648860765e26bafba1771a4153d0df1781e94b6e4c18ef0a2a9de",
+      "status": "PASS"
+    },
+    {
+      "department": "85",
+      "count": 253,
+      "sha256": "0527356d9a67b24c8a6ff7c0a74f24bb1903e0b36c790feec890ebf4d4f2cfcd",
+      "status": "PASS"
+    },
+    {
+      "department": "86",
+      "count": 265,
+      "sha256": "86cad7aee0e629fa0d8828e937a59cd7b22d8daed2035c98ee03ef0253e4f04c",
+      "status": "PASS"
+    },
+    {
+      "department": "87",
+      "count": 195,
+      "sha256": "3148376d46186b20e964e96c54f824756579ccf445c97cf2120d5986e020b90a",
+      "status": "PASS"
+    },
+    {
+      "department": "88",
+      "count": 506,
+      "sha256": "de802b534e099e5de7fb66deba0d4176a03d170ae569319e75126ba70e53f1ad",
+      "status": "PASS"
+    },
+    {
+      "department": "89",
+      "count": 423,
+      "sha256": "f649c764266b7f0010aa65d9eaa527ec6eb0c5cfc705c0713be80c3bda2ec697",
+      "status": "PASS"
+    },
+    {
+      "department": "90",
+      "count": 101,
+      "sha256": "1dd12748831311b0f4a0e20ba669b1d46613927133d2771779354974d0cb1613",
+      "status": "PASS"
+    },
+    {
+      "department": "91",
+      "count": 194,
+      "sha256": "8c5277ab58ebe945721c201ac4b9a5232c22117fc020806d42b2d5260e817416",
+      "status": "PASS"
+    },
+    {
+      "department": "92",
+      "count": 36,
+      "sha256": "bc3e376e03a83f1d7a7c8031a4b50e78d6ceb2ca6e96a1efd3bd845e6ba30df8",
+      "status": "PASS"
+    },
+    {
+      "department": "93",
+      "count": 39,
+      "sha256": "4088d9ac09a414ad05c13406af0b6c89466ae3e5556e65fe19b9011880f2749e",
+      "status": "PASS"
+    },
+    {
+      "department": "94",
+      "count": 47,
+      "sha256": "a058caa347dfb1bc6bf4011fa799aa6251a73987baf81155be4f6f02bf33a594",
+      "status": "PASS"
+    },
+    {
+      "department": "95",
+      "count": 183,
+      "sha256": "da7ac38fa99873d169035f36ffae8af26a9190fd1160402ef7340021049a7218",
+      "status": "PASS"
+    },
+    {
+      "department": "971",
+      "count": 32,
+      "sha256": "148a86d2e72a2cce88babd8b23705826cf71bab4180c47bb9300c61fe02f1bfd",
+      "status": "PASS"
+    },
+    {
+      "department": "972",
+      "count": 34,
+      "sha256": "b3b05f971d788a18fafe1ce981632a9d4e4c5c3d2393bb250422ebe3724505e8",
+      "status": "PASS"
+    },
+    {
+      "department": "973",
+      "count": 22,
+      "sha256": "27f99b63143ff1dc9bbc4c6ed85f92d4ac4b2c68f20f0bef88b847670ad6c13f",
+      "status": "PASS"
+    },
+    {
+      "department": "974",
+      "count": 24,
+      "sha256": "7823aa9b791a32e7d2dad4dfbbca54da20cbd1381c9d3cc049bddf6d648e476d",
+      "status": "PASS"
+    },
+    {
+      "department": "976",
+      "count": 17,
+      "sha256": "13b3abb7b00ab911319919c33bd69b5d35948ad5f2c84356a5771331fb10befb",
+      "status": "PASS"
+    }
+  ],
+  "limits": {
+    "emails_sent": 0,
+    "mayors_contacted": 0,
+    "podcasts_published": 0,
+    "videos_published": 0,
+    "media_files_produced_by_runtime": false,
+    "private_execution_adapters_connected": false,
+    "editorial_production": "TRANSCRIPT_AND_STORYBOARD_ONLY",
+    "general_llm_connected": false,
+    "native_supra_modified": false,
+    "physical_iphone_test": false,
+    "new_scheduler_or_runtime": false,
+    "public_data_only": true
+  }
+}

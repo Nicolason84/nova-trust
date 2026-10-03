@@ -24,6 +24,29 @@ def stamp(value):
     return dt.astimezone(timezone.utc)
 
 
+def civic_mission():
+    """Owner-defined purpose, not public representation or an execution mandate."""
+    return {
+      "id":"LA_BETE_CIVIC_MISSION_V1", "title":"Défendre les intérêts concrets des personnes",
+      "mission":"Donner à chacun les moyens de comprendre, de faire entendre ses besoins et d’agir sur des faits vérifiables.",
+      "authority":"NICOLAS_OWNER_DEFINED_PURPOSE_NOT_PUBLIC_REPRESENTATION",
+      "status":"OWNER_DEFINED_MISSION", "external_authority_granted":False,
+      "principles":[
+        "Les personnes avant les indicateurs : expliciter qui est concerné, ce qui lui manque et le résultat utile recherché.",
+        "Les faits avant l’adhésion : vérifier aussi ce qui contredit une proposition appréciée par le concepteur ou les utilisateurs.",
+        "Pluralité : ne pas confondre majorité, popularité ou intérêt du concepteur avec l’intérêt de toutes les personnes.",
+        "Indépendance non partisane : aucun soutien, opposition, score de candidats ou consigne électorale. Déclarer les intérêts et financements éventuels.",
+        "Contradiction et correction : permettre une réponse, documenter les désaccords et corriger publiquement une erreur démontrée.",
+        "Protection : limiter les données personnelles, ne pas publier un dossier privé, ne pas harceler ni accuser sans preuves.",
+        "Engagement maîtrisé : chaque envoi, publication, enregistrement ou représentation exige une autorisation adaptée.",
+        "Résultats vérifiables : compter les réponses utiles, informations corrigées et démarches abouties, pas seulement les vues ou messages envoyés."],
+      "workflow":["Besoin exprimé ou manque documenté","Faits, contradictions et personnes concernées","Action proportionnée et mandat","Réponse et suivi","Résultat vérifié ou blocage explicite"],
+      "limits":"Outil indépendant, pas une institution publique, un tribunal, un avocat ni un porte-parole élu. Aucun résultat juridique ou administratif n’est garanti.",
+      "public_feedback":"Dialogue local ; fil GitHub public uniquement après relecture et consentement, sans données privées.",
+      "current_execution":"Préparation et vérification ; envoi administratif et publication média non raccordés.",
+      "outcomes_verified":0, "outcomes_scope":"Aucun résultat de défense individuelle n’est revendiqué par cette version."
+    }
+
 def build_initiatives(live):
     """Three explicit preparation rules in the existing pulse, not autonomous authority."""
     shared={"state":"DRAFT_READY", "external_action":"NOT_EXECUTED", "mandate":"NOT_CONFIGURED",
@@ -82,6 +105,15 @@ def build_initiatives(live):
       "sources":audio["sources"],"production":{"video_file":None,"voice":"À valider","participant_recording":False,"release":"Non publié"},
       "next_action":"Capturer le parcours réel, monter une version de revue avec sous-titres et sources, puis approuver sa diffusion.",
       "success_evidence":"Vidéo relue, sources datées, consentements éventuels et reçu du canal de diffusion."}
+    for proposal in (outreach,audio,video):
+        proposal["civic_contract"]={
+          "mission_id":"LA_BETE_CIVIC_MISSION_V1",
+          "beneficiaries":"Habitants, usagers et personnes cherchant à comprendre les informations publiques ; aucun groupe exclu selon ses opinions.",
+          "need_status":"PROPOSITION_DU_CONCEPTEUR_A_CONFIRMER_AVEC_LES_PERSONNES",
+          "benefit_to_verify":proposal["success_evidence"],
+          "costs_and_tradeoffs":"Temps des interlocuteurs et des participants ; utilité et périmètre à confirmer avant sollicitation ou diffusion.",
+          "contradiction":"Les personnes et organismes concernés peuvent apporter une correction, un désaccord ou refuser l’échange.",
+          "verified_result":"NONE", "representation_mandate":"NONE"}
     return [outreach,audio,video]
 
 def build_acquisition(live, previous=None):
@@ -120,7 +152,7 @@ def build_acquisition(live, previous=None):
                 {"name": "Suivre la réponse et vérifier les pièces", "state": "WAITING"},
                 {"name": "Intégrer après validation", "state": "WAITING"}],
         })
-    return {"schema": SCHEMA, "source_snapshot_id": live.get("snapshot_id"), "requests": records, "initiatives": build_initiatives(live),
+    return {"schema": SCHEMA, "source_snapshot_id": live.get("snapshot_id"), "requests": records, "initiatives": build_initiatives(live), "civic_mission": civic_mission(),
             "execution": "PREPARATION_ACTIVE_DISPATCH_NOT_CONNECTED", "private_dispatch_required": True,
             "public_users_may_authorize": False, "automatic_truth_change": False,
             "dialogue": {"mode": "LOCAL_STRUCTURED_NO_LLM", "shared_store": "EXISTING_GITHUB_ISSUES", "adoption": "HUMAN_GATE", "political_recommendation": "NONE"}}

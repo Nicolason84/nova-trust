@@ -1,6 +1,6 @@
 # La Bête — territoires détaillés et initiatives préparées
 
-État source : IMPLEMENTED_AND_LOCALLY_TESTED. Le reçu public séparé établira publication, hashes et contrôle du navigateur public. Les échanges avec une mairie et les projets éditoriaux ne sont pas des envois ou diffusions réalisés.
+État : DEPLOYED_AND_PUBLICLY_BROWSER_TESTED. Le reçu `receipts/LA_BETE_TERRITORIES_INITIATIVES_PUBLIC_PROOF.json` établit la publication, les hashes des 101 fichiers départementaux publics et les 34 contrôles du navigateur sur la page publique. Les échanges avec une mairie et les projets éditoriaux ne sont pas des envois ou diffusions réalisés.
 
 ## Territoires réellement collectés
 

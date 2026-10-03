@@ -60,7 +60,7 @@ function paginatedCards(host,items,heading,key,relationMode=false){
 function listCards(nodes,heading){paginatedCards(stage,nodes,heading,'cards:'+(heading||'default'));}
 function sourceStamp(g){return 'Instantané '+g.source_snapshot_id+' · état matériel '+g.updated_at+' · dates propres à chaque source';}
 function atlas(g){
- title('LA BÊTE · AU CŒUR DES UNIVERS','La Bête.','Explorez les univers autour de sa présence. Les objets et leurs preuves restent accessibles.');
+ title('LA BÊTE · AU CŒUR DES UNIVERS','La Bête.','Défendre les intérêts des personnes : comprendre, vérifier, faire entendre et agir sous mandat.');
  const map=el('div',undefined,'muAtlas muAtlasWithPresence');map.id='muAtlas';map.setAttribute('aria-label','La Bête au centre des univers explorables');
  const hero=el('section',undefined,'muAtlasPresence');hero.id='muAtlasPresence';hero.setAttribute('aria-label','Présence principale de La Bête');
  const scene=el('div',undefined,'muAtlasScene');scene.id='muAtlasScene';
@@ -74,6 +74,7 @@ function atlas(g){
  stage.append(map);
  // One existing canvas, one initialization. Atlas is now itself a visible presence route.
  window.laBeteEnsurePresence?.();
+ if(g.nodes.has('LA_BETE_CIVIC_MISSION_V1')){const mission=el('div',undefined,'muCivicMission');append(mission,el('strong','Au service des personnes. Sans consigne politique.'),link('Mission, limites et engagements',M.route('objet','LA_BETE_CIVIC_MISSION_V1')));stage.append(mission);}
  const path=el('div',undefined,'muSuggested');append(path,el('div','UN PREMIER PARCOURS','muEyebrow'),el('p','France → finances publiques → dette → source → manque → démarche'),link('Commencer par la France',M.route('objet',M.COUNTRY),'muPrimary'));stage.append(path);
  stage.append(el('p','La présence visuelle suit le scénario et le flux existants. Ni ses mouvements ni la position des univers ne constituent une opinion ou une causalité politique.','muFineprint'));
 }
@@ -100,6 +101,9 @@ function objectView(node,g){
   if(d.storyboard){const shots=el('ol',undefined,'muSteps');for(const x of d.storyboard)shots.append(el('li',x.scene+' — '+x.caption));main.append(el('h3','Découpage proposé'),shots);}
   const row=el('div',undefined,'muActions');append(row,button('Exporter le dossier de revue',()=>download(d,d.id+'.json')),button('Copier le brouillon',async()=>{try{await navigator.clipboard.writeText(d.draft||d.transcript||'');status('Brouillon copié. Aucun envoi ni diffusion effectué.');}catch(e){status('Sélectionnez le texte dans le dossier.');}}));main.append(row);
   main.append(el('p','Préparation automatique dans la boucle existante. Ni envoi, ni partenariat, ni publication sociale n’est attesté. Un accord éventuel avec une mairie n’est pas un soutien politique.','muGuard'));
+ }
+ if(node.kind==='CIVIC_MISSION'){
+  const rules=el('ol',undefined,'muSteps');for(const text of node.data.principles||[])rules.append(el('li',text));append(main,el('h2','Engagements de fonctionnement'),rules,el('p',(node.data.workflow||[]).join(' → '),'muGuard'),button('Poser une question ou proposer une correction',()=>openChat(),'muPrimary'));
  }
  if(node.kind==='HISTORICAL_OBSERVATION'||node.kind==='CLAIM'&&Array.isArray(node.data.value)){const table=el('table',undefined,'muTable');const h=el('tr');append(h,el('th','Échéance (années)'),el('th','Taux (%)'));table.append(h);for(const x of (node.kind==='HISTORICAL_OBSERVATION'?node.data.curve:node.data.value)||[]){const row=el('tr');append(row,el('td',x.tenor_years),el('td',x.rate_pct));table.append(row);}main.append(table);}
  if(node.kind==='COUNTRY'&&!territories)main.append(button('Charger les régions documentées',async()=>{await ensureTerritories();renderCurrent(true);},'muPrimary'));
@@ -138,7 +142,7 @@ function universeView(universe,g){const u=M.UNIVERSES.find(x=>x.id===universe);t
  else if(universe==='demarches'){listCards(nodes.filter(n=>n.kind==='INITIATIVE'),'Initiatives de collaboration');listCards(nodes.filter(n=>n.kind==='REQUEST'),'Demandes préparées');listCards(nodes.filter(n=>n.kind==='GAP'),'Manques documentés');if(!g.evolution)stage.append(el('p','L’évolution vérifiée ne correspond pas au même instantané. Les démarches ne sont pas présentées comme à jour.','muGuard'));}
  else if(universe==='temps'){const actions=el('div',undefined,'muFeatureCards');append(actions,link('◷  Ouvrir la chronologie existante','#/chronologie'),link('◇  Explorer les horizons 12 / 36 / 60 / 120 mois','#/horizons'),link('⌁  Manipuler les scénarios de taux','#/analyse'));stage.append(actions);listCards(nodes);stage.append(el('p','Les scénarios sont conditionnels. Ils ne prédisent ni résultats électoraux ni causalité politique.','muGuard'));}
  else if(universe==='idees'){
-  const p=el('div',undefined,'muIdeaIntro');append(p,el('h2','Une question peut ouvrir un chemin.'),el('p','Le dialogue reste disponible depuis chaque objet. Les messages gardent leur contexte ; une proposition n’est ni une preuve ni une décision.'),button('Ouvrir mon échange',()=>openChat(),'muPrimary'),el('p','Version actuelle : réponses structurées par règles, sans modèle de langage généraliste ni nouvelle recherche web.','muFineprint'),link('Consulter les fils publics GitHub ↗','https://github.com/Nicolason84/nova-trust/issues?q=is%3Aissue+%22%5BLA+B%C3%8ATE%5D%22'));stage.append(p);listCards(nodes.filter(n=>n.kind==='EDITORIAL_PROPOSAL'),'Podcasts et vidéos · projets à valider');
+  const p=el('div',undefined,'muIdeaIntro');append(p,el('h2','Une question peut ouvrir un chemin.'),el('p','Le dialogue reste disponible depuis chaque objet. Les messages gardent leur contexte ; une proposition n’est ni une preuve ni une décision.'),button('Ouvrir mon échange',()=>openChat(),'muPrimary'),el('p','Version actuelle : réponses structurées par règles, sans modèle de langage généraliste ni nouvelle recherche web.','muFineprint'),link('Consulter les fils publics GitHub ↗','https://github.com/Nicolason84/nova-trust/issues?q=is%3Aissue+%22%5BLA+B%C3%8ATE%5D%22'));stage.append(p);listCards(nodes.filter(n=>n.kind==='CIVIC_MISSION'),'Mission et engagements');listCards(nodes.filter(n=>n.kind==='EDITORIAL_PROPOSAL'),'Podcasts et vidéos · projets à valider');
  }else if(universe==='etat'){
   const p=el('div',undefined,'muFeatureCards');append(p,link('◈  Mémoire et santé opérationnelle','#/sante'),link('◇  Explorer la présence 3D existante','#/presence'));stage.append(p);stage.append(el('p','La Bête est visible dès l’Atlas. La vue détaillée réutilise la même scène ; aucun accès caméra, micro ou son n’est activé par la navigation.','muGuard'));listCards(nodes,'Éléments réellement observés');
  }else listCards(nodes);

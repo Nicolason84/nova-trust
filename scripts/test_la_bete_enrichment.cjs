@@ -4,8 +4,8 @@ const M=require('../docs/assets/la-bete-explorer-model.js');
 const live=JSON.parse(fs.readFileSync('docs/data/france-debt-rate-live.json','utf8'));
 const evolution=JSON.parse(fs.readFileSync('docs/data/france-debt-rate-evolution.json','utf8'));
 // Unit fixture uses the actual pure generator; the live UI is checked separately after publication.
-const prepared=JSON.parse(require('node:child_process').execFileSync('python3',['-c',"import sys,json; sys.path.insert(0,'scripts'); from la_bete_acquisition import build_initiatives; print(json.dumps(build_initiatives(json.load(open('docs/data/france-debt-rate-live.json')))))"],{encoding:'utf8'}));
-evolution.self_model.acquisition={...evolution.self_model.acquisition,initiatives:prepared};
+const prepared=JSON.parse(require('node:child_process').execFileSync('python3',['-c',"import sys,json; sys.path.insert(0,'scripts'); from la_bete_acquisition import build_initiatives, civic_mission; print(json.dumps({'initiatives':build_initiatives(json.load(open('docs/data/france-debt-rate-live.json'))),'civic_mission':civic_mission()}))"],{encoding:'utf8'}));
+evolution.self_model.acquisition={...evolution.self_model.acquisition,initiatives:prepared.initiatives,civic_mission:prepared.civic_mission};
 // Positive unit fixture only: CI invokes this before the real candidate's verification gate.
 // Public data files are never modified by this fixture.
 evolution.status='ACTIVE';evolution.source_snapshot_id=live.snapshot_id;evolution.verification={...evolution.verification,generation:evolution.generation};
@@ -43,4 +43,7 @@ const ui=fs.readFileSync('docs/assets/la-bete-explorer.js','utf8');
 test('UI population is paginated',()=>{assert.match(ui,/const pageSize=40/);assert.match(ui,/Afficher davantage/);});
 test('commune shard must pass digest gate',()=>assert.match(ui,/expectedSHA256:descriptor.sha256/));
 test('no mail or social publishing adapter activated',()=>assert.doesNotMatch(ui,/smtp|mailto:|youtube.*upload|spotify.*publish|Authorization:/i));
+test('civic mission defines service, not public representation',()=>{const m=g.nodes.get('LA_BETE_CIVIC_MISSION_V1');assert.ok(m);assert.equal(m.data.external_authority_granted,false);assert.equal(m.data.outcomes_verified,0);});
+test('every initiative explains whose benefit remains to verify',()=>{for(const x of g.nodes.values())if(['INITIATIVE','EDITORIAL_PROPOSAL'].includes(x.kind)){assert.ok(x.data.civic_contract.beneficiaries);assert.ok(x.data.civic_contract.benefit_to_verify);assert.equal(x.data.civic_contract.verified_result,'NONE');assert.equal(x.data.civic_contract.representation_mandate,'NONE');}});
+test('mission can be inspected from the Atlas',()=>assert.match(ui,/Mission, limites et engagements/));
 console.log('LA_BETE_ENRICHMENT_TESTS_PASS '+n);

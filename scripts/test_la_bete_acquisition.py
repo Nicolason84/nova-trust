@@ -2,7 +2,7 @@ import copy
 import json
 import unittest
 from pathlib import Path
-from la_bete_acquisition import build_acquisition, build_initiatives, dispatch_once, digest, verify_received_document
+from la_bete_acquisition import build_acquisition, build_initiatives, civic_mission, dispatch_once, digest, verify_received_document
 
 ROOT = Path(__file__).resolve().parents[1]
 LIVE = json.loads((ROOT / 'docs/data/france-debt-rate-live.json').read_text())
@@ -109,6 +109,13 @@ class AcquisitionTests(unittest.TestCase):
         self.assertEqual(verify_received_document({}, trusted_verifier=Verifier())['state'], 'NEEDS_REVIEW')
 
 class InitiativeTests(unittest.TestCase):
+    def test_civic_purpose_does_not_grant_external_authority(self):
+        mission=civic_mission();self.assertFalse(mission['external_authority_granted']);self.assertEqual(mission['outcomes_verified'],0)
+        self.assertEqual(mission['id'],'LA_BETE_CIVIC_MISSION_V1')
+    def test_civic_benefit_is_to_verify_not_claimed(self):
+        for x in build_initiatives(LIVE):
+            contract=x['civic_contract'];self.assertEqual(contract['verified_result'],'NONE');self.assertEqual(contract['representation_mandate'],'NONE')
+            self.assertIn('A_CONFIRMER',contract['need_status'])
     def test_unique_and_stable_preparations(self):
         a=build_initiatives(LIVE);b=build_initiatives(LIVE)
         self.assertEqual(a,b);self.assertEqual(len({x['id'] for x in a}),3)

@@ -119,6 +119,15 @@ async function main(){
  await evaluate('window.LaBeteExplorer.openChat()');
  await evaluate("document.getElementById('beastDialogueKind').value='IDEA';document.getElementById('beastDialogueInput').value='Je propose de montrer les sources et les dates des chiffres';document.getElementById('beastDialogueForm').requestSubmit();document.getElementById('beastDialogueKind').value='QUESTION';document.getElementById('beastDialogueInput').value='Pourquoi pas encore ?';document.getElementById('beastDialogueForm').requestSubmit()");
  assert.ok(await evaluate("document.querySelector('#beastDialogueLog .beastMessage:last-child').textContent.includes('Traçabilité')"));await evaluate("document.getElementById('muChat').close()");pass('general idea follow-up retains its own context');
+ await navigate('#/atlas');await wait("!!document.querySelector('.muCivicMission')",'civic mission bound to verified evolution');
+ await evaluate("document.querySelector('.muCivicMission a').click()");await wait("window.LaBeteExplorer.state().object==='LA_BETE_CIVIC_MISSION_V1'",'civic mission route');
+ assert.ok(await evaluate("document.getElementById('muStage').textContent.includes('porte-parole élu')"));
+ assert.equal(await evaluate("document.querySelectorAll('#muStage .muSteps li').length"),8);pass('civic mission is inspectable and does not claim elected representation');
+ await navigate('#/univers/demarches');await clickObject('LA_BETE_MUNICIPAL_DIALOGUE_60463_V1');
+ assert.ok(await evaluate("document.getElementById('muStage').textContent.includes('PROPOSITION_DU_CONCEPTEUR_A_CONFIRMER')"));
+ assert.ok(await evaluate("document.getElementById('muStage').textContent.includes('Bénéfice à vérifier')"));
+ assert.ok(await evaluate("document.getElementById('muStage').textContent.includes('Mandat de représentation')"));pass('initiatives disclose beneficiaries, unconfirmed need and absence of representation mandate');
+ await navigate('#/atlas');await screenshot('civic-atlas-mobile');
  await send('Emulation.setScriptExecutionDisabled',{value:true});await send('Page.navigate',{url:base.split('#')[0]});await sleep(800);
  assert.ok(await evaluate("!!document.querySelector('.wrap')&&!document.getElementById('multiunivers')&&document.getElementById('realityHeadline').textContent.length>0"));pass('no-JavaScript canonical reading remains available');
  assert.equal(exceptions.length,0,'uncaught exceptions '+exceptions.join('\n'));pass('zero uncaught browser exceptions');
