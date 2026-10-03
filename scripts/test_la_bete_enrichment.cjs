@@ -6,6 +6,9 @@ const evolution=JSON.parse(fs.readFileSync('docs/data/france-debt-rate-evolution
 // Unit fixture uses the actual pure generator; the live UI is checked separately after publication.
 const prepared=JSON.parse(require('node:child_process').execFileSync('python3',['-c',"import sys,json; sys.path.insert(0,'scripts'); from la_bete_acquisition import build_initiatives; print(json.dumps(build_initiatives(json.load(open('docs/data/france-debt-rate-live.json')))))"],{encoding:'utf8'}));
 evolution.self_model.acquisition={...evolution.self_model.acquisition,initiatives:prepared};
+// Positive unit fixture only: CI invokes this before the real candidate's verification gate.
+// Public data files are never modified by this fixture.
+evolution.status='ACTIVE';evolution.source_snapshot_id=live.snapshot_id;evolution.verification={...evolution.verification,generation:evolution.generation};
 const territories=JSON.parse(fs.readFileSync('docs/data/france-organism.json','utf8'));
 const topo=JSON.parse(fs.readFileSync('docs/data/france-topology.json','utf8'));
 const g=M.build(live,evolution,territories,topo),d=topo.detail;let n=0;
