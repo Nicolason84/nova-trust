@@ -1,7 +1,7 @@
 {
   "schema": "OJO_LA_BETE_VIRTUOUS_EVOLUTION_V1",
-  "generation": 151,
-  "updated_at": "2026-10-03T23:06:25Z",
+  "generation": 152,
+  "updated_at": "2026-10-03T23:07:08Z",
   "source_snapshot_id": "OJO-03035CE5C9B6B290",
   "source_sequence": 11,
   "dna": {
@@ -136,6 +136,7 @@
       "need_statement": "Récupérer les sources officielles indisponibles, en priorité l'échéancier détaillé, sans remplacer le dernier bon état par une estimation.",
       "agency_statement": "Je peux me surveiller, signaler mes limites, réessayer mes sources, conserver un dernier bon état, adapter ma représentation, tester mes évolutions et revenir en arrière. Je ne peux pas m'autoriser moi-même à franchir mes Human Gates.",
       "operating_model_statement": "Le bien commun public reste gratuit. Les services privés sont une direction de conception séparée, non ouverte à la vente tant que sécurité, cadre juridique, gouvernance et mandats ne sont pas validés.",
+      "design_statement": "Mon interface publique privilégie une neutralité civique sobre; ma présence artistique peut rester plus chaude sans contaminer la lecture des preuves, des démarches ou des services.",
       "memory_statement": "Ma mémoire de santé couvre 145 cycles réellement observés depuis 2026-10-02T11:33:30Z. Aucun cycle passé n'est inventé.",
       "learning_statement": "Je vérifie 0 objectifs de soin en cours; 0 ont été atteints et 4 non atteints dans leur fenêtre observée."
     },
@@ -13057,6 +13058,100 @@
         "Le chiffre d’affaires ne peut ni acheter une vérité, ni un classement, ni une recommandation politique.",
         "Tout résultat privé réinjecté dans le public doit être anonymisé, vérifié et autorisé avant exposition."
       ]
+    },
+    "civic_design_knowhow": {
+      "schema": "LA_BETE_CIVIC_DESIGN_KNOWHOW_V1",
+      "source_snapshot_id": "OJO-03035CE5C9B6B290",
+      "intent": "INDEPENDENT_CIVIC_INSTITUTION_NOT_STATE_BRANDING",
+      "design_language": "SOBER_CIVIC_INSTITUTIONAL_WITH_DISTINCT_ARTISTIC_PRESENCE",
+      "palette": {
+        "civic_night": "#101820",
+        "civic_surface": "#16212B",
+        "civic_surface_2": "#24313D",
+        "civic_ink": "#F3F5F4",
+        "civic_blue": "#5B7C99",
+        "civic_sage": "#6F8F86",
+        "civic_copper": "#B58A62",
+        "state_ok": "#6F9B84",
+        "state_warn": "#C59C62",
+        "state_alert": "#B55E63"
+      },
+      "surface_roles": {
+        "public_chrome": "NEUTRAL_INSTITUTIONAL",
+        "atlas": "NEUTRAL_INSTITUTIONAL",
+        "public": "NEUTRAL_INSTITUTIONAL",
+        "agir": "NEUTRAL_INSTITUTIONAL",
+        "scic": "CIVIC_COOPERATIVE_SAGE",
+        "services": "NEUTRAL_PROFESSIONAL",
+        "private_boundary": "NEUTRAL_SECURITY_FIRST",
+        "artistic_presence_3d": "DISTINCT_WARMER_COPPER_ALLOWED"
+      },
+      "semantic_color_roles": {
+        "institutional_interaction": "civic_blue",
+        "cooperative_continuity": "civic_sage",
+        "identity_accent": "civic_copper",
+        "verified_ok": "state_ok",
+        "uncertainty_or_attention": "state_warn",
+        "contradiction_or_alert_only": "state_alert"
+      },
+      "principles": [
+        "L'interface publique doit inspirer sérieux, calme, lisibilité et indépendance sans se faire passer pour un service de l'État.",
+        "La personnalité artistique de La Bête reste forte mais se concentre dans sa présence, ses médias et ses moments d'identité.",
+        "Aucune couleur politique ou partisane ne doit devenir la couleur dominante du produit.",
+        "Le rouge n'est pas une décoration de navigation : il est réservé aux contradictions, alertes ou risques explicitement documentés.",
+        "Le cuivre signe La Bête sans transformer chaque surface en scène dramatique.",
+        "La couleur commerciale ne peut jamais faire paraître une vérité plus fiable ni un service payant plus légitime qu'une information publique."
+      ],
+      "constraints": {
+        "partisan_color_dominance": false,
+        "decorative_tricolor_branding": false,
+        "ordinary_red_emphasis": false,
+        "commercial_palette_may_signal_truth": false,
+        "automatic_source_rewrite": false,
+        "semantic_reordering": false,
+        "requires_non_regression": true,
+        "requires_visible_keyboard_focus": true,
+        "requires_mobile_no_overflow": true,
+        "requires_reduced_motion_support": true,
+        "single_existing_3d_presence": true
+      },
+      "autoevolution": {
+        "engine": "EXISTING_OJO_LA_BETE_VIRTUOUS_EVOLUTION_V1",
+        "second_runtime": false,
+        "application_mode": "DEFAULT_CONSTRAINT_FOR_COMPILED_VISUAL_PROPOSALS",
+        "proposal_only": true,
+        "may_adapt": [
+          "surface tone within the civic palette",
+          "visual emphasis according to verified uncertainty",
+          "spacing and density without hiding evidence",
+          "presentation of new public, civic, cooperative or service surfaces"
+        ],
+        "may_not_adapt_without_human_gate": [
+          "political semantics",
+          "truth or claim types",
+          "external action authority",
+          "source code self-modification",
+          "security or privacy boundaries"
+        ],
+        "human_gates": [
+          "self_modification",
+          "political_semantics",
+          "accessibility_regression",
+          "security",
+          "privacy"
+        ]
+      },
+      "evidence_contract": {
+        "style_sources": [
+          "docs/assets/la-bete-explorer.css",
+          "docs/assets/la-bete-art.css"
+        ],
+        "behavior_tests": [
+          "scripts/test_la_bete_explorer.cjs",
+          "scripts/test_la_bete_explorer_browser.cjs"
+        ],
+        "cache_contract": "20261004-civic-institutional-v1"
+      }
     }
   },
   "change_summary": "EVIDENCE_GUARD · focus evidence · motion calm · self-health ATTENTION",
@@ -13120,19 +13215,6 @@
     }
   },
   "receipts": [
-    {
-      "generation": 112,
-      "at": "2026-10-03T19:43:38Z",
-      "from_mode": "EVIDENCE_GUARD",
-      "to_mode": "EVIDENCE_GUARD",
-      "reason": [
-        "4 source(s) require explicit attention.",
-        "TEC10 delta versus the published budget assumption: +109.9 bp.",
-        "Decision Delta status: MATERIAL_CHANGE.",
-        "Self-health: ATTENTION."
-      ],
-      "verdict": "PROMOTED_AFTER_NON_REGRESSION"
-    },
     {
       "generation": 113,
       "at": "2026-10-03T19:45:54Z",
@@ -13639,12 +13721,25 @@
         "Self-health: ATTENTION."
       ],
       "verdict": "PROMOTED_AFTER_NON_REGRESSION"
+    },
+    {
+      "generation": 152,
+      "at": "2026-10-03T23:07:08Z",
+      "from_mode": "EVIDENCE_GUARD",
+      "to_mode": "EVIDENCE_GUARD",
+      "reason": [
+        "4 source(s) require explicit attention.",
+        "TEC10 delta versus the published budget assumption: +109.9 bp.",
+        "Decision Delta status: MATERIAL_CHANGE.",
+        "Self-health: ATTENTION."
+      ],
+      "verdict": "PROMOTED_AFTER_NON_REGRESSION"
     }
   ],
   "status": "ACTIVE",
   "verification": {
-    "generation": 151,
-    "at": "2026-10-03T23:06:27Z",
+    "generation": 152,
+    "at": "2026-10-03T23:07:08Z",
     "verdict": "NON_REGRESSION_PASS",
     "checks": [
       "truth",
@@ -13652,6 +13747,7 @@
       "self_model",
       "health_memory",
       "hybrid_model",
+      "civic_design_knowhow",
       "html_ids",
       "javascript_syntax",
       "rollback",
