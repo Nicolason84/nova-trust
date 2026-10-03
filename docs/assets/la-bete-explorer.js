@@ -128,7 +128,7 @@ async function renderCurrent(useLatest=false,restore=false){
    if(!territories){status('Chargement du document territorial existant…');try{await ensureTerritories();}catch(e){status('Document territorial indisponible. Aucun détail de remplacement n’est inventé.');}}
    if(token!==renderToken)return;g=current.graph=M.build(g.live,g.evolution,territories);
   }
-  if(!['atlas','presence','lecture'].includes(p.kind)||current.isSearch)window.laBeteSuspendPresence?.();
+  if(!['presence','lecture'].includes(p.kind)||current.isSearch)window.laBeteSuspendPresence?.();
   restoreMoves();root.classList.toggle('mu-atlas-home',p.kind==='atlas'&&!current.isSearch&&(!p.snapshot||p.snapshot===g.source_snapshot_id));stage.replaceChildren();legacy.hidden=true;legacy.inert=true;workspace.hidden=false;document.body.classList.remove('mu-reading');root.classList.remove('mu-reading');
   if(p.kind==='lecture'){
    legacy.hidden=false;legacy.inert=false;workspace.hidden=true;chatPlace.after(legacyChat);document.body.classList.add('mu-reading');root.classList.add('mu-reading');window.laBeteEnsurePresence?.();

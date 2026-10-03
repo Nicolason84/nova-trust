@@ -56,4 +56,5 @@ test('Atlas mounts the single existing beast stage',()=>assert.match(ui,/mountEx
 test('Atlas itself requests presence initialization',()=>assert.match(ui.slice(ui.indexOf('function atlas(g)'),ui.indexOf('function factTable')),/laBeteEnsurePresence/));
 test('presence stays one-click accessible from the header',()=>assert.match(ui,/link\('La Bête','#\/presence','muPresenceShortcut'\)/));
 test('scene is moved, never cloned',()=>assert.doesNotMatch(ui,/cloneNode|new.*WebGLRenderer/));
+test('Atlas preserves sensor shutdown when leaving detailed presence',()=>assert.ok(ui.includes("if(!['presence','lecture'].includes(p.kind)||current.isSearch)window.laBeteSuspendPresence?.();")));
 console.log('LA_BETE_EXPLORER_TESTS_PASS '+count);

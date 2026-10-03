@@ -25,3 +25,5 @@ Les assertions de navigation sont complétées pour vérifier l’emplacement in
 Le navigateur local confirme un seul canvas, la scène dans le premier écran 1440 × 1050 et 390 × 844, sa position avant les univers sur mobile, les parcours existants et l’absence d’activation caméra ou son. Le mobile est émulé ; aucune vérification sur iPhone physique n’est revendiquée.
 
 Les rapports de V1 précédents restent des reçus historiques. Cette correction change délibérément leur règle de chargement de la présence sur l’Atlas, sans changer les garanties d’unicité de scène ni la séparation public/privé.
+
+Le retour vers l’Atlas conserve l’arrêt des éventuels accès caméra, capteurs et son activés dans la vue détaillée. Cet arrêt ne coupe pas le rendu 3D existant : la présence reste visible, sans capture ni son automatiques.
