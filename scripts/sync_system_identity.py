@@ -15,7 +15,7 @@ def main():
     args = parser.parse_args()
 
     identity = json.loads(SOURCE.read_text(encoding="utf-8"))
-    assert identity["schema_version"] == "1.0"
+    assert identity["schema_version"] in ("1.0", "1.1")
     assert identity["music"]["playback"] == "click_to_load"
     projected = json.dumps(identity, ensure_ascii=False, indent=2) + "\n"
 

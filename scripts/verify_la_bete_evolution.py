@@ -95,7 +95,7 @@ def main() -> None:
         "renderSelfModel",
     ):
         require(marker in page or marker in json.dumps(live), f"missing invariant marker: {marker}")
-    require(page.index('id="reality-pulse"') < page.index('class="hero"'), "reality pulse must precede legacy hero")
+    require(page.index('id="reality-pulse"') < page.index('class="hero hero-dna"'), "reality pulse must precede legacy hero")
     require("encours échéant ≠ besoin total" in page, "horizon separation marker missing")
     require("eval(" not in page, "eval forbidden")
     require("document.write(" not in page, "document.write forbidden")

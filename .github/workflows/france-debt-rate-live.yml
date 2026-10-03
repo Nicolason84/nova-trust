@@ -24,6 +24,8 @@ on:
       - "scripts/test_france_beast_convergence.py"
       - "scripts/test_france_beast_hydration.cjs"
       - "scripts/test_beast_resonance.cjs"
+      - "scripts/test_la_bete_art_dna.cjs"
+      - "docs/assets/vendor/three-0.180.0/**"
       - "docs/manifest.webmanifest"
       - "docs/assets/la-bete-favicon.svg"
       - "docs/assets/la-bete-social-card.png"
@@ -167,6 +169,7 @@ jobs:
           python3 scripts/sync_system_identity.py --check
           PYTHONPATH=scripts python3 scripts/test_system_identity.py
           PYTHONPATH=scripts python3 scripts/test_france_beast_convergence.py
+          node scripts/test_la_bete_art_dna.cjs
           node scripts/test_beast_resonance.cjs
           node scripts/test_france_beast_hydration.cjs
           python3 scripts/verify_la_bete_evolution.py
@@ -223,6 +226,7 @@ jobs:
               python3 scripts/france_beast_binding.py
               python3 scripts/prerender_france_beast.py
               PYTHONPATH=scripts python3 scripts/test_france_beast_convergence.py
+              node scripts/test_la_bete_art_dna.cjs
               node scripts/test_beast_resonance.cjs
               node scripts/test_france_beast_hydration.cjs
               python3 scripts/verify_la_bete_evolution.py

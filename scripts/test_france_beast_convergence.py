@@ -99,7 +99,7 @@ class Convergence(unittest.TestCase):
         self.assertIsNotNone(m)
         self.assertEqual(m[1],hashlib.sha256(raw).hexdigest())
         self.assertEqual(json.loads(m[2]),json.loads(raw))
-        pulse=text[text.index('id="reality-pulse"'):text.index('<section class="hero"')]
+        pulse=text[text.index('id="reality-pulse"'):text.index('<section class="hero hero-dna"')]
         for placeholder in ['Lecture de l’état canonique','Chargement','Chargement du signal']:
             self.assertNotIn(placeholder,pulse)
         self.assertIn('4,903' if json.loads(raw)['observed']['tec10_pct']==4.903 else 'TEC10',pulse)
