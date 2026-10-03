@@ -80,11 +80,11 @@ body[data-evo-focus="evidence"] #rpEvidenceCard,body[data-evo-focus="decision"] 
 <link rel="stylesheet" href="assets/system-identity.css">
 <script src="assets/system-identity.js?v=20261003-prism-v1" defer></script>
 <link rel="stylesheet" href="assets/la-bete-participation.css?v=20261003-v1">
-<script src="assets/la-bete-dialogue.js?v=20261003-multiunivers-v1" defer></script>
-<script src="assets/la-bete-participation.js?v=20261003-multiunivers-v1" defer></script>
-<link rel="stylesheet" href="assets/la-bete-explorer.css?v=20261003-presence-v2">
-<script src="assets/la-bete-explorer-model.js?v=20261003-v1" defer></script>
-<script src="assets/la-bete-explorer.js?v=20261003-presence-v2.1" defer></script>
+<script src="assets/la-bete-dialogue.js?v=20261003-fill-v1" defer></script>
+<script src="assets/la-bete-participation.js?v=20261003-fill-v1" defer></script>
+<link rel="stylesheet" href="assets/la-bete-explorer.css?v=20261003-fill-v1">
+<script src="assets/la-bete-explorer-model.js?v=20261003-fill-v1" defer></script>
+<script src="assets/la-bete-explorer.js?v=20261003-fill-v1" defer></script>
 </head><body data-identity-url="system_identity.json" class="beast-dna beast-prismatic"><svg class="artFilterDefs" width="0" height="0" aria-hidden="true" focusable="false"><defs><filter id="beast-glass-optics" x="-15%" y="-15%" width="130%" height="130%"><feTurbulence type="fractalNoise" baseFrequency=".013 .035" numOctaves="1" seed="7" result="grain"/><feDisplacementMap in="SourceGraphic" in2="grain" scale="9" xChannelSelector="R" yChannelSelector="G"/></filter></defs></svg><div class="wrap">
 <header class="top"><a class="brand" href="#reality-pulse" aria-label="ojO · revenir au pouls" style="text-decoration:none;color:var(--ink)">oj<i>O</i></a><nav class="topNav" aria-label="Lecture de La Bête"><a href="#dialogue-public">Dialoguer</a><a href="#demarches">Démarches</a><a href="#reality-pulse">Le pouls</a><a href="#la-bete">La Bête</a><a href="#market-anatomy">Analyse</a><a href="#evidence-graph">Preuves</a></nav><a class="soundShortcut" href="#beast-resonance"><span class="miniWave" aria-hidden="true"><i></i><i></i><i></i><i></i></span>Son</a></header>
 <div class="liveSignals" aria-label="Les trois horloges de La Bête"><span class="pill" id="runner"><span class="dot"></span>RUNNER UNKNOWN · SNAPSHOT STATIQUE</span><span class="pill" id="feed"><span class="dot"></span>ÉTAT #11 · 2026-10-02T11:33:30Z</span><span class="pill" id="evolution"><span class="dot"></span>ÉVOLUTION G112 · EVIDENCE GUARD</span><a class="pill" href="#autoevolution">Preuve de vie ↗</a></div>
@@ -898,11 +898,19 @@ async function run(){
 // One existing page pulse, with bounded I/O and no overlapping refreshes.
 let pulseTimer=null,pulseBusy=false,pulseFailures=0,pulseRunnerAt=null;
 async function pulseFetch(url,options){
+  if(options?.expectedSHA256&&(!globalThis.crypto?.subtle||typeof AbortController==='undefined'))throw Error('VERIFIED_STATIC_JSON_UNAVAILABLE');
   if(typeof AbortController==='undefined')return fetch(url,options);
   const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),15000);
   try{
-    const response=await fetch(url,{...options,signal:controller.signal}),payload=await response.json();
-    return {ok:response.ok,status:response.status,json:async()=>payload};
+    const {expectedSHA256,maxBytes,...requestOptions}=options||{};
+    const response=await fetch(url,{...requestOptions,signal:controller.signal});
+    if(expectedSHA256){
+      if(!response.ok)return {ok:false,status:response.status,json:async()=>({})};
+      const bytes=await response.arrayBuffer();if(bytes.byteLength>(maxBytes||3000000))throw Error('STATIC_JSON_TOO_LARGE');
+      const hash=[...new Uint8Array(await crypto.subtle.digest('SHA-256',bytes))].map(x=>x.toString(16).padStart(2,'0')).join('');if(hash!==expectedSHA256)throw Error('STATIC_JSON_HASH_MISMATCH');
+      const payload=JSON.parse(new TextDecoder().decode(bytes));return {ok:true,status:response.status,json:async()=>payload};
+    }
+    const payload=await response.json();return {ok:response.ok,status:response.status,json:async()=>payload};
   }finally{clearTimeout(timer);}
 }
 function pulseDelay(){return document.hidden?120000:Math.min(120000,10000*Math.pow(2,Math.min(pulseFailures,4)));}

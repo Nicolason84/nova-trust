@@ -61,7 +61,7 @@
   }
   function submit(value, kind) {
     const c = context();
-    const localHistory = history.filter(x => (x.object_context?.id || null) === (c.object?.id || null) && (x.object_context?.snapshot_id || null) === (c.object?.snapshot_id || c.live?.snapshot_id || null));
+    const localHistory = history.filter(x => (x.object_context?.id || null) === (c.object?.id || null) && (x.object_context?.snapshot_id || null) === (c.object?.snapshot_id || c.live?.snapshot_id || null) && (x.object_context?.version || null) === (c.object?.version || null));
     const result = D.analyze(value, {...c, kind, history: localHistory});
     const objectContext = c.object ? {id:c.object.id,label:c.object.label,snapshot_id:c.object.snapshot_id,version:c.object.version} : {id:null,label:c.context_label || "Flux général",snapshot_id:c.live?.snapshot_id || null};
     result.object_context = objectContext;

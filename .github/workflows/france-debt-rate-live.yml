@@ -20,6 +20,7 @@ on:
       - "docs/assets/la-bete-explorer-model.js"
       - "docs/assets/la-bete-explorer.css"
       - "scripts/test_la_bete_explorer.cjs"
+      - "scripts/test_la_bete_enrichment.cjs"
       - "scripts/test_la_bete_explorer_browser.cjs"
       - "scripts/test_la_bete_health_memory.py"
       - "scripts/verify_la_bete_evolution.py"
@@ -190,6 +191,7 @@ jobs:
           PYTHONPATH=scripts python3 scripts/test_la_bete_acquisition.py
           node scripts/test_la_bete_dialogue.cjs
           node scripts/test_la_bete_explorer.cjs
+          node scripts/test_la_bete_enrichment.cjs
           PYTHONPATH=scripts python3 scripts/test_la_bete_supra_knowhow.py
           PYTHONPATH=scripts python3 scripts/test_la_bete_bridge_health.py
           python3 scripts/verify_la_bete_evolution.py
@@ -258,6 +260,7 @@ jobs:
               PYTHONPATH=scripts python3 scripts/test_la_bete_acquisition.py
               node scripts/test_la_bete_dialogue.cjs
               node scripts/test_la_bete_explorer.cjs
+              node scripts/test_la_bete_enrichment.cjs
               python3 scripts/france_beast_binding.py
               python3 scripts/prerender_france_beast.py
               PYTHONPATH=scripts python3 scripts/test_france_beast_convergence.py

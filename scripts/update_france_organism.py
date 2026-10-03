@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 from __future__ import annotations
-import csv, io, json, urllib.request
+import csv, io, json, urllib.request, hashlib
+from france_topology_detail import compile_detail, validate_detail
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -13,9 +14,11 @@ UA="OJO-France-Organism/1.0 (+https://github.com/Nicolason84/nova-trust)"
 REGIONS_URL="https://geo.api.gouv.fr/regions"
 DEPARTMENTS_URL="https://geo.api.gouv.fr/departements"
 EPCI_URL="https://geo.api.gouv.fr/epcis?fields=nom,code,codesRegions,codesDepartements,population,type,financement"
-COMMUNES_URL="https://geo.api.gouv.fr/communes?fields=nom,code,population,codeDepartement,codeRegion,codeEpci"
+COMMUNES_URL="https://geo.api.gouv.fr/communes?fields=nom,code,population,codeDepartement,codeRegion,codeEpci,codesPostaux,siren,surface,centre"
 COG_COMMUNES_URL="https://www.insee.fr/fr/statistiques/fichier/8740222/v_commune_2026.csv"
 OFFICIAL_COUNTS={"regions":18,"departments":101,"epcis":1252,"communes":34875}
+
+FETCH_EVIDENCE = {}
 
 SYSTEMS=["macro","budget","energy","finance","logistics","climate","health","geopolitics"]
 
@@ -29,12 +32,18 @@ def load(path, default):
 def fetch(url):
     req=urllib.request.Request(url,headers={"User-Agent":UA,"Accept":"application/json"})
     with urllib.request.urlopen(req,timeout=45) as r:
-        return json.loads(r.read().decode("utf-8"))
+        raw=r.read(25_000_001)
+        if len(raw)>25_000_000: raise ValueError("SOURCE_RESPONSE_TOO_LARGE")
+        FETCH_EVIDENCE[url]={"url":url,"retrieved_at":now(),"sha256":hashlib.sha256(raw).hexdigest(),"last_modified":r.headers.get("Last-Modified")}
+        return json.loads(raw.decode("utf-8"))
 
 def fetch_cog_commune_codes():
     req=urllib.request.Request(COG_COMMUNES_URL,headers={"User-Agent":UA,"Accept":"text/csv,*/*"})
     with urllib.request.urlopen(req,timeout=45) as r:
-        raw=r.read().decode("utf-8-sig")
+        content=r.read(15_000_001)
+        if len(content)>15_000_000: raise ValueError("COG_RESPONSE_TOO_LARGE")
+        FETCH_EVIDENCE[COG_COMMUNES_URL]={"url":COG_COMMUNES_URL,"retrieved_at":now(),"sha256":hashlib.sha256(content).hexdigest(),"last_modified":r.headers.get("Last-Modified")}
+        raw=content.decode("utf-8-sig")
     try:
         dialect=csv.Sniffer().sniff(raw[:8192],delimiters=",;\t")
     except:
@@ -47,14 +56,15 @@ def fetch_cog_commune_codes():
             if code: codes.add(code)
     return codes
 
-def ensure_topology():
+def _ensure_topology():
     old=load(TOPO,{})
     stamp=old.get("generated_at")
     if stamp:
         try:
             t=datetime.fromisoformat(stamp.replace("Z","+00:00"))
             age=(datetime.now(timezone.utc)-t).total_seconds()
-            if age<86400 and old.get("schema")=="OJO_FRANCE_TOPOLOGY_V2" and old.get("regions") and old.get("official_communes_count")==OFFICIAL_COUNTS["communes"]:
+            if age<86400 and old.get("schema")=="OJO_FRANCE_TOPOLOGY_V2" and old.get("regions") and old.get("official_communes_count")==OFFICIAL_COUNTS["communes"] and old.get("detail",{}).get("schema")=="OJO_FRANCE_TOPOLOGY_DETAIL_V1":
+                validate_detail(old, TOPO.parent)
                 return old
         except: pass
 
@@ -113,9 +123,24 @@ def ensure_topology():
       "official_communes_count":len(official_commune_codes),
       "model_note":"Administrative topology is descriptive. Special territorial arrangements must remain explicit rather than being forced into a uniform hierarchy."
     }
+    topo["detail"]=compile_detail(regions,deps,epcis,communes,official_commune_codes,list(FETCH_EVIDENCE.values()),topo["generated_at"],TOPO.parent)
+    validate_detail(topo, TOPO.parent)
     TOPO.parent.mkdir(parents=True,exist_ok=True)
-    TOPO.write_text(json.dumps(topo,ensure_ascii=False,indent=2)+"\n")
+    tmp=TOPO.with_suffix(".tmp");tmp.write_text(json.dumps(topo,ensure_ascii=False,separators=(",",":"))+"\n");tmp.replace(TOPO)
     return topo
+
+def ensure_topology():
+    try:
+        return _ensure_topology()
+    except Exception as exc:
+        old=load(TOPO,{})
+        if not old.get("detail"):
+            raise
+        validate_detail(old, TOPO.parent)
+        old["detail"].update(health="RETAINED_LAST_GOOD", last_attempt_at=now(), error=type(exc).__name__+": "+str(exc)[:240])
+        tmp=TOPO.with_suffix(".tmp");tmp.write_text(json.dumps(old,ensure_ascii=False,separators=(",",":"))+"\n");tmp.replace(TOPO)
+        print(json.dumps({"status":"TOPOLOGY_RETAINED_LAST_GOOD","error":type(exc).__name__}))
+        return old
 
 def main():
     topo=ensure_topology()
@@ -155,6 +180,8 @@ def main():
       },
       "topology":{
         "source_generated_at":topo.get("generated_at"),
+        "detail_ref":"data/france-topology.json#/detail",
+        "detail_snapshot_id":topo.get("detail",{}).get("snapshot_id"),
         "counts":topo.get("counts",{}),
         "regions":regions
       },
@@ -184,7 +211,7 @@ def main():
       "next_resolution":{
         "territorial_event_binding":"PENDING",
         "region_specific_systems":"PENDING",
-        "department_epci_commune_drilldown":"TOPOLOGY_READY",
+        "department_epci_commune_drilldown":"SHARDED_DETAILS_AVAILABLE" if topo.get("detail") else "TOPOLOGY_READY",
         "historical_backtest":"PENDING"
       }
     }

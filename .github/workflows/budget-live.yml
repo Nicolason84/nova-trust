@@ -13,6 +13,8 @@ on:
       - "docs/data/environment-live.json"
       - "docs/data/organism-state.json"
       - "scripts/update_france_organism.py"
+      - "scripts/france_topology_detail.py"
+      - "scripts/test_france_topology_detail.py"
       - "docs/data/france-organism.json"
       - "docs/data/france-topology.json"
   schedule:
@@ -45,7 +47,10 @@ jobs:
         run: python3 scripts/update_organism_model.py
 
       - name: Model France organism
-        run: python3 scripts/update_france_organism.py
+        run: |
+          PYTHONPATH=scripts python3 scripts/test_france_topology_detail.py
+          python3 scripts/update_france_organism.py
+          PYTHONPATH=scripts python3 -c "import json; from france_topology_detail import validate_detail; print(validate_detail(json.load(open('docs/data/france-topology.json')), 'docs/data'))"
 
       - name: Validate organism invariants
         shell: bash
@@ -99,7 +104,7 @@ jobs:
           fi
           git config user.name "ojo-reality-pulse[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add docs/data/budget-2027-live.json docs/data/environment-live.json docs/data/organism-state.json docs/data/france-organism.json docs/data/france-topology.json
+          git add docs/data/budget-2027-live.json docs/data/environment-live.json docs/data/organism-state.json docs/data/france-organism.json docs/data/france-topology.json docs/data/france-topology-detail
           git commit -m "data: France organism pulse"
           # Preserve independently updated organs when their pulses share main.
           for attempt in 1 2 3; do

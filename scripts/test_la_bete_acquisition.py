@@ -2,7 +2,7 @@ import copy
 import json
 import unittest
 from pathlib import Path
-from la_bete_acquisition import build_acquisition, dispatch_once, digest, verify_received_document
+from la_bete_acquisition import build_acquisition, build_initiatives, dispatch_once, digest, verify_received_document
 
 ROOT = Path(__file__).resolve().parents[1]
 LIVE = json.loads((ROOT / 'docs/data/france-debt-rate-live.json').read_text())
@@ -107,5 +107,20 @@ class AcquisitionTests(unittest.TestCase):
         class Verifier:
             def verify(self, doc): return {'official_provenance': True}
         self.assertEqual(verify_received_document({}, trusted_verifier=Verifier())['state'], 'NEEDS_REVIEW')
+
+class InitiativeTests(unittest.TestCase):
+    def test_unique_and_stable_preparations(self):
+        a=build_initiatives(LIVE);b=build_initiatives(LIVE)
+        self.assertEqual(a,b);self.assertEqual(len({x['id'] for x in a}),3)
+    def test_no_outbound_claim_or_automatic_publication(self):
+        for x in build_initiatives(LIVE):
+            self.assertEqual(x['state'],'DRAFT_READY');self.assertEqual(x['external_action'],'NOT_EXECUTED');self.assertFalse(x['automatic_publication'])
+    def test_contact_is_institutional_and_needs_reverification(self):
+        x=build_initiatives(LIVE)[0]
+        self.assertTrue(x['contact']['recheck_before_send']);self.assertIn('lannuaire.service-public.gouv.fr',x['contact']['source_url'])
+        self.assertNotIn('Jean-François',x['draft'])
+    def test_media_are_scripts_not_completed_productions(self):
+        for x in build_initiatives(LIVE)[1:]:
+            self.assertEqual(x['production']['release'],'Non publié');self.assertGreater(len(x['transcript']),100)
 
 if __name__ == '__main__': unittest.main(verbosity=2)

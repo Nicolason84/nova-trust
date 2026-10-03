@@ -49,3 +49,9 @@
  .muAtlasWithPresence #beastTag{font-size:8px;bottom:5px;padding:7px 8px}
 }
 @media(max-width:380px){.mu-atlas-home .muTitle>p{font-size:9px}.muAtlasWithPresence .muAtlasScene{height:275px;min-height:275px}.muPresenceCaption{font-size:7px}.muPresenceActions{gap:9px}}
+
+/* Detailed territorial catalog: bounded lists, readable metadata, no second scene. */
+.muTerritorySearch{display:flex;gap:10px;padding:16px;border:1px solid var(--mu-line);border-radius:13px;margin:20px 0;background:rgba(16,30,40,.65)}
+.muTerritorySearch input{flex:1;min-width:0;background:#0a141d;color:var(--mu-ink);border:1px solid #5d727f;border-radius:8px;padding:12px;font:inherit;font-size:15px}
+.muTerritorySearch input::placeholder{color:#a9b6bf}.muCatalogDetails{border:1px solid var(--mu-line);border-radius:15px;margin:25px 0;padding:18px}.muCatalogDetails>summary{cursor:pointer;min-height:40px;font-size:15px;color:#e5d3c1}.muCatalogDetails .muCards{grid-template-columns:repeat(auto-fit,minmax(215px,1fr))}.muRelationsList{min-width:0}.muRelationsList .muObjectCard{margin:10px 0}.muCatalogDetails h2{margin-top:26px}
+@media(max-width:650px){.muTerritorySearch{flex-direction:column;padding:12px}.muTerritorySearch button{width:100%}.muCatalogDetails{padding:13px}.muCatalogDetails .muCards{grid-template-columns:1fr}}
