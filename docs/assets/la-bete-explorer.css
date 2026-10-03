@@ -10,3 +10,42 @@
 
 .muApp .muEyebrow,.muApp .muBrandSub{color:var(--mu-copper)}
 .muApp{background:radial-gradient(ellipse at 69% 12%,color-mix(in srgb,var(--supra-red,#8d2936) 20%,transparent),transparent 43%),radial-gradient(ellipse at 19% 65%,color-mix(in srgb,var(--beast-cyan,#2d8290) 14%,transparent),transparent 48%),var(--supra-night,#090f15)}
+
+/* Presence repair: the SAME beast stage is the Atlas focus, never a duplicate canvas. */
+.muPresenceShortcut{display:inline-flex;align-items:center;min-height:44px;padding:10px 12px;border:1px solid var(--mu-line);border-radius:10px;color:#e0b997!important;font-size:12px}
+.mu-atlas-home .muTitle{padding:18px 0 16px}.mu-atlas-home .muTitle h1{margin:8px 0 9px;font-size:46px}.mu-atlas-home .muTitle>p{font-size:12px;max-width:none}.mu-atlas-home .muTrailbar{min-height:36px;padding-bottom:7px}
+.muAtlas.muAtlasWithPresence{height:630px;min-height:0;margin-top:0;background:radial-gradient(ellipse at 50% 48%,color-mix(in srgb,var(--supra-red,#8d2936) 15%,transparent),transparent 45%),linear-gradient(135deg,rgba(19,34,41,.52),rgba(13,16,23,.85));overflow:hidden}
+.muAtlasWithPresence:before{inset:7% 16%;opacity:.45}
+.muAtlasPresence{position:absolute;left:50%;top:16px;bottom:16px;transform:translateX(-50%);width:58%;display:flex;flex-direction:column;justify-content:center;z-index:1;margin:0;padding:0;min-width:0}
+.muAtlasScene{height:510px;min-height:320px;flex:1;position:relative;min-width:0}
+.muAtlasWithPresence #beastStage{height:100%;min-height:0!important;width:100%;border-radius:22px;background:transparent;touch-action:pan-y pinch-zoom}
+.muAtlasWithPresence #beastStage::after{display:none}.muAtlasWithPresence #beastStage::before{inset:13% 12%;box-shadow:0 0 0 30px #8fabad03,0 0 0 60px #8fabad02}
+.muAtlasWithPresence #beastMount{inset:0;width:100%;height:100%}.muAtlasWithPresence #beastMount canvas{width:100%;height:100%;touch-action:pan-y pinch-zoom}
+.muAtlasWithPresence .beastHud,.muAtlasWithPresence .beastMatter{display:none}.muAtlasWithPresence #beastTag{left:50%;bottom:10px;width:calc(100% - 16px);font-size:10px;padding:9px 11px;line-height:1.5}
+.muAtlasWithPresence #beastStage:has(#beastMount.webgl-ready) #beastTag{display:none}
+.muPresenceCaption{font-size:9px;line-height:1.6;color:#a6b5bc;text-align:center;margin:6px 0 12px;padding:0 5px}
+.muPresenceActions{display:flex;align-items:center;justify-content:center;gap:12px;min-height:52px;padding:0 7px}
+.muAtlasWithPresence .muAtlasCore{position:static;transform:none;inset:auto;width:auto;min-height:48px;border-radius:12px;padding:8px 17px;display:grid;grid-template-columns:auto auto;gap:1px 16px;text-align:left;background:linear-gradient(120deg,rgba(102,42,43,.67),rgba(25,33,43,.83));box-shadow:none}
+.muAtlasWithPresence .muAtlasCore>span{font-size:7px;grid-column:1;letter-spacing:.12em}.muAtlasWithPresence .muAtlasCore>strong{grid-column:1;font:400 22px/1.05 Georgia,serif;margin:0}.muAtlasWithPresence .muAtlasCore>small{grid-column:2;grid-row:1/3;font-size:10px;align-self:center}
+.muPresenceDetail{font-size:11px;color:#cdbba9!important;border-bottom:1px solid rgba(201,152,110,.4);padding:10px 4px;white-space:nowrap}
+.muAtlasWithPresence .muUniverse{width:19%;min-height:110px;transform:none!important;left:auto;right:auto;top:auto;bottom:auto;padding:16px 13px;z-index:2}
+.muAtlasWithPresence .muUniverse strong{font-size:13px;padding-right:8px;margin-top:4px}.muAtlasWithPresence .muUniverse small{font-size:10px}.muAtlasWithPresence .muUniverseCount{font-size:9px;margin-top:10px}.muAtlasWithPresence .muSymbol{font-size:16px;right:8px;top:7px}
+.muAtlasWithPresence .muUniverse-0{left:2%;top:5%}.muAtlasWithPresence .muUniverse-3{left:2%;top:28%}.muAtlasWithPresence .muUniverse-5{left:2%;top:51%}.muAtlasWithPresence .muUniverse-6{left:2%;top:74%}
+.muAtlasWithPresence .muUniverse-1{right:2%;top:5%}.muAtlasWithPresence .muUniverse-2{right:2%;top:28%}.muAtlasWithPresence .muUniverse-4{right:2%;top:51%}.muAtlasWithPresence .muUniverse-7{right:2%;top:74%}
+@media(min-width:1700px){.muAtlas.muAtlasWithPresence{height:710px}.muAtlasWithPresence .muUniverse{min-height:126px;padding:20px}.muAtlasScene{height:560px}}
+@media(max-width:1200px){.muAtlas.muAtlasWithPresence{height:600px}.muAtlasWithPresence .muUniverse{padding:14px 10px}.muAtlasWithPresence .muUniverse strong{font-size:11px}.muAtlasPresence{width:58%}.muPresenceCaption{font-size:8px}.muAtlasWithPresence .muUniverse small{font-size:9px}.muHeadActions{gap:10px}.muHeadActions .muPresenceShortcut{font-size:11px;padding:9px}}
+@media(max-width:950px){.muAtlas.muAtlasWithPresence{height:610px}.muAtlasWithPresence .muUniverse{width:20%;min-height:112px}.muAtlasPresence{width:56%}.muHeader{grid-template-columns:150px minmax(120px,1fr) auto;gap:10px}.muPresenceActions{gap:8px}.muPresenceDetail{font-size:10px}}
+@media(max-width:650px){
+ .muHeader{grid-template-columns:1fr auto;min-height:118px;padding:11px 14px;gap:10px}.muBrandSub{display:none}.muHeadActions{gap:7px}.muHeadActions .muPresenceShortcut{display:inline-flex;font-size:11px;padding:8px 10px;min-height:40px}.muHeadActions button{font-size:11px;min-height:40px;padding:8px 12px}.muRail{top:118px}
+ .mu-atlas-home .muWorkspace{padding:9px 12px 22px}.mu-atlas-home .muTrailbar{display:none}.mu-atlas-home .muTitle{padding:12px 3px 14px}.mu-atlas-home .muTitle h1{font-size:34px;margin:6px 0 7px}.mu-atlas-home .muTitle>p{font-size:10px;line-height:1.6;max-width:340px}.mu-atlas-home .muEyebrow{font-size:8px;letter-spacing:.12em}
+ .muAtlas.muAtlasWithPresence{height:auto;display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:12px;overflow:hidden;border-radius:19px}
+ .muAtlasWithPresence .muAtlasPresence{position:relative;inset:auto;transform:none;width:100%;grid-column:1/-1;display:flex;margin:0 0 10px;padding:0}
+ .muAtlasWithPresence .muAtlasScene{height:clamp(275px,41dvh,345px);min-height:275px;flex:none;margin-top:-8px}
+ .muAtlasWithPresence #beastStage{border-radius:12px}.muAtlasWithPresence #beastMount canvas{filter:saturate(1.11) contrast(1.045)}
+ .muPresenceCaption{font-size:8px;margin:0 0 9px;padding:0 2px;line-height:1.55}.muPresenceActions{gap:13px;padding:0;min-height:46px}
+ .muAtlasWithPresence .muAtlasCore{grid-column:auto;width:auto;min-height:45px;padding:7px 13px;gap:1px 9px;margin:0;border-radius:10px}.muAtlasWithPresence .muAtlasCore>strong{font-size:21px}.muAtlasWithPresence .muAtlasCore>small{font-size:9px}.muPresenceDetail{font-size:10px;padding:9px 0}
+ .muAtlasWithPresence .muUniverse{position:relative!important;inset:auto!important;width:100%;min-height:110px;padding:12px;transform:none!important}
+ .muAtlasWithPresence .muUniverse strong{font-size:11px;margin-top:16px;padding:0}.muAtlasWithPresence .muUniverse small{font-size:9px}.muAtlasWithPresence .muUniverseCount{font-size:8px;margin-top:auto;padding-top:8px}
+ .muAtlasWithPresence #beastTag{font-size:8px;bottom:5px;padding:7px 8px}
+}
+@media(max-width:380px){.mu-atlas-home .muTitle>p{font-size:9px}.muAtlasWithPresence .muAtlasScene{height:275px;min-height:275px}.muPresenceCaption{font-size:7px}.muPresenceActions{gap:9px}}

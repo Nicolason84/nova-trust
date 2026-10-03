@@ -52,4 +52,8 @@ test('lazy territorial read uses existing bounded fetch',()=>assert.match(ui,/la
 test('native browser navigation and modal semantics',()=>{assert.match(ui,/history\.pushState/);assert.match(ui,/popstate/);assert.match(ui,/showModal\(/);});
 test('three is not eagerly initialized at boot',()=>{const tail=page.slice(page.indexOf('// LA_BETE_BOOT_START'));assert.doesNotMatch(tail,/^initBeast\(\);/m);assert.match(tail,/laBeteEnsurePresence/);});
 test('existing body remains no-JavaScript fallback',()=>{assert.match(page,/id="canonicalSnapshot"/);assert.match(page,/id="market-anatomy"/);assert.match(page,/id="dialogue-public"/);});
+test('Atlas mounts the single existing beast stage',()=>assert.match(ui,/mountExisting\('beastStage',scene\)/));
+test('Atlas itself requests presence initialization',()=>assert.match(ui.slice(ui.indexOf('function atlas(g)'),ui.indexOf('function factTable')),/laBeteEnsurePresence/));
+test('presence stays one-click accessible from the header',()=>assert.match(ui,/link\('La Bête','#\/presence','muPresenceShortcut'\)/));
+test('scene is moved, never cloned',()=>assert.doesNotMatch(ui,/cloneNode|new.*WebGLRenderer/));
 console.log('LA_BETE_EXPLORER_TESTS_PASS '+count);

@@ -16,7 +16,7 @@ const brand=append(el('div',undefined,'muBrandBlock'),mark,el('span','LA BÊTE /
 const searchForm=el('form',undefined,'muSearch');searchForm.setAttribute('role','search');
 const searchInput=el('input');searchInput.id='muSearchInput';searchInput.type='search';searchInput.placeholder='Un objet, une source, une question…';searchInput.maxLength=150;searchInput.setAttribute('aria-label','Rechercher dans les objets documentés');
 const searchSubmit=el('button','Rechercher');searchSubmit.type='submit';append(searchForm,searchInput,searchSubmit);
-const headActions=append(el('div',undefined,'muHeadActions'),button('Dialoguer',()=>openChat(),'muPrimary'),link('Mode lecture','#/lecture','muReadingLink'));
+const headActions=append(el('div',undefined,'muHeadActions'),link('La Bête','#/presence','muPresenceShortcut'),button('Dialoguer',()=>openChat(),'muPrimary'),link('Mode lecture','#/lecture','muReadingLink'));
 append(header,brand,searchForm,headActions);root.append(header);
 const nav=el('nav',undefined,'muRail');nav.setAttribute('aria-label','Univers explorables');nav.append(link('◉  Atlas','#/atlas','muRailAtlas'));
 M.UNIVERSES.forEach(u=>nav.append(link(u.symbol+'  '+u.label,M.route('univers',u.id))));root.append(nav);
@@ -45,23 +45,29 @@ function canonicalRoute(raw){const aliases={'#reality-pulse':'#/atlas','#dialogu
 function navigate(raw,replace=false){save();const hash=canonicalRoute(raw),base=getBase();const next={key:'mu-'+(++serial),hash,depth:replace?(current?.depth||0):(current?.depth||0)+1,scrollY:0,search:'',graph:graphFrom(base),visited:hash==='#/atlas'?[]:[...(current?.visited||[]).slice(-5),...(current?.label?[{label:current.label,hash:current.hash}]:[])]};
  current=next;const state={...(history.state||{}),mu:{key:next.key,depth:next.depth}};if(replace)history.replaceState(state,'',hash);else history.pushState(state,'',hash);renderCurrent();}
 function restoreMoves(){for(const {node,placeholder}of moves.splice(0))placeholder.replaceWith(node);}
-function mountExisting(section){const n=id(section);if(!n)return false;const p=document.createComment('mounted-existing-'+section);n.before(p);moves.push({node:n,placeholder:p});stage.append(n);return true;}
+function mountExisting(section,target=stage){const n=id(section);if(!n)return false;const p=document.createComment('mounted-existing-'+section);n.before(p);moves.push({node:n,placeholder:p});target.append(n);return true;}
 function routeLabel(parsed,g){if(parsed.kind==='objet')return g.nodes.get(parsed.id)?.label||'Objet introuvable';if(parsed.kind==='univers')return M.UNIVERSES.find(u=>u.id===parsed.id)?.label||'Univers';return ({atlas:'Atlas',lecture:'Mode lecture',presence:'Présence de La Bête',analyse:'Analyse des taux',horizons:'Horizons de refinancement',chronologie:'Temps & scénarios',sante:'État et mémoire'})[parsed.kind]||'Route inconnue';}
 function title(kicker,text,sub){const head=el('div',undefined,'muTitle');append(head,el('div',kicker,'muEyebrow'),el('h1',text),sub?el('p',sub):null);stage.append(head);}
 function card(node,relation){const a=link('',M.route('objet',node.id),'muObjectCard');a.dataset.objectId=node.id;append(a,el('span',relation||M.LABELS[node.kind]||node.kind,'muCardType'),el('strong',node.label),el('small',node.status||'Objet relié à la preuve'),el('span','Explorer ↗','muCardArrow'));return a;}
 function listCards(nodes,heading){if(heading)stage.append(el('h2',heading,'muSubhead'));const grid=el('div',undefined,'muCards');nodes.forEach(n=>grid.append(card(n)));stage.append(grid);}
 function sourceStamp(g){return 'Instantané '+g.source_snapshot_id+' · état matériel '+g.updated_at+' · dates propres à chaque source';}
 function atlas(g){
- title('UNE RÉALITÉ · PLUSIEURS CHEMINS','Entrez dans le réel.','Choisissez un univers. Traversez les objets, leurs relations et leurs preuves — sans perdre votre point de départ.');
- const map=el('div',undefined,'muAtlas');map.id='muAtlas';map.setAttribute('aria-label','Atlas navigable des univers');
- const svg=document.createElementNS('http://www.w3.org/2000/svg','svg');svg.setAttribute('viewBox','0 0 1100 540');svg.setAttribute('preserveAspectRatio','none');svg.setAttribute('aria-hidden','true');svg.classList.add('muAtlasLines');
- const points=[[170,105],[540,64],[920,100],[130,302],[960,306],[236,463],[559,484],[865,464]];
- points.forEach(([x,y])=>{const p=document.createElementNS(svg.namespaceURI,'path');p.setAttribute('d',`M 550 260 Q ${(x+550)/2} ${y<260?210:340} ${x} ${y}`);svg.append(p);});map.append(svg);
- const center=link('',M.route('objet',M.COUNTRY),'muAtlasCore');append(center,el('span','OBJET REPÈRE'),el('strong','France'),el('small','Ouvrir le pays et ses relations ↗'));map.append(center);
- M.UNIVERSES.forEach((u,i)=>{const a=link('',M.route('univers',u.id),'muUniverse muUniverse-'+i);let count=[...g.nodes.values()].filter(n=>n.universe===u.id).length;let label=u.id==='temps'?g.live.curve_history?.length+' observations':u.id==='idees'?'Dialogue & propositions':u.id==='etat'?'Mémoire opérationnelle':u.id==='territoires'&&!territories?'Pays · détail à la demande':count+' objets documentés';append(a,el('span',u.symbol,'muSymbol'),el('strong',u.label),el('small',u.subtitle),el('span',label,'muUniverseCount'));map.append(a);});
+ title('LA BÊTE · AU CŒUR DES UNIVERS','La Bête.','Explorez les univers autour de sa présence. Les objets et leurs preuves restent accessibles.');
+ const map=el('div',undefined,'muAtlas muAtlasWithPresence');map.id='muAtlas';map.setAttribute('aria-label','La Bête au centre des univers explorables');
+ const hero=el('section',undefined,'muAtlasPresence');hero.id='muAtlasPresence';hero.setAttribute('aria-label','Présence principale de La Bête');
+ const scene=el('div',undefined,'muAtlasScene');scene.id='muAtlasScene';
+ if(!mountExisting('beastStage',scene))throw Error('EXISTING_BEAST_STAGE_REQUIRED');
+ const caption=el('p','Scène existante · représentation artistique · son et caméra désactivés au départ','muPresenceCaption');
+ const actions=el('div',undefined,'muPresenceActions');
+ const center=link('',M.route('objet',M.COUNTRY),'muAtlasCore');append(center,el('span','OBJET EXPLORÉ'),el('strong','France'),el('small','Entrer ↗'));
+ append(actions,center,link('Immersion & détails','#/presence','muPresenceDetail'));
+ append(hero,scene,caption,actions);map.append(hero);
+ M.UNIVERSES.forEach((u,i)=>{const a=link('',M.route('univers',u.id),'muUniverse muUniverse-'+i);const count=[...g.nodes.values()].filter(n=>n.universe===u.id).length;const label=u.id==='temps'?g.live.curve_history?.length+' observations':u.id==='idees'?'Dialogue & propositions':u.id==='etat'?'Mémoire opérationnelle':u.id==='territoires'&&!territories?'Pays · détail à la demande':count+' objets documentés';append(a,el('span',u.symbol,'muSymbol'),el('strong',u.label),el('small',u.subtitle),el('span',label,'muUniverseCount'));map.append(a);});
  stage.append(map);
+ // One existing canvas, one initialization. Atlas is now itself a visible presence route.
+ window.laBeteEnsurePresence?.();
  const path=el('div',undefined,'muSuggested');append(path,el('div','UN PREMIER PARCOURS','muEyebrow'),el('p','France → finances publiques → dette → source → manque → démarche'),link('Commencer par la France',M.route('objet',M.COUNTRY),'muPrimary'));stage.append(path);
- stage.append(el('p','La carte décrit des chemins de lecture. La position des univers ne mesure ni causalité, ni importance politique.','muFineprint'));
+ stage.append(el('p','La présence visuelle suit le scénario et le flux existants. Ni ses mouvements ni la position des univers ne constituent une opinion ou une causalité politique.','muFineprint'));
 }
 function factTable(node,g){const dl=el('dl',undefined,'muFacts');for(const [k,v]of M.facts(node,g))append(dl,el('dt',k),el('dd',v));return dl;}
 function objectView(node,g){
@@ -99,7 +105,7 @@ function universeView(universe,g){const u=M.UNIVERSES.find(x=>x.id===universe);t
  else if(universe==='idees'){
   const p=el('div',undefined,'muIdeaIntro');append(p,el('h2','Une question peut ouvrir un chemin.'),el('p','Le dialogue reste disponible depuis chaque objet. Les messages gardent leur contexte ; une proposition n’est ni une preuve ni une décision.'),button('Ouvrir mon échange',()=>openChat(),'muPrimary'),el('p','Version actuelle : réponses structurées par règles, sans modèle de langage généraliste ni nouvelle recherche web.','muFineprint'),link('Consulter les fils publics GitHub ↗','https://github.com/Nicolason84/nova-trust/issues?q=is%3Aissue+%22%5BLA+B%C3%8ATE%5D%22'));stage.append(p);
  }else if(universe==='etat'){
-  const p=el('div',undefined,'muFeatureCards');append(p,link('◈  Mémoire et santé opérationnelle','#/sante'),link('◇  Explorer la présence 3D existante','#/presence'));stage.append(p);stage.append(el('p','La scène 3D n’est chargée qu’à sa première ouverture. Aucun accès caméra, micro ou son n’est activé par la navigation.','muGuard'));
+  const p=el('div',undefined,'muFeatureCards');append(p,link('◈  Mémoire et santé opérationnelle','#/sante'),link('◇  Explorer la présence 3D existante','#/presence'));stage.append(p);stage.append(el('p','La Bête est visible dès l’Atlas. La vue détaillée réutilise la même scène ; aucun accès caméra, micro ou son n’est activé par la navigation.','muGuard'));
  }else listCards(nodes);
 }
 function contextForChat(){const g=current?.graph;if(current?.parsed?.snapshot&&current.parsed.snapshot!==g?.source_snapshot_id)return {live:{},evolution:null,object:null,context_label:'Instantané demandé indisponible'};const node=g?.nodes.get(current?.parsed?.id);return {live:g?.live,evolution:g?.evolution,object:M.dialogueContext(node,g),route:current?.hash||'#/atlas',context_label:node?.label||current?.label||'Atlas'};}
@@ -122,8 +128,8 @@ async function renderCurrent(useLatest=false,restore=false){
    if(!territories){status('Chargement du document territorial existant…');try{await ensureTerritories();}catch(e){status('Document territorial indisponible. Aucun détail de remplacement n’est inventé.');}}
    if(token!==renderToken)return;g=current.graph=M.build(g.live,g.evolution,territories);
   }
-  if(!['presence','lecture'].includes(p.kind))window.laBeteSuspendPresence?.();
-  restoreMoves();stage.replaceChildren();legacy.hidden=true;legacy.inert=true;workspace.hidden=false;document.body.classList.remove('mu-reading');root.classList.remove('mu-reading');
+  if(!['atlas','presence','lecture'].includes(p.kind)||current.isSearch)window.laBeteSuspendPresence?.();
+  restoreMoves();root.classList.toggle('mu-atlas-home',p.kind==='atlas'&&!current.isSearch&&(!p.snapshot||p.snapshot===g.source_snapshot_id));stage.replaceChildren();legacy.hidden=true;legacy.inert=true;workspace.hidden=false;document.body.classList.remove('mu-reading');root.classList.remove('mu-reading');
   if(p.kind==='lecture'){
    legacy.hidden=false;legacy.inert=false;workspace.hidden=true;chatPlace.after(legacyChat);document.body.classList.add('mu-reading');root.classList.add('mu-reading');window.laBeteEnsurePresence?.();
   }else if(p.snapshot&&p.snapshot!==g.source_snapshot_id){
@@ -147,7 +153,7 @@ async function renderCurrent(useLatest=false,restore=false){
   status('');records.set(current.key,current);
  }catch(error){restoreMoves();chatPlace.after(legacyChat);document.body.classList.remove('mu-active');legacy.hidden=false;legacy.inert=false;root.hidden=true;console.error('MULTIUNIVERS_SAFE_FALLBACK',String(error.message));}
 }
-searchForm.addEventListener('submit',event=>{event.preventDefault();save();const q=searchInput.value.trim();if(!q){status('Écrivez un nom, un identifiant ou un thème.');return;}const results=M.search(current.graph,q);restoreMoves();stage.replaceChildren();legacy.hidden=true;legacy.inert=true;workspace.hidden=false;title('RECHERCHE DANS LE CONTEXTE CHARGÉ',q,results.length+' objet(s) trouvé(s). La recherche ne visite aucun site externe.');listCards(results);current.search=q;current.isSearch=true;status('');});
+searchForm.addEventListener('submit',event=>{event.preventDefault();save();const q=searchInput.value.trim();if(!q){status('Écrivez un nom, un identifiant ou un thème.');return;}const results=M.search(current.graph,q);window.laBeteSuspendPresence?.();root.classList.remove('mu-atlas-home');restoreMoves();stage.replaceChildren();legacy.hidden=true;legacy.inert=true;workspace.hidden=false;title('RECHERCHE DANS LE CONTEXTE CHARGÉ',q,results.length+' objet(s) trouvé(s). La recherche ne visite aucun site externe.');listCards(results);current.search=q;current.isSearch=true;status('');});
 root.addEventListener('click',event=>{const a=event.target.closest?.('a[data-mu-route]');if(!a||event.defaultPrevented||event.button!==0||event.metaKey||event.ctrlKey||event.shiftKey||event.altKey)return;event.preventDefault();navigate(a.dataset.muRoute);});
 document.addEventListener('click',event=>{if(!document.body.classList.contains('mu-active')||event.defaultPrevented)return;const a=event.target.closest?.('a[href^="#"]');if(!a||a.dataset.muRoute||event.metaKey||event.ctrlKey||event.shiftKey||event.altKey)return;const mapped=canonicalRoute(a.getAttribute('href'));if(mapped.startsWith('#/')){event.preventDefault();navigate(mapped);}});
 window.addEventListener('popstate',()=>{save();const key=history.state?.mu?.key,cached=records.get(key);current=cached||{key:key||'mu-'+(++serial),hash:canonicalRoute(location.hash),depth:history.state?.mu?.depth||0,scrollY:0,graph:graphFrom(getBase()),visited:[]};renderCurrent(false,true);});
