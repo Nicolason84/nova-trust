@@ -62,3 +62,119 @@
 .muAccessShortcuts{display:flex;flex-wrap:wrap;gap:12px;margin:19px 0}.muAccessShortcuts a{min-height:44px;padding:10px 15px;display:inline-flex;align-items:center;border:1px solid var(--mu-line);border-radius:10px;font-size:12px;color:#d8b69a}
 .muAccessGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px;margin:20px 0}.muAccessCard{padding:28px;border:1px solid var(--mu-line);border-radius:18px;background:linear-gradient(125deg,rgba(78,36,44,.4),rgba(14,32,43,.85));min-width:0;margin:20px 0}.muAccessGrid .muAccessCard{margin:0}.muAccessFeatured{grid-column:1/-1}.muAccessCard h2{font:400 30px/1.2 Georgia,serif;margin:15px 0}.muAccessCard p,.muAccessCard li{font-size:13px;line-height:1.8;color:#b8c5ce}.muAccessCard ul{padding-left:20px}.muAccessCard>a{display:inline-flex;align-items:center;min-height:44px;margin:10px 14px 10px 0;color:#b9d4e4;text-decoration:underline;text-underline-offset:3px}.muAccessCard>a.muPrimary{color:#f8e8d8;text-decoration:none}.muAccessCard details{border-top:1px solid var(--mu-line);padding:13px 0;margin:15px 0}.muAccessCard summary{cursor:pointer;font-size:14px;min-height:38px}.muAccessCard details a{color:#9ac4dd;text-decoration:underline}.muAccessCard .muFacts{font-size:11px}.muAccessConsent{display:flex;gap:12px;align-items:flex-start;font-size:12px;color:#d1c3b7;line-height:1.8;margin:24px 0}.muAccessConsent input{width:20px;height:20px;min-width:20px;accent-color:#b5805e;margin-top:3px}.muAccessCard [aria-disabled=true]{opacity:.45;cursor:not-allowed;pointer-events:none}
 @media(max-width:700px){.muAccessGrid{grid-template-columns:1fr;gap:18px}.muAccessFeatured{grid-column:auto}.muAccessCard{padding:21px 18px}.muAccessCard h2{font-size:27px}.muAccessCard .muFacts{grid-template-columns:100px minmax(0,1fr);font-size:10px}.muAccessShortcuts{gap:9px}.muAccessShortcuts a{font-size:11px}}
+
+/* CIVIC INSTITUTIONAL PALETTE V1
+   Public interface: neutral/institutional. Copper remains a signature accent; red is reserved for actual alert semantics. */
+.muApp{
+  --civic-night:#101820;
+  --civic-surface:#16212B;
+  --civic-surface-2:#24313D;
+  --civic-ink:#F3F5F4;
+  --civic-muted:#B2BEC5;
+  --civic-blue:#5B7C99;
+  --civic-sage:#6F8F86;
+  --civic-copper:#B58A62;
+  --civic-ok:#6F9B84;
+  --civic-warn:#C59C62;
+  --civic-alert:#B55E63;
+  --mu-ink:var(--civic-ink);
+  --mu-muted:var(--civic-muted);
+  --mu-copper:var(--civic-copper);
+  --mu-line:rgba(128,154,175,.28);
+  background:
+    radial-gradient(ellipse at 74% 10%,rgba(91,124,153,.16),transparent 42%),
+    radial-gradient(ellipse at 18% 68%,rgba(111,143,134,.10),transparent 48%),
+    var(--civic-night);
+}
+.muHeader{background:rgba(16,24,32,.96);border-color:var(--mu-line)}
+.muBrand{color:var(--civic-ink)!important}
+.muApp .muEyebrow,.muApp .muBrandSub{color:#9EB2C0}
+.muSearch{border-color:rgba(128,154,175,.32);background:rgba(36,49,61,.60)}
+.muSearch input::placeholder{color:#95A5AF}
+.muApp button{background:rgba(36,49,61,.78)}
+.muApp button:hover,.muApp .muActions a:hover{border-color:var(--civic-sage);background:rgba(64,84,91,.55)}
+.muApp .muPrimary{
+  border-color:var(--civic-blue);
+  background:linear-gradient(125deg,#385369,#2A3F50);
+  color:var(--civic-ink);
+}
+.muApp .muPrimary:hover{border-color:#7E9BB1;background:linear-gradient(125deg,#44647C,#314B5E)}
+.muPresenceShortcut{color:#C8D7E0!important;border-color:rgba(128,154,175,.34)}
+.muRail{background:rgba(13,22,29,.58);border-color:var(--mu-line)}
+.muRail a{color:#BCC8CE}
+.muRail a:hover{background:rgba(91,124,153,.10);color:var(--civic-ink)}
+.muRail a[aria-current="page"]{
+  color:var(--civic-ink);
+  background:linear-gradient(100deg,rgba(91,124,153,.24),rgba(111,143,134,.10));
+  border-color:rgba(91,124,153,.55);
+}
+.muTrailbar{border-color:rgba(128,154,175,.20)}
+.muBreadcrumb{color:#9FAEB7}.muBreadcrumb>span:last-child{color:#D5DEE2}
+.muTitle h1{color:var(--civic-ink)}
+.muTitle>p{color:#B4C1C8}
+.muAtlas,
+.muAtlas.muAtlasWithPresence{
+  border-color:rgba(128,154,175,.28);
+  background:
+    radial-gradient(ellipse at 50% 48%,rgba(91,124,153,.15),transparent 45%),
+    radial-gradient(ellipse at 78% 72%,rgba(111,143,134,.07),transparent 38%),
+    linear-gradient(135deg,rgba(22,36,46,.72),rgba(13,22,29,.92));
+}
+.muAtlas:before{
+  background:linear-gradient(155deg,transparent 20%,rgba(91,124,153,.055) 21%,transparent 49%,rgba(111,143,134,.05) 50%,transparent 66%);
+  border-color:rgba(128,154,175,.09);
+}
+.muAtlasLines path{stroke:rgba(125,151,169,.34)}
+.muAtlasCore{
+  border-color:#7894A8;
+  background:radial-gradient(ellipse,#314B5C,#1B2A35);
+  box-shadow:0 0 38px rgba(57,84,104,.20),inset 0 0 24px rgba(218,229,234,.04);
+}
+.muAtlasCore>span{color:#A9BECC}.muAtlasCore small{color:#BAC6CC}
+.muAtlasWithPresence .muAtlasCore{
+  background:linear-gradient(120deg,rgba(52,78,96,.88),rgba(27,42,53,.92));
+  border-color:rgba(128,154,175,.50);
+}
+.muUniverse{
+  border-color:rgba(128,154,175,.27);
+  background:linear-gradient(125deg,rgba(30,45,56,.96),rgba(16,27,36,.97));
+}
+.muUniverse:hover{border-color:#7896AB;box-shadow:0 8px 25px rgba(41,67,84,.24)}
+.muUniverse small{color:#AABBC5}
+.muUniverseCount{color:#91AA9F}
+.muSymbol{color:#829DB0}
+.muSuggested{background:rgba(24,39,49,.62)}
+.muSuggested p{color:#C4CDD1}
+.muNotice{color:var(--civic-warn)}
+.muObjectCard{background:linear-gradient(125deg,rgba(31,48,59,.90),rgba(18,30,39,.90))}
+.muObjectCard:hover{border-color:#7896AB;background:linear-gradient(125deg,rgba(39,59,72,.94),rgba(21,36,46,.94))}
+.muCardType{color:#93ADBE}
+.muObjectCard>small{color:#AEBEC7}
+.muObjectMain{background:linear-gradient(130deg,rgba(24,42,52,.82),rgba(18,29,38,.84))}
+.muTag{border-color:rgba(91,124,153,.50);color:#BBD0DC}
+.muFacts dt{color:#9EB2BF}.muFacts dd{color:#E1E6E7}
+.muGuard{border-left-color:var(--civic-warn);background:rgba(197,156,98,.08);color:#C4CDD1}
+.muDraft pre,.muProof pre{background:#0E1820}
+.muFeatureCards>a{background:linear-gradient(115deg,rgba(40,61,74,.76),rgba(20,37,47,.86))}
+.muIdeaIntro{background:rgba(31,45,55,.58)}
+.muIdeaIntro>a,.muProofBody a{color:#A9CADC}
+.muUpdate{border-color:rgba(197,156,98,.45);background:#2A2924}
+.muDialogHead,.muChat,.muProof{background:#16212B}
+.muChat,.muProof{border-color:rgba(91,124,153,.62)}
+.muChatContext{border-left-color:var(--civic-blue);background:rgba(91,124,153,.10);color:#C7D1D6}
+.muMono{color:#AFC0C9}
+.muCivicMission{border-left-color:var(--civic-sage);background:rgba(111,143,134,.10)}
+.muCivicMission a{color:#AFC7BE}
+.muAccessShortcuts a{color:#B9CDD8}
+.muAccessCard{background:linear-gradient(125deg,rgba(34,52,64,.86),rgba(18,34,44,.90))}
+.muAccessCard p,.muAccessCard li{color:#BBC8CE}
+.muAccessCard>a{color:#A9CADC}
+.muAccessCard>a.muPrimary{color:var(--civic-ink)}
+.muAccessConsent{color:#C7D0D4}
+.muAccessConsent input{accent-color:var(--civic-blue)}
+.muTerritorySearch{background:rgba(24,42,53,.72)}
+.muTerritorySearch input{background:#111D26;border-color:#607989}
+
+/* Artistic presence stays intentionally warmer than the civic chrome. */
+.muAtlasWithPresence #beastStage,
+.muAtlasWithPresence #beastMount canvas{filter:none}

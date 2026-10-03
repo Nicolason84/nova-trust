@@ -421,3 +421,51 @@ html[data-art-effects="essential"] #beastMount canvas{filter:none}
 @media(max-width:760px){.artDNAControls{display:grid;padding-inline:0}.artDNAControls>div{flex-shrink:1}.artDNAControls>span{font-size:9px}.prism-facet{width:78%;right:-35%;opacity:.38}.facet-b{left:-45%;right:auto}.fog-field{filter:blur(18px)}.prism{box-shadow:0 0 18px color-mix(in srgb,var(--supra-red) 15%,transparent)}.beast-dna .resonancePanel .systemIdentity{grid-template-columns:54px minmax(0,1fr);text-align:left;gap:12px}.beast-dna .resonancePanel .systemIdentity img{width:54px;height:54px;max-height:54px}.artDNAControls button{font-size:10px;padding:10px 12px}}
 @media(prefers-reduced-motion:reduce){.beast-dna *{animation:none!important;transition:none!important}.beast-dna{scroll-behavior:auto}}
 @media print{.prism-field,.artDNAControls,.artFilterDefs,.beast-dna::before,.beast-dna::after{display:none!important}body.beast-dna{background:#fff;color:#152127}.beast-dna :is(.realityPulse,.hero,.card,.execBand,.curvePanel,.ladderPanel,.vintage,.selfAwareness,.deltaStrip,.twinCard,.proofTrace,.evoCard,.changeReading){background:#fff;color:#152127;box-shadow:none}}
+
+/* CIVIC INSTITUTIONAL PALETTE V1 — neutral public layer.
+   La Bête keeps its copper/artistic presence; public reading surfaces avoid partisan or alarm-coded dominance. */
+:root{
+  --bg:#101820;
+  --ink:#F3F5F4;
+  --mut:#B2BEC5;
+  --line:#3C5362;
+  --art-copper:#B58A62;
+  --art-paper:#F3F5F4;
+  --art-surface:#16212B;
+  --civic-blue:#5B7C99;
+  --civic-sage:#6F8F86;
+  --civic-copper:#B58A62;
+  --civic-ok:#6F9B84;
+  --civic-warn:#C59C62;
+  --civic-alert:#B55E63;
+}
+body{
+  background:
+    radial-gradient(ellipse at 90% 0,rgba(57,87,107,.34),transparent 34%),
+    radial-gradient(ellipse at 0 42%,rgba(61,89,80,.16),transparent 31%),
+    #101820;
+}
+::selection{background:#5B7C99;color:#F3F5F4}
+.top{background:#101820eb;border-color:rgba(128,154,175,.25)}
+.topNav a{color:#C8D2D7}.topNav a:hover{color:#9FB4C4}
+.realityPulse{
+  background:
+    radial-gradient(ellipse at 94% 3%,rgba(91,124,153,.13),transparent 40%),
+    linear-gradient(135deg,#17242D,#111B23 65%,#152029);
+  border-color:rgba(128,154,175,.30);
+}
+.rpCard{background:rgba(18,31,40,.74);border-color:rgba(128,154,175,.27)}
+.rpCard:hover{background:#1B2A34;border-color:rgba(128,154,175,.48)}
+.truth{background:rgba(181,138,98,.035);border-color:rgba(181,138,98,.25)}
+.grid4{background:#16212B;border-color:rgba(128,154,175,.25)}
+.card,.chart,.curvePanel,.ladderPanel,.vintage{
+  background:linear-gradient(145deg,#192833,#111C25);
+  border-color:rgba(128,154,175,.27);
+}
+.execBand{background:linear-gradient(125deg,#1A2B33,#14212A);border-color:rgba(128,154,175,.30)}
+.evoCard{background:#17252F;border-color:rgba(128,154,175,.26)}
+.deltaStrip,.timelineMini{background:#111D26;border-color:rgba(128,154,175,.25)}
+.deltaDetail article,.twinCard,.claimCard,.proofNode,.changeReading,.changeGrid article{
+  background:linear-gradient(135deg,#172731,#111C25);
+  border-color:rgba(128,154,175,.27);
+}

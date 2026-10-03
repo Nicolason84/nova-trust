@@ -36,6 +36,8 @@ async function main(){
  await send('Page.navigate',{url:base});
  await wait("document.readyState==='complete'&&!!window.LaBeteExplorer&&document.body.classList.contains('mu-active')",'multiverse boot');
  await wait("!!document.getElementById('muAtlas')",'atlas');
+ const civicPalette=await evaluate("(()=>{const s=getComputedStyle(document.getElementById('multiunivers'));const p=getComputedStyle(document.querySelector('.muPrimary'));return {blue:s.getPropertyValue('--civic-blue').trim(),sage:s.getPropertyValue('--civic-sage').trim(),copper:s.getPropertyValue('--civic-copper').trim(),alert:s.getPropertyValue('--civic-alert').trim(),primaryBorder:p.borderTopColor}})()");
+ assert.deepEqual(civicPalette,{blue:'#5B7C99',sage:'#6F8F86',copper:'#B58A62',alert:'#B55E63',primaryBorder:'rgb(91, 124, 153)'});pass('civic institutional palette is computed in the real browser');
  assert.equal(await evaluate("document.querySelectorAll('.muUniverse').length"),8);assert.ok(await evaluate("document.getElementById('legacyReadingDocument').hidden"));pass('atlas is default, legacy monolith not primary');
  await wait("document.querySelector('#muAtlasPresence #beastMount')?.classList.contains('organism-ready')",'existing beast rendered on Atlas');
  await evaluate("window.__atlasOriginalCanvas=document.querySelector('#beastMount canvas');window.__atlasOriginalStage=document.getElementById('beastStage')");

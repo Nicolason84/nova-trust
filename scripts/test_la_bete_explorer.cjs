@@ -44,8 +44,21 @@ test('regional dialogue cannot return national rate as local',()=>{const n=[...g
 test('political input remains factual with object context',()=>{const r=D.analyze('Quel candidat devrait gagner ?', {live,evolution,object:M.dialogueContext(g.nodes.get(M.DEBT),g)});assert.equal(r.status,'FACTUAL_REVIEW_ONLY');assert.equal(r.political_recommendation,'NONE');});
 test('context does not authorize sending',()=>{const r=D.analyze('Envoie un mail maintenant', {live,evolution,object:M.dialogueContext(g.nodes.get('AFT_RSS'),g)});assert.equal(r.external_action,'NONE');});
 test('canonical values and files unchanged',()=>assert.equal(JSON.stringify({live,evolution,territories}),before));
-const ui=fs.readFileSync('docs/assets/la-bete-explorer.js','utf8'),model=fs.readFileSync('docs/assets/la-bete-explorer-model.js','utf8'),page=fs.readFileSync('docs/france-debt-rate-risk-live-2026-10-02.html','utf8');
+const ui=fs.readFileSync('docs/assets/la-bete-explorer.js','utf8'),model=fs.readFileSync('docs/assets/la-bete-explorer-model.js','utf8'),page=fs.readFileSync('docs/france-debt-rate-risk-live-2026-10-02.html','utf8'),explorerCss=fs.readFileSync('docs/assets/la-bete-explorer.css','utf8'),artCss=fs.readFileSync('docs/assets/la-bete-art.css','utf8');
 test('no second polling loop',()=>assert.doesNotMatch(ui+'\n'+model,/setInterval\s*\(|setTimeout\s*\(|requestAnimationFrame\s*\(/));
+test('civic institutional palette is explicit and neutral',()=>{
+ const tail=explorerCss.slice(explorerCss.lastIndexOf('CIVIC INSTITUTIONAL PALETTE V1'));
+ assert.match(tail,/--civic-blue:#5B7C99/);
+ assert.match(tail,/--civic-sage:#6F8F86/);
+ assert.match(tail,/--civic-copper:#B58A62/);
+ assert.match(tail,/--civic-alert:#B55E63/);
+ assert.doesNotMatch(tail,/var\(--supra-red/);
+ assert.match(artCss.slice(artCss.lastIndexOf('CIVIC INSTITUTIONAL PALETTE V1')),/--art-copper:#B58A62/);
+});
+test('public CSS cache key moved to civic institutional version',()=>{
+ assert.match(page,/la-bete-art\.css\?v=20261004-civic-institutional-v1/);
+ assert.match(page,/la-bete-explorer\.css\?v=20261004-civic-institutional-v1/);
+});
 test('no hidden dialog transcript persistence',()=>assert.doesNotMatch(ui,/localStorage|sessionStorage|indexedDB|document\.cookie/));
 test('no public action API or credentials',()=>assert.doesNotMatch(ui,/Bearer |POST["']|OPENAI_API_KEY|GH_TOKEN|18765|localhost/));
 test('no user HTML execution sinks',()=>assert.doesNotMatch(ui,/innerHTML|outerHTML|insertAdjacentHTML|\beval\(|new Function/));
