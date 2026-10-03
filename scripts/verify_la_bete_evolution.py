@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import json
 from la_bete_health_memory import validate_memory
+from la_bete_civic_design_knowhow import validate_civic_design_knowhow
 import re
 import subprocess
 import tempfile
@@ -68,6 +69,7 @@ def main() -> None:
     require(self_care.get("requires_non_regression") is True, "self care non-regression missing")
     require(len(self_model.get("limits", [])) >= 4, "self model limits missing")
     validate_memory(self_model.get("health_memory", {}))
+    validate_civic_design_knowhow(self_model.get("civic_design_knowhow", {}), live.get("snapshot_id"))
     hybrid = self_model.get("hybrid_model", {})
     require(hybrid.get("schema") == "LA_BETE_HYBRID_COMMON_GOOD_SERVICE_MODEL_V1", "hybrid model missing")
     require(hybrid.get("source_snapshot_id") == live.get("snapshot_id"), "hybrid model snapshot mismatch")
@@ -132,7 +134,7 @@ def main() -> None:
     checked = subprocess.run(["node", "--check", module_path], capture_output=True, text=True)
     require(checked.returncode == 0, "JavaScript syntax failure: " + checked.stderr.strip())
     generation = int(evolution["generation"])
-    expected_checks = ["truth", "policy", "self_model", "health_memory", "hybrid_model", "html_ids", "javascript_syntax", "rollback", "human_gates"]
+    expected_checks = ["truth", "policy", "self_model", "health_memory", "hybrid_model", "civic_design_knowhow", "html_ids", "javascript_syntax", "rollback", "human_gates"]
     verification = evolution.get("verification", {})
     if (
         verification.get("generation") != generation

@@ -60,6 +60,23 @@ class KnowHowTests(unittest.TestCase):
         self.contents['scripts/la_bete_health_memory.py']+='\n# revised method\n'
         p=build_knowhow('b'*40,self.live,self.evo,self.contents)
         self.assertNotEqual(p['method_digest'],self.package['method_digest'])
+
+    def test_civic_design_knowhow_is_in_transferable_package(self):
+        ids={x['id'] for x in self.package['patterns']}
+        self.assertTrue({'CIVIC_VISUAL_NEUTRALITY','ARTISTIC_CIVIC_SEPARATION','SEMANTIC_COLOR_DISCIPLINE','DESIGN_NON_REGRESSION'} <= ids)
+        for name in ('scripts/la_bete_civic_design_knowhow.py','docs/assets/la-bete-explorer.css','docs/assets/la-bete-art.css','scripts/test_la_bete_explorer.cjs','scripts/test_la_bete_explorer_browser.cjs'):
+            self.assertIn(name,self.package['evidence'])
+            self.assertEqual(len(self.package['evidence'][name]['sha256']),64)
+
+    def test_design_change_has_new_method_identity(self):
+        self.contents['docs/assets/la-bete-explorer.css']+='\n/* revised design method */\n'
+        p=build_knowhow('b'*40,self.live,self.evo,self.contents)
+        self.assertNotEqual(p['method_digest'],self.package['method_digest'])
+
+    def test_knowhow_transfer_remains_observe_only(self):
+        self.assertEqual(self.package['policy']['requested_action'],'OBSERVE_ONLY')
+        self.assertFalse(self.package['policy']['capability_execution'])
+        self.assertFalse(self.package['policy']['automatic_promotion'])
     def test_registry_identity_preserved(self):
         self.publish();self.route(json.loads(self.receipt.read_text())['message_id'])
         self.registry.write_text('{"schema":"WRONG","authority":"NICOLAS","entries":[]}')

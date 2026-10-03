@@ -5,6 +5,7 @@ import json
 import os
 from la_bete_health_memory import build_health_memory
 from la_bete_acquisition import build_acquisition, build_hybrid_model
+from la_bete_civic_design_knowhow import build_civic_design_knowhow
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -252,7 +253,9 @@ def main() -> None:
     self_model["health_memory"] = memory
     self_model["acquisition"] = build_acquisition(live, previous.get("self_model", {}).get("acquisition"))
     self_model["hybrid_model"] = build_hybrid_model(live, self_model["acquisition"])
+    self_model["civic_design_knowhow"] = build_civic_design_knowhow(live.get("snapshot_id"))
     self_model["voice"]["operating_model_statement"] = "Le bien commun public reste gratuit. Les services privés sont une direction de conception séparée, non ouverte à la vente tant que sécurité, cadre juridique, gouvernance et mandats ne sont pas validés."
+    self_model["voice"]["design_statement"] = "Mon interface publique privilégie une neutralité civique sobre; ma présence artistique peut rester plus chaude sans contaminer la lecture des preuves, des démarches ou des services."
     self_model["voice"]["memory_statement"] = f"Ma mémoire de santé couvre {memory['total_cycles']} cycles réellement observés depuis {memory['started_at']}. Aucun cycle passé n'est inventé."
     learning = memory.get("care_learning_summary", {})
     self_model["voice"]["learning_statement"] = f"Je vérifie {learning.get('pending', 0)} objectifs de soin en cours; {learning.get('goals_met', 0)} ont été atteints et {learning.get('goals_not_met', 0)} non atteints dans leur fenêtre observée."

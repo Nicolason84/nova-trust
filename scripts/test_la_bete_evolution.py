@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 from evolve_france_debt_rate import build_dna, build_self_model
+from la_bete_civic_design_knowhow import build_civic_design_knowhow, validate_civic_design_knowhow
 
 def fixture(warnings: int, delta: float, status: str, *, unavailable: int = 0, contradicted: int = 0, maturity_live: bool = True) -> dict:
     monitored = 9
@@ -59,5 +60,17 @@ critical_live = fixture(3, 20.0, "NO_MATERIAL_CURVE_CHANGE", contradicted=2)
 critical = build_self_model(critical_live)
 assert critical["wellbeing"]["state"] == "CRITICAL", critical
 assert any(x["id"] == "SOURCE_CONTRADICTION" for x in critical["wellbeing"]["ailments"])
+
+
+knowhow = build_civic_design_knowhow("OJO-TEST")
+validate_civic_design_knowhow(knowhow, "OJO-TEST")
+assert knowhow["palette"]["civic_blue"] == "#5B7C99"
+assert knowhow["palette"]["civic_sage"] == "#6F8F86"
+assert knowhow["palette"]["civic_copper"] == "#B58A62"
+assert knowhow["semantic_color_roles"]["contradiction_or_alert_only"] == "state_alert"
+assert knowhow["constraints"]["ordinary_red_emphasis"] is False
+assert knowhow["constraints"]["commercial_palette_may_signal_truth"] is False
+assert knowhow["autoevolution"]["second_runtime"] is False
+assert knowhow["autoevolution"]["proposal_only"] is True
 
 print("LA_BETE_EVOLUTION_THREE_REGIMES_AND_SELF_MODEL_PASS")
