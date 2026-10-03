@@ -1,0 +1,56 @@
+{
+  "schema": "LA_BETE_MOBILE_ACCESS_V1",
+  "verified_on": "2026-10-03",
+  "public_web": {
+    "state": "AVAILABLE",
+    "route": "#/atlas",
+    "install_kind": "HOME_SCREEN_WEB_APP_OR_SHORTCUT",
+    "offline_guaranteed": false,
+    "private_citizen_features": false,
+    "ios_help": "https://support.apple.com/fr-fr/guide/iphone/iph42ab2f3a7/ios",
+    "android_help": "https://support.google.com/chrome/answer/9658361?hl=fr&co=GENIE.Platform%3DAndroid"
+  },
+  "android": {
+    "state": "EXISTING_PREVIEW_VERIFIED",
+    "version": "0.1.1-preview",
+    "version_code": 2026100202,
+    "application_id": "com.novaera.france.beast",
+    "release_date": "2026-10-02",
+    "release_url": "https://github.com/Nicolason84/nova-trust/releases/tag/france-beast-native-0.1.1-20261002",
+    "download_url": "https://github.com/Nicolason84/nova-trust/releases/download/france-beast-native-0.1.1-20261002/La-Bete-France-0.1.1.apk",
+    "release_manifest_url": "https://github.com/Nicolason84/nova-trust/releases/download/france-beast-native-0.1.1-20261002/ANDROID_PREVIEW_RELEASE_MANIFEST_0.1.1.json",
+    "apk_sha256": "b9edd9d483c4955fb44686d48cc025ab7deb0e3aefc66e00cd9a3be06ff07005",
+    "bytes": 930431,
+    "signer_certificate_sha256": "6328098db8978ca584159c2d1f5c7831430d548cdd17d0134ba59621b5395768",
+    "signature_verification": "APK_V2_AND_V3_PASS",
+    "min_sdk": 26,
+    "permissions_observed": ["android.permission.INTERNET"],
+    "google_play_url": null,
+    "physical_device_tested_this_mission": false,
+    "latest_atlas_native_parity": false,
+    "private_citizen_features": false,
+    "source_commit": "a9f865e912974da26b720a2e74b0a83a6a91b5a3",
+    "limitations": ["Aperçu expérimental antérieur à l’Atlas multiunivers", "Distribution APK hors Google Play", "Aucune garantie d’audit ou de compatibilité physique", "Pas de dossier privé citoyen ni connexion administrative"]
+  },
+  "ios": {
+    "state": "NO_INSTALLABLE_RELEASE_VERIFIED",
+    "app_store_url": null,
+    "testflight_url": null,
+    "ipa_url": null,
+    "native_source_candidate": "EXISTING_20261002_NATIVE_CLIENT_TO_RECONCILE",
+    "native_companion": "SEPARATE_EXISTING_PRIVATE_PROJECT_NOT_REBUILT",
+    "blockers": ["Signature et provisioning de distribution", "Réconciliation du client natif existant avec le parcours actuel", "Test sur iPhone physique", "Validation du canal App Store ou TestFlight"]
+  },
+  "private_citizen": {
+    "state": "SYNTHETIC_LOCAL_PILOT_NOT_PUBLIC",
+    "public_enrolment": false,
+    "private_login_url": null,
+    "real_documents_accepted": false,
+    "administrative_connectors": "NOT_CONNECTED",
+    "independent_audit": "NOT_PERFORMED",
+    "identity_verification": "NOT_IMPLEMENTED",
+    "recovery": "BLOCKED_NOT_IMPLEMENTED",
+    "mission_issue": 3,
+    "scope": "Local passkey, document isolation, bounded authorizations and revocation tests with two fictional users only"
+  }
+}

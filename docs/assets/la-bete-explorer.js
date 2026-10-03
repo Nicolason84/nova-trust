@@ -19,7 +19,8 @@ const searchInput=el('input');searchInput.id='muSearchInput';searchInput.type='s
 const searchSubmit=el('button','Rechercher');searchSubmit.type='submit';append(searchForm,searchInput,searchSubmit);
 const headActions=append(el('div',undefined,'muHeadActions'),link('La Bête','#/presence','muPresenceShortcut'),button('Dialoguer',()=>openChat(),'muPrimary'),link('Mode lecture','#/lecture','muReadingLink'));
 append(header,brand,searchForm,headActions);root.append(header);
-const nav=el('nav',undefined,'muRail');nav.setAttribute('aria-label','Univers explorables');nav.append(link('◉  Atlas','#/atlas','muRailAtlas'));
+let mobileAccess=null;
+const nav=el('nav',undefined,'muRail');nav.setAttribute('aria-label','Univers explorables');nav.append(link('◉  Atlas','#/atlas','muRailAtlas'),link('▣  Mobile','#/mobile'),link('◇  Espace privé','#/prive'));
 M.UNIVERSES.forEach(u=>nav.append(link(u.symbol+'  '+u.label,M.route('univers',u.id))));root.append(nav);
 const workspace=el('div',undefined,'muWorkspace');
 const trailbar=el('div',undefined,'muTrailbar');
@@ -47,7 +48,7 @@ function navigate(raw,replace=false){save();const hash=canonicalRoute(raw),base=
  current=next;const state={...(history.state||{}),mu:{key:next.key,depth:next.depth}};if(replace)history.replaceState(state,'',hash);else history.pushState(state,'',hash);renderCurrent();}
 function restoreMoves(){for(const {node,placeholder}of moves.splice(0))placeholder.replaceWith(node);}
 function mountExisting(section,target=stage){const n=id(section);if(!n)return false;const p=document.createComment('mounted-existing-'+section);n.before(p);moves.push({node:n,placeholder:p});target.append(n);return true;}
-function routeLabel(parsed,g){if(parsed.kind==='objet')return M.resolveNode(g,parsed.id)?.label||'Objet introuvable';if(parsed.kind==='univers')return M.UNIVERSES.find(u=>u.id===parsed.id)?.label||'Univers';return ({atlas:'Atlas',lecture:'Mode lecture',presence:'Présence de La Bête',analyse:'Analyse des taux',horizons:'Horizons de refinancement',chronologie:'Temps & scénarios',sante:'État et mémoire'})[parsed.kind]||'Route inconnue';}
+function routeLabel(parsed,g){if(parsed.kind==='objet')return M.resolveNode(g,parsed.id)?.label||'Objet introuvable';if(parsed.kind==='univers')return M.UNIVERSES.find(u=>u.id===parsed.id)?.label||'Univers';return ({mobile:'Mobile & téléchargements',prive:'Espace privé · état du pilote',atlas:'Atlas',lecture:'Mode lecture',presence:'Présence de La Bête',analyse:'Analyse des taux',horizons:'Horizons de refinancement',chronologie:'Temps & scénarios',sante:'État et mémoire'})[parsed.kind]||'Route inconnue';}
 function title(kicker,text,sub){const head=el('div',undefined,'muTitle');append(head,el('div',kicker,'muEyebrow'),el('h1',text),sub?el('p',sub):null);stage.append(head);}
 function card(node,relation){const a=link('',M.route('objet',node.id),'muObjectCard');a.dataset.objectId=node.id;append(a,el('span',relation||M.LABELS[node.kind]||node.kind,'muCardType'),el('strong',node.label),el('small',node.status||'Objet relié à la preuve'),el('span','Explorer ↗','muCardArrow'));return a;}
 function paginatedCards(host,items,heading,key,relationMode=false){
@@ -75,6 +76,7 @@ function atlas(g){
  // One existing canvas, one initialization. Atlas is now itself a visible presence route.
  window.laBeteEnsurePresence?.();
  if(g.nodes.has('LA_BETE_CIVIC_MISSION_V1')){const mission=el('div',undefined,'muCivicMission');append(mission,el('strong','Au service des personnes. Sans consigne politique.'),link('Mission, limites et engagements',M.route('objet','LA_BETE_CIVIC_MISSION_V1')));stage.append(mission);}
+ const access=el('div',undefined,'muAccessShortcuts');access.id='muAccessShortcuts';append(access,link('Mobile · iPhone & Android','#/mobile'),link('Espace privé · état du pilote','#/prive'));stage.append(access);
  const path=el('div',undefined,'muSuggested');append(path,el('div','UN PREMIER PARCOURS','muEyebrow'),el('p','France → finances publiques → dette → source → manque → démarche'),link('Commencer par la France',M.route('objet',M.COUNTRY),'muPrimary'));stage.append(path);
  stage.append(el('p','La présence visuelle suit le scénario et le flux existants. Ni ses mouvements ni la position des univers ne constituent une opinion ou une causalité politique.','muFineprint'));
 }
@@ -176,6 +178,13 @@ async function renderCurrent(useLatest=false,restore=false){
    title('INSTANTANÉ NON DISPONIBLE','Ce lien vise une autre version.','Version demandée : '+p.snapshot+'. Version chargée : '+g.source_snapshot_id+'. Aucun remplacement silencieux.');stage.append(button('Ouvrir explicitement la version chargée',()=>renderCurrent(true),'muPrimary'));
   }else if(current.isSearch){title('RECHERCHE DANS LE CONTEXTE CHARGÉ',current.search,'Résultats conservés au retour.');listCards(M.search(g,current.search));}
   else if(p.kind==='atlas')atlas(g);
+  else if(p.kind==='mobile'||p.kind==='prive'){
+   try{
+    if(!window.LaBeteAccess)throw Error('ACCESS_MODULE_UNAVAILABLE');
+    if(!mobileAccess){const response=await window.laBeteReadCanonicalJSON('data/la-bete-mobile-access.json',{cache:'no-cache'});if(!response.ok)throw Error('ACCESS_MANIFEST_UNAVAILABLE');mobileAccess=window.LaBeteAccess.validate(await response.json());}
+    if(token!==renderToken)return;window.LaBeteAccess.render(stage,mobileAccess,p.kind);
+   }catch(e){title('ACCÈS NON VÉRIFIÉ','Les liens ne sont pas disponibles.','Aucun formulaire privé ni téléchargement de remplacement n’est proposé.');}
+  }
   else if(p.kind==='univers')universeView(p.id,g);
   else if(p.kind==='objet'){const node=M.resolveNode(g,p.id);if(node)objectView(node,g);else{title('OBJET NON TROUVÉ','Ce point n’est pas documenté ici.','Le lien n’est pas remplacé par un objet inventé.');stage.append(link('Revenir à l’atlas','#/atlas','muPrimary'));}}
   else if(['presence','analyse','horizons','chronologie','sante'].includes(p.kind)){
@@ -185,7 +194,7 @@ async function renderCurrent(useLatest=false,restore=false){
   }else {title('ROUTE INCONNUE','Reprendre un chemin documenté.','Cette adresse ne correspond à aucun objet ou univers pris en charge.');stage.append(link('Ouvrir l’atlas','#/atlas','muPrimary'));}
   current.label=routeLabel(p,g);trail.replaceChildren(link('Atlas','#/atlas'));
   for(const v of current.visited||[])if(v.hash!==current.hash&&v.label!=='Atlas')append(trail,el('span','/'),link(v.label,v.hash));append(trail,el('span','/'),el('span',current.label));
-  [...nav.querySelectorAll('a')].forEach(a=>{const target=a.dataset.muRoute;const active=(p.kind==='atlas'&&target==='#/atlas')||(p.kind==='univers'&&target===M.route('univers',p.id))||(p.kind==='objet'&&target===M.route('univers',M.resolveNode(g,p.id)?.universe));if(active)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current');});
+  [...nav.querySelectorAll('a')].forEach(a=>{const target=a.dataset.muRoute;const active=(['atlas','mobile','prive'].includes(p.kind)&&target===M.route(p.kind))||(p.kind==='univers'&&target===M.route('univers',p.id))||(p.kind==='objet'&&target===M.route('univers',M.resolveNode(g,p.id)?.universe));if(active)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current');});
   document.title=current.label+' · La Bête · ojO';refreshChatLabel();updateBar.hidden=true;
   if(!workspace.hidden){stage.append(el('p',sourceStamp(g),'muSnapshot'));}
   if(restore){searchInput.value=current.search||'';[...stage.querySelectorAll('details')].forEach((d,i)=>d.open=!!current.details?.[i]);window.scrollTo({top:current.scrollY||0,behavior:'instant'});const f=current.focusId?id(current.focusId):[...document.querySelectorAll('[data-mu-route]')].find(a=>a.dataset.muRoute===current.focusRoute);f?.focus({preventScroll:true});}

@@ -1,0 +1,33 @@
+'use strict';
+const fs=require('node:fs'),assert=require('node:assert/strict');
+const A=require('../docs/assets/la-bete-access.js'),M=require('../docs/assets/la-bete-explorer-model.js');
+const data=JSON.parse(fs.readFileSync('docs/data/la-bete-mobile-access.json','utf8'));let passed=0;
+function test(label,f){f();passed++;console.log('PASS '+label);}
+function changed(f){const x=structuredClone(data);f(x);return x;}
+test('existing distribution manifest accepted',()=>assert.equal(A.validate(data),data));
+test('Android preview is separate from current Atlas',()=>{assert.equal(data.android.latest_atlas_native_parity,false);assert.equal(data.android.private_citizen_features,false);});
+test('verified Android public artifact digest is exact',()=>assert.equal(data.android.apk_sha256,'b9edd9d483c4955fb44686d48cc025ab7deb0e3aefc66e00cd9a3be06ff07005'));
+test('canonical released application identity',()=>assert.equal(data.android.application_id,'com.novaera.france.beast'));
+test('unknown download origin rejected',()=>assert.throws(()=>A.validate(changed(x=>x.android.download_url='https://untrusted.invalid/app.apk'))));
+test('release mismatch rejected',()=>assert.throws(()=>A.validate(changed(x=>x.android.release_url+='other'))));
+test('invalid digest rejected',()=>assert.throws(()=>A.validate(changed(x=>x.android.apk_sha256='unknown'))));
+test('unverified signature rejected',()=>assert.throws(()=>A.validate(changed(x=>x.android.signature_verification='UNKNOWN'))));
+test('no false Google Play promotion',()=>assert.throws(()=>A.validate(changed(x=>x.android.google_play_url='https://play.google.com/store/apps/details?id=fake'))));
+test('no false iOS download',()=>assert.throws(()=>A.validate(changed(x=>x.ios.ipa_url='https://example.invalid/app.ipa'))));
+test('no false App Store link',()=>assert.throws(()=>A.validate(changed(x=>x.ios.app_store_url='https://apps.apple.com/fr/app/fake'))));
+test('no false TestFlight link',()=>assert.throws(()=>A.validate(changed(x=>x.ios.testflight_url='https://testflight.apple.com/join/false'))));
+test('private login URL is forbidden until separate promotion',()=>assert.throws(()=>A.validate(changed(x=>x.private_citizen.private_login_url='http://localhost:12345'))));
+test('public citizen enrolment forbidden',()=>assert.throws(()=>A.validate(changed(x=>x.private_citizen.public_enrolment=true))));
+test('real documents not accepted',()=>assert.throws(()=>A.validate(changed(x=>x.private_citizen.real_documents_accepted=true))));
+test('install help uses official origins',()=>assert.throws(()=>A.validate(changed(x=>x.public_web.ios_help='https://untrusted.invalid/help'))));
+test('web route remains same Atlas',()=>assert.equal(data.public_web.route,'#/atlas'));
+test('mobile deep link supported by existing router',()=>assert.equal(M.parseRoute('#/mobile').kind,'mobile'));
+test('private status deep link supported without secret',()=>assert.equal(M.parseRoute('#/prive').kind,'prive'));
+const source=fs.readFileSync('docs/assets/la-bete-access.js','utf8');
+test('new public module has no login/upload or token collection',()=>assert.doesNotMatch(source,/type=['"](?:password|file)|navigator\.credentials|Bearer |localStorage|sessionStorage|indexedDB|\.cookie\s*=/));
+test('no auto-download or extra refresh loop',()=>assert.doesNotMatch(source,/setInterval\(|setTimeout\(|\.click\(\)|location\.(?:assign|replace)/));
+test('safe text rendering',()=>assert.doesNotMatch(source,/innerHTML|outerHTML|insertAdjacentHTML|eval\(/));
+test('download enabled only after preview acknowledgement',()=>{assert.match(source,/check\.checked/);assert.match(source,/removeAttribute\('href'\)/);});
+test('separate private pilot code is not shipped as public page asset',()=>assert.ok(!fs.existsSync('docs/private_pilot_ui')&&!fs.existsSync('docs/citizen_pilot.py')));
+test('existing page fallback retained',()=>{const page=fs.readFileSync('docs/france-debt-rate-risk-live-2026-10-02.html','utf8');assert.match(page,/id="beastMount"/);assert.match(page,/id="canonicalSnapshot"/);assert.match(page,/assets\/la-bete-access.js/);});
+console.log('LA_BETE_MOBILE_ACCESS_TESTS_PASS '+passed);

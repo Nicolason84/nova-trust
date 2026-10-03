@@ -4,3 +4,11 @@ runtime/
 *.pid
 *.log
 __pycache__/
+
+# No private citizen state or credentials in version control.
+*.sqlite
+*.sqlite-*
+*.pem
+*.key
+test-invitations.json
+fixture-server.json

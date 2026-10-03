@@ -197,4 +197,16 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    import sys
+    if len(sys.argv) > 1:
+        # Explicit local synthetic proof, never enabled by production HOST/PORT.
+        import argparse
+        parser=argparse.ArgumentParser()
+        parser.add_argument('--citizen-fixture-root',type=Path,required=True)
+        parser.add_argument('--citizen-fixture-port',type=int,default=0)
+        args=parser.parse_args()
+        sys.path.insert(0,str(BASE.parent))
+        from app.citizen_pilot import run_fixture_server
+        run_fixture_server(args.citizen_fixture_root,args.citizen_fixture_port)
+    else:
+        main()

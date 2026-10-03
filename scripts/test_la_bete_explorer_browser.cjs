@@ -128,10 +128,27 @@ async function main(){
  assert.ok(await evaluate("document.getElementById('muStage').textContent.includes('Bénéfice à vérifier')"));
  assert.ok(await evaluate("document.getElementById('muStage').textContent.includes('Mandat de représentation')"));pass('initiatives disclose beneficiaries, unconfirmed need and absence of representation mandate');
  await navigate('#/atlas');await screenshot('civic-atlas-mobile');
+ await navigate('#/mobile');await wait("!!document.getElementById('muMobileDownloads')",'mobile access hub');
+ assert.equal(await evaluate("document.getElementById('muAndroidDownload').hasAttribute('href')"),false);pass('experimental Android APK requires explicit preview acknowledgement');
+ assert.equal(await evaluate("[...document.querySelectorAll('#muIOSCard a')].filter(a=>a.href.includes('testflight')||a.href.includes('apps.apple.com')||a.href.endsWith('.ipa')).length"),0);
+ assert.ok(await evaluate("document.getElementById('muIOSCard').textContent.includes('Aucun fichier iPhone installable')"));pass('iPhone native release remains honestly unavailable');
+ await evaluate("document.getElementById('muAndroidConsent').checked=true;document.getElementById('muAndroidConsent').dispatchEvent(new Event('change'))");
+ assert.equal(await evaluate("document.getElementById('muAndroidDownload').href"),'https://github.com/Nicolason84/nova-trust/releases/download/france-beast-native-0.1.1-20261002/La-Bete-France-0.1.1.apk');
+ await evaluate("document.getElementById('muAndroidConsent').checked=false;document.getElementById('muAndroidConsent').dispatchEvent(new Event('change'))");assert.equal(await evaluate("document.getElementById('muAndroidDownload').hasAttribute('href')"),false);pass('download points only to recovered verified APK and is reversible before click');
+ const mobileHubWidth=await evaluate('({viewport:innerWidth,document:document.documentElement.scrollWidth})');assert.ok(mobileHubWidth.document<=mobileHubWidth.viewport+2);await screenshot('mobile-hub-mobile');pass('mobile download hub fits small-screen width');
+ await send('Emulation.setDeviceMetricsOverride',{width:1440,height:1050,deviceScaleFactor:1,mobile:false});await evaluate('window.scrollTo(0,0)');await screenshot('mobile-hub-desktop');
+ await navigate('#/prive');await wait("document.querySelector('#muStage h1')?.textContent==='Vos données ne sont pas une option.'",'private boundary status');
+ assert.equal(await evaluate("document.querySelectorAll('#muStage input[type=password],#muStage input[type=file]').length"),0);
+ assert.ok(await evaluate("document.getElementById('muStage').textContent.includes('NON OUVERT AUX CITOYENS')"));pass('public private-status page has no simulated login or personal-document upload');
+ await send('Emulation.setDeviceMetricsOverride',{width:390,height:844,deviceScaleFactor:1,mobile:true});await evaluate('window.scrollTo(0,0)');await screenshot('private-boundary-mobile');
+ const mobileDirect=base.split('#')[0]+'#/mobile';await send('Page.navigate',{url:mobileDirect});await evaluate('window.__mobileReloadMarker=true');await send('Page.reload',{ignoreCache:true});
+ await wait("!window.__mobileReloadMarker&&document.readyState==='complete'&&!!document.getElementById('muMobileDownloads')",'mobile route after full reload');pass('mobile hub has a shareable direct route after reload');
+ assert.ok(!requests.some(u=>u.includes('/api/session')||u.startsWith('https://localhost')));pass('public mobile hub never probes a private account service');
+ await navigate('#/atlas');await wait("document.getElementById('beastMount').classList.contains('organism-ready')",'main beast after hub');pass('predominant Atlas presence preserved after mobile and private-status navigation');
  await send('Emulation.setScriptExecutionDisabled',{value:true});await send('Page.navigate',{url:base.split('#')[0]});await sleep(800);
  assert.ok(await evaluate("!!document.querySelector('.wrap')&&!document.getElementById('multiunivers')&&document.getElementById('realityHeadline').textContent.length>0"));pass('no-JavaScript canonical reading remains available');
  assert.equal(exceptions.length,0,'uncaught exceptions '+exceptions.join('\n'));pass('zero uncaught browser exceptions');
- const receipt={schema:'LA_BETE_MULTIUNIVERS_BROWSER_PROOF_V1',result:'PASS',tested_at:new Date().toISOString(),url:base,checks,desktop:[1440,1050],mobile_emulation:[390,844],physical_iphone:false,widths,uncaught_exceptions:exceptions.length,presence_geometry:{desktop:desktopPresence,mobile:mobilePresence},screen_captures:['commune-mobile.png','municipal-initiative-mobile.png','atlas-desktop.png','demarche-desktop.png','atlas-mobile.png','source-mobile.png','dialogue-mobile.png']};
+ const receipt={schema:'LA_BETE_MULTIUNIVERS_BROWSER_PROOF_V1',result:'PASS',tested_at:new Date().toISOString(),url:base,checks,desktop:[1440,1050],mobile_emulation:[390,844],physical_iphone:false,widths,uncaught_exceptions:exceptions.length,presence_geometry:{desktop:desktopPresence,mobile:mobilePresence},screen_captures:['mobile-hub-mobile.png','mobile-hub-desktop.png','private-boundary-mobile.png','commune-mobile.png','municipal-initiative-mobile.png','atlas-desktop.png','demarche-desktop.png','atlas-mobile.png','source-mobile.png','dialogue-mobile.png']};
  fs.writeFileSync(path.join(OUT,'browser-receipt.json'),JSON.stringify(receipt,null,2)+'\n');console.log('PROOF_DIR='+OUT);console.log(JSON.stringify(receipt));
 }
 main().catch(e=>{console.error(e.stack);fs.writeFileSync(path.join(OUT,'failure.json'),JSON.stringify({error:e.stack,exceptions,checks},null,2));process.exitCode=1;}).finally(()=>{if(socket)socket.close();if(chrome)chrome.kill('SIGTERM');if(server)server.close();});

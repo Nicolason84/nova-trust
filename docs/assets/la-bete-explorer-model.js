@@ -21,7 +21,7 @@ function parseRoute(hash){
  try{const raw=clean(hash)||'#/atlas';const index=raw.indexOf('?');const parts=(index<0?raw:raw.slice(0,index)).replace(/^#\/?/,'').split('/').map(decodeURIComponent);const q=new URLSearchParams(index<0?'':raw.slice(index+1));const snapshot=q.get('snapshot');if(snapshot&&!/^OJO-[A-Za-z0-9-]{1,100}$/.test(snapshot))return {kind:'invalid'};
  if(parts[0]==='objet'&&parts.length===2&&parts[1]&&parts[1].length<500)return {kind:'objet',id:parts[1],snapshot};
  if(parts[0]==='univers'&&parts.length===2&&UNIVERSES.some(u=>u.id===parts[1]))return {kind:'univers',id:parts[1],snapshot};
- if(['atlas','lecture','presence','analyse','horizons','chronologie','sante'].includes(parts[0])&&parts.length===1)return {kind:parts[0],snapshot};
+ if(['atlas','lecture','presence','analyse','horizons','chronologie','sante','mobile','prive'].includes(parts[0])&&parts.length===1)return {kind:parts[0],snapshot};
  return {kind:'invalid'};
  }catch(_){return {kind:'invalid'};}
 }

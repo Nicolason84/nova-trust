@@ -1,0 +1,80 @@
+{
+  "schema": "OJO_PRIVATE_CITIZEN_SYNTHETIC_PROOF_V1",
+  "verdict": "LOCAL_SYNTHETIC_PILOT_TESTED_NOT_PRODUCTION",
+  "recorded_at": "2026-10-03T20:36:45.839916+00:00",
+  "unit_tests": 37,
+  "browser": {
+    "schema": "OJO_CITIZEN_PRIVATE_SYNTHETIC_BROWSER_PROOF_V1",
+    "status": "PASS",
+    "tested_at": "2026-10-03T20:26:34.976Z",
+    "checks": [
+      "private dossier unavailable without server-validated authentication",
+      "missing or mismatched Origin cannot invoke state-changing routes",
+      "exact Host guard prevents rebinding to an unapproved origin",
+      "private responses are no-store, no cross-origin wildcard and non-frameable",
+      "first synthetic user enrolled by verified resident WebAuthn credential",
+      "session cookie is Secure HttpOnly SameSite Strict and absent from script-readable cookies",
+      "separate WebAuthn approval binds document hash and ten-minute limited mandate",
+      "two requests reuse one approved document with no repeated enrolment",
+      "bounded fixture submission returns an explicit non-administrative receipt",
+      "dispatch_once and durable claim prevent a duplicate fixture submission",
+      "uploads, private free-form records and signature authority are not accepted by pilot routes",
+      "second synthetic user has an independent verified credential and session",
+      "cross-citizen document, preparation, revocation, export-view and receipt access denied",
+      "existing passkey reconnects without registration or document resubmission",
+      "actual signed assertion replay rejected after challenge consumption",
+      "tampered signed assertion rejected by maintained WebAuthn verifier",
+      "server rejects valid authenticator possession without required user verification",
+      "mandate revocation blocks both preparation and subsequent fixture submission",
+      "document change invalidates previous approval instead of silently reusing it",
+      "private test interface fits 390px viewport without horizontal overflow",
+      "all-access revocation invalidates old sessions and credentials, no fake recovery bypass",
+      "revoking A does not revoke or leak B",
+      "logout revokes server state even if a stale cookie is restored",
+      "private page sends no request to a third-party service",
+      "zero unhandled browser exceptions"
+    ],
+    "auth": "REAL_WEBAUTHN_SIGNATURE_VERIFICATION_WITH_CHROME_VIRTUAL_AUTHENTICATOR",
+    "tls": "LOCAL_SELF_SIGNED_TEST_CERTIFICATE_PINNED_FOR_TEST_BROWSER",
+    "publicly_trusted_tls": false,
+    "subjects": 2,
+    "real_citizen_data_used": false,
+    "real_administrative_submissions": 0,
+    "production_private_service": false,
+    "physical_iphone": false,
+    "independent_audit": false,
+    "desktop": [
+      1200,
+      950
+    ],
+    "mobile_emulation": [
+      390,
+      844
+    ],
+    "cookie_flags": {
+      "secure": true,
+      "httpOnly": true,
+      "sameSite": "Strict"
+    },
+    "private_state_published": false
+  },
+  "reused_dispatch": "scripts.la_bete_acquisition.dispatch_once",
+  "source_sha256": {
+    "app/citizen_pilot.py": "faee1eb1f15ff28668be97eabfd2258e787e579d7f91d2707479c621aa0331b4",
+    "app/citizen-pilot-requirements.txt": "47fca4eb0afd5eb3837e54c4162e389082f485b561075e991c9260ac41dc1a17",
+    "app/private_pilot_ui/citizen_pilot.js": "30b5259d9b7cbe3026a6f80c296a589e59c56b8254c777e40c2c2e3c0682e26a",
+    "scripts/test_citizen_pilot.py": "9e500c729091fcd54a3ffa23f47bbfbb4fb04fcfb2ca7e15ffec8a6abbe21345",
+    "scripts/test_citizen_pilot_browser.cjs": "e70a782b8a03740aee0504fd9eb52c1f98b403bd70d75fa67abdd5f20bd5734e"
+  },
+  "public_service_started": false,
+  "real_citizen_data": false,
+  "external_administrative_connections": false,
+  "independent_security_audit": false,
+  "keys_tokens_databases_in_this_receipt": false,
+  "account_recovery": "NOT_IMPLEMENTED_REFUSED",
+  "identity_verification": "NOT_IMPLEMENTED",
+  "live_mission_status": "OPEN",
+  "encryption_scope": "SYNTHETIC_DOCUMENT_BODIES_AEAD_NOT_ALL_METADATA",
+  "key_management": "LOCAL_TEST_ONLY_NOT_MANAGED_PRODUCTION_KMS",
+  "tls": "LOCAL_TEST_CERTIFICATE_PINNED_ONLY_FOR_OWN_TEST_BROWSER"
+}
