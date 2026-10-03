@@ -4,7 +4,7 @@ from __future__ import annotations
 import json
 import os
 from la_bete_health_memory import build_health_memory
-from la_bete_acquisition import build_acquisition
+from la_bete_acquisition import build_acquisition, build_hybrid_model
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -220,6 +220,8 @@ def build_self_model(live: dict) -> dict:
             "may_change_truth": False,
             "may_make_political_recommendation": False,
             "may_bypass_human_gate": False,
+            "may_activate_commercial_service": False,
+            "may_change_cooperative_governance": False,
             "requires_non_regression": True,
         },
         "limits": [
@@ -249,6 +251,8 @@ def main() -> None:
     memory = build_health_memory(live, self_model, previous.get("self_model", {}).get("health_memory"), observation)
     self_model["health_memory"] = memory
     self_model["acquisition"] = build_acquisition(live, previous.get("self_model", {}).get("acquisition"))
+    self_model["hybrid_model"] = build_hybrid_model(live, self_model["acquisition"])
+    self_model["voice"]["operating_model_statement"] = "Le bien commun public reste gratuit. Les services privés sont une direction de conception séparée, non ouverte à la vente tant que sécurité, cadre juridique, gouvernance et mandats ne sont pas validés."
     self_model["voice"]["memory_statement"] = f"Ma mémoire de santé couvre {memory['total_cycles']} cycles réellement observés depuis {memory['started_at']}. Aucun cycle passé n'est inventé."
     learning = memory.get("care_learning_summary", {})
     self_model["voice"]["learning_statement"] = f"Je vérifie {learning.get('pending', 0)} objectifs de soin en cours; {learning.get('goals_met', 0)} ont été atteints et {learning.get('goals_not_met', 0)} non atteints dans leur fenêtre observée."
@@ -287,8 +291,11 @@ def main() -> None:
             "bounded_self_care": True,
             "persistent_health_memory": True,
             "external_action": False,
+            "public_truth_paywall": False,
+            "second_evolution_runtime": False,
+            "commercial_activation": False,
             "rollback_required": True,
-            "human_gate": ["truth", "sources", "claims", "security", "privacy", "camera", "political_semantics", "self_modification"],
+            "human_gate": ["truth", "sources", "claims", "security", "privacy", "camera", "political_semantics", "self_modification", "pricing", "payments", "customer_onboarding", "legal_scope", "external_action", "governance_commitment"],
         },
         "previous_dna": previous.get("dna"),
         "receipts": receipts,

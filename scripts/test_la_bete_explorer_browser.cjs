@@ -128,6 +128,16 @@ async function main(){
  assert.ok(await evaluate("document.getElementById('muStage').textContent.includes('Bénéfice à vérifier')"));
  assert.ok(await evaluate("document.getElementById('muStage').textContent.includes('Mandat de représentation')"));pass('initiatives disclose beneficiaries, unconfirmed need and absence of representation mandate');
  await navigate('#/atlas');await screenshot('civic-atlas-mobile');
+ await navigate('#/public');await wait("document.querySelector('#muStage h1')?.textContent==='Comprendre, vérifier, participer.'",'public common good route');
+ assert.ok(await evaluate("document.getElementById('muStage').textContent.includes('AUCUN')&&document.getElementById('muStage').textContent.includes('VÉRITÉ PUBLIQUE VENDABLE')"));pass('public truth is explicitly free and not saleable');
+ await navigate('#/agir');assert.ok(await evaluate("document.getElementById('muStage').textContent.includes('PROPOSAL_ONLY')"));
+ assert.ok(await evaluate("document.getElementById('muStage').textContent.includes('ne vaut ni mandat ni exécution')"));pass('agir exposes bounded autoevolution without external authority');
+ await navigate('#/scic');assert.ok(await evaluate("document.getElementById('muStage').textContent.includes('TO_FORMALIZE_NOT_A_VERIFIED_REGISTERED_ENTITY')"));
+ assert.ok(await evaluate("document.getElementById('muStage').textContent.includes('ne prétend pas qu’une SCIC est déjà immatriculée')"));pass('SCIC route is a governance direction, not a false legal-entity claim');
+ await navigate('#/services');assert.ok(await evaluate("document.getElementById('muStage').textContent.includes('DESIGN_ONLY_NOT_FOR_SALE')"));
+ assert.ok(await evaluate("document.getElementById('muStage').textContent.includes('NOT_CONNECTED')"));
+ assert.equal(await evaluate("document.querySelectorAll('#muStage input,#muStage form').length"),0);
+ assert.ok(await evaluate("document.getElementById('muStage').textContent.includes('second runtime : NON')"));pass('private services remain optional, unpriced and on the single evolution runtime');
  await navigate('#/mobile');await wait("!!document.getElementById('muMobileDownloads')",'mobile access hub');
  assert.equal(await evaluate("document.getElementById('muAndroidDownload').hasAttribute('href')"),false);pass('experimental Android APK requires explicit preview acknowledgement');
  assert.equal(await evaluate("[...document.querySelectorAll('#muIOSCard a')].filter(a=>a.href.includes('testflight')||a.href.includes('apps.apple.com')||a.href.endsWith('.ipa')).length"),0);

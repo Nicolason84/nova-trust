@@ -116,6 +116,148 @@ def build_initiatives(live):
           "verified_result":"NONE", "representation_mandate":"NONE"}
     return [outreach,audio,video]
 
+
+def build_hybrid_model(live, acquisition):
+    """Project the SCIC/common-good + optional private-service model inside the
+    existing verified evolution. It creates no legal entity, payment rail,
+    customer account, private datastore or second autonomous runtime.
+    """
+    if live.get("schema") != "OJO_FRANCE_DEBT_RATE_LIVE_V1":
+        raise ValueError("CANONICAL_POLICY_MISMATCH")
+    if acquisition.get("schema") != SCHEMA or acquisition.get("source_snapshot_id") != live.get("snapshot_id"):
+        raise ValueError("ACQUISITION_SNAPSHOT_MISMATCH")
+    if acquisition.get("automatic_truth_change") is not False:
+        raise ValueError("AUTOMATIC_TRUTH_CHANGE_FORBIDDEN")
+
+    gap_count = len(acquisition.get("requests", []))
+    initiative_count = len(acquisition.get("initiatives", []))
+    warnings = int(live.get("summary", {}).get("warnings", 0) or 0)
+    if gap_count:
+        next_move = {
+            "id": "PUBLIC_ACTION_PATH",
+            "state": "PROPOSAL_ONLY",
+            "reason": f"{gap_count} démarche(s) publique(s) préparée(s) restent sans envoi ni mandat.",
+            "action": "Rendre la chaîne preuve → manque → démarche → résultat plus lisible et mesurable, sans exécuter l’action extérieure.",
+        }
+    elif warnings:
+        next_move = {
+            "id": "EVIDENCE_STRENGTHENING",
+            "state": "PROPOSAL_ONLY",
+            "reason": f"{warnings} source(s) demandent encore une attention explicite.",
+            "action": "Renforcer les preuves, limites et voies de correction avant toute extension de service.",
+        }
+    else:
+        next_move = {
+            "id": "CIVIC_FEEDBACK_LEARNING",
+            "state": "PROPOSAL_ONLY",
+            "reason": "Aucun manque de source prioritaire n’est actuellement préparé.",
+            "action": "Observer les retours citoyens consentis et proposer des améliorations bornées sans déduire une demande commerciale des simples visites.",
+        }
+
+    return {
+        "schema": "LA_BETE_HYBRID_COMMON_GOOD_SERVICE_MODEL_V1",
+        "source_snapshot_id": live.get("snapshot_id"),
+        "mode": "PUBLIC_COMMON_GOOD_PLUS_OPTIONAL_PRIVATE_SERVICES",
+        "public_common_good": {
+            "access": "FREE",
+            "always_free": True,
+            "paywall": False,
+            "scope": [
+                "Information publique sourcée et niveaux de confiance",
+                "Atlas, sources, preuves, chronologies et limites",
+                "Dialogue, contradiction, correction et participation citoyenne publique",
+                "Préparation de démarches portant sur des informations et services publics",
+            ],
+            "saleable_public_truth": False,
+            "saleable_political_influence": False,
+            "commercial_priority_may_reorder_truth": False,
+        },
+        "cooperative_direction": {
+            "label": "Direction coopérative de type SCIC",
+            "state": "TO_FORMALIZE_NOT_A_VERIFIED_REGISTERED_ENTITY",
+            "mission": "Protéger durablement le bien commun public, la pluralité des parties prenantes et la capacité de correction.",
+            "governance_direction": "Gouvernance multi-parties à formaliser juridiquement avant tout engagement.",
+            "public_asset_transfer": "NOT_EXECUTED",
+            "statutes": "NOT_ADOPTED_BY_THIS_RUNTIME",
+        },
+        "private_services": {
+            "state": "DESIGN_ONLY_NOT_FOR_SALE",
+            "customer_onboarding": "NOT_OPEN",
+            "pricing": None,
+            "payment": "NOT_CONNECTED",
+            "real_private_documents": "NOT_ACCEPTED_ON_PUBLIC_ORIGIN",
+            "requires_separate_private_boundary": True,
+            "families": [
+                {
+                    "id": "BANK_INSURANCE_MEDIATION_SUPPORT",
+                    "label": "Banque, assurance et médiation",
+                    "scope": "Organisation des faits et pièces, chronologie, brouillons, réclamations et suivi documentaire sous mandat.",
+                },
+                {
+                    "id": "ADMINISTRATIVE_CASE_SUPPORT",
+                    "label": "Dossiers administratifs",
+                    "scope": "Préparation, vérification de complétude et suivi d’un dossier autorisé par la personne.",
+                },
+                {
+                    "id": "DOCUMENTARY_LEGAL_LIGHT",
+                    "label": "Information juridique et préparation documentaire",
+                    "scope": "Information générale, chronologie, pièces et brouillons; aucun acte réservé n’est revendiqué.",
+                },
+                {
+                    "id": "QUALIFIED_PROFESSIONAL_HANDOFF",
+                    "label": "Relais vers professionnel qualifié",
+                    "scope": "Lorsque la matière exige un professionnel réglementé, préparer le dossier et transmettre uniquement avec accord.",
+                },
+            ],
+            "reserved_legal_acts": "EXCLUDED_UNLESS_HANDLED_BY_A_QUALIFIED_PROFESSIONAL",
+            "external_action": "HUMAN_MANDATE_REQUIRED",
+        },
+        "economic_bridge": {
+            "state": "DIRECTION_NOT_EXECUTED",
+            "principle": "Des revenus de services privés pourront contribuer à la pérennité du bien commun public, sous séparation juridique, comptable et de gouvernance à formaliser.",
+            "public_information_remains_free": True,
+            "commercial_customer_may_buy_public_truth": False,
+            "commercial_customer_may_buy_political_output": False,
+            "conflict_disclosure_required": True,
+        },
+        "autoevolution": {
+            "engine": "EXISTING_OJO_LA_BETE_VIRTUOUS_EVOLUTION_V1",
+            "second_runtime": False,
+            "cycle": ["observer", "détecter un manque documenté", "compiler une proposition bornée", "tester la non-régression", "exposer sans auto-autorisation"],
+            "signals": {
+                "documented_public_requests": gap_count,
+                "prepared_civic_initiatives": initiative_count,
+                "source_warnings": warnings,
+                "private_service_demand": "UNPROVEN_UNTIL_EXPLICIT_PRIVATE_OPT_IN",
+            },
+            "next_best_move": next_move,
+            "may_autonomously": [
+                "Réévaluer les manques déjà documentés",
+                "Préparer des propositions et parcours publics réversibles",
+                "Adapter la présentation à l’incertitude",
+                "Tester puis rejeter une évolution en cas de non-régression échouée",
+            ],
+            "may_not_autonomously": [
+                "Créer ou déclarer une entité juridique",
+                "Fixer un prix ou encaisser un paiement",
+                "Ouvrir un compte citoyen ou accepter des données privées réelles",
+                "Donner un mandat, envoyer une démarche ou représenter une personne",
+                "Changer la vérité canonique, une source ou une affirmation sans Human Gate",
+            ],
+            "human_gates": [
+                "truth", "sources", "claims", "security", "privacy", "pricing", "payments",
+                "customer_onboarding", "legal_scope", "external_action", "governance_commitment",
+            ],
+        },
+        "separation_guards": [
+            "Le bien commun public ne devient pas un produit payant.",
+            "Les besoins privés ne sont pas inférés depuis la navigation publique.",
+            "Les données privées réelles ne sont pas stockées sur l’origine publique.",
+            "Le chiffre d’affaires ne peut ni acheter une vérité, ni un classement, ni une recommandation politique.",
+            "Tout résultat privé réinjecté dans le public doit être anonymisé, vérifié et autorisé avant exposition.",
+        ],
+    }
+
 def build_acquisition(live, previous=None):
     if live.get("schema") != "OJO_FRANCE_DEBT_RATE_LIVE_V1" or live.get("policy", {}).get("political_recommendation") != "NONE":
         raise ValueError("CANONICAL_POLICY_MISMATCH")

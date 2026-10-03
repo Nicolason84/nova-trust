@@ -24,6 +24,7 @@ test('no region-specific national rate',()=>{const n=[...g.nodes.values()].find(
 test('department drilldown not fabricated',()=>assert.ok(![...g.nodes.values()].some(x=>x.kind==='DEPARTMENT')));
 test('route roundtrip canonical slash and fragment identity',()=>{const p=M.parseRoute(M.route('objet',M.COUNTRY,live.snapshot_id));assert.equal(p.id,M.COUNTRY);assert.equal(p.snapshot,live.snapshot_id);});
 test('known universe route',()=>assert.deepEqual(M.parseRoute('#/univers/demarches'),{kind:'univers',id:'demarches',snapshot:null}));
+for(const kind of ['public','agir','scic','services','prive'])test('hybrid product route '+kind,()=>assert.deepEqual(M.parseRoute('#/'+kind),{kind,snapshot:null}));
 test('unknown universe is not promoted',()=>assert.equal(M.parseRoute('#/univers/secret').kind,'invalid'));
 test('malformed escape rejected',()=>assert.equal(M.parseRoute('#/objet/%GG').kind,'invalid'));
 test('overlong object rejected',()=>assert.equal(M.parseRoute('#/objet/'+'a'.repeat(501)).kind,'invalid'));
@@ -55,6 +56,8 @@ test('existing body remains no-JavaScript fallback',()=>{assert.match(page,/id="
 test('Atlas mounts the single existing beast stage',()=>assert.match(ui,/mountExisting\('beastStage',scene\)/));
 test('Atlas itself requests presence initialization',()=>assert.match(ui.slice(ui.indexOf('function atlas(g)'),ui.indexOf('function factTable')),/laBeteEnsurePresence/));
 test('presence stays one-click accessible from the header',()=>assert.match(ui,/link\('La Bête','#\/presence','muPresenceShortcut'\)/));
+test('hybrid product surfaces reuse loaded evolution',()=>{assert.match(ui,/function hybridView\(kind,g\)/);assert.match(ui,/g\.evolution\?\.self_model\?\.hybrid_model/);assert.doesNotMatch(ui,/la-bete-hybrid.*fetch|fetch\([^)]*hybrid/i);});
+test('public and commercial boundaries are first class routes',()=>{for(const r of ['#/public','#/agir','#/scic','#/services','#/prive'])assert.ok(ui.includes(r));});
 test('scene is moved, never cloned',()=>assert.doesNotMatch(ui,/cloneNode|new.*WebGLRenderer/));
 test('Atlas preserves sensor shutdown when leaving detailed presence',()=>assert.ok(ui.includes("if(!['presence','lecture'].includes(p.kind)||current.isSearch)window.laBeteSuspendPresence?.();")));
 console.log('LA_BETE_EXPLORER_TESTS_PASS '+count);

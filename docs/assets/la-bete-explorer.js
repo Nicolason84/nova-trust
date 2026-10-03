@@ -20,7 +20,7 @@ const searchSubmit=el('button','Rechercher');searchSubmit.type='submit';append(s
 const headActions=append(el('div',undefined,'muHeadActions'),link('La Bête','#/presence','muPresenceShortcut'),button('Dialoguer',()=>openChat(),'muPrimary'),link('Mode lecture','#/lecture','muReadingLink'));
 append(header,brand,searchForm,headActions);root.append(header);
 let mobileAccess=null;
-const nav=el('nav',undefined,'muRail');nav.setAttribute('aria-label','Univers explorables');nav.append(link('◉  Atlas','#/atlas','muRailAtlas'),link('▣  Mobile','#/mobile'),link('◇  Espace privé','#/prive'));
+const nav=el('nav',undefined,'muRail');nav.setAttribute('aria-label','Univers explorables');nav.append(link('◉  Atlas','#/atlas','muRailAtlas'),link('○  Public','#/public'),link('↗  Agir','#/agir'),link('◇  SCIC','#/scic'),link('◆  Services','#/services'),link('◇  Espace privé','#/prive'),link('▣  Mobile','#/mobile'));
 M.UNIVERSES.forEach(u=>nav.append(link(u.symbol+'  '+u.label,M.route('univers',u.id))));root.append(nav);
 const workspace=el('div',undefined,'muWorkspace');
 const trailbar=el('div',undefined,'muTrailbar');
@@ -48,7 +48,7 @@ function navigate(raw,replace=false){save();const hash=canonicalRoute(raw),base=
  current=next;const state={...(history.state||{}),mu:{key:next.key,depth:next.depth}};if(replace)history.replaceState(state,'',hash);else history.pushState(state,'',hash);renderCurrent();}
 function restoreMoves(){for(const {node,placeholder}of moves.splice(0))placeholder.replaceWith(node);}
 function mountExisting(section,target=stage){const n=id(section);if(!n)return false;const p=document.createComment('mounted-existing-'+section);n.before(p);moves.push({node:n,placeholder:p});target.append(n);return true;}
-function routeLabel(parsed,g){if(parsed.kind==='objet')return M.resolveNode(g,parsed.id)?.label||'Objet introuvable';if(parsed.kind==='univers')return M.UNIVERSES.find(u=>u.id===parsed.id)?.label||'Univers';return ({mobile:'Mobile & téléchargements',prive:'Espace privé · état du pilote',atlas:'Atlas',lecture:'Mode lecture',presence:'Présence de La Bête',analyse:'Analyse des taux',horizons:'Horizons de refinancement',chronologie:'Temps & scénarios',sante:'État et mémoire'})[parsed.kind]||'Route inconnue';}
+function routeLabel(parsed,g){if(parsed.kind==='objet')return M.resolveNode(g,parsed.id)?.label||'Objet introuvable';if(parsed.kind==='univers')return M.UNIVERSES.find(u=>u.id===parsed.id)?.label||'Univers';return ({public:'Bien commun public',agir:'Agir',scic:'SCIC · direction coopérative',services:'Services privés',mobile:'Mobile & téléchargements',prive:'Espace privé · état du pilote',atlas:'Atlas',lecture:'Mode lecture',presence:'Présence de La Bête',analyse:'Analyse des taux',horizons:'Horizons de refinancement',chronologie:'Temps & scénarios',sante:'État et mémoire'})[parsed.kind]||'Route inconnue';}
 function title(kicker,text,sub){const head=el('div',undefined,'muTitle');append(head,el('div',kicker,'muEyebrow'),el('h1',text),sub?el('p',sub):null);stage.append(head);}
 function card(node,relation){const a=link('',M.route('objet',node.id),'muObjectCard');a.dataset.objectId=node.id;append(a,el('span',relation||M.LABELS[node.kind]||node.kind,'muCardType'),el('strong',node.label),el('small',node.status||'Objet relié à la preuve'),el('span','Explorer ↗','muCardArrow'));return a;}
 function paginatedCards(host,items,heading,key,relationMode=false){
@@ -76,9 +76,49 @@ function atlas(g){
  // One existing canvas, one initialization. Atlas is now itself a visible presence route.
  window.laBeteEnsurePresence?.();
  if(g.nodes.has('LA_BETE_CIVIC_MISSION_V1')){const mission=el('div',undefined,'muCivicMission');append(mission,el('strong','Au service des personnes. Sans consigne politique.'),link('Mission, limites et engagements',M.route('objet','LA_BETE_CIVIC_MISSION_V1')));stage.append(mission);}
- const access=el('div',undefined,'muAccessShortcuts');access.id='muAccessShortcuts';append(access,link('Mobile · iPhone & Android','#/mobile'),link('Espace privé · état du pilote','#/prive'));stage.append(access);
+ const access=el('div',undefined,'muAccessShortcuts');access.id='muAccessShortcuts';append(access,link('Public · toujours gratuit','#/public'),link('Agir · du fait à la démarche','#/agir'),link('SCIC · gouvernance à formaliser','#/scic'),link('Services · optionnels et séparés','#/services'),link('Espace privé · sécurité avant ouverture','#/prive'),link('Mobile','#/mobile'));stage.append(access);
  const path=el('div',undefined,'muSuggested');append(path,el('div','UN PREMIER PARCOURS','muEyebrow'),el('p','France → finances publiques → dette → source → manque → démarche'),link('Commencer par la France',M.route('objet',M.COUNTRY),'muPrimary'));stage.append(path);
  stage.append(el('p','La présence visuelle suit le scénario et le flux existants. Ni ses mouvements ni la position des univers ne constituent une opinion ou une causalité politique.','muFineprint'));
+}
+
+function hybridView(kind,g){
+ const h=g.evolution?.self_model?.hybrid_model;
+ if(!h||h.source_snapshot_id!==g.source_snapshot_id){
+  title('MODÈLE HYBRIDE NON LIÉ','Cette vue attend le même instantané vérifié.','Aucun statut SCIC, service ou prix de remplacement n’est inventé.');
+  return;
+ }
+ const publicModel=h.public_common_good||{},coop=h.cooperative_direction||{},privateModel=h.private_services||{},bridge=h.economic_bridge||{},auto=h.autoevolution||{},acq=g.evolution?.self_model?.acquisition||{};
+ const info=(label,value)=>{const row=el('div',undefined,'muObjectCard');append(row,el('span',label,'muCardType'),el('strong',value));return row;};
+ const list=(heading,items)=>{const section=el('section',undefined,'muObjectMain');section.append(el('h2',heading,'muSubhead'));const ul=el('ul',undefined,'muSteps');(items||[]).forEach(x=>ul.append(el('li',x)));section.append(ul);return section;};
+ const cards=(items)=>{const grid=el('div',undefined,'muCards');items.forEach(x=>grid.append(info(x[0],x[1])));stage.append(grid);};
+
+ if(kind==='public'){
+  title('BIEN COMMUN PUBLIC · GRATUIT','Comprendre, vérifier, participer.','Les faits publics, leurs sources, leurs limites et les outils de participation restent accessibles sans acheter un service privé.');
+  cards([['ACCÈS',publicModel.access||'UNKNOWN'],['PAYWALL',publicModel.paywall===false?'AUCUN':'NON VÉRIFIÉ'],['VÉRITÉ PUBLIQUE VENDABLE',publicModel.saleable_public_truth===false?'NON':'NON VÉRIFIÉ'],['INFLUENCE POLITIQUE VENDABLE',publicModel.saleable_political_influence===false?'NON':'NON VÉRIFIÉ']]);
+  stage.append(list('Ce qui reste dans le bien commun',publicModel.scope));
+  const actions=el('div',undefined,'muActions');append(actions,link('Explorer l’Atlas','#/atlas','muPrimary'),link('Voir les preuves','#/univers/preuves'),link('Proposer / questionner','#/univers/idees'));stage.append(actions);
+  stage.append(el('p','Aucun chiffre d’affaires ne peut acheter une vérité, un classement ou une recommandation politique.','muFineprint'));
+ }else if(kind==='agir'){
+  title('AGIR · SOUS MANDAT','Du fait vérifié à une démarche traçable.','La Bête peut détecter un manque, préparer un dossier et proposer l’étape suivante. L’envoi, la représentation et les données privées restent sous autorisation explicite.');
+  const mission=acq.civic_mission||{},requests=acq.requests||[],initiatives=acq.initiatives||[],next=auto.next_best_move||{};
+  cards([['DÉMARCHES PUBLIQUES PRÉPARÉES',String(requests.length)],['INITIATIVES EN PRÉPARATION',String(initiatives.length)],['ACTION EXTÉRIEURE',acq.execution||'NOT_CONNECTED'],['PROCHAIN MOUVEMENT AUTOÉVOLUTIF',next.state||'NONE']]);
+  stage.append(list('Chaîne civique',mission.workflow));
+  if(next.action)stage.append(list('Proposition actuelle de La Bête',[next.reason,next.action,'Cette proposition ne vaut ni mandat ni exécution.']));
+  const actions=el('div',undefined,'muActions');append(actions,link('Ouvrir les démarches','#/univers/demarches','muPrimary'),link('Voir l’espace privé avant mandat','#/prive'));stage.append(actions);
+ }else if(kind==='scic'){
+  title('SCIC · DIRECTION À FORMALISER','Protéger le bien commun dans la gouvernance.','Cette vue décrit une direction coopérative. Elle ne prétend pas qu’une SCIC est déjà immatriculée, que ses statuts sont adoptés ou qu’un engagement juridique existe.');
+  cards([['ÉTAT',coop.state||'UNKNOWN'],['STATUTS',coop.statutes||'UNKNOWN'],['TRANSFERT D’ACTIF PUBLIC',coop.public_asset_transfer||'UNKNOWN'],['PONT ÉCONOMIQUE',bridge.state||'UNKNOWN']]);
+  stage.append(list('Mission coopérative',[coop.mission,coop.governance_direction].filter(Boolean)));
+  stage.append(list('Séparation à préserver',h.separation_guards));
+  if(bridge.principle)stage.append(list('Principe économique',[bridge.principle,'L’information publique reste gratuite : '+(bridge.public_information_remains_free===true?'OUI':'NON VÉRIFIÉ')]));
+ }else if(kind==='services'){
+  title('SERVICES PRIVÉS · OPTIONNELS','Aider davantage sans privatiser le bien commun.','Le catalogue est une architecture de service, pas une offre commerciale ouverte. Aucun prix, paiement ni onboarding citoyen n’est activé ici.');
+  cards([['ÉTAT',privateModel.state||'UNKNOWN'],['ONBOARDING',privateModel.customer_onboarding||'UNKNOWN'],['PAIEMENT',privateModel.payment||'UNKNOWN'],['DONNÉES PRIVÉES SUR ORIGINE PUBLIQUE',privateModel.real_private_documents||'UNKNOWN']]);
+  const grid=el('div',undefined,'muCards');for(const service of privateModel.families||[]){const c=el('article',undefined,'muObjectCard');append(c,el('span',service.id,'muCardType'),el('strong',service.label),el('small',service.scope));grid.append(c);}stage.append(grid);
+  stage.append(list('Garde juridique',[privateModel.reserved_legal_acts,'Aucun acte réservé n’est revendiqué par cette couche. Un professionnel qualifié doit prendre le relais lorsque la matière l’exige.']));
+  const actions=el('div',undefined,'muActions');append(actions,link('Voir la frontière de l’espace privé','#/prive','muPrimary'),link('Revenir au bien commun','#/public'));stage.append(actions);
+ }
+ const cadence=el('p','Autoévolution : '+(auto.engine||'UNKNOWN')+' · second runtime : '+(auto.second_runtime===false?'NON':'NON VÉRIFIÉ')+' · prochaine action : proposition seulement.','muSnapshot');stage.append(cadence);
 }
 function factTable(node,g){const dl=el('dl',undefined,'muFacts');for(const [k,v]of M.facts(node,g))append(dl,el('dt',k),el('dd',v));return dl;}
 function objectView(node,g){
@@ -185,6 +225,7 @@ async function renderCurrent(useLatest=false,restore=false){
     if(token!==renderToken)return;window.LaBeteAccess.render(stage,mobileAccess,p.kind);
    }catch(e){title('ACCÈS NON VÉRIFIÉ','Les liens ne sont pas disponibles.','Aucun formulaire privé ni téléchargement de remplacement n’est proposé.');}
   }
+  else if(['public','agir','scic','services'].includes(p.kind))hybridView(p.kind,g);
   else if(p.kind==='univers')universeView(p.id,g);
   else if(p.kind==='objet'){const node=M.resolveNode(g,p.id);if(node)objectView(node,g);else{title('OBJET NON TROUVÉ','Ce point n’est pas documenté ici.','Le lien n’est pas remplacé par un objet inventé.');stage.append(link('Revenir à l’atlas','#/atlas','muPrimary'));}}
   else if(['presence','analyse','horizons','chronologie','sante'].includes(p.kind)){
@@ -194,7 +235,7 @@ async function renderCurrent(useLatest=false,restore=false){
   }else {title('ROUTE INCONNUE','Reprendre un chemin documenté.','Cette adresse ne correspond à aucun objet ou univers pris en charge.');stage.append(link('Ouvrir l’atlas','#/atlas','muPrimary'));}
   current.label=routeLabel(p,g);trail.replaceChildren(link('Atlas','#/atlas'));
   for(const v of current.visited||[])if(v.hash!==current.hash&&v.label!=='Atlas')append(trail,el('span','/'),link(v.label,v.hash));append(trail,el('span','/'),el('span',current.label));
-  [...nav.querySelectorAll('a')].forEach(a=>{const target=a.dataset.muRoute;const active=(['atlas','mobile','prive'].includes(p.kind)&&target===M.route(p.kind))||(p.kind==='univers'&&target===M.route('univers',p.id))||(p.kind==='objet'&&target===M.route('univers',M.resolveNode(g,p.id)?.universe));if(active)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current');});
+  [...nav.querySelectorAll('a')].forEach(a=>{const target=a.dataset.muRoute;const active=(['atlas','public','agir','scic','services','mobile','prive'].includes(p.kind)&&target===M.route(p.kind))||(p.kind==='univers'&&target===M.route('univers',p.id))||(p.kind==='objet'&&target===M.route('univers',M.resolveNode(g,p.id)?.universe));if(active)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current');});
   document.title=current.label+' · La Bête · ojO';refreshChatLabel();updateBar.hidden=true;
   if(!workspace.hidden){stage.append(el('p',sourceStamp(g),'muSnapshot'));}
   if(restore){searchInput.value=current.search||'';[...stage.querySelectorAll('details')].forEach((d,i)=>d.open=!!current.details?.[i]);window.scrollTo({top:current.scrollY||0,behavior:'instant'});const f=current.focusId?id(current.focusId):[...document.querySelectorAll('[data-mu-route]')].find(a=>a.dataset.muRoute===current.focusRoute);f?.focus({preventScroll:true});}

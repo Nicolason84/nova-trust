@@ -2,7 +2,7 @@ import copy
 import json
 import unittest
 from pathlib import Path
-from la_bete_acquisition import build_acquisition, build_initiatives, civic_mission, dispatch_once, digest, verify_received_document
+from la_bete_acquisition import build_acquisition, build_hybrid_model, build_initiatives, civic_mission, dispatch_once, digest, verify_received_document
 
 ROOT = Path(__file__).resolve().parents[1]
 LIVE = json.loads((ROOT / 'docs/data/france-debt-rate-live.json').read_text())
@@ -129,5 +129,48 @@ class InitiativeTests(unittest.TestCase):
     def test_media_are_scripts_not_completed_productions(self):
         for x in build_initiatives(LIVE)[1:]:
             self.assertEqual(x['production']['release'],'Non publié');self.assertGreater(len(x['transcript']),100)
+
+
+class HybridModelTests(unittest.TestCase):
+    def setUp(self):
+        self.acquisition = build_acquisition(LIVE)
+        self.hybrid = build_hybrid_model(LIVE, self.acquisition)
+
+    def test_public_common_good_is_free_and_not_saleable(self):
+        public = self.hybrid['public_common_good']
+        self.assertEqual(public['access'], 'FREE')
+        self.assertTrue(public['always_free'])
+        self.assertFalse(public['paywall'])
+        self.assertFalse(public['saleable_public_truth'])
+        self.assertFalse(public['saleable_political_influence'])
+
+    def test_private_services_are_design_only(self):
+        private = self.hybrid['private_services']
+        self.assertEqual(private['state'], 'DESIGN_ONLY_NOT_FOR_SALE')
+        self.assertEqual(private['customer_onboarding'], 'NOT_OPEN')
+        self.assertIsNone(private['pricing'])
+        self.assertEqual(private['payment'], 'NOT_CONNECTED')
+        self.assertEqual(private['real_private_documents'], 'NOT_ACCEPTED_ON_PUBLIC_ORIGIN')
+        self.assertIn('QUALIFIED_PROFESSIONAL', private['reserved_legal_acts'])
+
+    def test_cooperative_direction_is_not_false_legal_entity_claim(self):
+        cooperative = self.hybrid['cooperative_direction']
+        self.assertEqual(cooperative['state'], 'TO_FORMALIZE_NOT_A_VERIFIED_REGISTERED_ENTITY')
+        self.assertEqual(cooperative['statutes'], 'NOT_ADOPTED_BY_THIS_RUNTIME')
+
+    def test_autoevolution_reuses_existing_runtime_and_only_proposes(self):
+        auto = self.hybrid['autoevolution']
+        self.assertEqual(auto['engine'], 'EXISTING_OJO_LA_BETE_VIRTUOUS_EVOLUTION_V1')
+        self.assertFalse(auto['second_runtime'])
+        self.assertEqual(auto['next_best_move']['state'], 'PROPOSAL_ONLY')
+        self.assertEqual(auto['signals']['private_service_demand'], 'UNPROVEN_UNTIL_EXPLICIT_PRIVATE_OPT_IN')
+        self.assertEqual(auto['signals']['documented_public_requests'], len(self.acquisition['requests']))
+
+    def test_hybrid_model_is_snapshot_bound(self):
+        wrong = copy.deepcopy(self.acquisition)
+        wrong['source_snapshot_id'] = 'OJO-WRONG'
+        with self.assertRaises(ValueError):
+            build_hybrid_model(LIVE, wrong)
+
 
 if __name__ == '__main__': unittest.main(verbosity=2)
