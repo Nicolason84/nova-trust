@@ -339,14 +339,15 @@ def reconcile_art_exchange(bus,registry,projection,at=None):
             if pilot['status'] in ('DECLARED','RUNNING'):
                 eligible=[x for x in pilot['observations'] if x['state']!='UNKNOWN']
                 within=[x for x in eligible if datetime.fromisoformat(x['checked_at']).timestamp()<=declared+pilot['window_s']]
-                if len(within)>=pilot['required_distinct_observations']:pilot.update(status='APPLIED_OBSERVATION_VERIFIED',result_at=stamp)
+                if len(within)>=pilot['required_distinct_observations']:pilot.update(status='APPLIED_OBSERVATION_VERIFIED',result_at=stamp,result_evidence=within[:pilot['required_distinct_observations']])
                 elif now_s>declared+pilot['window_s']:pilot.update(status='NOT_MET',result_at=stamp)
             # A completed trial is immutable. Later observations do not relabel a failure.
             if pilot['status'] in ('APPLIED_OBSERVATION_VERIFIED','NOT_MET'):
                 result={'target':target,'method':'TRUTHFUL_FRESHNESS','status':pilot['status'],
                     'declared_at':pilot['declared_at'],'result_at':pilot['result_at'],
                     'scope':'BRIDGE_OBSERVER_NOT_NATIVE_CODE','native_adoption':'UNPROVEN',
-                    'causal_effect_proven':False,'method_digest':expected}
+                    'causal_effect_proven':False,'method_digest':expected,
+                    'result_evidence':pilot.get('result_evidence',[])}
                 digest=hashlib.sha256(json.dumps(result,sort_keys=True).encode()).hexdigest()
                 mid='la-bete-art-readonly-result-'+digest[:24]
                 continuity['pending_results'].setdefault(mid,{'result':result,'digest':digest,'state':'PENDING'})

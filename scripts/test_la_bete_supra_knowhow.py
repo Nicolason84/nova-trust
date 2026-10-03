@@ -111,6 +111,14 @@ class ReadOnlyContinuityTests(unittest.TestCase):
         self.assertEqual(result['returned_result_count'],0)
         self.route();result=self.run_cycle(5);self.assertEqual(result['returned_result_count'],3);self.assertEqual(result['native_adoption'],'UNPROVEN')
         self.assertEqual(json.loads(self.registry.read_text())['entries'][0],self.original)
+    def test_result_evidence_is_frozen_and_returned(self):
+        self.complete()
+        proofs={key:value['result_evidence'] for key,value in self.state()['pilots'].items()}
+        for i in range(7,25):self.sources(i);self.run_cycle(i+0.1)
+        for key,value in self.state()['pilots'].items():
+            self.assertEqual(value['result_evidence'],proofs[key]);self.assertEqual(len(value['result_evidence']),2)
+        for p in (self.bus/'OUTBOX').glob('la-bete-art-readonly-result-*.json'):
+            result=json.loads(json.loads(p.read_text())['payload']['result_json']);self.assertEqual(len(result['result_evidence']),2)
     def test_repeated_source_does_not_invent_observations(self):
         self.run_cycle(0);self.sources(1);self.run_cycle(2)
         for n in (3,4,5):self.run_cycle(n)
