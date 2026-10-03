@@ -80,8 +80,11 @@ body[data-evo-focus="evidence"] #rpEvidenceCard,body[data-evo-focus="decision"] 
 <link rel="stylesheet" href="assets/system-identity.css">
 <script src="assets/system-identity.js?v=20261003-prism-v1" defer></script>
 <link rel="stylesheet" href="assets/la-bete-participation.css?v=20261003-v1">
-<script src="assets/la-bete-dialogue.js?v=20261003-v1" defer></script>
-<script src="assets/la-bete-participation.js?v=20261003-v1" defer></script>
+<script src="assets/la-bete-dialogue.js?v=20261003-multiunivers-v1" defer></script>
+<script src="assets/la-bete-participation.js?v=20261003-multiunivers-v1" defer></script>
+<link rel="stylesheet" href="assets/la-bete-explorer.css?v=20261003-v1">
+<script src="assets/la-bete-explorer-model.js?v=20261003-v1" defer></script>
+<script src="assets/la-bete-explorer.js?v=20261003-v1" defer></script>
 </head><body data-identity-url="system_identity.json" class="beast-dna beast-prismatic"><svg class="artFilterDefs" width="0" height="0" aria-hidden="true" focusable="false"><defs><filter id="beast-glass-optics" x="-15%" y="-15%" width="130%" height="130%"><feTurbulence type="fractalNoise" baseFrequency=".013 .035" numOctaves="1" seed="7" result="grain"/><feDisplacementMap in="SourceGraphic" in2="grain" scale="9" xChannelSelector="R" yChannelSelector="G"/></filter></defs></svg><div class="wrap">
 <header class="top"><a class="brand" href="#reality-pulse" aria-label="ojO · revenir au pouls" style="text-decoration:none;color:var(--ink)">oj<i>O</i></a><nav class="topNav" aria-label="Lecture de La Bête"><a href="#dialogue-public">Dialoguer</a><a href="#demarches">Démarches</a><a href="#reality-pulse">Le pouls</a><a href="#la-bete">La Bête</a><a href="#market-anatomy">Analyse</a><a href="#evidence-graph">Preuves</a></nav><a class="soundShortcut" href="#beast-resonance"><span class="miniWave" aria-hidden="true"><i></i><i></i><i></i><i></i></span>Son</a></header>
 <div class="liveSignals" aria-label="Les trois horloges de La Bête"><span class="pill" id="runner"><span class="dot"></span>RUNNER UNKNOWN · SNAPSHOT STATIQUE</span><span class="pill" id="feed"><span class="dot"></span>ÉTAT #11 · 2026-10-02T11:33:30Z</span><span class="pill" id="evolution"><span class="dot"></span>ÉVOLUTION G103 · EVIDENCE GUARD</span><a class="pill" href="#autoevolution">Preuve de vie ↗</a></div>
@@ -502,6 +505,7 @@ function applyEvolution(e){
   if($('realityAdaptationSub'))$('realityAdaptationSub').textContent=String(dna.mode||'UNKNOWN').replaceAll('_',' ')+' · régime '+String(signal.curve_regime||'UNKNOWN').replaceAll('_',' ')+' · mise en évidence visuelle seulement · aucune réécriture sémantique.';
   renderSelfModel(e.self_model);
   if(window.LaBeteParticipation)window.LaBeteParticipation.update(state,e);
+  if(window.LaBeteExplorer)window.LaBeteExplorer.update({live:state,evolution:e});
   refreshBeastIdentity();
 }
 async function loadEvolution(){try{const r=await pulseFetch(EVOLUTION,{cache:'no-cache'});if(!r.ok)throw Error('HTTP '+r.status);const e=await r.json();if(e.status!=='ACTIVE'||e.verification?.generation!==e.generation||e.policy?.truth_mutation!==false||e.policy?.political_recommendation!==false||e.policy?.semantic_claim_autopromotion!==false)throw Error('Évolution non vérifiée');if(state&&e.source_snapshot_id!==state.snapshot_id)throw Error('Évolution décalée du canon');if(evolutionState && (e.generation<evolutionState.generation || (e.self_model?.health_memory?.total_cycles||0)<(evolutionState.self_model?.health_memory?.total_cycles||0)))throw Error('Évolution antérieure');applyEvolution(e);return true}catch(e){pill($('evolution'),'ÉVOLUTION INJOIGNABLE','warn');setEvo('evoAdaptive','INJOIGNABLE','Dernier ADN indisponible','warn');return false}}
@@ -859,7 +863,7 @@ function acceptCanonical(j){
   if(state && (j.sequence<state.sequence || Date.parse(j.updated_at)<Date.parse(state.updated_at)))return false;
   if(state && j.sequence===state.sequence && j.updated_at===state.updated_at && j.snapshot_id!==state.snapshot_id)return false;
   if(state&&JSON.stringify(state)===JSON.stringify(j))return true;
-  render(j);renderFranceBinding(j);return true;
+  render(j);renderFranceBinding(j);if(window.LaBeteExplorer)window.LaBeteExplorer.update({live:state,evolution:evolutionState});return true;
 }
 function renderFranceBinding(j){
   $('franceBindingLabel').textContent=j.france_binding?.label||'Binding France non vérifié';
@@ -1470,7 +1474,17 @@ $('downloadBrief')?.addEventListener('click',()=>{if(state)downloadText('EXECUTI
 $('downloadBriefHtml')?.addEventListener('click',()=>{if(state)downloadText('EXECUTIVE_BRIEF.html',buildBriefHtml(state),'text/html')});
 $('downloadSnapshot')?.addEventListener('click',()=>{if(state)downloadText('SNAPSHOT.json',JSON.stringify(state,null,2),'application/json')});
 try{const initial=JSON.parse($('canonicalSnapshot').textContent);if(!acceptCanonical(initial))throw Error('Snapshot invalide');const evo=JSON.parse($('canonicalEvolution').textContent);if(evo.status==='ACTIVE'&&evo.verification?.generation===evo.generation)applyEvolution(evo);}catch(e){pill($('feed'),'SNAPSHOT NON VÉRIFIÉ','warn')}
-initBeast();
+// LA_BETE_BOOT_START
+window.laBeteReadCanonicalJSON=pulseFetch;
+let presenceInitialization=null;
+window.laBeteEnsurePresence=()=>{if(presenceInitialization===null)presenceInitialization=initBeast();return presenceInitialization;};
+window.laBeteSuspendPresence=()=>{
+  stopBeastResonance(true);
+  if(beastStream){beastStream.getTracks().forEach(t=>t.stop());beastStream=null;}
+  const v=$('arVideo');if(v)v.srcObject=null;$('beastStage')?.classList.remove('ar-on');$('beastCamera')?.setAttribute('aria-pressed','false');
+  beastMotionOn=false;$('beastMotion')?.setAttribute('aria-pressed','false');
+};
+document.addEventListener?.('DOMContentLoaded',()=>{if(!window.LaBeteExplorer||!document.body.classList.contains('mu-active'))window.laBeteEnsurePresence();},{once:true});
 initResonance();
 refreshPulse();
 </script></body></html>

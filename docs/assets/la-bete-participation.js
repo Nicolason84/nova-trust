@@ -14,6 +14,7 @@
     return e;
   }
   function context() {
+    if (window.LaBeteExplorer?.getDialogueContext) return window.LaBeteExplorer.getDialogueContext();
     if (typeof window.getLaBeteDialogueContext === 'function') {
       const c = window.getLaBeteDialogueContext();
       if (c?.live) return c;
@@ -25,6 +26,7 @@
     card.append(element('strong', role === 'user' ? 'Vous' : 'La Bête'));
     if (typeof value === 'string') card.append(element('p', value));
     else {
+      if (value.object_context) card.append(element('small', 'Réponse rattachée à : ' + value.object_context.label + ' · ' + (value.object_context.snapshot_id || 'non chargé'), 'beastStatus'));
       card.append(element('p', value.summary));
       const parts = [['Ce qui est retenu pour examen', value.retained], ['Pourquoi pas encore / limites', value.limits], ['Comment faire évoluer la proposition', value.evolution]];
       parts.forEach(([title, rows]) => {
@@ -59,12 +61,16 @@
   }
   function submit(value, kind) {
     const c = context();
-    const result = D.analyze(value, {...c, kind, history});
+    const localHistory = history.filter(x => (x.object_context?.id || null) === (c.object?.id || null) && (x.object_context?.snapshot_id || null) === (c.object?.snapshot_id || c.live?.snapshot_id || null));
+    const result = D.analyze(value, {...c, kind, history: localHistory});
+    const objectContext = c.object ? {id:c.object.id,label:c.object.label,snapshot_id:c.object.snapshot_id,version:c.object.version} : {id:null,label:c.context_label || "Flux général",snapshot_id:c.live?.snapshot_id || null};
+    result.object_context = objectContext;
     if (result.status === 'INVALID_INPUT') { byId('beastDialogueNotice').textContent = result.summary; return; }
-    message('user', value);
+    const userCard = message('user', value);
+    userCard.append(element('small', 'Contexte : ' + objectContext.label + ' · ' + (objectContext.snapshot_id || 'non chargé'), 'beastStatus'));
     message('assistant', result);
     last = {text: value, kind};
-    history.push({...last, result});
+    history.push({...last, object_context: objectContext, result});
     if (history.length > 10) history.shift();
     byId('beastPublicConsent').checked = false;
     byId('beastDialogueNotice').textContent = 'Réponse locale. Rien n’a été envoyé ni ajouté au système partagé.';

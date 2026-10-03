@@ -1,6 +1,7 @@
 # La Bête — transition vers un espace multiunivers
 
-Statut : NEXT_STAGE_SPECIFIED_NOT_IMPLEMENTED.
+Statut : V1_IMPLEMENTED_AND_TESTED_PUBLICATION_PENDING.
+La mise en œuvre V1 est décrite dans `LA_BETE_MULTIUNIVERS_V1_REPORT.md`. Le reçu public séparé établira la publication ; les sections suivantes conservent la direction initiale et ses invariants.
 Direction demandée par Nicolas le 3 octobre 2026, après la livraison du dialogue public et de la préparation des démarches.
 
 ## Changement de présentation

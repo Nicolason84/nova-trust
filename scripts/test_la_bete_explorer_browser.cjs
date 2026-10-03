@@ -1,0 +1,92 @@
+#!/usr/bin/env node
+'use strict';
+/* Real browser proof. Uses an installed Chrome, no browser/package installation.
+   CHROME_BIN overrides the executable. Optional first argument is the public URL.
+   All generated profiles/screenshots remain in an isolated temporary directory. */
+const fs=require('node:fs'),os=require('node:os'),path=require('node:path'),http=require('node:http');
+const {spawn}=require('node:child_process'),assert=require('node:assert/strict');
+const ROOT=path.resolve(__dirname,'../docs'),OUT=process.env.LA_BETE_BROWSER_PROOF_DIR||fs.mkdtempSync(path.join(os.tmpdir(),'la-bete-multiunivers-proof-'));
+fs.mkdirSync(OUT,{recursive:true});
+const sleep=ms=>new Promise(r=>setTimeout(r,ms)),mime={'.html':'text/html; charset=utf-8','.js':'application/javascript','.css':'text/css','.json':'application/json','.svg':'image/svg+xml','.png':'image/png','.webp':'image/webp'};
+let server,chrome,socket;const checks=[],exceptions=[],requests=[];
+async function main(){
+ server=http.createServer((req,res)=>{const file=path.resolve(ROOT,'.'+new URL(req.url,'http://localhost').pathname);if(!file.startsWith(ROOT+'/')){res.writeHead(403);res.end();return;}try{res.writeHead(200,{'Content-Type':mime[path.extname(file)]||'application/octet-stream','Cache-Control':'no-store'});res.end(fs.readFileSync(file));}catch(_){res.writeHead(404);res.end('not found');}});
+ await new Promise(r=>server.listen(0,'127.0.0.1',r));const port=server.address().port;
+ const profile=fs.mkdtempSync(path.join(OUT,'profile-'));
+ const executable=process.env.CHROME_BIN||'/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
+ chrome=spawn(executable,['--headless=new','--no-first-run','--no-default-browser-check','--disable-background-networking','--remote-debugging-port=0','--user-data-dir='+profile,'about:blank'],{stdio:['ignore','ignore','pipe']});
+ let logs='';chrome.stderr.on('data',d=>logs=(logs+d).slice(-6000));
+ for(let i=0;i<80&&!fs.existsSync(path.join(profile,'DevToolsActivePort'));i++)await sleep(100);
+ if(!fs.existsSync(path.join(profile,'DevToolsActivePort')))throw Error('CHROME_START_FAILED '+logs);
+ const debugPort=Number(fs.readFileSync(path.join(profile,'DevToolsActivePort'),'utf8').split('\n')[0]);
+ const target=await(await fetch('http://127.0.0.1:'+debugPort+'/json/new?about:blank',{method:'PUT'})).json();
+ socket=new WebSocket(target.webSocketDebuggerUrl);await new Promise((resolve,reject)=>{socket.onopen=resolve;socket.onerror=reject;});
+ let seq=0;const pending=new Map();
+ socket.onmessage=e=>{const j=JSON.parse(e.data);if(j.id){const cb=pending.get(j.id);if(cb){pending.delete(j.id);j.error?cb.reject(Error(JSON.stringify(j.error))):cb.resolve(j.result);}}else if(j.method==='Runtime.exceptionThrown')exceptions.push(j.params.exceptionDetails.exception?.description||j.params.exceptionDetails.text);else if(j.method==='Network.requestWillBeSent')requests.push(j.params.request.url);};
+ function send(method,params={}){return new Promise((resolve,reject)=>{const n=++seq;pending.set(n,{resolve,reject});socket.send(JSON.stringify({id:n,method,params}));});}
+ async function evaluate(expression){const r=await send('Runtime.evaluate',{expression,returnByValue:true,awaitPromise:true});if(r.exceptionDetails)throw Error(r.exceptionDetails.exception?.description||r.exceptionDetails.text);return r.result?.value;}
+ async function wait(expression,reason){for(let i=0;i<100;i++){if(await evaluate(expression))return;await sleep(100);}throw Error('WAIT_FAILED '+reason+' | '+await evaluate('document.body.innerText.slice(0,1800)'));}
+ function pass(name){checks.push(name);console.log('PASS '+name);}
+ async function clickObject(objectId){await evaluate(`(()=>{const a=[...document.querySelectorAll('#muStage a[data-object-id]')].find(a=>a.dataset.objectId===${JSON.stringify(objectId)});if(!a)throw Error('OBJECT_LINK_MISSING '+${JSON.stringify(objectId)});a.click()})()`);await wait(`window.LaBeteExplorer.state().object===${JSON.stringify(objectId)}`,'object navigation');}
+ async function navigate(hash){await evaluate(`window.LaBeteExplorer.navigate(${JSON.stringify(hash)})`);await wait(`location.hash===${JSON.stringify(hash)}`,'hash navigation');}
+ async function screenshot(name){const s=await send('Page.captureScreenshot',{format:'png'});fs.writeFileSync(path.join(OUT,name+'.png'),Buffer.from(s.data,'base64'));}
+ await send('Page.enable');await send('Runtime.enable');await send('Network.enable');await send('Emulation.setEmulatedMedia',{features:[{name:'prefers-reduced-motion',value:'reduce'}]});
+ await send('Emulation.setDeviceMetricsOverride',{width:1440,height:1050,deviceScaleFactor:1,mobile:false});
+ const base=process.argv[2]||'http://127.0.0.1:'+port+'/france-debt-rate-risk-live-2026-10-02.html';
+ await send('Page.navigate',{url:base});
+ await wait("document.readyState==='complete'&&!!window.LaBeteExplorer&&document.body.classList.contains('mu-active')",'multiverse boot');
+ await wait("!!document.getElementById('muAtlas')",'atlas');
+ assert.equal(await evaluate("document.querySelectorAll('.muUniverse').length"),8);assert.ok(await evaluate("document.getElementById('legacyReadingDocument').hidden"));pass('atlas is default, legacy monolith not primary');
+ assert.equal(requests.filter(u=>u.includes('/vendor/three-')).length,0);pass('3D code is not eagerly downloaded');
+ assert.equal(requests.filter(u=>u.includes('/data/france-organism.json')).length,0);pass('territorial document is lazy');
+ await screenshot('atlas-desktop');
+ await evaluate("document.querySelector('.muAtlasCore').click()");await wait("document.querySelector('#muStage h1')?.textContent==='France'",'country');
+ const COUNTRY='OJO_FRANCE_ORGANISM_V1#/identity',FINANCE='OJO_FRANCE_ORGANISM_V1#/physiology/systems/finance',DEBT='OJO_FRANCE_DEBT_RATE_LIVE_V1';
+ await clickObject(FINANCE);await clickObject(DEBT);await clickObject('AFT_MATURITY_OAT');await clickObject('source-domain:www.aft.gouv.fr');await clickObject('AFT_MATURITY_OAT');await clickObject('source:AFT_MATURITY_OAT');await clickObject('LA_BETE_AFT_PUBLIC_DATA_ACCESS_V1');
+ assert.ok(await evaluate("document.getElementById('muStage').textContent.includes('NOT_EXECUTED')"));pass('actual country-finance-debt-source-organization-gap-request traversal');
+ await evaluate("document.querySelector('#muStage details').open=true;window.scrollTo(0,420)");const previous=await evaluate('window.scrollY');
+ await clickObject('source:AFT_MATURITY_OAT');await evaluate("document.getElementById('muBack').click()");await wait("window.LaBeteExplorer.state().object==='LA_BETE_AFT_PUBLIC_DATA_ACCESS_V1'",'exact back');
+ assert.equal(await evaluate("document.querySelector('#muStage details').open"),true);assert.ok(Math.abs(await evaluate('window.scrollY')-previous)<=2);pass('browser back restores exact object, open draft and scroll');
+ await evaluate('window.scrollTo(0,0)');await screenshot('demarche-desktop');
+ await evaluate('window.LaBeteExplorer.openChat()');await wait("document.getElementById('muChat').open",'context chat');
+ await evaluate("document.getElementById('beastDialogueInput').value='Pourquoi cette démarche est bloquée ?';document.getElementById('beastDialogueKind').value='QUESTION';document.getElementById('beastDialogueForm').requestSubmit()");
+ assert.ok(await evaluate("document.querySelector('#beastDialogueLog .beastMessage:last-child').textContent.includes('NOT_CONFIGURED')"));
+ const priorReply=await evaluate("document.querySelector('#beastDialogueLog .beastMessage:last-child').textContent");
+ await evaluate("document.getElementById('beastDialogueInput').value='Brouillon conservé pendant la navigation';document.getElementById('muChat').close()");
+ await clickObject('source:AFT_MATURITY_OAT');await evaluate('window.LaBeteExplorer.openChat()');
+ assert.equal(await evaluate("document.getElementById('beastDialogueInput').value"),'Brouillon conservé pendant la navigation');
+ assert.equal(await evaluate("document.querySelector('#beastDialogueLog .beastMessage:last-child').textContent"),priorReply);pass('contextual chat keeps old attribution and unsent draft');
+ await evaluate("document.getElementById('muChat').close()");
+ const fixedHeading=await evaluate("document.querySelector('#muStage h1').textContent"),fixedRoute=await evaluate('location.hash');
+ await evaluate("(()=>{const c=window.getLaBeteDialogueContext();window.LaBeteExplorer.update({live:{...c.live,snapshot_id:'OJO-TESTNEW'},evolution:c.evolution})})()");
+ assert.equal(await evaluate("document.querySelector('#muStage h1').textContent"),fixedHeading);assert.equal(await evaluate('location.hash'),fixedRoute);assert.ok(await evaluate("!document.getElementById('muUpdate').hidden"));pass('new observation signals without recentering or rewriting current object');
+ await navigate('#/univers/territoires');await wait("document.querySelectorAll('#muStage [data-object-id*=regions]').length>0",'lazy regions');
+ assert.equal(requests.filter(u=>u.includes('/data/france-organism.json')).length,1);
+ const regionId=await evaluate("document.querySelector('#muStage [data-object-id*=regions]').dataset.objectId");await clickObject(regionId);
+ assert.ok(await evaluate("document.getElementById('muStage').textContent.includes('NON DOCUMENTÉ')"));pass('regional drilldown descriptive, no inferred local rates');
+ await evaluate("document.getElementById('muSearchInput').value='Trésor';document.querySelector('.muSearch').requestSubmit()");await clickObject('source-domain:www.aft.gouv.fr');await evaluate("document.getElementById('muBack').click()");
+ await wait("document.querySelector('#muStage h1')?.textContent==='Trésor'",'search restoration');pass('search results and filter restored after exploration');
+ const sourceRoute='#/objet/'+encodeURIComponent('AFT_MATURITY_OAT');await navigate(sourceRoute);
+ await evaluate("[...document.querySelectorAll('#muStage button')].find(x=>x.textContent==='Voir la pièce / provenance').click()");
+ assert.ok(await evaluate("document.getElementById('muProof').open"));assert.ok(await evaluate("document.getElementById('muProofBody').textContent.includes('Empreinte')||document.getElementById('muProofBody').textContent.includes('Vérification')||document.getElementById('muProofBody').textContent.includes('vérification')"));
+ await send('Input.dispatchKeyEvent',{type:'keyDown',key:'Escape',code:'Escape',windowsVirtualKeyCode:27});await send('Input.dispatchKeyEvent',{type:'keyUp',key:'Escape',code:'Escape',windowsVirtualKeyCode:27});await wait("!document.getElementById('muProof').open",'Escape closes proof');pass('proof viewer native dialog and keyboard dismissal');
+ await navigate('#/objet/'+encodeURIComponent(DEBT)+'?snapshot=OJO-NOTLOADED');assert.ok(await evaluate("document.getElementById('muStage').textContent.includes('Aucun remplacement silencieux')"));assert.equal(await evaluate('window.LaBeteExplorer.getDialogueContext().object'),null);pass('unavailable pinned snapshot blocks silent substitution including chat');
+ const direct=base.split('#')[0]+sourceRoute;await send('Page.navigate',{url:direct});await wait("!!window.LaBeteExplorer&&window.LaBeteExplorer.state().object==='AFT_MATURITY_OAT'",'direct route after reload');pass('deep link resolves after complete page reload');
+ await navigate('#/atlas');await send('Emulation.setDeviceMetricsOverride',{width:390,height:844,deviceScaleFactor:1,mobile:true});await evaluate('window.scrollTo(0,0)');await sleep(100);
+ const widths=await evaluate('({viewport:innerWidth,document:document.documentElement.scrollWidth})');assert.ok(widths.document<=widths.viewport+2);await screenshot('atlas-mobile');pass('mobile atlas has no horizontal page overflow');
+ await evaluate("document.querySelector('.muAtlasCore').click()");await clickObject(FINANCE);await clickObject(DEBT);await clickObject('AFT_MATURITY_OAT');const ow=await evaluate('({viewport:innerWidth,document:document.documentElement.scrollWidth})');assert.ok(ow.document<=ow.viewport+2);await screenshot('source-mobile');pass('mobile object traversal and proof relations fit viewport');
+ await evaluate('window.LaBeteExplorer.openChat()');const mw=await evaluate('({viewport:innerWidth,width:document.getElementById("muChat").getBoundingClientRect().width})');assert.ok(mw.width<=mw.viewport);await evaluate("document.getElementById('beastDialogueInput').value='<img src=x onerror=window.muXSS=true>';document.getElementById('beastDialogueForm').requestSubmit()");assert.equal(await evaluate('!!window.muXSS'),false);assert.equal(await evaluate("document.querySelectorAll('#beastDialogueLog img').length"),0);await screenshot('dialogue-mobile');await evaluate("document.getElementById('muChat').close()");pass('mobile contextual dialog and escaped user content');
+ await navigate('#/presence');await wait("!!document.querySelector('#beastMount canvas')||!!document.querySelector('#beastStage canvas')||document.getElementById('beastTag').textContent.includes('indisponible')",'existing 3D or explicit fallback');
+ assert.ok(requests.some(u=>u.includes('/vendor/three-')));pass('presence loads existing pinned 3D only on demand');
+ await navigate('#/lecture');assert.ok(await evaluate("!document.getElementById('legacyReadingDocument').hidden"));assert.equal(await evaluate("document.querySelectorAll('#dialogue-public').length"),1);assert.equal(await evaluate("document.querySelectorAll('#la-bete').length"),1);pass('read-only legacy fallback restores original components without duplicate IDs');
+ await navigate('#/atlas');assert.ok(await evaluate("document.getElementById('legacyReadingDocument').hidden"));assert.ok(await evaluate("!!document.getElementById('muAtlas')"));pass('return from reading mode to atlas');
+ await evaluate('window.LaBeteExplorer.openChat()');
+ await evaluate("document.getElementById('beastDialogueKind').value='IDEA';document.getElementById('beastDialogueInput').value='Je propose de montrer les sources et les dates des chiffres';document.getElementById('beastDialogueForm').requestSubmit();document.getElementById('beastDialogueKind').value='QUESTION';document.getElementById('beastDialogueInput').value='Pourquoi pas encore ?';document.getElementById('beastDialogueForm').requestSubmit()");
+ assert.ok(await evaluate("document.querySelector('#beastDialogueLog .beastMessage:last-child').textContent.includes('Traçabilité')"));await evaluate("document.getElementById('muChat').close()");pass('general idea follow-up retains its own context');
+ await send('Emulation.setScriptExecutionDisabled',{value:true});await send('Page.navigate',{url:base.split('#')[0]});await sleep(800);
+ assert.ok(await evaluate("!!document.querySelector('.wrap')&&!document.getElementById('multiunivers')&&document.getElementById('realityHeadline').textContent.length>0"));pass('no-JavaScript canonical reading remains available');
+ assert.equal(exceptions.length,0,'uncaught exceptions '+exceptions.join('\n'));pass('zero uncaught browser exceptions');
+ const receipt={schema:'LA_BETE_MULTIUNIVERS_BROWSER_PROOF_V1',result:'PASS',tested_at:new Date().toISOString(),url:base,checks,desktop:[1440,1050],mobile_emulation:[390,844],physical_iphone:false,widths,uncaught_exceptions:exceptions.length,screen_captures:['atlas-desktop.png','demarche-desktop.png','atlas-mobile.png','source-mobile.png','dialogue-mobile.png']};
+ fs.writeFileSync(path.join(OUT,'browser-receipt.json'),JSON.stringify(receipt,null,2)+'\n');console.log('PROOF_DIR='+OUT);console.log(JSON.stringify(receipt));
+}
+main().catch(e=>{console.error(e.stack);fs.writeFileSync(path.join(OUT,'failure.json'),JSON.stringify({error:e.stack,exceptions,checks},null,2));process.exitCode=1;}).finally(()=>{if(socket)socket.close();if(chrome)chrome.kill('SIGTERM');if(server)server.close();});

@@ -33,7 +33,7 @@ def main():
     parsed=Elements(text); parsed.feed(text)
     seeds={k:text[b:c] for k,(a,b,c) in parsed.elements.items()}
     script=re.search(r'<script>(.*?)</script>',text,re.S)[1]
-    script=script[:script.rindex('\ninitBeast();')]
+    script=script[:script.rindex('\n// LA_BETE_BOOT_START')]
     script=script[:script.index("\ntry{const initial=JSON.parse($('canonicalSnapshot')")]
     engine=Path('scripts/prerender_france_beast.cjs')
     result=subprocess.run(['node',str(engine)],input=json.dumps({'script':script,'live':live,'evolution':evo,'seeds':seeds}),text=True,capture_output=True,check=True)

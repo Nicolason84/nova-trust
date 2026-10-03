@@ -67,6 +67,19 @@
       r.references = references(live, s => /AFT|DGFIP|BDF/.test(s.id || ''));
       return r;
     }
+    if (c.object && typeof c.object.id === 'string' && c.object.snapshot_id === live.snapshot_id && Array.isArray(c.object.facts)) {
+      const object = c.object;
+      const allowed = object.references || [];
+      return Object.assign(r, {
+        status: 'OBJECT_CONTEXT',
+        summary: 'Contexte de votre question : ' + object.label + '. Voici les éléments présents dans l’objet sélectionné ; ils ne constituent pas une nouvelle recherche.',
+        retained: object.facts.map(row => String(row[0]) + ' : ' + String(row[1])).slice(0, 12),
+        limits: ['Cette réponse est attachée à cet objet et à cet instantané. Les autres messages conservent leur propre contexte.', object.kind === 'REGION' ? 'Aucun effet local du taux ou de la dette nationale ne peut être déduit de cette fiche territoriale.' : 'Les faits conservés, les manques et les hypothèses restent distincts ; une relation affichée ne prouve pas une causalité.', 'Cette version structurée ne prétend pas résoudre toute question libre sur cet objet.'],
+        evolution: [],
+        next: object.kind === 'GAP' || object.kind === 'REQUEST' ? 'Ouvrir la démarche reliée, vérifier son état et son mandat ; aucun envoi n’est déclenché par le dialogue.' : 'Ouvrir une relation nommée ou la pièce de provenance pour approfondir.',
+        references: allowed.filter(x => safeURL(x.url)).slice(0, 5)
+      });
+    }
     if (live.schema !== 'OJO_FRANCE_DEBT_RATE_LIVE_V1' || live.policy?.political_recommendation !== 'NONE') {
       return Object.assign(r, {status: 'NO_VERIFIED_CONTEXT', summary: 'Le contexte canonique vérifiable n’est pas chargé.', next: 'Réessayer le chargement du flux. Aucun chiffre de remplacement n’est inventé.'});
     }
