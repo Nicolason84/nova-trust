@@ -9,6 +9,13 @@ on:
       - "scripts/update_france_debt_rate_live.py"
       - "scripts/evolve_france_debt_rate.py"
       - "scripts/la_bete_health_memory.py"
+      - "scripts/la_bete_acquisition.py"
+      - "scripts/test_la_bete_acquisition.py"
+      - "scripts/process_la_bete_dialogue.cjs"
+      - "scripts/test_la_bete_dialogue.cjs"
+      - "docs/assets/la-bete-dialogue.js"
+      - "docs/assets/la-bete-participation.js"
+      - "docs/assets/la-bete-participation.css"
       - "scripts/test_la_bete_health_memory.py"
       - "scripts/verify_la_bete_evolution.py"
       - "scripts/test_la_bete_evolution.py"
@@ -59,6 +66,23 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  dialogue:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    permissions:
+      contents: read
+      issues: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Verify dialogue safety and non-regression
+        run: node scripts/test_la_bete_dialogue.cjs
+      - name: Answer opted-in public threads using the existing pulse
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: node scripts/process_la_bete_dialogue.cjs
+
   pulse:
     runs-on: ubuntu-latest
     timeout-minutes: 6
@@ -158,6 +182,8 @@ jobs:
         run: |
           PYTHONPATH=scripts python3 scripts/test_la_bete_evolution.py
           PYTHONPATH=scripts python3 scripts/test_la_bete_health_memory.py
+          PYTHONPATH=scripts python3 scripts/test_la_bete_acquisition.py
+          node scripts/test_la_bete_dialogue.cjs
           PYTHONPATH=scripts python3 scripts/test_la_bete_supra_knowhow.py
           PYTHONPATH=scripts python3 scripts/test_la_bete_bridge_health.py
           python3 scripts/verify_la_bete_evolution.py
@@ -223,6 +249,8 @@ jobs:
               python3 scripts/verify_la_bete_evolution.py
               PYTHONPATH=scripts python3 scripts/test_la_bete_evolution.py
               PYTHONPATH=scripts python3 scripts/test_la_bete_health_memory.py
+              PYTHONPATH=scripts python3 scripts/test_la_bete_acquisition.py
+              node scripts/test_la_bete_dialogue.cjs
               python3 scripts/france_beast_binding.py
               python3 scripts/prerender_france_beast.py
               PYTHONPATH=scripts python3 scripts/test_france_beast_convergence.py

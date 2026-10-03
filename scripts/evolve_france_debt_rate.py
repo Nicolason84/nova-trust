@@ -4,6 +4,7 @@ from __future__ import annotations
 import json
 import os
 from la_bete_health_memory import build_health_memory
+from la_bete_acquisition import build_acquisition
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -182,6 +183,7 @@ def build_self_model(live: dict) -> dict:
 
     self_actions = [
         "Réessayer les sources officielles indisponibles dans la boucle existante.",
+        "Regrouper les accès manquants et préparer une demande écrite sans l’envoyer ni s’accorder un mandat.",
         "Conserver explicitement le dernier bon état au lieu de remplir les trous.",
         "Croiser les observations disponibles avant de promouvoir une lecture.",
         "Adapter la projection visuelle à l'incertitude sans réécrire la vérité.",
@@ -246,6 +248,7 @@ def main() -> None:
     observation = json.loads(Path(receipt_path).read_text()) if receipt_path else None
     memory = build_health_memory(live, self_model, previous.get("self_model", {}).get("health_memory"), observation)
     self_model["health_memory"] = memory
+    self_model["acquisition"] = build_acquisition(live, previous.get("self_model", {}).get("acquisition"))
     self_model["voice"]["memory_statement"] = f"Ma mémoire de santé couvre {memory['total_cycles']} cycles réellement observés depuis {memory['started_at']}. Aucun cycle passé n'est inventé."
     learning = memory.get("care_learning_summary", {})
     self_model["voice"]["learning_statement"] = f"Je vérifie {learning.get('pending', 0)} objectifs de soin en cours; {learning.get('goals_met', 0)} ont été atteints et {learning.get('goals_not_met', 0)} non atteints dans leur fenêtre observée."

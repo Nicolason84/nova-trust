@@ -10,7 +10,7 @@ class Convergence(unittest.TestCase):
     def test_isolated_evolution_gate_and_rollback(self):
         files=['docs/data/france-debt-rate-live.json','docs/data/france-debt-rate-evolution.json',
                'docs/france-debt-rate-risk-live-2026-10-02.html','scripts/evolve_france_debt_rate.py',
-               'scripts/verify_la_bete_evolution.py','scripts/la_bete_health_memory.py']
+               'scripts/verify_la_bete_evolution.py','scripts/la_bete_health_memory.py','scripts/la_bete_acquisition.py']
         with tempfile.TemporaryDirectory() as tmp:
             root=Path(tmp)
             for name in files:
