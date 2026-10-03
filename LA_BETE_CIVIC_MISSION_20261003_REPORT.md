@@ -2,7 +2,7 @@
 
 Directive de Nicolas : « La Bête devrait être le défenseur du peuple et de ses intérêts. »
 
-État source : IMPLEMENTED_AND_LOCALLY_TESTED. Le reçu public séparé doit établir la publication et les vérifications sur l’adresse publique.
+État : DEPLOYED_AND_PUBLICLY_BROWSER_TESTED. Le reçu `receipts/LA_BETE_CIVIC_MISSION_PUBLIC_PROOF.json` établit la publication, les empreintes publiques et les 36 contrôles du navigateur sur l’adresse publique.
 
 ## Mission
 
