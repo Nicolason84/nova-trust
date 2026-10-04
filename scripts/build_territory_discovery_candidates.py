@@ -10,6 +10,7 @@ import json
 import re
 import time
 import unicodedata
+import urllib.error
 import urllib.parse
 import urllib.request
 from collections import defaultdict
@@ -60,6 +61,8 @@ LANES = {
 
 ENTITY_CACHE: dict[str, dict] = {}
 TIERS_ROWS: list[dict] | None = None
+WIKIMEDIA_HOSTS = {"www.wikidata.org", "fr.wikipedia.org", "commons.wikimedia.org"}
+LAST_WIKIMEDIA_REQUEST_AT = 0.0
 
 def norm(value: str) -> str:
     s = unicodedata.normalize("NFD", str(value or ""))
@@ -71,12 +74,37 @@ def clean_html(value: str | None) -> str:
     return re.sub(r"\s+", " ", text).strip()
 
 def fetch_json(url: str, timeout: int = 12) -> dict:
-    req = urllib.request.Request(url, headers={"User-Agent": UA, "Accept": "application/json"})
-    with urllib.request.urlopen(req, timeout=timeout) as response:
-        raw = response.read(2_500_000)
-        if len(raw) >= 2_500_000:
-            raise ValueError("REMOTE_RESPONSE_TOO_LARGE")
-        return json.loads(raw)
+    global LAST_WIKIMEDIA_REQUEST_AT
+    host = urllib.parse.urlparse(url).hostname
+    backoff = (1.0, 2.5, 5.0, 9.0)
+    for attempt in range(len(backoff)):
+        if host in WIKIMEDIA_HOSTS:
+            elapsed = time.monotonic() - LAST_WIKIMEDIA_REQUEST_AT
+            if elapsed < 0.35:
+                time.sleep(0.35 - elapsed)
+            LAST_WIKIMEDIA_REQUEST_AT = time.monotonic()
+        req = urllib.request.Request(url, headers={"User-Agent": UA, "Accept": "application/json"})
+        try:
+            with urllib.request.urlopen(req, timeout=timeout) as response:
+                raw = response.read(2_500_000)
+                if len(raw) >= 2_500_000:
+                    raise ValueError("REMOTE_RESPONSE_TOO_LARGE")
+                return json.loads(raw)
+        except urllib.error.HTTPError as exc:
+            retryable = exc.code == 429 or 500 <= exc.code <= 599
+            if not retryable or attempt == len(backoff) - 1:
+                raise
+            retry_after = exc.headers.get("Retry-After")
+            try:
+                delay = float(retry_after) if retry_after else backoff[attempt]
+            except (TypeError, ValueError):
+                delay = backoff[attempt]
+            time.sleep(min(max(delay, 0.5), 15.0))
+        except (urllib.error.URLError, TimeoutError):
+            if attempt == len(backoff) - 1:
+                raise
+            time.sleep(backoff[attempt])
+    raise RuntimeError("REMOTE_JSON_RETRY_EXHAUSTED")
 
 def tabular_rows(resource_id: str, filters: dict[str, str], page_size: int = 6) -> list[dict]:
     params = {"page_size": page_size}
