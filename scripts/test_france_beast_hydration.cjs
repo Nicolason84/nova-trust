@@ -4,7 +4,7 @@ const script=page.match(/<script>([\s\S]*?)<\/script>/)[1];
 const j=JSON.parse(fs.readFileSync('docs/data/france-debt-rate-live.json','utf8'));
 const node=()=>({textContent:'',innerHTML:'',dataset:{},classList:{add(){},remove(){}},style:{setProperty(){}},querySelector(){return node()},setAttribute(){},addEventListener(){},animate(){}});
 const nodes=new Map(),document={getElementById(id){if(!nodes.has(id))nodes.set(id,node());return nodes.get(id);},querySelectorAll(){return[]},body:node(),documentElement:node()};
-const c=vm.createContext({document,window:{matchMedia(){return{matches:true}}},console,Date,Number,Math,String,Array,Object,JSON,setTimeout(){},Blob:class{},URL,ResizeObserver:class{},snapshot:j});
+const c=vm.createContext({document,window:{matchMedia(){return{matches:true}},addEventListener(){}},console,Date,Number,Math,String,Array,Object,JSON,setTimeout(){},Blob:class{},URL,ResizeObserver:class{},snapshot:j});
 vm.runInContext(script.slice(0,script.lastIndexOf('\n// LA_BETE_BOOT_START')),c,{timeout:3000});
 const evaluate=s=>vm.runInContext(s,c,{timeout:3000});
 assert(evaluate('acceptCanonical(snapshot)'));

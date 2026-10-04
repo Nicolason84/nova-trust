@@ -12,7 +12,7 @@ class Node {
   output(){let html=this.innerHTML;for(const [tag,n] of Object.entries(this.children)){if(n.changed){this.changed=true;html=html.replace(new RegExp('(<'+tag+'(?:\\s[^>]*)?>)[\\s\\S]*?(</'+tag+'>)'),(_,a,b)=>a+n.output()+b);}}return html;}
 }
 const document={getElementById(id){if(!nodes.has(id))nodes.set(id,new Node(input.seeds[id]||''));return nodes.get(id);},querySelectorAll(){return[];},body:new Node(),documentElement:new Node()};
-const window={matchMedia(){return{matches:true};}};
+const window={matchMedia(){return{matches:true};},addEventListener(){}};
 const context=vm.createContext({document,window,console:{log(){}},Date,Number,Math,String,Array,Object,JSON,setTimeout(){},Blob:class{},URL,ResizeObserver:class{}});
 vm.runInContext(input.script,context,{timeout:3000});
 context.snapshot=input.live;context.evo=input.evolution;
