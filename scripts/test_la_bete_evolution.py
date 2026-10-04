@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 from evolve_france_debt_rate import build_dna, build_self_model
 from la_bete_civic_design_knowhow import build_civic_design_knowhow, validate_civic_design_knowhow
+from la_bete_scic_privacy_knowhow import build_scic_privacy_knowhow, validate_scic_privacy_knowhow
 
 def fixture(warnings: int, delta: float, status: str, *, unavailable: int = 0, contradicted: int = 0, maturity_live: bool = True) -> dict:
     monitored = 9
@@ -74,3 +75,11 @@ assert knowhow["autoevolution"]["second_runtime"] is False
 assert knowhow["autoevolution"]["proposal_only"] is True
 
 print("LA_BETE_EVOLUTION_THREE_REGIMES_AND_SELF_MODEL_PASS")
+
+scic_knowhow = build_scic_privacy_knowhow("OJO-TEST")
+validate_scic_privacy_knowhow(scic_knowhow, "OJO-TEST")
+assert scic_knowhow["operating_rules"]["second_runtime"] is False
+assert scic_knowhow["operating_rules"]["second_registry"] is False
+assert scic_knowhow["transfer_policy"]["requested_action"] == "OBSERVE_ONLY"
+assert scic_knowhow["transfer_policy"]["target_status"] == "RECEIVED_NOT_APPLIED"
+assert {"TRUTH_OUTSIDE_BALLOT","BLIND_ISSUER_BALLOT_BOX_SEPARATION","OHTTP_RELAY_GATEWAY_INDEPENDENCE","ANONYMITY_BATCH_FAIL_CLOSED","HSM_NON_EXPORTABLE_KEY_CUSTODY","AUDIT_PACK_IS_NOT_AUDIT","VENDOR_EVIDENCE_NOT_MARKETING","REPLY_IS_CANDIDATE_EVIDENCE_NOT_PASS","AUTOEVOLUTION_LINEAGE_RECONCILIATION"} <= {x["id"] for x in scic_knowhow["patterns"]}

@@ -7,6 +7,7 @@ admission, canonical numerical write, new daemon, or political action is emitted
 import base64, hashlib, json, os, subprocess
 from datetime import datetime, timezone
 from la_bete_civic_design_knowhow import transfer_patterns
+from la_bete_scic_privacy_knowhow import transfer_patterns as scic_privacy_transfer_patterns
 from pathlib import Path
 
 def publish(live, bus, receipt):
@@ -47,7 +48,14 @@ METHOD_FILES = (
     'scripts/la_bete_health_memory.py', 'scripts/test_la_bete_health_memory.py',
     'scripts/update_france_debt_rate_live.py', 'scripts/test_france_beast_convergence.py',
     'docs/france-debt-rate-risk-live-2026-10-02.html', 'scripts/test_france_beast_hydration.cjs',
-    'scripts/la_bete_civic_design_knowhow.py',
+    'scripts/la_bete_civic_design_knowhow.py', 'scripts/la_bete_scic_privacy_knowhow.py',
+    'scripts/la_bete_acquisition.py', 'app/scic_privacy_gate.py',
+    'app/scic_circl_runtime.py', 'app/scic_ohttp_runtime.py', 'app/scic_ohttp_https_harness.py',
+    'app/scic_batch_runtime.py', 'app/scic_key_custody.py',
+    'privacy/rfc9474_gate/cmd/scic-circl-runtime/main.go',
+    'privacy/rfc9474_gate/go.mod', 'privacy/rfc9474_gate/go.sum',
+    'privacy/ohttp_runtime/src/main.rs', 'privacy/ohttp_runtime/Cargo.toml', 'privacy/ohttp_runtime/Cargo.lock',
+    'audits/scic_privacy/THREAT_MODEL.md', 'scripts/build_scic_privacy_audit_pack.py',
     'docs/assets/la-bete-explorer.css', 'docs/assets/la-bete-art.css',
     'scripts/test_la_bete_explorer.cjs', 'scripts/test_la_bete_explorer_browser.cjs',
 )
@@ -84,11 +92,11 @@ def build_knowhow(commit, live, evolution, contents):
       {'id':'STRATEGY_REVISION','contract':'Increase care priority after repeated failed attempts; do not relabel a failed prediction after late recovery; improvement alone is not causal proof.'},
       {'id':'BOUNDED_PARALLELISM','contract':'Collect independent sources concurrently with bounded workers; reconcile and commit sequentially; retain last good evidence.'},
       {'id':'ADAPTIVE_PROPAGATION','contract':'Poll faster while visible; slow while hidden or failing; bound network deadlines; prevent overlapping refreshes; require matching canonical snapshots.'},
-    ] + transfer_patterns()
+    ] + transfer_patterns() + scic_privacy_transfer_patterns()
     return {'schema':'LA_BETE_SUPRA_KNOWHOW_V1','knowledge_id':'LA_BETE_METHODS_'+digest[:24],
       'method_digest':digest,'source_commit':commit,'evidence':evidence,'patterns':patterns,
       'source_status':'IMPLEMENTED_AND_TESTED_ON_LA_BETE','target_status':'RECEIVED_NOT_APPLIED',
-      'applicability':'Calibrate thresholds, cadence, resource limits and visual context separately for each SUPRA organ; civic-design patterns constrain presentation only and do not grant mutation authority.',
+      'applicability':'Reuse evidenced health, propagation, civic-design, cooperative-governance and privacy methods only after target-specific calibration and measured validation; transfer never grants mutation or execution authority.',
       'policy':{'requested_action':'OBSERVE_ONLY','capability_execution':False,'automatic_promotion':False}}
 
 def atomic_json(path, value):

@@ -68,6 +68,18 @@ class KnowHowTests(unittest.TestCase):
             self.assertIn(name,self.package['evidence'])
             self.assertEqual(len(self.package['evidence'][name]['sha256']),64)
 
+    def test_scic_privacy_knowhow_is_in_transferable_package(self):
+        ids={x['id'] for x in self.package['patterns']}
+        self.assertTrue({'TRUTH_OUTSIDE_BALLOT','DECISION_MANDATE_EXECUTION_SEPARATION','PRIVATE_MEMBERSHIP_PUBLIC_RECEIPT','BLIND_ISSUER_BALLOT_BOX_SEPARATION','STANDARD_CRYPTO_BEFORE_PRODUCTION','OHTTP_RELAY_GATEWAY_INDEPENDENCE','ANONYMITY_BATCH_FAIL_CLOSED','HSM_NON_EXPORTABLE_KEY_CUSTODY','AUDIT_PACK_IS_NOT_AUDIT','VENDOR_EVIDENCE_NOT_MARKETING','REPLY_IS_CANDIDATE_EVIDENCE_NOT_PASS','MINIMIZE_OUTREACH_PII','HUMAN_GATE_AT_IRREVERSIBLE_OR_EXTERNAL_COMMITMENT','AUTOEVOLUTION_LINEAGE_RECONCILIATION','PROOF_THEN_PROMOTE'} <= ids)
+        for name in ('scripts/la_bete_scic_privacy_knowhow.py','scripts/la_bete_acquisition.py','app/scic_privacy_gate.py','app/scic_circl_runtime.py','app/scic_ohttp_runtime.py','app/scic_ohttp_https_harness.py','app/scic_batch_runtime.py','app/scic_key_custody.py','privacy/rfc9474_gate/cmd/scic-circl-runtime/main.go','privacy/rfc9474_gate/go.sum','privacy/ohttp_runtime/src/main.rs','privacy/ohttp_runtime/Cargo.lock','audits/scic_privacy/THREAT_MODEL.md','scripts/build_scic_privacy_audit_pack.py'):
+            self.assertIn(name,self.package['evidence'])
+            self.assertEqual(len(self.package['evidence'][name]['sha256']),64)
+
+    def test_scic_privacy_method_change_has_new_identity(self):
+        self.contents['scripts/la_bete_scic_privacy_knowhow.py']+='\n# revised privacy method\n'
+        p=build_knowhow('b'*40,self.live,self.evo,self.contents)
+        self.assertNotEqual(p['method_digest'],self.package['method_digest'])
+
     def test_design_change_has_new_method_identity(self):
         self.contents['docs/assets/la-bete-explorer.css']+='\n/* revised design method */\n'
         p=build_knowhow('b'*40,self.live,self.evo,self.contents)
