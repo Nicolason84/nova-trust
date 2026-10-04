@@ -1,82 +1,114 @@
 {
-  "schema": "LA_BETE_SCIC_PRODUCTION_PRIVACY_GATE_PROOF_V1",
-  "verdict": "CRYPTOGRAPHIC_PREREQUISITE_PROVEN_PRODUCTION_BLOCKED",
-  "proved_at": "2026-10-04T01:54:05.356Z",
+  "schema": "LA_BETE_SCIC_PRODUCTION_PRIVACY_GATE_PROOF_V2",
+  "verdict": "INTERNAL_PRIVACY_RUNTIME_CHAIN_PROVEN_EXTERNAL_HUMAN_GATES_BLOCK_PRODUCTION",
+  "proved_at": "2026-10-04T02:53:16.560Z",
   "branch": "mission/scic-production-privacy-gate-20261004",
-  "validated_code_commit": "d8758f3a51a6f9c11923e6c16894b3f86d7f5060",
-  "base_main": "2ff6022968b302a87aaba1b962237d08779887a4",
-  "evolution_generation": 185,
+  "runtime_ci_validated_commit": "97ffca1b70ec22d9276c8171eb4cd095590e0403",
+  "runtime_ci_full_gate_run_id": 37172292065,
+  "evolution_projection_commit": "f8c2843a12c984f3555cdb0299262241898448d6",
+  "audit_source_commit": "5e7edd7a83367fba398e78674beb952c1389e305",
+  "audit_source_dirty": false,
+  "audit_verdict": "NOT_PERFORMED",
+  "evolution_generation": 187,
   "evolution_verdict": "NON_REGRESSION_PASS",
   "source_snapshot_id": "OJO-03035CE5C9B6B290",
-  "cryptographic_gate": {
-    "state": "RFC9474_RFC9578_CI_PASS",
+  "cryptographic_runtime": {
+    "state": "RFC9474_RFC9578_CI_PASS_RUNTIME_BOUND",
     "backend": "CLOUDFLARE_CIRCL",
     "backend_version": "v1.6.5",
     "profile": "RFC9578_PUBLICLY_VERIFIABLE_BLIND_RSA_TOKEN_TYPE_0x0002",
     "variant": "RSABSSA-SHA384-PSS-Deterministic",
-    "pinned_checksum": true,
-    "project_ci": "PASS",
+    "runtime_binding": "PROVEN_CI_SIDECAR",
     "upstream_rfc9474_vectors": "PASS",
-    "standard_rsa_pss_crosscheck": "PASS",
-    "runtime_binding": "NOT_PROVEN",
-    "workflow_run_id": 37169316271,
-    "workflow_job_id": 111338842172
+    "standard_rsa_pss_crosscheck": "PASS"
   },
-  "deployment_privacy_gate": {
-    "production_activation": false,
-    "current_verdict": "BLOCKED",
-    "ohttp_profile": "RFC9458_OHTTP_OR_EQUIVALENT_INDEPENDENT_RELAY",
-    "ohttp_state": "NOT_CONFIGURED",
-    "anonymity_policy": "NOT_APPROVED",
+  "ohttp_runtime": {
+    "state": "RFC9458_BHTTP_LOCAL_TLS_TWO_HOP_PROVEN_EXTERNAL_DEPLOYMENT_NOT_CONFIGURED",
+    "runtime_binding": "PROVEN_CI_THREE_PROCESS_RFC9458",
+    "backend": "MARTINTHOMSON_OHTTP",
+    "backend_version": "0.8.0",
+    "bhttp_profile": "RFC9292_BINARY_HTTP",
+    "bhttp_validation": "PASS_CI_REQUEST_AND_RESPONSE",
+    "local_https_transport": "PROVEN_CI_TWO_HOP_TLS_HOSTNAME_VERIFIED",
+    "local_header_minimization": "PROVEN_CI_RELAY_STRIPS_IDENTIFYING_HEADERS",
+    "fresh_hpke_context_per_request": "PROVEN_CI_DISTINCT_CIPHERTEXT",
+    "public_tls_endpoints": "NOT_CONFIGURED",
+    "independent_operator": "NOT_VERIFIED"
+  },
+  "batching_runtime": {
+    "state": "PERSISTENT_RUNTIME_PROVEN_POLICY_NOT_APPROVED",
+    "mechanism": "FIXED_WINDOW_OPAQUE_ENVELOPE_BATCH",
+    "runtime_binding": "PROVEN_PERSISTENT_SQLITE_OPAQUE_BATCHER",
+    "persistence_restart_proven": true,
+    "small_set_behavior": "ROLL_FORWARD",
     "production_minimum_set_size": "UNSET_REQUIRES_PRIVACY_REVIEW",
     "production_window_seconds": "UNSET_REQUIRES_PRIVACY_REVIEW",
     "small_set_release": "FORBIDDEN",
     "individual_public_timestamps": false,
-    "key_custody": "NOT_PROVEN",
+    "synthetic_batch_mechanics": "SUPERSEDED_BY_PERSISTENT_RUNTIME_PROOF"
+  },
+  "key_custody": {
+    "state": "CONTRACT_IMPLEMENTED_CURRENT_PROVIDER_BLOCKED",
+    "contract": "LA_BETE_SCIC_KEY_CUSTODY_GATE_V1",
+    "current_provider": "FILE_TEST_ONLY",
+    "custody_verdict": "BLOCKED",
+    "issuer_private_key_non_exportable_required": true,
+    "rotation_policy": "NOT_APPROVED",
+    "compromise_runbook": "NOT_APPROVED"
+  },
+  "external_review": {
+    "internal_threat_model": "V1_COMPLETE",
+    "audit_pack": "READY_FOR_EXTERNAL_REVIEW",
     "external_cryptographic_review": "NOT_COMPLETED",
     "privacy_threat_model_review": "NOT_COMPLETED",
+    "independent_relay_operator": "NOT_VERIFIED"
+  },
+  "production": {
+    "activation": false,
+    "verdict": "BLOCKED",
     "blockers": [
-      "CRYPTO_RUNTIME_BINDING_NOT_PROVEN",
-      "OHTTP_INDEPENDENT_RELAY_NOT_CONFIGURED",
+      "OHTTP_INDEPENDENT_RELAY_NOT_DEPLOYED",
+      "OHTTP_PUBLIC_TLS_ENDPOINTS_NOT_CONFIGURED",
+      "OHTTP_PRODUCTION_OPERATOR_ATTESTATION_NOT_PROVEN",
+      "OHTTP_PADDING_POLICY_NOT_APPROVED",
       "ANONYMITY_SET_POLICY_NOT_APPROVED",
       "BATCH_WINDOW_NOT_APPROVED",
-      "KEY_CUSTODY_NOT_PROVEN",
+      "HSM_KEY_CUSTODY_NOT_PROVEN",
+      "KEY_ROTATION_AND_DESTRUCTION_DRILLS_NOT_PROVEN",
       "EXTERNAL_CRYPTO_REVIEW_NOT_COMPLETED",
-      "PRIVACY_THREAT_MODEL_REVIEW_NOT_COMPLETED"
+      "PRIVACY_THREAT_MODEL_EXTERNAL_REVIEW_NOT_COMPLETED"
     ]
   },
   "verification": {
-    "private_unit_tests": 49,
-    "private_webauthn_browser_checks": 26,
-    "blind_signature_research_tests": 14,
-    "process_separation_tests": 1,
-    "production_privacy_gate_tests": 10,
+    "privacy_gate_unit_tests": 10,
     "public_model_tests": 40,
-    "explorer_tests": 63,
+    "explorer_static_tests": 63,
     "public_browser_checks": 49,
     "public_browser_uncaught_exceptions": 0,
-    "git_diff_check": "PASS"
+    "persistent_batch_tests": 8,
+    "key_custody_tests": 5,
+    "audit_pack_tests": 4,
+    "audit_critical_files_hashed": 30,
+    "audit_contains_private_state": false,
+    "ohttp_cargo_lock_sha256": "9cdfbdccbc6b380f32d2fac1916bc0ecb15f20b7779279addbd80294f32177d3",
+    "ci_gate_policy": "REQUIRED_ON_EVERY_CRITICAL_PRIVACY_OR_RECEIPT_CHANGE"
   },
   "boundaries": {
     "real_member_data_used": false,
     "real_ballot_cast": false,
     "production_vote_open": false,
-    "standard_backend_bound_to_runtime": false,
     "independent_ohttp_relay_deployed": false,
+    "production_hsm_bound": false,
     "external_security_audit_completed": false,
+    "external_privacy_review_completed": false,
     "private_state_published": false
   },
   "standards": [
-    "RFC9474_RSA_BLIND_SIGNATURES",
-    "RFC9578_PRIVACY_PASS_ISSUANCE_PUBLICLY_VERIFIABLE_BLIND_RSA",
-    "RFC9576_PRIVACY_PASS_ARCHITECTURE",
-    "RFC9458_OBLIVIOUS_HTTP"
+    "RFC9474",
+    "RFC9578",
+    "RFC9576",
+    "RFC9458",
+    "RFC9292"
   ],
-  "references": [
-    "https://www.rfc-editor.org/info/rfc9474",
-    "https://www.rfc-editor.org/info/rfc9578",
-    "https://www.rfc-editor.org/info/rfc9576",
-    "https://www.rfc-editor.org/info/rfc9458",
-    "https://github.com/cloudflare/circl/tree/v1.6.5/blindsign/blindrsa"
-  ]
+  "audit_pack": "audits/scic_privacy/SCIC_PRIVACY_AUDIT_PACK_V1.json"
 }

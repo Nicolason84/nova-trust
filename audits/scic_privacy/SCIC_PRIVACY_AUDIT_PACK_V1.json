@@ -1,0 +1,185 @@
+{
+  "schema": "LA_BETE_SCIC_PRIVACY_AUDIT_PACK_V1",
+  "purpose": "INDEPENDENT_REVIEW_INPUT_NOT_AN_AUDIT_VERDICT",
+  "source_commit": "5e7edd7a83367fba398e78674beb952c1389e305",
+  "source_dirty": false,
+  "critical_files": {
+    ".github/workflows/scic-production-privacy-gate.yml": {
+      "sha256": "9dad07ef0e0dccacce35901cd4591850ccb6090ec3ef43b408327fd93a369665",
+      "bytes": 5722
+    },
+    "privacy/rfc9474_gate/go.mod": {
+      "sha256": "56da0730e9808f2eec54efbc644fbaf886da032018b8837b4b5f7d1ba9e4cc0e",
+      "bytes": 115
+    },
+    "privacy/rfc9474_gate/go.sum": {
+      "sha256": "b1bb29f7ee462ce7c5577470730d63157e215b3f0ae215d03ed4656e23cd0bed",
+      "bytes": 173
+    },
+    "privacy/rfc9474_gate/rfc9474_gate_test.go": {
+      "sha256": "2550e45a8224cd10063dc134b29c945b18632cdd1aef4b0a23a1e49345f095ce",
+      "bytes": 3659
+    },
+    "privacy/rfc9474_gate/cmd/scic-circl-runtime/main.go": {
+      "sha256": "93b46f2d3103dd7c2766ca7f274e7c5efee96d159c1e3530384ab18e7807941f",
+      "bytes": 9333
+    },
+    "privacy/ohttp_runtime/Cargo.toml": {
+      "sha256": "f8571f3081e7aa90c95eafc79b4b146784969751ab74973741a1b24fe1e814fe",
+      "bytes": 423
+    },
+    "privacy/ohttp_runtime/Cargo.lock": {
+      "sha256": "9cdfbdccbc6b380f32d2fac1916bc0ecb15f20b7779279addbd80294f32177d3",
+      "bytes": 25078
+    },
+    "privacy/ohttp_runtime/src/main.rs": {
+      "sha256": "05c7091a1a6fde3638dab9d0024acb7e776d9ef06cde54163fc4de2f706647a2",
+      "bytes": 17688
+    },
+    "app/scic_circl_runtime.py": {
+      "sha256": "45fc6157abc5700eb11f0b7891c9eb9dac81364ece42623a3f8d499f5d9c294b",
+      "bytes": 4859
+    },
+    "app/scic_ohttp_runtime.py": {
+      "sha256": "66f7503c8cceb7603501d444cb8cc59b0d23b3ad7389aeadd3b6773d49b3ecfc",
+      "bytes": 4259
+    },
+    "app/scic_ohttp_https_harness.py": {
+      "sha256": "15798b292ecc74b54f52283be4518ab7e7ee4c7027093f1366279b216b133e5f",
+      "bytes": 14296
+    },
+    "app/scic_batch_runtime.py": {
+      "sha256": "362d2ff8344d1f961080d848a0b1c91d30845d853a009e3b64553a3b0be76bf1",
+      "bytes": 5487
+    },
+    "app/scic_key_custody.py": {
+      "sha256": "7dfde745be8c11bd943d9fd4798117a1002fb5480c55076602a420113eadc096",
+      "bytes": 3097
+    },
+    "app/scic_privacy_gate.py": {
+      "sha256": "a9d4d3bbe0c18165ff5a2aa4d9b7474e8f2f3fa7281ea4434169e11f931c6c29",
+      "bytes": 12158
+    },
+    "scripts/test_scic_circl_runtime.py": {
+      "sha256": "4a409f43374f29faef50a3760340df0749d54e941686220253827c4d0ce54c72",
+      "bytes": 2410
+    },
+    "scripts/test_scic_ohttp_runtime.py": {
+      "sha256": "0f4e7e42896cb29ec4c9b3380ade3df876a994fe0a34db7df4bf65c387b43846",
+      "bytes": 2380
+    },
+    "scripts/test_scic_ohttp_https_harness.py": {
+      "sha256": "9297ffe51a75eb03614243e94f6fd1370dc9d13501931b5403e39125f47dab11",
+      "bytes": 3338
+    },
+    "scripts/test_scic_batch_runtime.py": {
+      "sha256": "74546c93e59108869f45f8a6eeb8c5fc946335e10b72e12b1c1797dd1f28ffbd",
+      "bytes": 3341
+    },
+    "scripts/test_scic_ohttp_batch_pipeline.py": {
+      "sha256": "5f041932a15a02d831c7af3f0e3f8fe4b77a9efb0814d9eae7c9ec7c0ac950ed",
+      "bytes": 3124
+    },
+    "scripts/test_scic_key_custody.py": {
+      "sha256": "0548b671be76a686df66269d361617405f0a7cd8688a3ba4fb977ed245668c4e",
+      "bytes": 2175
+    },
+    "scripts/test_scic_privacy_gate.py": {
+      "sha256": "0d4aadb44afe9745304b5daa4f0d029053cd8349e750de4a43eed4541f597ae9",
+      "bytes": 7037
+    },
+    "scripts/build_scic_privacy_audit_pack.py": {
+      "sha256": "48c3478232048749ec206532c6744b29c318a8c6fdab8e3e9957c9deb0a6beda",
+      "bytes": 4085
+    },
+    "scripts/test_scic_privacy_audit_pack.py": {
+      "sha256": "6aee78638c52295baed65e9f5f4999b2ce5d1c245289cd270c60e9fe2b095062",
+      "bytes": 1253
+    },
+    "scripts/la_bete_acquisition.py": {
+      "sha256": "9a5eb40403afbaac89ecd8551747e6d10f89455f2bab8d05b4d8c7b44e8277f4",
+      "bytes": 59096
+    },
+    "scripts/test_la_bete_acquisition.py": {
+      "sha256": "a847c1df9f9e51672149007226bbe3380eeece9da1ebb2d47ea7cb3de5a514d0",
+      "bytes": 22859
+    },
+    "scripts/verify_la_bete_evolution.py": {
+      "sha256": "8e7660ea56a7f0731c62bea814a731b407268a580d2c451cba37ca36b0badabb",
+      "bytes": 24582
+    },
+    "docs/assets/la-bete-explorer.js": {
+      "sha256": "39f59e24cc77bbadbc3d5fbe70d758ca76c9b9b6c020ee44253b0bca0564d195",
+      "bytes": 54617
+    },
+    "scripts/test_la_bete_explorer.cjs": {
+      "sha256": "45b541d36714156c91185fca9e8eebfc68b973a13ac71bbb01cda151a73a3e27",
+      "bytes": 11333
+    },
+    "scripts/test_la_bete_explorer_browser.cjs": {
+      "sha256": "d0e732e9112cfd8f4dc5f9b3215062655b231438cb5de71d9831b470f0fd83dd",
+      "bytes": 33688
+    },
+    "audits/scic_privacy/THREAT_MODEL.md": {
+      "sha256": "6fa09405c7afc9ead65eb81d05becba2240fbdcbf6aba6818ff1ab075e765e49",
+      "bytes": 3562
+    }
+  },
+  "standards": [
+    "RFC9474",
+    "RFC9578",
+    "RFC9576",
+    "RFC9458",
+    "RFC9292"
+  ],
+  "pinned_components": {
+    "cloudflare_circl": "v1.6.5",
+    "martinthomson_ohttp": "0.8.0",
+    "go": "1.26.x",
+    "rust": "1.86.0"
+  },
+  "trust_domains": [
+    "MEMBERSHIP_AUTHORITY",
+    "BLIND_ISSUER",
+    "OHTTP_CLIENT",
+    "OHTTP_RELAY",
+    "OHTTP_GATEWAY_BALLOT_BOX",
+    "PERSISTENT_BATCHER",
+    "PUBLIC_REGISTRY"
+  ],
+  "required_invariants": [
+    "ONE_ELIGIBLE_MEMBER_ONE_ENTITLEMENT_PER_ELECTION",
+    "BLIND_ISSUER_NO_MEMBER_IDENTITY",
+    "RELAY_NO_BALLOT_PLAINTEXT",
+    "BALLOT_BOX_NO_MEMBERSHIP_IDENTITY",
+    "SMALL_ANONYMITY_SET_NEVER_RELEASED",
+    "NO_INDIVIDUAL_PUBLIC_CAST_TIMESTAMP",
+    "PRODUCTION_ISSUER_KEY_NON_EXPORTABLE",
+    "TRUTH_NOT_DECIDED_BY_BALLOT"
+  ],
+  "reproduction_commands": [
+    "PYTHONPATH=. python3 scripts/test_scic_privacy_gate.py",
+    "PYTHONPATH=. python3 scripts/test_scic_batch_runtime.py",
+    "PYTHONPATH=. python3 scripts/test_scic_key_custody.py",
+    "SCIC_CIRCL_RUNTIME_BIN=<built-sidecar> PYTHONPATH=. python3 scripts/test_scic_circl_runtime.py",
+    "SCIC_OHTTP_RUNTIME_BIN=<built-runtime> PYTHONPATH=. python3 scripts/test_scic_ohttp_runtime.py",
+    "SCIC_OHTTP_RUNTIME_BIN=<built-runtime> PYTHONPATH=. python3 scripts/test_scic_ohttp_https_harness.py",
+    "SCIC_OHTTP_RUNTIME_BIN=<built-runtime> PYTHONPATH=. python3 scripts/test_scic_ohttp_batch_pipeline.py",
+    "go test -v ./...  # privacy/rfc9474_gate",
+    "go test -v github.com/cloudflare/circl/blindsign/blindrsa",
+    "cargo test --locked  # privacy/ohttp_runtime"
+  ],
+  "production_blockers": [
+    "INDEPENDENT_OHTTP_RELAY_NOT_DEPLOYED",
+    "PUBLIC_OHTTP_TLS_ENDPOINTS_NOT_CONFIGURED",
+    "PRODUCTION_OPERATOR_ATTESTATION_NOT_PROVEN",
+    "ANONYMITY_POLICY_NOT_EXTERNALLY_APPROVED",
+    "HSM_KEY_CUSTODY_NOT_PROVEN",
+    "KEY_ROTATION_AND_DESTRUCTION_DRILLS_NOT_PROVEN",
+    "EXTERNAL_CRYPTO_AUDIT_NOT_COMPLETED",
+    "EXTERNAL_PRIVACY_REVIEW_NOT_COMPLETED"
+  ],
+  "external_review_required": true,
+  "audit_verdict": "NOT_PERFORMED",
+  "contains_private_state": false
+}
