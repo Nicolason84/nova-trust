@@ -1,0 +1,999 @@
+{
+  "schema": "LA_BETE_PATRIMONIAL_ENGINE_RECEIPTS_V1",
+  "generated_at": "2026-10-04T16:48:06.974840+00:00",
+  "policy": {
+    "receipt_requires_exact_document_sha256": true,
+    "private_source_code_published": false,
+    "receipt_is_not_truth_verdict": true,
+    "receipt_is_not_authenticity_verdict": true,
+    "stale_receipt_must_not_execute": true,
+    "system_context_is_not_object_verdict": true
+  },
+  "public_contract": {
+    "private_engine_source_embedded": false,
+    "local_paths_embedded": false,
+    "truth_verdict": false,
+    "authenticity_verdict": false,
+    "uscrc_object_certificate": false,
+    "receipts_bind_results_to_document_and_engine_hashes": true
+  },
+  "engine_sources": {
+    "trust_deep": {
+      "sha256": "d6ff1143e04f488fbb19f26d362c1595600e78faa0d59e2875b7a63093845441",
+      "private_source_code_published": false
+    },
+    "coherence_multilayer": {
+      "sha256": "1ae52c934ff5fd8c091ecf99340094273848803dc698a7b1de9e6732454cde67",
+      "private_source_code_published": false
+    },
+    "trust_proof_checker": {
+      "sha256": "42ec347d697fd4cc1de62e4d308de3f61cda729f35494a4dc1b07b0dfd3f5e43",
+      "private_source_code_published": false
+    },
+    "coherence_scorer": {
+      "sha256": "e75dec348ba6dd9d7a80778204ff256d2dc8a99086021338ddd80f288a7ba987",
+      "private_source_code_published": false
+    },
+    "uscrc_pre_event": {
+      "sha256": "43d0c96cedc7bfe3083c88c72cebd68fa82e9234988378812632a8400540ef86",
+      "private_source_code_published": false
+    },
+    "uscrc_symbolic_proofgraph": {
+      "sha256": "bd82efe406370028554aead80e3d38596e961a0f9196abea998403d95d144150",
+      "private_source_code_published": false
+    }
+  },
+  "engine_families": {
+    "trust_deep_engine": {
+      "identity": "RECOVERED_CAPABILITY_FAMILY",
+      "executed_component": "REAL_FETCH_PIPELINE_WITH_TRUST_SCORING_V1",
+      "source_sha256": "d6ff1143e04f488fbb19f26d362c1595600e78faa0d59e2875b7a63093845441"
+    },
+    "trust_industrial_engine": {
+      "identity": "HISTORICAL_ALIAS_WITHOUT_UNIQUE_FILENAME_PROVEN",
+      "system_context_only": true
+    },
+    "coherence_historical": {
+      "executed_component": "COHERENCE_MULTI_LAYER_ANALYSIS_V1",
+      "source_sha256": "1ae52c934ff5fd8c091ecf99340094273848803dc698a7b1de9e6732454cde67"
+    },
+    "uscrc": {
+      "system_context_only": true,
+      "object_certificate": false
+    }
+  },
+  "system_context": {
+    "trust_industrial_family": {
+      "status": "RECOVERED_HISTORICAL_SYSTEM_CONTEXT",
+      "alias_identity": "NO_UNIQUE_FILE_NAMED_TRUST_INDUSTRIAL_ENGINE_PROVEN",
+      "trust_proof_checker": {
+        "source_sha256": "42ec347d697fd4cc1de62e4d308de3f61cda729f35494a4dc1b07b0dfd3f5e43",
+        "engine": "TRUST_ENGINE",
+        "role": "external_proof_checker_only",
+        "does_not_decide": true,
+        "trust_score": 1.0,
+        "decision": "PASS",
+        "proof_checks": {
+          "queue_file_exists": true,
+          "flow_file_exists": true,
+          "companion_file_exists": true,
+          "coherence_report_exists": true,
+          "has_actions": true,
+          "last_action_has_id": true,
+          "last_action_has_timestamp": true,
+          "last_action_has_effect": true,
+          "flow_has_status": true,
+          "coherence_passed": true
+        }
+      },
+      "coherence_scorer": {
+        "source_sha256": "e75dec348ba6dd9d7a80778204ff256d2dc8a99086021338ddd80f288a7ba987",
+        "engine": "COHERENCE_ENGINE",
+        "role": "external_phi_scorer_only",
+        "does_not_decide": true,
+        "global_phi": 0.95,
+        "decision": "PASS",
+        "scores": {
+          "PIL": 0.95,
+          "FLOW": 0.95,
+          "PROOF": 0.95,
+          "COMPANION": 0.95
+        }
+      }
+    },
+    "uscrc": {
+      "status": "READ_ONLY_EXISTING_SYSTEM_STATE_BOUND_NOT_OBJECT_CERTIFICATE",
+      "pre_event_engine_source_sha256": "43d0c96cedc7bfe3083c88c72cebd68fa82e9234988378812632a8400540ef86",
+      "proofgraph_engine_source_sha256": "bd82efe406370028554aead80e3d38596e961a0f9196abea998403d95d144150",
+      "state_sha256": "a097250bb80366da123ffaad6cda518bc6914385dac83d2afeae141a39b7cd19",
+      "chain_sha256": "0af122dd895053b61b048ced1feca3109535829ffb66bd894aef14ab3370535a",
+      "state": {
+        "engine": "USCRC_PRE_EVENT_PATTERN_CORE_V1",
+        "risk": "HIGH",
+        "pre_event": "pre_collapse_or_self_reference",
+        "recommended_action": "throttle_loop_and_reduce_traces",
+        "window": 21
+      },
+      "symbolic_chain": {
+        "entries": 1,
+        "last_hash": "7b6e5445d8c406f6432dfcd59a7cad84fe7ab1b949156c41af91d4cb75946c4e"
+      },
+      "object_execution": false,
+      "certificate_issued": false,
+      "scope": "HISTORICAL_INTERNAL_SYSTEM_CONTEXT_NOT_LA_BETE_OBJECT_RISK",
+      "interpretation": "This risk signal belongs to the recovered internal uSCRC world-state window; it is not a verdict about any Evidence Universe object."
+    }
+  },
+  "documents": {
+    "data/FRANCE_BEAST_BINDING.json": {
+      "document_sha256": "7c6d63d353eee424f655ffea0dda7ef98d955ccf0e597d79f0af19850f9278b9",
+      "result": {
+        "trust_deep": {
+          "engine": "REAL_FETCH_PIPELINE_WITH_TRUST_SCORING_V1",
+          "execution": "LOCAL_PRIVATE_ENGINE_SAFE_FUNCTIONS_EXECUTED",
+          "engine_source_sha256": "d6ff1143e04f488fbb19f26d362c1595600e78faa0d59e2875b7a63093845441",
+          "extracted_logic_sha256": "190531a91541906c3c07fb4bed4b3eb67a83aa3b72444b58f49ca108d91ea200",
+          "trust": {
+            "domain_trust": 90,
+            "fetch_trust": 70,
+            "content_trust": 70,
+            "overall_trust": 78
+          },
+          "analysis": {
+            "level": "MODERATE_SIGNAL",
+            "pressure": 0,
+            "weak_proof": 0,
+            "proof": 0,
+            "contradictions": [],
+            "note": "Analyse fondée sur contenu extrait."
+          },
+          "truth_verdict": false
+        },
+        "coherence_historical": {
+          "engine": "COHERENCE_MULTI_LAYER_ANALYSIS_V1",
+          "execution": "LOCAL_PRIVATE_ENGINE_SAFE_FUNCTIONS_EXECUTED",
+          "engine_source_sha256": "1ae52c934ff5fd8c091ecf99340094273848803dc698a7b1de9e6732454cde67",
+          "extracted_logic_sha256": "29fb9dc059ec012cbe866019db59fcba24f5ed9bf53bba0e655bf2869f81c493",
+          "level": "MODERATE_SIGNAL",
+          "facts_detected": 3,
+          "hypotheses_detected": 0,
+          "pressure": {
+            "urgence": 0,
+            "surpromesse": 0,
+            "autorite_floue": 0
+          },
+          "emotional_framing": {
+            "fear": 0,
+            "greed": 0,
+            "certainty_language": 0
+          },
+          "proof_layer": {
+            "strong_proof": 0,
+            "weak_proof": 0
+          },
+          "contradictions": [],
+          "truth_verdict": false
+        }
+      }
+    },
+    "data/budget-2027-live.json": {
+      "document_sha256": "3031a2725bf0214a1e00b329953ccd8ec5baf38fa1d7e0606248afa86eaebde7",
+      "result": {
+        "trust_deep": {
+          "engine": "REAL_FETCH_PIPELINE_WITH_TRUST_SCORING_V1",
+          "execution": "LOCAL_PRIVATE_ENGINE_SAFE_FUNCTIONS_EXECUTED",
+          "engine_source_sha256": "d6ff1143e04f488fbb19f26d362c1595600e78faa0d59e2875b7a63093845441",
+          "extracted_logic_sha256": "190531a91541906c3c07fb4bed4b3eb67a83aa3b72444b58f49ca108d91ea200",
+          "trust": {
+            "domain_trust": 90,
+            "fetch_trust": 70,
+            "content_trust": 75,
+            "overall_trust": 81
+          },
+          "analysis": {
+            "level": "SOURCE_GROUNDED_LOW_PRESSURE",
+            "pressure": 0,
+            "weak_proof": 0,
+            "proof": 263,
+            "contradictions": [],
+            "note": "Analyse fondée sur contenu extrait."
+          },
+          "truth_verdict": false
+        },
+        "coherence_historical": {
+          "engine": "COHERENCE_MULTI_LAYER_ANALYSIS_V1",
+          "execution": "LOCAL_PRIVATE_ENGINE_SAFE_FUNCTIONS_EXECUTED",
+          "engine_source_sha256": "1ae52c934ff5fd8c091ecf99340094273848803dc698a7b1de9e6732454cde67",
+          "extracted_logic_sha256": "29fb9dc059ec012cbe866019db59fcba24f5ed9bf53bba0e655bf2869f81c493",
+          "level": "MODERATE_SIGNAL",
+          "facts_detected": 104,
+          "hypotheses_detected": 0,
+          "pressure": {
+            "urgence": 0,
+            "surpromesse": 0,
+            "autorite_floue": 0
+          },
+          "emotional_framing": {
+            "fear": 0,
+            "greed": 0,
+            "certainty_language": 0
+          },
+          "proof_layer": {
+            "strong_proof": 0,
+            "weak_proof": 0
+          },
+          "contradictions": [],
+          "truth_verdict": false
+        }
+      }
+    },
+    "data/environment-live.json": {
+      "document_sha256": "3458f601d1a6556e96061193ee10bc9838186476b2d18a09acb88fd7774a803d",
+      "result": {
+        "trust_deep": {
+          "engine": "REAL_FETCH_PIPELINE_WITH_TRUST_SCORING_V1",
+          "execution": "LOCAL_PRIVATE_ENGINE_SAFE_FUNCTIONS_EXECUTED",
+          "engine_source_sha256": "d6ff1143e04f488fbb19f26d362c1595600e78faa0d59e2875b7a63093845441",
+          "extracted_logic_sha256": "190531a91541906c3c07fb4bed4b3eb67a83aa3b72444b58f49ca108d91ea200",
+          "trust": {
+            "domain_trust": 90,
+            "fetch_trust": 70,
+            "content_trust": 75,
+            "overall_trust": 81
+          },
+          "analysis": {
+            "level": "NARRATIVE_PRESSURE_SIGNAL",
+            "pressure": 12,
+            "weak_proof": 0,
+            "proof": 1034,
+            "contradictions": [],
+            "note": "Analyse fondée sur contenu extrait."
+          },
+          "truth_verdict": false
+        },
+        "coherence_historical": {
+          "engine": "COHERENCE_MULTI_LAYER_ANALYSIS_V1",
+          "execution": "LOCAL_PRIVATE_ENGINE_SAFE_FUNCTIONS_EXECUTED",
+          "engine_source_sha256": "1ae52c934ff5fd8c091ecf99340094273848803dc698a7b1de9e6732454cde67",
+          "extracted_logic_sha256": "29fb9dc059ec012cbe866019db59fcba24f5ed9bf53bba0e655bf2869f81c493",
+          "level": "HIGH_PRESSURE_LOW_PROOF",
+          "facts_detected": 1565,
+          "hypotheses_detected": 0,
+          "pressure": {
+            "urgence": 24,
+            "surpromesse": 0,
+            "autorite_floue": 0
+          },
+          "emotional_framing": {
+            "fear": 4,
+            "greed": 0,
+            "certainty_language": 0
+          },
+          "proof_layer": {
+            "strong_proof": 0,
+            "weak_proof": 0
+          },
+          "contradictions": [],
+          "truth_verdict": false
+        }
+      }
+    },
+    "data/france-debt-rate-evolution.json": {
+      "document_sha256": "229053c6030e0594e064e0fa160c215a97c2c438059f5bd88f62ced9d1cee506",
+      "result": {
+        "trust_deep": {
+          "engine": "REAL_FETCH_PIPELINE_WITH_TRUST_SCORING_V1",
+          "execution": "LOCAL_PRIVATE_ENGINE_SAFE_FUNCTIONS_EXECUTED",
+          "engine_source_sha256": "d6ff1143e04f488fbb19f26d362c1595600e78faa0d59e2875b7a63093845441",
+          "extracted_logic_sha256": "190531a91541906c3c07fb4bed4b3eb67a83aa3b72444b58f49ca108d91ea200",
+          "trust": {
+            "domain_trust": 90,
+            "fetch_trust": 70,
+            "content_trust": 75,
+            "overall_trust": 81
+          },
+          "analysis": {
+            "level": "NARRATIVE_PRESSURE_SIGNAL",
+            "pressure": 10,
+            "weak_proof": 0,
+            "proof": 2139,
+            "contradictions": [],
+            "note": "Analyse fondée sur contenu extrait."
+          },
+          "truth_verdict": false
+        },
+        "coherence_historical": {
+          "engine": "COHERENCE_MULTI_LAYER_ANALYSIS_V1",
+          "execution": "LOCAL_PRIVATE_ENGINE_SAFE_FUNCTIONS_EXECUTED",
+          "engine_source_sha256": "1ae52c934ff5fd8c091ecf99340094273848803dc698a7b1de9e6732454cde67",
+          "extracted_logic_sha256": "29fb9dc059ec012cbe866019db59fcba24f5ed9bf53bba0e655bf2869f81c493",
+          "level": "HIGH_PRESSURE_LOW_PROOF",
+          "facts_detected": 394,
+          "hypotheses_detected": 14,
+          "pressure": {
+            "urgence": 1,
+            "surpromesse": 0,
+            "autorite_floue": 20
+          },
+          "emotional_framing": {
+            "fear": 1,
+            "greed": 1,
+            "certainty_language": 5
+          },
+          "proof_layer": {
+            "strong_proof": 0,
+            "weak_proof": 2
+          },
+          "contradictions": [],
+          "truth_verdict": false
+        }
+      }
+    },
+    "data/france-debt-rate-live.json": {
+      "document_sha256": "b6a9ea3c9578da2dd2c2d065d7b92f7b49f9c924045c38dbb4f8a5aa4b2606cb",
+      "result": {
+        "trust_deep": {
+          "engine": "REAL_FETCH_PIPELINE_WITH_TRUST_SCORING_V1",
+          "execution": "LOCAL_PRIVATE_ENGINE_SAFE_FUNCTIONS_EXECUTED",
+          "engine_source_sha256": "d6ff1143e04f488fbb19f26d362c1595600e78faa0d59e2875b7a63093845441",
+          "extracted_logic_sha256": "190531a91541906c3c07fb4bed4b3eb67a83aa3b72444b58f49ca108d91ea200",
+          "trust": {
+            "domain_trust": 90,
+            "fetch_trust": 70,
+            "content_trust": 75,
+            "overall_trust": 81
+          },
+          "analysis": {
+            "level": "NARRATIVE_PRESSURE_SIGNAL",
+            "pressure": 6,
+            "weak_proof": 0,
+            "proof": 133,
+            "contradictions": [],
+            "note": "Analyse fondée sur contenu extrait."
+          },
+          "truth_verdict": false
+        },
+        "coherence_historical": {
+          "engine": "COHERENCE_MULTI_LAYER_ANALYSIS_V1",
+          "execution": "LOCAL_PRIVATE_ENGINE_SAFE_FUNCTIONS_EXECUTED",
+          "engine_source_sha256": "1ae52c934ff5fd8c091ecf99340094273848803dc698a7b1de9e6732454cde67",
+          "extracted_logic_sha256": "29fb9dc059ec012cbe866019db59fcba24f5ed9bf53bba0e655bf2869f81c493",
+          "level": "HIGH_PRESSURE_LOW_PROOF",
+          "facts_detected": 1368,
+          "hypotheses_detected": 2,
+          "pressure": {
+            "urgence": 0,
+            "surpromesse": 0,
+            "autorite_floue": 7
+          },
+          "emotional_framing": {
+            "fear": 0,
+            "greed": 0,
+            "certainty_language": 0
+          },
+          "proof_layer": {
+            "strong_proof": 0,
+            "weak_proof": 0
+          },
+          "contradictions": [],
+          "truth_verdict": false
+        }
+      }
+    },
+    "data/france-organism.json": {
+      "document_sha256": "0a56c72f8cbe495bcaa612772735b97ed02ba28dba65df74ed8a20513acc121f",
+      "result": {
+        "trust_deep": {
+          "engine": "REAL_FETCH_PIPELINE_WITH_TRUST_SCORING_V1",
+          "execution": "LOCAL_PRIVATE_ENGINE_SAFE_FUNCTIONS_EXECUTED",
+          "engine_source_sha256": "d6ff1143e04f488fbb19f26d362c1595600e78faa0d59e2875b7a63093845441",
+          "extracted_logic_sha256": "190531a91541906c3c07fb4bed4b3eb67a83aa3b72444b58f49ca108d91ea200",
+          "trust": {
+            "domain_trust": 90,
+            "fetch_trust": 70,
+            "content_trust": 75,
+            "overall_trust": 81
+          },
+          "analysis": {
+            "level": "MODERATE_SIGNAL",
+            "pressure": 0,
+            "weak_proof": 0,
+            "proof": 2,
+            "contradictions": [],
+            "note": "Analyse fondée sur contenu extrait."
+          },
+          "truth_verdict": false
+        },
+        "coherence_historical": {
+          "engine": "COHERENCE_MULTI_LAYER_ANALYSIS_V1",
+          "execution": "LOCAL_PRIVATE_ENGINE_SAFE_FUNCTIONS_EXECUTED",
+          "engine_source_sha256": "1ae52c934ff5fd8c091ecf99340094273848803dc698a7b1de9e6732454cde67",
+          "extracted_logic_sha256": "29fb9dc059ec012cbe866019db59fcba24f5ed9bf53bba0e655bf2869f81c493",
+          "level": "MODERATE_SIGNAL",
+          "facts_detected": 207,
+          "hypotheses_detected": 0,
+          "pressure": {
+            "urgence": 0,
+            "surpromesse": 0,
+            "autorite_floue": 0
+          },
+          "emotional_framing": {
+            "fear": 0,
+            "greed": 0,
+            "certainty_language": 1
+          },
+          "proof_layer": {
+            "strong_proof": 0,
+            "weak_proof": 0
+          },
+          "contradictions": [],
+          "truth_verdict": false
+        }
+      }
+    },
+    "data/france-topology.json": {
+      "document_sha256": "4a313be891c97a92d3e982b41197131f52e2782312c465fc647742ccd997209a",
+      "result": {
+        "trust_deep": {
+          "engine": "REAL_FETCH_PIPELINE_WITH_TRUST_SCORING_V1",
+          "execution": "LOCAL_PRIVATE_ENGINE_SAFE_FUNCTIONS_EXECUTED",
+          "engine_source_sha256": "d6ff1143e04f488fbb19f26d362c1595600e78faa0d59e2875b7a63093845441",
+          "extracted_logic_sha256": "190531a91541906c3c07fb4bed4b3eb67a83aa3b72444b58f49ca108d91ea200",
+          "trust": {
+            "domain_trust": 90,
+            "fetch_trust": 70,
+            "content_trust": 75,
+            "overall_trust": 81
+          },
+          "analysis": {
+            "level": "NARRATIVE_PRESSURE_SIGNAL",
+            "pressure": 102,
+            "weak_proof": 0,
+            "proof": 16,
+            "contradictions": [],
+            "note": "Analyse fondée sur contenu extrait."
+          },
+          "truth_verdict": false
+        },
+        "coherence_historical": {
+          "engine": "COHERENCE_MULTI_LAYER_ANALYSIS_V1",
+          "execution": "LOCAL_PRIVATE_ENGINE_SAFE_FUNCTIONS_EXECUTED",
+          "engine_source_sha256": "1ae52c934ff5fd8c091ecf99340094273848803dc698a7b1de9e6732454cde67",
+          "extracted_logic_sha256": "29fb9dc059ec012cbe866019db59fcba24f5ed9bf53bba0e655bf2869f81c493",
+          "level": "HIGH_PRESSURE_LOW_PROOF",
+          "facts_detected": 114,
+          "hypotheses_detected": 1,
+          "pressure": {
+            "urgence": 6,
+            "surpromesse": 0,
+            "autorite_floue": 0
+          },
+          "emotional_framing": {
+            "fear": 5,
+            "greed": 0,
+            "certainty_language": 0
+          },
+          "proof_layer": {
+            "strong_proof": 0,
+            "weak_proof": 0
+          },
+          "contradictions": [],
+          "truth_verdict": false
+        }
+      }
+    },
+    "data/la-bete-mobile-access.json": {
+      "document_sha256": "6838ea49702bfaf6772feb09c6638bc56b13d38fad333965818aff9e3294f996",
+      "result": {
+        "trust_deep": {
+          "engine": "REAL_FETCH_PIPELINE_WITH_TRUST_SCORING_V1",
+          "execution": "LOCAL_PRIVATE_ENGINE_SAFE_FUNCTIONS_EXECUTED",
+          "engine_source_sha256": "d6ff1143e04f488fbb19f26d362c1595600e78faa0d59e2875b7a63093845441",
+          "extracted_logic_sha256": "190531a91541906c3c07fb4bed4b3eb67a83aa3b72444b58f49ca108d91ea200",
+          "trust": {
+            "domain_trust": 90,
+            "fetch_trust": 70,
+            "content_trust": 60,
+            "overall_trust": 72
+          },
+          "analysis": {
+            "level": "NARRATIVE_PRESSURE_SIGNAL",
+            "pressure": 1,
+            "weak_proof": 0,
+            "proof": 3,
+            "contradictions": [],
+            "note": "Analyse fondée sur contenu extrait."
+          },
+          "truth_verdict": false
+        },
+        "coherence_historical": {
+          "engine": "COHERENCE_MULTI_LAYER_ANALYSIS_V1",
+          "execution": "LOCAL_PRIVATE_ENGINE_SAFE_FUNCTIONS_EXECUTED",
+          "engine_source_sha256": "1ae52c934ff5fd8c091ecf99340094273848803dc698a7b1de9e6732454cde67",
+          "extracted_logic_sha256": "29fb9dc059ec012cbe866019db59fcba24f5ed9bf53bba0e655bf2869f81c493",
+          "level": "MODERATE_SIGNAL",
+          "facts_detected": 22,
+          "hypotheses_detected": 0,
+          "pressure": {
+            "urgence": 0,
+            "surpromesse": 1,
+            "autorite_floue": 0
+          },
+          "emotional_framing": {
+            "fear": 0,
+            "greed": 0,
+            "certainty_language": 0
+          },
+          "proof_layer": {
+            "strong_proof": 0,
+            "weak_proof": 0
+          },
+          "contradictions": [],
+          "truth_verdict": false
+        }
+      }
+    },
+    "data/la-bete-territory-contributions-v1.json": {
+      "document_sha256": "0aa0c26cfb350801ac2bb4bc4a0eb5ae4f4598f99d01592be217fe5d8f0fee2f",
+      "result": {
+        "trust_deep": {
+          "engine": "REAL_FETCH_PIPELINE_WITH_TRUST_SCORING_V1",
+          "execution": "LOCAL_PRIVATE_ENGINE_SAFE_FUNCTIONS_EXECUTED",
+          "engine_source_sha256": "d6ff1143e04f488fbb19f26d362c1595600e78faa0d59e2875b7a63093845441",
+          "extracted_logic_sha256": "190531a91541906c3c07fb4bed4b3eb67a83aa3b72444b58f49ca108d91ea200",
+          "trust": {
+            "domain_trust": 90,
+            "fetch_trust": 25,
+            "content_trust": 25,
+            "overall_trust": 51
+          },
+          "analysis": {
+            "level": "MODERATE_SIGNAL",
+            "pressure": 0,
+            "weak_proof": 0,
+            "proof": 0,
+            "contradictions": [],
+            "note": "Analyse fondée sur contenu extrait."
+          },
+          "truth_verdict": false
+        },
+        "coherence_historical": {
+          "engine": "COHERENCE_MULTI_LAYER_ANALYSIS_V1",
+          "execution": "LOCAL_PRIVATE_ENGINE_SAFE_FUNCTIONS_EXECUTED",
+          "engine_source_sha256": "1ae52c934ff5fd8c091ecf99340094273848803dc698a7b1de9e6732454cde67",
+          "extracted_logic_sha256": "29fb9dc059ec012cbe866019db59fcba24f5ed9bf53bba0e655bf2869f81c493",
+          "level": "MODERATE_SIGNAL",
+          "facts_detected": 1,
+          "hypotheses_detected": 0,
+          "pressure": {
+            "urgence": 0,
+            "surpromesse": 0,
+            "autorite_floue": 0
+          },
+          "emotional_framing": {
+            "fear": 0,
+            "greed": 0,
+            "certainty_language": 0
+          },
+          "proof_layer": {
+            "strong_proof": 0,
+            "weak_proof": 0
+          },
+          "contradictions": [],
+          "truth_verdict": false
+        }
+      }
+    },
+    "data/la-bete-territory-culture-v1.json": {
+      "document_sha256": "808bd32c84a0fc22df4832a30f0d600d1b1c0649026c72b6d96f520e4bcb2f77",
+      "result": {
+        "trust_deep": {
+          "engine": "REAL_FETCH_PIPELINE_WITH_TRUST_SCORING_V1",
+          "execution": "LOCAL_PRIVATE_ENGINE_SAFE_FUNCTIONS_EXECUTED",
+          "engine_source_sha256": "d6ff1143e04f488fbb19f26d362c1595600e78faa0d59e2875b7a63093845441",
+          "extracted_logic_sha256": "190531a91541906c3c07fb4bed4b3eb67a83aa3b72444b58f49ca108d91ea200",
+          "trust": {
+            "domain_trust": 90,
+            "fetch_trust": 70,
+            "content_trust": 75,
+            "overall_trust": 81
+          },
+          "analysis": {
+            "level": "NARRATIVE_PRESSURE_SIGNAL",
+            "pressure": 303,
+            "weak_proof": 0,
+            "proof": 326,
+            "contradictions": [],
+            "note": "Analyse fondée sur contenu extrait."
+          },
+          "truth_verdict": false
+        },
+        "coherence_historical": {
+          "engine": "COHERENCE_MULTI_LAYER_ANALYSIS_V1",
+          "execution": "LOCAL_PRIVATE_ENGINE_SAFE_FUNCTIONS_EXECUTED",
+          "engine_source_sha256": "1ae52c934ff5fd8c091ecf99340094273848803dc698a7b1de9e6732454cde67",
+          "extracted_logic_sha256": "29fb9dc059ec012cbe866019db59fcba24f5ed9bf53bba0e655bf2869f81c493",
+          "level": "HIGH_PRESSURE_LOW_PROOF",
+          "facts_detected": 126,
+          "hypotheses_detected": 0,
+          "pressure": {
+            "urgence": 112,
+            "surpromesse": 0,
+            "autorite_floue": 101
+          },
+          "emotional_framing": {
+            "fear": 0,
+            "greed": 0,
+            "certainty_language": 0
+          },
+          "proof_layer": {
+            "strong_proof": 0,
+            "weak_proof": 0
+          },
+          "contradictions": [],
+          "truth_verdict": false
+        }
+      }
+    },
+    "data/la-bete-territory-discovery-candidates-v1.json": {
+      "document_sha256": "d0cdbc42f57541410b27f9a562160d4e013bee95bbb48c2ce9d6d7d2b15f0449",
+      "result": {
+        "trust_deep": {
+          "engine": "REAL_FETCH_PIPELINE_WITH_TRUST_SCORING_V1",
+          "execution": "LOCAL_PRIVATE_ENGINE_SAFE_FUNCTIONS_EXECUTED",
+          "engine_source_sha256": "d6ff1143e04f488fbb19f26d362c1595600e78faa0d59e2875b7a63093845441",
+          "extracted_logic_sha256": "190531a91541906c3c07fb4bed4b3eb67a83aa3b72444b58f49ca108d91ea200",
+          "trust": {
+            "domain_trust": 90,
+            "fetch_trust": 70,
+            "content_trust": 60,
+            "overall_trust": 72
+          },
+          "analysis": {
+            "level": "NARRATIVE_PRESSURE_SIGNAL",
+            "pressure": 7,
+            "weak_proof": 0,
+            "proof": 2572,
+            "contradictions": [],
+            "note": "Analyse fondée sur contenu extrait."
+          },
+          "truth_verdict": false
+        },
+        "coherence_historical": {
+          "engine": "COHERENCE_MULTI_LAYER_ANALYSIS_V1",
+          "execution": "LOCAL_PRIVATE_ENGINE_SAFE_FUNCTIONS_EXECUTED",
+          "engine_source_sha256": "1ae52c934ff5fd8c091ecf99340094273848803dc698a7b1de9e6732454cde67",
+          "extracted_logic_sha256": "29fb9dc059ec012cbe866019db59fcba24f5ed9bf53bba0e655bf2869f81c493",
+          "level": "HIGH_PRESSURE_LOW_PROOF",
+          "facts_detected": 6144,
+          "hypotheses_detected": 45,
+          "pressure": {
+            "urgence": 9,
+            "surpromesse": 3,
+            "autorite_floue": 303
+          },
+          "emotional_framing": {
+            "fear": 1,
+            "greed": 0,
+            "certainty_language": 15
+          },
+          "proof_layer": {
+            "strong_proof": 0,
+            "weak_proof": 0
+          },
+          "contradictions": [
+            "Certitude forte sans preuve correspondante."
+          ],
+          "truth_verdict": false
+        }
+      }
+    },
+    "data/la-bete-territory-living-identity-v1.json": {
+      "document_sha256": "cfd310dac85d68dd271150fd221d965d4503d99f12cd4eb76381b398d40ad232",
+      "result": {
+        "trust_deep": {
+          "engine": "REAL_FETCH_PIPELINE_WITH_TRUST_SCORING_V1",
+          "execution": "LOCAL_PRIVATE_ENGINE_SAFE_FUNCTIONS_EXECUTED",
+          "engine_source_sha256": "d6ff1143e04f488fbb19f26d362c1595600e78faa0d59e2875b7a63093845441",
+          "extracted_logic_sha256": "190531a91541906c3c07fb4bed4b3eb67a83aa3b72444b58f49ca108d91ea200",
+          "trust": {
+            "domain_trust": 90,
+            "fetch_trust": 70,
+            "content_trust": 75,
+            "overall_trust": 81
+          },
+          "analysis": {
+            "level": "NARRATIVE_PRESSURE_SIGNAL",
+            "pressure": 1,
+            "weak_proof": 0,
+            "proof": 339,
+            "contradictions": [],
+            "note": "Analyse fondée sur contenu extrait."
+          },
+          "truth_verdict": false
+        },
+        "coherence_historical": {
+          "engine": "COHERENCE_MULTI_LAYER_ANALYSIS_V1",
+          "execution": "LOCAL_PRIVATE_ENGINE_SAFE_FUNCTIONS_EXECUTED",
+          "engine_source_sha256": "1ae52c934ff5fd8c091ecf99340094273848803dc698a7b1de9e6732454cde67",
+          "extracted_logic_sha256": "29fb9dc059ec012cbe866019db59fcba24f5ed9bf53bba0e655bf2869f81c493",
+          "level": "MODERATE_SIGNAL",
+          "facts_detected": 254,
+          "hypotheses_detected": 0,
+          "pressure": {
+            "urgence": 0,
+            "surpromesse": 0,
+            "autorite_floue": 1
+          },
+          "emotional_framing": {
+            "fear": 0,
+            "greed": 102,
+            "certainty_language": 0
+          },
+          "proof_layer": {
+            "strong_proof": 0,
+            "weak_proof": 0
+          },
+          "contradictions": [],
+          "truth_verdict": false
+        }
+      }
+    },
+    "data/organism-state.json": {
+      "document_sha256": "5108e09da6ec348cde9aabcbbe3b44dd19e0233cb32d93bf7c529e4d8169b20b",
+      "result": {
+        "trust_deep": {
+          "engine": "REAL_FETCH_PIPELINE_WITH_TRUST_SCORING_V1",
+          "execution": "LOCAL_PRIVATE_ENGINE_SAFE_FUNCTIONS_EXECUTED",
+          "engine_source_sha256": "d6ff1143e04f488fbb19f26d362c1595600e78faa0d59e2875b7a63093845441",
+          "extracted_logic_sha256": "190531a91541906c3c07fb4bed4b3eb67a83aa3b72444b58f49ca108d91ea200",
+          "trust": {
+            "domain_trust": 90,
+            "fetch_trust": 70,
+            "content_trust": 75,
+            "overall_trust": 81
+          },
+          "analysis": {
+            "level": "SOURCE_GROUNDED_LOW_PRESSURE",
+            "pressure": 0,
+            "weak_proof": 0,
+            "proof": 84,
+            "contradictions": [],
+            "note": "Analyse fondée sur contenu extrait."
+          },
+          "truth_verdict": false
+        },
+        "coherence_historical": {
+          "engine": "COHERENCE_MULTI_LAYER_ANALYSIS_V1",
+          "execution": "LOCAL_PRIVATE_ENGINE_SAFE_FUNCTIONS_EXECUTED",
+          "engine_source_sha256": "1ae52c934ff5fd8c091ecf99340094273848803dc698a7b1de9e6732454cde67",
+          "extracted_logic_sha256": "29fb9dc059ec012cbe866019db59fcba24f5ed9bf53bba0e655bf2869f81c493",
+          "level": "MODERATE_SIGNAL",
+          "facts_detected": 1324,
+          "hypotheses_detected": 0,
+          "pressure": {
+            "urgence": 0,
+            "surpromesse": 0,
+            "autorite_floue": 0
+          },
+          "emotional_framing": {
+            "fear": 0,
+            "greed": 0,
+            "certainty_language": 0
+          },
+          "proof_layer": {
+            "strong_proof": 0,
+            "weak_proof": 0
+          },
+          "contradictions": [],
+          "truth_verdict": false
+        }
+      }
+    },
+    "data/phi-coins-v1.json": {
+      "document_sha256": "c3bd447809eb03a2de37bf1d726c10dcd9002205ddc4a6ec134122a04e50c7c8",
+      "result": {
+        "trust_deep": {
+          "engine": "REAL_FETCH_PIPELINE_WITH_TRUST_SCORING_V1",
+          "execution": "LOCAL_PRIVATE_ENGINE_SAFE_FUNCTIONS_EXECUTED",
+          "engine_source_sha256": "d6ff1143e04f488fbb19f26d362c1595600e78faa0d59e2875b7a63093845441",
+          "extracted_logic_sha256": "190531a91541906c3c07fb4bed4b3eb67a83aa3b72444b58f49ca108d91ea200",
+          "trust": {
+            "domain_trust": 90,
+            "fetch_trust": 70,
+            "content_trust": 75,
+            "overall_trust": 81
+          },
+          "analysis": {
+            "level": "SOURCE_GROUNDED_LOW_PRESSURE",
+            "pressure": 0,
+            "weak_proof": 0,
+            "proof": 4,
+            "contradictions": [],
+            "note": "Analyse fondée sur contenu extrait."
+          },
+          "truth_verdict": false
+        },
+        "coherence_historical": {
+          "engine": "COHERENCE_MULTI_LAYER_ANALYSIS_V1",
+          "execution": "LOCAL_PRIVATE_ENGINE_SAFE_FUNCTIONS_EXECUTED",
+          "engine_source_sha256": "1ae52c934ff5fd8c091ecf99340094273848803dc698a7b1de9e6732454cde67",
+          "extracted_logic_sha256": "29fb9dc059ec012cbe866019db59fcba24f5ed9bf53bba0e655bf2869f81c493",
+          "level": "MODERATE_SIGNAL",
+          "facts_detected": 2,
+          "hypotheses_detected": 1,
+          "pressure": {
+            "urgence": 0,
+            "surpromesse": 0,
+            "autorite_floue": 1
+          },
+          "emotional_framing": {
+            "fear": 0,
+            "greed": 0,
+            "certainty_language": 0
+          },
+          "proof_layer": {
+            "strong_proof": 0,
+            "weak_proof": 0
+          },
+          "contradictions": [],
+          "truth_verdict": false
+        }
+      }
+    },
+    "data/phi-territory-quests-v1.json": {
+      "document_sha256": "99113f60ae9f3129a691ec5191b8a786b835224884803ce5aef96b1427567725",
+      "result": {
+        "trust_deep": {
+          "engine": "REAL_FETCH_PIPELINE_WITH_TRUST_SCORING_V1",
+          "execution": "LOCAL_PRIVATE_ENGINE_SAFE_FUNCTIONS_EXECUTED",
+          "engine_source_sha256": "d6ff1143e04f488fbb19f26d362c1595600e78faa0d59e2875b7a63093845441",
+          "extracted_logic_sha256": "190531a91541906c3c07fb4bed4b3eb67a83aa3b72444b58f49ca108d91ea200",
+          "trust": {
+            "domain_trust": 90,
+            "fetch_trust": 70,
+            "content_trust": 75,
+            "overall_trust": 81
+          },
+          "analysis": {
+            "level": "NARRATIVE_PRESSURE_SIGNAL",
+            "pressure": 102,
+            "weak_proof": 0,
+            "proof": 1525,
+            "contradictions": [],
+            "note": "Analyse fondée sur contenu extrait."
+          },
+          "truth_verdict": false
+        },
+        "coherence_historical": {
+          "engine": "COHERENCE_MULTI_LAYER_ANALYSIS_V1",
+          "execution": "LOCAL_PRIVATE_ENGINE_SAFE_FUNCTIONS_EXECUTED",
+          "engine_source_sha256": "1ae52c934ff5fd8c091ecf99340094273848803dc698a7b1de9e6732454cde67",
+          "extracted_logic_sha256": "29fb9dc059ec012cbe866019db59fcba24f5ed9bf53bba0e655bf2869f81c493",
+          "level": "MODERATE_SIGNAL",
+          "facts_detected": 1116,
+          "hypotheses_detected": 0,
+          "pressure": {
+            "urgence": 0,
+            "surpromesse": 0,
+            "autorite_floue": 1
+          },
+          "emotional_framing": {
+            "fear": 0,
+            "greed": 0,
+            "certainty_language": 0
+          },
+          "proof_layer": {
+            "strong_proof": 0,
+            "weak_proof": 0
+          },
+          "contradictions": [],
+          "truth_verdict": false
+        }
+      }
+    },
+    "data/property-return-canonical/current.json": {
+      "document_sha256": "3f7065253e75786e8331ccb41160d6ee9f4c630c4942f420d62fab03e0c55d8a",
+      "result": {
+        "trust_deep": {
+          "engine": "REAL_FETCH_PIPELINE_WITH_TRUST_SCORING_V1",
+          "execution": "LOCAL_PRIVATE_ENGINE_SAFE_FUNCTIONS_EXECUTED",
+          "engine_source_sha256": "d6ff1143e04f488fbb19f26d362c1595600e78faa0d59e2875b7a63093845441",
+          "extracted_logic_sha256": "190531a91541906c3c07fb4bed4b3eb67a83aa3b72444b58f49ca108d91ea200",
+          "trust": {
+            "domain_trust": 90,
+            "fetch_trust": 70,
+            "content_trust": 75,
+            "overall_trust": 81
+          },
+          "analysis": {
+            "level": "SOURCE_GROUNDED_LOW_PRESSURE",
+            "pressure": 0,
+            "weak_proof": 0,
+            "proof": 45,
+            "contradictions": [],
+            "note": "Analyse fondée sur contenu extrait."
+          },
+          "truth_verdict": false
+        },
+        "coherence_historical": {
+          "engine": "COHERENCE_MULTI_LAYER_ANALYSIS_V1",
+          "execution": "LOCAL_PRIVATE_ENGINE_SAFE_FUNCTIONS_EXECUTED",
+          "engine_source_sha256": "1ae52c934ff5fd8c091ecf99340094273848803dc698a7b1de9e6732454cde67",
+          "extracted_logic_sha256": "29fb9dc059ec012cbe866019db59fcba24f5ed9bf53bba0e655bf2869f81c493",
+          "level": "MODERATE_SIGNAL",
+          "facts_detected": 39,
+          "hypotheses_detected": 0,
+          "pressure": {
+            "urgence": 0,
+            "surpromesse": 0,
+            "autorite_floue": 0
+          },
+          "emotional_framing": {
+            "fear": 0,
+            "greed": 0,
+            "certainty_language": 0
+          },
+          "proof_layer": {
+            "strong_proof": 0,
+            "weak_proof": 0
+          },
+          "contradictions": [],
+          "truth_verdict": false
+        }
+      }
+    },
+    "data/property-return-canonical/history/2026-09-20-v0.1.0.json": {
+      "document_sha256": "3f7065253e75786e8331ccb41160d6ee9f4c630c4942f420d62fab03e0c55d8a",
+      "result": {
+        "trust_deep": {
+          "engine": "REAL_FETCH_PIPELINE_WITH_TRUST_SCORING_V1",
+          "execution": "LOCAL_PRIVATE_ENGINE_SAFE_FUNCTIONS_EXECUTED",
+          "engine_source_sha256": "d6ff1143e04f488fbb19f26d362c1595600e78faa0d59e2875b7a63093845441",
+          "extracted_logic_sha256": "190531a91541906c3c07fb4bed4b3eb67a83aa3b72444b58f49ca108d91ea200",
+          "trust": {
+            "domain_trust": 90,
+            "fetch_trust": 70,
+            "content_trust": 75,
+            "overall_trust": 81
+          },
+          "analysis": {
+            "level": "SOURCE_GROUNDED_LOW_PRESSURE",
+            "pressure": 0,
+            "weak_proof": 0,
+            "proof": 45,
+            "contradictions": [],
+            "note": "Analyse fondée sur contenu extrait."
+          },
+          "truth_verdict": false
+        },
+        "coherence_historical": {
+          "engine": "COHERENCE_MULTI_LAYER_ANALYSIS_V1",
+          "execution": "LOCAL_PRIVATE_ENGINE_SAFE_FUNCTIONS_EXECUTED",
+          "engine_source_sha256": "1ae52c934ff5fd8c091ecf99340094273848803dc698a7b1de9e6732454cde67",
+          "extracted_logic_sha256": "29fb9dc059ec012cbe866019db59fcba24f5ed9bf53bba0e655bf2869f81c493",
+          "level": "MODERATE_SIGNAL",
+          "facts_detected": 39,
+          "hypotheses_detected": 0,
+          "pressure": {
+            "urgence": 0,
+            "surpromesse": 0,
+            "autorite_floue": 0
+          },
+          "emotional_framing": {
+            "fear": 0,
+            "greed": 0,
+            "certainty_language": 0
+          },
+          "proof_layer": {
+            "strong_proof": 0,
+            "weak_proof": 0
+          },
+          "contradictions": [],
+          "truth_verdict": false
+        }
+      }
+    }
+  },
+  "receipts_fingerprint": "fcc207a6cff15789ac9049f40e64a9a2af4b16ea8f32ef6c579789868b79798d"
+}
