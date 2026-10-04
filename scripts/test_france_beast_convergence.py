@@ -11,7 +11,7 @@ class Convergence(unittest.TestCase):
         files=['docs/data/france-debt-rate-live.json','docs/data/france-debt-rate-evolution.json',
                'docs/france-debt-rate-risk-live-2026-10-02.html','scripts/evolve_france_debt_rate.py',
                'scripts/verify_la_bete_evolution.py','scripts/la_bete_health_memory.py','scripts/la_bete_acquisition.py',
-               'scripts/la_bete_civic_design_knowhow.py']
+               'scripts/la_bete_civic_design_knowhow.py','scripts/la_bete_scic_privacy_knowhow.py']
         with tempfile.TemporaryDirectory() as tmp:
             root=Path(tmp)
             for name in files:
