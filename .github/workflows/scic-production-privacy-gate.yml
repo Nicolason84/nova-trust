@@ -1,0 +1,37 @@
+name: SCIC Production Privacy Gate
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'privacy/rfc9474_gate/**'
+      - 'app/scic_privacy_gate.py'
+      - 'scripts/test_scic_privacy_gate.py'
+      - '.github/workflows/scic-production-privacy-gate.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  rfc9474-rfc9578:
+    name: RFC9474 / RFC9578 cryptographic gate
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: privacy/rfc9474_gate
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v6
+        with:
+          go-version: '1.26.x'
+          cache-dependency-path: privacy/rfc9474_gate/go.mod
+      - name: Resolve pinned module
+        run: go mod download
+      - name: Run project RFC gate
+        run: go test -v ./...
+      - name: Run CIRCL upstream blindrsa RFC9474 suite
+        run: go test -v github.com/cloudflare/circl/blindsign/blindrsa
+      - name: Record dependency graph
+        run: |
+          go version
+          go list -m all
