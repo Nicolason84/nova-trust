@@ -61,7 +61,7 @@ house.innerHTML=`
        <div class="houseRouteHint" id="houseRouteHint" hidden></div>
      </section>
      <nav class="houseRooms" role="tablist" aria-label="Espaces du dossier"></nav>
-     <div class="housePrivateBoundary"><b>Bureau privé SUPRA</b><span>Frontière protégée.</span> Cette origine publique ne stocke ni dossier privé ni mémoire client. La continuité privée doit rester liée à SUPRA.</div>
+     <div class="housePrivateBoundary"><b>Bureau privé SUPRA</b><span>Frontière protégée.</span> Cette origine publique ne stocke ni dossier privé ni mémoire client. <a class="housePrivateDoor" id="housePrivateDoor" href="supra://private-office" aria-label="Ouvrir le Bureau privé dans SUPRA">Entrer dans mon Bureau privé →</a><small>Aucun dossier, message ou identifiant n’est transmis dans ce lien.</small></div>
    </aside>
    <div class="houseStage"></div>
  </div>`;

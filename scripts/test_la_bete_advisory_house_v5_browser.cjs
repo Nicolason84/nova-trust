@@ -33,6 +33,7 @@ async function main(){
  assert.equal(await evaljs("document.querySelectorAll('.houseRoomButton').length"),5);
  assert.equal(await evaljs("document.querySelectorAll('.housePane:not([hidden])').length"),1);
  assert.equal(await evaljs("window.LaBeteAdvisoryHouseV5.state().room"),'desk');pass('one desk opens as the single active spatial surface');
+ assert.equal(await evaljs("document.getElementById('housePrivateDoor').getAttribute('href')"),'supra://private-office');pass('public House exposes one payload-free handoff to the SUPRA private office');
  assert.deepEqual(await evaljs("({engine:LaBeteAdvisoryHouseV5.second_engine,registry:LaBeteAdvisoryHouseV5.second_registry,truth:LaBeteAdvisoryHouseV5.second_truth,privateStorage:LaBeteAdvisoryHouseV5.private_storage})"),{engine:false,registry:false,truth:false,privateStorage:false});pass('no second engine registry truth or public private-storage');
  for(const id of ['dialogue-public','decision-twin','evidence-graph','experience-explore','supra-mission'])assert.equal(await evaljs("document.querySelectorAll('#"+id+"').length"),1);
  pass('existing canonical surfaces are moved, never cloned');

@@ -1,0 +1,94 @@
+{
+  "schema": "SUPRA_PRIVATE_OFFICE_RUNTIME_BINDING_PROOF_V1",
+  "mission": "LA_BETE_ADVISORY_HOUSE_SPATIAL_EXPERIENCE_V5",
+  "captured_at": "2026-10-04T22:30:30Z",
+  "candidate": {
+    "branch": "mission/supra-advisory-private-office-promotion-v1-20261005",
+    "base_commit": "4219e9931b0f0e98bb6daa61b2e3a8e7fbe4ddc7",
+    "canonical_native_supraal_replaced": false,
+    "mode": "FROZEN_ISOLATED_RUNTIME_PROOF"
+  },
+  "tests": {
+    "personal_space_solution_factory_core": "PASS",
+    "advisory_private_office": "PASS",
+    "conversational_solution_factory": "PASS",
+    "debug_build": "BUILD_SUCCEEDED",
+    "signed_debug_build": "BUILD_SUCCEEDED",
+    "signed_codesign_verify": "PASS"
+  },
+  "runtime": {
+    "restart_sequence": "KILL_ISOLATED_PROOF_APP__OPEN_SUPRA_PRIVATE_OFFICE__PROCESS_PRESENT",
+    "deep_link": "supra://private-office",
+    "private_office_surface": "MON_ESPACE_SUPRA_VISIBLE_AFTER_RESTART",
+    "public_payload_transfer": "NONE",
+    "proof_app_dylib_sha256": "4a6cfa6c387bc985ed3e66da51ed90cdd15632646e66929c2e0082db3ebafc85",
+    "signed_app_executable_sha256": "d85fe50051b8c8a13138bdaddc5faf70ca02162191c12bc7946312167464039c",
+    "signed_app_dylib_sha256": "2a14c64037576add79d5d60632fb04ed9932abd9520d9cb1c321d23e5848913e"
+  },
+  "specialist_bindings": {
+    "authority": "ROUTING_ONLY_NOT_EXECUTION_PROOF",
+    "registry_created": false,
+    "existing_cockpits": [
+      "finance",
+      "network",
+      "intel",
+      "opportunities",
+      "legal",
+      "presence",
+      "agenda"
+    ],
+    "examples": {
+      "Strategy": [
+        "intel",
+        "opportunities"
+      ],
+      "Financing": [
+        "finance"
+      ],
+      "Investment": [
+        "finance",
+        "intel",
+        "opportunities"
+      ],
+      "M&A": [
+        "opportunities",
+        "finance",
+        "legal",
+        "network"
+      ],
+      "Commercial": [
+        "opportunities",
+        "network",
+        "presence"
+      ],
+      "Legal & Risk": [
+        "legal",
+        "intel"
+      ],
+      "People & Network": [
+        "network"
+      ],
+      "Evidence": [
+        "intel"
+      ],
+      "Solutions": [
+        "opportunities"
+      ]
+    },
+    "window_registration": "PROVEN_IN_SUPRA_APP_WINDOW_DECLARATIONS",
+    "source_sha256": "bd732675fa4648ae2a1b59e7a595420a9ebfd1a95833bb117d453c7e83ec90a1"
+  },
+  "source_hashes": {
+    "SUPRAApp.swift": "4bcb2cb168df23a71b1beba2e2863b5faa06cb32ceb3adefc8e3d4e96f9448ae",
+    "SUPRAChatView.swift": "d4c4dabddf83d1114310f5b71933a3f640af4886d317012420f8e348d0173a70",
+    "SUPRAPersonalSpace.swift": "9db06cf75b35e33bafd6ba4e7cc7c0c3fb4e521ed1c35364c044de5a5f8b7bcc",
+    "SUPRAConversationOfferView.swift": "9a382d56ae2c58263541b4a55c47169ff1f5865befcabe9e017cb7171950b35f"
+  },
+  "limits": {
+    "execution_authority_promoted": false,
+    "automatic_external_action": false,
+    "canonical_native_deploy_claimed": false,
+    "proof_scope": "READ_ONLY_BINDING_AND_PRIVATE_OFFICE_RUNTIME_CONTINUITY"
+  },
+  "verdict": "PROVEN_FOR_V5_BINDING_GATE"
+}

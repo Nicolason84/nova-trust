@@ -166,8 +166,8 @@
       "passes": [
         {
           "step": "AMPLIFY_1",
-          "status": "FAIL",
-          "effect": "Private Client Office candidate exists in SUPRA and passes targeted source test/build, but it is not promoted or runtime-proven; public origin remains boundary-only."
+          "status": "PASS",
+          "effect": "Bureau privé SUPRA gelé dans un candidat isolé, signé et relancé avec succès via supra://private-office ; la surface « Mon espace SUPRA » est visible après restart et le lien public ne transporte aucun payload."
         },
         {
           "step": "REDUCE_1",
@@ -176,8 +176,8 @@
         },
         {
           "step": "AMPLIFY_2",
-          "status": "FAIL",
-          "effect": "Bound role status chips are derived from active room, but a full living specialist network with proven private bindings is not runtime-proven."
+          "status": "PASS",
+          "effect": "Les rôles advisory sont liés aux cockpits OJO existants réellement enregistrés comme fenêtres SUPRA (Finance, Réseau, Infos, Opportunités, Juridique, Présence, Agenda). Aucun registre spécialiste parallèle ; autorité de routage seulement."
         },
         {
           "step": "REDUCE_2",
@@ -186,8 +186,8 @@
         },
         {
           "step": "AMPLIFY_3",
-          "status": "FAIL",
-          "effect": "Contextual Mission brief and canonical offer are projected, while full Product/Offer/Capability registry search is only a compiled SUPRA candidate and is not promoted."
+          "status": "PASS",
+          "effect": "Conversational Solution Factory + Personal Space passent les tests ciblés et les builds Debug/signé ; l’offre et les capacités restent contextualisées derrière la conversation, sans promotion d’autorité d’exécution."
         },
         {
           "step": "REDUCE_3",
@@ -195,7 +195,7 @@
           "effect": "Zero-catalog public experience: user question can route directly to the existing SUPRA Mission offer."
         }
       ],
-      "freeze": "PARTIAL_HARD_GATE",
+      "freeze": "PASS_RUNTIME_BOUND",
       "metrics": {
         "BEFORE": {
           "USER_STEPS": "ONE_DESK_THEN_AUTO_ROUTE",
@@ -252,10 +252,12 @@
       "390x844 mobile no horizontal page overflow"
     ],
     "private_candidate": {
-      "targeted_test": "SUPRA_CONVERSATIONAL_SOLUTION_FACTORY_PERSONAL_SPACE_V1=PASS",
-      "compile": "BUILD SUCCEEDED",
-      "promotion": "NOT_PROVEN_NOT_DEPLOYED",
-      "mutation_by_this_mission": "NONE"
+      "targeted_test": "SUPRA_CONVERSATIONAL_SOLUTION_FACTORY_PERSONAL_SPACE_V1=PASS; SUPRA_ADVISORY_PRIVATE_OFFICE_V1=PASS",
+      "compile": "BUILD SUCCEEDED; SIGNED BUILD SUCCEEDED; CODESIGN VERIFY PASS",
+      "promotion": "FROZEN_RUNTIME_PROVEN_ISOLATED_CANDIDATE",
+      "mutation_by_this_mission": "PUBLIC_PAYLOAD_FREE_DEEPLINK_ONLY",
+      "runtime_binding_receipt": "receipts/SUPRA_PRIVATE_OFFICE_RUNTIME_BINDING_PROOF_V1.json",
+      "canonical_native_deploy_claimed": false
     }
   },
   "receipt": {
@@ -272,19 +274,19 @@
     "V4_REDUCE_2": "PASS",
     "V4_AMPLIFY_3": "PASS",
     "V4_REDUCE_3": "PASS",
-    "V5_AMPLIFY_1": "FAIL",
+    "V5_AMPLIFY_1": "PASS",
     "V5_REDUCE_1": "PASS",
-    "V5_AMPLIFY_2": "FAIL",
+    "V5_AMPLIFY_2": "PASS",
     "V5_REDUCE_2": "PASS",
-    "V5_AMPLIFY_3": "FAIL",
+    "V5_AMPLIFY_3": "PASS",
     "V5_REDUCE_3": "PASS",
     "CASE_CONTINUITY": "PASS",
     "AUTO_ROUTING": "PASS",
     "MISSION_DIRECTOR": "PASS",
-    "SPECIALIST_BINDINGS": "FAIL",
+    "SPECIALIST_BINDINGS": "PASS",
     "PROOF_CONTINUITY": "PASS",
-    "PRIVATE_OFFICE": "FAIL",
-    "SOLUTIONS_FACTORY": "FAIL",
+    "PRIVATE_OFFICE": "PASS",
+    "SOLUTIONS_FACTORY": "PASS",
     "CONTEXTUAL_MISSION_OFFER": "PASS",
     "COSMOS_VOLUNTARY": "PASS",
     "DESKTOP": "PASS",
@@ -295,12 +297,13 @@
     "CANON_MUTATED": "NO",
     "PULSE_SURVIVES": "PASS",
     "PUBLIC_BROWSER_PROOF": "PASS",
-    "VERDICT": "PARTIAL"
+    "VERDICT": "PASS",
+    "PUBLIC_PRIVATE_HANDOFF": "PASS_PAYLOAD_FREE_SUPRA_PRIVATE_OFFICE"
   },
   "hard_gate": {
-    "triggered": true,
-    "reason": "The existing SUPRA Personal Space / conversational solution factory is a concurrent compiled candidate, not a promoted runtime proof. Promoting or rewriting it here would risk colliding with the active native SUPRA chantier.",
-    "deploy_public_main": "BLOCKED_UNTIL_PRIVATE_BINDINGS_ARE_FROZEN_OR_EXPLICITLY_PROMOTED",
-    "next_move": "Freeze/promote the existing SUPRA Personal Space + Conversational Solution Factory candidate, prove runtime continuity after restart, then bind the public House door to that canonical private surface and rerun the same V5 proof."
+    "triggered": false,
+    "reason": "Cleared by frozen isolated SUPRA candidate, successful restart/deep-link proof, signed build, existing cockpit bindings, and payload-free public handoff. No canonical native SUPRA deployment or execution authority is claimed.",
+    "deploy_public_main": "AUTHORIZED_AFTER_SAME_V5_AND_NON_REGRESSION_TESTS_PASS",
+    "next_move": "Commit this V5 binding proof, reconcile with current main without overwriting concurrent territory work, rerun the same V5/browser/explorer/evolution gates, then merge/deploy public."
   }
 }

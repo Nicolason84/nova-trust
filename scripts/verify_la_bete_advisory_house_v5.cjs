@@ -14,8 +14,9 @@ for(const forbidden of ['localStorage','indexedDB','new WebSocket','new Worker',
 for(const room of ["id:'desk'","id:'decision'","id:'proof'","id:'explore'","id:'mission'"])assert.ok(js.includes(room));pass('five cognitive rooms reuse existing surfaces');
 assert.ok(js.includes('Aucune identité professionnelle humaine n’est simulée.'));assert.ok(js.includes('aucun faux expert public'));pass('professional roles are explicitly digital and unbound experts fail closed');
 assert.ok(js.includes('Bureau privé SUPRA'));assert.ok(js.includes('ne stocke ni dossier privé ni mémoire client'));pass('public/private boundary is explicit');
+assert.ok(js.includes('href="supra://private-office"'));assert.ok(js.includes('Aucun dossier, message ou identifiant n’est transmis dans ce lien.'));assert.ok(!js.includes('supra://private-office?')&&!js.includes('supra://private-office#'));pass('private-office handoff is a payload-free native deep link');
 assert.ok(js.includes('COMITÉ · SYNTHÈSE'));assert.ok(js.includes('NONE_EVIDENCED'));pass('committee is a bounded synthesis without fabricated disagreement');
 assert.ok(js.includes('CONVERSATIONAL SOLUTION & MISSION FACTORY'));assert.ok(js.includes('PRIVATE_SPECIALIST_BINDING_REQUIRED'));pass('mission composition exists and fail-closes missing private specialist binding');
 assert.ok(js.includes("window.LaBeteExplorerActivate?.('#/atlas')")===false);assert.ok(js.includes("explore.open=true"));pass('V5 does not directly activate Cosmos');
 assert.ok(css.includes('@media(max-width:560px)'));assert.ok(css.includes('@media(prefers-reduced-motion:reduce)'));pass('mobile and reduced-motion constraints are explicit');
-console.log('LA_BETE_ADVISORY_HOUSE_V5_STATIC_PASS 12');
+console.log('LA_BETE_ADVISORY_HOUSE_V5_STATIC_PASS 13');
