@@ -1,3 +1,4 @@
+import importlib.util
 import json
 import re
 import subprocess
@@ -10,6 +11,9 @@ ROOT = Path(__file__).resolve().parents[1]
 DOC = json.loads((ROOT / "docs/data/la-bete-territory-discovery-candidates-v1.json").read_text())
 QUESTS = json.loads((ROOT / "docs/data/phi-territory-quests-v1.json").read_text())
 CULTURE = json.loads((ROOT / "docs/data/la-bete-territory-culture-v1.json").read_text())
+_builder_spec = importlib.util.spec_from_file_location("territory_builder", ROOT / "scripts/build_territory_discovery_candidates.py")
+BUILDER = importlib.util.module_from_spec(_builder_spec)
+_builder_spec.loader.exec_module(BUILDER)
 
 class DiscoveryContractTests(unittest.TestCase):
     def test_candidate_layer_is_separate_and_fail_closed(self):
@@ -21,6 +25,60 @@ class DiscoveryContractTests(unittest.TestCase):
         self.assertFalse(c["automatic_discovery_changes_documentation_score"])
         self.assertTrue(c["verified_receipt_required_for_phi"])
         self.assertTrue(c["last_good_retention"])
+        self.assertEqual(c["last_good_retention_policy"], "PER_LANE_SOURCE_ERROR_ONLY")
+        self.assertTrue(c["last_good_retention_requires_current_schema"])
+
+    def test_last_good_retention_only_on_source_error(self):
+        previous = {
+            "scanned_at": "2026-10-04T12:00:00Z",
+            "media": [{"candidate_id": "media:last-good"}],
+            "heritage": [{"candidate_id": "heritage:last-good"}],
+        }
+        scanned = {
+            "source_health": {
+                "wikidata_department": "ERROR:timeout",
+                "merimee_tabular": "NO_MATCH",
+            },
+            "media": [],
+            "heritage": [],
+        }
+        result = BUILDER.retain_last_good_on_source_failure(scanned, previous)
+        self.assertEqual(result["media"], previous["media"])
+        self.assertEqual(result["heritage"], [])
+        self.assertEqual(result["retained_last_good_lanes"]["media"]["failed_sources"], ["wikidata_department"])
+        self.assertNotIn("heritage", result["retained_last_good_lanes"])
+
+        previous_nature = {
+            "scanned_at": "2026-10-04T12:00:00Z",
+            "nature": [{
+                "candidate_id": "nature:legacy",
+                "administrative_binding": "TEXT_LOCALITY_HINT_ONLY",
+            }],
+        }
+        scanned_nature = {
+            "source_health": {"nature_wikipedia_wikidata": "ERROR:HTTPError"},
+            "nature": [],
+        }
+        result_nature = BUILDER.retain_last_good_on_source_failure(scanned_nature, previous_nature)
+        self.assertEqual(result_nature["nature"], [])
+        self.assertEqual(
+            result_nature["rejected_last_good_lanes"]["nature"]["incompatible_candidate_count"],
+            1,
+        )
+
+    def test_unclassified_error_never_reinjects_previous_candidates(self):
+        previous = {
+            "scanned_at": "2026-10-04T12:00:00Z",
+            "media": [{"candidate_id": "media:previous"}],
+            "heritage": [{"candidate_id": "heritage:previous"}],
+            "nature": [{"candidate_id": "nature:previous"}],
+        }
+        result = BUILDER.fail_closed_on_unclassified_error("80", RuntimeError("boom"), previous)
+        for lane in ("media","heritage","nature","commons","initiatives"):
+            self.assertEqual(result[lane], [])
+        self.assertFalse(result["previous_record_retained"])
+        self.assertEqual(result["previous_scanned_at_not_retained"], previous["scanned_at"])
+        self.assertEqual(result["state"], "OFFLINE_RELATION_BASELINE_ONLY")
 
     def test_national_batch_policy_reaches_all_departments(self):
         p = DOC["batch_policy"]
@@ -64,7 +122,11 @@ class DiscoveryContractTests(unittest.TestCase):
                 self.assertEqual(x["state"], "UNVERIFIED_AUTODISCOVERY_CANDIDATE")
                 self.assertTrue(x["source"].startswith("https://fr.wikipedia.org/"))
                 self.assertRegex(x["label"].lower(), r"(réserve|forêt|parc|baie|marais|dune|massif|vallée|estuaire|lac|étang|arboretum|jardin|zone humide|littoral)")
-                self.assertIn(x["administrative_binding"], {"P131_PATH_TO_DEPARTMENT","TEXT_LOCALITY_HINT_ONLY"})
+                self.assertIn(x["administrative_binding"], {"P131_PATH_TO_DEPARTMENT","TEXT_LOCALITY_HINT_WITH_FRANCE_P17"})
+                if x["administrative_binding"] == "TEXT_LOCALITY_HINT_WITH_FRANCE_P17":
+                    hay = ((x.get("label") or "") + " " + (x.get("description") or "")).casefold()
+                    self.assertIn(d["name"].casefold(), hay)
+                    self.assertIn("Q142", x.get("country_wikidata_ids") or [])
                 self.assertIn("Vérifier", x["gate"])
             for x in d.get("media", []):
                 self.assertEqual(x["state"], "LICENSE_VERIFIED_LOCATION_CANDIDATE")

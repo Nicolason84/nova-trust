@@ -1,7 +1,7 @@
 {
   "schema": "LA_BETE_TERRITORY_DISCOVERY_CANDIDATES_V1",
   "state": "AUTODISCOVERY_CANDIDATES_SEPARATE_FROM_CANON",
-  "generated_at": "2026-10-04T14:12:14.572103Z",
+  "generated_at": "2026-10-04T14:28:49.381269Z",
   "topology_snapshot": "FR-TOPO-43287a81359296e3b1ff8def",
   "culture_schema": "LA_BETE_TERRITORY_CULTURE_V1",
   "contract": {
@@ -11,7 +11,9 @@
     "automatic_discovery_changes_documentation_score": false,
     "verified_receipt_required_for_phi": true,
     "human_or_external_source_verification_required_for_promotion": true,
-    "last_good_retention": true
+    "last_good_retention": true,
+    "last_good_retention_policy": "PER_LANE_SOURCE_ERROR_ONLY",
+    "last_good_retention_requires_current_schema": true
   },
   "batch_policy": {
     "default_batch_size": 12,
@@ -31,8 +33,16 @@
   "coverage": {
     "departments_total": 101,
     "departments_with_scan_record": 20,
-    "candidate_items": 251,
+    "candidate_items": 244,
     "selected_this_run": [
+      "13",
+      "80",
+      "45",
+      "33",
+      "29",
+      "67",
+      "64",
+      "31",
       "01",
       "02",
       "03",
@@ -51,7 +61,7 @@
     "13": {
       "code": "13",
       "name": "Bouches-du-Rhône",
-      "scanned_at": "2026-10-04T14:07:41.957702Z",
+      "scanned_at": "2026-10-04T14:26:41.607530Z",
       "state": "DISCOVERY_CANDIDATES_NOT_CANON",
       "promotion_authorized": false,
       "mints_phi": false,
@@ -284,8 +294,11 @@
           "administrative_binding": "P131_PATH_TO_DEPARTMENT",
           "administrative_path": [
             "Q3457504",
-            "Q235865",
+            "Q384438",
             "Q3240"
+          ],
+          "country_wikidata_ids": [
+            "Q142"
           ],
           "quest_id": "nature_risks",
           "gate": "Découverte encyclopédique seulement. Vérifier une source naturaliste ou institutionnelle avant promotion."
@@ -303,6 +316,9 @@
             "Q3457334",
             "Q3240"
           ],
+          "country_wikidata_ids": [
+            "Q142"
+          ],
           "quest_id": "nature_risks",
           "gate": "Découverte encyclopédique seulement. Vérifier une source naturaliste ou institutionnelle avant promotion."
         },
@@ -319,6 +335,9 @@
             "Q3457423",
             "Q48292",
             "Q3240"
+          ],
+          "country_wikidata_ids": [
+            "Q142"
           ],
           "quest_id": "nature_risks",
           "gate": "Découverte encyclopédique seulement. Vérifier une source naturaliste ou institutionnelle avant promotion."
@@ -448,7 +467,7 @@
     "80": {
       "code": "80",
       "name": "Somme",
-      "scanned_at": "2026-10-04T14:07:45.804907Z",
+      "scanned_at": "2026-10-04T14:26:47.044824Z",
       "state": "DISCOVERY_CANDIDATES_NOT_CANON",
       "promotion_authorized": false,
       "mints_phi": false,
@@ -768,6 +787,9 @@
             "Q758882",
             "Q12770"
           ],
+          "country_wikidata_ids": [
+            "Q142"
+          ],
           "quest_id": "nature_risks",
           "gate": "Découverte encyclopédique seulement. Vérifier une source naturaliste ou institutionnelle avant promotion."
         },
@@ -783,6 +805,9 @@
           "administrative_path": [
             "Q1741383",
             "Q12770"
+          ],
+          "country_wikidata_ids": [
+            "Q142"
           ],
           "quest_id": "nature_risks",
           "gate": "Découverte encyclopédique seulement. Vérifier une source naturaliste ou institutionnelle avant promotion."
@@ -800,6 +825,9 @@
             "Q2051974",
             "Q758882",
             "Q12770"
+          ],
+          "country_wikidata_ids": [
+            "Q142"
           ],
           "quest_id": "nature_risks",
           "gate": "Découverte encyclopédique seulement. Vérifier une source naturaliste ou institutionnelle avant promotion."
@@ -929,7 +957,7 @@
     "45": {
       "code": "45",
       "name": "Loiret",
-      "scanned_at": "2026-10-04T14:07:49.053760Z",
+      "scanned_at": "2026-10-04T14:26:50.275641Z",
       "state": "DISCOVERY_CANDIDATES_NOT_CANON",
       "promotion_authorized": false,
       "mints_phi": false,
@@ -1248,6 +1276,9 @@
             "Q16510598",
             "Q12574"
           ],
+          "country_wikidata_ids": [
+            "Q142"
+          ],
           "quest_id": "nature_risks",
           "gate": "Découverte encyclopédique seulement. Vérifier une source naturaliste ou institutionnelle avant promotion."
         },
@@ -1265,6 +1296,9 @@
             "Q1423945",
             "Q12574"
           ],
+          "country_wikidata_ids": [
+            "Q142"
+          ],
           "quest_id": "nature_risks",
           "gate": "Découverte encyclopédique seulement. Vérifier une source naturaliste ou institutionnelle avant promotion."
         },
@@ -1280,6 +1314,9 @@
           "administrative_path": [
             "Q3078792",
             "Q12574"
+          ],
+          "country_wikidata_ids": [
+            "Q142"
           ],
           "quest_id": "nature_risks",
           "gate": "Découverte encyclopédique seulement. Vérifier une source naturaliste ou institutionnelle avant promotion."
@@ -1409,7 +1446,7 @@
     "33": {
       "code": "33",
       "name": "Gironde",
-      "scanned_at": "2026-10-04T14:07:54.932281Z",
+      "scanned_at": "2026-10-04T14:26:54.716365Z",
       "state": "DISCOVERY_CANDIDATES_NOT_CANON",
       "promotion_authorized": false,
       "mints_phi": false,
@@ -1729,6 +1766,9 @@
             "Q233133",
             "Q12526"
           ],
+          "country_wikidata_ids": [
+            "Q142"
+          ],
           "quest_id": "nature_risks",
           "gate": "Découverte encyclopédique seulement. Vérifier une source naturaliste ou institutionnelle avant promotion."
         },
@@ -1745,6 +1785,9 @@
             "Q3457515",
             "Q12526"
           ],
+          "country_wikidata_ids": [
+            "Q142"
+          ],
           "quest_id": "nature_risks",
           "gate": "Découverte encyclopédique seulement. Vérifier une source naturaliste ou institutionnelle avant promotion."
         },
@@ -1759,8 +1802,11 @@
           "administrative_binding": "P131_PATH_TO_DEPARTMENT",
           "administrative_path": [
             "Q15427795",
-            "Q380871",
+            "Q186333",
             "Q12526"
+          ],
+          "country_wikidata_ids": [
+            "Q142"
           ],
           "quest_id": "nature_risks",
           "gate": "Découverte encyclopédique seulement. Vérifier une source naturaliste ou institutionnelle avant promotion."
@@ -1890,7 +1936,7 @@
     "29": {
       "code": "29",
       "name": "Finistère",
-      "scanned_at": "2026-10-04T14:08:02.976385Z",
+      "scanned_at": "2026-10-04T14:26:58.697270Z",
       "state": "DISCOVERY_CANDIDATES_NOT_CANON",
       "promotion_authorized": false,
       "mints_phi": false,
@@ -2197,23 +2243,6 @@
       ],
       "nature": [
         {
-          "candidate_id": "nature:wikipedia:Q15401923",
-          "state": "UNVERIFIED_AUTODISCOVERY_CANDIDATE",
-          "lane": "nature",
-          "label": "Réserve naturelle nationale de Saint-Nicolas des Glénan",
-          "description": "Réserve naturelle nationale de Saint-Nicolas des Glénan Plage à l'île Saint-Nicolas. Localisation sur la carte du Finistère Localisation sur la carte",
-          "wikidata_id": "Q15401923",
-          "source": "https://fr.wikipedia.org/wiki/R%C3%A9serve_naturelle_nationale_de_Saint-Nicolas_des_Gl%C3%A9nan",
-          "administrative_binding": "P131_PATH_TO_DEPARTMENT",
-          "administrative_path": [
-            "Q15401923",
-            "Q245149",
-            "Q3389"
-          ],
-          "quest_id": "nature_risks",
-          "gate": "Découverte encyclopédique seulement. Vérifier une source naturaliste ou institutionnelle avant promotion."
-        },
-        {
           "candidate_id": "nature:wikipedia:Q3457519",
           "state": "UNVERIFIED_AUTODISCOVERY_CANDIDATE",
           "lane": "nature",
@@ -2226,6 +2255,9 @@
             "Q3457519",
             "Q383649",
             "Q3389"
+          ],
+          "country_wikidata_ids": [
+            "Q142"
           ],
           "quest_id": "nature_risks",
           "gate": "Découverte encyclopédique seulement. Vérifier une source naturaliste ou institutionnelle avant promotion."
@@ -2242,6 +2274,29 @@
           "administrative_path": [
             "Q2385242",
             "Q3389"
+          ],
+          "country_wikidata_ids": [
+            "Q142"
+          ],
+          "quest_id": "nature_risks",
+          "gate": "Découverte encyclopédique seulement. Vérifier une source naturaliste ou institutionnelle avant promotion."
+        },
+        {
+          "candidate_id": "nature:wikipedia:Q15401923",
+          "state": "UNVERIFIED_AUTODISCOVERY_CANDIDATE",
+          "lane": "nature",
+          "label": "Réserve naturelle nationale de Saint-Nicolas des Glénan",
+          "description": "Réserve naturelle nationale de Saint-Nicolas des Glénan Plage à l'île Saint-Nicolas. Localisation sur la carte du Finistère Localisation sur la carte",
+          "wikidata_id": "Q15401923",
+          "source": "https://fr.wikipedia.org/wiki/R%C3%A9serve_naturelle_nationale_de_Saint-Nicolas_des_Gl%C3%A9nan",
+          "administrative_binding": "P131_PATH_TO_DEPARTMENT",
+          "administrative_path": [
+            "Q15401923",
+            "Q245149",
+            "Q3389"
+          ],
+          "country_wikidata_ids": [
+            "Q142"
           ],
           "quest_id": "nature_risks",
           "gate": "Découverte encyclopédique seulement. Vérifier une source naturaliste ou institutionnelle avant promotion."
@@ -2371,7 +2426,7 @@
     "67": {
       "code": "67",
       "name": "Bas-Rhin",
-      "scanned_at": "2026-10-04T14:08:06.915276Z",
+      "scanned_at": "2026-10-04T14:27:06.529674Z",
       "state": "DISCOVERY_CANDIDATES_NOT_CANON",
       "promotion_authorized": false,
       "mints_phi": false,
@@ -2690,6 +2745,9 @@
             "Q3021921",
             "Q12717"
           ],
+          "country_wikidata_ids": [
+            "Q142"
+          ],
           "quest_id": "nature_risks",
           "gate": "Découverte encyclopédique seulement. Vérifier une source naturaliste ou institutionnelle avant promotion."
         },
@@ -2707,6 +2765,9 @@
             "Q21326",
             "Q12717"
           ],
+          "country_wikidata_ids": [
+            "Q142"
+          ],
           "quest_id": "nature_risks",
           "gate": "Découverte encyclopédique seulement. Vérifier une source naturaliste ou institutionnelle avant promotion."
         },
@@ -2721,8 +2782,11 @@
           "administrative_binding": "P131_PATH_TO_DEPARTMENT",
           "administrative_path": [
             "Q13107588",
-            "Q6602",
+            "Q22660",
             "Q12717"
+          ],
+          "country_wikidata_ids": [
+            "Q142"
           ],
           "quest_id": "nature_risks",
           "gate": "Découverte encyclopédique seulement. Vérifier une source naturaliste ou institutionnelle avant promotion."
@@ -2852,7 +2916,7 @@
     "64": {
       "code": "64",
       "name": "Pyrénées-Atlantiques",
-      "scanned_at": "2026-10-04T14:08:10.698317Z",
+      "scanned_at": "2026-10-04T14:27:12.827961Z",
       "state": "DISCOVERY_CANDIDATES_NOT_CANON",
       "promotion_authorized": false,
       "mints_phi": false,
@@ -3154,32 +3218,9 @@
             "Q3457501",
             "Q12703"
           ],
-          "quest_id": "nature_risks",
-          "gate": "Découverte encyclopédique seulement. Vérifier une source naturaliste ou institutionnelle avant promotion."
-        },
-        {
-          "candidate_id": "nature:wikipedia:Q738435",
-          "state": "UNVERIFIED_AUTODISCOVERY_CANDIDATE",
-          "lane": "nature",
-          "label": "Parc national des Pyrénées",
-          "description": "massif montagneux des Pyrénées , à cheval sur les départements des Hautes- Pyrénées (actuelle région Occitanie) et des Pyrénées - Atlantiques (actuelle région",
-          "wikidata_id": "Q738435",
-          "source": "https://fr.wikipedia.org/wiki/Parc_national_des_Pyr%C3%A9n%C3%A9es",
-          "administrative_binding": "TEXT_LOCALITY_HINT_ONLY",
-          "administrative_path": null,
-          "quest_id": "nature_risks",
-          "gate": "Découverte encyclopédique seulement. Vérifier une source naturaliste ou institutionnelle avant promotion."
-        },
-        {
-          "candidate_id": "nature:wikipedia:Q3078795",
-          "state": "UNVERIFIED_AUTODISCOVERY_CANDIDATE",
-          "lane": "nature",
-          "label": "Forêt d'Iraty",
-          "description": "de la forêt Portail de la mythologie basque Portail des Pyrénées Portail des Pyrénées - Atlantiques Portail de la Navarre Portail du patrimoine mondial",
-          "wikidata_id": "Q3078795",
-          "source": "https://fr.wikipedia.org/wiki/For%C3%AAt_d%27Iraty",
-          "administrative_binding": "TEXT_LOCALITY_HINT_ONLY",
-          "administrative_path": null,
+          "country_wikidata_ids": [
+            "Q142"
+          ],
           "quest_id": "nature_risks",
           "gate": "Découverte encyclopédique seulement. Vérifier une source naturaliste ou institutionnelle avant promotion."
         }
@@ -3308,7 +3349,7 @@
     "31": {
       "code": "31",
       "name": "Haute-Garonne",
-      "scanned_at": "2026-10-04T14:08:16.397377Z",
+      "scanned_at": "2026-10-04T14:27:21.310028Z",
       "state": "DISCOVERY_CANDIDATES_NOT_CANON",
       "promotion_authorized": false,
       "mints_phi": false,
@@ -3625,8 +3666,11 @@
           "administrative_binding": "P131_PATH_TO_DEPARTMENT",
           "administrative_path": [
             "Q20971154",
-            "Q1371171",
+            "Q1433147",
             "Q12538"
+          ],
+          "country_wikidata_ids": [
+            "Q142"
           ],
           "quest_id": "nature_risks",
           "gate": "Découverte encyclopédique seulement. Vérifier une source naturaliste ou institutionnelle avant promotion."
@@ -3643,6 +3687,9 @@
           "administrative_path": [
             "Q3078829",
             "Q12538"
+          ],
+          "country_wikidata_ids": [
+            "Q142"
           ],
           "quest_id": "nature_risks",
           "gate": "Découverte encyclopédique seulement. Vérifier une source naturaliste ou institutionnelle avant promotion."
@@ -3772,7 +3819,7 @@
     "01": {
       "code": "01",
       "name": "Ain",
-      "scanned_at": "2026-10-04T14:11:42.655447Z",
+      "scanned_at": "2026-10-04T14:27:28.161972Z",
       "state": "DISCOVERY_CANDIDATES_NOT_CANON",
       "promotion_authorized": false,
       "mints_phi": false,
@@ -4079,19 +4126,6 @@
       ],
       "nature": [
         {
-          "candidate_id": "nature:wikipedia:Q11904508",
-          "state": "UNVERIFIED_AUTODISCOVERY_CANDIDATE",
-          "lane": "nature",
-          "label": "Aïn Zana (réserve naturelle)",
-          "description": "superficie de 47 hectares. Il est classé comme une réserve naturelle en 1993. Réserves naturelles de Tunisie Ressource relative à la géographie : World",
-          "wikidata_id": "Q11904508",
-          "source": "https://fr.wikipedia.org/wiki/A%C3%AFn_Zana_(r%C3%A9serve_naturelle)",
-          "administrative_binding": "TEXT_LOCALITY_HINT_ONLY",
-          "administrative_path": null,
-          "quest_id": "nature_risks",
-          "gate": "Découverte encyclopédique seulement. Vérifier une source naturaliste ou institutionnelle avant promotion."
-        },
-        {
           "candidate_id": "nature:wikipedia:Q3457470",
           "state": "UNVERIFIED_AUTODISCOVERY_CANDIDATE",
           "lane": "nature",
@@ -4102,8 +4136,11 @@
           "administrative_binding": "P131_PATH_TO_DEPARTMENT",
           "administrative_path": [
             "Q3457470",
-            "Q774346",
+            "Q115727934",
             "Q3083"
+          ],
+          "country_wikidata_ids": [
+            "Q142"
           ],
           "quest_id": "nature_risks",
           "gate": "Découverte encyclopédique seulement. Vérifier une source naturaliste ou institutionnelle avant promotion."
@@ -4119,8 +4156,31 @@
           "administrative_binding": "P131_PATH_TO_DEPARTMENT",
           "administrative_path": [
             "Q3457394",
-            "Q18103",
+            "Q191475",
             "Q3083"
+          ],
+          "country_wikidata_ids": [
+            "Q142"
+          ],
+          "quest_id": "nature_risks",
+          "gate": "Découverte encyclopédique seulement. Vérifier une source naturaliste ou institutionnelle avant promotion."
+        },
+        {
+          "candidate_id": "nature:wikipedia:Q15301060",
+          "state": "UNVERIFIED_AUTODISCOVERY_CANDIDATE",
+          "lane": "nature",
+          "label": "Réserve naturelle nationale du Haut-Rhône français",
+          "description": "départements de l'Ain , de l'Isère et de la Savoie. Classée en 2013 et occupant 1 707 hectares le long du Rhône, c'est la plus grande réserve naturelle fluviale",
+          "wikidata_id": "Q15301060",
+          "source": "https://fr.wikipedia.org/wiki/R%C3%A9serve_naturelle_nationale_du_Haut-Rh%C3%B4ne_fran%C3%A7ais",
+          "administrative_binding": "P131_PATH_TO_DEPARTMENT",
+          "administrative_path": [
+            "Q15301060",
+            "Q211651",
+            "Q3083"
+          ],
+          "country_wikidata_ids": [
+            "Q142"
           ],
           "quest_id": "nature_risks",
           "gate": "Découverte encyclopédique seulement. Vérifier une source naturaliste ou institutionnelle avant promotion."
@@ -4250,7 +4310,7 @@
     "02": {
       "code": "02",
       "name": "Aisne",
-      "scanned_at": "2026-10-04T14:11:46.851261Z",
+      "scanned_at": "2026-10-04T14:27:38.173204Z",
       "state": "DISCOVERY_CANDIDATES_NOT_CANON",
       "promotion_authorized": false,
       "mints_phi": false,
@@ -4567,8 +4627,11 @@
           "administrative_binding": "P131_PATH_TO_DEPARTMENT",
           "administrative_path": [
             "Q3457422",
-            "Q182744",
+            "Q1062183",
             "Q3093"
+          ],
+          "country_wikidata_ids": [
+            "Q142"
           ],
           "quest_id": "nature_risks",
           "gate": "Découverte encyclopédique seulement. Vérifier une source naturaliste ou institutionnelle avant promotion."
@@ -4587,6 +4650,9 @@
             "Q867428",
             "Q3093"
           ],
+          "country_wikidata_ids": [
+            "Q142"
+          ],
           "quest_id": "nature_risks",
           "gate": "Découverte encyclopédique seulement. Vérifier une source naturaliste ou institutionnelle avant promotion."
         },
@@ -4603,6 +4669,9 @@
             "Q3457471",
             "Q868121",
             "Q3093"
+          ],
+          "country_wikidata_ids": [
+            "Q142"
           ],
           "quest_id": "nature_risks",
           "gate": "Découverte encyclopédique seulement. Vérifier une source naturaliste ou institutionnelle avant promotion."
@@ -4732,7 +4801,7 @@
     "03": {
       "code": "03",
       "name": "Allier",
-      "scanned_at": "2026-10-04T14:11:48.765600Z",
+      "scanned_at": "2026-10-04T14:27:42.912128Z",
       "state": "DISCOVERY_CANDIDATES_NOT_CANON",
       "promotion_authorized": false,
       "mints_phi": false,
@@ -5051,6 +5120,9 @@
             "Q3553412",
             "Q3113"
           ],
+          "country_wikidata_ids": [
+            "Q142"
+          ],
           "quest_id": "nature_risks",
           "gate": "Découverte encyclopédique seulement. Vérifier une source naturaliste ou institutionnelle avant promotion."
         },
@@ -5068,6 +5140,9 @@
             "Q338560",
             "Q3113"
           ],
+          "country_wikidata_ids": [
+            "Q142"
+          ],
           "quest_id": "nature_risks",
           "gate": "Découverte encyclopédique seulement. Vérifier une source naturaliste ou institutionnelle avant promotion."
         },
@@ -5082,8 +5157,11 @@
           "administrative_binding": "P131_PATH_TO_DEPARTMENT",
           "administrative_path": [
             "Q761970",
-            "Q865574",
+            "Q614295",
             "Q3113"
+          ],
+          "country_wikidata_ids": [
+            "Q142"
           ],
           "quest_id": "nature_risks",
           "gate": "Découverte encyclopédique seulement. Vérifier une source naturaliste ou institutionnelle avant promotion."
@@ -5213,7 +5291,7 @@
     "04": {
       "code": "04",
       "name": "Alpes-de-Haute-Provence",
-      "scanned_at": "2026-10-04T14:11:51.691074Z",
+      "scanned_at": "2026-10-04T14:27:50.143700Z",
       "state": "DISCOVERY_CANDIDATES_NOT_CANON",
       "promotion_authorized": false,
       "mints_phi": false,
@@ -5530,8 +5608,11 @@
           "administrative_binding": "P131_PATH_TO_DEPARTMENT",
           "administrative_path": [
             "Q3457474",
-            "Q867048",
+            "Q865161",
             "Q3131"
+          ],
+          "country_wikidata_ids": [
+            "Q142"
           ],
           "quest_id": "nature_risks",
           "gate": "Découverte encyclopédique seulement. Vérifier une source naturaliste ou institutionnelle avant promotion."
@@ -5661,7 +5742,7 @@
     "05": {
       "code": "05",
       "name": "Hautes-Alpes",
-      "scanned_at": "2026-10-04T14:11:55.975357Z",
+      "scanned_at": "2026-10-04T14:28:04.771571Z",
       "state": "DISCOVERY_CANDIDATES_NOT_CANON",
       "promotion_authorized": false,
       "mints_phi": false,
@@ -5966,7 +6047,47 @@
           "gate": "La protection patrimoniale est sourcée officiellement. La sélection éditoriale et la représentation visuelle restent à valider avant promotion."
         }
       ],
-      "nature": [],
+      "nature": [
+        {
+          "candidate_id": "nature:wikipedia:Q2911447",
+          "state": "UNVERIFIED_AUTODISCOVERY_CANDIDATE",
+          "lane": "nature",
+          "label": "Forêt de Boscodon",
+          "description": "voir Boscodon. La forêt de Boscodon est une forêt domaniale de France située dans le sud-ouest du massif du Parpaillon, dans les Alpes françaises, sur la",
+          "wikidata_id": "Q2911447",
+          "source": "https://fr.wikipedia.org/wiki/For%C3%AAt_de_Boscodon",
+          "administrative_binding": "P131_PATH_TO_DEPARTMENT",
+          "administrative_path": [
+            "Q2911447",
+            "Q1016429",
+            "Q3125"
+          ],
+          "country_wikidata_ids": [
+            "Q142"
+          ],
+          "quest_id": "nature_risks",
+          "gate": "Découverte encyclopédique seulement. Vérifier une source naturaliste ou institutionnelle avant promotion."
+        },
+        {
+          "candidate_id": "nature:wikipedia:Q3364641",
+          "state": "UNVERIFIED_AUTODISCOVERY_CANDIDATE",
+          "lane": "nature",
+          "label": "Parc naturel régional du Queyras",
+          "description": "Provence-Alpes-Côte d'Azur Localisation sur la carte des Hautes - Alpes Le parc naturel régional du Queyras est un parc naturel régional français créé en 1977, composé de",
+          "wikidata_id": "Q3364641",
+          "source": "https://fr.wikipedia.org/wiki/Parc_naturel_r%C3%A9gional_du_Queyras",
+          "administrative_binding": "P131_PATH_TO_DEPARTMENT",
+          "administrative_path": [
+            "Q3364641",
+            "Q3125"
+          ],
+          "country_wikidata_ids": [
+            "Q142"
+          ],
+          "quest_id": "nature_risks",
+          "gate": "Découverte encyclopédique seulement. Vérifier une source naturaliste ou institutionnelle avant promotion."
+        }
+      ],
       "commons": [
         {
           "candidate_id": "commons:library:LI154",
@@ -6079,7 +6200,7 @@
         "merimee_tabular": "PASS",
         "libraries_tabular": "PASS",
         "tiers_lieux_2026_csv": "PASS",
-        "nature_wikipedia_wikidata": "ERROR:HTTPError"
+        "nature_wikipedia_wikidata": "PASS"
       },
       "wikidata_department": {
         "id": "Q3125",
@@ -6091,7 +6212,7 @@
     "06": {
       "code": "06",
       "name": "Alpes-Maritimes",
-      "scanned_at": "2026-10-04T14:11:59.780464Z",
+      "scanned_at": "2026-10-04T14:28:25.962936Z",
       "state": "DISCOVERY_CANDIDATES_NOT_CANON",
       "promotion_authorized": false,
       "mints_phi": false,
@@ -6334,7 +6455,24 @@
         "source": "france-topology.json",
         "gate": "Relation administrative vérifiée. Elle ne prouve aucune proximité culturelle, économique ou affective."
       },
-      "media": [],
+      "media": [
+        {
+          "candidate_id": "media:Q3139",
+          "state": "LICENSE_VERIFIED_LOCATION_CANDIDATE",
+          "kind": "representative_department_media",
+          "wikidata_id": "Q3139",
+          "label": "Nizza-Côte d'Azur.jpg",
+          "source_page": "https://commons.wikimedia.org/wiki/File:Nizza-C%C3%B4te_d'Azur.jpg",
+          "thumbnail_source": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b7/Nizza-C%C3%B4te_d%27Azur.jpg/960px-Nizza-C%C3%B4te_d%27Azur.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+          "asset": "assets/territory-candidates/06/e49ec18d94053df5.jpg",
+          "license": "CC BY-SA 3.0",
+          "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+          "author": "Tobi 87",
+          "description": "Panoramic view of the old city and the Promenade des Anglais in Nice, on the French Riviera (Alpes-Maritime, Provence-Alpes-Côte d’Azur, France), from the fortress (looking westwards).",
+          "gate": "Licence vérifiée. Pertinence éditoriale et représentativité restent à valider avant promotion.",
+          "quest_id": "heritage_memory"
+        }
+      ],
       "heritage": [
         {
           "candidate_id": "heritage:merimee:PA00080651",
@@ -6388,21 +6526,15 @@
           "description": "leurs à-pics de 300 mètres. Le territoire de la réserve naturelle est dans le département des Alpes - Maritimes , sur les communes de Guillaumes et de Daluis",
           "wikidata_id": "Q17166758",
           "source": "https://fr.wikipedia.org/wiki/R%C3%A9serve_naturelle_r%C3%A9gionale_des_gorges_de_Daluis",
-          "administrative_binding": "TEXT_LOCALITY_HINT_ONLY",
-          "administrative_path": null,
-          "quest_id": "nature_risks",
-          "gate": "Découverte encyclopédique seulement. Vérifier une source naturaliste ou institutionnelle avant promotion."
-        },
-        {
-          "candidate_id": "nature:wikipedia:Q3364595",
-          "state": "UNVERIFIED_AUTODISCOVERY_CANDIDATE",
-          "lane": "nature",
-          "label": "Parc naturel des Alpes maritimes",
-          "description": "Parc naturel des Alpes maritimes Pian del Valasco, valle Gesso (Cuneo) en Italie Localisation sur la carte d’Italie Le parc naturel des Alpes maritimes (en",
-          "wikidata_id": "Q3364595",
-          "source": "https://fr.wikipedia.org/wiki/Parc_naturel_des_Alpes_maritimes",
-          "administrative_binding": "TEXT_LOCALITY_HINT_ONLY",
-          "administrative_path": null,
+          "administrative_binding": "P131_PATH_TO_DEPARTMENT",
+          "administrative_path": [
+            "Q17166758",
+            "Q990104",
+            "Q3139"
+          ],
+          "country_wikidata_ids": [
+            "Q142"
+          ],
           "quest_id": "nature_risks",
           "gate": "Découverte encyclopédique seulement. Vérifier une source naturaliste ou institutionnelle avant promotion."
         },
@@ -6414,8 +6546,33 @@
           "description": "couvre le sud-est du Var et déborde sur les Alpes - Maritimes , en France. C'est une des régions naturelles de France. Frédéric Mistral émet plusieurs hypothèses",
           "wikidata_id": "Q1369923",
           "source": "https://fr.wikipedia.org/wiki/Massif_de_l%27Esterel",
-          "administrative_binding": "TEXT_LOCALITY_HINT_ONLY",
-          "administrative_path": null,
+          "administrative_binding": "P131_PATH_TO_DEPARTMENT",
+          "administrative_path": [
+            "Q1369923",
+            "Q3139"
+          ],
+          "country_wikidata_ids": [
+            "Q142"
+          ],
+          "quest_id": "nature_risks",
+          "gate": "Découverte encyclopédique seulement. Vérifier une source naturaliste ou institutionnelle avant promotion."
+        },
+        {
+          "candidate_id": "nature:wikipedia:Q3364630",
+          "state": "UNVERIFIED_AUTODISCOVERY_CANDIDATE",
+          "lane": "nature",
+          "label": "Parc naturel régional des Préalpes d'Azur",
+          "description": "Parc naturel régional des Préalpes d'Azur Saint-Auban Le parc naturel régional des Préalpes d'Azur est un parc naturel régional français créé le 30 mars",
+          "wikidata_id": "Q3364630",
+          "source": "https://fr.wikipedia.org/wiki/Parc_naturel_r%C3%A9gional_des_Pr%C3%A9alpes_d%27Azur",
+          "administrative_binding": "P131_PATH_TO_DEPARTMENT",
+          "administrative_path": [
+            "Q3364630",
+            "Q3139"
+          ],
+          "country_wikidata_ids": [
+            "Q142"
+          ],
           "quest_id": "nature_risks",
           "gate": "Découverte encyclopédique seulement. Vérifier une source naturaliste ou institutionnelle avant promotion."
         }
@@ -6527,17 +6684,24 @@
         }
       ],
       "source_health": {
-        "wikidata_department": "ERROR:HTTPError",
+        "wikidata_department": "PASS",
+        "commons_license_media": "PASS",
         "merimee_tabular": "PASS",
         "libraries_tabular": "PASS",
         "tiers_lieux_2026_csv": "PASS",
         "nature_wikipedia_wikidata": "PASS"
+      },
+      "wikidata_department": {
+        "id": "Q3139",
+        "label": "Alpes-Maritimes",
+        "description": "département français numéro 06",
+        "source": "https://www.wikidata.org/wiki/Q3139"
       }
     },
     "07": {
       "code": "07",
       "name": "Ardèche",
-      "scanned_at": "2026-10-04T14:12:00.867638Z",
+      "scanned_at": "2026-10-04T14:28:30.247887Z",
       "state": "DISCOVERY_CANDIDATES_NOT_CANON",
       "promotion_authorized": false,
       "mints_phi": false,
@@ -6854,8 +7018,11 @@
           "administrative_binding": "P131_PATH_TO_DEPARTMENT",
           "administrative_path": [
             "Q3457506",
-            "Q274198",
+            "Q334550",
             "Q3148"
+          ],
+          "country_wikidata_ids": [
+            "Q142"
           ],
           "quest_id": "nature_risks",
           "gate": "Découverte encyclopédique seulement. Vérifier une source naturaliste ou institutionnelle avant promotion."
@@ -6874,21 +7041,28 @@
             "Q741355",
             "Q3148"
           ],
+          "country_wikidata_ids": [
+            "Q142"
+          ],
           "quest_id": "nature_risks",
           "gate": "Découverte encyclopédique seulement. Vérifier une source naturaliste ou institutionnelle avant promotion."
         },
         {
-          "candidate_id": "nature:wikipedia:Q20735981",
+          "candidate_id": "nature:wikipedia:Q19758834",
           "state": "UNVERIFIED_AUTODISCOVERY_CANDIDATE",
           "lane": "nature",
-          "label": "Forêt de Taillard",
-          "description": "La forêt de Taillard est à cheval sur les communes suivantes : Saint-Sauveur-en-Rue, Burdignes, Vanosc ( Ardèche ) Riotord (Haute-Loire). La forêt est",
-          "wikidata_id": "Q20735981",
-          "source": "https://fr.wikipedia.org/wiki/For%C3%AAt_de_Taillard",
+          "label": "Réserve naturelle nationale de l'île de la Platière",
+          "description": "86-334 du 6 mars 1986 portant création de la réserve naturelle nationale de l'île de la Platière ( Ardèche , Isère et Loire) », sur Légifrance. Portail de",
+          "wikidata_id": "Q19758834",
+          "source": "https://fr.wikipedia.org/wiki/R%C3%A9serve_naturelle_nationale_de_l%27%C3%AEle_de_la_Plati%C3%A8re",
           "administrative_binding": "P131_PATH_TO_DEPARTMENT",
           "administrative_path": [
-            "Q20735981",
+            "Q19758834",
+            "Q195095",
             "Q3148"
+          ],
+          "country_wikidata_ids": [
+            "Q142"
           ],
           "quest_id": "nature_risks",
           "gate": "Découverte encyclopédique seulement. Vérifier une source naturaliste ou institutionnelle avant promotion."
@@ -7018,7 +7192,7 @@
     "08": {
       "code": "08",
       "name": "Ardennes",
-      "scanned_at": "2026-10-04T14:12:03.220212Z",
+      "scanned_at": "2026-10-04T14:28:35.455306Z",
       "state": "DISCOVERY_CANDIDATES_NOT_CANON",
       "promotion_authorized": false,
       "mints_phi": false,
@@ -7337,6 +7511,9 @@
             "Q3457322",
             "Q3164"
           ],
+          "country_wikidata_ids": [
+            "Q142"
+          ],
           "quest_id": "nature_risks",
           "gate": "Découverte encyclopédique seulement. Vérifier une source naturaliste ou institutionnelle avant promotion."
         },
@@ -7353,6 +7530,9 @@
             "Q3457371",
             "Q3164"
           ],
+          "country_wikidata_ids": [
+            "Q142"
+          ],
           "quest_id": "nature_risks",
           "gate": "Découverte encyclopédique seulement. Vérifier une source naturaliste ou institutionnelle avant promotion."
         },
@@ -7368,6 +7548,9 @@
           "administrative_path": [
             "Q3364626",
             "Q3164"
+          ],
+          "country_wikidata_ids": [
+            "Q142"
           ],
           "quest_id": "nature_risks",
           "gate": "Découverte encyclopédique seulement. Vérifier une source naturaliste ou institutionnelle avant promotion."
@@ -7497,7 +7680,7 @@
     "09": {
       "code": "09",
       "name": "Ariège",
-      "scanned_at": "2026-10-04T14:12:04.880918Z",
+      "scanned_at": "2026-10-04T14:28:38.439235Z",
       "state": "DISCOVERY_CANDIDATES_NOT_CANON",
       "promotion_authorized": false,
       "mints_phi": false,
@@ -7811,8 +7994,11 @@
           "description": "Réserve naturelle régionale Confluence Garonne- Ariège La réserve naturelle régionale Confluence Garonne- Ariège (RNR288) ou RNR Confluence Garonne Ariège",
           "wikidata_id": "Q20971154",
           "source": "https://fr.wikipedia.org/wiki/R%C3%A9serve_naturelle_r%C3%A9gionale_Confluence_Garonne-Ari%C3%A8ge",
-          "administrative_binding": "TEXT_LOCALITY_HINT_ONLY",
+          "administrative_binding": "TEXT_LOCALITY_HINT_WITH_FRANCE_P17",
           "administrative_path": null,
+          "country_wikidata_ids": [
+            "Q142"
+          ],
           "quest_id": "nature_risks",
           "gate": "Découverte encyclopédique seulement. Vérifier une source naturaliste ou institutionnelle avant promotion."
         },
@@ -7824,8 +8010,11 @@
           "description": "Géolocalisation sur la carte : Ariège La réserve naturelle régionale du massif de Saint-Barthélemy (RNR309) est une réserve naturelle régionale située en Occitanie",
           "wikidata_id": "Q22248861",
           "source": "https://fr.wikipedia.org/wiki/R%C3%A9serve_naturelle_r%C3%A9gionale_du_massif_de_Saint-Barth%C3%A9lemy",
-          "administrative_binding": "TEXT_LOCALITY_HINT_ONLY",
+          "administrative_binding": "TEXT_LOCALITY_HINT_WITH_FRANCE_P17",
           "administrative_path": null,
+          "country_wikidata_ids": [
+            "Q142"
+          ],
           "quest_id": "nature_risks",
           "gate": "Découverte encyclopédique seulement. Vérifier une source naturaliste ou institutionnelle avant promotion."
         },
@@ -7842,6 +8031,9 @@
             "Q49328682",
             "Q629760",
             "Q3184"
+          ],
+          "country_wikidata_ids": [
+            "Q142"
           ],
           "quest_id": "nature_risks",
           "gate": "Découverte encyclopédique seulement. Vérifier une source naturaliste ou institutionnelle avant promotion."
@@ -7971,7 +8163,7 @@
     "10": {
       "code": "10",
       "name": "Aube",
-      "scanned_at": "2026-10-04T14:12:07.301011Z",
+      "scanned_at": "2026-10-04T14:28:42.197859Z",
       "state": "DISCOVERY_CANDIDATES_NOT_CANON",
       "promotion_authorized": false,
       "mints_phi": false,
@@ -8276,47 +8468,7 @@
           "gate": "La protection patrimoniale est sourcée officiellement. La sélection éditoriale et la représentation visuelle restent à valider avant promotion."
         }
       ],
-      "nature": [
-        {
-          "candidate_id": "nature:wikipedia:Q15438852",
-          "state": "UNVERIFIED_AUTODISCOVERY_CANDIDATE",
-          "lane": "nature",
-          "label": "Réserve naturelle nationale de la forêt d'Orient",
-          "description": "Réserve naturelle nationale de la forêt d'Orient Le lac du Temple. Localisation sur la carte de Grand Est Localisation sur la carte de l’Aube Localisation",
-          "wikidata_id": "Q15438852",
-          "source": "https://fr.wikipedia.org/wiki/R%C3%A9serve_naturelle_nationale_de_la_for%C3%AAt_d%27Orient",
-          "administrative_binding": "TEXT_LOCALITY_HINT_ONLY",
-          "administrative_path": null,
-          "quest_id": "nature_risks",
-          "gate": "Découverte encyclopédique seulement. Vérifier une source naturaliste ou institutionnelle avant promotion."
-        },
-        {
-          "candidate_id": "nature:wikipedia:Q16738596",
-          "state": "UNVERIFIED_AUTODISCOVERY_CANDIDATE",
-          "lane": "nature",
-          "label": "Réserve naturelle régionale de l'étang de Ramerupt",
-          "description": "Réserve naturelle régionale de l'étang de Ramerupt Localisation sur la carte de Grand Est Localisation sur la carte de l’Aube Localisation sur la carte",
-          "wikidata_id": "Q16738596",
-          "source": "https://fr.wikipedia.org/wiki/R%C3%A9serve_naturelle_r%C3%A9gionale_de_l%27%C3%A9tang_de_Ramerupt",
-          "administrative_binding": "TEXT_LOCALITY_HINT_ONLY",
-          "administrative_path": null,
-          "quest_id": "nature_risks",
-          "gate": "Découverte encyclopédique seulement. Vérifier une source naturaliste ou institutionnelle avant promotion."
-        },
-        {
-          "candidate_id": "nature:wikipedia:Q16742170",
-          "state": "UNVERIFIED_AUTODISCOVERY_CANDIDATE",
-          "lane": "nature",
-          "label": "Réserve naturelle régionale de la pelouse de la côte de l'étang",
-          "description": "champenois. Le territoire de la réserve naturelle est dans le département de l'Aube , sur la commune de Spoy non loin de Bar-sur- Aube dans la vallée du Landion",
-          "wikidata_id": "Q16742170",
-          "source": "https://fr.wikipedia.org/wiki/R%C3%A9serve_naturelle_r%C3%A9gionale_de_la_pelouse_de_la_c%C3%B4te_de_l%27%C3%A9tang",
-          "administrative_binding": "TEXT_LOCALITY_HINT_ONLY",
-          "administrative_path": null,
-          "quest_id": "nature_risks",
-          "gate": "Découverte encyclopédique seulement. Vérifier une source naturaliste ou institutionnelle avant promotion."
-        }
-      ],
+      "nature": [],
       "commons": [
         {
           "candidate_id": "commons:library:LI17267",
@@ -8429,7 +8581,7 @@
         "merimee_tabular": "PASS",
         "libraries_tabular": "PASS",
         "tiers_lieux_2026_csv": "PASS",
-        "nature_wikipedia_wikidata": "PASS"
+        "nature_wikipedia_wikidata": "ERROR:HTTPError"
       },
       "wikidata_department": {
         "id": "Q548466",
@@ -8441,7 +8593,7 @@
     "11": {
       "code": "11",
       "name": "Aude",
-      "scanned_at": "2026-10-04T14:12:09.597396Z",
+      "scanned_at": "2026-10-04T14:28:48.254691Z",
       "state": "DISCOVERY_CANDIDATES_NOT_CANON",
       "promotion_authorized": false,
       "mints_phi": false,
@@ -8729,47 +8881,7 @@
           "gate": "La protection patrimoniale est sourcée officiellement. La sélection éditoriale et la représentation visuelle restent à valider avant promotion."
         }
       ],
-      "nature": [
-        {
-          "candidate_id": "nature:wikipedia:Q15441336",
-          "state": "UNVERIFIED_AUTODISCOVERY_CANDIDATE",
-          "lane": "nature",
-          "label": "Réserve naturelle nationale de la grotte du T.M. 71",
-          "description": "Réserve naturelle nationale de la Grotte du T.M.71 Localisation sur la carte de l’Aude Localisation sur la carte du Languedoc-Roussillon Localisation sur",
-          "wikidata_id": "Q15441336",
-          "source": "https://fr.wikipedia.org/wiki/R%C3%A9serve_naturelle_nationale_de_la_grotte_du_T.M._71",
-          "administrative_binding": "TEXT_LOCALITY_HINT_ONLY",
-          "administrative_path": null,
-          "quest_id": "nature_risks",
-          "gate": "Découverte encyclopédique seulement. Vérifier une source naturaliste ou institutionnelle avant promotion."
-        },
-        {
-          "candidate_id": "nature:wikipedia:Q108539989",
-          "state": "UNVERIFIED_AUTODISCOVERY_CANDIDATE",
-          "lane": "nature",
-          "label": "Parc naturel régional Corbières-Fenouillèdes",
-          "description": "Quéribus. Le parc naturel régional Corbières-Fenouillèdes est un parc naturel régional français, situé dans les départements de l'Aude et des Pyrénées-Orientales",
-          "wikidata_id": "Q108539989",
-          "source": "https://fr.wikipedia.org/wiki/Parc_naturel_r%C3%A9gional_Corbi%C3%A8res-Fenouill%C3%A8des",
-          "administrative_binding": "TEXT_LOCALITY_HINT_ONLY",
-          "administrative_path": null,
-          "quest_id": "nature_risks",
-          "gate": "Découverte encyclopédique seulement. Vérifier une source naturaliste ou institutionnelle avant promotion."
-        },
-        {
-          "candidate_id": "nature:wikipedia:Q2138337",
-          "state": "UNVERIFIED_AUTODISCOVERY_CANDIDATE",
-          "lane": "nature",
-          "label": "Parc naturel régional de la Narbonnaise en Méditerranée",
-          "description": "Méditerranée est un parc naturel régional français créé le 18 décembre 2003, situé dans le département de l'Aude . Situé en région Occitanie, dans l'Aude Pays cathare",
-          "wikidata_id": "Q2138337",
-          "source": "https://fr.wikipedia.org/wiki/Parc_naturel_r%C3%A9gional_de_la_Narbonnaise_en_M%C3%A9diterran%C3%A9e",
-          "administrative_binding": "TEXT_LOCALITY_HINT_ONLY",
-          "administrative_path": null,
-          "quest_id": "nature_risks",
-          "gate": "Découverte encyclopédique seulement. Vérifier une source naturaliste ou institutionnelle avant promotion."
-        }
-      ],
+      "nature": [],
       "commons": [
         {
           "candidate_id": "commons:library:LI16732",
@@ -8877,24 +8989,17 @@
         }
       ],
       "source_health": {
-        "wikidata_department": "PASS",
-        "commons_license_media": "NO_LICENSED_MEDIA",
+        "wikidata_department": "ERROR:HTTPError",
         "merimee_tabular": "PASS",
         "libraries_tabular": "PASS",
         "tiers_lieux_2026_csv": "PASS",
-        "nature_wikipedia_wikidata": "PASS"
-      },
-      "wikidata_department": {
-        "id": "Q2870696",
-        "label": "Aude",
-        "description": "prénom féminin",
-        "source": "https://www.wikidata.org/wiki/Q2870696"
+        "nature_wikipedia_wikidata": "ERROR:HTTPError"
       }
     },
     "12": {
       "code": "12",
       "name": "Aveyron",
-      "scanned_at": "2026-10-04T14:12:12.328331Z",
+      "scanned_at": "2026-10-04T14:28:48.723893Z",
       "state": "DISCOVERY_CANDIDATES_NOT_CANON",
       "promotion_authorized": false,
       "mints_phi": false,
@@ -9216,32 +9321,6 @@
           ],
           "quest_id": "nature_risks",
           "gate": "Découverte encyclopédique seulement. Vérifier une source naturaliste ou institutionnelle avant promotion."
-        },
-        {
-          "candidate_id": "nature:wikipedia:Q12948997",
-          "state": "UNVERIFIED_AUTODISCOVERY_CANDIDATE",
-          "lane": "nature",
-          "label": "Forêt domaniale de Grésigne",
-          "description": "La forêt de la Grésigne, entre les vallées de l'Aveyron , de la Vère et du Cérou, est ceinturée au nord par les plateaux calcaires et au sud-est par le",
-          "wikidata_id": "Q12948997",
-          "source": "https://fr.wikipedia.org/wiki/For%C3%AAt_domaniale_de_Gr%C3%A9signe",
-          "administrative_binding": "TEXT_LOCALITY_HINT_ONLY",
-          "administrative_path": null,
-          "quest_id": "nature_risks",
-          "gate": "Découverte encyclopédique seulement. Vérifier une source naturaliste ou institutionnelle avant promotion."
-        },
-        {
-          "candidate_id": "nature:wikipedia:Q54561886",
-          "state": "UNVERIFIED_AUTODISCOVERY_CANDIDATE",
-          "lane": "nature",
-          "label": "Parc naturel régional de l'Aubrac",
-          "description": "départements de l'Aveyron , de la Lozère (Occitanie) et du Cantal (Auvergne-Rhône-Alpes), autour du plateau du même nom. Il est le 53e parc naturel régional français",
-          "wikidata_id": "Q54561886",
-          "source": "https://fr.wikipedia.org/wiki/Parc_naturel_r%C3%A9gional_de_l%27Aubrac",
-          "administrative_binding": "TEXT_LOCALITY_HINT_ONLY",
-          "administrative_path": null,
-          "quest_id": "nature_risks",
-          "gate": "Découverte encyclopédique seulement. Vérifier une source naturaliste ou institutionnelle avant promotion."
         }
       ],
       "commons": [
@@ -9351,18 +9430,27 @@
         }
       ],
       "source_health": {
-        "wikidata_department": "PASS",
-        "commons_license_media": "PASS",
+        "wikidata_department": "ERROR:HTTPError",
         "merimee_tabular": "PASS",
         "libraries_tabular": "PASS",
         "tiers_lieux_2026_csv": "PASS",
-        "nature_wikipedia_wikidata": "PASS"
+        "nature_wikipedia_wikidata": "ERROR:HTTPError"
       },
-      "wikidata_department": {
-        "id": "Q3216",
-        "label": "Aveyron",
-        "description": "département français numéro 12",
-        "source": "https://www.wikidata.org/wiki/Q3216"
+      "retained_last_good_lanes": {
+        "media": {
+          "failed_sources": [
+            "wikidata_department"
+          ],
+          "previous_scanned_at": "2026-10-04T14:20:53.837617Z",
+          "retained_count": 1
+        },
+        "nature": {
+          "failed_sources": [
+            "nature_wikipedia_wikidata"
+          ],
+          "previous_scanned_at": "2026-10-04T14:20:53.837617Z",
+          "retained_count": 1
+        }
       }
     }
   }

@@ -240,8 +240,11 @@ def nature_candidates(dep_code: str, dep_name: str, dep_qid: str | None) -> list
                     path = administrative_path_to_department(qid, dep_qid)
                 except Exception:
                     path = None
-            text_hint = norm(dep_name) in norm(title + " " + re.sub(r"<[^>]+>", " ", row.get("snippet") or ""))
-            if not path and not text_hint:
+            text_hay = (title + " " + clean_html(row.get("snippet"))).casefold()
+            text_hint = dep_name.casefold() in text_hay
+            countries = claim_item_qids(wikidata_entity(qid), "P17")
+            text_france_hint = text_hint and "Q142" in countries
+            if not path and not text_france_hint:
                 continue
             out.append({
                 "candidate_id": "nature:wikipedia:" + qid,
@@ -251,8 +254,9 @@ def nature_candidates(dep_code: str, dep_name: str, dep_qid: str | None) -> list
                 "description": clean_html(row.get("snippet")),
                 "wikidata_id": qid,
                 "source": page.get("fullurl") or ("https://fr.wikipedia.org/wiki/" + urllib.parse.quote(title.replace(" ", "_"))),
-                "administrative_binding": "P131_PATH_TO_DEPARTMENT" if path else "TEXT_LOCALITY_HINT_ONLY",
+                "administrative_binding": "P131_PATH_TO_DEPARTMENT" if path else "TEXT_LOCALITY_HINT_WITH_FRANCE_P17",
                 "administrative_path": path,
+                "country_wikidata_ids": sorted(countries),
                 "quest_id": "nature_risks",
                 "gate": "Découverte encyclopédique seulement. Vérifier une source naturaliste ou institutionnelle avant promotion.",
             })
@@ -291,14 +295,17 @@ def wikidata_entities(qids: list[str] | set[str]) -> dict[str, dict]:
 def wikidata_entity(qid: str) -> dict:
     return wikidata_entities([qid]).get(qid, {})
 
-def parent_qids(entity: dict) -> set[str]:
+def claim_item_qids(entity: dict, property_id: str) -> set[str]:
     out = set()
-    for claim in (entity.get("claims") or {}).get("P131", []):
+    for claim in (entity.get("claims") or {}).get(property_id, []):
         try:
             out.add(claim["mainsnak"]["datavalue"]["value"]["id"])
         except Exception:
             pass
     return out
+
+def parent_qids(entity: dict) -> set[str]:
+    return claim_item_qids(entity, "P131")
 
 def administrative_path_to_department(qid: str, department_qid: str, max_depth: int = 5) -> list[str] | None:
     frontier = {qid}
@@ -596,6 +603,72 @@ def scan_department(code: str, offline: bool = False) -> dict:
         base["source_health"]["nature_wikipedia_wikidata"] = "ERROR:" + type(exc).__name__
     return base
 
+LANE_FAILURE_SOURCES = {
+    "media": ("wikidata_department", "commons_license_media"),
+    "heritage": ("merimee_tabular",),
+    "nature": ("nature_wikipedia_wikidata",),
+    "commons": ("libraries_tabular",),
+    "initiatives": ("tiers_lieux_2026_csv",),
+}
+
+def retained_candidate_is_current_schema(lane: str, candidate: dict) -> bool:
+    if lane != "nature":
+        return True
+    binding = candidate.get("administrative_binding")
+    if binding == "P131_PATH_TO_DEPARTMENT":
+        return True
+    return (
+        binding == "TEXT_LOCALITY_HINT_WITH_FRANCE_P17"
+        and "Q142" in (candidate.get("country_wikidata_ids") or [])
+    )
+
+def retain_last_good_on_source_failure(scanned: dict, previous: dict | None) -> dict:
+    if not previous or not scanned.get("source_health"):
+        return scanned
+    retained = {}
+    rejected = {}
+    for lane, source_keys in LANE_FAILURE_SOURCES.items():
+        if scanned.get(lane) or not previous.get(lane):
+            continue
+        failed = [
+            key for key in source_keys
+            if str(scanned["source_health"].get(key, "")).startswith("ERROR:")
+        ]
+        if not failed:
+            continue
+        compatible = [
+            candidate for candidate in previous[lane]
+            if retained_candidate_is_current_schema(lane, candidate)
+        ]
+        if compatible:
+            scanned[lane] = compatible
+            retained[lane] = {
+                "failed_sources": failed,
+                "previous_scanned_at": previous.get("scanned_at"),
+                "retained_count": len(compatible),
+            }
+        dropped = len(previous[lane]) - len(compatible)
+        if dropped:
+            rejected[lane] = {
+                "failed_sources": failed,
+                "previous_scanned_at": previous.get("scanned_at"),
+                "incompatible_candidate_count": dropped,
+            }
+    if retained:
+        scanned["retained_last_good_lanes"] = retained
+    if rejected:
+        scanned["rejected_last_good_lanes"] = rejected
+    return scanned
+
+def fail_closed_on_unclassified_error(code: str, exc: Exception, previous: dict | None = None) -> dict:
+    record = scan_department(code, True)
+    record["last_scan_error"] = type(exc).__name__
+    record["last_scan_error_at"] = datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
+    record["previous_record_retained"] = False
+    if previous and previous.get("scanned_at"):
+        record["previous_scanned_at_not_retained"] = previous["scanned_at"]
+    return record
+
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--codes")
@@ -615,27 +688,15 @@ def main() -> None:
     for code in selected:
         previous = departments.get(code)
         try:
-            scanned = scan_department(code, args.offline)
-            if previous and scanned["state"].startswith("DISCOVERY") and not any(scanned[l] for l in ("media","heritage","nature","commons","initiatives")):
-                scanned["last_good_candidates"] = {
-                    lane: previous.get(lane, []) for lane in ("media","heritage","nature","commons","initiatives") if previous.get(lane)
-                }
+            scanned = retain_last_good_on_source_failure(scan_department(code, args.offline), previous)
             departments[code] = scanned
             print(code, CULTURE["departments"][code]["name"], scanned["state"],
                   "media", len(scanned["media"]), "heritage", len(scanned["heritage"]),
                   "nature", len(scanned["nature"]), "commons", len(scanned["commons"]),
                   "initiatives", len(scanned["initiatives"]))
         except Exception as exc:
-            if previous:
-                previous = dict(previous)
-                previous["last_scan_error"] = type(exc).__name__
-                previous["last_scan_error_at"] = datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
-                departments[code] = previous
-                print(code, "RETAINED_LAST_GOOD", type(exc).__name__)
-            else:
-                departments[code] = scan_department(code, True)
-                departments[code]["last_scan_error"] = type(exc).__name__
-                print(code, "FAIL_CLOSED_RELATION_BASELINE", type(exc).__name__)
+            departments[code] = fail_closed_on_unclassified_error(code, exc, previous)
+            print(code, "FAIL_CLOSED_UNCLASSIFIED_ERROR", type(exc).__name__)
     scanned_count = sum(bool(x.get("scanned_at")) for x in departments.values())
     candidate_count = sum(
         len(x.get(lane) or [])
@@ -656,6 +717,8 @@ def main() -> None:
             "verified_receipt_required_for_phi": True,
             "human_or_external_source_verification_required_for_promotion": True,
             "last_good_retention": True,
+            "last_good_retention_policy": "PER_LANE_SOURCE_ERROR_ONLY",
+            "last_good_retention_requires_current_schema": True,
         },
         "batch_policy": {
             "default_batch_size": 12,
