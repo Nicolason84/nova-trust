@@ -98,6 +98,12 @@ async function main(){
  assert.equal(await evaluate("document.querySelectorAll('#muStage .muTerritoryBoardCard').length"),12);assert.ok(await evaluate("document.querySelector('#muStage .muTerritoryBoardCard')?.textContent.includes('Oise')&&document.querySelector('#muStage .muTerritoryBoardCard')?.textContent.includes('10 %')"));assert.ok(await evaluate("document.getElementById('muStage').textContent.includes('pas un classement de la valeur des territoires')"));pass('national quest board compares verified documentation only');
  await clickObject('OJO_FRANCE_ORGANISM_V1#/topology/regions/32');await clickObject('OJO_FRANCE_TOPOLOGY_V2#/departments/60');
  await wait("document.querySelector('#muStage h1')?.textContent==='Découvrez Oise autrement'",'human Oise portrait');
+ await wait("!!document.querySelector('#muStage .muTerritorySoul[data-territory-state=\"LIVING_IDENTITY_VERIFIED_PILOT\"]')",'Oise living identity');
+ assert.equal(await evaluate("document.querySelectorAll('#muStage .muPaletteSwatch').length"),5);
+ assert.equal(await evaluate("document.querySelectorAll('#muStage .muTerritoryMediaCard').length"),3);
+ assert.ok(await evaluate("document.querySelector('#muStage .muTerritoryHero img')?.getAttribute('src')==='assets/territory/oise/pierrefonds-cc0.jpg'"));
+ assert.ok(await evaluate("['Ressentir','Explorer','Approfondir'].every(x=>document.getElementById('muStage').textContent.includes(x))"));
+ assert.ok(await evaluate("document.getElementById('muStage').textContent.includes('Construire · opportunités à valider')&&document.getElementById('muStage').textContent.includes('elle ne prouve ni demande de marché')"));pass('Oise living identity binds sourced color media places and bounded opportunities');
  assert.equal(await evaluate("document.querySelectorAll('#muStage .muDepartmentStat').length"),3);
  assert.ok(await evaluate("document.querySelectorAll('#muStage .muLocalPlace').length>=6"));
  assert.equal(await evaluate("document.querySelectorAll('#muStage .muStorySlot').length"),8);
@@ -109,6 +115,8 @@ async function main(){
  await evaluate("document.getElementById('muLang-es').click()");await wait("document.querySelector('#muStage h1')?.textContent==='Descubre Oise de otra manera'",'Spanish department layer');assert.ok(await evaluate("document.getElementById('muStage').textContent.includes('Lenguas y expresiones locales')"));pass('Spanish essential layer is selectable');
  await evaluate("document.getElementById('muLang-local').click()");await wait("document.querySelector('#muStage h1')?.textContent==='Découvrez Oise autrement'",'local department layer');assert.ok(await evaluate("document.getElementById('muStage').textContent.includes('Mode local')&&document.getElementById('muStage').textContent.includes('Picard')"));pass('local mode exposes sourced Oise language context without invented dialect translation');
  await evaluate("document.getElementById('muLang-fr').click()");await wait("document.querySelector('#muStage h1')?.textContent==='Découvrez Oise autrement'",'French restored');
+ await navigate('#/objet/'+encodeURIComponent('OJO_FRANCE_TOPOLOGY_V2#/communes/60491'));await wait("document.querySelector('#muStage h1')?.textContent==='Pierrefonds'&&!!document.querySelector('#muStage .muCommuneLiving')",'Pierrefonds living commune');
+ assert.ok(await evaluate("document.getElementById('muStage').textContent.includes('Découvrir le château')&&document.getElementById('muStage').textContent.includes('Compiègne')&&document.getElementById('muStage').textContent.includes('Ce qui manque encore')"));assert.ok(await evaluate("document.querySelector('.muCommuneLiving img')?.getAttribute('src')==='assets/territory/oise/pierrefonds-cc0.jpg'"));pass('verified commune overlay turns local identity into things to do shared links and open needs');
  await evaluate("document.getElementById('muSearchInput').value='Nogent-sur-Oise';document.querySelector('.muSearch').requestSubmit()");
  await wait("!!document.querySelector('#muStage [data-object-id=\"OJO_FRANCE_TOPOLOGY_V2#/communes/60463\"]')",'national communal search');
  await clickObject('OJO_FRANCE_TOPOLOGY_V2#/communes/60463');await wait("document.getElementById('muStage').textContent.includes('Population dans la réponse API')",'verified commune shard');

@@ -55,14 +55,15 @@ test('civic institutional palette is explicit and neutral',()=>{
  assert.doesNotMatch(tail,/var\(--supra-red/);
  assert.match(artCss.slice(artCss.lastIndexOf('CIVIC INSTITUTIONAL PALETTE V1')),/--art-copper:#B58A62/);
 });
-test('public cache keys expose current civic art and phi territory quests',()=>{
+test('public cache keys expose current civic art and territory living identity',()=>{
  assert.match(page,/la-bete-art\.css\?v=20261004-civic-institutional-v1/);
- assert.match(page,/la-bete-explorer\.css\?v=20261004-phi-territory-quests-v1/);
- assert.match(page,/la-bete-explorer\.js\?v=20261004-phi-territory-quests-v1/);
+ assert.match(page,/la-bete-explorer\.css\?v=20261004-territory-living-identity-v1/);
+ assert.match(page,/la-bete-explorer\.js\?v=20261004-territory-living-identity-v1/);
 });
 test('no hidden dialog transcript persistence',()=>assert.doesNotMatch(ui,/localStorage|sessionStorage|indexedDB|document\.cookie/));
 test('no public action API or credentials',()=>assert.doesNotMatch(ui,/Bearer |POST["']|OPENAI_API_KEY|GH_TOKEN|18765|localhost/));
 test('no user HTML execution sinks',()=>assert.doesNotMatch(ui,/innerHTML|outerHTML|insertAdjacentHTML|\beval\(|new Function/));
+test('living identity is fail closed and loaded through canonical reader',()=>{assert.match(ui,/LA_BETE_TERRITORY_LIVING_IDENTITY_V1/);assert.match(ui,/no_random_identity_color/);assert.match(ui,/no_unlicensed_image/);assert.match(ui,/empty_is_better_than_fabricated/);assert.match(ui,/la-bete-territory-living-identity-v1\.json/);assert.doesNotMatch(ui,/fetch\([^)]*territory-living/i);});
 test('lazy territorial read uses existing bounded fetch',()=>assert.match(ui,/laBeteReadCanonicalJSON\('data\/france-organism\.json'/));
 test('native browser navigation and modal semantics',()=>{assert.match(ui,/history\.pushState/);assert.match(ui,/popstate/);assert.match(ui,/showModal\(/);});
 test('three is not eagerly initialized at boot',()=>{const tail=page.slice(page.indexOf('// LA_BETE_BOOT_START'));assert.doesNotMatch(tail,/^initBeast\(\);/m);assert.match(tail,/laBeteEnsurePresence/);});
