@@ -1,0 +1,306 @@
+{
+  "schema": "LA_BETE_ADVISORY_HOUSE_SPATIAL_EXPERIENCE_V5_RECEIPT",
+  "mission": "LA_BETE_ADVISORY_HOUSE_SPATIAL_EXPERIENCE_V5",
+  "method": "MEMORY_FIRST__AMPLIFY_X3_REDUCE_X3_PER_GENERATION",
+  "source_base": "origin/main@5370248ae0f8896a89dd5238a92b2b82e881a97e",
+  "scope": "PUBLIC_HOUSE_PRESENTATION_PLUS_READ_ONLY_PRIVATE_BINDING_CHECK",
+  "invariants": {
+    "second_engine": false,
+    "second_registry": false,
+    "second_truth": false,
+    "second_memory": false,
+    "public_private_storage": false,
+    "canon_mutated": false
+  },
+  "generations": {
+    "V3": {
+      "intent": "THE_PROFESSIONAL_HOUSE",
+      "passes": [
+        {
+          "step": "AMPLIFY_1",
+          "status": "PASS",
+          "effect": "Intent-aware orientation from the existing dialogue; no specialist picker added."
+        },
+        {
+          "step": "REDUCE_1",
+          "status": "PASS",
+          "effect": "Primary entry is one Desk/question; specialist choice is not required."
+        },
+        {
+          "step": "AMPLIFY_2",
+          "status": "PASS",
+          "effect": "Mission Director is the visible coordination role and is explicitly a digital SUPRA role."
+        },
+        {
+          "step": "REDUCE_2",
+          "status": "PASS",
+          "effect": "Only the active bound role is foregrounded; no decorative specialist avatars or multi-agent theatre."
+        },
+        {
+          "step": "AMPLIFY_3",
+          "status": "PASS",
+          "effect": "The same Question, Decision Twin, ProofGraph, Explore and Mission DOM nodes move through one Case shell; none are cloned."
+        },
+        {
+          "step": "REDUCE_3",
+          "status": "PASS",
+          "effect": "One existing dialogue form remains; no repeated intake is created."
+        }
+      ],
+      "freeze": "PASS",
+      "metrics": {
+        "BEFORE": {
+          "USER_STEPS": "5-stage public flow; manual section selection remained visible",
+          "VISIBLE_ACTIONS": "5 stage links plus the active section controls",
+          "VISIBLE_ROLES": "0 explicit coordinating role",
+          "CONTEXT_REPETITION": "No second form, but no case-level spatial continuity shell",
+          "TIME_TO_FIRST_VALUE": "Question was first, followed by monolithic vertical progression",
+          "TIME_TO_DECISION": "Manual Answer navigation available",
+          "PROOF_ACCESS_DEPTH": "1 canonical Proof anchor",
+          "COMMERCIAL_CLARITY": "Action/offer existed as a later stage",
+          "ENGINE_COUNT": "UNCHANGED_CANONICAL",
+          "REGISTRY_COUNT": "UNCHANGED_CANONICAL"
+        },
+        "AFTER_AMPLIFY": {
+          "USER_STEPS": "1 question before routing",
+          "VISIBLE_ACTIONS": "1 active work surface plus secondary room navigation",
+          "VISIBLE_ROLES": "1 Mission Director foregrounded",
+          "CONTEXT_REPETITION": "0 duplicated canonical surfaces",
+          "TIME_TO_FIRST_VALUE": "1 user turn",
+          "TIME_TO_DECISION": "Intent can route directly to Decision or Mission",
+          "PROOF_ACCESS_DEPTH": "1 room switch to the existing ProofGraph",
+          "COMMERCIAL_CLARITY": "Mission remains on the same case route",
+          "ENGINE_COUNT": "DELTA_0",
+          "REGISTRY_COUNT": "DELTA_0"
+        },
+        "FINAL": {
+          "USER_STEPS": "ONE_DESK_THEN_AUTO_ROUTE",
+          "VISIBLE_ACTIONS": "ONE_ACTIVE_ROOM",
+          "VISIBLE_ROLES": "ONE_FOREGROUNDED_ROLE",
+          "CONTEXT_REPETITION": "ZERO_NEW_INTAKE_FORMS",
+          "TIME_TO_FIRST_VALUE": "ONE_USER_TURN",
+          "TIME_TO_DECISION": "NO_MANUAL_SPECIALIST_PICKER",
+          "PROOF_ACCESS_DEPTH": "ONE_ROOM_SWITCH",
+          "COMMERCIAL_CLARITY": "MISSION_IN_SAME_CASE",
+          "ENGINE_COUNT": "DELTA_0",
+          "REGISTRY_COUNT": "DELTA_0"
+        }
+      }
+    },
+    "V4": {
+      "intent": "THE_INTELLIGENT_HOUSE",
+      "passes": [
+        {
+          "step": "AMPLIFY_1",
+          "status": "PASS",
+          "effect": "Case state is projected from existing live source/confidence/decision DOM state; no case registry created."
+        },
+        {
+          "step": "REDUCE_1",
+          "status": "PASS",
+          "effect": "Internal states are translated into human-readable dossier status."
+        },
+        {
+          "step": "AMPLIFY_2",
+          "status": "PASS",
+          "effect": "Existing source/confidence/binding mutations refresh the case strip via MutationObserver."
+        },
+        {
+          "step": "REDUCE_2",
+          "status": "PASS",
+          "effect": "No per-event notifications are created; only the relevant case strip changes."
+        },
+        {
+          "step": "AMPLIFY_3",
+          "status": "PASS",
+          "effect": "Decision room adds a Committee synthesis projection: consensus, evidenced disagreement state, unknowns and options."
+        },
+        {
+          "step": "REDUCE_3",
+          "status": "PASS",
+          "effect": "Committee is a summary over existing evidence/decision content; no multi-agent debate or second runtime."
+        }
+      ],
+      "freeze": "PASS",
+      "metrics": {
+        "BEFORE": {
+          "USER_STEPS": "ONE_DESK_THEN_AUTO_ROUTE",
+          "VISIBLE_ACTIONS": "ONE_ACTIVE_ROOM",
+          "VISIBLE_ROLES": "ONE_FOREGROUNDED_ROLE",
+          "CONTEXT_REPETITION": "ZERO_NEW_INTAKE_FORMS",
+          "TIME_TO_FIRST_VALUE": "ONE_USER_TURN",
+          "TIME_TO_DECISION": "DIRECT_ROOM_ROUTE",
+          "PROOF_ACCESS_DEPTH": "ONE_ROOM_SWITCH",
+          "COMMERCIAL_CLARITY": "MISSION_IN_SAME_CASE",
+          "ENGINE_COUNT": "DELTA_0",
+          "REGISTRY_COUNT": "DELTA_0"
+        },
+        "AFTER_AMPLIFY": {
+          "USER_STEPS": "UNCHANGED",
+          "VISIBLE_ACTIONS": "UNCHANGED_PRIMARY_SURFACE",
+          "VISIBLE_ROLES": "ONE_ACTIVE_ROLE; Evidence may appear as bound support",
+          "CONTEXT_REPETITION": "ZERO_NEW_CONTEXT_COLLECTION",
+          "TIME_TO_FIRST_VALUE": "UNCHANGED",
+          "TIME_TO_DECISION": "DECISION_PLUS_COMMITTEE_SYNTHESIS_IN_ONE_ROOM",
+          "PROOF_ACCESS_DEPTH": "ONE_ROOM_SWITCH",
+          "COMMERCIAL_CLARITY": "UNCHANGED",
+          "ENGINE_COUNT": "DELTA_0",
+          "REGISTRY_COUNT": "DELTA_0"
+        },
+        "FINAL": {
+          "USER_STEPS": "UNCHANGED",
+          "VISIBLE_ACTIONS": "ONE_ACTIVE_ROOM; NO_EVENT_NOTIFICATION_STREAM",
+          "VISIBLE_ROLES": "ONE_ACTIVE_ROLE",
+          "CONTEXT_REPETITION": "ZERO",
+          "TIME_TO_FIRST_VALUE": "ONE_USER_TURN",
+          "TIME_TO_DECISION": "SYNTHESIS_VISIBLE_WITHOUT_AGENT_DEBATE",
+          "PROOF_ACCESS_DEPTH": "ONE_ROOM_SWITCH",
+          "COMMERCIAL_CLARITY": "MISSION_REMAINS_CONTEXTUAL",
+          "ENGINE_COUNT": "DELTA_0",
+          "REGISTRY_COUNT": "DELTA_0"
+        }
+      }
+    },
+    "V5": {
+      "intent": "THE_LIVING_SOVEREIGN_ADVISORY_HOUSE",
+      "passes": [
+        {
+          "step": "AMPLIFY_1",
+          "status": "FAIL",
+          "effect": "Private Client Office candidate exists in SUPRA and passes targeted source test/build, but it is not promoted or runtime-proven; public origin remains boundary-only."
+        },
+        {
+          "step": "REDUCE_1",
+          "status": "PASS",
+          "effect": "ONE DESK is the permanent public entry; only one room pane is active."
+        },
+        {
+          "step": "AMPLIFY_2",
+          "status": "FAIL",
+          "effect": "Bound role status chips are derived from active room, but a full living specialist network with proven private bindings is not runtime-proven."
+        },
+        {
+          "step": "REDUCE_2",
+          "status": "PASS",
+          "effect": "Organization is invisible by default; user manages case, decision, proof and next action, not worker topology."
+        },
+        {
+          "step": "AMPLIFY_3",
+          "status": "FAIL",
+          "effect": "Contextual Mission brief and canonical offer are projected, while full Product/Offer/Capability registry search is only a compiled SUPRA candidate and is not promoted."
+        },
+        {
+          "step": "REDUCE_3",
+          "status": "PASS",
+          "effect": "Zero-catalog public experience: user question can route directly to the existing SUPRA Mission offer."
+        }
+      ],
+      "freeze": "PARTIAL_HARD_GATE",
+      "metrics": {
+        "BEFORE": {
+          "USER_STEPS": "ONE_DESK_THEN_AUTO_ROUTE",
+          "VISIBLE_ACTIONS": "ONE_ACTIVE_ROOM",
+          "VISIBLE_ROLES": "ONE_ACTIVE_ROLE",
+          "CONTEXT_REPETITION": "ZERO",
+          "TIME_TO_FIRST_VALUE": "ONE_USER_TURN",
+          "TIME_TO_DECISION": "DIRECT_ROUTE",
+          "PROOF_ACCESS_DEPTH": "ONE_ROOM_SWITCH",
+          "COMMERCIAL_CLARITY": "MISSION_REACHABLE",
+          "ENGINE_COUNT": "DELTA_0",
+          "REGISTRY_COUNT": "DELTA_0"
+        },
+        "AFTER_AMPLIFY": {
+          "USER_STEPS": "ONE_USER_TURN_TO_CONTEXTUAL_MISSION_BRIEF",
+          "VISIBLE_ACTIONS": "FIVE_SECONDARY_ROOMS; ONE ACTIVE",
+          "VISIBLE_ROLES": "Mission Director plus bounded state chips",
+          "CONTEXT_REPETITION": "ZERO_NEW_FORMS",
+          "TIME_TO_FIRST_VALUE": "ONE_USER_TURN",
+          "TIME_TO_DECISION": "DIRECT_ROUTE_FOR_BOUNDED_PUBLIC_INTENTS",
+          "PROOF_ACCESS_DEPTH": "ONE_ROOM_SWITCH; underlying ProofGraph unchanged",
+          "COMMERCIAL_CLARITY": "Contextual SUPRA Mission; canonical 2 500 € starting price reused from existing page",
+          "ENGINE_COUNT": "DELTA_0",
+          "REGISTRY_COUNT": "DELTA_0"
+        },
+        "FINAL": {
+          "USER_STEPS": "ONE_DESK",
+          "VISIBLE_ACTIONS": "ONE_ACTIVE_ROOM",
+          "VISIBLE_ROLES": "ONLY_BOUND_DIGITAL_ROLES; no fake professional identity",
+          "CONTEXT_REPETITION": "ZERO_NEW_INTAKE_FORMS",
+          "TIME_TO_FIRST_VALUE": "ONE_USER_TURN",
+          "TIME_TO_DECISION": "DIRECT_ROUTE",
+          "PROOF_ACCESS_DEPTH": "ONE_ROOM_SWITCH",
+          "COMMERCIAL_CLARITY": "VALUE_THEN_CONTEXTUAL_MISSION; NO_CATALOG_REQUIRED",
+          "ENGINE_COUNT": "DELTA_0",
+          "REGISTRY_COUNT": "DELTA_0"
+        }
+      }
+    }
+  },
+  "proof": {
+    "static_verifier": "LA_BETE_ADVISORY_HOUSE_V5_STATIC_PASS 12",
+    "explorer_non_regression": "LA_BETE_EXPLORER_TESTS_PASS 82",
+    "evolution_non_regression": "LA_BETE_VIRTUOUS_EVOLUTION_NON_REGRESSION_PASS",
+    "browser_proof": "ADVISORY_HOUSE_V5_BROWSER_PASS",
+    "browser_assertions": [
+      "one desk / one active room",
+      "canonical surfaces moved, never cloned",
+      "Decision Twin unchanged",
+      "ProofGraph unchanged",
+      "Cosmos optional and not auto-activated",
+      "contextual Mission brief fail-closes unproven specialist binding",
+      "Reality Pulse survives",
+      "390x844 mobile no horizontal page overflow"
+    ],
+    "private_candidate": {
+      "targeted_test": "SUPRA_CONVERSATIONAL_SOLUTION_FACTORY_PERSONAL_SPACE_V1=PASS",
+      "compile": "BUILD SUCCEEDED",
+      "promotion": "NOT_PROVEN_NOT_DEPLOYED",
+      "mutation_by_this_mission": "NONE"
+    }
+  },
+  "receipt": {
+    "MISSION": "LA_BETE_ADVISORY_HOUSE_SPATIAL_EXPERIENCE_V5",
+    "V3_AMPLIFY_1": "PASS",
+    "V3_REDUCE_1": "PASS",
+    "V3_AMPLIFY_2": "PASS",
+    "V3_REDUCE_2": "PASS",
+    "V3_AMPLIFY_3": "PASS",
+    "V3_REDUCE_3": "PASS",
+    "V4_AMPLIFY_1": "PASS",
+    "V4_REDUCE_1": "PASS",
+    "V4_AMPLIFY_2": "PASS",
+    "V4_REDUCE_2": "PASS",
+    "V4_AMPLIFY_3": "PASS",
+    "V4_REDUCE_3": "PASS",
+    "V5_AMPLIFY_1": "FAIL",
+    "V5_REDUCE_1": "PASS",
+    "V5_AMPLIFY_2": "FAIL",
+    "V5_REDUCE_2": "PASS",
+    "V5_AMPLIFY_3": "FAIL",
+    "V5_REDUCE_3": "PASS",
+    "CASE_CONTINUITY": "PASS",
+    "AUTO_ROUTING": "PASS",
+    "MISSION_DIRECTOR": "PASS",
+    "SPECIALIST_BINDINGS": "FAIL",
+    "PROOF_CONTINUITY": "PASS",
+    "PRIVATE_OFFICE": "FAIL",
+    "SOLUTIONS_FACTORY": "FAIL",
+    "CONTEXTUAL_MISSION_OFFER": "PASS",
+    "COSMOS_VOLUNTARY": "PASS",
+    "DESKTOP": "PASS",
+    "MOBILE": "PASS",
+    "SECOND_ENGINE": "NO",
+    "SECOND_REGISTRY": "NO",
+    "SECOND_TRUTH": "NO",
+    "CANON_MUTATED": "NO",
+    "PULSE_SURVIVES": "PASS",
+    "PUBLIC_BROWSER_PROOF": "PASS",
+    "VERDICT": "PARTIAL"
+  },
+  "hard_gate": {
+    "triggered": true,
+    "reason": "The existing SUPRA Personal Space / conversational solution factory is a concurrent compiled candidate, not a promoted runtime proof. Promoting or rewriting it here would risk colliding with the active native SUPRA chantier.",
+    "deploy_public_main": "BLOCKED_UNTIL_PRIVATE_BINDINGS_ARE_FROZEN_OR_EXPLICITLY_PROMOTED",
+    "next_move": "Freeze/promote the existing SUPRA Personal Space + Conversational Solution Factory candidate, prove runtime continuity after restart, then bind the public House door to that canonical private surface and rerun the same V5 proof."
+  }
+}
