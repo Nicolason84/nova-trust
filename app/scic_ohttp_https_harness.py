@@ -71,6 +71,11 @@ class JSONLineRole:
             except subprocess.TimeoutExpired:
                 self.p.kill()
                 self.p.wait(timeout=3)
+        for stream in (self.p.stdin, self.p.stdout, self.p.stderr):
+            try:
+                stream.close()
+            except Exception:
+                pass
 
 
 def _tls_server_context(certfile, keyfile):
@@ -204,7 +209,15 @@ def _relay_process(
                         "Cache-Control": "no-store",
                     },
                 )
-                with urllib.request.urlopen(req, context=gateway_ctx, timeout=8) as resp:
+                # urlopen() uses a process-global opener that injects a default
+                # Python-urllib User-Agent. Build a dedicated opener with an
+                # empty addheaders list so the relay forwards no identifying
+                # metadata beyond the strict OHTTP transport headers.
+                opener = urllib.request.build_opener(
+                    urllib.request.HTTPSHandler(context=gateway_ctx)
+                )
+                opener.addheaders = []
+                with opener.open(req, timeout=8) as resp:
                     gateway_response = resp.read()
                     gateway_type = resp.headers.get_content_type()
 
