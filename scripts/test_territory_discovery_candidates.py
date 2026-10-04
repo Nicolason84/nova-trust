@@ -80,6 +80,51 @@ class DiscoveryContractTests(unittest.TestCase):
         self.assertEqual(result["previous_scanned_at_not_retained"], previous["scanned_at"])
         self.assertEqual(result["state"], "OFFLINE_RELATION_BASELINE_ONLY")
 
+    def test_explicit_department_text_hint_rejects_name_collisions(self):
+        self.assertTrue(BUILDER.explicit_department_text_hint("Charente", "située dans le département de la Charente."))
+        self.assertFalse(BUILDER.explicit_department_text_hint("Charente", "située dans le département de la Charente-Maritime."))
+        self.assertTrue(BUILDER.explicit_department_text_hint("Aube", "située dans le département de l'Aube."))
+        self.assertFalse(BUILDER.explicit_department_text_hint("Aube", "à proximité du département de l'Aube."))
+        self.assertTrue(BUILDER.explicit_department_text_hint("Somme", "un parc naturel (Somme) protégé."))
+
+    def test_existing_nature_migration_upgrades_explicit_and_drops_collisions(self):
+        departments = {
+            "16": {
+                "name": "Charente",
+                "source_health": {"nature_wikipedia_wikidata": "PASS"},
+                "nature": [
+                    {
+                        "candidate_id": "nature:explicit",
+                        "label": "Réserve naturelle exemple",
+                        "description": "située dans le département de la Charente.",
+                        "administrative_binding": "TEXT_LOCALITY_HINT_WITH_FRANCE_P17",
+                        "country_wikidata_ids": ["Q142"],
+                    },
+                    {
+                        "candidate_id": "nature:collision",
+                        "label": "Réserve naturelle du marais d'Yves",
+                        "description": "située dans le département de la Charente-Maritime.",
+                        "administrative_binding": "TEXT_LOCALITY_HINT_WITH_FRANCE_P17",
+                        "country_wikidata_ids": ["Q142"],
+                    },
+                    {
+                        "candidate_id": "nature:p131",
+                        "label": "Parc naturel P131",
+                        "description": "preuve administrative",
+                        "administrative_binding": "P131_PATH_TO_DEPARTMENT",
+                        "country_wikidata_ids": ["Q142"],
+                    },
+                ],
+            },
+        }
+        migrated = BUILDER.sanitize_existing_departments(departments)
+        ids = [x["candidate_id"] for x in migrated["16"]["nature"]]
+        self.assertEqual(ids, ["nature:explicit","nature:p131"])
+        self.assertEqual(
+            migrated["16"]["nature"][0]["administrative_binding"],
+            "TEXT_EXPLICIT_DEPARTMENT_WITH_FRANCE_P17",
+        )
+
     def test_material_projection_ignores_rescan_noise_but_not_evidence(self):
         previous = {
             "generated_at": "old",
@@ -116,6 +161,24 @@ class DiscoveryContractTests(unittest.TestCase):
             self.assertTrue(BUILDER.has_material_change(previous, rescanned))
             self.assertTrue(BUILDER.write_doc_if_material_change(previous, rescanned, out))
             self.assertNotEqual(out.read_bytes(), before)
+
+    def test_candidate_order_is_not_material_and_stabilizer_preserves_previous_order(self):
+        previous = [
+            {"candidate_id": "nature:Q1", "label": "A", "description": "old"},
+            {"candidate_id": "nature:Q2", "label": "B", "description": "old"},
+        ]
+        reordered = [
+            {"candidate_id": "nature:Q2", "label": "B", "description": "new"},
+            {"candidate_id": "nature:Q1", "label": "A", "description": "new"},
+        ]
+        self.assertFalse(BUILDER.has_material_change(previous, reordered))
+        stable = BUILDER.stabilize_candidate_list(previous, reordered)
+        self.assertEqual([x["candidate_id"] for x in stable], ["nature:Q1","nature:Q2"])
+        self.assertEqual(stable, previous)
+        changed = reordered + [{"candidate_id": "nature:Q3", "label": "C"}]
+        stable_changed = BUILDER.stabilize_candidate_list(previous, changed)
+        self.assertEqual([x["candidate_id"] for x in stable_changed], ["nature:Q1","nature:Q2","nature:Q3"])
+        self.assertTrue(BUILDER.has_material_change(previous, stable_changed))
 
     def test_daily_rotation_returns_unique_known_departments(self):
         selected = BUILDER.choose_codes(None, 12, False)
@@ -173,10 +236,10 @@ class DiscoveryContractTests(unittest.TestCase):
                 self.assertEqual(x["state"], "UNVERIFIED_AUTODISCOVERY_CANDIDATE")
                 self.assertTrue(x["source"].startswith("https://fr.wikipedia.org/"))
                 self.assertRegex(x["label"].lower(), r"(réserve|forêt|parc|baie|marais|dune|massif|vallée|estuaire|lac|étang|arboretum|jardin|zone humide|littoral)")
-                self.assertIn(x["administrative_binding"], {"P131_PATH_TO_DEPARTMENT","TEXT_LOCALITY_HINT_WITH_FRANCE_P17"})
-                if x["administrative_binding"] == "TEXT_LOCALITY_HINT_WITH_FRANCE_P17":
-                    hay = ((x.get("label") or "") + " " + (x.get("description") or "")).casefold()
-                    self.assertIn(d["name"].casefold(), hay)
+                self.assertIn(x["administrative_binding"], {"P131_PATH_TO_DEPARTMENT","TEXT_EXPLICIT_DEPARTMENT_WITH_FRANCE_P17"})
+                if x["administrative_binding"] == "TEXT_EXPLICIT_DEPARTMENT_WITH_FRANCE_P17":
+                    hay = (x.get("label") or "") + " " + (x.get("description") or "")
+                    self.assertTrue(BUILDER.explicit_department_text_hint(d["name"], hay))
                     self.assertIn("Q142", x.get("country_wikidata_ids") or [])
                 self.assertIn("Vérifier", x["gate"])
             for x in d.get("media", []):
