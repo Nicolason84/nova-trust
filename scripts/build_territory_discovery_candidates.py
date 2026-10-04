@@ -61,6 +61,11 @@ LANES = {
 
 ENTITY_CACHE: dict[str, dict] = {}
 TIERS_ROWS: list[dict] | None = None
+NATURE_TITLE_TERMS = (
+    "reserve naturelle", "foret", "parc", "baie", "marais", "dune",
+    "massif", "vallee", "estuaire", "lac", "etang", "arboretum",
+    "jardin botanique", "zone humide", "littoral", "gorges",
+)
 WIKIMEDIA_HOSTS = {"www.wikidata.org", "fr.wikipedia.org", "commons.wikimedia.org"}
 LAST_WIKIMEDIA_REQUEST_AT = 0.0
 
@@ -235,6 +240,31 @@ def wikipedia_pageprops(titles: list[str]) -> dict[str, dict]:
     pages = fetch_json(url, timeout=12).get("query", {}).get("pages", {})
     return {p.get("title"): p for p in pages.values() if p.get("title")}
 
+def explicit_department_text_hint(dep_name: str, text: str) -> bool:
+    hay = clean_html(text).casefold().replace("’", "'")
+    hay = re.sub(r"\s*-\s*", "-", hay)
+    name = re.sub(r"\s*-\s*", "-", dep_name.casefold().replace("’", "'"))
+    escaped = re.escape(name)
+    article = r"(?:de\s+la\s+|du\s+|de\s+l['’]\s*|des\s+|de\s+)?"
+    exact_name = escaped + r"(?![\w-])"
+    patterns = (
+        r"\bdans\s+(?:le\s+département|les\s+départements)\s+(?:français\s+)?" + article + exact_name,
+        r"\blocalisation\s+sur\s+la\s+carte\s+" + article + exact_name,
+        r"\b(?:situé|située|situés|situées)\b[^.]{0,80}\bdans\s+(?:le\s+|la\s+|l['’]\s*|les\s+)?" + exact_name,
+        r"\(\s*" + escaped + r"\s*\)(?![\w-])",
+    )
+    return any(re.search(pattern, hay) for pattern in patterns)
+
+def nature_title_is_plausible(dep_name: str, title: str) -> bool:
+    title_norm = norm(title)
+    generic_title = (
+        title_norm in {norm(dep_name), norm(dep_name + " departement")}
+        or title_norm.startswith("geographie ")
+        or title_norm in {"reserves naturelles en france", "reserve naturelle en france"}
+        or title_norm.startswith("liste ")
+    )
+    return not generic_title and any(term in title_norm for term in NATURE_TITLE_TERMS)
+
 def nature_candidates(dep_code: str, dep_name: str, dep_qid: str | None) -> list[dict]:
     seen = set()
     out = []
@@ -247,19 +277,7 @@ def nature_candidates(dep_code: str, dep_name: str, dep_qid: str | None) -> list
             qid = (page.get("pageprops") or {}).get("wikibase_item")
             if not title or not qid or qid in seen:
                 continue
-            title_norm = norm(title)
-            nature_title_terms = (
-                "reserve naturelle", "foret", "parc", "baie", "marais", "dune",
-                "massif", "vallee", "estuaire", "lac", "etang", "arboretum",
-                "jardin botanique", "zone humide", "littoral",
-            )
-            generic_title = (
-                title_norm in {norm(dep_name), norm(dep_name + " departement")}
-                or title_norm.startswith("geographie ")
-                or title_norm in {"reserves naturelles en france", "reserve naturelle en france"}
-                or title_norm.startswith("liste ")
-            )
-            if generic_title or not any(term in title_norm for term in nature_title_terms):
+            if not nature_title_is_plausible(dep_name, title):
                 continue
             seen.add(qid)
             path = None
@@ -268,10 +286,9 @@ def nature_candidates(dep_code: str, dep_name: str, dep_qid: str | None) -> list
                     path = administrative_path_to_department(qid, dep_qid)
                 except Exception:
                     path = None
-            text_hay = (title + " " + clean_html(row.get("snippet"))).casefold()
-            text_hint = dep_name.casefold() in text_hay
+            text_hay = title + " " + clean_html(row.get("snippet"))
             countries = claim_item_qids(wikidata_entity(qid), "P17")
-            text_france_hint = text_hint and "Q142" in countries
+            text_france_hint = explicit_department_text_hint(dep_name, text_hay) and "Q142" in countries
             if not path and not text_france_hint:
                 continue
             out.append({
@@ -282,7 +299,7 @@ def nature_candidates(dep_code: str, dep_name: str, dep_qid: str | None) -> list
                 "description": clean_html(row.get("snippet")),
                 "wikidata_id": qid,
                 "source": page.get("fullurl") or ("https://fr.wikipedia.org/wiki/" + urllib.parse.quote(title.replace(" ", "_"))),
-                "administrative_binding": "P131_PATH_TO_DEPARTMENT" if path else "TEXT_LOCALITY_HINT_WITH_FRANCE_P17",
+                "administrative_binding": "P131_PATH_TO_DEPARTMENT" if path else "TEXT_EXPLICIT_DEPARTMENT_WITH_FRANCE_P17",
                 "administrative_path": path,
                 "country_wikidata_ids": sorted(countries),
                 "quest_id": "nature_risks",
@@ -575,11 +592,40 @@ def material_projection(value):
             if key not in VOLATILE_DISCOVERY_KEYS
         }
     if isinstance(value, list):
-        return [material_projection(item) for item in value]
+        projected = [material_projection(item) for item in value]
+        if projected and all(isinstance(item, dict) and item.get("candidate_id") for item in projected):
+            projected.sort(key=lambda item: item["candidate_id"])
+        return projected
     return value
 
 def has_material_change(previous, current) -> bool:
     return material_projection(previous) != material_projection(current)
+
+def stabilize_candidate_list(previous: list[dict], current: list[dict]) -> list[dict]:
+    previous_by_id = {item.get("candidate_id"): item for item in previous if item.get("candidate_id")}
+    current_by_id = {item.get("candidate_id"): item for item in current if item.get("candidate_id")}
+    stable = []
+    used = set()
+    for old in previous:
+        candidate_id = old.get("candidate_id")
+        if candidate_id not in current_by_id:
+            continue
+        new = current_by_id[candidate_id]
+        stable.append(old if not has_material_change(old, new) else new)
+        used.add(candidate_id)
+    for new in current:
+        candidate_id = new.get("candidate_id")
+        if candidate_id and candidate_id not in used:
+            stable.append(new)
+            used.add(candidate_id)
+    return stable
+
+def stabilize_scanned_department(previous: dict | None, scanned: dict) -> dict:
+    if not previous:
+        return scanned
+    for lane in ("media","heritage","nature","commons","initiatives"):
+        scanned[lane] = stabilize_candidate_list(previous.get(lane, []), scanned.get(lane, []))
+    return scanned
 
 def write_doc_if_material_change(previous: dict, current: dict, out_path: Path) -> bool:
     if previous and not has_material_change(previous, current):
@@ -672,16 +718,54 @@ LANE_FAILURE_SOURCES = {
     "initiatives": ("tiers_lieux_2026_csv",),
 }
 
-def retained_candidate_is_current_schema(lane: str, candidate: dict) -> bool:
+def retained_candidate_is_current_schema(lane: str, candidate: dict, dep_name: str | None = None) -> bool:
     if lane != "nature":
         return True
+    if dep_name and not nature_title_is_plausible(dep_name, candidate.get("label") or ""):
+        return False
     binding = candidate.get("administrative_binding")
     if binding == "P131_PATH_TO_DEPARTMENT":
         return True
-    return (
-        binding == "TEXT_LOCALITY_HINT_WITH_FRANCE_P17"
-        and "Q142" in (candidate.get("country_wikidata_ids") or [])
-    )
+    if binding != "TEXT_EXPLICIT_DEPARTMENT_WITH_FRANCE_P17":
+        return False
+    if "Q142" not in (candidate.get("country_wikidata_ids") or []):
+        return False
+    if not dep_name:
+        return True
+    hay = (candidate.get("label") or "") + " " + (candidate.get("description") or "")
+    return explicit_department_text_hint(dep_name, hay)
+
+def sanitize_existing_departments(departments: dict[str, dict]) -> dict[str, dict]:
+    for code, original in list(departments.items()):
+        dep = dict(original)
+        dep_name = dep.get("name") or CULTURE["departments"].get(code, {}).get("name") or ""
+        nature = []
+        changed = False
+        for raw_candidate in dep.get("nature", []):
+            candidate = dict(raw_candidate)
+            binding = candidate.get("administrative_binding")
+            if binding == "TEXT_LOCALITY_HINT_WITH_FRANCE_P17":
+                hay = (candidate.get("label") or "") + " " + (candidate.get("description") or "")
+                if (
+                    nature_title_is_plausible(dep_name, candidate.get("label") or "")
+                    and "Q142" in (candidate.get("country_wikidata_ids") or [])
+                    and explicit_department_text_hint(dep_name, hay)
+                ):
+                    candidate["administrative_binding"] = "TEXT_EXPLICIT_DEPARTMENT_WITH_FRANCE_P17"
+                    nature.append(candidate)
+                changed = True
+                continue
+            if retained_candidate_is_current_schema("nature", candidate, dep_name):
+                nature.append(candidate)
+            else:
+                changed = True
+        if changed:
+            dep["nature"] = nature
+            if not nature and (dep.get("source_health") or {}).get("nature_wikipedia_wikidata") == "PASS":
+                dep["source_health"] = dict(dep["source_health"])
+                dep["source_health"]["nature_wikipedia_wikidata"] = "NO_MATCH_EXACT_LOCATION_GATE"
+            departments[code] = dep
+    return departments
 
 def retain_last_good_on_source_failure(scanned: dict, previous: dict | None) -> dict:
     if not previous or not scanned.get("source_health"):
@@ -699,7 +783,7 @@ def retain_last_good_on_source_failure(scanned: dict, previous: dict | None) -> 
             continue
         compatible = [
             candidate for candidate in previous[lane]
-            if retained_candidate_is_current_schema(lane, candidate)
+            if retained_candidate_is_current_schema(lane, candidate, previous.get("name"))
         ]
         if compatible:
             scanned[lane] = compatible
@@ -745,11 +829,12 @@ def main() -> None:
         raise SystemExit("INVALID_BATCH_SIZE")
     selected = choose_codes(args.codes, args.batch_size, args.all)
     existing = load_existing()
-    departments = dict(existing.get("departments") or {})
+    departments = sanitize_existing_departments(dict(existing.get("departments") or {}))
     for code in selected:
         previous = departments.get(code)
         try:
             scanned = retain_last_good_on_source_failure(scan_department(code, args.offline), previous)
+            scanned = stabilize_scanned_department(previous, scanned)
             if previous and not has_material_change(previous, scanned):
                 departments[code] = previous
                 print(code, CULTURE["departments"][code]["name"], "STABLE_NO_MATERIAL_CHANGE")
