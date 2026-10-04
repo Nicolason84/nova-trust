@@ -5,6 +5,7 @@ import json
 from la_bete_health_memory import validate_memory
 from la_bete_civic_design_knowhow import validate_civic_design_knowhow
 from la_bete_scic_privacy_knowhow import validate_scic_privacy_knowhow
+from la_bete_supra_system_knowhow import validate_supra_system_knowhow
 import re
 import subprocess
 import tempfile
@@ -72,6 +73,16 @@ def main() -> None:
     validate_memory(self_model.get("health_memory", {}))
     validate_civic_design_knowhow(self_model.get("civic_design_knowhow", {}), live.get("snapshot_id"))
     validate_scic_privacy_knowhow(self_model.get("scic_privacy_knowhow", {}), live.get("snapshot_id"))
+    supra_knowhow = self_model.get("supra_system_knowhow", {})
+    validate_supra_system_knowhow(supra_knowhow, live.get("snapshot_id"))
+    require(supra_knowhow.get("adoption_status") == "AVAILABLE_NOT_APPLIED", "SUPRA know-how adoption overclaim")
+    supra_constraints = supra_knowhow.get("constraints", {})
+    require(supra_constraints.get("authority_transfer") is False, "SUPRA authority transfer forbidden")
+    require(supra_constraints.get("capability_execution") is False, "SUPRA capability execution forbidden")
+    require(supra_constraints.get("automatic_promotion") is False, "SUPRA know-how automatic promotion forbidden")
+    require(supra_constraints.get("second_runtime") is False, "SUPRA know-how second runtime forbidden")
+    require(supra_constraints.get("second_registry") is False, "SUPRA know-how second registry forbidden")
+    require(supra_constraints.get("second_scheduler") is False, "SUPRA know-how second scheduler forbidden")
     hybrid = self_model.get("hybrid_model", {})
     require(hybrid.get("schema") == "LA_BETE_HYBRID_COMMON_GOOD_SERVICE_MODEL_V1", "hybrid model missing")
     require(hybrid.get("source_snapshot_id") == live.get("snapshot_id"), "hybrid model snapshot mismatch")
@@ -239,7 +250,7 @@ def main() -> None:
     checked = subprocess.run(["node", "--check", module_path], capture_output=True, text=True)
     require(checked.returncode == 0, "JavaScript syntax failure: " + checked.stderr.strip())
     generation = int(evolution["generation"])
-    expected_checks = ["truth", "policy", "self_model", "health_memory", "hybrid_model", "civic_design_knowhow", "scic_privacy_knowhow", "html_ids", "javascript_syntax", "rollback", "human_gates"]
+    expected_checks = ["truth", "policy", "self_model", "health_memory", "hybrid_model", "civic_design_knowhow", "scic_privacy_knowhow", "supra_system_knowhow", "html_ids", "javascript_syntax", "rollback", "human_gates"]
     verification = evolution.get("verification", {})
     if (
         verification.get("generation") != generation

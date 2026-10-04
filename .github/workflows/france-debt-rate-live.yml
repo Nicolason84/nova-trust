@@ -11,6 +11,8 @@ on:
       - "scripts/la_bete_health_memory.py"
       - "scripts/la_bete_civic_design_knowhow.py"
       - "scripts/la_bete_scic_privacy_knowhow.py"
+      - "scripts/la_bete_supra_system_knowhow.py"
+      - "scripts/test_la_bete_supra_system_knowhow.py"
       - "scripts/la_bete_acquisition.py"
       - "scripts/test_la_bete_acquisition.py"
       - "scripts/process_la_bete_dialogue.cjs"
@@ -209,6 +211,7 @@ jobs:
       - name: Validate evolution and page non-regression
         run: |
           PYTHONPATH=scripts python3 scripts/test_la_bete_evolution.py
+          PYTHONPATH=scripts python3 scripts/test_la_bete_supra_system_knowhow.py
           PYTHONPATH=scripts python3 scripts/test_la_bete_health_memory.py
           PYTHONPATH=scripts python3 scripts/test_la_bete_acquisition.py
           python3 scripts/test_la_bete_territory_culture.py
@@ -284,6 +287,7 @@ jobs:
               python3 scripts/evolve_france_debt_rate.py
               python3 scripts/verify_la_bete_evolution.py
               PYTHONPATH=scripts python3 scripts/test_la_bete_evolution.py
+              PYTHONPATH=scripts python3 scripts/test_la_bete_supra_system_knowhow.py
               PYTHONPATH=scripts python3 scripts/test_la_bete_health_memory.py
               PYTHONPATH=scripts python3 scripts/test_la_bete_acquisition.py
               python3 scripts/test_la_bete_territory_culture.py
