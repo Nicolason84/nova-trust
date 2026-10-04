@@ -117,6 +117,124 @@ def build_initiatives(live):
     return [outreach,audio,video]
 
 
+
+def build_scic_institutional_blueprint():
+    """Non-binding institutional design for a future SCIC.
+    It encodes legal guardrails and an anti-capture constitution without
+    creating the entity, adopting statutes or granting external authority.
+    """
+    return {
+        "schema": "LA_BETE_SCIC_INSTITUTIONAL_BLUEPRINT_V1",
+        "state": "CONSTITUTIONAL_DESIGN_PROPOSAL_NOT_ADOPTED",
+        "binding_effect": False,
+        "adoption": "HUMAN_GATE_REQUIRED",
+        "legal_form": {
+            "state": "UNDECIDED_HUMAN_GATE",
+            "eligible_forms": ["SAS_A_CAPITAL_VARIABLE", "SARL_A_CAPITAL_VARIABLE", "SA_A_CAPITAL_VARIABLE"],
+            "preferred_form": None,
+            "reason": "La forme finale doit être choisie avec les statuts, le financement, les organes et une revue juridique/comptable.",
+        },
+        "membership": {
+            "minimum_categories_required": 3,
+            "mandatory_categories": [
+                "BENEFICIARIES_OR_REGULAR_USERS",
+                "EMPLOYEES_OR_IF_NONE_PRODUCERS_OF_GOODS_OR_SERVICES",
+            ],
+            "open_contributor_types": [
+                "citoyens et usagers",
+                "salariés et producteurs",
+                "bénévoles et contributeurs",
+                "associations et acteurs de l’ESS",
+                "personnes publiques et territoires",
+                "partenaires contribuant réellement au projet",
+            ],
+            "admission_and_exit_rules": "TO_DEFINE_IN_STATUTES",
+        },
+        "colleges": [
+            {"id":"CITIZENS_USERS","label":"Citoyens & usagers","vote_weight_pct":30,"purpose":"Porter l’expérience des bénéficiaires, l’accessibilité, la correction et l’utilité concrète."},
+            {"id":"WORKERS_PRODUCERS","label":"Travailleurs & producteurs","vote_weight_pct":20,"purpose":"Porter l’exécution, la soutenabilité du travail, la qualité de service et la faisabilité."},
+            {"id":"CONTRIBUTORS_CIVIL_SOCIETY","label":"Contributeurs & société civile","vote_weight_pct":20,"purpose":"Porter les compétences, associations, communs, recherche, médiation et contradiction indépendante."},
+            {"id":"PUBLIC_TERRITORIES","label":"Acteurs publics & territoires","vote_weight_pct":15,"purpose":"Porter l’intérêt territorial, l’interopérabilité publique et l’accès aux besoins collectifs sans tutelle politique."},
+            {"id":"MISSION_PARTNERS_ESS","label":"Partenaires de mission & ESS","vote_weight_pct":15,"purpose":"Porter la pérennité économique et les coopérations sans acheter la vérité ni le contrôle."},
+        ],
+        "voting_guardrails": {
+            "one_member_one_vote_within_college": True,
+            "capital_may_weight_votes": False,
+            "minimum_college_weight_pct": 10,
+            "maximum_college_weight_pct": 50,
+            "design_maximum_college_weight_pct": 30,
+            "total_weight_pct": 100,
+            "founder_supervote": False,
+            "commercial_customer_vote_purchase": False,
+        },
+        "institutions": [
+            {"id":"GENERAL_ASSEMBLY","label":"Assemblée générale des sociétaires","role":"Souveraineté coopérative, élections, comptes, grandes orientations et modifications statutaires selon les règles adoptées.","authority":"PROPOSED_NOT_CONSTITUTED"},
+            {"id":"COOPERATIVE_COUNCIL","label":"Conseil coopératif","role":"Surveillance stratégique, arbitrage des priorités, contrôle de l’exécutif et préparation des décisions collectives.","authority":"PROPOSED_NOT_CONSTITUTED"},
+            {"id":"PROOF_INTEGRITY_COUNCIL","label":"Conseil de preuve & d’intégrité","role":"Contrôle des sources, conflits d’intérêts, vie privée, non-partisanerie et respect des engagements protégés. Peut suspendre et renvoyer à réexamen, jamais réécrire un fait.","authority":"PROPOSED_NOT_CONSTITUTED"},
+            {"id":"CITIZEN_FORUM","label":"Forum citoyen ouvert","role":"Questions, propositions, contradictions et auditions publiques. Consultatif : il ne prétend pas représenter juridiquement la population.","authority":"ADVISORY_PROPOSAL"},
+            {"id":"EXECUTIVE","label":"Exécutif opérationnel","role":"Opérations quotidiennes, produits, partenariats et exécution des décisions dans les limites des mandats et Human Gates.","authority":"PROPOSED_NOT_CONSTITUTED"},
+        ],
+        "decision_constitution": {
+            "verified_facts": "NOT_DECIDED_BY_VOTE",
+            "ordinary_decisions": "PROPOSED_SIMPLE_MAJORITY_SUBJECT_TO_FINAL_STATUTES",
+            "mission_or_constitutional_changes": "PROPOSED_TWO_THIRDS_AND_CROSS_COLLEGE_MAJORITY_SUBJECT_TO_FINAL_STATUTES",
+            "truth_source_or_claim_changes": "EVIDENCE_PROTOCOL_PLUS_HUMAN_GATE_NOT_POPULAR_VOTE",
+            "external_action_for_a_person": "EXPLICIT_MANDATE_REQUIRED",
+            "commercial_framework": "CONFLICT_REVIEW_TRANSPARENCY_AND_COOPERATIVE_APPROVAL_REQUIRED",
+        },
+        "protected_commitments": [
+            "Le bien commun public, ses sources, ses preuves et ses limites restent gratuitement accessibles.",
+            "Aucun paiement, apport en capital, sponsor ou client ne peut acheter une vérité, un classement ou une recommandation politique.",
+            "Un vote ne peut pas transformer une hypothèse en fait vérifié ni supprimer une contradiction documentée.",
+            "Les données privées réelles restent séparées de l’origine publique et sont traitées sous minimisation et mandat.",
+            "Aucune représentation, démarche externe ou engagement au nom d’une personne sans mandat explicite.",
+            "La Bête reste indépendante des partis et ne devient ni service de l’État, ni porte-parole élu, ni tribunal.",
+            "Les corrections démontrées, conflits d’intérêts et limites significatives doivent être traçables.",
+            "La structure commerciale éventuelle ne peut contrôler le noyau public par simple puissance financière.",
+        ],
+        "anti_capture": [
+            "Aucun collège ne dépasse 30 % dans cette proposition, plus strict que le plafond légal applicable aux collèges pondérés.",
+            "Le capital ne pondère pas les droits de vote.",
+            "Aucun super-vote permanent du fondateur n’est créé par ce modèle.",
+            "Toute relation économique significative doit déclarer bénéficiaire, montant, objet, conflit potentiel et contrepartie.",
+            "Le conseil de preuve & d’intégrité peut demander suspension et réexamen d’une décision incompatible avec les engagements protégés.",
+            "Les changements constitutionnels proposés exigent une majorité transversale et restent soumis aux statuts et au droit applicables.",
+        ],
+        "economics": {
+            "statutory_reserve_min_after_legal_reserve_pct": 50,
+            "public_core": "FREE_COMMON_GOOD",
+            "private_services": "OPTIONAL_SEPARATE_OR_INTERNAL_ECONOMIC_ACTIVITY_TO_VALIDATE",
+            "commercial_bridge": "AGREEMENT_OR_STRUCTURE_TO_VALIDATE_BEFORE_EXECUTION",
+            "contribution_rate_to_common_good": "TO_BE_VOTED_NOT_PRECOMMITTED",
+            "exclusive_transfer_of_public_truth_control": "FORBIDDEN_BY_DESIGN",
+            "financial_flows_publication": "PROPOSED_TRANSPARENCY_RULE",
+        },
+        "transparency": [
+            "Rapport annuel sur l’évolution du projet coopératif.",
+            "Publication des collèges, règles de vote et composition des organes après constitution.",
+            "Registre public des décisions structurantes, résultats de vote et réserves d’intégrité, sous protection des données personnelles.",
+            "Publication des financements, subventions, conventions et flux significatifs entre bien commun et activité commerciale.",
+            "Journal public des corrections majeures, changements de politique de preuve et incidents affectant le bien commun.",
+        ],
+        "formation_path": [
+            {"step":1,"label":"Valider la charte de mission et les engagements protégés","state":"PROPOSAL_READY_HUMAN_GATE"},
+            {"step":2,"label":"Choisir la forme juridique SCIC et le schéma économique","state":"NOT_EXECUTED_HUMAN_GATE"},
+            {"step":3,"label":"Identifier les associés fondateurs dans au moins trois catégories conformes","state":"NOT_EXECUTED_HUMAN_GATE"},
+            {"step":4,"label":"Arbitrer collèges, pondérations, admission, sortie et organes","state":"NOT_EXECUTED_HUMAN_GATE"},
+            {"step":5,"label":"Rédiger statuts, pactes/conventions utiles et règles de conflit d’intérêts","state":"NOT_EXECUTED_HUMAN_GATE"},
+            {"step":6,"label":"Faire relire le montage juridique, fiscal, social, comptable, données et assurances","state":"NOT_EXECUTED_HUMAN_GATE"},
+            {"step":7,"label":"Tenir l’assemblée constitutive et réaliser les formalités d’immatriculation","state":"NOT_EXECUTED_EXTERNAL_ACTION"},
+            {"step":8,"label":"Activer le registre public de gouvernance et les contrôles institutionnels","state":"AFTER_VERIFIED_REGISTRATION_ONLY"},
+        ],
+        "legal_basis": [
+            {"article":"Loi 47-1775 · art. 19 quinquies","rule":"Une SCIC peut prendre la forme SA, SAS ou SARL à capital variable et poursuit un intérêt collectif à utilité sociale.","url":"https://www.legifrance.gouv.fr/codes/article_lc/LEGIARTI000029321359"},
+            {"article":"Loi 47-1775 · art. 19 septies","rule":"Au moins trois catégories d’associés ; bénéficiaires obligatoires et salariés, ou producteurs en l’absence de salariés.","url":"https://www.legifrance.gouv.fr/codes/section_lc/JORFTEXT000000684004/LEGISCTA000006084034/"},
+            {"article":"Loi 47-1775 · art. 19 octies","rule":"Collèges possibles à trois ou plus ; pondération 10–50 % par collège et capital non utilisé comme critère de pondération.","url":"https://www.legifrance.gouv.fr/codes/article_lc/LEGIARTI000025559897"},
+            {"article":"Loi 47-1775 · art. 19 nonies","rule":"Réserve statutaire annuelle au moins égale à 50 % des sommes disponibles après réserve légale.","url":"https://www.legifrance.gouv.fr/loda/article_lc/LEGIARTI000049720082"},
+            {"article":"Loi 47-1775 · art. 19 terdecies","rule":"Le rapport de gestion ou rapport annuel rend compte de l’évolution du projet coopératif.","url":"https://www.legifrance.gouv.fr/codes/section_lc/JORFTEXT000000684004/LEGISCTA000006084034/"},
+        ],
+    }
+
 def build_hybrid_model(live, acquisition):
     """Project the SCIC/common-good + optional private-service model inside the
     existing verified evolution. It creates no legal entity, payment rail,
@@ -179,6 +297,7 @@ def build_hybrid_model(live, acquisition):
             "governance_direction": "Gouvernance multi-parties à formaliser juridiquement avant tout engagement.",
             "public_asset_transfer": "NOT_EXECUTED",
             "statutes": "NOT_ADOPTED_BY_THIS_RUNTIME",
+            "institutional_blueprint": build_scic_institutional_blueprint(),
         },
         "private_services": {
             "state": "DESIGN_ONLY_NOT_FOR_SALE",

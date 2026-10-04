@@ -71,6 +71,7 @@ test('Atlas itself requests presence initialization',()=>assert.match(ui.slice(u
 test('presence stays one-click accessible from the header',()=>assert.match(ui,/link\('La Bête','#\/presence','muPresenceShortcut'\)/));
 test('hybrid product surfaces reuse loaded evolution',()=>{assert.match(ui,/function hybridView\(kind,g\)/);assert.match(ui,/g\.evolution\?\.self_model\?\.hybrid_model/);assert.doesNotMatch(ui,/la-bete-hybrid.*fetch|fetch\([^)]*hybrid/i);});
 test('public and commercial boundaries are first class routes',()=>{for(const r of ['#/public','#/agir','#/scic','#/services','#/prive'])assert.ok(ui.includes(r));});
+test('scic surface renders institutional constitution without legal adoption',()=>{for(const x of ['5 collèges proposés · 100 % des voix','Institutions proposées','Anti-capture','Chemin vers la SCIC réelle','Ancrages juridiques à relire avant constitution'])assert.ok(ui.includes(x));});
 test('scene is moved, never cloned',()=>assert.doesNotMatch(ui,/cloneNode|new.*WebGLRenderer/));
 test('Atlas preserves sensor shutdown when leaving detailed presence',()=>assert.ok(ui.includes("if(!['presence','lecture'].includes(p.kind)||current.isSearch)window.laBeteSuspendPresence?.();")));
 console.log('LA_BETE_EXPLORER_TESTS_PASS '+count);

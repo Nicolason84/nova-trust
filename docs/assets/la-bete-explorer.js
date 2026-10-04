@@ -106,9 +106,38 @@ function hybridView(kind,g){
   if(next.action)stage.append(list('Proposition actuelle de La Bête',[next.reason,next.action,'Cette proposition ne vaut ni mandat ni exécution.']));
   const actions=el('div',undefined,'muActions');append(actions,link('Ouvrir les démarches','#/univers/demarches','muPrimary'),link('Voir l’espace privé avant mandat','#/prive'));stage.append(actions);
  }else if(kind==='scic'){
-  title('SCIC · DIRECTION À FORMALISER','Protéger le bien commun dans la gouvernance.','Cette vue décrit une direction coopérative. Elle ne prétend pas qu’une SCIC est déjà immatriculée, que ses statuts sont adoptés ou qu’un engagement juridique existe.');
-  cards([['ÉTAT',coop.state||'UNKNOWN'],['STATUTS',coop.statutes||'UNKNOWN'],['TRANSFERT D’ACTIF PUBLIC',coop.public_asset_transfer||'UNKNOWN'],['PONT ÉCONOMIQUE',bridge.state||'UNKNOWN']]);
+  const b=coop.institutional_blueprint||{};
+  title('SCIC · CONSTITUTION EN CONSTRUCTION','Donner un corps institutionnel au bien commun.','Cette architecture décrit une future institution coopérative : elle n’immatricule aucune société, n’adopte aucun statut et ne crée aucun pouvoir externe. Les arbitrages juridiques restent des Human Gates.');
+  cards([['ÉTAT JURIDIQUE',coop.state||'UNKNOWN'],['DESIGN INSTITUTIONNEL',b.state||'UNKNOWN'],['EFFET JURIDIQUE',b.binding_effect===false?'AUCUN':'NON VÉRIFIÉ'],['PONT ÉCONOMIQUE',bridge.state||'UNKNOWN']]);
   stage.append(list('Mission coopérative',[coop.mission,coop.governance_direction].filter(Boolean)));
+  stage.append(list('Constitution protégée',b.protected_commitments));
+  const colleges=el('section',undefined,'muObjectMain');colleges.append(el('h2','5 collèges proposés · 100 % des voix','muSubhead'));
+  const collegeGrid=el('div',undefined,'muCards');for(const c of b.colleges||[]){const x=el('article',undefined,'muObjectCard');append(x,el('span',c.id,'muCardType'),el('strong',c.label+' · '+c.vote_weight_pct+' %'),el('small',c.purpose));collegeGrid.append(x);}colleges.append(collegeGrid);stage.append(colleges);
+  const institutions=el('section',undefined,'muObjectMain');institutions.append(el('h2','Institutions proposées','muSubhead'));
+  const institutionGrid=el('div',undefined,'muCards');for(const x of b.institutions||[]){const c=el('article',undefined,'muObjectCard');append(c,el('span',x.authority,'muCardType'),el('strong',x.label),el('small',x.role));institutionGrid.append(c);}institutions.append(institutionGrid);stage.append(institutions);
+  const d=b.decision_constitution||{};
+  stage.append(list('Règles de décision',[
+   'Faits vérifiés : '+(d.verified_facts||'UNKNOWN'),
+   'Décisions ordinaires : '+(d.ordinary_decisions||'UNKNOWN'),
+   'Mission / constitution : '+(d.mission_or_constitutional_changes||'UNKNOWN'),
+   'Sources et affirmations : '+(d.truth_source_or_claim_changes||'UNKNOWN'),
+   'Action au nom d’une personne : '+(d.external_action_for_a_person||'UNKNOWN'),
+   'Cadre commercial : '+(d.commercial_framework||'UNKNOWN')
+  ]));
+  stage.append(list('Anti-capture',b.anti_capture));
+  const econ=b.economics||{};
+  stage.append(list('Économie du bien commun',[
+   'Noyau public : '+(econ.public_core||'UNKNOWN'),
+   'Réserve statutaire minimale proposée comme garde légale : '+(econ.statutory_reserve_min_after_legal_reserve_pct??'UNKNOWN')+' % après réserve légale',
+   'Services privés : '+(econ.private_services||'UNKNOWN'),
+   'Pont commercial : '+(econ.commercial_bridge||'UNKNOWN'),
+   'Contribution au bien commun : '+(econ.contribution_rate_to_common_good||'UNKNOWN'),
+   'Contrôle exclusif de la vérité publique : '+(econ.exclusive_transfer_of_public_truth_control||'UNKNOWN')
+  ]));
+  stage.append(list('Transparence institutionnelle',b.transparency));
+  stage.append(list('Chemin vers la SCIC réelle',(b.formation_path||[]).map(x=>x.step+'. '+x.label+' — '+x.state)));
+  const law=el('section',undefined,'muObjectMain');law.append(el('h2','Ancrages juridiques à relire avant constitution','muSubhead'));
+  for(const x of b.legal_basis||[]){const row=el('p',undefined,'muFineprint');append(row,el('strong',x.article+' — '),el('span',x.rule+' '),link('Légifrance ↗',x.url));law.append(row);}stage.append(law);
   stage.append(list('Séparation à préserver',h.separation_guards));
   if(bridge.principle)stage.append(list('Principe économique',[bridge.principle,'L’information publique reste gratuite : '+(bridge.public_information_remains_free===true?'OUI':'NON VÉRIFIÉ')]));
  }else if(kind==='services'){

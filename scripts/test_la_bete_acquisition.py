@@ -158,6 +158,32 @@ class HybridModelTests(unittest.TestCase):
         self.assertEqual(cooperative['state'], 'TO_FORMALIZE_NOT_A_VERIFIED_REGISTERED_ENTITY')
         self.assertEqual(cooperative['statutes'], 'NOT_ADOPTED_BY_THIS_RUNTIME')
 
+    def test_scic_institutional_blueprint_is_non_binding_and_anti_capture(self):
+        blueprint = self.hybrid['cooperative_direction']['institutional_blueprint']
+        self.assertEqual(blueprint['schema'], 'LA_BETE_SCIC_INSTITUTIONAL_BLUEPRINT_V1')
+        self.assertEqual(blueprint['state'], 'CONSTITUTIONAL_DESIGN_PROPOSAL_NOT_ADOPTED')
+        self.assertFalse(blueprint['binding_effect'])
+        self.assertEqual(blueprint['adoption'], 'HUMAN_GATE_REQUIRED')
+        weights = [x['vote_weight_pct'] for x in blueprint['colleges']]
+        self.assertEqual(sum(weights), 100)
+        self.assertTrue(all(10 <= x <= 50 for x in weights))
+        self.assertEqual(max(weights), 30)
+        self.assertFalse(blueprint['voting_guardrails']['capital_may_weight_votes'])
+        self.assertFalse(blueprint['voting_guardrails']['founder_supervote'])
+        self.assertEqual(blueprint['decision_constitution']['verified_facts'], 'NOT_DECIDED_BY_VOTE')
+        self.assertGreaterEqual(blueprint['economics']['statutory_reserve_min_after_legal_reserve_pct'], 50)
+        self.assertEqual(blueprint['economics']['exclusive_transfer_of_public_truth_control'], 'FORBIDDEN_BY_DESIGN')
+
+    def test_scic_membership_and_formation_remain_explicit_human_gates(self):
+        blueprint = self.hybrid['cooperative_direction']['institutional_blueprint']
+        self.assertGreaterEqual(blueprint['membership']['minimum_categories_required'], 3)
+        mandatory = set(blueprint['membership']['mandatory_categories'])
+        self.assertIn('BENEFICIARIES_OR_REGULAR_USERS', mandatory)
+        self.assertIn('EMPLOYEES_OR_IF_NONE_PRODUCERS_OF_GOODS_OR_SERVICES', mandatory)
+        self.assertEqual(len(blueprint['institutions']), 5)
+        self.assertEqual(len(blueprint['formation_path']), 8)
+        self.assertTrue(all(x['state'] != 'DONE' for x in blueprint['formation_path']))
+
     def test_autoevolution_reuses_existing_runtime_and_only_proposes(self):
         auto = self.hybrid['autoevolution']
         self.assertEqual(auto['engine'], 'EXISTING_OJO_LA_BETE_VIRTUOUS_EVOLUTION_V1')

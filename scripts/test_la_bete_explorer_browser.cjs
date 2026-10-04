@@ -135,7 +135,12 @@ async function main(){
  await navigate('#/agir');assert.ok(await evaluate("document.getElementById('muStage').textContent.includes('PROPOSAL_ONLY')"));
  assert.ok(await evaluate("document.getElementById('muStage').textContent.includes('ne vaut ni mandat ni exécution')"));pass('agir exposes bounded autoevolution without external authority');
  await navigate('#/scic');assert.ok(await evaluate("document.getElementById('muStage').textContent.includes('TO_FORMALIZE_NOT_A_VERIFIED_REGISTERED_ENTITY')"));
- assert.ok(await evaluate("document.getElementById('muStage').textContent.includes('ne prétend pas qu’une SCIC est déjà immatriculée')"));pass('SCIC route is a governance direction, not a false legal-entity claim');
+ assert.ok(await evaluate("document.getElementById('muStage').textContent.includes('n’immatricule aucune société')"));
+ assert.ok(await evaluate("document.getElementById('muStage').textContent.includes('5 collèges proposés · 100 % des voix')"));
+ assert.ok(await evaluate("document.getElementById('muStage').textContent.includes('Assemblée générale des sociétaires')"));
+ assert.ok(await evaluate("document.getElementById('muStage').textContent.includes('Conseil de preuve & d’intégrité')"));
+ assert.ok(await evaluate("document.getElementById('muStage').textContent.includes('NOT_DECIDED_BY_VOTE')"));
+ assert.ok(await evaluate("document.getElementById('muStage').textContent.includes('Ancrages juridiques à relire avant constitution')"));pass('SCIC route exposes a non-binding institutional constitution with anti-capture guards');
  await navigate('#/services');assert.ok(await evaluate("document.getElementById('muStage').textContent.includes('DESIGN_ONLY_NOT_FOR_SALE')"));
  assert.ok(await evaluate("document.getElementById('muStage').textContent.includes('NOT_CONNECTED')"));
  assert.equal(await evaluate("document.querySelectorAll('#muStage input,#muStage form').length"),0);
