@@ -18,6 +18,24 @@ body:
     validations:
       required: true
   - type: dropdown
+    id: quest
+    attributes:
+      label: Quête Φ TERRITORY QUESTS
+      description: Choisissez l’objectif auquel votre contribution doit faire progresser le département.
+      options:
+        - language_context · Documenter le parler local
+        - local_expressions · Documenter 5 expressions locales
+        - heritage_memory · Sourcer patrimoine ou mémoire
+        - know_how · Raconter un savoir-faire ou métier
+        - people_stories · Documenter une figure ou un récit local
+        - events_traditions · Sourcer un événement ou une tradition
+        - nature_risks · Documenter paysage, milieu ou risque
+        - local_initiatives · Identifier une initiative locale utile
+        - translations · Traduire et faire relire
+        - accessibility · Améliorer compréhension ou accessibilité
+    validations:
+      required: true
+  - type: dropdown
     id: contribution_type
     attributes:
       label: Type de contribution
