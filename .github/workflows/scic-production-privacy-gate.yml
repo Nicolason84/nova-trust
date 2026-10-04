@@ -5,8 +5,13 @@ on:
   push:
     paths:
       - 'privacy/rfc9474_gate/**'
+      - 'privacy/ohttp_runtime/**'
       - 'app/scic_privacy_gate.py'
+      - 'app/scic_circl_runtime.py'
+      - 'app/scic_ohttp_runtime.py'
       - 'scripts/test_scic_privacy_gate.py'
+      - 'scripts/test_scic_circl_runtime.py'
+      - 'scripts/test_scic_ohttp_runtime.py'
       - 'scripts/la_bete_acquisition.py'
       - 'scripts/test_la_bete_acquisition.py'
       - 'scripts/verify_la_bete_evolution.py'
@@ -22,26 +27,67 @@ permissions:
 
 jobs:
   rfc9474-rfc9578:
-    name: RFC9474 / RFC9578 cryptographic gate
+    name: RFC9474 / RFC9578 + CIRCL runtime binding
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: privacy/rfc9474_gate
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-go@v6
         with:
           go-version: '1.26.x'
           cache-dependency-path: privacy/rfc9474_gate/go.sum
-      - name: Verify pinned dependency checksums
+      - name: Verify pinned Go dependency checksums
+        working-directory: privacy/rfc9474_gate
         run: |
           go mod download
           go mod verify
       - name: Run project RFC gate
+        working-directory: privacy/rfc9474_gate
         run: go test -v ./...
       - name: Run CIRCL upstream blindrsa RFC9474 suite
+        working-directory: privacy/rfc9474_gate
         run: go test -v github.com/cloudflare/circl/blindsign/blindrsa
-      - name: Record dependency graph
+      - name: Build CIRCL runtime sidecar
+        working-directory: privacy/rfc9474_gate
+        run: go build -trimpath -o /tmp/scic-circl-runtime ./cmd/scic-circl-runtime
+      - name: Prove Python-to-CIRCL runtime binding
+        env:
+          PYTHONPATH: .
+          SCIC_CIRCL_RUNTIME_BIN: /tmp/scic-circl-runtime
+        run: python3 scripts/test_scic_circl_runtime.py
+      - name: Record Go dependency graph
+        working-directory: privacy/rfc9474_gate
         run: |
           go version
           go list -m all
+
+  ohttp-rfc9458:
+    name: RFC9458 OHTTP three-process runtime
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install pinned Rust toolchain
+        run: |
+          rustup toolchain install 1.86.0 --profile minimal
+          rustup default 1.86.0
+          rustc --version
+          cargo --version
+      - name: Resolve Rust dependency lock
+        working-directory: privacy/ohttp_runtime
+        run: cargo generate-lockfile
+      - name: Build pinned OHTTP runtime
+        working-directory: privacy/ohttp_runtime
+        run: cargo build --locked --release
+      - name: Run Rust crate tests
+        working-directory: privacy/ohttp_runtime
+        run: cargo test --locked
+      - name: Prove client-relay-gateway runtime separation
+        env:
+          PYTHONPATH: .
+          SCIC_OHTTP_RUNTIME_BIN: ${{ github.workspace }}/privacy/ohttp_runtime/target/release/scic_ohttp_runtime
+        run: python3 scripts/test_scic_ohttp_runtime.py
+      - name: Record Rust dependency lock
+        working-directory: privacy/ohttp_runtime
+        run: |
+          echo '---BEGIN CARGO.LOCK---'
+          cat Cargo.lock
+          echo '---END CARGO.LOCK---'
