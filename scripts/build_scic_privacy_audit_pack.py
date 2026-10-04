@@ -8,10 +8,10 @@ CRITICAL=[
  '.github/workflows/scic-production-privacy-gate.yml',
  'privacy/rfc9474_gate/go.mod','privacy/rfc9474_gate/go.sum','privacy/rfc9474_gate/rfc9474_gate_test.go','privacy/rfc9474_gate/cmd/scic-circl-runtime/main.go',
  'privacy/ohttp_runtime/Cargo.toml','privacy/ohttp_runtime/Cargo.lock','privacy/ohttp_runtime/src/main.rs',
- 'app/scic_circl_runtime.py','app/scic_ohttp_runtime.py','app/scic_batch_runtime.py','app/scic_key_custody.py','app/scic_privacy_gate.py',
- 'scripts/test_scic_circl_runtime.py','scripts/test_scic_ohttp_runtime.py','scripts/test_scic_batch_runtime.py','scripts/test_scic_ohttp_batch_pipeline.py','scripts/test_scic_key_custody.py','scripts/test_scic_privacy_gate.py',
+ 'app/scic_circl_runtime.py','app/scic_ohttp_runtime.py','app/scic_ohttp_https_harness.py','app/scic_batch_runtime.py','app/scic_key_custody.py','app/scic_privacy_gate.py',
+ 'scripts/test_scic_circl_runtime.py','scripts/test_scic_ohttp_runtime.py','scripts/test_scic_ohttp_https_harness.py','scripts/test_scic_batch_runtime.py','scripts/test_scic_ohttp_batch_pipeline.py','scripts/test_scic_key_custody.py','scripts/test_scic_privacy_gate.py',
  'scripts/build_scic_privacy_audit_pack.py','scripts/test_scic_privacy_audit_pack.py',
- 'scripts/la_bete_acquisition.py','scripts/verify_la_bete_evolution.py','docs/assets/la-bete-explorer.js','scripts/test_la_bete_explorer.cjs','scripts/test_la_bete_explorer_browser.cjs','audits/scic_privacy/THREAT_MODEL.md'
+ 'scripts/la_bete_acquisition.py','scripts/test_la_bete_acquisition.py','scripts/verify_la_bete_evolution.py','docs/assets/la-bete-explorer.js','scripts/test_la_bete_explorer.cjs','scripts/test_la_bete_explorer_browser.cjs','audits/scic_privacy/THREAT_MODEL.md'
 ]
 
 def sha(path):return hashlib.sha256(path.read_bytes()).hexdigest()
@@ -45,6 +45,7 @@ def build():
    'PYTHONPATH=. python3 scripts/test_scic_key_custody.py',
    'SCIC_CIRCL_RUNTIME_BIN=<built-sidecar> PYTHONPATH=. python3 scripts/test_scic_circl_runtime.py',
    'SCIC_OHTTP_RUNTIME_BIN=<built-runtime> PYTHONPATH=. python3 scripts/test_scic_ohttp_runtime.py',
+   'SCIC_OHTTP_RUNTIME_BIN=<built-runtime> PYTHONPATH=. python3 scripts/test_scic_ohttp_https_harness.py',
    'SCIC_OHTTP_RUNTIME_BIN=<built-runtime> PYTHONPATH=. python3 scripts/test_scic_ohttp_batch_pipeline.py',
    'go test -v ./...  # privacy/rfc9474_gate',
    'go test -v github.com/cloudflare/circl/blindsign/blindrsa',
