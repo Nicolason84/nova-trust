@@ -161,6 +161,9 @@ function questLabel(q){
 function questContributionURL(dep,quest){
  return 'https://github.com/Nicolason84/nova-trust/issues/new?template=territory-contribution.yml&title='+encodeURIComponent('[TERRITOIRE '+dep+'][QUEST '+quest.id+'] ');
 }
+function contributionAccessNote(){
+ return el('p',uiLocale==='en'?'Contribution currently opens a GitHub issue form. A GitHub account/sign-in is required by that external channel; no accountless public form is claimed here.':uiLocale==='es'?'La contribución abre actualmente un formulario de incidencias de GitHub. Ese canal externo exige una cuenta/inicio de sesión; aquí no se afirma que exista un formulario público sin cuenta.':'La contribution ouvre actuellement un formulaire GitHub Issues. Ce canal externe exige un compte / une connexion GitHub ; La Bête ne prétend pas encore disposer d’un formulaire public sans compte.','muContributionAccess');
+}
 function territoryQuestPanel(code){
  const t=territoryQuests?.territories?.[code];if(!t)return null;
  const box=el('section',undefined,'muQuestPanel');
@@ -180,7 +183,7 @@ function territoryQuestPanel(code){
    grid.append(card);
  }
  box.append(grid);
- const foot=el('p',(uiLocale==='en'?'Community verified contributions: ':uiLocale==='es'?'Contribuciones comunitarias verificadas: ':'Contributions communautaires vérifiées : ')+t.community_verified_items+' · '+t.community_phi_awarded+' Φ','muFineprint');box.append(foot);
+ const foot=el('p',(uiLocale==='en'?'Community verified contributions: ':uiLocale==='es'?'Contribuciones comunitarias verificadas: ':'Contributions communautaires vérifiées : ')+t.community_verified_items+' · '+t.community_phi_awarded+' Φ','muFineprint');box.append(foot,contributionAccessNote());
  return box;
 }
 function territoryProgressBoard(){
@@ -199,7 +202,7 @@ function phiPanel(departmentCode=null){
  const rewards=el('div',undefined,'muPhiRewards');for(const r of (phiPolicy.rewards||[]).slice(0,5)){const c=el('div',undefined,'muPhiReward');append(c,el('strong','+'+r.phi+' Φ'),el('span',phiRewardLabel(r)));rewards.append(c);}box.append(rewards);
  box.append(el('p',uiLocale==='en'?'No wallet, no purchase, no transfer and no cash value in V1.':uiLocale==='es'?'En V1 no hay monedero, compra, transferencia ni valor en efectivo.':'V1 : aucun wallet, aucun achat, aucun transfert et aucune valeur en espèces.','muFineprint'));
  const url='https://github.com/Nicolason84/nova-trust/issues/new?template=territory-contribution.yml'+(departmentCode?'&title='+encodeURIComponent('[TERRITOIRE '+departmentCode+'] '):'');
- box.append(link(tr('contribute',departmentCode?'Contribuer à ce département':'Contribuer à un territoire')+' ↗',url,'muPrimary'));return box;
+ box.append(link(tr('contribute',departmentCode?'Contribuer à ce département':'Contribuer à un territoire')+' ↗',url,'muPrimary'),contributionAccessNote());return box;
 }
 function humanHybrid(kind,h,g){
  const publicModel=h.public_common_good||{},coop=h.cooperative_direction||{},privateModel=h.private_services||{},auto=h.autoevolution||{},acq=g.evolution?.self_model?.acquisition||{};

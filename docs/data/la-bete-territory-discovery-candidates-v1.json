@@ -1,0 +1,2221 @@
+{
+  "schema": "LA_BETE_TERRITORY_DISCOVERY_CANDIDATES_V1",
+  "state": "AUTODISCOVERY_CANDIDATES_SEPARATE_FROM_CANON",
+  "generated_at": "2026-10-04T13:43:20.402311Z",
+  "topology_snapshot": "FR-TOPO-43287a81359296e3b1ff8def",
+  "culture_schema": "LA_BETE_TERRITORY_CULTURE_V1",
+  "contract": {
+    "automatic_discovery_is_proof": false,
+    "automatic_discovery_can_promote_living_identity": false,
+    "automatic_discovery_mints_phi": false,
+    "automatic_discovery_changes_documentation_score": false,
+    "verified_receipt_required_for_phi": true,
+    "human_or_external_source_verification_required_for_promotion": true,
+    "last_good_retention": true
+  },
+  "batch_policy": {
+    "default_batch_size": 12,
+    "selection": "UNSCANNED_FIRST_THEN_OLDEST_SCAN",
+    "scheduled_cadence": "DAILY",
+    "full_cycle_target_runs": 9
+  },
+  "sources": {
+    "wikidata": "https://www.wikidata.org/w/api.php",
+    "wikimedia_commons": "https://commons.wikimedia.org/w/api.php",
+    "canonical_relations": "docs/data/france-topology.json"
+  },
+  "coverage": {
+    "departments_total": 101,
+    "departments_with_scan_record": 8,
+    "candidate_items": 8,
+    "selected_this_run": [
+      "13",
+      "80",
+      "45",
+      "33",
+      "29",
+      "67",
+      "64",
+      "31"
+    ]
+  },
+  "departments": {
+    "13": {
+      "code": "13",
+      "name": "Bouches-du-Rhône",
+      "scanned_at": "2026-10-04T13:42:41.863525Z",
+      "state": "DISCOVERY_CANDIDATES_NOT_CANON",
+      "promotion_authorized": false,
+      "mints_phi": false,
+      "changes_documentation_score": false,
+      "relations": {
+        "state": "VERIFIED_CANONICAL_TOPOLOGY_RELATION",
+        "relation": "same_epci",
+        "epci_cluster_count": 4,
+        "same_epci_pair_count": 4143,
+        "examples": [
+          {
+            "epci_code": "200054807",
+            "member_count": 90,
+            "communes": [
+              {
+                "code": "13001",
+                "name": "Aix-en-Provence"
+              },
+              {
+                "code": "13002",
+                "name": "Allauch"
+              },
+              {
+                "code": "13003",
+                "name": "Alleins"
+              },
+              {
+                "code": "13005",
+                "name": "Aubagne"
+              },
+              {
+                "code": "13007",
+                "name": "Auriol"
+              },
+              {
+                "code": "13008",
+                "name": "Aurons"
+              },
+              {
+                "code": "13009",
+                "name": "La Barben"
+              },
+              {
+                "code": "13012",
+                "name": "Beaurecueil"
+              }
+            ]
+          },
+          {
+            "epci_code": "200035087",
+            "member_count": 13,
+            "communes": [
+              {
+                "code": "13010",
+                "name": "Barbentane"
+              },
+              {
+                "code": "13018",
+                "name": "Cabannes"
+              },
+              {
+                "code": "13027",
+                "name": "Châteaurenard"
+              },
+              {
+                "code": "13036",
+                "name": "Eyragues"
+              },
+              {
+                "code": "13045",
+                "name": "Graveson"
+              },
+              {
+                "code": "13052",
+                "name": "Maillane"
+              },
+              {
+                "code": "13064",
+                "name": "Mollégès"
+              },
+              {
+                "code": "13066",
+                "name": "Noves"
+              }
+            ]
+          },
+          {
+            "epci_code": "241300375",
+            "member_count": 10,
+            "communes": [
+              {
+                "code": "13006",
+                "name": "Aureille"
+              },
+              {
+                "code": "13011",
+                "name": "Les Baux-de-Provence"
+              },
+              {
+                "code": "13034",
+                "name": "Eygalières"
+              },
+              {
+                "code": "13038",
+                "name": "Fontvieille"
+              },
+              {
+                "code": "13057",
+                "name": "Mas-Blanc-des-Alpilles"
+              },
+              {
+                "code": "13058",
+                "name": "Maussane-les-Alpilles"
+              },
+              {
+                "code": "13065",
+                "name": "Mouriès"
+              },
+              {
+                "code": "13068",
+                "name": "Paradou"
+              }
+            ]
+          },
+          {
+            "epci_code": "241300417",
+            "member_count": 6,
+            "communes": [
+              {
+                "code": "13004",
+                "name": "Arles"
+              },
+              {
+                "code": "13017",
+                "name": "Boulbon"
+              },
+              {
+                "code": "13061",
+                "name": "Saint-Pierre-de-Mézoargues"
+              },
+              {
+                "code": "13096",
+                "name": "Saintes-Maries-de-la-Mer"
+              },
+              {
+                "code": "13097",
+                "name": "Saint-Martin-de-Crau"
+              },
+              {
+                "code": "13108",
+                "name": "Tarascon"
+              }
+            ]
+          }
+        ],
+        "source": "france-topology.json",
+        "gate": "Relation administrative vérifiée. Elle ne prouve aucune proximité culturelle, économique ou affective."
+      },
+      "media": [
+        {
+          "candidate_id": "media:Q3240",
+          "state": "LICENSE_VERIFIED_LOCATION_CANDIDATE",
+          "kind": "representative_department_media",
+          "wikidata_id": "Q3240",
+          "label": "Préfecture-région-Marseille.jpg",
+          "source_page": "https://commons.wikimedia.org/wiki/File:Pr%C3%A9fecture-r%C3%A9gion-Marseille.jpg",
+          "thumbnail_source": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/9c/Pr%C3%A9fecture-r%C3%A9gion-Marseille.jpg/960px-Pr%C3%A9fecture-r%C3%A9gion-Marseille.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+          "asset": "assets/territory-candidates/13/4ee3ff7e5938703a.jpg",
+          "license": "CC BY-SA 3.0",
+          "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+          "author": "Rvalette",
+          "description": "Hôtel de la préfecture des Bouches-du-Rhône à Marseille.",
+          "gate": "Licence vérifiée. Pertinence éditoriale et représentativité restent à valider avant promotion.",
+          "quest_id": "heritage_memory"
+        }
+      ],
+      "heritage": [],
+      "nature": [],
+      "commons": [],
+      "initiatives": [],
+      "source_health": {
+        "wikidata_department": "PASS",
+        "commons_license_media": "PASS",
+        "wikidata_search_heritage": "NO_LOCAL_MATCH",
+        "wikidata_search_nature": "NO_LOCAL_MATCH",
+        "wikidata_search_commons": "NO_LOCAL_MATCH",
+        "wikidata_search_initiatives": "NO_LOCAL_MATCH"
+      },
+      "wikidata_department": {
+        "id": "Q3240",
+        "label": "Bouches-du-Rhône",
+        "description": "département français numéro 13",
+        "source": "https://www.wikidata.org/wiki/Q3240"
+      }
+    },
+    "80": {
+      "code": "80",
+      "name": "Somme",
+      "scanned_at": "2026-10-04T13:42:46.528901Z",
+      "state": "DISCOVERY_CANDIDATES_NOT_CANON",
+      "promotion_authorized": false,
+      "mints_phi": false,
+      "changes_documentation_score": false,
+      "relations": {
+        "state": "VERIFIED_CANONICAL_TOPOLOGY_RELATION",
+        "relation": "same_epci",
+        "epci_cluster_count": 17,
+        "same_epci_pair_count": 23246,
+        "examples": [
+          {
+            "epci_code": "200071181",
+            "member_count": 119,
+            "communes": [
+              {
+                "code": "80013",
+                "name": "Airaines"
+              },
+              {
+                "code": "80019",
+                "name": "Allery"
+              },
+              {
+                "code": "80022",
+                "name": "Andainville"
+              },
+              {
+                "code": "80026",
+                "name": "Arguel"
+              },
+              {
+                "code": "80040",
+                "name": "Aumâtre"
+              },
+              {
+                "code": "80041",
+                "name": "Aumont"
+              },
+              {
+                "code": "80046",
+                "name": "Avelesges"
+              },
+              {
+                "code": "80048",
+                "name": "Avesnes-Chaussoy"
+              }
+            ]
+          },
+          {
+            "epci_code": "200070936",
+            "member_count": 70,
+            "communes": [
+              {
+                "code": "80006",
+                "name": "Agenvillers"
+              },
+              {
+                "code": "80009",
+                "name": "Ailly-le-Haut-Clocher"
+              },
+              {
+                "code": "80025",
+                "name": "Argoules"
+              },
+              {
+                "code": "80030",
+                "name": "Arry"
+              },
+              {
+                "code": "80087",
+                "name": "Bernay-en-Ponthieu"
+              },
+              {
+                "code": "80109",
+                "name": "Le Boisle"
+              },
+              {
+                "code": "80118",
+                "name": "Boufflers"
+              },
+              {
+                "code": "80133",
+                "name": "Brailly-Cornehotte"
+              }
+            ]
+          },
+          {
+            "epci_code": "200070951",
+            "member_count": 65,
+            "communes": [
+              {
+                "code": "80005",
+                "name": "Agenville"
+              },
+              {
+                "code": "80042",
+                "name": "Autheux"
+              },
+              {
+                "code": "80044",
+                "name": "Authieule"
+              },
+              {
+                "code": "80055",
+                "name": "Barly"
+              },
+              {
+                "code": "80056",
+                "name": "Bavelincourt"
+              },
+              {
+                "code": "80060",
+                "name": "Béalcourt"
+              },
+              {
+                "code": "80066",
+                "name": "Beaucourt-sur-l'Hallue"
+              },
+              {
+                "code": "80068",
+                "name": "Beaumetz"
+              }
+            ]
+          },
+          {
+            "epci_code": "248000747",
+            "member_count": 65,
+            "communes": [
+              {
+                "code": "80003",
+                "name": "Acheux-en-Amiénois"
+              },
+              {
+                "code": "80016",
+                "name": "Albert"
+              },
+              {
+                "code": "80028",
+                "name": "Arquèves"
+              },
+              {
+                "code": "80038",
+                "name": "Auchonvillers"
+              },
+              {
+                "code": "80043",
+                "name": "Authie"
+              },
+              {
+                "code": "80045",
+                "name": "Authuille"
+              },
+              {
+                "code": "80047",
+                "name": "Aveluy"
+              },
+              {
+                "code": "80057",
+                "name": "Bayencourt"
+              }
+            ]
+          },
+          {
+            "epci_code": "200070977",
+            "member_count": 62,
+            "communes": [
+              {
+                "code": "80023",
+                "name": "Andechy"
+              },
+              {
+                "code": "80027",
+                "name": "Armancourt"
+              },
+              {
+                "code": "80032",
+                "name": "Assainvillers"
+              },
+              {
+                "code": "80049",
+                "name": "Ayencourt"
+              },
+              {
+                "code": "80053",
+                "name": "Balâtre"
+              },
+              {
+                "code": "80074",
+                "name": "Becquigny"
+              },
+              {
+                "code": "80101",
+                "name": "Beuvraignes"
+              },
+              {
+                "code": "80103",
+                "name": "Biarre"
+              }
+            ]
+          },
+          {
+            "epci_code": "200037059",
+            "member_count": 60,
+            "communes": [
+              {
+                "code": "80014",
+                "name": "Aizecourt-le-Bas"
+              },
+              {
+                "code": "80015",
+                "name": "Aizecourt-le-Haut"
+              },
+              {
+                "code": "80017",
+                "name": "Allaines"
+              },
+              {
+                "code": "80054",
+                "name": "Barleux"
+              },
+              {
+                "code": "80088",
+                "name": "Bernes"
+              },
+              {
+                "code": "80102",
+                "name": "Biaches"
+              },
+              {
+                "code": "80115",
+                "name": "Bouchavesnes-Bergen"
+              },
+              {
+                "code": "80128",
+                "name": "Bouvincourt-en-Vermandois"
+              }
+            ]
+          }
+        ],
+        "source": "france-topology.json",
+        "gate": "Relation administrative vérifiée. Elle ne prouve aucune proximité culturelle, économique ou affective."
+      },
+      "media": [
+        {
+          "candidate_id": "media:Q12770",
+          "state": "LICENSE_VERIFIED_LOCATION_CANDIDATE",
+          "kind": "representative_department_media",
+          "wikidata_id": "Q12770",
+          "label": "Amiens, hôtel de préfecture (7).JPG",
+          "source_page": "https://commons.wikimedia.org/wiki/File:Amiens,_h%C3%B4tel_de_pr%C3%A9fecture_(7).JPG",
+          "thumbnail_source": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/68/Amiens%2C_h%C3%B4tel_de_pr%C3%A9fecture_%287%29.JPG/960px-Amiens%2C_h%C3%B4tel_de_pr%C3%A9fecture_%287%29.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+          "asset": "assets/territory-candidates/80/779ac8fb6965ec39.jpg",
+          "license": "CC BY-SA 3.0",
+          "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+          "author": "HaguardDuNord ( talk )",
+          "description": "Hôtel de la Préfecture de la Somme, Amiens, rue de la République.",
+          "gate": "Licence vérifiée. Pertinence éditoriale et représentativité restent à valider avant promotion.",
+          "quest_id": "heritage_memory"
+        }
+      ],
+      "heritage": [],
+      "nature": [],
+      "commons": [],
+      "initiatives": [
+        {
+          "candidate_id": "initiatives:Q65553510",
+          "state": "UNVERIFIED_AUTODISCOVERY_CANDIDATE",
+          "lane": "initiatives",
+          "label": "Sommerakademie Paul Klee",
+          "description": null,
+          "wikidata_id": "Q65553510",
+          "source": "https://www.wikidata.org/wiki/Q65553510",
+          "search_query": "association Somme",
+          "matched_locality": "somme",
+          "quest_id": "local_initiatives",
+          "gate": "Résultat de recherche seulement. Vérifier la localisation, la nature de l'entité, une source locale et l'utilité avant promotion."
+        }
+      ],
+      "source_health": {
+        "wikidata_department": "PASS",
+        "commons_license_media": "PASS",
+        "wikidata_search_heritage": "NO_LOCAL_MATCH",
+        "wikidata_search_nature": "NO_LOCAL_MATCH",
+        "wikidata_search_commons": "NO_LOCAL_MATCH",
+        "wikidata_search_initiatives": "PASS"
+      },
+      "wikidata_department": {
+        "id": "Q12770",
+        "label": "Somme",
+        "description": "département français numéro 80",
+        "source": "https://www.wikidata.org/wiki/Q12770"
+      }
+    },
+    "45": {
+      "code": "45",
+      "name": "Loiret",
+      "scanned_at": "2026-10-04T13:42:51.396120Z",
+      "state": "DISCOVERY_CANDIDATES_NOT_CANON",
+      "promotion_authorized": false,
+      "mints_phi": false,
+      "changes_documentation_score": false,
+      "relations": {
+        "state": "VERIFIED_CANONICAL_TOPOLOGY_RELATION",
+        "relation": "same_epci",
+        "epci_cluster_count": 16,
+        "same_epci_pair_count": 3630,
+        "examples": [
+          {
+            "epci_code": "200067676",
+            "member_count": 38,
+            "communes": [
+              {
+                "code": "45002",
+                "name": "Aillant-sur-Milleron"
+              },
+              {
+                "code": "45017",
+                "name": "Auvilliers-en-Gâtinais"
+              },
+              {
+                "code": "45027",
+                "name": "Beauchamps-sur-Huillard"
+              },
+              {
+                "code": "45031",
+                "name": "Bellegarde"
+              },
+              {
+                "code": "45066",
+                "name": "Chailly-en-Gâtinais"
+              },
+              {
+                "code": "45077",
+                "name": "La Chapelle-sur-Aveyron"
+              },
+              {
+                "code": "45078",
+                "name": "Chapelon"
+              },
+              {
+                "code": "45079",
+                "name": "Le Charme"
+              }
+            ]
+          },
+          {
+            "epci_code": "200066280",
+            "member_count": 31,
+            "communes": [
+              {
+                "code": "45010",
+                "name": "Ascoux"
+              },
+              {
+                "code": "45012",
+                "name": "Audeville"
+              },
+              {
+                "code": "45015",
+                "name": "Autruy-sur-Juine"
+              },
+              {
+                "code": "45038",
+                "name": "Bondaroy"
+              },
+              {
+                "code": "45045",
+                "name": "Bouilly-en-Gâtinais"
+              },
+              {
+                "code": "45047",
+                "name": "Bouzonville-aux-Bois"
+              },
+              {
+                "code": "45050",
+                "name": "Boynes"
+              },
+              {
+                "code": "45065",
+                "name": "Césarville-Dossainville"
+              }
+            ]
+          },
+          {
+            "epci_code": "200071850",
+            "member_count": 31,
+            "communes": [
+              {
+                "code": "45013",
+                "name": "Augerville-la-Rivière"
+              },
+              {
+                "code": "45014",
+                "name": "Aulnay-la-Rivière"
+              },
+              {
+                "code": "45018",
+                "name": "Auxy"
+              },
+              {
+                "code": "45021",
+                "name": "Barville-en-Gâtinais"
+              },
+              {
+                "code": "45022",
+                "name": "Batilly-en-Gâtinais"
+              },
+              {
+                "code": "45030",
+                "name": "Beaune-la-Rolande"
+              },
+              {
+                "code": "45033",
+                "name": "Boësses"
+              },
+              {
+                "code": "45035",
+                "name": "Boiscommun"
+              }
+            ]
+          },
+          {
+            "epci_code": "200035764",
+            "member_count": 23,
+            "communes": [
+              {
+                "code": "45008",
+                "name": "Artenay"
+              },
+              {
+                "code": "45046",
+                "name": "Boulay-les-Barres"
+              },
+              {
+                "code": "45055",
+                "name": "Bricy"
+              },
+              {
+                "code": "45058",
+                "name": "Bucy-le-Roi"
+              },
+              {
+                "code": "45059",
+                "name": "Bucy-Saint-Liphard"
+              },
+              {
+                "code": "45062",
+                "name": "Cercottes"
+              },
+              {
+                "code": "45074",
+                "name": "La Chapelle-Onzerain"
+              },
+              {
+                "code": "45093",
+                "name": "Chevilly"
+              }
+            ]
+          },
+          {
+            "epci_code": "200067668",
+            "member_count": 22,
+            "communes": [
+              {
+                "code": "45026",
+                "name": "Bazoches-sur-le-Betz"
+              },
+              {
+                "code": "45073",
+                "name": "Chantecoq"
+              },
+              {
+                "code": "45076",
+                "name": "La Chapelle-Saint-Sépulcre"
+              },
+              {
+                "code": "45083",
+                "name": "Château-Renard"
+              },
+              {
+                "code": "45097",
+                "name": "Chuelles"
+              },
+              {
+                "code": "45113",
+                "name": "Courtemaux"
+              },
+              {
+                "code": "45115",
+                "name": "Courtenay"
+              },
+              {
+                "code": "45129",
+                "name": "Douchy-Montcorbon"
+              }
+            ]
+          },
+          {
+            "epci_code": "244500468",
+            "member_count": 22,
+            "communes": [
+              {
+                "code": "45034",
+                "name": "Boigny-sur-Bionne"
+              },
+              {
+                "code": "45043",
+                "name": "Bou"
+              },
+              {
+                "code": "45072",
+                "name": "Chanteau"
+              },
+              {
+                "code": "45075",
+                "name": "La Chapelle-Saint-Mesmin"
+              },
+              {
+                "code": "45089",
+                "name": "Chécy"
+              },
+              {
+                "code": "45100",
+                "name": "Combleux"
+              },
+              {
+                "code": "45147",
+                "name": "Fleury-les-Aubrais"
+              },
+              {
+                "code": "45169",
+                "name": "Ingré"
+              }
+            ]
+          }
+        ],
+        "source": "france-topology.json",
+        "gate": "Relation administrative vérifiée. Elle ne prouve aucune proximité culturelle, économique ou affective."
+      },
+      "media": [
+        {
+          "candidate_id": "media:Q12574",
+          "state": "LICENSE_VERIFIED_LOCATION_CANDIDATE",
+          "kind": "representative_department_media",
+          "wikidata_id": "Q12574",
+          "label": "PA45000024 Préfecture d'Orléans (2).jpg",
+          "source_page": "https://commons.wikimedia.org/wiki/File:PA45000024_Pr%C3%A9fecture_d'Orl%C3%A9ans_(2).jpg",
+          "thumbnail_source": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d4/PA45000024_Pr%C3%A9fecture_d%27Orl%C3%A9ans_%282%29.jpg/960px-PA45000024_Pr%C3%A9fecture_d%27Orl%C3%A9ans_%282%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+          "asset": "assets/territory-candidates/45/958420641e5e33a7.jpg",
+          "license": "CC BY-SA 3.0",
+          "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+          "author": "Mazzhe",
+          "description": "This building is en partie classé, en partie inscrit au titre des monuments historiques de la France . It is indexed in the base Mérimée , a database of architectural heritage maintained by the French Ministry of Culture , under the reference PA45000024 . brezhoneg ∙ català ∙ Deutsch ∙ English ∙ español ∙ Esperanto ∙ euskara ∙ français ∙ italiano ∙ magyar ∙ Nederlands ∙ português do Brasil ∙ português ∙ română ∙ sicilianu ∙ slovenščina ∙ suomi ∙ svenska ∙ Ελληνικά ∙ беларуская (тарашкевіца) ∙ кы",
+          "gate": "Licence vérifiée. Pertinence éditoriale et représentativité restent à valider avant promotion.",
+          "quest_id": "heritage_memory"
+        }
+      ],
+      "heritage": [],
+      "nature": [],
+      "commons": [],
+      "initiatives": [],
+      "source_health": {
+        "wikidata_department": "PASS",
+        "commons_license_media": "PASS",
+        "wikidata_search_heritage": "NO_LOCAL_MATCH",
+        "wikidata_search_nature": "NO_LOCAL_MATCH",
+        "wikidata_search_commons": "NO_LOCAL_MATCH",
+        "wikidata_search_initiatives": "NO_LOCAL_MATCH"
+      },
+      "wikidata_department": {
+        "id": "Q12574",
+        "label": "Loiret",
+        "description": "département français numéro 45, en région Centre-Val de Loire ayant Orléans pour chef-lieu",
+        "source": "https://www.wikidata.org/wiki/Q12574"
+      }
+    },
+    "33": {
+      "code": "33",
+      "name": "Gironde",
+      "scanned_at": "2026-10-04T13:42:55.822207Z",
+      "state": "DISCOVERY_CANDIDATES_NOT_CANON",
+      "promotion_authorized": false,
+      "mints_phi": false,
+      "changes_documentation_score": false,
+      "relations": {
+        "state": "VERIFIED_CANONICAL_TOPOLOGY_RELATION",
+        "relation": "same_epci",
+        "epci_cluster_count": 28,
+        "same_epci_pair_count": 6965,
+        "examples": [
+          {
+            "epci_code": "200069599",
+            "member_count": 49,
+            "communes": [
+              {
+                "code": "33008",
+                "name": "Porte-de-Benauge"
+              },
+              {
+                "code": "33025",
+                "name": "Baigneaux"
+              },
+              {
+                "code": "33043",
+                "name": "Bellebat"
+              },
+              {
+                "code": "33044",
+                "name": "Bellefond"
+              },
+              {
+                "code": "33057",
+                "name": "Blasimon"
+              },
+              {
+                "code": "33103",
+                "name": "Castelmoron-d'Albret"
+              },
+              {
+                "code": "33105",
+                "name": "Castelviel"
+              },
+              {
+                "code": "33112",
+                "name": "Caumont"
+              }
+            ]
+          },
+          {
+            "epci_code": "200070092",
+            "member_count": 45,
+            "communes": [
+              {
+                "code": "33001",
+                "name": "Abzac"
+              },
+              {
+                "code": "33015",
+                "name": "Arveyres"
+              },
+              {
+                "code": "33034",
+                "name": "Bayas"
+              },
+              {
+                "code": "33052",
+                "name": "Les Billaux"
+              },
+              {
+                "code": "33062",
+                "name": "Bonzac"
+              },
+              {
+                "code": "33079",
+                "name": "Cadarsac"
+              },
+              {
+                "code": "33088",
+                "name": "Camps-sur-l'Isle"
+              },
+              {
+                "code": "33124",
+                "name": "Chamadelle"
+              }
+            ]
+          },
+          {
+            "epci_code": "200044394",
+            "member_count": 41,
+            "communes": [
+              {
+                "code": "33002",
+                "name": "Aillas"
+              },
+              {
+                "code": "33021",
+                "name": "Auros"
+              },
+              {
+                "code": "33024",
+                "name": "Bagas"
+              },
+              {
+                "code": "33027",
+                "name": "Barie"
+              },
+              {
+                "code": "33031",
+                "name": "Bassanne"
+              },
+              {
+                "code": "33048",
+                "name": "Berthez"
+              },
+              {
+                "code": "33054",
+                "name": "Blaignac"
+              },
+              {
+                "code": "33066",
+                "name": "Bourdelles"
+              }
+            ]
+          },
+          {
+            "epci_code": "200043974",
+            "member_count": 37,
+            "communes": [
+              {
+                "code": "33026",
+                "name": "Balizac"
+              },
+              {
+                "code": "33050",
+                "name": "Bieujac"
+              },
+              {
+                "code": "33060",
+                "name": "Bommes"
+              },
+              {
+                "code": "33068",
+                "name": "Bourideys"
+              },
+              {
+                "code": "33106",
+                "name": "Castets et Castillon"
+              },
+              {
+                "code": "33115",
+                "name": "Cazalis"
+              },
+              {
+                "code": "33130",
+                "name": "Coimères"
+              },
+              {
+                "code": "33164",
+                "name": "Fargues"
+              }
+            ]
+          },
+          {
+            "epci_code": "200043982",
+            "member_count": 31,
+            "communes": [
+              {
+                "code": "33017",
+                "name": "Aubiac"
+              },
+              {
+                "code": "33036",
+                "name": "Bazas"
+              },
+              {
+                "code": "33046",
+                "name": "Bernos-Beaulac"
+              },
+              {
+                "code": "33053",
+                "name": "Birac"
+              },
+              {
+                "code": "33095",
+                "name": "Captieux"
+              },
+              {
+                "code": "33113",
+                "name": "Cauvignac"
+              },
+              {
+                "code": "33116",
+                "name": "Cazats"
+              },
+              {
+                "code": "33137",
+                "name": "Cours-les-Bains"
+              }
+            ]
+          },
+          {
+            "epci_code": "243301454",
+            "member_count": 30,
+            "communes": [
+              {
+                "code": "33064",
+                "name": "Bossugan"
+              },
+              {
+                "code": "33071",
+                "name": "Branne"
+              },
+              {
+                "code": "33078",
+                "name": "Cabara"
+              },
+              {
+                "code": "33108",
+                "name": "Castillon-la-Bataille"
+              },
+              {
+                "code": "33127",
+                "name": "Civrac-sur-Dordogne"
+              },
+              {
+                "code": "33133",
+                "name": "Coubeyrac"
+              },
+              {
+                "code": "33153",
+                "name": "Doulezon"
+              },
+              {
+                "code": "33168",
+                "name": "Flaujagues"
+              }
+            ]
+          }
+        ],
+        "source": "france-topology.json",
+        "gate": "Relation administrative vérifiée. Elle ne prouve aucune proximité culturelle, économique ou affective."
+      },
+      "media": [
+        {
+          "candidate_id": "media:Q12526",
+          "state": "LICENSE_VERIFIED_LOCATION_CANDIDATE",
+          "kind": "representative_department_media",
+          "wikidata_id": "Q12526",
+          "label": "Bordeaux Hôtel de préfecture de la Gironde.jpg",
+          "source_page": "https://commons.wikimedia.org/wiki/File:Bordeaux_H%C3%B4tel_de_pr%C3%A9fecture_de_la_Gironde.jpg",
+          "thumbnail_source": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b2/Bordeaux_H%C3%B4tel_de_pr%C3%A9fecture_de_la_Gironde.jpg/960px-Bordeaux_H%C3%B4tel_de_pr%C3%A9fecture_de_la_Gironde.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+          "asset": "assets/territory-candidates/33/51f9798ca8ce8b96.jpg",
+          "license": "CC BY-SA 3.0",
+          "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+          "author": "William Ellison",
+          "description": "Hôtel de préfecture de la Gironde , Rue Esprit-des-Lois cours du Chapeau-Rouge Rue Louis (Inscrit Inscrit Classé, 1935 1993 1997)",
+          "gate": "Licence vérifiée. Pertinence éditoriale et représentativité restent à valider avant promotion.",
+          "quest_id": "heritage_memory"
+        }
+      ],
+      "heritage": [],
+      "nature": [],
+      "commons": [],
+      "initiatives": [],
+      "source_health": {
+        "wikidata_department": "PASS",
+        "commons_license_media": "PASS",
+        "wikidata_search_heritage": "NO_LOCAL_MATCH",
+        "wikidata_search_nature": "NO_LOCAL_MATCH",
+        "wikidata_search_commons": "NO_LOCAL_MATCH",
+        "wikidata_search_initiatives": "NO_LOCAL_MATCH"
+      },
+      "wikidata_department": {
+        "id": "Q12526",
+        "label": "Gironde",
+        "description": "département français du sud-ouest, numéro 33",
+        "source": "https://www.wikidata.org/wiki/Q12526"
+      }
+    },
+    "29": {
+      "code": "29",
+      "name": "Finistère",
+      "scanned_at": "2026-10-04T13:43:00.437633Z",
+      "state": "DISCOVERY_CANDIDATES_NOT_CANON",
+      "promotion_authorized": false,
+      "mints_phi": false,
+      "changes_documentation_score": false,
+      "relations": {
+        "state": "VERIFIED_CANONICAL_TOPOLOGY_RELATION",
+        "relation": "same_epci",
+        "epci_cluster_count": 21,
+        "same_epci_pair_count": 1943,
+        "examples": [
+          {
+            "epci_code": "242900835",
+            "member_count": 26,
+            "communes": [
+              {
+                "code": "29014",
+                "name": "Botsorhel"
+              },
+              {
+                "code": "29023",
+                "name": "Carantec"
+              },
+              {
+                "code": "29034",
+                "name": "Le Cloître-Saint-Thégonnec"
+              },
+              {
+                "code": "29059",
+                "name": "Garlan"
+              },
+              {
+                "code": "29067",
+                "name": "Guerlesquin"
+              },
+              {
+                "code": "29073",
+                "name": "Guimaëc"
+              },
+              {
+                "code": "29079",
+                "name": "Henvic"
+              },
+              {
+                "code": "29113",
+                "name": "Lanmeur"
+              }
+            ]
+          },
+          {
+            "epci_code": "242900801",
+            "member_count": 22,
+            "communes": [
+              {
+                "code": "29043",
+                "name": "Daoulas"
+              },
+              {
+                "code": "29045",
+                "name": "Dirinon"
+              },
+              {
+                "code": "29056",
+                "name": "La Forest-Landerneau"
+              },
+              {
+                "code": "29078",
+                "name": "Hanvec"
+              },
+              {
+                "code": "29080",
+                "name": "Hôpital-Camfrout"
+              },
+              {
+                "code": "29086",
+                "name": "Irvillac"
+              },
+              {
+                "code": "29103",
+                "name": "Landerneau"
+              },
+              {
+                "code": "29116",
+                "name": "Lanneuffret"
+              }
+            ]
+          },
+          {
+            "epci_code": "242900074",
+            "member_count": 19,
+            "communes": [
+              {
+                "code": "29017",
+                "name": "Brélès"
+              },
+              {
+                "code": "29040",
+                "name": "Le Conquet"
+              },
+              {
+                "code": "29076",
+                "name": "Milizac-Guipronvel"
+              },
+              {
+                "code": "29084",
+                "name": "Île-Molène"
+              },
+              {
+                "code": "29098",
+                "name": "Lampaul-Plouarzel"
+              },
+              {
+                "code": "29099",
+                "name": "Lampaul-Ploudalmézeau"
+              },
+              {
+                "code": "29109",
+                "name": "Landunvez"
+              },
+              {
+                "code": "29112",
+                "name": "Lanildut"
+              }
+            ]
+          },
+          {
+            "epci_code": "242900751",
+            "member_count": 19,
+            "communes": [
+              {
+                "code": "29010",
+                "name": "Bodilis"
+              },
+              {
+                "code": "29038",
+                "name": "Commana"
+              },
+              {
+                "code": "29068",
+                "name": "Guiclan"
+              },
+              {
+                "code": "29074",
+                "name": "Guimiliau"
+              },
+              {
+                "code": "29097",
+                "name": "Lampaul-Guimiliau"
+              },
+              {
+                "code": "29105",
+                "name": "Landivisiau"
+              },
+              {
+                "code": "29128",
+                "name": "Loc-Eguiner"
+              },
+              {
+                "code": "29131",
+                "name": "Locmélar"
+              }
+            ]
+          },
+          {
+            "epci_code": "200067247",
+            "member_count": 17,
+            "communes": [
+              {
+                "code": "29025",
+                "name": "Cast"
+              },
+              {
+                "code": "29026",
+                "name": "Châteaulin"
+              },
+              {
+                "code": "29033",
+                "name": "Le Cloître-Pleyben"
+              },
+              {
+                "code": "29044",
+                "name": "Dinéault"
+              },
+              {
+                "code": "29062",
+                "name": "Gouézec"
+              },
+              {
+                "code": "29115",
+                "name": "Lannédern"
+              },
+              {
+                "code": "29123",
+                "name": "Lennon"
+              },
+              {
+                "code": "29142",
+                "name": "Lothey"
+              }
+            ]
+          },
+          {
+            "epci_code": "242900694",
+            "member_count": 16,
+            "communes": [
+              {
+                "code": "29002",
+                "name": "Arzano"
+              },
+              {
+                "code": "29004",
+                "name": "Bannalec"
+              },
+              {
+                "code": "29005",
+                "name": "Baye"
+              },
+              {
+                "code": "29031",
+                "name": "Clohars-Carnoët"
+              },
+              {
+                "code": "29071",
+                "name": "Guilligomarc'h"
+              },
+              {
+                "code": "29136",
+                "name": "Locunolé"
+              },
+              {
+                "code": "29147",
+                "name": "Mellac"
+              },
+              {
+                "code": "29150",
+                "name": "Moëlan-sur-Mer"
+              }
+            ]
+          }
+        ],
+        "source": "france-topology.json",
+        "gate": "Relation administrative vérifiée. Elle ne prouve aucune proximité culturelle, économique ou affective."
+      },
+      "media": [
+        {
+          "candidate_id": "media:Q3389",
+          "state": "LICENSE_VERIFIED_LOCATION_CANDIDATE",
+          "kind": "representative_department_media",
+          "wikidata_id": "Q3389",
+          "label": "Quimper 31 La Préfecture et l'Odet.jpg",
+          "source_page": "https://commons.wikimedia.org/wiki/File:Quimper_31_La_Pr%C3%A9fecture_et_l'Odet.jpg",
+          "thumbnail_source": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/84/Quimper_31_La_Pr%C3%A9fecture_et_l%27Odet.jpg/960px-Quimper_31_La_Pr%C3%A9fecture_et_l%27Odet.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+          "asset": "assets/territory-candidates/29/afd0c26766443660.jpg",
+          "license": "CC BY-SA 3.0",
+          "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+          "author": "Moreau.henri",
+          "description": "Quimper : la Préfecture du Finistère et au premier plan l'Odet",
+          "gate": "Licence vérifiée. Pertinence éditoriale et représentativité restent à valider avant promotion.",
+          "quest_id": "heritage_memory"
+        }
+      ],
+      "heritage": [],
+      "nature": [],
+      "commons": [],
+      "initiatives": [],
+      "source_health": {
+        "wikidata_department": "PASS",
+        "commons_license_media": "PASS",
+        "wikidata_search_heritage": "NO_LOCAL_MATCH",
+        "wikidata_search_nature": "NO_LOCAL_MATCH",
+        "wikidata_search_commons": "NO_LOCAL_MATCH",
+        "wikidata_search_initiatives": "NO_LOCAL_MATCH"
+      },
+      "wikidata_department": {
+        "id": "Q3389",
+        "label": "Finistère",
+        "description": "département français numéro 29",
+        "source": "https://www.wikidata.org/wiki/Q3389"
+      }
+    },
+    "67": {
+      "code": "67",
+      "name": "Bas-Rhin",
+      "scanned_at": "2026-10-04T13:43:05.213405Z",
+      "state": "DISCOVERY_CANDIDATES_NOT_CANON",
+      "promotion_authorized": false,
+      "mints_phi": false,
+      "changes_documentation_score": false,
+      "relations": {
+        "state": "VERIFIED_CANONICAL_TOPOLOGY_RELATION",
+        "relation": "same_epci",
+        "epci_cluster_count": 25,
+        "same_epci_pair_count": 6443,
+        "examples": [
+          {
+            "epci_code": "200067841",
+            "member_count": 45,
+            "communes": [
+              {
+                "code": "67002",
+                "name": "Adamswiller"
+              },
+              {
+                "code": "67009",
+                "name": "Altwiller"
+              },
+              {
+                "code": "67013",
+                "name": "Asswiller"
+              },
+              {
+                "code": "67017",
+                "name": "Baerendorf"
+              },
+              {
+                "code": "67029",
+                "name": "Berg"
+              },
+              {
+                "code": "67036",
+                "name": "Bettwiller"
+              },
+              {
+                "code": "67047",
+                "name": "Bissert"
+              },
+              {
+                "code": "67070",
+                "name": "Burbach"
+              }
+            ]
+          },
+          {
+            "epci_code": "200067783",
+            "member_count": 38,
+            "communes": [
+              {
+                "code": "67044",
+                "name": "Bischholtz"
+              },
+              {
+                "code": "67057",
+                "name": "Bosselshausen"
+              },
+              {
+                "code": "67061",
+                "name": "Bouxwiller"
+              },
+              {
+                "code": "67068",
+                "name": "Buswiller"
+              },
+              {
+                "code": "67103",
+                "name": "Dossenheim-sur-Zinsel"
+              },
+              {
+                "code": "67126",
+                "name": "Erckartswiller"
+              },
+              {
+                "code": "67133",
+                "name": "Eschbourg"
+              },
+              {
+                "code": "67148",
+                "name": "Frohmuhl"
+              }
+            ]
+          },
+          {
+            "epci_code": "200067874",
+            "member_count": 36,
+            "communes": [
+              {
+                "code": "67023",
+                "name": "Batzendorf"
+              },
+              {
+                "code": "67033",
+                "name": "Bernolsheim"
+              },
+              {
+                "code": "67035",
+                "name": "Berstheim"
+              },
+              {
+                "code": "67039",
+                "name": "Bilwisheim"
+              },
+              {
+                "code": "67046",
+                "name": "Bischwiller"
+              },
+              {
+                "code": "67048",
+                "name": "Bitschhoffen"
+              },
+              {
+                "code": "67067",
+                "name": "Brumath"
+              },
+              {
+                "code": "67087",
+                "name": "Dauendorf"
+              }
+            ]
+          },
+          {
+            "epci_code": "200068112",
+            "member_count": 35,
+            "communes": [
+              {
+                "code": "67004",
+                "name": "Sommerau"
+              },
+              {
+                "code": "67006",
+                "name": "Altenheim"
+              },
+              {
+                "code": "67089",
+                "name": "Dettwiller"
+              },
+              {
+                "code": "67096",
+                "name": "Dimbsthal"
+              },
+              {
+                "code": "67117",
+                "name": "Eckartswiller"
+              },
+              {
+                "code": "67129",
+                "name": "Ernolsheim-lès-Saverne"
+              },
+              {
+                "code": "67145",
+                "name": "Friedolsheim"
+              },
+              {
+                "code": "67149",
+                "name": "Furchhausen"
+              }
+            ]
+          },
+          {
+            "epci_code": "246700488",
+            "member_count": 33,
+            "communes": [
+              {
+                "code": "67001",
+                "name": "Achenheim"
+              },
+              {
+                "code": "67043",
+                "name": "Bischheim"
+              },
+              {
+                "code": "67049",
+                "name": "Blaesheim"
+              },
+              {
+                "code": "67065",
+                "name": "Breuschwickersheim"
+              },
+              {
+                "code": "67118",
+                "name": "Eckbolsheim"
+              },
+              {
+                "code": "67119",
+                "name": "Eckwersheim"
+              },
+              {
+                "code": "67124",
+                "name": "Entzheim"
+              },
+              {
+                "code": "67131",
+                "name": "Eschau"
+              }
+            ]
+          },
+          {
+            "epci_code": "200067924",
+            "member_count": 28,
+            "communes": [
+              {
+                "code": "67028",
+                "name": "Benfeld"
+              },
+              {
+                "code": "67054",
+                "name": "Bolsenheim"
+              },
+              {
+                "code": "67055",
+                "name": "Boofzheim"
+              },
+              {
+                "code": "67086",
+                "name": "Daubensand"
+              },
+              {
+                "code": "67090",
+                "name": "Diebolsheim"
+              },
+              {
+                "code": "67130",
+                "name": "Erstein"
+              },
+              {
+                "code": "67146",
+                "name": "Friesenheim"
+              },
+              {
+                "code": "67154",
+                "name": "Gerstheim"
+              }
+            ]
+          }
+        ],
+        "source": "france-topology.json",
+        "gate": "Relation administrative vérifiée. Elle ne prouve aucune proximité culturelle, économique ou affective."
+      },
+      "media": [
+        {
+          "candidate_id": "media:Q12717",
+          "state": "LICENSE_VERIFIED_LOCATION_CANDIDATE",
+          "kind": "representative_department_media",
+          "wikidata_id": "Q12717",
+          "label": "Strasbourg-Préfecture.jpg",
+          "source_page": "https://commons.wikimedia.org/wiki/File:Strasbourg-Pr%C3%A9fecture.jpg",
+          "thumbnail_source": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/7a/Strasbourg-Pr%C3%A9fecture.jpg/960px-Strasbourg-Pr%C3%A9fecture.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+          "asset": "assets/territory-candidates/67/5a92571c42481aa7.jpg",
+          "license": "CC BY-SA 3.0",
+          "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+          "author": "Ji-Elle",
+          "description": "Préfecture de la Région Alsace ; Préfecture du Bas-Rhin (Strasbourg)",
+          "gate": "Licence vérifiée. Pertinence éditoriale et représentativité restent à valider avant promotion.",
+          "quest_id": "heritage_memory"
+        }
+      ],
+      "heritage": [],
+      "nature": [],
+      "commons": [],
+      "initiatives": [],
+      "source_health": {
+        "wikidata_department": "PASS",
+        "commons_license_media": "PASS",
+        "wikidata_search_heritage": "NO_LOCAL_MATCH",
+        "wikidata_search_nature": "NO_LOCAL_MATCH",
+        "wikidata_search_commons": "NO_LOCAL_MATCH",
+        "wikidata_search_initiatives": "NO_LOCAL_MATCH"
+      },
+      "wikidata_department": {
+        "id": "Q12717",
+        "label": "Bas-Rhin",
+        "description": "département français numéro 67, circonscription administrative française de la collectivité européenne d'Alsace",
+        "source": "https://www.wikidata.org/wiki/Q12717"
+      }
+    },
+    "64": {
+      "code": "64",
+      "name": "Pyrénées-Atlantiques",
+      "scanned_at": "2026-10-04T13:43:09.681231Z",
+      "state": "DISCOVERY_CANDIDATES_NOT_CANON",
+      "promotion_authorized": false,
+      "mints_phi": false,
+      "changes_documentation_score": false,
+      "relations": {
+        "state": "VERIFIED_CANONICAL_TOPOLOGY_RELATION",
+        "relation": "same_epci",
+        "epci_cluster_count": 10,
+        "same_epci_pair_count": 22476,
+        "examples": [
+          {
+            "epci_code": "200067106",
+            "member_count": 158,
+            "communes": [
+              {
+                "code": "64008",
+                "name": "Ahaxe-Alciette-Bascassan"
+              },
+              {
+                "code": "64009",
+                "name": "Ahetze"
+              },
+              {
+                "code": "64010",
+                "name": "Aïcirits-Camou-Suhast"
+              },
+              {
+                "code": "64011",
+                "name": "Aincille"
+              },
+              {
+                "code": "64012",
+                "name": "Ainharp"
+              },
+              {
+                "code": "64013",
+                "name": "Ainhice-Mongelos"
+              },
+              {
+                "code": "64014",
+                "name": "Ainhoa"
+              },
+              {
+                "code": "64015",
+                "name": "Alçay-Alçabéhéty-Sunharette"
+              }
+            ]
+          },
+          {
+            "epci_code": "200067296",
+            "member_count": 73,
+            "communes": [
+              {
+                "code": "64001",
+                "name": "Aast"
+              },
+              {
+                "code": "64002",
+                "name": "Abère"
+              },
+              {
+                "code": "64021",
+                "name": "Andoins"
+              },
+              {
+                "code": "64027",
+                "name": "Anos"
+              },
+              {
+                "code": "64028",
+                "name": "Anoye"
+              },
+              {
+                "code": "64052",
+                "name": "Arricau-Bordes"
+              },
+              {
+                "code": "64053",
+                "name": "Arrien"
+              },
+              {
+                "code": "64056",
+                "name": "Arrosès"
+              }
+            ]
+          },
+          {
+            "epci_code": "200067239",
+            "member_count": 66,
+            "communes": [
+              {
+                "code": "64043",
+                "name": "Argelos"
+              },
+              {
+                "code": "64044",
+                "name": "Arget"
+              },
+              {
+                "code": "64063",
+                "name": "Arzacq-Arraziguet"
+              },
+              {
+                "code": "64070",
+                "name": "Astis"
+              },
+              {
+                "code": "64073",
+                "name": "Aubin"
+              },
+              {
+                "code": "64074",
+                "name": "Aubous"
+              },
+              {
+                "code": "64077",
+                "name": "Auga"
+              },
+              {
+                "code": "64078",
+                "name": "Auriac"
+              }
+            ]
+          },
+          {
+            "epci_code": "200039204",
+            "member_count": 60,
+            "communes": [
+              {
+                "code": "64003",
+                "name": "Abidos"
+              },
+              {
+                "code": "64005",
+                "name": "Abos"
+              },
+              {
+                "code": "64042",
+                "name": "Argagnon"
+              },
+              {
+                "code": "64048",
+                "name": "Arnos"
+              },
+              {
+                "code": "64057",
+                "name": "Arthez-de-Béarn"
+              },
+              {
+                "code": "64061",
+                "name": "Artix"
+              },
+              {
+                "code": "64087",
+                "name": "Baigts-de-Béarn"
+              },
+              {
+                "code": "64088",
+                "name": "Balansun"
+              }
+            ]
+          },
+          {
+            "epci_code": "200067288",
+            "member_count": 53,
+            "communes": [
+              {
+                "code": "64004",
+                "name": "Abitain"
+              },
+              {
+                "code": "64022",
+                "name": "Andrein"
+              },
+              {
+                "code": "64025",
+                "name": "Angous"
+              },
+              {
+                "code": "64032",
+                "name": "Araujuzon"
+              },
+              {
+                "code": "64033",
+                "name": "Araux"
+              },
+              {
+                "code": "64071",
+                "name": "Athos-Aspis"
+              },
+              {
+                "code": "64075",
+                "name": "Audaux"
+              },
+              {
+                "code": "64082",
+                "name": "Auterrive"
+              }
+            ]
+          },
+          {
+            "epci_code": "200067262",
+            "member_count": 48,
+            "communes": [
+              {
+                "code": "64006",
+                "name": "Accous"
+              },
+              {
+                "code": "64007",
+                "name": "Agnos"
+              },
+              {
+                "code": "64029",
+                "name": "Aramits"
+              },
+              {
+                "code": "64039",
+                "name": "Aren"
+              },
+              {
+                "code": "64040",
+                "name": "Arette"
+              },
+              {
+                "code": "64064",
+                "name": "Asasp-Arros"
+              },
+              {
+                "code": "64085",
+                "name": "Aydius"
+              },
+              {
+                "code": "64104",
+                "name": "Bedous"
+              }
+            ]
+          }
+        ],
+        "source": "france-topology.json",
+        "gate": "Relation administrative vérifiée. Elle ne prouve aucune proximité culturelle, économique ou affective."
+      },
+      "media": [],
+      "heritage": [],
+      "nature": [],
+      "commons": [],
+      "initiatives": [],
+      "source_health": {
+        "wikidata_department": "PASS",
+        "commons_license_media": "NO_LICENSED_MEDIA",
+        "wikidata_search_heritage": "NO_LOCAL_MATCH",
+        "wikidata_search_nature": "NO_LOCAL_MATCH",
+        "wikidata_search_commons": "NO_LOCAL_MATCH",
+        "wikidata_search_initiatives": "NO_LOCAL_MATCH"
+      },
+      "wikidata_department": {
+        "id": "Q12703",
+        "label": "Pyrénées-Atlantiques",
+        "description": "département français numéro 64, en Nouvelle-Aquitaine",
+        "source": "https://www.wikidata.org/wiki/Q12703"
+      }
+    },
+    "31": {
+      "code": "31",
+      "name": "Haute-Garonne",
+      "scanned_at": "2026-10-04T13:43:13.740433Z",
+      "state": "DISCOVERY_CANDIDATES_NOT_CANON",
+      "promotion_authorized": false,
+      "mints_phi": false,
+      "changes_documentation_score": false,
+      "relations": {
+        "state": "VERIFIED_CANONICAL_TOPOLOGY_RELATION",
+        "relation": "same_epci",
+        "epci_cluster_count": 18,
+        "same_epci_pair_count": 15527,
+        "examples": [
+          {
+            "epci_code": "200072643",
+            "member_count": 104,
+            "communes": [
+              {
+                "code": "31001",
+                "name": "Agassac"
+              },
+              {
+                "code": "31005",
+                "name": "Alan"
+              },
+              {
+                "code": "31007",
+                "name": "Ambax"
+              },
+              {
+                "code": "31008",
+                "name": "Anan"
+              },
+              {
+                "code": "31021",
+                "name": "Aspret-Sarrat"
+              },
+              {
+                "code": "31023",
+                "name": "Aulon"
+              },
+              {
+                "code": "31028",
+                "name": "Aurignac"
+              },
+              {
+                "code": "31031",
+                "name": "Ausson"
+              }
+            ]
+          },
+          {
+            "epci_code": "200072635",
+            "member_count": 76,
+            "communes": [
+              {
+                "code": "31009",
+                "name": "Antichan-de-Frontignes"
+              },
+              {
+                "code": "31010",
+                "name": "Antignac"
+              },
+              {
+                "code": "31013",
+                "name": "Ardiège"
+              },
+              {
+                "code": "31015",
+                "name": "Argut-Dessous"
+              },
+              {
+                "code": "31017",
+                "name": "Arlos"
+              },
+              {
+                "code": "31019",
+                "name": "Artigue"
+              },
+              {
+                "code": "31040",
+                "name": "Bachos"
+              },
+              {
+                "code": "31041",
+                "name": "Bagiry"
+              }
+            ]
+          },
+          {
+            "epci_code": "200071298",
+            "member_count": 58,
+            "communes": [
+              {
+                "code": "31002",
+                "name": "Aignes"
+              },
+              {
+                "code": "31006",
+                "name": "Albiac"
+              },
+              {
+                "code": "31026",
+                "name": "Auriac-sur-Vendinelle"
+              },
+              {
+                "code": "31029",
+                "name": "Aurin"
+              },
+              {
+                "code": "31037",
+                "name": "Avignonet-Lauragais"
+              },
+              {
+                "code": "31054",
+                "name": "Beauteville"
+              },
+              {
+                "code": "31055",
+                "name": "Beauville"
+              },
+              {
+                "code": "31082",
+                "name": "Bourg-Saint-Bernard"
+              }
+            ]
+          },
+          {
+            "epci_code": "200073146",
+            "member_count": 55,
+            "communes": [
+              {
+                "code": "31011",
+                "name": "Arbas"
+              },
+              {
+                "code": "31012",
+                "name": "Arbon"
+              },
+              {
+                "code": "31014",
+                "name": "Arguenos"
+              },
+              {
+                "code": "31018",
+                "name": "Arnaud-Guilhem"
+              },
+              {
+                "code": "31020",
+                "name": "Aspet"
+              },
+              {
+                "code": "31030",
+                "name": "Ausseing"
+              },
+              {
+                "code": "31034",
+                "name": "Auzas"
+              },
+              {
+                "code": "31050",
+                "name": "Beauchalot"
+              }
+            ]
+          },
+          {
+            "epci_code": "200068815",
+            "member_count": 48,
+            "communes": [
+              {
+                "code": "31051",
+                "name": "Beaufort"
+              },
+              {
+                "code": "31065",
+                "name": "Bérat"
+              },
+              {
+                "code": "31084",
+                "name": "Boussens"
+              },
+              {
+                "code": "31101",
+                "name": "Cambernard"
+              },
+              {
+                "code": "31119",
+                "name": "Castelnau-Picampeau"
+              },
+              {
+                "code": "31122",
+                "name": "Casties-Labrande"
+              },
+              {
+                "code": "31135",
+                "name": "Cazères"
+              },
+              {
+                "code": "31153",
+                "name": "Couladère"
+              }
+            ]
+          },
+          {
+            "epci_code": "243100518",
+            "member_count": 37,
+            "communes": [
+              {
+                "code": "31003",
+                "name": "Aigrefeuille"
+              },
+              {
+                "code": "31022",
+                "name": "Aucamville"
+              },
+              {
+                "code": "31032",
+                "name": "Aussonne"
+              },
+              {
+                "code": "31044",
+                "name": "Balma"
+              },
+              {
+                "code": "31053",
+                "name": "Beaupuy"
+              },
+              {
+                "code": "31056",
+                "name": "Beauzelle"
+              },
+              {
+                "code": "31069",
+                "name": "Blagnac"
+              },
+              {
+                "code": "31088",
+                "name": "Brax"
+              }
+            ]
+          }
+        ],
+        "source": "france-topology.json",
+        "gate": "Relation administrative vérifiée. Elle ne prouve aucune proximité culturelle, économique ou affective."
+      },
+      "media": [
+        {
+          "candidate_id": "media:Q12538",
+          "state": "LICENSE_VERIFIED_LOCATION_CANDIDATE",
+          "kind": "representative_department_media",
+          "wikidata_id": "Q12538",
+          "label": "Prefecture-Tlse 12.JPG",
+          "source_page": "https://commons.wikimedia.org/wiki/File:Prefecture-Tlse_12.JPG",
+          "thumbnail_source": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/17/Prefecture-Tlse_12.JPG/960px-Prefecture-Tlse_12.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+          "asset": "assets/territory-candidates/31/e29b41aadc929982.jpg",
+          "license": "CC BY-SA 3.0",
+          "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+          "author": "Traumrune",
+          "description": "Préfecture de Toulouse dans la première cour.",
+          "gate": "Licence vérifiée. Pertinence éditoriale et représentativité restent à valider avant promotion.",
+          "quest_id": "heritage_memory"
+        }
+      ],
+      "heritage": [],
+      "nature": [],
+      "commons": [],
+      "initiatives": [],
+      "source_health": {
+        "wikidata_department": "PASS",
+        "commons_license_media": "PASS",
+        "wikidata_search_heritage": "NO_LOCAL_MATCH",
+        "wikidata_search_nature": "NO_LOCAL_MATCH",
+        "wikidata_search_commons": "NO_LOCAL_MATCH",
+        "wikidata_search_initiatives": "NO_LOCAL_MATCH"
+      },
+      "wikidata_department": {
+        "id": "Q12538",
+        "label": "Haute-Garonne",
+        "description": "département français numéro 31, en région Occitanie",
+        "source": "https://www.wikidata.org/wiki/Q12538"
+      }
+    }
+  }
+}
