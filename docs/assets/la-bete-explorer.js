@@ -8,38 +8,83 @@ const id=x=>document.getElementById(x), append=(p,...c)=>{c.forEach(x=>x&&p.appe
 const button=(text,action,cls)=>{const b=el('button',text,cls);b.type='button';b.addEventListener('click',action);return b;};
 const link=(label,href,cls)=>{const a=el('a',label,cls);a.href=href;if(href.startsWith('#/'))a.dataset.muRoute=href;else{a.target='_blank';a.rel='noopener noreferrer';}return a;};
 const records=new Map(), moves=[], proofViews=new Map(), communeShards=new Map(), shardPromises=new Map();
-let topology=null,topologyPromise=null;let serial=0,current=null,territories=null,territoryPromise=null,renderToken=0,latest=null,proofNode=null,proofScroll=0;
+let topology=null,topologyPromise=null;let serial=0,current=null,territories=null,territoryPromise=null,renderToken=0,latest=null,proofNode=null,proofScroll=0,territoryCulture=null,territoryCulturePromise=null,phiPolicy=null,phiPromise=null;
 const legacyChat=id('dialogue-public'), chatPlace=document.createComment('existing-dialogue-home');legacyChat.before(chatPlace);
 const root=el('div',undefined,'muApp');root.id='multiunivers';
 const AUDIENCE_MODES={simple:'Essentiel',explain:'Comprendre',expert:'Expert'};
-let audienceMode='simple';
-root.dataset.audienceMode=audienceMode;
+const UI_LOCALES={fr:'FR',en:'EN',es:'ES',local:'Local'};
+const I18N={
+ en:{
+  mode_simple:'Essential',mode_explain:'Understand',mode_expert:'Expert',
+  nav_home:'Home',nav_public:'Understand',nav_act:'Take action',nav_decide:'Decide together',nav_services:'Personal help',nav_data:'My data',nav_mobile:'Mobile',
+  ask:'Ask a question',read:'Read article',search:'Ask a question or search a topic…',
+  atlas_kicker:'START WITH A QUESTION',atlas_title:'What do you want to understand?',atlas_sub:'No jargon required: start with a concrete question, then open the sources if you want to go further.',
+  q_rate:'Is France borrowing at a higher rate than before?',q_when:'When does it actually hit the budget?',q_cost:'How much could it add?',q_sources:'Where do the numbers come from?',q_known:'What do we really know today?',q_ask:'Can I ask my own question?',
+  q_rate_a:'The tracked 10-year rate is {rate}%. The next question is when that cost actually reaches the budget.',q_when_a:'Not all at once. Debt is refinanced progressively, so 12, 36, 60 and 120 month views show how the effect travels through time.',q_cost_a:'La Bête calculates conditional scenarios from available data. They are not forecasts; they show orders of magnitude under different rate assumptions.',q_sources_a:'Each important figure is linked to a source and a date. Missing or stale sources are flagged rather than silently filled in.',q_known_a:'{warnings} source(s) currently need attention. Observed facts, calculations and hypotheses remain separate.',q_ask_a:'Yes. The dialogue keeps the context of the page you are on without turning your question into evidence or a decision.',
+  dept_kicker:'YOUR DEPARTMENT, BEYOND THE NUMBERS',dept_title:'Discover {name} differently',dept_sub:'Places, languages, heritage, skills, memory and local initiatives — with sources, and room for residents to add what the data misses.',
+  phi_title:'Φ Coins · reward useful local knowledge',phi_sub:'Φ are non-monetary, non-transferable civic recognition points. They are awarded only after a contribution is verified.',contribute:'Contribute to this department',top_places:'Main communes in the loaded API data',local_lang:'Languages & local expressions',story_open:'What should this department tell better?',
+  local_unverified:'Local mode is open for documented variants only; no dialect is invented automatically.'
+ },
+ es:{
+  mode_simple:'Esencial',mode_explain:'Comprender',mode_expert:'Experto',
+  nav_home:'Inicio',nav_public:'Comprender',nav_act:'Hacer una gestión',nav_decide:'Decidir juntos',nav_services:'Ayuda personalizada',nav_data:'Mis datos',nav_mobile:'Móvil',
+  ask:'Hacer una pregunta',read:'Leer el artículo',search:'Haz una pregunta o busca un tema…',
+  atlas_kicker:'EMPIEZA POR UNA PREGUNTA',atlas_title:'¿Qué quieres entender?',atlas_sub:'No necesitas conocer la jerga: empieza por una pregunta concreta y abre las fuentes si quieres profundizar.',
+  q_rate:'¿Francia se endeuda hoy a un tipo más alto que antes?',q_when:'¿Cuándo pesa de verdad en el presupuesto?',q_cost:'¿Cuánto puede costar de más?',q_sources:'¿De dónde salen las cifras?',q_known:'¿Qué sabemos realmente hoy?',q_ask:'¿Puedo hacer mi propia pregunta?',
+  q_rate_a:'El tipo a 10 años seguido aquí es {rate} %. La cuestión siguiente es cuándo ese coste llega realmente al presupuesto.',q_when_a:'No de golpe. La deuda se renueva progresivamente: los horizontes de 12, 36, 60 y 120 meses muestran cómo se transmite el efecto.',q_cost_a:'La Bête calcula escenarios condicionales con los datos disponibles. No son predicciones: muestran órdenes de magnitud según los tipos.',q_sources_a:'Cada cifra importante está vinculada a una fuente y una fecha. Si una fuente falta o envejece, La Bête lo indica en lugar de rellenar el hueco.',q_known_a:'{warnings} fuente(s) requieren atención. Hechos observados, cálculos e hipótesis siguen separados.',q_ask_a:'Sí. El diálogo conserva el contexto de la página sin convertir tu pregunta en una prueba ni en una decisión.',
+  dept_kicker:'TU DEPARTAMENTO, MÁS ALLÁ DE LAS CIFRAS',dept_title:'Descubre {name} de otra manera',dept_sub:'Lugares, lenguas, patrimonio, saber hacer, memoria e iniciativas locales — con fuentes y espacio para aportar lo que los datos no cuentan.',
+  phi_title:'Φ Coins · reconocer el conocimiento local útil',phi_sub:'Los Φ son puntos cívicos no monetarios y no transferibles. Solo se conceden después de verificar una contribución.',contribute:'Contribuir a este departamento',top_places:'Principales municipios en los datos API cargados',local_lang:'Lenguas y expresiones locales',story_open:'¿Qué debería contar mejor este departamento?',
+  local_unverified:'El modo local solo usa variantes documentadas; nunca se inventa automáticamente un habla.'
+ }
+};
+let audienceMode='simple',uiLocale='fr';
+root.dataset.audienceMode=audienceMode;root.dataset.uiLocale=uiLocale;
+const tr=(key,fallback)=>I18N[uiLocale]?.[key]||fallback;
+const fill=(text,values={})=>String(text).replace(/\{(\w+)\}/g,(_,k)=>values[k]??'');
 const header=el('header',undefined,'muHeader');
 const mark=link('ojO','#/atlas','muBrand');mark.setAttribute('aria-label','La Bête · accueil');
 const brand=append(el('div',undefined,'muBrandBlock'),mark,el('span','COMPRENDRE · VÉRIFIER · AGIR','muBrandSub'));
 const searchForm=el('form',undefined,'muSearch');searchForm.setAttribute('role','search');
 const searchInput=el('input');searchInput.id='muSearchInput';searchInput.type='search';searchInput.placeholder='Posez une question ou cherchez un sujet…';searchInput.maxLength=150;searchInput.setAttribute('aria-label','Rechercher une réponse, un sujet ou une source');
 const searchSubmit=el('button','Chercher');searchSubmit.type='submit';append(searchForm,searchInput,searchSubmit);
-const headActions=append(el('div',undefined,'muHeadActions'),link('La Bête','#/presence','muPresenceShortcut'),button('Poser une question',()=>openChat(),'muPrimary'),link('Lire l’article','#/lecture','muReadingLink'));
+const presenceShortcut=link('La Bête','#/presence','muPresenceShortcut'),askShortcut=button('Poser une question',()=>openChat(),'muPrimary'),readingShortcut=link('Lire l’article','#/lecture','muReadingLink');
+const headActions=append(el('div',undefined,'muHeadActions'),presenceShortcut,askShortcut,readingShortcut);
 append(header,brand,searchForm,headActions);root.append(header);
-const audienceBar=el('div',undefined,'muAudienceBar');audienceBar.setAttribute('aria-label','Niveau de lecture');
-audienceBar.append(el('span','Niveau de lecture','muAudienceLabel'));
+const audienceBar=el('div',undefined,'muAudienceBar');audienceBar.setAttribute('aria-label','Niveau de lecture et langue');
+const audienceLabel=el('span','Niveau de lecture','muAudienceLabel');audienceBar.append(audienceLabel);
 const audienceButtons=[];
 for(const [key,label] of Object.entries(AUDIENCE_MODES)){const b=button(label,()=>setAudienceMode(key),'muAudienceButton');b.id='muMode-'+key;b.dataset.mode=key;audienceButtons.push(b);audienceBar.append(b);}
+const localeDivider=el('span','·','muLocaleDivider');audienceBar.append(localeDivider);
+const localeButtons=[];
+for(const [key,label] of Object.entries(UI_LOCALES)){const b=button(label,()=>setUiLocale(key),'muLocaleButton');b.id='muLang-'+key;b.dataset.locale=key;localeButtons.push(b);audienceBar.append(b);}
 root.append(audienceBar);
+let navLinks=null;
 function syncAudienceMode(){
  root.dataset.audienceMode=audienceMode;
- audienceButtons.forEach(b=>{b.setAttribute('aria-pressed',String(b.dataset.mode===audienceMode));});
- searchInput.placeholder=audienceMode==='expert'?'Un objet, une source, un identifiant…':'Posez une question ou cherchez un sujet…';
+ audienceButtons.forEach(b=>{b.textContent=tr('mode_'+b.dataset.mode,AUDIENCE_MODES[b.dataset.mode]);b.setAttribute('aria-pressed',String(b.dataset.mode===audienceMode));});
+ searchInput.placeholder=audienceMode==='expert'?(uiLocale==='en'?'An object, a source, an identifier…':uiLocale==='es'?'Un objeto, una fuente, un identificador…':'Un objet, une source, un identifiant…'):tr('search','Posez une question ou cherchez un sujet…');
+}
+function syncUiLocale(){
+ root.dataset.uiLocale=uiLocale;
+ localeButtons.forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.locale===uiLocale)));
+ askShortcut.textContent=tr('ask','Poser une question');readingShortcut.textContent=tr('read','Lire l’article');
+ searchInput.placeholder=audienceMode==='expert'?(uiLocale==='en'?'An object, a source, an identifier…':uiLocale==='es'?'Un objeto, una fuente, un identificador…':'Un objet, une source, un identifiant…'):tr('search','Posez une question ou cherchez un sujet…');
+ if(navLinks){navLinks.home.textContent='◉  '+tr('nav_home','Accueil');navLinks.public.textContent='○  '+tr('nav_public','Comprendre');navLinks.act.textContent='↗  '+tr('nav_act','Faire une démarche');navLinks.decide.textContent='◇  '+tr('nav_decide','Décider ensemble');navLinks.services.textContent='◆  '+tr('nav_services','Aide personnalisée');navLinks.data.textContent='◇  '+tr('nav_data','Mes données');navLinks.mobile.textContent='▣  '+tr('nav_mobile','Sur mobile');}
+ syncAudienceMode();
 }
 function setAudienceMode(mode){
  if(!AUDIENCE_MODES[mode]||mode===audienceMode)return;
  audienceMode=mode;syncAudienceMode();if(current)renderCurrent(false,false);
 }
-syncAudienceMode();
+function setUiLocale(locale){
+ if(!UI_LOCALES[locale]||locale===uiLocale)return;
+ uiLocale=locale;syncUiLocale();if(current)renderCurrent(false,false);
+}
 let mobileAccess=null;
-const nav=el('nav',undefined,'muRail');nav.setAttribute('aria-label','Chemins de lecture');nav.append(link('◉  Accueil','#/atlas','muRailAtlas'),link('○  Comprendre','#/public'),link('↗  Faire une démarche','#/agir'),link('◇  Décider ensemble','#/scic'),link('◆  Aide personnalisée','#/services'),link('◇  Mes données','#/prive'),link('▣  Sur mobile','#/mobile'));
-M.UNIVERSES.forEach(u=>{const a=link(u.symbol+'  '+u.label,M.route('univers',u.id),'muDeepNav');nav.append(a);});root.append(nav);
+const nav=el('nav',undefined,'muRail');nav.setAttribute('aria-label','Chemins de lecture');
+navLinks={home:link('◉  Accueil','#/atlas','muRailAtlas'),public:link('○  Comprendre','#/public'),act:link('↗  Faire une démarche','#/agir'),decide:link('◇  Décider ensemble','#/scic'),services:link('◆  Aide personnalisée','#/services'),data:link('◇  Mes données','#/prive'),mobile:link('▣  Sur mobile','#/mobile')};
+nav.append(navLinks.home,navLinks.public,navLinks.act,navLinks.decide,navLinks.services,navLinks.data,navLinks.mobile);
+M.UNIVERSES.forEach(u=>{const a=link(u.symbol+'  '+u.label,M.route('univers',u.id),'muDeepNav');nav.append(a);});root.append(nav);syncUiLocale();
 const workspace=el('div',undefined,'muWorkspace');
 const trailbar=el('div',undefined,'muTrailbar');
 const back=button('← Retour',()=>{if(current?.depth>0)history.back();else navigate('#/atlas');},'muBack');back.id='muBack';
@@ -86,16 +131,37 @@ function qa(question,answer,href,label='Comprendre pourquoi'){
 }
 function questionHub(g){
  const live=g.live||{},obs=live.observed||{},summary=live.summary||{},grid=el('section',undefined,'muQuestionGrid');
- const tec=obs.tec10_pct??obs.tec_10y_pct??obs.tec10??null;
+ const tec=obs.tec10_pct??obs.tec_10y_pct??obs.tec10??null,warnings=String(summary.warnings||0);
+ const rateAnswer=tec!==null?fill(tr('q_rate_a','Le taux à 10 ans suivi ici est de {rate} %. La question importante est ensuite de savoir quand ce coût se transmet réellement au budget.'),{rate:tec}):(uiLocale==='en'?'The current rate is tracked, but its value is unavailable in this view.':uiLocale==='es'?'El tipo actual se sigue, pero su valor no está disponible en esta vista.':'Le taux courant est suivi, mais sa valeur n’est pas disponible dans cet affichage.');
  append(grid,
-  qa('La France emprunte-t-elle plus cher qu’avant ?',tec!==null?'Le taux à 10 ans suivi ici est de '+tec+' %. La question importante est ensuite de savoir quand ce coût se transmet réellement au budget.':'Le taux courant est suivi, mais sa valeur n’est pas disponible dans cet affichage.','#/analyse','Voir les taux'),
-  qa('Quand est-ce que ça pèse vraiment sur le budget ?','Pas d’un seul coup. La dette est renouvelée progressivement : les horizons de 12, 36, 60 et 120 mois montrent comment le choc se transmet dans le temps.','#/horizons','Voir la transmission'),
-  qa('Combien cela peut-il coûter en plus ?','La Bête calcule des scénarios conditionnels à partir des données disponibles. Ce ne sont pas des prédictions : ils servent à voir l’ordre de grandeur selon les taux.','#/analyse','Tester les scénarios'),
-  qa('D’où viennent les chiffres ?','Chaque valeur importante est reliée à une source et à une date. Quand une source manque ou vieillit, La Bête le signale au lieu de compléter au hasard.','#/univers/preuves','Voir les sources'),
-  qa('Qu’est-ce qu’on sait vraiment aujourd’hui ?',String(summary.warnings||0)+' source(s) demandent actuellement de l’attention. Les faits observés, les calculs et les hypothèses restent séparés.','#/public','Voir ce qui est établi'),
-  qa('Puis-je poser ma propre question ?','Oui. Le dialogue reprend le contexte de la page où vous êtes, sans transformer votre question en preuve ni en décision.',null)
+  qa(tr('q_rate','La France emprunte-t-elle plus cher qu’avant ?'),rateAnswer,'#/analyse',uiLocale==='en'?'See rates':uiLocale==='es'?'Ver tipos':'Voir les taux'),
+  qa(tr('q_when','Quand est-ce que ça pèse vraiment sur le budget ?'),tr('q_when_a','Pas d’un seul coup. La dette est renouvelée progressivement : les horizons de 12, 36, 60 et 120 mois montrent comment le choc se transmet dans le temps.'),'#/horizons',uiLocale==='en'?'See transmission':uiLocale==='es'?'Ver transmisión':'Voir la transmission'),
+  qa(tr('q_cost','Combien cela peut-il coûter en plus ?'),tr('q_cost_a','La Bête calcule des scénarios conditionnels à partir des données disponibles. Ce ne sont pas des prédictions : ils servent à voir l’ordre de grandeur selon les taux.'),'#/analyse',uiLocale==='en'?'Test scenarios':uiLocale==='es'?'Probar escenarios':'Tester les scénarios'),
+  qa(tr('q_sources','D’où viennent les chiffres ?'),tr('q_sources_a','Chaque valeur importante est reliée à une source et à une date. Quand une source manque ou vieillit, La Bête le signale au lieu de compléter au hasard.'),'#/univers/preuves',uiLocale==='en'?'See sources':uiLocale==='es'?'Ver fuentes':'Voir les sources'),
+  qa(tr('q_known','Qu’est-ce qu’on sait vraiment aujourd’hui ?'),fill(tr('q_known_a','{warnings} source(s) demandent actuellement de l’attention. Les faits observés, les calculs et les hypothèses restent séparés.'),{warnings}),'#/public',uiLocale==='en'?'What is established':uiLocale==='es'?'Qué está establecido':'Voir ce qui est établi'),
+  qa(tr('q_ask','Puis-je poser ma propre question ?'),tr('q_ask_a','Oui. Le dialogue reprend le contexte de la page où vous êtes, sans transformer votre question en preuve ni en décision.'),null)
  );
- const ask=button('Poser ma question',()=>openChat(),'muPrimary');grid.append(ask);return grid;
+ const ask=button(tr('ask','Poser ma question'),()=>openChat(),'muPrimary');grid.append(ask);return grid;
+}
+function phiRewardLabel(r){
+ const en={verified_official_source:'Add a verified official source',material_correction:'Correct a demonstrated error',verified_translation:'Translate a page with review',local_language:'Document a local word or variant with context',heritage_story:'Add sourced heritage, skills or local memory',accessibility:'Improve accessibility or clarity',local_place_event:'Add a verifiable local place or event'};
+ const es={verified_official_source:'Añadir una fuente oficial verificada',material_correction:'Corregir un error demostrado',verified_translation:'Traducir una ficha con revisión',local_language:'Documentar una palabra o variante local con contexto',heritage_story:'Añadir patrimonio, saber hacer o memoria local con fuente',accessibility:'Mejorar accesibilidad o claridad',local_place_event:'Añadir un lugar o evento local verificable'};
+ return uiLocale==='en'?(en[r.id]||r.label):uiLocale==='es'?(es[r.id]||r.label):r.label;
+}
+function storySlotLabel(slot){
+ const en={places:'Places that matter',heritage:'Heritage & memory',languages:'Languages & expressions',know_how:'Skills & crafts',people:'People & local stories',events:'Events & traditions',nature:'Landscapes, nature & risks',initiatives:'Useful initiatives today'};
+ const es={places:'Lugares que importan',heritage:'Patrimonio y memoria',languages:'Lenguas y expresiones',know_how:'Saberes y oficios',people:'Personas y relatos locales',events:'Eventos y tradiciones',nature:'Paisajes, naturaleza y riesgos',initiatives:'Iniciativas útiles hoy'};
+ return uiLocale==='en'?(en[slot.id]||slot.label):uiLocale==='es'?(es[slot.id]||slot.label):slot.label;
+}
+function phiPanel(departmentCode=null){
+ if(!phiPolicy)return null;
+ const box=el('section',undefined,'muPhiPanel');
+ const top=append(el('div',undefined,'muPhiTop'),el('span','Φ','muPhiSymbol'),append(el('div'),el('h2',tr('phi_title','Φ Coins · récompenser la connaissance locale utile')),el('p',tr('phi_sub','Les Φ sont des points civiques non monétaires et non transférables. Ils ne sont attribués qu’après vérification d’une contribution.'))));
+ box.append(top);
+ const rewards=el('div',undefined,'muPhiRewards');for(const r of (phiPolicy.rewards||[]).slice(0,5)){const c=el('div',undefined,'muPhiReward');append(c,el('strong','+'+r.phi+' Φ'),el('span',phiRewardLabel(r)));rewards.append(c);}box.append(rewards);
+ box.append(el('p',uiLocale==='en'?'No wallet, no purchase, no transfer and no cash value in V1.':uiLocale==='es'?'En V1 no hay monedero, compra, transferencia ni valor en efectivo.':'V1 : aucun wallet, aucun achat, aucun transfert et aucune valeur en espèces.','muFineprint'));
+ const url='https://github.com/Nicolason84/nova-trust/issues/new?template=territory-contribution.yml'+(departmentCode?'&title='+encodeURIComponent('[TERRITOIRE '+departmentCode+'] '):'');
+ box.append(link(tr('contribute',departmentCode?'Contribuer à ce département':'Contribuer à un territoire')+' ↗',url,'muPrimary'));return box;
 }
 function humanHybrid(kind,h,g){
  const publicModel=h.public_common_good||{},coop=h.cooperative_direction||{},privateModel=h.private_services||{},auto=h.autoevolution||{},acq=g.evolution?.self_model?.acquisition||{};
@@ -155,8 +221,8 @@ function humanHybrid(kind,h,g){
  return false;
 }
 function atlas(g){
- if(audienceMode==='simple')title('COMMENCER PAR UNE QUESTION','Qu’est-ce que vous voulez comprendre ?','Pas besoin de connaître le jargon : partez d’une question concrète, puis ouvrez les sources si vous voulez aller plus loin.');
- else if(audienceMode==='explain')title('COMPRENDRE AVANT DE CONCLURE','La Bête, expliquée.','Les mêmes données et les mêmes preuves, avec davantage de contexte mais sans entrer d’emblée dans les détails techniques.');
+ if(audienceMode==='simple')title(tr('atlas_kicker','COMMENCER PAR UNE QUESTION'),tr('atlas_title','Qu’est-ce que vous voulez comprendre ?'),tr('atlas_sub','Pas besoin de connaître le jargon : partez d’une question concrète, puis ouvrez les sources si vous voulez aller plus loin.'));
+ else if(audienceMode==='explain')title(uiLocale==='en'?'UNDERSTAND BEFORE CONCLUDING':uiLocale==='es'?'COMPRENDER ANTES DE CONCLUIR':'COMPRENDRE AVANT DE CONCLURE',uiLocale==='en'?'La Bête, explained.':uiLocale==='es'?'La Bête, explicada.':'La Bête, expliquée.',uiLocale==='en'?'The same data and evidence, with more context and without starting from implementation jargon.':uiLocale==='es'?'Los mismos datos y pruebas, con más contexto y sin empezar por la jerga técnica.':'Les mêmes données et les mêmes preuves, avec davantage de contexte mais sans entrer d’emblée dans les détails techniques.');
  else title('LA BÊTE · AU CŒUR DES UNIVERS','La Bête.','Défendre les intérêts des personnes : comprendre, vérifier, faire entendre et agir sous mandat.');
  const map=el('div',undefined,'muAtlas muAtlasWithPresence');map.id='muAtlas';map.setAttribute('aria-label','La Bête au centre des univers explorables');
  const hero=el('section',undefined,'muAtlasPresence');hero.id='muAtlasPresence';hero.setAttribute('aria-label','Présence principale de La Bête');
@@ -170,6 +236,7 @@ function atlas(g){
  M.UNIVERSES.forEach((u,i)=>{const a=link('',M.route('univers',u.id),'muUniverse muUniverse-'+i);const count=[...g.nodes.values()].filter(n=>n.universe===u.id).length;const label=u.id==='temps'?g.live.curve_history?.length+' observations':u.id==='idees'?'Dialogue & propositions':u.id==='etat'?'Mémoire opérationnelle':u.id==='territoires'?(g.detail?g.detail.counts.communes_cog+' communes référencées':'Territoires · détail à la demande'):count+' objets documentés';append(a,el('span',u.symbol,'muSymbol'),el('strong',u.label),el('small',u.subtitle),el('span',label,'muUniverseCount'));map.append(a);});
  stage.append(map);
  if(audienceMode!=='expert')stage.append(questionHub(g));
+ const phi=phiPanel();if(phi)stage.append(phi);
  // One existing canvas, one initialization. Atlas is now itself a visible presence route.
  window.laBeteEnsurePresence?.();
  if(g.nodes.has('LA_BETE_CIVIC_MISSION_V1')){const mission=el('div',undefined,'muCivicMission');append(mission,el('strong','Au service des personnes. Sans consigne politique.'),link('Mission, limites et engagements',M.route('objet','LA_BETE_CIVIC_MISSION_V1')));stage.append(mission);}
@@ -347,10 +414,28 @@ function hybridView(kind,g){
  const cadence=el('p','Autoévolution : '+(auto.engine||'UNKNOWN')+' · second runtime : '+(auto.second_runtime===false?'NON':'NON VÉRIFIÉ')+' · prochaine action : proposition seulement.','muSnapshot');stage.append(cadence);
 }
 function factTable(node,g){const dl=el('dl',undefined,'muFacts');for(const [k,v]of M.facts(node,g))append(dl,el('dt',k),el('dd',v));return dl;}
+function departmentPortrait(node,g){
+ const d=node.data||{},profile=territoryCulture?.departments?.[d.code],shard=g.communeShards?.get(d.code),box=el('div',undefined,'muDepartmentPortrait');
+ const stats=el('div',undefined,'muDepartmentStats');
+ const stat=(value,label)=>{const c=el('div',undefined,'muDepartmentStat');append(c,el('strong',value),el('span',label));return c;};
+ append(stats,stat(d.commune_count??'—',uiLocale==='en'?'communes':uiLocale==='es'?'municipios':'communes'),stat(d.epci_codes?.length??'—',uiLocale==='en'?'inter-municipal groups':uiLocale==='es'?'intercomunalidades':'intercommunalités'),stat(Number.isFinite(d.population_sum)?d.population_sum.toLocaleString(uiLocale==='en'?'en-US':uiLocale==='es'?'es-ES':'fr-FR'):'—',uiLocale==='en'?'people in API sum*':uiLocale==='es'?'personas en suma API*':'habitants dans la somme API*'));
+ box.append(stats,el('p',uiLocale==='en'?'*The API response does not provide the population vintage here; this is not presented as a dated census.':uiLocale==='es'?'*La respuesta API no aporta aquí el año de población; no se presenta como un censo fechado.':'*Le millésime de population n’est pas fourni dans cette réponse API : ce total n’est pas présenté comme un recensement daté.','muFineprint'));
+ if(shard?.communes?.length){const top=shard.communes.filter(c=>Number.isFinite(c.population)).sort((a,b)=>b.population-a.population).slice(0,6),section=el('section',undefined,'muDepartmentSection');section.append(el('h2',tr('top_places','Communes principales dans les données API chargées')));const grid=el('div',undefined,'muLocalPlaces');for(const c of top){const a=link('',M.route('objet',M.TOPO+'#/communes/'+c.code),'muLocalPlace');append(a,el('strong',c.name),el('span',c.population.toLocaleString(uiLocale==='en'?'en-US':uiLocale==='es'?'es-ES':'fr-FR')+' · API'));grid.append(a);}section.append(grid);box.append(section);}
+ const local=profile?.local_language,language=el('section',undefined,'muDepartmentSection');language.append(el('h2',tr('local_lang','Langues & expressions locales')));
+ if(local?.options?.length){const chips=el('div',undefined,'muLanguageChips');for(const option of local.options)chips.append(el('span',option.label,'muLanguageChip'));language.append(chips,el('p',local.warning,'muFineprint'));const source=local.options[0]?.source;if(source)language.append(link(uiLocale==='en'?'Official linguistic context ↗':uiLocale==='es'?'Contexto lingüístico oficial ↗':'Contexte linguistique officiel ↗',source,'muQuestionLink'));}
+ else language.append(el('p',tr('local_unverified','Mode local ouvert uniquement aux variantes documentées : aucun patois n’est inventé automatiquement.'),'muGuard'));
+ if(uiLocale==='local')language.prepend(el('p',local?.options?.length?(uiLocale==='local'?'Mode local : contexte régional disponible, traduction locale à construire avec des locuteurs et des sources.':''):'','muLocalModeNotice'));
+ box.append(language);
+ const story=el('section',undefined,'muDepartmentSection');story.append(el('h2',tr('story_open','Que devrait mieux raconter ce département ?')));const sg=el('div',undefined,'muStorySlots');for(const slot of profile?.story_slots||[]){const c=el('article',undefined,'muStorySlot');append(c,el('strong',storySlotLabel(slot)),el('span',uiLocale==='en'?'Open for verified local contributions':uiLocale==='es'?'Abierto a contribuciones locales verificadas':'Ouvert aux contributions locales vérifiées'));sg.append(c);}story.append(sg);box.append(story);
+ const phi=phiPanel(d.code);if(phi)box.append(phi);return box;
+}
 function objectView(node,g){
- title((M.LABELS[node.kind]||node.kind).toUpperCase(),node.label,node.kind==='REGION'?'Une fiche territoriale descriptive. Aucun taux national ne lui est attribué.':'Un objet, ses éléments documentés et les chemins qui le relient au reste.');
+ const isDepartment=node.kind==='DEPARTMENT',humanDepartment=isDepartment&&audienceMode!=='expert',profile=isDepartment?territoryCulture?.departments?.[node.data?.code]:null;
+ if(humanDepartment)title(tr('dept_kicker','VOTRE DÉPARTEMENT, AU-DELÀ DES CHIFFRES'),fill(tr('dept_title','Découvrez {name} autrement'),{name:node.label}),tr('dept_sub','Lieux, langues, patrimoine, savoir-faire, mémoire et initiatives locales — avec des sources, et une place pour ce que les habitants savent mieux que les bases de données.'));
+ else title((M.LABELS[node.kind]||node.kind).toUpperCase(),node.label,node.kind==='REGION'?'Une fiche territoriale descriptive. Aucun taux national ne lui est attribué.':'Un objet, ses éléments documentés et les chemins qui le relient au reste.');
  const layout=el('div',undefined,'muObjectLayout'),main=el('section',undefined,'muObjectMain'),aside=el('aside',undefined,'muRelations');
- append(main,el('span',node.status||'CONTEXTE DOCUMENTÉ','muTag'),factTable(node,g));
+ main.append(el('span',humanDepartment?(profile?.region_name||'Territoire'):node.status||'CONTEXTE DOCUMENTÉ','muTag'));
+ if(humanDepartment)main.append(departmentPortrait(node,g));else main.append(factTable(node,g));
  const actions=el('div',undefined,'muActions');append(actions,button('Interroger cet objet',()=>openChat(),'muPrimary'),button('Voir la pièce / provenance',()=>openProof(node,g)));
  if(node.url)actions.append(link('Ouvrir la source officielle ↗',node.url));
  if(node.id===M.DEBT)append(actions,link('Courbes & stress','#/analyse'),link('Horizons','#/horizons'),link('Explorer les dates','#/chronologie'));
@@ -380,6 +465,14 @@ function objectView(node,g){
  if(!relations.length)aside.append(el('p','Aucune relation supplémentaire dans le contexte chargé.'));
  append(layout,main,aside);stage.append(layout);
 }
+async function ensureTerritoryCulture(){
+ if(territoryCulture)return territoryCulture;if(territoryCulturePromise)return territoryCulturePromise;
+ territoryCulturePromise=(async()=>{const r=await window.laBeteReadCanonicalJSON('data/la-bete-territory-culture-v1.json',{cache:'no-cache'});if(!r.ok)throw Error('TERRITORY_CULTURE_HTTP_'+r.status);const j=await r.json();if(j.schema!=='LA_BETE_TERRITORY_CULTURE_V1'||j.departments_count!==101||Object.keys(j.departments||{}).length!==101)throw Error('TERRITORY_CULTURE_SCHEMA');territoryCulture=j;return j;})().catch(e=>{territoryCulturePromise=null;throw e;});return territoryCulturePromise;
+}
+async function ensurePhiPolicy(){
+ if(phiPolicy)return phiPolicy;if(phiPromise)return phiPromise;
+ phiPromise=(async()=>{const r=await window.laBeteReadCanonicalJSON('data/phi-coins-v1.json',{cache:'no-cache'});if(!r.ok)throw Error('PHI_HTTP_'+r.status);const j=await r.json(),f=j.financial_status||{};if(j.schema!=='LA_BETE_PHI_COINS_V1'||f.money!==false||f.cryptoasset!==false||f.transferable!==false||f.purchasable!==false||f.redeemable_for_cash!==false)throw Error('PHI_POLICY_UNSAFE');phiPolicy=j;return j;})().catch(e=>{phiPromise=null;throw e;});return phiPromise;
+}
 async function ensureTerritories(){
  if(territories)return territories;if(territoryPromise)return territoryPromise;
  territoryPromise=(async()=>{const response=await window.laBeteReadCanonicalJSON('data/france-organism.json',{cache:'no-cache'});if(!response.ok)throw Error('TERRITORY_HTTP_'+response.status);const j=await response.json();if(j.schema!=='OJO_FRANCE_ORGANISM_V1'||!Array.isArray(j.topology?.regions)||j.topology.regions.length>100)throw Error('TERRITORY_SCHEMA');const seen=new Set();for(const r of j.topology.regions){if(typeof r.name!=='string'||!/^\d{2,3}$/.test(String(r.code))||seen.has(String(r.code)))throw Error('TERRITORY_IDENTITY');seen.add(String(r.code));}territories=j;return j;})().catch(e=>{territoryPromise=null;throw e;});return territoryPromise;
@@ -391,11 +484,14 @@ async function ensureTopology(){
  const codes=new Set();for(const x of d.commune_index){if(!Array.isArray(x)||x.length!==5||!/^[0-9AB]{5}$/.test(x[0])||typeof x[1]!=='string'||codes.has(x[0])||!d.shards?.[x[2]])throw Error('TOPOLOGY_INDEX_INVALID');codes.add(x[0]);}
  if(d.counts?.communes_cog!==codes.size)throw Error('TOPOLOGY_COUNT');topology=t;return t;})().catch(e=>{topologyPromise=null;throw e;});return topologyPromise;
 }
-async function ensureCommune(code){
- await ensureTopology();const row=M.communeIndex(topology.detail).get(code);if(!row)throw Error('COMMUNE_NOT_IN_COG');const dep=row[2];if(communeShards.has(dep))return communeShards.get(dep);if(shardPromises.has(dep))return shardPromises.get(dep);
- const descriptor=topology.detail.shards[dep];if(!/^(?:\d{2,3}|2[AB])$/.test(dep)||!new RegExp('^data/france-topology-detail/'+dep+'-[a-f0-9]{20}\\.json$').test(descriptor.path)||!/^[a-f0-9]{64}$/.test(descriptor.sha256))throw Error('SHARD_LOCATION');
+async function ensureDepartmentShard(dep){
+ await ensureTopology();if(communeShards.has(dep))return communeShards.get(dep);if(shardPromises.has(dep))return shardPromises.get(dep);
+ const descriptor=topology.detail.shards[dep];if(!descriptor||!/^(?:\d{2,3}|2[AB])$/.test(dep)||!new RegExp('^data/france-topology-detail/'+dep+'-[a-f0-9]{20}\\.json$').test(descriptor.path)||!/^[a-f0-9]{64}$/.test(descriptor.sha256))throw Error('SHARD_LOCATION');
  const pending=(async()=>{const r=await window.laBeteReadCanonicalJSON(descriptor.path,{cache:'force-cache',expectedSHA256:descriptor.sha256,maxBytes:3000000});if(!r.ok)throw Error('SHARD_HTTP_'+r.status);const payload=await r.json();if(payload.schema!=='OJO_FRANCE_COMMUNES_SHARD_V1'||payload.department_code!==dep||payload.communes?.length!==descriptor.count)throw Error('SHARD_SCHEMA');
  const seen=new Set();for(const c of payload.communes){const ref=M.communeIndex(topology.detail).get(c.code);if(!ref||seen.has(c.code)||ref[1]!==c.name||ref[2]!==c.department_code||ref[3]!==c.region_code||ref[4]!==c.epci_code)throw Error('SHARD_INDEX_MISMATCH');seen.add(c.code);}communeShards.set(dep,payload);return payload;})().finally(()=>shardPromises.delete(dep));shardPromises.set(dep,pending);return pending;
+}
+async function ensureCommune(code){
+ await ensureTopology();const row=M.communeIndex(topology.detail).get(code);if(!row)throw Error('COMMUNE_NOT_IN_COG');return ensureDepartmentShard(row[2]);
 }
 function universeView(universe,g){const u=M.UNIVERSES.find(x=>x.id===universe);title('UNIVERS EXPLORABLE',u.label,u.subtitle+'. Les objets sont des vues des documents existants, pas de nouvelles copies de la vérité.');
  const nodes=[...g.nodes.values()].filter(n=>n.universe===universe);
@@ -431,9 +527,15 @@ async function renderCurrent(useLatest=false,restore=false){
  const token=++renderToken;try{
   if(useLatest){current.graph=graphFrom(getBase());current.hash=current.hash.replace(/\?snapshot=.*$/,'');history.replaceState(history.state,'',current.hash);}
   current.parsed=M.parseRoute(current.hash);const p=current.parsed;let g=current.graph;
+  if(p.kind==='atlas'){try{await ensurePhiPolicy();}catch(e){status('Φ Coins indisponibles : '+e.message);}if(token!==renderToken)return;}
+  const departmentPrefix=M.TOPO+'#/departments/',communePrefix=M.TOPO+'#/communes/';
   if(p.kind==='univers'&&p.id==='territoires'||p.kind==='objet'&&(p.id.startsWith('OJO_FRANCE_ORGANISM_V1#/topology/regions/')||p.id.startsWith(M.TOPO+'#/'))){
    if(!territories){status('Chargement du document territorial existant…');try{await ensureTerritories();}catch(e){status('Document territorial indisponible. Aucun détail de remplacement n’est inventé.');}}
-   try{await ensureTopology();if(p.kind==='objet'&&p.id.startsWith(M.TOPO+'#/communes/'))await ensureCommune(p.id.split('/').pop());}catch(e){status('Détail non disponible ou non vérifié : '+e.message);}
+   try{
+    await ensureTopology();
+    if(p.kind==='objet'&&p.id.startsWith(departmentPrefix)){const dep=p.id.slice(departmentPrefix.length);await Promise.all([ensureDepartmentShard(dep),ensureTerritoryCulture(),ensurePhiPolicy()]);}
+    else if(p.kind==='objet'&&p.id.startsWith(communePrefix))await ensureCommune(p.id.slice(communePrefix.length));
+   }catch(e){status('Détail non disponible ou non vérifié : '+e.message);}
    if(token!==renderToken)return;g=current.graph=M.build(g.live,g.evolution,territories,topology,communeShards);
   }
   if(!['presence','lecture'].includes(p.kind)||current.isSearch)window.laBeteSuspendPresence?.();

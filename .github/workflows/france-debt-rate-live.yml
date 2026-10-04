@@ -23,6 +23,10 @@ on:
       - "docs/assets/la-bete-explorer.css"
       - "docs/assets/la-bete-access.js"
       - "docs/data/la-bete-mobile-access.json"
+      - "docs/data/la-bete-territory-culture-v1.json"
+      - "docs/data/phi-coins-v1.json"
+      - "scripts/build_la_bete_territory_culture.py"
+      - "scripts/test_la_bete_territory_culture.py"
       - "scripts/test_la_bete_mobile_access.cjs"
       - "scripts/test_la_bete_explorer.cjs"
       - "scripts/test_la_bete_enrichment.cjs"
@@ -194,6 +198,7 @@ jobs:
           PYTHONPATH=scripts python3 scripts/test_la_bete_evolution.py
           PYTHONPATH=scripts python3 scripts/test_la_bete_health_memory.py
           PYTHONPATH=scripts python3 scripts/test_la_bete_acquisition.py
+          python3 scripts/test_la_bete_territory_culture.py
           node scripts/test_la_bete_dialogue.cjs
           node scripts/test_la_bete_explorer.cjs
           node scripts/test_la_bete_mobile_access.cjs

@@ -1,0 +1,65 @@
+name: Enrichir un territoire
+description: Ajouter une source, une correction, une traduction, un parler local, un lieu, un savoir-faire ou un récit territorial.
+title: "[TERRITOIRE] "
+labels:
+  - territoire
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Merci. Une contribution n'est pas automatiquement publiée ni récompensée.
+        Les Φ Coins sont des points civiques non monétaires et non transférables. Ils ne sont attribués qu'après vérification.
+  - type: input
+    id: department
+    attributes:
+      label: Département
+      description: Nom ou code du département concerné.
+      placeholder: "Oise · 60"
+    validations:
+      required: true
+  - type: dropdown
+    id: contribution_type
+    attributes:
+      label: Type de contribution
+      options:
+        - Source officielle
+        - Correction démontrée
+        - Traduction
+        - Langue ou expression locale
+        - Patrimoine ou mémoire
+        - Savoir-faire ou métier
+        - Lieu
+        - Événement ou tradition
+        - Accessibilité / compréhension
+        - Initiative locale utile
+    validations:
+      required: true
+  - type: textarea
+    id: contribution
+    attributes:
+      label: Ce que vous proposez
+      description: Expliquez simplement ce qui manque ou doit être corrigé.
+    validations:
+      required: true
+  - type: input
+    id: source
+    attributes:
+      label: Source ou contexte
+      description: Lien public de préférence. Pour un témoignage, indiquez clairement qu'il s'agit d'un témoignage.
+      placeholder: "https://… ou témoignage local"
+    validations:
+      required: true
+  - type: textarea
+    id: local_language_context
+    attributes:
+      label: Si c'est une langue ou expression locale
+      description: Donnez la forme exacte, le lieu où elle est utilisée, le sens et la source ou le contexte.
+  - type: checkboxes
+    id: phi
+    attributes:
+      label: Règle Φ
+      options:
+        - label: Je comprends que les Φ n'ont aucune valeur monétaire, ne s'achètent pas et ne se transfèrent pas.
+          required: true
+        - label: Je comprends que la contribution doit être vérifiée avant tout reçu Φ.
+          required: true

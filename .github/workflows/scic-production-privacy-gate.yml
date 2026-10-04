@@ -26,6 +26,10 @@ on:
       - 'scripts/test_la_bete_acquisition.py'
       - 'scripts/verify_la_bete_evolution.py'
       - 'docs/assets/la-bete-explorer.js'
+      - 'docs/assets/la-bete-explorer.css'
+      - 'docs/data/la-bete-territory-culture-v1.json'
+      - 'docs/data/phi-coins-v1.json'
+      - 'scripts/test_la_bete_territory_culture.py'
       - 'scripts/test_la_bete_explorer.cjs'
       - 'scripts/test_la_bete_explorer_browser.cjs'
       - 'receipts/LA_BETE_SCIC_PRODUCTION_PRIVACY_GATE_PROOF.json'
@@ -133,7 +137,9 @@ jobs:
           python3 scripts/build_scic_privacy_audit_pack.py
           python3 -c 'import json; p=json.load(open("audits/scic_privacy/SCIC_PRIVACY_AUDIT_PACK_V1.json")); assert p["source_dirty"] is False; assert p["audit_verdict"] == "NOT_PERFORMED"; assert p["contains_private_state"] is False'
       - name: Run public model guards
-        run: python3 scripts/test_la_bete_acquisition.py
+        run: |
+          python3 scripts/test_la_bete_acquisition.py
+          python3 scripts/test_la_bete_territory_culture.py
       - name: Run static explorer guards
         run: node scripts/test_la_bete_explorer.cjs
       - name: Diff hygiene
