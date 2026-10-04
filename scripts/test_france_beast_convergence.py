@@ -17,12 +17,13 @@ class Convergence(unittest.TestCase):
             root=Path(tmp)
             for name in files:
                 dest=root/name;dest.parent.mkdir(parents=True,exist_ok=True);shutil.copyfile(name,dest)
-            evo=root/files[1];good=evo.read_bytes();original=json.loads(good)
+            evo=root/files[1];original_bytes=evo.read_bytes();original=json.loads(original_bytes)
             live=root/files[0];fixture=json.loads(live.read_text());fixture['summary']['warnings']=0
             live.write_text(json.dumps(fixture))
             subprocess.run(['python3','scripts/evolve_france_debt_rate.py'],cwd=root,env={k:v for k,v in os.environ.items() if k!="LA_BETE_OBSERVATION_PATH"},check=True,capture_output=True)
             candidate=json.loads(evo.read_text());self.assertEqual(candidate['previous_dna'],original['dna'])
             subprocess.run(['python3','scripts/verify_la_bete_evolution.py'],cwd=root,env={k:v for k,v in os.environ.items() if k!="LA_BETE_OBSERVATION_PATH"},check=True,capture_output=True)
+            good=evo.read_bytes()
             candidate=json.loads(evo.read_text());candidate['policy']['truth_mutation']=True;evo.write_text(json.dumps(candidate))
             rejected=subprocess.run(['python3','scripts/verify_la_bete_evolution.py'],cwd=root,capture_output=True)
             self.assertNotEqual(rejected.returncode,0);self.assertIn(b'truth mutation forbidden',rejected.stderr)
