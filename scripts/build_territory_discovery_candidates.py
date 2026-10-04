@@ -61,10 +61,23 @@ LANES = {
 
 ENTITY_CACHE: dict[str, dict] = {}
 TIERS_ROWS: list[dict] | None = None
-NATURE_TITLE_TERMS = (
-    "reserve naturelle", "foret", "parc", "baie", "marais", "dune",
-    "massif", "vallee", "estuaire", "lac", "etang", "arboretum",
-    "jardin botanique", "zone humide", "littoral", "gorges",
+NATURE_TITLE_PATTERNS = (
+    r"\breserve naturelle\b",
+    r"^parc\b",
+    r"^foret\b",
+    r"^baie\b",
+    r"^marais\b",
+    r"^dunes?\b",
+    r"^massif\b",
+    r"^vallee\b",
+    r"^estuaire\b",
+    r"^lac\b",
+    r"^etang\b",
+    r"^arboretum\b",
+    r"^jardin botanique\b",
+    r"^zone humide\b",
+    r"^littoral\b",
+    r"^gorges?\b",
 )
 WIKIMEDIA_HOSTS = {"www.wikidata.org", "fr.wikipedia.org", "commons.wikimedia.org"}
 LAST_WIKIMEDIA_REQUEST_AT = 0.0
@@ -263,7 +276,13 @@ def nature_title_is_plausible(dep_name: str, title: str) -> bool:
         or title_norm in {"reserves naturelles en france", "reserve naturelle en france"}
         or title_norm.startswith("liste ")
     )
-    return not generic_title and any(term in title_norm for term in NATURE_TITLE_TERMS)
+    excluded_title = (
+        title_norm.startswith("parc zoologique ")
+        or title_norm.startswith("parc animalier ")
+        or title_norm.startswith("parc d attractions ")
+        or title_norm.startswith("parc de loisirs ")
+    )
+    return not generic_title and not excluded_title and any(re.search(pattern, title_norm) for pattern in NATURE_TITLE_PATTERNS)
 
 def nature_candidates(dep_code: str, dep_name: str, dep_qid: str | None) -> list[dict]:
     seen = set()
