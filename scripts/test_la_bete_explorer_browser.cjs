@@ -145,7 +145,13 @@ async function main(){
  assert.ok(await evaluate("document.getElementById('muStage').textContent.includes('77.36')"));
  assert.ok(await evaluate("document.getElementById('muStage').textContent.includes('NOT_EXECUTED')"));
  assert.ok(await evaluate("document.getElementById('muStage').textContent.includes('Registre public des résultats')"));
- assert.ok(await evaluate("document.getElementById('muStage').textContent.includes('Ancrages juridiques à relire avant constitution')"));pass('SCIC route exposes operable non-binding democracy with truth firewall, tally, mandate and result ledger');
+ assert.ok(await evaluate("document.getElementById('muStage').textContent.includes('SYNTHETIC_PRIVATE_MEMBERSHIP_PIPELINE_IMPLEMENTED')"));
+ assert.ok(await evaluate("document.getElementById('muStage').textContent.includes('PRIVATE_EVIDENCE_ENCRYPTED_NEVER_PUBLIC')"));
+ assert.ok(await evaluate("document.getElementById('muStage').textContent.includes('Inscription réelle ouverte : NON')"));
+ assert.ok(await evaluate("document.getElementById('muStage').textContent.includes('Identité/pseudonyme dans le bulletin : NON')"));
+ assert.ok(await evaluate("document.getElementById('muStage').textContent.includes('Jeton privé à usage unique : OUI')"));
+ assert.ok(await evaluate("document.getElementById('muStage').textContent.includes('NOT_PROVEN_REQUIRES_SEPARATE_ANONYMOUS_CREDENTIAL_OR_BALLOT_AUTHORITY')"));
+ assert.ok(await evaluate("document.getElementById('muStage').textContent.includes('Ancrages juridiques à relire avant constitution')"));pass('SCIC route exposes operable non-binding democracy plus private verified membership and explicit ballot-secrecy limits');
  await navigate('#/services');assert.ok(await evaluate("document.getElementById('muStage').textContent.includes('DESIGN_ONLY_NOT_FOR_SALE')"));
  assert.ok(await evaluate("document.getElementById('muStage').textContent.includes('NOT_CONNECTED')"));
  assert.equal(await evaluate("document.querySelectorAll('#muStage input,#muStage form').length"),0);

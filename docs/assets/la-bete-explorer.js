@@ -119,12 +119,26 @@ function hybridView(kind,g){
    'Un amendement peut changer une preuve : '+(truth.amendment_may_change_evidence===false?'NON':'NON VÉRIFIÉ')
   ]));
   stage.append(list('Cycle démocratique',(dem.lifecycle||[]).map(x=>x.order+'. '+x.label+' — '+x.state+' — gate '+x.gate)));
+  stage.append(list('Sociétariat vérifié · frontière privée',[
+   'Pilote : '+(dem.membership?.pilot_state||'UNKNOWN'),
+   'Inscription réelle ouverte : '+(dem.membership?.real_enrollment_open===false?'NON':'NON VÉRIFIÉ'),
+   'Identité : '+(dem.membership?.identity_verification||'UNKNOWN'),
+   'Éligibilité : '+(dem.membership?.eligibility_verification||'UNKNOWN'),
+   'Admission : '+(dem.membership?.admission_authority||'UNKNOWN'),
+   'Identité publique : '+(dem.membership?.public_identity||'UNKNOWN'),
+   'Champs publics permis : '+(dem.membership?.public_receipt_fields||[]).join(' · '),
+   'Jamais publics : '+(dem.membership?.public_receipt_forbidden_fields||[]).join(' · ')
+  ]));
   stage.append(list('Règles de scrutin',[
    'Une personne = une voix dans son collège : '+(dem.membership?.one_member_one_vote_within_college===true?'OUI':'NON VÉRIFIÉ'),
    'Vote réel : secret ; publication : agrégée par collège.',
    'Décision ordinaire : > '+(ballot.ordinary?.support_pct??'UNKNOWN')+' % pondéré, '+(ballot.ordinary?.positive_colleges??'UNKNOWN')+' collèges favorables minimum, quorum '+(ballot.ordinary?.college_quorum_pct??'UNKNOWN')+' % par collège.',
    'Décision constitutionnelle : ≥ '+(ballot.constitutional?.support_pct??'UNKNOWN')+' % pondéré, '+(ballot.constitutional?.positive_colleges??'UNKNOWN')+' collèges favorables minimum, quorum '+(ballot.constitutional?.college_quorum_pct??'UNKNOWN')+' %.',
-   'Les engagements protégés sont surmontables par bulletin : '+(ballot.protected_commitments_overrideable_by_ballot===false?'NON':'NON VÉRIFIÉ')
+   'Les engagements protégés sont surmontables par bulletin : '+(ballot.protected_commitments_overrideable_by_ballot===false?'NON':'NON VÉRIFIÉ'),
+   'Identité/pseudonyme dans le bulletin : '+(ballot.member_public_id_in_ballot===false?'NON':'NON VÉRIFIÉ'),
+   'Jeton privé à usage unique : '+(ballot.one_time_private_ballot_token===true?'OUI':'NON VÉRIFIÉ'),
+   'Secret vis-à-vis du registre public : '+(ballot.public_registry_unlinkability||'UNKNOWN'),
+   'Anonymat cryptographique vis-à-vis de l’émetteur : '+(ballot.issuer_level_cryptographic_unlinkability||'UNKNOWN')
   ]));
   stage.append(list('Constitution protégée',b.protected_commitments));
   const colleges=el('section',undefined,'muObjectMain');colleges.append(el('h2','5 collèges proposés · 100 % des voix','muSubhead'));

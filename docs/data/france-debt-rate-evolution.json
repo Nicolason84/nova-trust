@@ -1,7 +1,7 @@
 {
   "schema": "OJO_LA_BETE_VIRTUOUS_EVOLUTION_V1",
-  "generation": 179,
-  "updated_at": "2026-10-04T01:14:54Z",
+  "generation": 180,
+  "updated_at": "2026-10-04T01:15:34Z",
   "source_snapshot_id": "OJO-03035CE5C9B6B290",
   "source_sequence": 11,
   "dna": {
@@ -13193,14 +13193,36 @@
             "states": [
               "APPLICANT",
               "ELIGIBILITY_REVIEW",
-              "ADMITTED",
+              "ADMISSION_DECISION",
+              "CREDENTIAL_ISSUED",
+              "ACTIVE",
               "SUSPENDED",
               "EXITED"
             ],
-            "identity_verification": "PRIVATE_ONLY_BEFORE_MEMBER_ACTIVATION",
-            "public_identity": "PSEUDONYM_OR_AGGREGATE_WITH_CONSENT",
+            "identity_verification": "EXISTING_PRIVATE_CITIZEN_PILOT_WEBAUTHN_PLUS_SEPARATE_IDENTITY_VERIFIER",
+            "eligibility_verification": "PRIVATE_EVIDENCE_ENCRYPTED_NEVER_PUBLIC",
+            "admission_authority": "SEPARATE_PRIVATE_AUTHORITY_REQUIRED_NOT_SELF_SERVICE",
+            "public_identity": "KEYED_PSEUDONYMOUS_MEMBER_RECEIPT_NO_PII",
             "one_member_one_vote_within_college": true,
-            "college_assignment": "VERIFIED_RULE_BASED_NOT_SELF_SELECTED_FOR_VOTE"
+            "college_assignment": "VERIFIED_RULE_BASED_NOT_SELF_SELECTED_FOR_VOTE",
+            "real_enrollment_open": false,
+            "pilot_state": "SYNTHETIC_PRIVATE_MEMBERSHIP_PIPELINE_IMPLEMENTED",
+            "public_receipt_fields": [
+              "member_public_id",
+              "college",
+              "status",
+              "issued_at",
+              "review_due",
+              "eligibility_attestation"
+            ],
+            "public_receipt_forbidden_fields": [
+              "name",
+              "address",
+              "email",
+              "civil_identity",
+              "eligibility_evidence",
+              "passkey_id"
+            ]
           },
           "truth_firewall": {
             "principle": "THE_MAJORITY_CHOOSES_ACTIONS_NOT_FACTS",
@@ -13327,6 +13349,11 @@
             "secret_ballot_for_real_members": true,
             "public_output": "AGGREGATED_BY_COLLEGE",
             "identity_publication": false,
+            "member_public_id_in_ballot": false,
+            "one_time_private_ballot_token": true,
+            "token_replay": "REJECTED",
+            "public_registry_unlinkability": "PROVEN_IN_SYNTHETIC_PRIVATE_PILOT",
+            "issuer_level_cryptographic_unlinkability": "NOT_PROVEN_REQUIRES_SEPARATE_ANONYMOUS_CREDENTIAL_OR_BALLOT_AUTHORITY",
             "ordinary": {
               "support_pct": 50.0,
               "positive_colleges": 3,
@@ -13809,19 +13836,6 @@
     }
   },
   "receipts": [
-    {
-      "generation": 140,
-      "at": "2026-10-03T22:14:40Z",
-      "from_mode": "EVIDENCE_GUARD",
-      "to_mode": "EVIDENCE_GUARD",
-      "reason": [
-        "4 source(s) require explicit attention.",
-        "TEC10 delta versus the published budget assumption: +109.9 bp.",
-        "Decision Delta status: MATERIAL_CHANGE.",
-        "Self-health: ATTENTION."
-      ],
-      "verdict": "PROMOTED_AFTER_NON_REGRESSION"
-    },
     {
       "generation": 141,
       "at": "2026-10-03T22:20:43Z",
@@ -14328,12 +14342,25 @@
         "Self-health: ATTENTION."
       ],
       "verdict": "PROMOTED_AFTER_NON_REGRESSION"
+    },
+    {
+      "generation": 180,
+      "at": "2026-10-04T01:15:34Z",
+      "from_mode": "EVIDENCE_GUARD",
+      "to_mode": "EVIDENCE_GUARD",
+      "reason": [
+        "4 source(s) require explicit attention.",
+        "TEC10 delta versus the published budget assumption: +109.9 bp.",
+        "Decision Delta status: MATERIAL_CHANGE.",
+        "Self-health: ATTENTION."
+      ],
+      "verdict": "PROMOTED_AFTER_NON_REGRESSION"
     }
   ],
   "status": "ACTIVE",
   "verification": {
-    "generation": 179,
-    "at": "2026-10-04T01:14:56Z",
+    "generation": 180,
+    "at": "2026-10-04T01:15:34Z",
     "verdict": "NON_REGRESSION_PASS",
     "checks": [
       "truth",

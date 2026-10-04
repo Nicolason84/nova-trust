@@ -3,7 +3,7 @@ the separate browser test proves the actual WebAuthn ceremonies."""
 import json, os, shutil, tempfile, unittest
 from pathlib import Path
 from unittest.mock import patch
-from app.citizen_pilot import Pilot,Denied,FIXTURES,FixtureAuthority,raw,token_hash
+from app.citizen_pilot import Pilot,Denied,FIXTURES,FixtureAuthority,FixtureIdentityVerifier,FixtureAdmissionAuthority,raw,token_hash
 from cryptography.exceptions import InvalidTag
 
 class PilotTests(unittest.TestCase):
@@ -85,5 +85,49 @@ class PilotTests(unittest.TestCase):
  def test_missing_wrapping_key_blocks_restart(self):
   self.p.keyfile.unlink();self.assertRaises(RuntimeError,Pilot,self.root,'https://localhost:44339')
  def test_private_key_files_have_restrictive_permissions(self):self.assertEqual(self.p.keyfile.stat().st_mode & 0o777,0o600)
+ def admit(self,token=None):
+  token=token or self.a
+  app=self.p.apply_membership_fixture(token)
+  return self.p.review_membership_fixture(app['id'],identity_verifier=FixtureIdentityVerifier(),admission_authority=FixtureAdmissionAuthority(),statutes_version='SYNTHETIC_STATUTES_V1')
+ def test_membership_application_is_private_encrypted_and_non_legal(self):
+  app=self.p.apply_membership_fixture(self.a);self.assertEqual(app['state'],'ELIGIBILITY_REVIEW');self.assertFalse(app['real_identity_verified']);self.assertFalse(app['public_identity_written'])
+  blob=(self.root/'data/synthetic.sqlite').read_bytes();self.assertNotIn(b'SYNTHETIC_BENEFICIARY_EVIDENCE_NO_REAL_PERSON',blob)
+ def test_membership_admission_requires_separate_private_authorities(self):
+  app=self.p.apply_membership_fixture(self.a)
+  self.assertRaises(Denied,self.p.review_membership_fixture,app['id'],identity_verifier=None,admission_authority=FixtureAdmissionAuthority(),statutes_version='SYNTHETIC_STATUTES_V1')
+  self.assertRaises(Denied,self.p.review_membership_fixture,app['id'],identity_verifier=FixtureIdentityVerifier(),admission_authority=None,statutes_version='SYNTHETIC_STATUTES_V1')
+ def test_public_membership_receipt_has_no_identity_fields(self):
+  r=self.admit();j=json.dumps(r,ensure_ascii=False)
+  self.assertFalse(r['identity_fields_exposed']);self.assertFalse(r['legal_societaire_claim']);self.assertTrue(r['member_public_id'].startswith('soc_'))
+  for secret in ('Citoyen fictif A','Adresse de démonstration A','SYNTHETIC_A_NO_REAL_PERSON','SYNTHETIC_BENEFICIARY_EVIDENCE_NO_REAL_PERSON'):self.assertNotIn(secret,j)
+ def test_public_member_ids_are_private_keyed_and_distinct(self):
+  a=self.admit(self.a);b=self.admit(self.b);self.assertNotEqual(a['member_public_id'],b['member_public_id']);self.assertNotIn('test-citizen',a['member_public_id']+b['member_public_id'])
+ def test_wrong_college_assignment_is_rejected(self):
+  class Wrong:
+   def decide(self,*args,**kwargs):return {'approved':True,'college':'MISSION_PARTNERS_ESS','admission_receipt_id':'WRONG'}
+  app=self.p.apply_membership_fixture(self.a);self.assertRaises(Denied,self.p.review_membership_fixture,app['id'],identity_verifier=FixtureIdentityVerifier(),admission_authority=Wrong(),statutes_version='SYNTHETIC_STATUTES_V1')
+ def test_secret_ballot_token_contains_no_member_identity_or_public_id(self):
+  member=self.admit();t=self.p.issue_secret_ballot_token(self.a,'ELECTION-001');j=json.dumps(t)
+  self.assertFalse(t['member_identity_embedded']);self.assertFalse(t['member_public_id_embedded']);self.assertNotIn(member['member_public_id'],j);self.assertNotIn('test-citizen-a',j)
+ def test_one_ballot_entitlement_per_member_per_election(self):
+  self.admit();self.p.issue_secret_ballot_token(self.a,'ELECTION-001');self.assertRaises(Denied,self.p.issue_secret_ballot_token,self.a,'ELECTION-001')
+ def test_secret_ballot_row_has_no_identity_or_public_member_id_columns(self):
+  self.admit();t=self.p.issue_secret_ballot_token(self.a,'ELECTION-001');self.p.cast_secret_ballot_fixture(t['token'],'ELECTION-001','YES')
+  cols=[r[1] for r in self.p.db.execute('PRAGMA table_info(secret_ballots)')];self.assertNotIn('subject',cols);self.assertNotIn('member',cols);self.assertNotIn('public_id',cols)
+  row=json.dumps(dict(self.p.db.execute('SELECT * FROM secret_ballots').fetchone()));self.assertNotIn('test-citizen-a',row);self.assertNotIn('soc_',row)
+ def test_ballot_token_is_one_use(self):
+  self.admit();t=self.p.issue_secret_ballot_token(self.a,'ELECTION-001');self.p.cast_secret_ballot_fixture(t['token'],'ELECTION-001','YES');self.assertRaises(Denied,self.p.cast_secret_ballot_fixture,t['token'],'ELECTION-001','NO')
+ def test_ballot_tally_is_aggregate_by_college_only(self):
+  self.admit(self.a);self.admit(self.b)
+  a=self.p.issue_secret_ballot_token(self.a,'ELECTION-001');b=self.p.issue_secret_ballot_token(self.b,'ELECTION-001')
+  self.p.cast_secret_ballot_fixture(a['token'],'ELECTION-001','YES');self.p.cast_secret_ballot_fixture(b['token'],'ELECTION-001','NO')
+  tally=self.p.secret_ballot_tally('ELECTION-001');j=json.dumps(tally);self.assertEqual(tally['colleges']['CITIZENS_USERS']['YES'],1);self.assertEqual(tally['colleges']['CONTRIBUTORS_CIVIL_SOCIETY']['NO'],1);self.assertNotIn('test-citizen',j);self.assertNotIn('soc_',j)
+ def test_revocation_removes_future_voting_rights_but_not_past_ballot(self):
+  self.admit();t=self.p.issue_secret_ballot_token(self.a,'ELECTION-001');self.p.cast_secret_ballot_fixture(t['token'],'ELECTION-001','YES');self.p.revoke_all(self.a)
+  self.assertEqual(self.p.db.execute('SELECT COUNT(*) FROM secret_ballots').fetchone()[0],1)
+  # session is revoked, so no fresh entitlement can be issued
+  self.assertRaises(Denied,self.p.issue_secret_ballot_token,self.a,'ELECTION-002')
+ def test_membership_overview_exposes_public_receipt_not_private_evidence(self):
+  self.admit();o=self.p.overview(self.a);j=json.dumps(o,ensure_ascii=False);self.assertIsNotNone(o['membership']);self.assertNotIn('SYNTHETIC_BENEFICIARY_EVIDENCE_NO_REAL_PERSON',j);self.assertNotIn('Adresse de démonstration A',j)
 
 if __name__=='__main__':unittest.main(verbosity=2)

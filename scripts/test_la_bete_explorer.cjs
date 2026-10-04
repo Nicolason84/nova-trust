@@ -73,6 +73,7 @@ test('hybrid product surfaces reuse loaded evolution',()=>{assert.match(ui,/func
 test('public and commercial boundaries are first class routes',()=>{for(const r of ['#/public','#/agir','#/scic','#/services','#/prive'])assert.ok(ui.includes(r));});
 test('scic surface renders institutional constitution without legal adoption',()=>{for(const x of ['5 collèges proposés · 100 % des voix','Institutions proposées','Anti-capture','Chemin vers la SCIC réelle','Ancrages juridiques à relire avant constitution'])assert.ok(ui.includes(x));});
 test('scic surface exposes democracy lifecycle truth firewall and non-binding pilot',()=>{for(const x of ['SCIC · DÉMOCRATIE OPÉRABLE','Pare-feu de vérité','Cycle démocratique','Règles de scrutin','Dossier pilote · chaîne complète sans faux vote réel','Registre public des résultats','Déposer une proposition publique'])assert.ok(ui.includes(x));});
+test('scic surface exposes private verified membership without PII or false cryptographic anonymity',()=>{for(const x of ['Sociétariat vérifié · frontière privée','Inscription réelle ouverte','Jamais publics','Jeton privé à usage unique','Anonymat cryptographique vis-à-vis de l’émetteur'])assert.ok(ui.includes(x));});
 test('scene is moved, never cloned',()=>assert.doesNotMatch(ui,/cloneNode|new.*WebGLRenderer/));
 test('Atlas preserves sensor shutdown when leaving detailed presence',()=>assert.ok(ui.includes("if(!['presence','lecture'].includes(p.kind)||current.isSearch)window.laBeteSuspendPresence?.();")));
 console.log('LA_BETE_EXPLORER_TESTS_PASS '+count);

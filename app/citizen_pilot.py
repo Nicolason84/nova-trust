@@ -4,7 +4,7 @@ Uses py_webauthn verification and cryptography AEAD; reuses dispatch_once.
 Secrets, database and TLS material must be outside the repository.
 """
 from __future__ import annotations
-import base64, hashlib, json, os, secrets, sqlite3, ssl, threading, time
+import base64, hashlib, hmac, json, os, secrets, sqlite3, ssl, threading, time
 from contextlib import contextmanager
 from datetime import datetime, timedelta, timezone
 from http.cookies import SimpleCookie
@@ -22,8 +22,12 @@ MODE='SYNTHETIC_ONLY_NOT_PRODUCTION'
 SESSION='__Host-ojo_pilot_session'
 PREAUTH='__Host-ojo_pilot_ceremony'
 FIXTURES={
- 'test-citizen-a':{'name':'Citoyen fictif A','address':'Adresse de démonstration A','reference':'SYNTHETIC_A_NO_REAL_PERSON'},
- 'test-citizen-b':{'name':'Citoyen fictif B','address':'Adresse de démonstration B','reference':'SYNTHETIC_B_NO_REAL_PERSON'}}
+ 'test-citizen-a':{'name':'Citoyen fictif A','address':'Adresse de démonstration A','reference':'SYNTHETIC_A_NO_REAL_PERSON',
+                   'membership_basis':'BENEFICIARY_OR_REGULAR_USER','membership_college':'CITIZENS_USERS',
+                   'membership_evidence':'SYNTHETIC_BENEFICIARY_EVIDENCE_NO_REAL_PERSON'},
+ 'test-citizen-b':{'name':'Citoyen fictif B','address':'Adresse de démonstration B','reference':'SYNTHETIC_B_NO_REAL_PERSON',
+                   'membership_basis':'VOLUNTEER_CONTRIBUTOR','membership_college':'CONTRIBUTORS_CIVIL_SOCIETY',
+                   'membership_evidence':'SYNTHETIC_CONTRIBUTOR_EVIDENCE_NO_REAL_PERSON'}}
 SERVICES={'information':'information@service-test.invalid','suivi':'suivi@service-test.invalid'}
 
 def encoded(b):return base64.urlsafe_b64encode(b).rstrip(b'=').decode()
@@ -67,6 +71,11 @@ CREATE TABLE IF NOT EXISTS documents(id TEXT PRIMARY KEY,subject TEXT NOT NULL,v
 CREATE TABLE IF NOT EXISTS mandates(id TEXT PRIMARY KEY,subject TEXT NOT NULL,document TEXT NOT NULL,document_digest TEXT NOT NULL,templates TEXT NOT NULL,expires REAL NOT NULL,revoked INTEGER NOT NULL DEFAULT 0,approved_at REAL NOT NULL);
 CREATE TABLE IF NOT EXISTS attempts(request_id TEXT PRIMARY KEY,subject TEXT NOT NULL,mandate TEXT NOT NULL,claim_key TEXT NOT NULL,state TEXT NOT NULL,receipt TEXT);
 CREATE TABLE IF NOT EXISTS fixture_receipts(id TEXT PRIMARY KEY,request_id TEXT NOT NULL UNIQUE,subject TEXT NOT NULL,payload_digest TEXT NOT NULL);
+CREATE TABLE IF NOT EXISTS membership_applications(id TEXT PRIMARY KEY,subject TEXT NOT NULL UNIQUE,basis TEXT NOT NULL,evidence_cipher BLOB NOT NULL,evidence_digest TEXT NOT NULL,state TEXT NOT NULL,applied_at REAL NOT NULL,reviewed_at REAL,verifier_receipt TEXT,admission_receipt TEXT,college TEXT);
+CREATE TABLE IF NOT EXISTS member_credentials(id TEXT PRIMARY KEY,subject TEXT NOT NULL UNIQUE,application TEXT NOT NULL,public_id TEXT NOT NULL UNIQUE,college TEXT NOT NULL,status TEXT NOT NULL,issued_at REAL NOT NULL,review_due REAL NOT NULL,eligibility_attestation TEXT NOT NULL,revoked INTEGER NOT NULL DEFAULT 0);
+CREATE TABLE IF NOT EXISTS ballot_entitlements(member_credential TEXT NOT NULL,election_id TEXT NOT NULL,issued_at REAL NOT NULL,PRIMARY KEY(member_credential,election_id));
+CREATE TABLE IF NOT EXISTS ballot_tokens(hash TEXT PRIMARY KEY,election_id TEXT NOT NULL,college TEXT NOT NULL,expires REAL NOT NULL,used INTEGER NOT NULL DEFAULT 0);
+CREATE TABLE IF NOT EXISTS secret_ballots(receipt TEXT PRIMARY KEY,election_id TEXT NOT NULL,college TEXT NOT NULL,choice TEXT NOT NULL,cast_at REAL NOT NULL);
 CREATE TABLE IF NOT EXISTS audit(seq INTEGER PRIMARY KEY AUTOINCREMENT,subject TEXT NOT NULL,event TEXT NOT NULL,at REAL NOT NULL,ref TEXT);
 ''')
         # Invitations provision only fixed fictional identities. They are never printed.
@@ -159,7 +168,7 @@ CREATE TABLE IF NOT EXISTS audit(seq INTEGER PRIMARY KEY AUTOINCREMENT,subject T
         with self.tx():return self.new_session(c['subject'],self.verify_auth(c,credential))
     def create_document(self,session_token):
         with self.tx():
-            s=self.session(session_token);subject=s['subject'];j={**FIXTURES[subject],'mode':MODE,'revision':1}
+            s=self.session(session_token);subject=s['subject'];fixture=FIXTURES[subject];j={k:fixture[k] for k in ('name','address','reference')};j.update(mode=MODE,revision=1)
             did=secrets.token_urlsafe(18);cipher=self.seal(self.user_key(subject),raw(j),('doc:'+subject+':'+did+':1').encode())
             self.db.execute('INSERT INTO documents VALUES(?,?,?,?,?)',(did,subject,1,cipher,digest(j)));self.audit(subject,'SYNTHETIC_DOCUMENT_CREATED',did)
             return {'id':did,'version':1,'document':j,'digest':digest(j)}
@@ -218,13 +227,119 @@ CREATE TABLE IF NOT EXISTS audit(seq INTEGER PRIMARY KEY AUTOINCREMENT,subject T
             self.db.execute('UPDATE mandates SET revoked=1 WHERE id=?',(mid,));self.audit(s['subject'],'MANDATE_REVOKED',mid);return {'state':'REVOKED','past_receipts_erased':False}
     def revoke_all(self,session_token):
         with self.tx():
-            s=self.session(session_token);u=s['subject'];self.db.execute('UPDATE subjects SET epoch=epoch+1 WHERE id=?',(u,));self.db.execute('UPDATE sessions SET revoked=1 WHERE subject=?',(u,));self.db.execute('UPDATE credentials SET revoked=1 WHERE subject=?',(u,));self.db.execute('UPDATE mandates SET revoked=1 WHERE subject=?',(u,));self.audit(u,'ALL_ACCESS_REVOKED');return {'state':'ALL_ACCESS_REVOKED','recovery':'UNAVAILABLE_IN_PILOT'}
+            s=self.session(session_token);u=s['subject'];self.db.execute('UPDATE subjects SET epoch=epoch+1 WHERE id=?',(u,));self.db.execute('UPDATE sessions SET revoked=1 WHERE subject=?',(u,));self.db.execute('UPDATE credentials SET revoked=1 WHERE subject=?',(u,));self.db.execute('UPDATE mandates SET revoked=1 WHERE subject=?',(u,));self.db.execute('UPDATE member_credentials SET revoked=1,status=? WHERE subject=?',('REVOKED_SYNTHETIC',u));self.audit(u,'ALL_ACCESS_REVOKED');return {'state':'ALL_ACCESS_REVOKED','membership_revoked':True,'past_secret_ballots_erased':False,'recovery':'UNAVAILABLE_IN_PILOT'}
     def logout(self,session_token):
         with self.tx():
             s=self.session(session_token);self.db.execute('UPDATE sessions SET revoked=1 WHERE hash=?',(s['hash'],));return {'state':'LOGGED_OUT'}
+    def member_public_id(self,subject):
+        mac=hmac.new(self.kek,b'member-public-v1:'+subject.encode(),hashlib.sha256).digest()
+        return 'soc_'+encoded(mac)[:24]
+
+    def apply_membership_fixture(self,session_token):
+        """Synthetic-only private application. No real identity verification claim."""
+        with self.tx():
+            sess=self.session(session_token);subject=sess['subject'];fixture=FIXTURES.get(subject)
+            if not fixture:raise Denied('FIXTURE_MEMBERSHIP_UNAVAILABLE')
+            existing=self.db.execute('SELECT id,state FROM membership_applications WHERE subject=?',(subject,)).fetchone()
+            if existing:return {'id':existing['id'],'state':existing['state'],'mode':MODE,'real_identity_verified':False}
+            evidence={'basis':fixture['membership_basis'],'evidence':fixture['membership_evidence'],'reference':fixture['reference'],'synthetic_only':True}
+            aid=secrets.token_urlsafe(18);plain=raw(evidence);dig=digest(evidence)
+            cipher=self.seal(self.user_key(subject),plain,('membership:'+subject+':'+aid).encode())
+            self.db.execute('INSERT INTO membership_applications(id,subject,basis,evidence_cipher,evidence_digest,state,applied_at) VALUES(?,?,?,?,?,?,?)',(aid,subject,fixture['membership_basis'],cipher,dig,'ELIGIBILITY_REVIEW',self.clock()))
+            self.audit(subject,'SYNTHETIC_MEMBERSHIP_APPLICATION_CREATED',aid)
+            return {'id':aid,'state':'ELIGIBILITY_REVIEW','mode':MODE,'real_identity_verified':False,'public_identity_written':False}
+
+    def membership_evidence(self,application_id):
+        r=self.db.execute('SELECT * FROM membership_applications WHERE id=?',(application_id,)).fetchone()
+        if not r:raise Denied('NOT_FOUND',404)
+        evidence=json.loads(self.unseal(self.user_key(r['subject']),r['evidence_cipher'],('membership:'+r['subject']+':'+application_id).encode()))
+        if digest(evidence)!=r['evidence_digest']:raise Denied('INTEGRITY_FAILURE',409)
+        return dict(r),evidence
+
+    def review_membership_fixture(self,application_id,*,identity_verifier,admission_authority,statutes_version):
+        """Admission is authority-controlled, never self-approved by the applicant."""
+        if identity_verifier is None or admission_authority is None or not statutes_version:
+            raise Denied('MEMBERSHIP_PRIVATE_AUTHORITIES_REQUIRED')
+        with self.tx():
+            row,evidence=self.membership_evidence(application_id)
+            if row['state']!='ELIGIBILITY_REVIEW':raise Denied('APPLICATION_NOT_REVIEWABLE',409)
+            verification=identity_verifier.verify(row['subject'],evidence)
+            if verification.get('identity_verified') is not True or verification.get('eligibility_verified') is not True:
+                raise Denied('IDENTITY_OR_ELIGIBILITY_NOT_VERIFIED')
+            decision=admission_authority.decide(row['subject'],verification,statutes_version)
+            if decision.get('approved') is not True:raise Denied('ADMISSION_NOT_APPROVED')
+            expected=FIXTURES[row['subject']]['membership_college']
+            if decision.get('college')!=expected:raise Denied('COLLEGE_ASSIGNMENT_MISMATCH')
+            public_id=self.member_public_id(row['subject'])
+            cid=secrets.token_urlsafe(18)
+            attestation=digest({'application':application_id,'evidence_digest':row['evidence_digest'],'verifier_receipt':verification.get('verifier_receipt_id'),'admission_receipt':decision.get('admission_receipt_id'),'college':decision['college'],'statutes_version':statutes_version})
+            self.db.execute('UPDATE membership_applications SET state=?,reviewed_at=?,verifier_receipt=?,admission_receipt=?,college=? WHERE id=?',('ADMITTED_SYNTHETIC',self.clock(),verification.get('verifier_receipt_id'),decision.get('admission_receipt_id'),decision['college'],application_id))
+            self.db.execute('INSERT INTO member_credentials(id,subject,application,public_id,college,status,issued_at,review_due,eligibility_attestation) VALUES(?,?,?,?,?,?,?,?,?)',(cid,row['subject'],application_id,public_id,decision['college'],'ACTIVE_SYNTHETIC',self.clock(),self.clock()+365*86400,attestation))
+            self.audit(row['subject'],'SYNTHETIC_MEMBERSHIP_ADMITTED',cid)
+            return self.public_membership_receipt_by_subject(row['subject'])
+
+    def public_membership_receipt_by_subject(self,subject):
+        r=self.db.execute('SELECT public_id,college,status,issued_at,review_due,eligibility_attestation,revoked FROM member_credentials WHERE subject=?',(subject,)).fetchone()
+        if not r:return None
+        return {'schema':'LA_BETE_PUBLIC_MEMBERSHIP_RECEIPT_V1','member_public_id':r['public_id'],'college':r['college'],'status':'REVOKED' if r['revoked'] else r['status'],'issued_at':iso(r['issued_at']),'review_due':iso(r['review_due']),'eligibility':'VERIFIED_IN_PRIVATE_SYNTHETIC_PILOT','eligibility_attestation':r['eligibility_attestation'],'identity_fields_exposed':False,'legal_societaire_claim':False,'mode':MODE}
+
+    def public_membership_receipt(self,session_token):
+        with self.tx():
+            sess=self.session(session_token)
+            receipt=self.public_membership_receipt_by_subject(sess['subject'])
+            if not receipt:raise Denied('MEMBERSHIP_NOT_ACTIVE',404)
+            return receipt
+
+    def issue_secret_ballot_token(self,session_token,election_id,ttl=300):
+        """One entitlement per election. Token store carries college, never member identity/public id.
+        Public unlinkability is proven; issuer-level cryptographic unlinkability is NOT claimed.
+        """
+        if not isinstance(election_id,str) or not 4<=len(election_id)<=120 or ttl<30 or ttl>900:raise Denied('INVALID_ELECTION')
+        with self.tx():
+            sess=self.session(session_token);m=self.db.execute('SELECT * FROM member_credentials WHERE subject=? AND revoked=0',(sess['subject'],)).fetchone()
+            if not m or m['status']!='ACTIVE_SYNTHETIC' or m['review_due']<=self.clock():raise Denied('VOTING_RIGHTS_NOT_ACTIVE')
+            try:self.db.execute('INSERT INTO ballot_entitlements(member_credential,election_id,issued_at) VALUES(?,?,?)',(m['id'],election_id,self.clock()))
+            except sqlite3.IntegrityError:raise Denied('BALLOT_TOKEN_ALREADY_ISSUED',409) from None
+            token=secrets.token_urlsafe(32)
+            self.db.execute('INSERT INTO ballot_tokens(hash,election_id,college,expires) VALUES(?,?,?,?)',(token_hash(token),election_id,m['college'],self.clock()+ttl))
+            self.audit(sess['subject'],'SECRET_BALLOT_TOKEN_ISSUED',election_id)
+            return {'token':token,'election_id':election_id,'expires_at':iso(self.clock()+ttl),'member_identity_embedded':False,'member_public_id_embedded':False,'college_disclosed_to_ballot_box':True,'issuer_unlinkability':'NOT_PROVEN_IN_SYNTHETIC_PILOT','mode':MODE}
+
+    def cast_secret_ballot_fixture(self,token,election_id,choice):
+        if choice not in ('YES','NO','ABSTAIN'):raise Denied('INVALID_BALLOT_CHOICE')
+        with self.tx():
+            r=self.db.execute('SELECT * FROM ballot_tokens WHERE hash=? AND election_id=?',(token_hash(token),election_id)).fetchone()
+            if not r or r['used'] or r['expires']<=self.clock():raise Denied('BALLOT_TOKEN_INVALID_OR_USED')
+            self.db.execute('UPDATE ballot_tokens SET used=1 WHERE hash=?',(r['hash'],))
+            receipt='vote_'+secrets.token_urlsafe(18)
+            self.db.execute('INSERT INTO secret_ballots(receipt,election_id,college,choice,cast_at) VALUES(?,?,?,?,?)',(receipt,election_id,r['college'],choice,self.clock()))
+            return {'receipt':receipt,'election_id':election_id,'college':r['college'],'choice_recorded':True,'member_identity_recorded':False,'member_public_id_recorded':False,'mode':MODE}
+
+    def secret_ballot_tally(self,election_id):
+        rows=self.db.execute('SELECT college,choice,COUNT(*) n FROM secret_ballots WHERE election_id=? GROUP BY college,choice',(election_id,)).fetchall()
+        out={}
+        for r in rows:out.setdefault(r['college'],{'YES':0,'NO':0,'ABSTAIN':0})[r['choice']]=r['n']
+        return {'schema':'LA_BETE_PRIVATE_BALLOT_TALLY_V1','election_id':election_id,'colleges':out,'identity_fields_exposed':False,'public_member_ids_exposed':False,'mode':MODE}
+
     def overview(self,session_token):
         with self.tx():
-            s=self.session(session_token);u=s['subject'];return {'mode':MODE,'subject':u,'identity_verified':False,'documents':[dict(x) for x in self.db.execute('SELECT id,version,digest FROM documents WHERE subject=?',(u,))],'mandates':[dict(x) for x in self.db.execute('SELECT id,document,expires,revoked FROM mandates WHERE subject=?',(u,))],'receipts':[dict(x) for x in self.db.execute('SELECT id,request_id,payload_digest FROM fixture_receipts WHERE subject=?',(u,))],'audit':[dict(x) for x in self.db.execute('SELECT event,at,ref FROM audit WHERE subject=? ORDER BY seq DESC LIMIT 50',(u,))]}
+            s=self.session(session_token);u=s['subject'];return {'mode':MODE,'subject':u,'identity_verified':False,'documents':[dict(x) for x in self.db.execute('SELECT id,version,digest FROM documents WHERE subject=?',(u,))],'mandates':[dict(x) for x in self.db.execute('SELECT id,document,expires,revoked FROM mandates WHERE subject=?',(u,))],'membership':self.public_membership_receipt_by_subject(u),'receipts':[dict(x) for x in self.db.execute('SELECT id,request_id,payload_digest FROM fixture_receipts WHERE subject=?',(u,))],'audit':[dict(x) for x in self.db.execute('SELECT event,at,ref FROM audit WHERE subject=? ORDER BY seq DESC LIMIT 50',(u,))]}
+
+class FixtureIdentityVerifier:
+    """Synthetic proof adapter. It never verifies a real-world identity."""
+    def verify(self,subject,evidence):
+        fixture=FIXTURES.get(subject)
+        if not fixture or evidence.get('reference')!=fixture['reference'] or evidence.get('evidence')!=fixture['membership_evidence']:
+            return {'identity_verified':False,'eligibility_verified':False}
+        return {'identity_verified':True,'eligibility_verified':True,'basis':fixture['membership_basis'],'verifier_receipt_id':'FIXTURE_IDV_'+token_hash(subject)[:16],'real_world_identity':False}
+
+class FixtureAdmissionAuthority:
+    """Synthetic admission authority; real admission must follow adopted statutes."""
+    def decide(self,subject,verification,statutes_version):
+        fixture=FIXTURES.get(subject)
+        if not fixture or verification.get('identity_verified') is not True or verification.get('eligibility_verified') is not True:
+            return {'approved':False}
+        return {'approved':True,'college':fixture['membership_college'],'admission_receipt_id':'FIXTURE_ADMISSION_'+token_hash(subject+statutes_version)[:16],'binding_legal_admission':False}
 
 class FixtureAuthority:
     def __init__(self,pilot,session,mid,template):self.p=pilot;self.s=session;self.mid=mid;self.template=template
@@ -275,6 +390,7 @@ class PilotHandler(BaseHTTPRequestHandler):
                 name,mime=assets[u.path];return self.respond((Path(__file__).parent/'private_pilot_ui'/name).read_bytes(),content_type=mime)
             token=self.cookies().get(SESSION,'')
             if u.path=='/api/session':return self.respond(self.server.pilot.overview(token))
+            if u.path=='/api/membership':return self.respond(self.server.pilot.public_membership_receipt(token))
             if u.path.startswith('/api/documents/') and u.path.count('/')==3:return self.respond(self.server.pilot.read_document(token,u.path.split('/')[-1]))
             raise Denied('NOT_FOUND',404)
         except Denied as e:self.respond({'error':e.code,'mode':MODE},e.status)
@@ -287,7 +403,7 @@ class PilotHandler(BaseHTTPRequestHandler):
             if not 2<=size<=24000:raise Denied('BODY_SIZE_REJECTED',413)
             j=json.loads(self.rfile.read(size))
             if not isinstance(j,dict):raise Denied('OBJECT_REQUIRED',400)
-            fields={'/api/register/options':{'invite'},'/api/register/verify':{'ceremony_id','credential'},'/api/login/options':{'subject'},'/api/login/verify':{'ceremony_id','credential'},'/api/documents':set(),'/api/documents/replace-fixture':{'document'},'/api/mandates/options':{'document','templates'},'/api/mandates/verify':{'ceremony_id','credential'},'/api/prepare':{'mandate','template'},'/api/submit-fixture':{'mandate','template'},'/api/revoke':{'mandate'},'/api/revoke-all':set(),'/api/logout':set()}
+            fields={'/api/register/options':{'invite'},'/api/register/verify':{'ceremony_id','credential'},'/api/login/options':{'subject'},'/api/login/verify':{'ceremony_id','credential'},'/api/documents':set(),'/api/documents/replace-fixture':{'document'},'/api/mandates/options':{'document','templates'},'/api/mandates/verify':{'ceremony_id','credential'},'/api/prepare':{'mandate','template'},'/api/submit-fixture':{'mandate','template'},'/api/membership/apply':set(),'/api/ballot/token':{'election_id'},'/api/ballot/cast':{'token','election_id','choice'},'/api/revoke':{'mandate'},'/api/revoke-all':set(),'/api/logout':set()}
             if u.path not in fields:raise Denied('NOT_FOUND',404)
             if set(j)!=fields[u.path]:raise Denied('FIELDS_NOT_ALLOWED',400)
             # All endpoints accept only protocol fields or fixed synthetic selectors. No upload.
@@ -307,6 +423,9 @@ class PilotHandler(BaseHTTPRequestHandler):
             if u.path=='/api/mandates/verify':return self.respond(p.finish_mandate(t,j['ceremony_id'],j['credential']))
             if u.path=='/api/prepare':return self.respond(p.prepare(t,j['mandate'],j['template']))
             if u.path=='/api/submit-fixture':return self.respond(p.submit_fixture(t,j['mandate'],j['template']))
+            if u.path=='/api/membership/apply':return self.respond(p.apply_membership_fixture(t))
+            if u.path=='/api/ballot/token':return self.respond(p.issue_secret_ballot_token(t,j['election_id']))
+            if u.path=='/api/ballot/cast':return self.respond(p.cast_secret_ballot_fixture(j['token'],j['election_id'],j['choice']))
             if u.path=='/api/revoke':return self.respond(p.revoke_mandate(t,j['mandate']))
             if u.path=='/api/revoke-all':return self.respond(p.revoke_all(t),cookies={SESSION:'',PREAUTH:''})
             if u.path=='/api/logout':return self.respond(p.logout(t),cookies={SESSION:''})

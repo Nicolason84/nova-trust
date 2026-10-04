@@ -194,6 +194,25 @@ class HybridModelTests(unittest.TestCase):
         self.assertEqual(democracy['membership']['current_legal_societaires'], 0)
         self.assertEqual(democracy['participation']['binding_vote_channel'], 'NOT_OPEN_UNTIL_VERIFIED_MEMBERSHIP_AND_SCIC_ACTIVATION')
 
+    def test_membership_verification_stays_private_and_real_enrollment_closed(self):
+        membership = self.hybrid['cooperative_direction']['democracy']['membership']
+        self.assertEqual(membership['pilot_state'], 'SYNTHETIC_PRIVATE_MEMBERSHIP_PIPELINE_IMPLEMENTED')
+        self.assertFalse(membership['real_enrollment_open'])
+        self.assertIn('EXISTING_PRIVATE_CITIZEN_PILOT_WEBAUTHN', membership['identity_verification'])
+        self.assertEqual(membership['eligibility_verification'], 'PRIVATE_EVIDENCE_ENCRYPTED_NEVER_PUBLIC')
+        self.assertEqual(membership['admission_authority'], 'SEPARATE_PRIVATE_AUTHORITY_REQUIRED_NOT_SELF_SERVICE')
+        forbidden = set(membership['public_receipt_forbidden_fields'])
+        self.assertTrue({'name','address','email','civil_identity','eligibility_evidence','passkey_id'} <= forbidden)
+
+    def test_ballot_public_registry_never_contains_member_identity(self):
+        ballot = self.hybrid['cooperative_direction']['democracy']['ballot_protocol']
+        self.assertFalse(ballot['identity_publication'])
+        self.assertFalse(ballot['member_public_id_in_ballot'])
+        self.assertTrue(ballot['one_time_private_ballot_token'])
+        self.assertEqual(ballot['token_replay'], 'REJECTED')
+        self.assertEqual(ballot['public_registry_unlinkability'], 'PROVEN_IN_SYNTHETIC_PRIVATE_PILOT')
+        self.assertIn('NOT_PROVEN', ballot['issuer_level_cryptographic_unlinkability'])
+
     def test_truth_is_never_a_ballot_target(self):
         democracy = self.hybrid['cooperative_direction']['democracy']
         firewall = democracy['truth_firewall']
