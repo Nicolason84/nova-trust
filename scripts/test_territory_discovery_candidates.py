@@ -80,11 +80,62 @@ class DiscoveryContractTests(unittest.TestCase):
         self.assertEqual(result["previous_scanned_at_not_retained"], previous["scanned_at"])
         self.assertEqual(result["state"], "OFFLINE_RELATION_BASELINE_ONLY")
 
+    def test_material_projection_ignores_rescan_noise_but_not_evidence(self):
+        previous = {
+            "generated_at": "old",
+            "coverage": {"selected_this_run": ["01"]},
+            "departments": {
+                "01": {
+                    "scanned_at": "old",
+                    "source_health": {"nature_wikipedia_wikidata": "PASS"},
+                    "nature": [{
+                        "candidate_id": "nature:wikipedia:Q1",
+                        "label": "Parc exemple",
+                        "source": "https://fr.wikipedia.org/wiki/Parc_exemple",
+                        "description": "ancien snippet",
+                        "administrative_binding": "P131_PATH_TO_DEPARTMENT",
+                        "administrative_path": ["Q1","Q2","Q3"],
+                    }],
+                },
+            },
+        }
+        rescanned = json.loads(json.dumps(previous))
+        rescanned["generated_at"] = "new"
+        rescanned["coverage"]["selected_this_run"] = ["02"]
+        rescanned["departments"]["01"]["scanned_at"] = "new"
+        rescanned["departments"]["01"]["nature"][0]["description"] = "nouveau snippet"
+        rescanned["departments"]["01"]["nature"][0]["administrative_path"] = ["Q1","Q9","Q3"]
+        self.assertFalse(BUILDER.has_material_change(previous, rescanned))
+        with tempfile.TemporaryDirectory() as td:
+            out = Path(td) / "discovery.json"
+            out.write_text(json.dumps(previous, ensure_ascii=False, indent=2) + "\n")
+            before = out.read_bytes()
+            self.assertFalse(BUILDER.write_doc_if_material_change(previous, rescanned, out))
+            self.assertEqual(out.read_bytes(), before)
+            rescanned["departments"]["01"]["nature"][0]["label"] = "Parc renommé"
+            self.assertTrue(BUILDER.has_material_change(previous, rescanned))
+            self.assertTrue(BUILDER.write_doc_if_material_change(previous, rescanned, out))
+            self.assertNotEqual(out.read_bytes(), before)
+
+    def test_daily_rotation_returns_unique_known_departments(self):
+        selected = BUILDER.choose_codes(None, 12, False)
+        self.assertEqual(len(selected), 12)
+        self.assertEqual(len(set(selected)), 12)
+        self.assertTrue(set(selected).issubset(CULTURE["departments"]))
+
+    def test_publish_race_regenerates_instead_of_rebasing_generated_data(self):
+        workflow = (ROOT / ".github/workflows/territory-living-discovery.yml").read_text()
+        self.assertIn("git reset --hard origin/main", workflow)
+        self.assertIn("git clean -fd -- docs/assets/territory-candidates", workflow)
+        self.assertIn("Regenerate from latest main", workflow)
+        self.assertNotIn("git rebase origin/main", workflow)
+
     def test_national_batch_policy_reaches_all_departments(self):
         p = DOC["batch_policy"]
         self.assertEqual(p["default_batch_size"], 12)
-        self.assertEqual(p["selection"], "UNSCANNED_FIRST_THEN_OLDEST_SCAN")
+        self.assertEqual(p["selection"], "UNSCANNED_FIRST_THEN_DAILY_DETERMINISTIC_ROTATION")
         self.assertLessEqual(p["full_cycle_target_runs"], 9)
+        self.assertEqual(p["material_change_policy"], "EVIDENCE_SEMANTIC_DIFF_ONLY")
         self.assertEqual(DOC["coverage"]["departments_total"], 101)
         for source in ("merimee_monuments_historiques","bibliotheques_publiques","tiers_lieux_2026","wikimedia_commons","wikipedia_fr","canonical_relations"):
             self.assertIn(source, DOC["sources"])

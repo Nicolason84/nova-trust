@@ -409,16 +409,17 @@ def commons_image(filename: str, dep_code: str, qid: str) -> dict | None:
     rel = f"assets/territory-candidates/{dep_code}/{asset_name}"
     dest = ROOT / "docs" / rel
     dest.parent.mkdir(parents=True, exist_ok=True)
-    try:
-        req = urllib.request.Request(thumb, headers={"User-Agent": UA})
-        with urllib.request.urlopen(req, timeout=15) as response:
-            ctype = response.headers.get("Content-Type", "")
-            raw = response.read(1_800_000)
-        if len(raw) >= 1_800_000 or not ctype.startswith("image/"):
-            raise ValueError("CANDIDATE_IMAGE_INVALID")
-        dest.write_bytes(raw)
-    except Exception:
-        rel = None
+    if not dest.exists():
+        try:
+            req = urllib.request.Request(thumb, headers={"User-Agent": UA})
+            with urllib.request.urlopen(req, timeout=15) as response:
+                ctype = response.headers.get("Content-Type", "")
+                raw = response.read(1_800_000)
+            if len(raw) >= 1_800_000 or not ctype.startswith("image/"):
+                raise ValueError("CANDIDATE_IMAGE_INVALID")
+            dest.write_bytes(raw)
+        except Exception:
+            rel = None
     return {
         "candidate_id": "media:" + qid,
         "state": "LICENSE_VERIFIED_LOCATION_CANDIDATE",
@@ -554,6 +555,38 @@ def load_existing() -> dict:
     except Exception:
         return {}
 
+VOLATILE_DISCOVERY_KEYS = {
+    "generated_at",
+    "scanned_at",
+    "selected_this_run",
+    "description",
+    "administrative_path",
+    "thumbnail_source",
+    "last_scan_error_at",
+    "previous_scanned_at",
+    "previous_scanned_at_not_retained",
+}
+
+def material_projection(value):
+    if isinstance(value, dict):
+        return {
+            key: material_projection(item)
+            for key, item in sorted(value.items())
+            if key not in VOLATILE_DISCOVERY_KEYS
+        }
+    if isinstance(value, list):
+        return [material_projection(item) for item in value]
+    return value
+
+def has_material_change(previous, current) -> bool:
+    return material_projection(previous) != material_projection(current)
+
+def write_doc_if_material_change(previous: dict, current: dict, out_path: Path) -> bool:
+    if previous and not has_material_change(previous, current):
+        return False
+    out_path.write_text(json.dumps(current, ensure_ascii=False, indent=2) + "\n")
+    return True
+
 def choose_codes(explicit: str | None, batch_size: int, all_codes: bool) -> list[str]:
     codes = list(CULTURE["departments"].keys())
     if all_codes:
@@ -565,11 +598,11 @@ def choose_codes(explicit: str | None, batch_size: int, all_codes: bool) -> list
             raise SystemExit("UNKNOWN_DEPARTMENT_CODES:" + ",".join(unknown))
         return wanted
     existing = load_existing().get("departments") or {}
-    def key(code: str):
-        row = existing.get(code) or {}
-        never = 0 if not row.get("scanned_at") else 1
-        return (never, row.get("scanned_at") or "", code)
-    return sorted(codes, key=key)[:batch_size]
+    unscanned = [code for code in codes if not (existing.get(code) or {}).get("scanned_at")]
+    if unscanned:
+        return unscanned[:batch_size]
+    offset = (datetime.now(timezone.utc).date().toordinal() * batch_size) % len(codes)
+    return [codes[(offset + index) % len(codes)] for index in range(batch_size)]
 
 def scan_department(code: str, offline: bool = False) -> dict:
     profile = CULTURE["departments"][code]
@@ -717,11 +750,15 @@ def main() -> None:
         previous = departments.get(code)
         try:
             scanned = retain_last_good_on_source_failure(scan_department(code, args.offline), previous)
-            departments[code] = scanned
-            print(code, CULTURE["departments"][code]["name"], scanned["state"],
-                  "media", len(scanned["media"]), "heritage", len(scanned["heritage"]),
-                  "nature", len(scanned["nature"]), "commons", len(scanned["commons"]),
-                  "initiatives", len(scanned["initiatives"]))
+            if previous and not has_material_change(previous, scanned):
+                departments[code] = previous
+                print(code, CULTURE["departments"][code]["name"], "STABLE_NO_MATERIAL_CHANGE")
+            else:
+                departments[code] = scanned
+                print(code, CULTURE["departments"][code]["name"], scanned["state"],
+                      "media", len(scanned["media"]), "heritage", len(scanned["heritage"]),
+                      "nature", len(scanned["nature"]), "commons", len(scanned["commons"]),
+                      "initiatives", len(scanned["initiatives"]))
         except Exception as exc:
             departments[code] = fail_closed_on_unclassified_error(code, exc, previous)
             print(code, "FAIL_CLOSED_UNCLASSIFIED_ERROR", type(exc).__name__)
@@ -750,9 +787,10 @@ def main() -> None:
         },
         "batch_policy": {
             "default_batch_size": 12,
-            "selection": "UNSCANNED_FIRST_THEN_OLDEST_SCAN",
+            "selection": "UNSCANNED_FIRST_THEN_DAILY_DETERMINISTIC_ROTATION",
             "scheduled_cadence": "DAILY",
             "full_cycle_target_runs": 9,
+            "material_change_policy": "EVIDENCE_SEMANTIC_DIFF_ONLY",
         },
         "sources": {
             "wikidata": WIKIDATA_API,
@@ -771,7 +809,8 @@ def main() -> None:
         },
         "departments": departments,
     }
-    OUT.write_text(json.dumps(doc, ensure_ascii=False, indent=2) + "\n")
+    if not write_doc_if_material_change(existing, doc, OUT):
+        print("DISCOVERY_NO_MATERIAL_CHANGE")
     print("DISCOVERY_COVERAGE", scanned_count, "/", len(CULTURE["departments"]))
     print("DISCOVERY_CANDIDATES", candidate_count)
 
