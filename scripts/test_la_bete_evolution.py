@@ -2,6 +2,7 @@
 from evolve_france_debt_rate import build_dna, build_self_model
 from la_bete_civic_design_knowhow import build_civic_design_knowhow, validate_civic_design_knowhow
 from la_bete_scic_privacy_knowhow import build_scic_privacy_knowhow, validate_scic_privacy_knowhow
+from la_bete_supra_system_knowhow import build_supra_system_knowhow, validate_supra_system_knowhow
 
 def fixture(warnings: int, delta: float, status: str, *, unavailable: int = 0, contradicted: int = 0, maturity_live: bool = True) -> dict:
     monitored = 9
@@ -83,3 +84,14 @@ assert scic_knowhow["operating_rules"]["second_registry"] is False
 assert scic_knowhow["transfer_policy"]["requested_action"] == "OBSERVE_ONLY"
 assert scic_knowhow["transfer_policy"]["target_status"] == "RECEIVED_NOT_APPLIED"
 assert {"TRUTH_OUTSIDE_BALLOT","BLIND_ISSUER_BALLOT_BOX_SEPARATION","OHTTP_RELAY_GATEWAY_INDEPENDENCE","ANONYMITY_BATCH_FAIL_CLOSED","HSM_NON_EXPORTABLE_KEY_CUSTODY","AUDIT_PACK_IS_NOT_AUDIT","VENDOR_EVIDENCE_NOT_MARKETING","REPLY_IS_CANDIDATE_EVIDENCE_NOT_PASS","AUTOEVOLUTION_LINEAGE_RECONCILIATION"} <= {x["id"] for x in scic_knowhow["patterns"]}
+
+supra_knowhow = build_supra_system_knowhow("OJO-TEST")
+validate_supra_system_knowhow(supra_knowhow, "OJO-TEST")
+assert supra_knowhow["adoption_status"] == "AVAILABLE_NOT_APPLIED"
+assert supra_knowhow["constraints"]["authority_transfer"] is False
+assert supra_knowhow["constraints"]["capability_execution"] is False
+assert supra_knowhow["constraints"]["second_runtime"] is False
+assert supra_knowhow["constraints"]["second_registry"] is False
+assert supra_knowhow["constraints"]["second_scheduler"] is False
+assert supra_knowhow["evidence_contract"]["transport_proof_is_not_adoption_proof"] is True
+assert {"SUPRA_MEMORY_FIRST_REUSE_EXISTING","SUPRA_VERIFIED_LEARNING_BEFORE_REINJECTION","SUPRA_RECEIPT_NOT_ASSIMILATION","SUPRA_HUMAN_GATE_BEFORE_EXTERNAL_ACTION"} <= {x["id"] for x in supra_knowhow["patterns"]}
