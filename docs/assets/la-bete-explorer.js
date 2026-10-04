@@ -8,7 +8,7 @@ const id=x=>document.getElementById(x), append=(p,...c)=>{c.forEach(x=>x&&p.appe
 const button=(text,action,cls)=>{const b=el('button',text,cls);b.type='button';b.addEventListener('click',action);return b;};
 const link=(label,href,cls)=>{const a=el('a',label,cls);a.href=href;if(href.startsWith('#/'))a.dataset.muRoute=href;else{a.target='_blank';a.rel='noopener noreferrer';}return a;};
 const records=new Map(), moves=[], proofViews=new Map(), communeShards=new Map(), shardPromises=new Map();
-let topology=null,topologyPromise=null;let serial=0,current=null,territories=null,territoryPromise=null,renderToken=0,latest=null,proofNode=null,proofScroll=0,territoryCulture=null,territoryCulturePromise=null,phiPolicy=null,phiPromise=null,territoryQuests=null,territoryQuestsPromise=null;
+let topology=null,topologyPromise=null;let serial=0,current=null,territories=null,territoryPromise=null,renderToken=0,latest=null,proofNode=null,proofScroll=0,territoryCulture=null,territoryCulturePromise=null,phiPolicy=null,phiPromise=null,territoryQuests=null,territoryQuestsPromise=null,territoryLivingIdentity=null,territoryLivingIdentityPromise=null;
 const legacyChat=id('dialogue-public'), chatPlace=document.createComment('existing-dialogue-home');legacyChat.before(chatPlace);
 const root=el('div',undefined,'muApp');root.id='multiunivers';
 const AUDIENCE_MODES={simple:'Essentiel',explain:'Comprendre',expert:'Expert'};
@@ -452,11 +452,61 @@ function hybridView(kind,g){
  const cadence=el('p','Autoévolution : '+(auto.engine||'UNKNOWN')+' · second runtime : '+(auto.second_runtime===false?'NON':'NON VÉRIFIÉ')+' · prochaine action : proposition seulement.','muSnapshot');stage.append(cadence);
 }
 function factTable(node,g){const dl=el('dl',undefined,'muFacts');for(const [k,v]of M.facts(node,g))append(dl,el('dt',k),el('dd',v));return dl;}
+function territoryExternalURL(value){
+ try{const u=new URL(value);const hosts=new Set(['commons.wikimedia.org','creativecommons.org','oise.fr','www.oisetourisme.com','archives.oise.fr']);return u.protocol==='https:'&&hosts.has(u.hostname)?u.href:null;}catch(_){return null;}
+}
+function territoryAsset(value){const v=String(value||'');return /^assets\/territory\/[a-z0-9/_\-.]+$/i.test(v)?v:null;}
+function territoryMediaCard(item){
+ const card=el('figure',undefined,'muTerritoryMediaCard'),asset=territoryAsset(item?.asset);if(!asset)return null;
+ const img=el('img');img.src=asset;img.alt=item.label||'Image territoriale';img.loading='lazy';img.decoding='async';append(card,img);
+ const cap=el('figcaption'),meta=el('span',(item.author||'Auteur à vérifier')+' · '+(item.license||'licence à vérifier'),'muFineprint');append(cap,el('strong',item.label||'Lieu documenté'),item.caption?el('span',item.caption):null,meta);
+ const source=territoryExternalURL(item.source_page),license=territoryExternalURL(item.license_url);if(source)cap.append(link('Source image ↗',source,'muQuestionLink'));if(license)cap.append(link('Licence ↗',license,'muQuestionLink'));card.append(cap);return card;
+}
+function territorySoulPanel(code){
+ const living=territoryLivingIdentity?.departments?.[code];if(!living)return null;
+ const box=el('section',undefined,'muTerritorySoul');box.dataset.territoryState=living.state||'UNKNOWN';
+ const identity=living.palette?.identity||{},modes=territoryLivingIdentity?.reading_modes||[];
+ if(identity.state!=='VERIFIED_EDITORIAL_SYNTHESIS_FROM_SOURCED_MOTIFS'){
+  append(box,el('div','IDENTITÉ LOCALE À SOURCER','muTerritoryEyebrow'),el('h2','Aucune couleur locale inventée.'),el('p','La structure est prête, mais les couleurs, images, lieux et initiatives restent ouverts aux preuves et contributions vérifiées.','muGuard'));
+  const modeRow=el('div',undefined,'muTerritoryModes');for(const m of modes)modeRow.append(el('span',m.label));box.append(modeRow);return box;
+ }
+ const colors=identity.colors||[];const byId=Object.fromEntries(colors.map(x=>[x.id,x.hex]));for(const [key,value] of Object.entries({accent:byId.forest,stone:byId.stone,water:byId.water,mist:byId.mist,earth:byId.earth}))if(/^#[0-9A-Fa-f]{6}$/.test(String(value||'')))box.style.setProperty('--territory-'+key,value);
+ const media=living.media?.items||[],hero=media.find(x=>x.id===living.media?.hero_media_id)||media[0];
+ append(box,el('div','TERRITORY SOUL · IDENTITÉ SOURCÉE','muTerritoryEyebrow'));
+ const modeRow=el('div',undefined,'muTerritoryModes');for(const m of modes)modeRow.append(el('span',m.label));box.append(modeRow);
+ if(hero){const heroCard=territoryMediaCard(hero);if(heroCard){heroCard.classList.add('muTerritoryHero');box.append(heroCard);}}
+ append(box,el('h2','Les couleurs et les lieux ne sont plus un décor.'),el('p','Cette identité visuelle est une synthèse éditoriale de motifs documentés. Elle reste distincte des couleurs officielles, de la météo réelle et de toute hiérarchie entre territoires.','muFineprint'));
+ const palette=el('div',undefined,'muPaletteGrid');for(const c of colors){const sw=el('div',undefined,'muPaletteSwatch');if(/^#[0-9A-Fa-f]{6}$/.test(c.hex))sw.style.setProperty('--swatch',c.hex);append(sw,el('i'),el('span',c.label),el('small',c.hex));palette.append(sw);}box.append(palette);
+ const others=media.filter(x=>x!==hero),gallery=el('div',undefined,'muTerritoryMediaGrid');for(const item of others){const card=territoryMediaCard(item);if(card)gallery.append(card);}if(gallery.children.length){append(box,el('h3','Images de présence et de culture'),gallery);}
+ const makeCards=(titleText,items,kind)=>{if(!items?.length)return;const section=el('section',undefined,'muLivingSection');section.append(el('h3',titleText));const grid=el('div',undefined,'muLivingGrid');for(const item of items){const card=el('article',undefined,'muLivingCard');append(card,el('span',(item.family||kind||'LOCAL').replaceAll('_',' '),'muCardType'),el('strong',item.label),el('small',item.state||'À vérifier'));const u=territoryExternalURL(item.source);if(u)card.append(link('Vérifier la source ↗',u,'muQuestionLink'));grid.append(card);}section.append(grid);box.append(section);};
+ makeCards('Explorer · points d’intérêt',living.points_of_interest,'lieu');
+ makeCards('Vivre · communs utiles',living.commons_useful,'commun');
+ makeCards('Construire · opportunités à valider',living.opportunities,'opportunité');
+ const connections=living.connections||[];if(connections.length)makeCards('Relier · communes et usages partagés',connections,'relation');
+ box.append(el('p','Une “opportunité” désigne ici une piste documentable ou contributive : elle ne prouve ni demande de marché, ni rentabilité, ni besoin économique.','muGuard'));
+ return box;
+}
+function communeLivingPanel(node,g){
+ const d=node.data||{},dep=territoryLivingIdentity?.departments?.[d.department_code],overlay=territoryLivingIdentity?.commune_overlays?.[d.code],box=el('section',undefined,'muCommuneLiving');
+ append(box,el('div','COMMUNE VIVANTE','muTerritoryEyebrow'),el('h2','Ce qu’on peut faire, partager et mieux raconter ici.'));
+ const mediaIds=new Set(overlay?.media_ids||[]),media=(dep?.media?.items||[]).filter(x=>mediaIds.has(x.id));if(media.length){const gallery=el('div',undefined,'muTerritoryMediaGrid');for(const item of media){const card=territoryMediaCard(item);if(card)gallery.append(card);}box.append(gallery);}
+ const actionSection=el('section',undefined,'muLivingSection');actionSection.append(el('h3','Ce qu’on peut y faire'));const actions=el('div',undefined,'muLivingGrid');
+ const rows=overlay?.things_to_do?.length?overlay.things_to_do:['Visiter','Se promener','Apprendre','Se rencontrer','Entreprendre','Participer'].map(label=>({label,state:'À DOCUMENTER LOCALEMENT'}));
+ for(const item of rows){const c=el('article',undefined,'muLivingCard');append(c,el('strong',item.label),el('small',item.state));const u=territoryExternalURL(item.source);if(u)c.append(link('Source ↗',u,'muQuestionLink'));actions.append(c);}actionSection.append(actions);box.append(actionSection);
+ const shared=el('section',undefined,'muLivingSection');shared.append(el('h3','Ce qu’elle partage avec d’autres communes'));const relations=el('div',undefined,'muLivingGrid');
+ if(d.epci_code){const c=el('article',undefined,'muLivingCard');append(c,el('span','BASSIN DE VIE','muCardType'),el('strong','Intercommunalité '+d.epci_code),el('small','Relation administrative présente dans le référentiel chargé.'));relations.append(c);}
+ for(const code of overlay?.shared_links||[]){const row=M.communeIndex(g.detail).get(code);if(!row)continue;const a=link('',M.route('objet',M.TOPO+'#/communes/'+code),'muLivingCard');append(a,el('span','LIEN LOCAL SOURCÉ','muCardType'),el('strong',row[1]),el('small','Explorer la relation documentée ↗'));relations.append(a);}
+ if(!relations.children.length)relations.append(el('p','Aucune relation locale supplémentaire n’est encore documentée ici.','muFineprint'));shared.append(relations);box.append(shared);
+ const gaps=territoryQuests?.territories?.[d.department_code]?.quests?.filter(x=>x.state!=='COMPLETE').slice(0,4)||[],missing=el('section',undefined,'muLivingSection');missing.append(el('h3','Ce qui manque encore'));const mg=el('div',undefined,'muLivingGrid');
+ for(const q of gaps){const c=el('article',undefined,'muLivingCard');append(c,el('span','QUÊTE Φ','muCardType'),el('strong',q.label),el('small',q.remaining_items+' élément(s) à vérifier dans le département'));mg.append(c);}if(!mg.children.length)mg.append(el('p','Aucun manque vérifié n’est affiché dans le contexte chargé.','muFineprint'));missing.append(mg);box.append(missing);
+ return box;
+}
 function departmentPortrait(node,g){
  const d=node.data||{},profile=territoryCulture?.departments?.[d.code],shard=g.communeShards?.get(d.code),box=el('div',undefined,'muDepartmentPortrait');
  const stats=el('div',undefined,'muDepartmentStats');
  const stat=(value,label)=>{const c=el('div',undefined,'muDepartmentStat');append(c,el('strong',value),el('span',label));return c;};
  append(stats,stat(d.commune_count??'—',uiLocale==='en'?'communes':uiLocale==='es'?'municipios':'communes'),stat(d.epci_codes?.length??'—',uiLocale==='en'?'inter-municipal groups':uiLocale==='es'?'intercomunalidades':'intercommunalités'),stat(Number.isFinite(d.population_sum)?d.population_sum.toLocaleString(uiLocale==='en'?'en-US':uiLocale==='es'?'es-ES':'fr-FR'):'—',uiLocale==='en'?'people in API sum*':uiLocale==='es'?'personas en suma API*':'habitants dans la somme API*'));
+ const soul=territorySoulPanel(d.code);if(soul)box.append(soul);
  box.append(stats,el('p',uiLocale==='en'?'*The API response does not provide the population vintage here; this is not presented as a dated census.':uiLocale==='es'?'*La respuesta API no aporta aquí el año de población; no se presenta como un censo fechado.':'*Le millésime de population n’est pas fourni dans cette réponse API : ce total n’est pas présenté comme un recensement daté.','muFineprint'));
  if(shard?.communes?.length){const top=shard.communes.filter(c=>Number.isFinite(c.population)).sort((a,b)=>b.population-a.population).slice(0,6),section=el('section',undefined,'muDepartmentSection');section.append(el('h2',tr('top_places','Communes principales dans les données API chargées')));const grid=el('div',undefined,'muLocalPlaces');for(const c of top){const a=link('',M.route('objet',M.TOPO+'#/communes/'+c.code),'muLocalPlace');append(a,el('strong',c.name),el('span',c.population.toLocaleString(uiLocale==='en'?'en-US':uiLocale==='es'?'es-ES':'fr-FR')+' · API'));grid.append(a);}section.append(grid);box.append(section);}
  const local=profile?.local_language,language=el('section',undefined,'muDepartmentSection');language.append(el('h2',tr('local_lang','Langues & expressions locales')));
@@ -468,12 +518,13 @@ function departmentPortrait(node,g){
  const quests=territoryQuestPanel(d.code);if(quests)box.append(quests);const phi=phiPanel(d.code);if(phi)box.append(phi);return box;
 }
 function objectView(node,g){
- const isDepartment=node.kind==='DEPARTMENT',humanDepartment=isDepartment&&audienceMode!=='expert',profile=isDepartment?territoryCulture?.departments?.[node.data?.code]:null;
+ const isDepartment=node.kind==='DEPARTMENT',isCommune=node.kind==='COMMUNE',humanDepartment=isDepartment&&audienceMode!=='expert',humanCommune=isCommune&&audienceMode!=='expert',profile=isDepartment?territoryCulture?.departments?.[node.data?.code]:null;
  if(humanDepartment)title(tr('dept_kicker','VOTRE DÉPARTEMENT, AU-DELÀ DES CHIFFRES'),fill(tr('dept_title','Découvrez {name} autrement'),{name:node.label}),tr('dept_sub','Lieux, langues, patrimoine, savoir-faire, mémoire et initiatives locales — avec des sources, et une place pour ce que les habitants savent mieux que les bases de données.'));
+ else if(humanCommune)title('VOTRE COMMUNE, CONCRÈTEMENT',node.label,'Que peut-on y faire, que partage-t-elle avec ses voisines, et qu’est-ce qui reste à mieux documenter ?');
  else title((M.LABELS[node.kind]||node.kind).toUpperCase(),node.label,node.kind==='REGION'?'Une fiche territoriale descriptive. Aucun taux national ne lui est attribué.':'Un objet, ses éléments documentés et les chemins qui le relient au reste.');
  const layout=el('div',undefined,'muObjectLayout'),main=el('section',undefined,'muObjectMain'),aside=el('aside',undefined,'muRelations');
- main.append(el('span',humanDepartment?(profile?.region_name||'Territoire'):node.status||'CONTEXTE DOCUMENTÉ','muTag'));
- if(humanDepartment)main.append(departmentPortrait(node,g));else main.append(factTable(node,g));
+ main.append(el('span',humanDepartment?(profile?.region_name||'Territoire'):humanCommune?'Commune · '+(node.data?.department_code||'territoire'):node.status||'CONTEXTE DOCUMENTÉ','muTag'));
+ if(humanDepartment)main.append(departmentPortrait(node,g));else if(humanCommune)main.append(communeLivingPanel(node,g),factTable(node,g));else main.append(factTable(node,g));
  const actions=el('div',undefined,'muActions');append(actions,button('Interroger cet objet',()=>openChat(),'muPrimary'),button('Voir la pièce / provenance',()=>openProof(node,g)));
  if(node.url)actions.append(link('Ouvrir la source officielle ↗',node.url));
  if(node.id===M.DEBT)append(actions,link('Courbes & stress','#/analyse'),link('Horizons','#/horizons'),link('Explorer les dates','#/chronologie'));
@@ -514,6 +565,10 @@ async function ensurePhiPolicy(){
 async function ensureTerritoryQuests(){
  if(territoryQuests)return territoryQuests;if(territoryQuestsPromise)return territoryQuestsPromise;
  territoryQuestsPromise=(async()=>{const r=await window.laBeteReadCanonicalJSON('data/phi-territory-quests-v1.json',{cache:'no-cache'});if(!r.ok)throw Error('TERRITORY_QUESTS_HTTP_'+r.status);const j=await r.json(),c=j.score_contract||{};if(j.schema!=='LA_BETE_PHI_TERRITORY_QUESTS_V1'||Object.keys(j.territories||{}).length!==101||c.economic_inputs!==false||c.wealth_inputs!==false||c.political_inputs!==false)throw Error('TERRITORY_QUESTS_SCHEMA');territoryQuests=j;return j;})().catch(e=>{territoryQuestsPromise=null;throw e;});return territoryQuestsPromise;
+}
+async function ensureTerritoryLivingIdentity(){
+ if(territoryLivingIdentity)return territoryLivingIdentity;if(territoryLivingIdentityPromise)return territoryLivingIdentityPromise;
+ territoryLivingIdentityPromise=(async()=>{const r=await window.laBeteReadCanonicalJSON('data/la-bete-territory-living-identity-v1.json',{cache:'no-cache'});if(!r.ok)throw Error('TERRITORY_LIVING_IDENTITY_HTTP_'+r.status);const j=await r.json(),guards=j.guards||{};if(j.schema!=='LA_BETE_TERRITORY_LIVING_IDENTITY_V1'||j.departments_count!==101||Object.keys(j.departments||{}).length!==101||guards.no_random_identity_color!==true||guards.no_unlicensed_image!==true||guards.empty_is_better_than_fabricated!==true)throw Error('TERRITORY_LIVING_IDENTITY_SCHEMA');territoryLivingIdentity=j;return j;})().catch(e=>{territoryLivingIdentityPromise=null;throw e;});return territoryLivingIdentityPromise;
 }
 async function ensureTerritories(){
  if(territories)return territories;if(territoryPromise)return territoryPromise;
@@ -577,8 +632,8 @@ async function renderCurrent(useLatest=false,restore=false){
    try{
     await ensureTopology();
     if(p.kind==='univers'&&p.id==='territoires')await ensureTerritoryQuests();
-    if(p.kind==='objet'&&p.id.startsWith(departmentPrefix)){const dep=p.id.slice(departmentPrefix.length);await Promise.all([ensureDepartmentShard(dep),ensureTerritoryCulture(),ensurePhiPolicy(),ensureTerritoryQuests()]);}
-    else if(p.kind==='objet'&&p.id.startsWith(communePrefix))await ensureCommune(p.id.slice(communePrefix.length));
+    if(p.kind==='objet'&&p.id.startsWith(departmentPrefix)){const dep=p.id.slice(departmentPrefix.length);await Promise.all([ensureDepartmentShard(dep),ensureTerritoryCulture(),ensurePhiPolicy(),ensureTerritoryQuests(),ensureTerritoryLivingIdentity()]);}
+    else if(p.kind==='objet'&&p.id.startsWith(communePrefix)){const code=p.id.slice(communePrefix.length);await Promise.all([ensureCommune(code),ensureTerritoryQuests(),ensureTerritoryLivingIdentity()]);}
    }catch(e){status('Détail non disponible ou non vérifié : '+e.message);}
    if(token!==renderToken)return;g=current.graph=M.build(g.live,g.evolution,territories,topology,communeShards);
   }

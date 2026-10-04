@@ -27,10 +27,14 @@ on:
       - "docs/data/phi-coins-v1.json"
       - "docs/data/la-bete-territory-contributions-v1.json"
       - "docs/data/phi-territory-quests-v1.json"
+      - "docs/data/la-bete-territory-living-identity-v1.json"
+      - "docs/assets/territory/**"
       - "scripts/build_la_bete_territory_culture.py"
       - "scripts/test_la_bete_territory_culture.py"
       - "scripts/build_phi_territory_quests.py"
       - "scripts/test_phi_territory_quests.py"
+      - "scripts/build_la_bete_territory_living_identity.py"
+      - "scripts/test_la_bete_territory_living_identity.py"
       - "scripts/test_la_bete_mobile_access.cjs"
       - "scripts/test_la_bete_explorer.cjs"
       - "scripts/test_la_bete_enrichment.cjs"
@@ -205,6 +209,8 @@ jobs:
           python3 scripts/test_la_bete_territory_culture.py
           python3 scripts/build_phi_territory_quests.py
           python3 scripts/test_phi_territory_quests.py
+          python3 scripts/build_la_bete_territory_living_identity.py
+          python3 scripts/test_la_bete_territory_living_identity.py
           node scripts/test_la_bete_dialogue.cjs
           node scripts/test_la_bete_explorer.cjs
           node scripts/test_la_bete_mobile_access.cjs
@@ -278,6 +284,8 @@ jobs:
               python3 scripts/test_la_bete_territory_culture.py
               python3 scripts/build_phi_territory_quests.py
               python3 scripts/test_phi_territory_quests.py
+              python3 scripts/build_la_bete_territory_living_identity.py
+              python3 scripts/test_la_bete_territory_living_identity.py
               node scripts/test_la_bete_dialogue.cjs
               node scripts/test_la_bete_explorer.cjs
               node scripts/test_la_bete_mobile_access.cjs
