@@ -127,6 +127,14 @@ function facts(node,graph){const d=node.data||{},rows=[];const add=(k,v)=>{if(v!
  return rows;
 }
 function dialogueContext(node,graph){return node?{id:node.id,label:node.label,kind:node.kind,snapshot_id:graph.source_snapshot_id,version:['REGION','DEPARTMENT','EPCI','COMMUNE'].includes(node.kind)?(graph.detail?.snapshot_id||graph.territories?.topology?.source_generated_at):graph.updated_at,status:node.status||null,facts:facts(node,graph),references:neighbors(graph,node.id).filter(x=>x.node.url).map(x=>({label:x.node.label,url:x.node.url,status:x.node.status||'UNKNOWN',checked_at:x.node.date||null})).slice(0,5)}:null;}
+function cosmosTruthState(objectId,obj,graph){
+ const raw=String(objectId||'').replace(/^(source|claim):/,'');
+ const node=graph?.nodes?.get?.(raw),values=[node?.data?.type,node?.data?.state,node?.status,obj?.evidence_state].map(x=>String(x||'').toUpperCase());
+ if(values.includes('RETAINED_LAST_GOOD'))return 'RETAINED_LAST_GOOD';
+ if(values.includes('UNAVAILABLE'))return 'SOURCE_UNAVAILABLE';
+ for(const truth of ['OBSERVED','DERIVED','HYPOTHESIS','STRESS','UNKNOWN'])if(values.some(x=>x===truth||x.startsWith(truth+'_')||x.endsWith('_'+truth)||x.includes('_'+truth+'_')))return truth;
+ return 'UNSPECIFIED';
+}
 function spatialProjection(graph,evidence){
  if(!graph||!evidence||evidence.schema!=='LA_BETE_EVIDENCE_UNIVERSE_V1'||evidence.state!=='READ_ONLY_PUBLIC_PROOFGRAPH_DERIVED_PROJECTION')throw Error('COSMOS_EVIDENCE_UNIVERSE_REQUIRED');
  const contract=evidence.contract||{},model=evidence.object_model||{},objects=evidence.objects||{},entries=Object.entries(objects);
@@ -138,7 +146,7 @@ function spatialProjection(graph,evidence){
  for(const galaxy of COSMOS_GALAXIES){
   const rows=byGalaxy.get(galaxy.id).sort((a,b)=>(kindOrder.get(a[1].kind)??999)-(kindOrder.get(b[1].kind)??999)||a[0].localeCompare(b[0])),kinds=[...new Set(rows.map(x=>x[1].kind))];
   kinds.forEach((kind,si)=>{const systemId='system:'+galaxy.id+':'+kind.toLowerCase(),angle=(Math.PI*2*si/Math.max(1,kinds.length))+.33,gp=galaxy.position,system={id:systemId,galaxy_id:galaxy.id,kind,label:(LABELS[kind]||kind.replaceAll('_',' ')),position:[gp[0]+Math.cos(angle)*4.2,gp[1]+Math.sin(angle)*3.2,gp[2]+Math.sin(angle*.7)*2.2],planet_ids:[]};systemMap.set(systemId,system);galaxyMap.get(galaxy.id).systems.push(systemId);
-   const same=rows.filter(x=>x[1].kind===kind);same.forEach(([objectId,obj],pi)=>{const orbit=1.05+Math.floor(pi/20)*.34,pa=pi*2.399963229728653+si*.71,pos=[system.position[0]+Math.cos(pa)*orbit,system.position[1]+Math.sin(pa)*orbit*.72,system.position[2]+Math.sin(pa*.63)*orbit*.58],planet={id:'planet:'+objectId,object_id:objectId,label:obj.label,kind:obj.kind,galaxy_id:galaxy.id,system_id:systemId,position:pos,object:obj,canonical_route:null},raw=objectId.replace(/^(source|claim):/,'');if(graph.nodes?.has(raw))planet.canonical_route=route('objet',raw);planets.push(planet);planetById.set(objectId,planet);system.planet_ids.push(objectId);galaxyMap.get(galaxy.id).planet_count++;});});
+   const same=rows.filter(x=>x[1].kind===kind);same.forEach(([objectId,obj],pi)=>{const orbit=1.05+Math.floor(pi/20)*.34,pa=pi*2.399963229728653+si*.71,pos=[system.position[0]+Math.cos(pa)*orbit,system.position[1]+Math.sin(pa)*orbit*.72,system.position[2]+Math.sin(pa*.63)*orbit*.58],planet={id:'planet:'+objectId,object_id:objectId,label:obj.label,kind:obj.kind,galaxy_id:galaxy.id,system_id:systemId,position:pos,object:obj,truth_state:cosmosTruthState(objectId,obj,graph),canonical_route:null},raw=objectId.replace(/^(source|claim):/,'');if(graph.nodes?.has(raw))planet.canonical_route=route('objet',raw);planets.push(planet);planetById.set(objectId,planet);system.planet_ids.push(objectId);galaxyMap.get(galaxy.id).planet_count++;});});
  }
  function resolveObjectRef(ref){const raw=clean(ref);if(!raw)return null;if(planetById.has(raw))return raw;for(const prefix of ['source:','claim:','document:','person:','organization:','company:','initiative:','opportunity:','decision:','video:','audio:','archive:','contribution:','relation:'])if(planetById.has(prefix+raw))return prefix+raw;return null;}
  const moons=[],moonKeys=new Set(),wormholes=[],wormholeKeys=new Set();

@@ -8,7 +8,7 @@ const id=x=>document.getElementById(x), append=(p,...c)=>{c.forEach(x=>x&&p.appe
 const button=(text,action,cls)=>{const b=el('button',text,cls);b.type='button';b.addEventListener('click',action);return b;};
 const link=(label,href,cls)=>{const a=el('a',label,cls);a.href=href;if(href.startsWith('#/'))a.dataset.muRoute=href;else{a.target='_blank';a.rel='noopener noreferrer';}return a;};
 const records=new Map(), moves=[], proofViews=new Map(), communeShards=new Map(), shardPromises=new Map();
-let topology=null,topologyPromise=null;let serial=0,current=null,territories=null,territoryPromise=null,renderToken=0,latest=null,proofNode=null,proofScroll=0,territoryCulture=null,territoryCulturePromise=null,phiPolicy=null,phiPromise=null,territoryQuests=null,territoryQuestsPromise=null,territoryLivingIdentity=null,territoryLivingIdentityPromise=null,territoryDiscovery=null,territoryDiscoveryPromise=null,evidenceUniverse=null,evidenceUniversePromise=null;
+let topology=null,topologyPromise=null;let serial=0,current=null,territories=null,territoryPromise=null,renderToken=0,latest=null,proofNode=null,proofScroll=0,territoryCulture=null,territoryCulturePromise=null,phiPolicy=null,phiPromise=null,territoryQuests=null,territoryQuestsPromise=null,territoryLivingIdentity=null,territoryLivingIdentityPromise=null,territoryDiscovery=null,territoryDiscoveryPromise=null,evidenceUniverse=null,evidenceUniversePromise=null,activeCosmosGuide=null;
 const legacyChat=id('dialogue-public'), chatPlace=document.createComment('existing-dialogue-home');legacyChat.before(chatPlace);
 const root=el('div',undefined,'muApp');root.id='multiunivers';
 const AUDIENCE_MODES={simple:'Essentiel',explain:'Comprendre',expert:'Expert'};
@@ -43,11 +43,11 @@ const tr=(key,fallback)=>I18N[uiLocale]?.[key]||fallback;
 const fill=(text,values={})=>String(text).replace(/\{(\w+)\}/g,(_,k)=>values[k]??'');
 const header=el('header',undefined,'muHeader');
 const mark=link('ojO','#/atlas','muBrand');mark.setAttribute('aria-label','La Bête · accueil');
-const brand=append(el('div',undefined,'muBrandBlock'),mark,el('span','COMPRENDRE · VÉRIFIER · AGIR','muBrandSub'));
+const brand=append(el('div',undefined,'muBrandBlock'),mark,el('span','COMPRENDRE · EXPLORER · CONTRIBUER','muBrandSub'));
 const searchForm=el('form',undefined,'muSearch');searchForm.setAttribute('role','search');
 const searchInput=el('input');searchInput.id='muSearchInput';searchInput.type='search';searchInput.placeholder='Posez une question ou cherchez un sujet…';searchInput.maxLength=150;searchInput.setAttribute('aria-label','Rechercher une réponse, un sujet ou une source');
 const searchSubmit=el('button','Chercher');searchSubmit.type='submit';append(searchForm,searchInput,searchSubmit);
-const presenceShortcut=link('La Bête','#/presence','muPresenceShortcut'),askShortcut=button('Poser une question',()=>openChat(),'muPrimary'),readingShortcut=link('Lire l’article','#/lecture','muReadingLink');
+const presenceShortcut=link('La Bête','#/presence','muPresenceShortcut'),askShortcut=button('Poser une question',()=>openChat(),'muPrimary'),readingShortcut=link('Vue document','#/lecture','muReadingLink');
 const headActions=append(el('div',undefined,'muHeadActions'),presenceShortcut,askShortcut,readingShortcut);
 append(header,brand,searchForm,headActions);root.append(header);
 const audienceBar=el('div',undefined,'muAudienceBar');audienceBar.setAttribute('aria-label','Niveau de lecture et langue');
@@ -67,7 +67,7 @@ function syncAudienceMode(){
 function syncUiLocale(){
  root.dataset.uiLocale=uiLocale;
  localeButtons.forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.locale===uiLocale)));
- askShortcut.textContent=tr('ask','Poser une question');readingShortcut.textContent=tr('read','Lire l’article');
+ askShortcut.textContent=tr('ask','Poser une question');readingShortcut.textContent=uiLocale==='en'?'Document view':uiLocale==='es'?'Vista documento':'Vue document';
  searchInput.placeholder=audienceMode==='expert'?(uiLocale==='en'?'An object, a source, an identifier…':uiLocale==='es'?'Un objeto, una fuente, un identificador…':'Un objet, une source, un identifiant…'):tr('search','Posez une question ou cherchez un sujet…');
  if(navLinks){navLinks.home.textContent='◉  '+tr('nav_home','Cosmos');navLinks.public.textContent='○  '+tr('nav_public','Comprendre');navLinks.act.textContent='↗  '+tr('nav_act','Faire une démarche');navLinks.decide.textContent='◇  '+tr('nav_decide','Décider ensemble');navLinks.services.textContent='◆  '+tr('nav_services','Aide personnalisée');navLinks.data.textContent='◇  '+tr('nav_data','Mes données');navLinks.mobile.textContent='▣  '+tr('nav_mobile','Sur mobile');}
  syncAudienceMode();
@@ -111,7 +111,7 @@ function navigate(raw,replace=false){save();const hash=canonicalRoute(raw),base=
  current=next;const state={...(history.state||{}),mu:{key:next.key,depth:next.depth}};if(replace)history.replaceState(state,'',hash);else history.pushState(state,'',hash);renderCurrent();}
 function restoreMoves(){for(const {node,placeholder}of moves.splice(0))placeholder.replaceWith(node);}
 function mountExisting(section,target=stage){const n=id(section);if(!n)return false;const p=document.createComment('mounted-existing-'+section);n.before(p);moves.push({node:n,placeholder:p});target.append(n);return true;}
-function routeLabel(parsed,g){if(parsed.kind==='objet')return M.resolveNode(g,parsed.id)?.label||'Objet introuvable';if(parsed.kind==='univers')return M.UNIVERSES.find(u=>u.id===parsed.id)?.label||'Univers';return ({public:'Comprendre',agir:'Faire une démarche',scic:'Décider ensemble',services:'Aide personnalisée',mobile:'Sur mobile',prive:'Mes données',atlas:'Cosmos',lecture:'Lire l’article',presence:'La Bête',analyse:'Taux & scénarios',horizons:'Dans le temps',chronologie:'Ce qui a changé',sante:'Fiabilité'})[parsed.kind]||'Route inconnue';}
+function routeLabel(parsed,g){if(parsed.kind==='objet')return M.resolveNode(g,parsed.id)?.label||'Objet introuvable';if(parsed.kind==='univers')return M.UNIVERSES.find(u=>u.id===parsed.id)?.label||'Univers';return ({public:'Comprendre',agir:'Faire une démarche',scic:'Décider ensemble',services:'Aide personnalisée',mobile:'Sur mobile',prive:'Mes données',atlas:'Cosmos',lecture:'Vue document',presence:'La Bête',analyse:'Taux & scénarios',horizons:'Dans le temps',chronologie:'Ce qui a changé',sante:'Fiabilité'})[parsed.kind]||'Route inconnue';}
 function title(kicker,text,sub){const head=el('div',undefined,'muTitle');append(head,el('div',kicker,'muEyebrow'),el('h1',text),sub?el('p',sub):null);stage.append(head);}
 function friendlyStatus(value){const s=String(value||'').toUpperCase();const map={LIVE_VERIFIED:'Vérifié',VERIFIED:'Vérifié',UNAVAILABLE:'Source indisponible',DEGRADED:'Source à surveiller',CONTRADICTED:'À vérifier',RETAINED_LAST_GOOD:'Dernière donnée fiable conservée',DRAFT_READY:'Prêt à relire',PROPOSAL_ONLY:'Proposition',NOT_CONNECTED:'Non activé',NOT_EXECUTED:'Pas encore réalisé',TO_FORMALIZE_NOT_A_VERIFIED_REGISTERED_ENTITY:'En projet · pas encore constituée',OPERABLE_NON_BINDING:'Fonctionne en test · sans effet juridique',BLOCKED:'Fermé par sécurité',ACTIVE:'Actif'};return map[s]||(!s||s==='UNKNOWN'?'À vérifier':value);}
 function card(node,relation){const a=link('',M.route('objet',node.id),'muObjectCard');a.dataset.objectId=node.id;append(a,el('span',relation||M.LABELS[node.kind]||node.kind,'muCardType'),el('strong',node.label),el('small',audienceMode==='expert'?(node.status||'Objet relié à la preuve'):friendlyStatus(node.status)),el('span','Explorer ↗','muCardArrow'));return a;}
@@ -143,6 +143,80 @@ function questionHub(g){
  );
  const ask=button(tr('ask','Poser ma question'),()=>openChat(),'muPrimary');grid.append(ask);return grid;
 }
+function cosmosHealth(g){
+ const sources=g.live?.sources||[],unavailable=sources.filter(x=>String(x.health).toUpperCase()==='UNAVAILABLE'),usable=sources.length-unavailable.length,retained=sources.some(x=>String(x.health).toUpperCase()==='RETAINED_LAST_GOOD');
+ return {total:sources.length,usable,unavailable,retained,state:unavailable.length?'ATTENTION':'SAIN',text:'Santé de La Bête : '+(unavailable.length?'ATTENTION':'SAIN')+' · '+usable+'/'+sources.length+' sources utilisables · '+unavailable.length+' indisponibles · '+(retained?'dernier bon état protégé':'aucun last-good requis')+'.'};
+}
+function cosmosProofRoute(cosmos,objectId){
+ const planet=cosmos?.planetById?.get?.(objectId);if(!planet)return {planet:null,moon:null,wormhole:null,sourceWormhole:null,source:null,url:null};
+ const wormhole=cosmos.wormholes.find(w=>w.from_object_id===objectId)||null;
+ const sourceWormhole=cosmos.wormholes.find(w=>w.from_object_id===objectId&&cosmos.planetById.get(w.to_object_id)?.kind==='SOURCE')||null;
+ const source=sourceWormhole?cosmos.planetById.get(sourceWormhole.to_object_id):null;
+ const moon=cosmos.moons.find(m=>m.planet_id===objectId&&(source?m.target_object_id===source.object_id:true))||cosmos.moons.find(m=>m.planet_id===objectId)||null;
+ const urls=source?.object?.proofgraph?.source_urls||planet.object?.proofgraph?.source_urls||[];
+ return {planet,moon,wormhole,sourceWormhole,source,url:urls.find(x=>M.safeURL(x))||null};
+}
+function cosmosGuide(cosmos,g){
+ const wrap=el('div',undefined,'muCosmosGuide'),doors=el('section',undefined,'muExperienceDoors'),sheet=el('section',undefined,'muCosmosSheet');
+ sheet.id='muCosmosSheet';sheet.setAttribute('aria-live','polite');sheet.setAttribute('aria-label','Guide spatial de La Bête');
+ const body=el('div',undefined,'muCosmosSheetBody'),actions=el('div',undefined,'muCosmosSheetActions'),prompts=el('div',undefined,'muGuidePrompts');
+ append(sheet,append(el('div',undefined,'muCosmosSheetHead'),el('span','AVATAR · GUIDE SPATIAL','muCosmosEyebrow'),el('strong','La Bête vous guide dans le même Cosmos.')),body,actions,prompts);
+ const health=cosmosHealth(g),tec=Number(g.live?.observed?.tec10_pct),unavailableIds=(g.live?.sources||[]).filter(x=>String(x.health).toUpperCase()==='UNAVAILABLE').map(x=>'source:'+x.id).sort((a,b)=>(a==='source:AFT_MATURITY_OAT'?-1:0)-(b==='source:AFT_MATURITY_OAT'?-1:0));
+ let selected=cosmos.planetById.has('claim:TEC10')?'claim:TEC10':cosmos.traversal?.planet_id||cosmos.planets[0]?.object_id,mode='understand';
+ function focus(kind,value){if(!value)return false;const ok=window.laBeteCosmosFocus?.(kind,value);if(ok)window.laBeteAvatarControl?.('wave',true);return !!ok;}
+ function selectObject(objectId,nextMode='understand'){if(!cosmos.planetById.has(objectId))return false;selected=objectId;mode=nextMode;focus('planet',objectId);render();return true;}
+ function humanReading(planet){
+  if(planet?.object_id==='claim:TEC10')return Number.isFinite(tec)?'Le TEC10 observé est de '+tec.toLocaleString('fr-FR',{minimumFractionDigits:3,maximumFractionDigits:3})+' %. C’est un taux de marché à 10 ans, pas le coût moyen de toute la dette. Son importance vient de la transmission progressive aux refinancements.':'Le taux à 10 ans est suivi, mais sa valeur n’est pas disponible dans cet affichage.';
+  if(planet?.object_id==='claim:MATURITY_LADDER'||planet?.object_id==='source:AFT_MATURITY_OAT'||planet?.object_id==='source:AFT_MATURITY_OATI'||planet?.object_id==='source:AFT_MATURITY_OATEI')return health.retained?'Échéancier AFT indisponible — dernier état officiel vérifié conservé.':'Échéancier AFT indisponible — aucun remplacement n’est inventé.';
+  if(planet?.object_id==='claim:CURVE_REGIME'){const reasons=planet.object?.what_would_raise_confidence||[];return reasons.length?'Cette lecture reste dérivée, pas observée directement. Ce qui peut la fragiliser ou exiger une révision : '+reasons.join(' · '):'Cette lecture est dérivée : elle doit être revue si les observations ou les preuves amont changent.';}
+  if(planet?.truth_state==='STRESS')return 'Scénario de stress conditionnel — ce n’est pas une prévision.';
+  if(planet?.truth_state==='UNKNOWN')return 'Information inconnue dans le périmètre chargé — aucune estimation n’est fabriquée.';
+  return planet?.label||'Objet du Cosmos';
+ }
+ function render(){
+  const planet=cosmos.planetById.get(selected),proofRoute=cosmosProofRoute(cosmos,selected),obj=planet?.object||{},truth=planet?.truth_state||'UNSPECIFIED';
+  body.replaceChildren();actions.replaceChildren();prompts.replaceChildren();
+  append(body,el('div',truth,'muTruthBadge muTruth-'+truth.toLowerCase().replaceAll('_','-')),el('h2',planet?.label||'Cosmos des preuves'),el('p',humanReading(planet),'muGuideLead'),el('p',health.text,'muHealthSummary'));
+  if(health.retained&&health.unavailable.length)body.append(el('p','Les sources indisponibles restent visibles comme limites ; le dernier état officiel de même portée est conservé lorsqu’il existe.','muGuideLimit'));
+  const route=proofRoute;
+  append(actions,
+   button('Comprendre',()=>{mode='understand';render();},mode==='understand'?'isActive':''),
+   button('Relations',()=>{if(route.wormhole){mode='relations';focus('wormhole',route.wormhole.id);render();}},mode==='relations'?'isActive':''),
+   button('Preuve',()=>{if(route.moon){mode='proof';focus('moon',route.moon.id);render();}},mode==='proof'?'isActive':''),
+   button('Source',()=>{if(route.source){selected=route.source.object_id;mode='source';focus('planet',selected);render();}},mode==='source'?'isActive':''),
+   button('Explorer',()=>{focus('planet',selected);window.laBeteAvatarControl?.('wave',true);mode='explore';render();},mode==='explore'?'isActive':'')
+  );
+  if(mode==='proof'&&route.moon)body.append(el('p','Preuve sélectionnée : '+route.moon.proof_ref+'. Cette lune est une référence ProofGraph réelle, pas une connexion décorative.','muGuideContext'));
+  if(mode==='relations'&&route.wormhole)body.append(el('p','Relation ProofGraph : '+route.wormhole.relation+' · '+route.wormhole.from_object_id+' → '+route.wormhole.to_object_id+'.','muGuideContext'));
+  if(mode==='source'){
+   const direct=(obj.proofgraph?.source_urls||[]).find(x=>M.safeURL(x))||route.url;
+   if(direct)body.append(link('Ouvrir la source officielle ↗',direct,'muOfficialSource'));
+   else body.append(el('p','Aucune URL officielle vérifiée n’est attachée à cet objet.','muGuideLimit'));
+  }
+  const exact=el('details',undefined,'muExpertDisclosure');append(exact,el('summary','Détail expert · provenance et statuts'),el('pre',JSON.stringify({object_id:planet?.object_id,kind:planet?.kind,truth_state:truth,evidence_state:obj.evidence_state||null,proof_refs:obj.proofgraph?.proof_refs||[],source_urls:obj.proofgraph?.source_urls||[],trust_index:obj.trust?.index??null,what_would_raise_confidence:obj.what_would_raise_confidence||[],snapshot:g.source_snapshot_id,updated_at:g.updated_at},null,2)));body.append(exact);
+  const legend=el('div',undefined,'muTruthLegend');for(const x of ['OBSERVED','DERIVED','HYPOTHESIS','STRESS','UNKNOWN'])legend.append(el('span',x,'muTruth-'+x.toLowerCase()));body.append(legend);
+  const chips=[
+   ['Pourquoi '+(Number.isFinite(tec)?tec.toLocaleString('fr-FR',{minimumFractionDigits:3,maximumFractionDigits:3})+' %':'ce taux')+' est important ?',()=>selectObject('claim:TEC10','understand')],
+   ['Montre-moi la preuve.',()=>{const r=cosmosProofRoute(cosmos,selected);if(r.moon){mode='proof';focus('moon',r.moon.id);render();}}],
+   ['D’où vient ce chiffre ?',()=>{const r=cosmosProofRoute(cosmos,selected);if(r.source){selected=r.source.object_id;mode='source';focus('planet',selected);render();}}],
+   ['Qu’est-ce qui a changé depuis J−30 ?',()=>navigate('#/chronologie')],
+   ['Et dans cinq ans ?',()=>navigate('#/horizons')],
+   ['Qu’est-ce qui pourrait invalider cette analyse ?',()=>selectObject(cosmos.planetById.has('claim:CURVE_REGIME')?'claim:CURVE_REGIME':selected,'understand')],
+   ['Quelles sources sont indisponibles ?',()=>{const x=unavailableIds.find(v=>cosmos.planetById.has(v));if(x)selectObject(x,'understand');else navigate('#/sante');}],
+   ['Que puis-je contribuer ?',()=>{const x=unavailableIds.find(v=>cosmos.planetById.has(v));if(x)selectObject(x,'contribute');else navigate('#/univers/demarches');}]
+  ];for(const [label,action] of chips)prompts.append(button(label,action,'muGuidePrompt'));
+  if(mode==='contribute')append(body,el('p','Vous pouvez documenter un manque, proposer une source ou poser une question. Une contribution reste une proposition jusqu’à vérification.','muGuideContext'),button('Dialoguer sur ce manque',()=>openChat(),'muPrimary'),link('Voir les démarches documentées','#/univers/demarches','muGuideLink'));
+ }
+ const door=(titleText,subtitle,action)=>{const b=button('',action,'muExperienceDoor');append(b,el('strong',titleText),el('span',subtitle));return b;};
+ append(doors,
+  door('COMPRENDRE','Explique-moi la situation en 60 secondes.',()=>selectObject(cosmos.planetById.has('claim:TEC10')?'claim:TEC10':selected,'understand')),
+  door('EXPLORER','Emmène-moi dans le Cosmos des preuves.',()=>{mode='explore';focus('planet',selected);render();}),
+  door('CONTRIBUER / AGIR','Montre-moi ce qui manque et ce que je peux apporter.',()=>{const x=unavailableIds.find(v=>cosmos.planetById.has(v));if(x)selectObject(x,'contribute');else navigate('#/univers/demarches');})
+ );
+ activeCosmosGuide={select(detail){if(detail?.kind==='planet'&&detail.object_id)selectObject(detail.object_id,'understand');},selectObject,state:()=>({selected,mode,health})};
+ render();append(wrap,doors,sheet);return wrap;
+}
+window.addEventListener('la-bete-cosmos-select',event=>activeCosmosGuide?.select?.(event.detail));
 function phiRewardLabel(r){
  const en={verified_official_source:'Add a verified official source',material_correction:'Correct a demonstrated error',verified_translation:'Translate a page with review',local_language:'Document a local word or variant with context',heritage_story:'Add sourced heritage, skills or local memory',accessibility:'Improve accessibility or clarity',local_place_event:'Add a verifiable local place or event'};
  const es={verified_official_source:'Añadir una fuente oficial verificada',material_correction:'Corregir un error demostrado',verified_translation:'Traducir una ficha con revisión',local_language:'Documentar una palabra o variante local con contexto',heritage_story:'Añadir patrimonio, saber hacer o memoria local con fuente',accessibility:'Mejorar accesibilidad o claridad',local_place_event:'Añadir un lugar o evento local verificable'};
@@ -287,17 +361,17 @@ function atlas(g){
  const center=link('',M.route('objet',M.COUNTRY),'muAtlasCore');append(center,el('span','OBJET EXPLORÉ'),el('strong','France'),el('small','Entrer ↗'));
  append(actions,center,link('Immersion & détails','#/presence','muPresenceDetail'));
  const cosmos=M.spatialProjection(g,evidenceUniverse);current.cosmos=cosmos;
- append(hero,scene,caption,actions);map.append(hero,cosmosPanel(cosmos));
+ append(hero,scene,caption,actions);map.append(hero,cosmosPanel(cosmos),cosmosGuide(cosmos,g));
  M.UNIVERSES.forEach((u,i)=>{const a=link('',M.route('univers',u.id),'muUniverse muUniverse-'+i);const count=[...g.nodes.values()].filter(n=>n.universe===u.id).length;const label=u.id==='temps'?g.live.curve_history?.length+' observations':u.id==='idees'?'Dialogue & propositions':u.id==='etat'?'Mémoire opérationnelle':u.id==='territoires'?(g.detail?g.detail.counts.communes_cog+' communes référencées':'Territoires · détail à la demande'):count+' objets documentés';append(a,el('span',u.symbol,'muSymbol'),el('strong',u.label),el('small',u.subtitle),el('span',label,'muUniverseCount'));map.append(a);});
  stage.append(map);
- if(audienceMode!=='expert')stage.append(questionHub(g));
- const phi=phiPanel();if(phi)stage.append(phi);
+ const secondary=el('details',undefined,'muAtlasSecondary');secondary.open=audienceMode==='expert';secondary.append(el('summary','Vue approfondie · questions, participation et accès experts'));
+ const secondaryBody=el('div',undefined,'muAtlasSecondaryBody');if(audienceMode!=='expert')secondaryBody.append(questionHub(g));const phi=phiPanel();if(phi)secondaryBody.append(phi);
  // Same scene, renderer and frame loop: Cosmos is a derived spatial view, never a second engine.
  Promise.resolve(window.laBeteEnsurePresence?.()).then(()=>window.laBeteSetCosmosProjection?.(cosmos));
- if(g.nodes.has('LA_BETE_CIVIC_MISSION_V1')){const mission=el('div',undefined,'muCivicMission');append(mission,el('strong','Au service des personnes. Sans consigne politique.'),link('Mission, limites et engagements',M.route('objet','LA_BETE_CIVIC_MISSION_V1')));stage.append(mission);}
- const access=el('div',undefined,'muAccessShortcuts');access.id='muAccessShortcuts';append(access,link('Comprendre · toujours gratuit','#/public'),link('Faire une démarche','#/agir'),link('Décider ensemble','#/scic'),link('Aide personnalisée · optionnelle','#/services'),link('Mes données · protégées','#/prive'),link('Sur mobile','#/mobile'));stage.append(access);
- const path=el('div',undefined,'muSuggested');append(path,el('div','UN PREMIER PARCOURS','muEyebrow'),el('p','France → finances publiques → dette → source → manque → démarche'),link('Commencer par la France',M.route('objet',M.COUNTRY),'muPrimary'));stage.append(path);
- stage.append(el('p','La présence visuelle suit le scénario et le flux existants. Ni ses mouvements ni la position des univers ne constituent une opinion ou une causalité politique.','muFineprint'));
+ if(g.nodes.has('LA_BETE_CIVIC_MISSION_V1')){const mission=el('div',undefined,'muCivicMission');append(mission,el('strong','Au service des personnes. Sans consigne politique.'),link('Mission, limites et engagements',M.route('objet','LA_BETE_CIVIC_MISSION_V1')));secondaryBody.append(mission);}
+ const access=el('div',undefined,'muAccessShortcuts');access.id='muAccessShortcuts';append(access,link('Comprendre · toujours gratuit','#/public'),link('Faire une démarche','#/agir'),link('Décider ensemble','#/scic'),link('Aide personnalisée · optionnelle','#/services'),link('Mes données · protégées','#/prive'),link('Sur mobile','#/mobile'));secondaryBody.append(access);
+ const path=el('div',undefined,'muSuggested');append(path,el('div','UN PREMIER PARCOURS','muEyebrow'),el('p','France → finances publiques → dette → source → manque → démarche'),link('Commencer par la France',M.route('objet',M.COUNTRY),'muPrimary'));secondaryBody.append(path);
+ secondaryBody.append(el('p','La présence visuelle suit le scénario et le flux existants. Ni ses mouvements ni la position des univers ne constituent une opinion ou une causalité politique.','muFineprint'));secondary.append(secondaryBody);stage.append(secondary);
 }
 
 function hybridView(kind,g){
@@ -719,7 +793,7 @@ async function renderCurrent(useLatest=false,restore=false){
    }catch(e){status('Détail non disponible ou non vérifié : '+e.message);}
    if(token!==renderToken)return;g=current.graph=M.build(g.live,g.evolution,territories,topology,communeShards);
   }
-  if(p.kind!=='atlas')window.laBeteSetCosmosProjection?.(null);
+  if(p.kind!=='atlas'){activeCosmosGuide=null;window.laBeteSetCosmosProjection?.(null);}
   if(!['presence','lecture'].includes(p.kind)||current.isSearch)window.laBeteSuspendPresence?.();
   restoreMoves();root.classList.toggle('mu-atlas-home',p.kind==='atlas'&&!current.isSearch&&(!p.snapshot||p.snapshot===g.source_snapshot_id));stage.replaceChildren();legacy.hidden=true;legacy.inert=true;workspace.hidden=false;document.body.classList.remove('mu-reading');root.classList.remove('mu-reading');
   if(p.kind==='lecture'){
