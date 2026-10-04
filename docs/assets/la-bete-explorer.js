@@ -10,7 +10,7 @@ const link=(label,href,cls)=>{const a=el('a',label,cls);a.href=href;if(href.star
 const records=new Map(), moves=[], proofViews=new Map(), communeShards=new Map(), shardPromises=new Map();
 let topology=null,topologyPromise=null;let serial=0,current=null,territories=null,territoryPromise=null,renderToken=0,latest=null,proofNode=null,proofScroll=0,territoryCulture=null,territoryCulturePromise=null,phiPolicy=null,phiPromise=null,territoryQuests=null,territoryQuestsPromise=null,territoryLivingIdentity=null,territoryLivingIdentityPromise=null,territoryDiscovery=null,territoryDiscoveryPromise=null,evidenceUniverse=null,evidenceUniversePromise=null,activeCosmosGuide=null;
 const legacyChat=id('dialogue-public'), chatPlace=document.createComment('existing-dialogue-home');legacyChat.before(chatPlace);
-const root=el('div',undefined,'muApp');root.id='multiunivers';
+const root=el('div',undefined,'muApp');root.id='multiunivers';if(document.body.classList.contains('public-experience-v1'))root.hidden=true;
 const AUDIENCE_MODES={simple:'Essentiel',explain:'Comprendre',expert:'Expert'};
 const UI_LOCALES={fr:'FR',en:'EN',es:'ES',local:'Local'};
 const I18N={
@@ -48,7 +48,7 @@ const searchForm=el('form',undefined,'muSearch');searchForm.setAttribute('role',
 const searchInput=el('input');searchInput.id='muSearchInput';searchInput.type='search';searchInput.placeholder='Posez une question ou cherchez un sujet…';searchInput.maxLength=150;searchInput.setAttribute('aria-label','Rechercher une réponse, un sujet ou une source');
 const searchSubmit=el('button','Chercher');searchSubmit.type='submit';append(searchForm,searchInput,searchSubmit);
 const presenceShortcut=link('La Bête','#/presence','muPresenceShortcut'),askShortcut=button('Poser une question',()=>openChat(),'muPrimary'),readingShortcut=link('Vue document','#/lecture','muReadingLink');
-const headActions=append(el('div',undefined,'muHeadActions'),presenceShortcut,askShortcut,readingShortcut);
+const exitShortcut=button('← Expérience',()=>deactivateExplorer(),'muReadingLink');const headActions=append(el('div',undefined,'muHeadActions'),presenceShortcut,askShortcut,readingShortcut);if(document.body.classList.contains('public-experience-v1'))headActions.prepend(exitShortcut);
 append(header,brand,searchForm,headActions);root.append(header);
 const audienceBar=el('div',undefined,'muAudienceBar');audienceBar.setAttribute('aria-label','Niveau de lecture et langue');
 const audienceLabel=el('span','Niveau de lecture','muAudienceLabel');audienceBar.append(audienceLabel);
@@ -100,8 +100,8 @@ append(chat,append(el('div',undefined,'muDialogHead'),el('strong','Dialoguer, sa
 const proof=el('dialog',undefined,'muProof');proof.id='muProof';proof.setAttribute('aria-label','Pièce et provenance sélectionnées');
 const proofBody=el('div',undefined,'muProofBody');proofBody.id='muProofBody';
 append(proof,append(el('div',undefined,'muDialogHead'),el('strong','Pièce / provenance'),button('Fermer',()=>proof.close())),proofBody);
-root.append(chat,proof);legacy.before(root);legacy.id='legacyReadingDocument';
-const savedRestoration=history.scrollRestoration;history.scrollRestoration='manual';
+root.append(chat,proof);legacy.before(root);legacy.id='legacyReadingDocument';if(document.body.classList.contains('public-experience-v1'))chatPlace.after(legacyChat);
+const savedRestoration=history.scrollRestoration;if(!document.body.classList.contains('public-experience-v1'))history.scrollRestoration='manual';
 function getBase(){const c=window.getLaBeteDialogueContext();if(!c?.live)throw Error('CANON_NOT_LOADED');return c;}
 function graphFrom(c){return M.build(c.live,c.evolution,territories,topology,communeShards);}
 function status(text){notice.textContent=text;}
@@ -840,9 +840,28 @@ async function renderCurrent(useLatest=false,restore=false){
 searchForm.addEventListener('submit',async event=>{event.preventDefault();save();const q=searchInput.value.trim();if(!q){status('Écrivez un nom, un identifiant ou un thème.');return;}const key=current.key;try{await ensureTopology();}catch(e){status('Recherche dans les objets disponibles uniquement.');}if(current.key!==key)return;current.graph=M.build(current.graph.live,current.graph.evolution,territories,topology,communeShards);const results=M.search(current.graph,q);window.laBeteSuspendPresence?.();root.classList.remove('mu-atlas-home');restoreMoves();stage.replaceChildren();legacy.hidden=true;legacy.inert=true;workspace.hidden=false;title('RECHERCHE DANS LE CONTEXTE CHARGÉ',q,results.length+' objet(s) trouvé(s). Recherche dans les objets et l’index communal publiés. Au plus 200 résultats, affichés par groupes de 40.');listCards(results);current.search=q;current.isSearch=true;status('');});
 root.addEventListener('click',event=>{const a=event.target.closest?.('a[data-mu-route]');if(!a||event.defaultPrevented||event.button!==0||event.metaKey||event.ctrlKey||event.shiftKey||event.altKey)return;event.preventDefault();navigate(a.dataset.muRoute);});
 document.addEventListener('click',event=>{if(!document.body.classList.contains('mu-active')||event.defaultPrevented)return;const a=event.target.closest?.('a[href^="#"]');if(!a||a.dataset.muRoute||event.metaKey||event.ctrlKey||event.shiftKey||event.altKey)return;const mapped=canonicalRoute(a.getAttribute('href'));if(mapped.startsWith('#/')){event.preventDefault();navigate(mapped);}});
-window.addEventListener('popstate',()=>{save();const key=history.state?.mu?.key,cached=records.get(key);current=cached||{key:key||'mu-'+(++serial),hash:canonicalRoute(location.hash),depth:history.state?.mu?.depth||0,scrollY:0,graph:graphFrom(getBase()),visited:[]};renderCurrent(false,true);});
-window.addEventListener('hashchange',()=>{const hash=canonicalRoute(location.hash);if(hash!==current?.hash)navigate(hash,true);});
+window.addEventListener('popstate',()=>{if(!document.body.classList.contains('mu-active'))return;save();const key=history.state?.mu?.key,cached=records.get(key);current=cached||{key:key||'mu-'+(++serial),hash:canonicalRoute(location.hash),depth:history.state?.mu?.depth||0,scrollY:0,graph:graphFrom(getBase()),visited:[]};renderCurrent(false,true);});
+window.addEventListener('hashchange',()=>{if(!document.body.classList.contains('mu-active'))return;const hash=canonicalRoute(location.hash);if(hash!==current?.hash)navigate(hash,true);});
 window.addEventListener('pagehide',()=>{save();});
-window.LaBeteExplorer=Object.freeze({getDialogueContext:contextForChat,navigate,openChat,update(c){latest=c;if(!current||!c?.live)return;const changed=c.live.snapshot_id!==current.graph.source_snapshot_id||c.evolution?.generation!==current.graph.evolution?.generation;updateBar.hidden=!changed;},state:()=>({route:current?.hash,object:current?.parsed?.id||null,snapshot:current?.graph.source_snapshot_id,territoriesLoaded:!!territories,historyEntries:records.size,cosmos:current?.cosmos?{schema:current.cosmos.schema,galaxies:current.cosmos.galaxies.length,systems:current.cosmos.systems.length,planets:current.cosmos.planets.length,moons:current.cosmos.moons.length,wormholes:current.cosmos.wormholes.length,traversal:current.cosmos.traversal}:null})});
-try{const g=graphFrom(getBase());current={key:'mu-'+(++serial),hash:canonicalRoute(location.hash),depth:0,scrollY:0,search:'',graph:g,visited:[]};history.replaceState({...history.state,mu:{key:current.key,depth:0}},'',current.hash);document.body.classList.add('mu-active');renderCurrent();}catch(e){restoreMoves();chatPlace.after(legacyChat);root.hidden=true;legacy.hidden=false;legacy.inert=false;history.scrollRestoration=savedRestoration;console.error('MULTIUNIVERS_BOOT_FALLBACK',String(e.message));}
+const legacyTitle=document.title;
+function activateExplorer(raw='#/atlas'){
+ try{
+  const hash=canonicalRoute(raw||'#/atlas');
+  document.body.classList.add('mu-active');root.hidden=false;history.scrollRestoration='manual';
+  if(current){navigate(hash,true);return;}
+  const g=graphFrom(getBase());current={key:'mu-'+(++serial),hash,depth:0,scrollY:0,search:'',graph:g,visited:[]};
+  history.replaceState({...history.state,mu:{key:current.key,depth:0}},'',current.hash);renderCurrent();
+ }catch(e){restoreMoves();chatPlace.after(legacyChat);root.hidden=true;legacy.hidden=false;legacy.inert=false;document.body.classList.remove('mu-active','mu-reading');history.scrollRestoration=savedRestoration;console.error('MULTIUNIVERS_BOOT_FALLBACK',String(e.message));}
+}
+function deactivateExplorer(){
+ save();restoreMoves();chatPlace.after(legacyChat);window.laBeteSuspendPresence?.();
+ legacy.hidden=false;legacy.inert=false;root.hidden=true;workspace.hidden=false;
+ document.body.classList.remove('mu-active','mu-reading');root.classList.remove('mu-reading');
+ history.scrollRestoration=savedRestoration;document.title=legacyTitle;
+ if(location.hash.startsWith('#/'))history.replaceState({...history.state},'','#experience-explore');
+ document.getElementById('experience-explore')?.scrollIntoView({block:'start'});
+}
+window.LaBeteExplorer=Object.freeze({getDialogueContext:contextForChat,navigate,openChat,activate:activateExplorer,deactivate:deactivateExplorer,update(c){latest=c;if(!current||!c?.live)return;const changed=c.live.snapshot_id!==current.graph.source_snapshot_id||c.evolution?.generation!==current.graph.evolution?.generation;updateBar.hidden=!changed;},state:()=>({active:document.body.classList.contains('mu-active'),route:current?.hash,object:current?.parsed?.id||null,snapshot:current?.graph.source_snapshot_id,territoriesLoaded:!!territories,historyEntries:records.size,cosmos:current?.cosmos?{schema:current.cosmos.schema,galaxies:current.cosmos.galaxies.length,systems:current.cosmos.systems.length,planets:current.cosmos.planets.length,moons:current.cosmos.moons.length,wormholes:current.cosmos.wormholes.length,traversal:current.cosmos.traversal}:null})});
+window.LaBeteExplorerActivate=activateExplorer;window.LaBeteExplorerDeactivate=deactivateExplorer;
+if(!document.body.classList.contains('public-experience-v1'))activateExplorer(location.hash);
 })();

@@ -86,15 +86,85 @@ body[data-evo-focus="evidence"] #rpEvidenceCard,body[data-evo-focus="decision"] 
 <link rel="stylesheet" href="assets/la-bete-explorer.css?v=20261004-cosmos-experience-v1">
 <script src="assets/la-bete-explorer-model.js?v=20261004-cosmos-experience-v1" defer></script>
 <script src="assets/la-bete-access.js?v=20261003-v1" defer></script>
-<script src="assets/la-bete-explorer.js?v=20261004-cosmos-experience-v1" defer></script>
-</head><body data-identity-url="system_identity.json" class="beast-dna beast-prismatic"><svg class="artFilterDefs" width="0" height="0" aria-hidden="true" focusable="false"><defs><filter id="beast-glass-optics" x="-15%" y="-15%" width="130%" height="130%"><feTurbulence type="fractalNoise" baseFrequency=".013 .035" numOctaves="1" seed="7" result="grain"/><feDisplacementMap in="SourceGraphic" in2="grain" scale="9" xChannelSelector="R" yChannelSelector="G"/></filter></defs></svg><div class="wrap">
-<header class="top"><a class="brand" href="#decision-twin" aria-label="ojO · revenir à la décision" style="text-decoration:none;color:var(--ink)">oj<i>O</i></a><nav class="topNav" aria-label="Parcours décisionnel SUPRA"><a href="#reality-pulse">Comprendre</a><a href="#decision-twin">Décider</a><a href="#evidence-graph">Prouver</a><a href="#supra-mission">Agir</a><a href="#autoevolution">Surveiller</a></nav><a class="soundShortcut" href="#beast-resonance"><span class="miniWave" aria-hidden="true"><i></i><i></i><i></i><i></i></span>Son</a></header>
+<script src="assets/la-bete-explorer.js?v=20261004-public-experience-simplification-v1" defer></script>
+<style id="la-bete-public-experience-simplification-v1">
+.public-experience-v1 .wrap{max-width:1120px}
+.public-experience-v1 .top{padding:12px 0}
+.public-experience-v1 .topNav{display:flex;gap:6px;flex-wrap:wrap}
+.public-experience-v1 .topNav a{padding:7px 10px;border-radius:999px;text-decoration:none;color:var(--mut);font-size:12px}
+.public-experience-v1 .topNav a:hover,.public-experience-v1 .topNav a:focus-visible{background:#13232e;color:var(--ink)}
+.public-experience-v1 .soundShortcut{display:none}
+.experienceIntro{padding:58px 0 24px}
+.experienceIntro .ey{margin-bottom:12px}
+.experienceIntro h1{font-size:clamp(44px,7vw,82px);line-height:.94;letter-spacing:-4px;margin:0 0 18px;max-width:920px}
+.experienceIntro p{font-size:18px;color:#cbd8dc;max-width:760px;margin:0}
+.experienceFlow{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:7px;margin:26px 0 8px}
+.experienceFlow a{border:1px solid var(--line);border-radius:12px;padding:11px 12px;text-decoration:none;color:var(--ink);background:#0b1720}
+.experienceFlow small{display:block;color:var(--gold);font-size:9px;letter-spacing:.11em}
+.experienceFlow b{display:block;font-size:13px;margin-top:2px}
+.public-experience-v1 #dialogue-public,
+.public-experience-v1 #decision-twin,
+.public-experience-v1 #evidence-graph,
+.public-experience-v1 #supra-mission{margin:14px 0 28px;border-radius:20px}
+.public-experience-v1 #dialogue-public{padding-top:38px}
+.public-experience-v1 #dialogue-public .head,
+.public-experience-v1 #evidence-graph .head,
+.public-experience-v1 #supra-mission .head{grid-template-columns:1.3fr .7fr}
+.public-experience-v1 #dialogue-public .beastDialogueGrid{grid-template-columns:1fr}
+.public-experience-v1 .questionAdvanced,
+.public-experience-v1 .answerDepth,
+.public-experience-v1 .answerMethod,
+.public-experience-v1 .proofDepth{border-top:1px solid var(--line);margin-top:14px;padding-top:10px}
+.public-experience-v1 .questionAdvanced>summary,
+.public-experience-v1 .answerDepth>summary,
+.public-experience-v1 .answerMethod>summary,
+.public-experience-v1 .proofDepth>summary{cursor:pointer;color:var(--b);font-size:12px;font-weight:700;list-style:none}
+.public-experience-v1 .questionAdvanced>summary::-webkit-details-marker,
+.public-experience-v1 .answerDepth>summary::-webkit-details-marker,
+.public-experience-v1 .answerMethod>summary::-webkit-details-marker,
+.public-experience-v1 .proofDepth>summary::-webkit-details-marker{display:none}
+.public-experience-v1 #decision-twin .decisionRoom{grid-template-columns:1fr}
+.public-experience-v1 #decision-twin .card>p:first-of-type{font-size:20px;line-height:1.45;color:#dbe6e7}
+.public-experience-v1 #evidence-graph .proofRelations{font-size:11px;max-height:88px;overflow:auto}
+#experience-explore{border:1px solid #35505d;border-radius:22px;margin:12px 0 34px;background:#09151ecc;overflow:hidden}
+#experience-explore>summary{cursor:pointer;list-style:none;padding:24px;display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:16px}
+#experience-explore>summary::-webkit-details-marker{display:none}
+#experience-explore .exploreStep{font-size:10px;letter-spacing:.12em;color:var(--gold)}
+#experience-explore .exploreTitle{font-size:22px;line-height:1.15}
+#experience-explore .exploreHint{font-size:11px;color:var(--mut);text-align:right}
+#experience-explore[open]>summary{border-bottom:1px solid var(--line)}
+#experience-explore .experienceExploreBody{padding:0 20px 10px}
+#experience-explore .experienceExploreBody>.liveSignals{margin-top:18px}
+#experience-explore .experienceExploreBody>.bodyBinding{margin-top:12px}
+#experience-explore .cosmosGate{display:flex;align-items:center;gap:18px;justify-content:space-between;margin:18px 0;padding:18px;border:1px solid #5b493d;border-radius:14px;background:linear-gradient(120deg,rgba(111,45,48,.18),rgba(20,42,53,.5))}
+#experience-explore .cosmosGate div{display:grid;gap:3px}
+#experience-explore .cosmosGate span{font-size:9px;letter-spacing:.14em;color:var(--gold);text-transform:uppercase}
+#experience-explore .cosmosGate strong{font-size:15px}
+#experience-explore .cosmosGate small{font-size:11px;color:var(--mut)}
+#experience-explore .cosmosGate button{min-height:44px;white-space:nowrap;border:1px solid #916f59;border-radius:10px;background:#34252a;color:var(--ink);padding:10px 15px;font:inherit;cursor:pointer}
+.public-experience-v1 #supra-mission{border:1px solid #50613d;background:linear-gradient(135deg,#101b18,#0b1720)}
+.public-experience-v1 #supra-mission .head h2{font-size:clamp(34px,5vw,58px)}
+@media(max-width:760px){
+ .experienceIntro{padding-top:38px}
+ .experienceIntro h1{letter-spacing:-2.2px}
+ .experienceFlow{grid-template-columns:1fr 1fr}
+ .experienceFlow a:last-child{grid-column:1/-1}
+ .public-experience-v1 #dialogue-public .head,
+ .public-experience-v1 #evidence-graph .head,
+ .public-experience-v1 #supra-mission .head{grid-template-columns:1fr}
+ #experience-explore>summary{grid-template-columns:1fr;gap:5px}
+ #experience-explore .exploreHint{text-align:left}
+}
+</style>
+
+</head><body data-identity-url="system_identity.json" class="beast-dna beast-prismatic public-experience-v1"><svg class="artFilterDefs" width="0" height="0" aria-hidden="true" focusable="false"><defs><filter id="beast-glass-optics" x="-15%" y="-15%" width="130%" height="130%"><feTurbulence type="fractalNoise" baseFrequency=".013 .035" numOctaves="1" seed="7" result="grain"/><feDisplacementMap in="SourceGraphic" in2="grain" scale="9" xChannelSelector="R" yChannelSelector="G"/></filter></defs></svg><div class="wrap">
+<header class="top"><a class="brand" href="#dialogue-public" aria-label="ojO · revenir à la question" style="text-decoration:none;color:var(--ink)">oj<i>O</i></a><nav class="topNav" aria-label="Parcours public La Bête"><a href="#dialogue-public">Question</a><a href="#decision-twin">Answer</a><a href="#evidence-graph">Proof</a><a href="#experience-explore">Explore</a><a href="#supra-mission">Action</a></nav><a class="soundShortcut" href="#experience-explore"><span class="miniWave" aria-hidden="true"><i></i><i></i><i></i><i></i></span>Cosmos</a></header>
 <div class="liveSignals" aria-label="Les trois horloges de La Bête"><span class="pill" id="runner"><span class="dot"></span>RUNNER UNKNOWN · SNAPSHOT STATIQUE</span><span class="pill" id="feed"><span class="dot"></span>ÉTAT #11 · 2026-10-02T11:33:30Z</span><span class="pill" id="evolution"><span class="dot"></span>ÉVOLUTION G215 · EVIDENCE GUARD</span><a class="pill" href="#autoevolution">Preuve de vie ↗</a></div>
 
 <nav class="bodyBinding" aria-label="Objet France"><div class="bodySignature"><span>FRANCE · UN SEUL CORPS</span><b id="franceBindingLabel">France → Finances publiques → Dette / Taux / Refinancement</b><small>Portée nationale. Aucun effet régional imputé sans preuve territoriale. <a href="data/FRANCE_BEAST_BINDING.json">Contrat canonique</a></small></div><div class="artWordmark" aria-hidden="true">La Bête<span>.</span></div></nav>
 <section class="execBand" id="decision-twin" aria-labelledby="decisionTwinTitle">
   <div class="execTop">
-    <div><div class="ey">DECISION TWIN PUBLIC · NIVEAU 1 → 4</div><h2 id="decisionTwinTitle">Décider avec une preuve, pas avec un chiffre isolé.</h2><p>La Bête est la démonstration publique de SUPRA. Elle transforme ce dossier complexe en une lecture vérifiable, puis laisse chacun descendre progressivement jusqu’aux sources, scénarios et calculs.</p></div>
+    <div><div class="ey">2 · ANSWER · DECISION TWIN PUBLIC</div><h2 id="decisionTwinTitle">Non : 4,899 % n’est pas le coût immédiat de toute la dette.</h2><p>Le taux est un signal d’entrée. La réponse utile est de savoir <b>quelle part du stock sera refinancée, quand, avec quelle persistance et sur quelles preuves</b>. La Bête donne cette réponse d’abord ; le détail vient seulement si vous le demandez.</p></div>
     <span class="execBadge">SUPRA · DECIDE WITH PROOF</span>
   </div>
   <div class="decisionRoom">
@@ -389,10 +459,10 @@ body[data-evo-focus="evidence"] #rpEvidenceCard,body[data-evo-focus="decision"] 
 </section>
 
 <section class="section beastParticipation" id="dialogue-public" aria-labelledby="beastDialogueTitle">
-  <div class="head"><div><div class="ey">DIALOGUE OUVERT · QUESTIONS / IDÉES / PREUVES</div><h2 id="beastDialogueTitle">Une idée mérite une réponse.<br>Pas une adhésion automatique.</h2></div><p>Comprendre la proposition, préciser ce qui est documenté, expliquer les limites et définir ce qui pourrait évoluer. Aucun soutien, opposition, classement ou conseil politique.</p></div>
+  <div class="head"><div><div class="ey">1 · QUESTION</div><h2 id="beastDialogueTitle">Qu’est-ce que vous voulez comprendre ou décider ?</h2></div><p>Posez la question comme vous la poseriez à une personne. La Bête utilise les données et preuves déjà chargées, répond avec leurs limites, puis vous laisse ouvrir la preuve ou explorer plus loin.</p></div>
   <div class="beastDialogueGrid">
     <div class="beastDialoguePanel">
-      <p class="beastMode">Sans compte · réponse locale structurée · aucun modèle de langage connecté</p>
+      <p class="beastMode">Réponse locale structurée · données et preuves chargées · aucun modèle de langage connecté</p>
       <p class="beastHint">Cette première version utilise les données chargées et des règles explicites. Elle ne fait pas de recherche web nouvelle. La conversation reste en mémoire dans cet onglet jusqu’à son effacement ou son rechargement.</p>
       <div class="beastExamples"><button type="button" data-beast-question="Quelles informations te manquent et quelles démarches as-tu préparées ?">Ce qui manque</button><button type="button" data-beast-question="Je propose de montrer la source et la date à côté de chaque chiffre." data-beast-kind="IDEA">Proposer une amélioration</button><button type="button" data-beast-question="Que sais-tu sur la dette et les taux dans le flux chargé ?">Comprendre les preuves</button></div>
       <div id="beastDialogueLog" class="beastDialogueLog" role="log" aria-live="polite" aria-relevant="additions" aria-label="Conversation avec La Bête"></div>
@@ -402,7 +472,7 @@ body[data-evo-focus="evidence"] #rpEvidenceCard,body[data-evo-focus="decision"] 
         <label for="beastDialogueInput">Votre question ou votre idée</label>
         <textarea id="beastDialogueInput" rows="4" maxlength="1500" required placeholder="Quel problème voulez-vous résoudre ? Quel résultat permettrait de vérifier l’idée ?" aria-describedby="beastDialoguePrivacy"></textarea>
         <p id="beastDialoguePrivacy" class="beastHint">1 500 caractères maximum. Ne renseignez ni coordonnées, identifiants, données de santé ni pièces administratives.</p>
-        <div class="beastActionRow"><button type="submit" id="beastDialogueSubmit" disabled>Dialoguer avec La Bête</button><button type="button" id="beastClearDialogue">Effacer l’échange local</button><button type="button" id="beastExportDialogue" disabled>Exporter cet échange</button></div>
+        <div class="beastActionRow"><button type="submit" id="beastDialogueSubmit" disabled>Obtenir une réponse</button><button type="button" id="beastClearDialogue">Effacer l’échange local</button><button type="button" id="beastExportDialogue" disabled>Exporter cet échange</button></div>
       </form>
       <p id="beastDialogueNotice" role="status" class="beastHint">Aucun message transmis. JavaScript est nécessaire au dialogue local.</p>
     </div>
@@ -485,7 +555,7 @@ body[data-evo-focus="evidence"] #rpEvidenceCard,body[data-evo-focus="decision"] 
 </section>
 
 <section class="section" id="evidence-graph">
-  <div class="head"><div><div class="ey">EVIDENCE GRAPH · AUCUNE BOÎTE NOIRE</div><h2>Chaque lecture descend jusqu’à la source et à la transformation.</h2></div><p>Projection publique légère du ProofGraph SUPRA existant : source → métrique → transformation → scénario → sortie. Aucun second moteur, aucun second registre de vérité.</p></div>
+  <div class="head"><div><div class="ey">3 · PROOF · AUCUNE BOÎTE NOIRE</div><h2>Voici ce qui porte la réponse.</h2></div><p>Chaque affirmation importante descend jusqu’à la source, la date et la transformation. ProofGraph et Evidence Universe restent le même socle : pas de second moteur, pas de seconde vérité.</p></div>
   <div class="proofRelations" id="proofRelations">BDF_TEC — OBSERVES → TEC_CURVE · BDF_WEBSTAT — CROSSCHECKS → TEC_CURVE · TEC_CURVE — DERIVES → CURVE_REGIME · PAP2026 — PARAMETERIZES → PAP_STRESS · TEC_CURVE — INFORMS → EXECUTIVE_OUTPUT · CURVE_REGIME — INFORMS → EXECUTIVE_OUTPUT · PAP_STRESS — STRESSES → EXECUTIVE_OUTPUT · OJO_FRANCE_ORGANISM_V1#/identity — CONTAINS → OJO_FRANCE_ORGANISM_V1#/physiology/systems/finance · OJO_FRANCE_ORGANISM_V1#/physiology/systems/finance — INSTRUMENTED_BY → OJO_FRANCE_DEBT_RATE_LIVE_V1 · OJO_FRANCE_DEBT_RATE_LIVE_V1 — PROJECTS → EXECUTIVE_OUTPUT</div><div class="proofFlow" id="proofFlow"><div class="proofNode"><small>SOURCE</small><b>Banque de France · page TEC</b><span>BDF_TEC</span></div><div class="proofNode"><small>SOURCE</small><b>Banque de France · Webstat</b><span>BDF_WEBSTAT</span></div><div class="proofNode"><small>METRIC</small><b>Courbe TEC observée</b><span>TEC_CURVE</span></div><div class="proofNode"><small>DERIVED_METRIC</small><b>Régime descriptif</b><span>CURVE_REGIME</span></div><div class="proofNode"><small>PUBLICATION</small><b>PAP 2026</b><span>PAP2026</span></div><div class="proofNode"><small>SCENARIO</small><b>Stress parallèle</b><span>PAP_STRESS</span></div><div class="proofNode"><small>OUTPUT</small><b>Executive Decision Room</b><span>EXECUTIVE_OUTPUT</span></div><div class="proofNode"><small>COUNTRY</small><b>France</b><span>OJO_FRANCE_ORGANISM_V1#/identity</span></div><div class="proofNode"><small>SYSTEM</small><b>Finances publiques · finance / budget</b><span>OJO_FRANCE_ORGANISM_V1#/physiology/systems/finance</span></div><div class="proofNode"><small>ORGAN</small><b>Dette / Taux / Refinancement</b><span>OJO_FRANCE_DEBT_RATE_LIVE_V1</span></div></div>
   <div class="claimGrid" id="claimGrid"><details class="proofTrace" id="proof-TEC10"><summary>TEC10 observé · OBSERVED · CROSSCHECKED</summary><p>France / Finances publiques / Dette-Taux-Refinancement · NATIONAL_ONLY. Confiance HIGH · observation 2026-10-02</p><p>Claim TEC10 → métrique TEC10 → transformation SOURCE_OBSERVATION_IDENTITY → observation TEC10:5cb47a4d17954e75f5e9 → sortie EXECUTIVE_OUTPUT</p><p><a href="data/france-debt-rate-live.json">Valeur et transformation dans le canon JSON</a></p><p><a href="https://www.banque-france.fr/fr/statistiques/taux-et-cours/indices-obligataires-2026-10-02">Banque de France</a> · LIVE_VERIFIED · observation 2026-10-02 · vérifiée 2026-10-02T11:33:26Z</p><p><a href="https://webstat.banque-france.fr/export/csv-columns/fr/selection/5385693">Banque de France · Webstat</a> · CROSSCHECKED · observation 2026-10-02 · vérifiée 2026-10-02T11:33:27Z</p></details><details class="proofTrace" id="proof-TEC_CURVE"><summary>Courbe TEC 1–30 ans · OBSERVED · CROSSCHECKED</summary><p>France / Finances publiques / Dette-Taux-Refinancement · NATIONAL_ONLY. Confiance HIGH · observation 2026-10-02</p><p>Claim TEC_CURVE → métrique TEC_CURVE → transformation SOURCE_OBSERVATION_IDENTITY → observation TEC_CURVE:9d744624db946786f7cc → sortie EXECUTIVE_OUTPUT</p><p><a href="data/france-debt-rate-live.json">Valeur et transformation dans le canon JSON</a></p><p><a href="https://www.banque-france.fr/fr/statistiques/taux-et-cours/indices-obligataires-2026-10-02">Banque de France</a> · LIVE_VERIFIED · observation 2026-10-02 · vérifiée 2026-10-02T11:33:26Z</p><p><a href="https://webstat.banque-france.fr/export/csv-columns/fr/selection/5385693">Banque de France · Webstat</a> · CROSSCHECKED · observation 2026-10-02 · vérifiée 2026-10-02T11:33:27Z</p></details><details class="proofTrace" id="proof-CURVE_REGIME"><summary>Régime descriptif de courbe · DERIVED · DERIVED_FROM_OFFICIAL</summary><p>France / Finances publiques / Dette-Taux-Refinancement · NATIONAL_ONLY. Confiance MEDIUM · observation 2026-10-02</p><p>Claim CURVE_REGIME → métrique CURVE_REGIME → transformation curve_regime_memory → observation CURVE_REGIME:6a03b8ce72d1eab27e00 → sortie EXECUTIVE_OUTPUT</p><p><a href="data/france-debt-rate-live.json">Valeur et transformation dans le canon JSON</a></p><p><a href="https://www.banque-france.fr/fr/statistiques/taux-et-cours/indices-obligataires-2026-10-02">Banque de France</a> · LIVE_VERIFIED · observation 2026-10-02 · vérifiée 2026-10-02T11:33:26Z</p><p><a href="https://webstat.banque-france.fr/export/csv-columns/fr/selection/5385693">Banque de France · Webstat</a> · CROSSCHECKED · observation 2026-10-02 · vérifiée 2026-10-02T11:33:27Z</p></details><details class="proofTrace" id="proof-MATURITY_LADDER"><summary>Encours par échéance · OBSERVED · RETAINED_LAST_GOOD</summary><p>France / Finances publiques / Dette-Taux-Refinancement · NATIONAL_ONLY. Confiance MEDIUM · observation 2026-10-02</p><p>Claim MATURITY_LADDER → métrique MATURITY_LADDER → transformation SOURCE_OBSERVATION_IDENTITY → observation MATURITY_LADDER:16d80fef95d6b6891be7 → sortie EXECUTIVE_OUTPUT</p><p><a href="data/france-debt-rate-live.json">Valeur et transformation dans le canon JSON</a></p><p><a href="https://www.aft.gouv.fr/fr">Agence France Trésor</a> · RETAINED_LAST_GOOD · observation 2026-10-02 · vérifiée 2026-10-02T11:33:30Z · Detailed pages unavailable to the runner.</p></details><details class="proofTrace" id="proof-PAP_STRESS"><summary>Sensibilité +100 pb · STRESS · OFFICIAL_VINTAGE</summary><p>France / Finances publiques / Dette-Taux-Refinancement · NATIONAL_ONLY. Confiance MODEL_BOUND · observation OFFICIAL_VINTAGE</p><p>Claim PAP_STRESS → métrique PAP_STRESS → transformation PAP2026_FIXED_VINTAGE_SENSITIVITY → observation PAP_STRESS:5a7c613cc9ce28f0d54c → sortie EXECUTIVE_OUTPUT</p><p><a href="data/france-debt-rate-live.json">Valeur et transformation dans le canon JSON</a></p><p><a href="https://www.assemblee-nationale.fr/dyn/contenu/visualisation/1087975/file/PAP2026_BG_Engagements_financiers_Etat_EB.pdf">Assemblée nationale</a> · OFFICIAL_VINTAGE · observation OFFICIAL_VINTAGE · vérifiée PLF 2026</p></details></div>
   <div class="sourceStates" id="sourceStates"><span class="sourceState ">LIVE_VERIFIED · 2</span><span class="sourceState ">CROSSCHECKED · 1</span><span class="sourceState ">OFFICIAL_VINTAGE · 1</span><span class="sourceState ">RETAINED_LAST_GOOD · 1</span><span class="sourceState bad">DEGRADED · 0</span><span class="sourceState bad">UNAVAILABLE · 4</span><span class="sourceState bad">CONTRADICTED · 0</span></div>
@@ -514,7 +584,7 @@ body[data-evo-focus="evidence"] #rpEvidenceCard,body[data-evo-focus="decision"] 
 
 <section class="section" id="supra-mission" aria-labelledby="supraMissionTitle">
   <div class="head">
-    <div><div class="ey">SUPRA MISSION · À PARTIR DE 2 500 €</div><h2 id="supraMissionTitle">J’ai une décision importante.</h2></div>
+    <div><div class="ey">5 · ACTION · SUPRA MISSION · À PARTIR DE 2 500 €</div><h2 id="supraMissionTitle">J’ai une décision importante.</h2></div>
     <p>Le premier produit commercial n’est pas un moteur. C’est la transformation d’un problème réel en <b>Decision Twin vérifiable, défendable et actionnable</b>.</p>
   </div>
   <div class="decisionRoom">
@@ -1770,7 +1840,87 @@ window.laBeteSuspendPresence=()=>{
   const v=$('arVideo');if(v)v.srcObject=null;$('beastStage')?.classList.remove('ar-on');$('beastCamera')?.setAttribute('aria-pressed','false');
   beastMotionOn=false;$('beastMotion')?.setAttribute('aria-pressed','false');beast3d?.endXR?.();window.laBeteAvatarControl?.('pilot',false);
 };
-document.addEventListener?.('DOMContentLoaded',()=>{if(!window.LaBeteExplorer||!document.body.classList.contains('mu-active'))window.laBeteEnsurePresence();},{once:true});
+document.addEventListener?.('DOMContentLoaded',()=>{if(!document.body.classList.contains('public-experience-v1')&&(!window.LaBeteExplorer||!document.body.classList.contains('mu-active')))window.laBeteEnsurePresence();},{once:true});
 initResonance();
 refreshPulse();
-</script></body></html>
+</script><script id="la-bete-public-experience-simplification-runtime-v1">
+(()=>{
+  const wrap=document.querySelector('.wrap');
+  const header=wrap?.querySelector(':scope > .top');
+  const question=document.getElementById('dialogue-public');
+  const answer=document.getElementById('decision-twin');
+  const proof=document.getElementById('evidence-graph');
+  const action=document.getElementById('supra-mission');
+  const foot=wrap?.querySelector(':scope > .foot');
+  const noScript=wrap?.querySelector(':scope > noscript');
+  if(!wrap||!header||!question||!answer||!proof||!action)return;
+
+  const intro=document.createElement('section');
+  intro.className='experienceIntro';
+  intro.id='experience-start';
+  intro.setAttribute('aria-labelledby','experienceTitle');
+  intro.innerHTML='<div class="ey">LA BÊTE · EXPÉRIENCE PUBLIQUE</div><h1 id="experienceTitle">Une question.<br>Une réponse.<br><em>La preuve si vous la voulez.</em></h1><p>Commencez par ce que vous cherchez à comprendre ou décider. La complexité reste derrière la réponse, disponible à la demande — jamais devant vous.</p><nav class="experienceFlow" aria-label="Parcours en cinq étapes"><a href="#dialogue-public"><small>01</small><b>QUESTION</b></a><a href="#decision-twin"><small>02</small><b>ANSWER</b></a><a href="#evidence-graph"><small>03</small><b>PROOF</b></a><a href="#experience-explore"><small>04</small><b>EXPLORE</b></a><a href="#supra-mission"><small>05</small><b>ACTION</b></a></nav>';
+
+  const explore=document.createElement('details');
+  explore.id='experience-explore';
+  explore.innerHTML='<summary><span class="exploreStep">4 · EXPLORE</span><strong class="exploreTitle">Ouvrir les scénarios, le temps, le Cosmos et l’audit complet.</strong><span class="exploreHint">Tout est conservé. Rien n’est imposé.</span></summary><div class="experienceExploreBody"></div>';
+  const exploreBody=explore.querySelector('.experienceExploreBody');
+  const cosmosGate=document.createElement('div');
+  cosmosGate.className='cosmosGate';
+  cosmosGate.innerHTML='<div><span>Cosmos</span><strong>Besoin de la carte complète des objets, univers et relations ?</strong><small>Le Cosmos est un niveau d’exploration. Il ne remplace plus la réponse.</small></div><button type="button" id="experienceCosmosLaunch">Entrer dans le Cosmos</button>';
+  exploreBody.appendChild(cosmosGate);
+
+  const keep=new Set([header,question,answer,proof,action,foot,noScript].filter(Boolean));
+  [...wrap.children].forEach(node=>{if(!keep.has(node))exploreBody.appendChild(node)});
+  cosmosGate.querySelector('#experienceCosmosLaunch')?.addEventListener('click',()=>window.LaBeteExplorerActivate?.('#/atlas'));
+
+  const qAside=question.querySelector('.beastParticipationAside');
+  if(qAside){
+    const d=document.createElement('details'); d.className='questionAdvanced';
+    d.innerHTML='<summary>Participation, partage et méthode ↘</summary>';
+    qAside.before(d); d.appendChild(qAside);
+  }
+  const answerList=answer.querySelector('.decisionRoom .card .decisionList');
+  if(answerList){
+    const d=document.createElement('details'); d.className='answerDepth';
+    d.innerHTML='<summary>Pourquoi, risques, incertitudes, scénarios et invalidation ↘</summary>';
+    answerList.before(d); d.appendChild(answerList);
+  }
+  const answerAside=answer.querySelector('.decisionRoom > aside.card');
+  if(answerAside){
+    const d=document.createElement('details'); d.className='answerMethod';
+    d.innerHTML='<summary>Voir la méthode et les niveaux de profondeur ↘</summary>';
+    answerAside.before(d); d.appendChild(answerAside);
+  }
+  const proofRelations=proof.querySelector('.proofRelations');
+  const proofFlow=proof.querySelector('.proofFlow');
+  if(proofRelations&&proofFlow){
+    const d=document.createElement('details'); d.className='proofDepth';
+    d.innerHTML='<summary>Voir les relations techniques du ProofGraph ↘</summary>';
+    proofRelations.before(d); d.append(proofRelations,proofFlow);
+  }
+
+  header.after(intro,question,answer,proof,explore,action);
+  if(foot)action.after(foot);
+  if(noScript)(foot||action).after(noScript);
+
+  const revealExplore=()=>{
+    explore.open=true;
+    window.laBeteEnsurePresence?.();
+  };
+  explore.addEventListener('toggle',()=>{if(explore.open)window.laBeteEnsurePresence?.();else window.laBeteSuspendPresence?.();});
+  document.addEventListener('click',e=>{
+    const a=e.target.closest?.('a[href^="#"]'); if(!a)return;
+    const id=a.getAttribute('href').slice(1); const target=document.getElementById(id); if(target&&exploreBody.contains(target))revealExplore();
+  });
+  window.addEventListener('hashchange',()=>{
+    const target=document.getElementById(location.hash.slice(1));
+    if(target&&exploreBody.contains(target))revealExplore();
+  });
+  if(location.hash){
+    const target=document.getElementById(location.hash.slice(1));
+    if(target&&exploreBody.contains(target))revealExplore();
+  }
+})();
+</script>
+</body></html>
