@@ -177,7 +177,7 @@
         {
           "step": "AMPLIFY_2",
           "status": "PASS",
-          "effect": "Les rôles advisory sont liés aux cockpits OJO existants réellement enregistrés comme fenêtres SUPRA (Finance, Réseau, Infos, Opportunités, Juridique, Présence, Agenda). Aucun registre spécialiste parallèle ; autorité de routage seulement."
+          "effect": "Les rôles advisory sont liés aux cockpits OJO existants réellement enregistrés comme fenêtres SUPRA (Finance, Réseau, Infos, Opportunités, Juridique, Présence, Agenda). La Maison publique projette ce binding prouvé au build ; le runtime client reste UNPROVEN_UNTIL_NATIVE_HANDOFF. Aucun registre spécialiste parallèle ; autorité de routage seulement, jamais autorité d’exécution."
         },
         {
           "step": "REDUCE_2",
@@ -237,7 +237,7 @@
     }
   },
   "proof": {
-    "static_verifier": "LA_BETE_ADVISORY_HOUSE_V5_STATIC_PASS 12",
+    "static_verifier": "LA_BETE_ADVISORY_HOUSE_V5_STATIC_PASS 13",
     "explorer_non_regression": "LA_BETE_EXPLORER_TESTS_PASS 82",
     "evolution_non_regression": "LA_BETE_VIRTUOUS_EVOLUTION_NON_REGRESSION_PASS",
     "browser_proof": "ADVISORY_HOUSE_V5_BROWSER_PASS",
@@ -247,7 +247,7 @@
       "Decision Twin unchanged",
       "ProofGraph unchanged",
       "Cosmos optional and not auto-activated",
-      "contextual Mission brief fail-closes unproven specialist binding",
+      "contextual Mission brief projects proven existing SUPRA cockpit bindings with ROUTING_ONLY_NOT_EXECUTION_PROOF",
       "Reality Pulse survives",
       "390x844 mobile no horizontal page overflow"
     ],
@@ -255,7 +255,7 @@
       "targeted_test": "SUPRA_CONVERSATIONAL_SOLUTION_FACTORY_PERSONAL_SPACE_V1=PASS; SUPRA_ADVISORY_PRIVATE_OFFICE_V1=PASS",
       "compile": "BUILD SUCCEEDED; SIGNED BUILD SUCCEEDED; CODESIGN VERIFY PASS",
       "promotion": "FROZEN_RUNTIME_PROVEN_ISOLATED_CANDIDATE",
-      "mutation_by_this_mission": "PUBLIC_PAYLOAD_FREE_DEEPLINK_ONLY",
+      "mutation_by_this_mission": "PUBLIC_PAYLOAD_FREE_DEEPLINK_PLUS_READ_ONLY_BINDING_PROJECTION",
       "runtime_binding_receipt": "receipts/SUPRA_PRIVATE_OFFICE_RUNTIME_BINDING_PROOF_V1.json",
       "canonical_native_deploy_claimed": false
     }
@@ -298,12 +298,14 @@
     "PULSE_SURVIVES": "PASS",
     "PUBLIC_BROWSER_PROOF": "PASS",
     "VERDICT": "PASS",
-    "PUBLIC_PRIVATE_HANDOFF": "PASS_PAYLOAD_FREE_SUPRA_PRIVATE_OFFICE"
+    "PUBLIC_PRIVATE_HANDOFF": "PASS_PAYLOAD_FREE_SUPRA_PRIVATE_OFFICE",
+    "PUBLIC_SPECIALIST_BINDING_PROJECTION": "PASS_ROUTING_ONLY_NOT_EXECUTION_PROOF",
+    "HOUSE_EXPLORER_HISTORY_BOUNDARY": "PASS"
   },
   "hard_gate": {
     "triggered": false,
     "reason": "Cleared by frozen isolated SUPRA candidate, successful restart/deep-link proof, signed build, existing cockpit bindings, and payload-free public handoff. No canonical native SUPRA deployment or execution authority is claimed.",
     "deploy_public_main": "AUTHORIZED_AFTER_SAME_V5_AND_NON_REGRESSION_TESTS_PASS",
-    "next_move": "Commit this V5 binding proof, reconcile with current main without overwriting concurrent territory work, rerun the same V5/browser/explorer/evolution gates, then merge/deploy public."
+    "next_move": "Freeze this PASS state and deploy only by fast-forward after the same V5/browser/explorer/evolution gates remain green. Any later UX iteration must reuse these bindings and preserve the single engine/registry/truth boundaries."
   }
 }

@@ -34,7 +34,11 @@ async function main(){
  await send('Emulation.setDeviceMetricsOverride',{width:1440,height:1050,deviceScaleFactor:1,mobile:false});
  const base=process.argv[2]||'http://127.0.0.1:'+port+'/france-debt-rate-risk-live-2026-10-02.html';
  await send('Page.navigate',{url:base});
- await wait("document.readyState==='complete'&&!!window.LaBeteExplorer&&document.body.classList.contains('mu-active')",'multiverse boot');
+ await wait("document.readyState==='complete'&&!!window.LaBeteExplorer&&!!document.getElementById('experienceCosmosLaunch')",'public experience boot');
+ assert.equal(await evaluate("window.LaBeteExplorer.state().active"),false);pass('public experience does not auto-activate Cosmos');
+ await evaluate("document.getElementById('experienceCosmosLaunch').click()");
+ await wait("document.body.classList.contains('mu-active')&&window.LaBeteExplorer.state().route==='#/atlas'",'explicit Cosmos opt-in');
+ pass('explicit public Cosmos control activates the existing Explorer');
  await wait("!!document.getElementById('muAtlas')",'atlas');
  const civicPalette=await evaluate("(()=>{const s=getComputedStyle(document.getElementById('multiunivers'));const p=getComputedStyle(document.querySelector('.muPrimary'));return {blue:s.getPropertyValue('--civic-blue').trim(),sage:s.getPropertyValue('--civic-sage').trim(),copper:s.getPropertyValue('--civic-copper').trim(),alert:s.getPropertyValue('--civic-alert').trim(),primaryBorder:p.borderTopColor}})()");
  assert.deepEqual(civicPalette,{blue:'#5B7C99',sage:'#6F8F86',copper:'#B58A62',alert:'#B55E63',primaryBorder:'rgb(91, 124, 153)'});pass('civic institutional palette is computed in the real browser');
@@ -88,7 +92,8 @@ async function main(){
  await clickObject(FINANCE);await clickObject(DEBT);await clickObject('AFT_MATURITY_OAT');await clickObject('source-domain:www.aft.gouv.fr');await clickObject('AFT_MATURITY_OAT');await clickObject('source:AFT_MATURITY_OAT');await clickObject('LA_BETE_AFT_PUBLIC_DATA_ACCESS_V1');
  assert.ok(await evaluate("document.getElementById('muStage').textContent.includes('NOT_EXECUTED')"));pass('actual country-finance-debt-source-organization-gap-request traversal');
  await evaluate("document.querySelector('#muStage details').open=true;window.scrollTo(0,420)");const previous=await evaluate('window.scrollY');
- await clickObject('source:AFT_MATURITY_OAT');await evaluate("document.getElementById('muBack').click()");await wait("window.LaBeteExplorer.state().object==='LA_BETE_AFT_PUBLIC_DATA_ACCESS_V1'",'exact back');
+ await clickObject('source:AFT_MATURITY_OAT');await wait("!!document.querySelector('#muStage .muSnapshot')",'source render committed before back');
+ await evaluate("document.getElementById('muBack').click()");await wait("window.LaBeteExplorer.state().object==='LA_BETE_AFT_PUBLIC_DATA_ACCESS_V1'",'exact back');
  assert.equal(await evaluate("document.querySelector('#muStage details').open"),true);assert.ok(Math.abs(await evaluate('window.scrollY')-previous)<=2);pass('browser back restores exact object, open draft and scroll');
  await evaluate('window.scrollTo(0,0)');await screenshot('demarche-desktop');
  await evaluate('window.LaBeteExplorer.openChat()');await wait("document.getElementById('muChat').open",'context chat');

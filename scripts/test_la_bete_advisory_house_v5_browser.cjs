@@ -52,11 +52,14 @@ async function main(){
  await evaljs("document.querySelector('[data-house-room=desk]').click();document.getElementById('beastDialogueInput').value='Je veux acheter une entreprise en Espagne';document.getElementById('beastDialogueInput').dispatchEvent(new Event('input',{bubbles:true}));document.getElementById('beastDialogueForm').requestSubmit()");
  await wait("LaBeteAdvisoryHouseV5.state().room==='mission'",'auto route mission');
  assert.ok((await evaljs("document.getElementById('houseRouteHint').textContent")).includes('M&A + Financement + Evidence'));
- assert.ok((await evaljs("document.getElementById('houseRouteHint').textContent")).includes('binding privé SUPRA'));
- assert.equal(await evaljs("document.getElementById('houseMissionCapability').textContent"),'PRIVATE_SPECIALIST_BINDING_REQUIRED');
+ assert.ok((await evaljs("document.getElementById('houseRouteHint').textContent")).includes('Binding SUPRA prouvé'));
+ assert.ok((await evaljs("document.getElementById('houseMissionCapability').textContent")).startsWith('BOUND_EXISTING_SUPRA_COCKPITS_ROUTING_ONLY'));
+ assert.ok((await evaljs("document.getElementById('houseMissionCapability').textContent")).includes('Opportunités + Finance + Juridique + Réseau'));
+ assert.equal(await evaljs("LaBeteAdvisoryHouseV5.specialist_binding_proof.verdict"),'PROVEN_FOR_V5_BINDING_GATE');
+ assert.equal(await evaljs("LaBeteAdvisoryHouseV5.specialist_binding_proof.authority"),'ROUTING_ONLY_NOT_EXECUTION_PROOF');
  assert.ok((await evaljs("document.getElementById('houseMissionNeed').textContent")).includes('entreprise en Espagne'));
  assert.ok((await evaljs("document.getElementById('houseMissionOffer').textContent")).includes('2 500 €'));
- pass('auto-orientation composes a contextual Mission brief while fail-closing unproven private specialist bindings');
+ pass('auto-orientation composes a contextual Mission brief from proven existing SUPRA cockpit bindings without execution authority');
  assert.equal(await evaljs("document.querySelectorAll('#reality-pulse').length"),1);
  assert.ok((await evaljs("document.getElementById('realityHeadline').textContent")).length>10);pass('existing Reality Pulse survives inside voluntary exploration');
  await shot('desktop-mission');

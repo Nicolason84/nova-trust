@@ -28,6 +28,22 @@ const boundRole={
  explore:{label:'Observatory',binding:'Cosmos / Explorer existants'},
  mission:{label:'Solutions',binding:'SUPRA Mission / offre existante'}
 };
+const specialistBindingProof=Object.freeze({
+ schema:'SUPRA_PRIVATE_OFFICE_RUNTIME_BINDING_PROOF_V1',
+ verdict:'PROVEN_FOR_V5_BINDING_GATE',
+ authority:'ROUTING_ONLY_NOT_EXECUTION_PROOF',
+ clientRuntime:'UNPROVEN_UNTIL_NATIVE_HANDOFF',
+ roles:{
+  'M&A':'Opportunités + Finance + Juridique + Réseau',
+  'Legal & Risk':'Juridique + Infos',
+  'Financing':'Finance',
+  'Investment':'Finance + Infos + Opportunités',
+  'Commercial':'Opportunités + Réseau + Présence',
+  'People & Network':'Réseau',
+  'Evidence':'Infos',
+  'Solutions':'Opportunités'
+ }
+});
 const state={room:'desk',orientation:'',caseState:'PUBLIC_CASE_ACTIVE',privateOffice:'BOUNDARY_ONLY',lastQuestion:''};
 const house=document.createElement('section');
 house.id='advisory-house-v5';
@@ -172,19 +188,22 @@ function updateCommittee(){
 function updateMissionBrief(text,orientation){
  const need=byId('houseMissionNeed'),cap=byId('houseMissionCapability'),offer=byId('houseMissionOffer');
  if(need)need.textContent=text||'Aucun besoin privé confié sur cette origine.';
- const specialist=/M&A|Legal/.test(orientation?.label||'');
- if(cap)cap.textContent=specialist?'PRIVATE_SPECIALIST_BINDING_REQUIRED':'BOUND_TO_EXISTING_MISSION_SURFACE';
+ const bindingRole=orientation?.bindingRole;
+ const binding=bindingRole?specialistBindingProof.roles[bindingRole]:null;
+ if(cap)cap.textContent=binding
+   ?'BOUND_EXISTING_SUPRA_COCKPITS_ROUTING_ONLY · '+binding
+   :'BOUND_TO_EXISTING_MISSION_SURFACE';
  const pageOffer=(action.textContent.match(/(?:à partir de|from)\s+[0-9\s .,]+\s*€/i)||[])[0];
  if(offer)offer.textContent=pageOffer?('SUPRA Mission · '+pageOffer):'SUPRA Mission · offre existante ci-dessous';
 }
 function orientationFor(text){
  const q=String(text||'').toLowerCase();
- if(/acheter|acquisition|reprendre|valoris|cible|m&a/.test(q))return {room:'mission',label:'Orientation proposée : M&A + Financement + Evidence. Les spécialistes ne sont pas incarnés ici tant que leur binding privé SUPRA n’est pas prouvé.'};
- if(/contrat|jurid|legal|litige|risque réglement/.test(q))return {room:'mission',label:'Orientation proposée : Legal & Risk + Evidence. Activation spécialiste privée requise ; aucun faux expert public.'};
- if(/preuve|source|justif|d'où|origine|fiab/.test(q))return {room:'proof',label:'Evidence est déjà lié à ce dossier : ouverture directe de la preuve existante.'};
+ if(/acheter|acquisition|reprendre|valoris|cible|m&a/.test(q))return {room:'mission',bindingRole:'M&A',label:'Orientation proposée : M&A + Financement + Evidence. Binding SUPRA prouvé vers Opportunités + Finance + Juridique + Réseau ; routage uniquement, aucune exécution automatique.'};
+ if(/contrat|jurid|legal|litige|risque réglement/.test(q))return {room:'mission',bindingRole:'Legal & Risk',label:'Orientation proposée : Legal & Risk + Evidence. Binding SUPRA prouvé vers Juridique + Infos ; routage uniquement, aucun faux expert public ni exécution automatique.'};
+ if(/preuve|source|justif|d'où|origine|fiab/.test(q))return {room:'proof',bindingRole:'Evidence',label:'Evidence est déjà lié à ce dossier : ouverture directe de la preuve existante. Binding SUPRA prouvé vers Infos ; routage uniquement.'};
  if(/taux|dette|refinanc|tec10|france emprunte|oat/.test(q))return {room:'decision',label:'Le sujet correspond au dossier public chargé : Decision Twin + Evidence peuvent être utilisés sans nouveau moteur.'};
  if(/scénario|scenario|cosmos|explor|chronolog|dans le temps/.test(q))return {room:'explore',label:'Exploration demandée explicitement : Cosmos reste un approfondissement volontaire.'};
- return {room:'desk',label:'Le besoin est conservé dans le dialogue. Aucune spécialité n’est inventée tant qu’un binding réel n’est pas prouvé.'};
+ return {room:'desk',label:'Le besoin est conservé dans le dialogue. SUPRA n’active une spécialité que lorsqu’un binding existant et prouvé correspond au besoin.'};
 }
 const form=byId('beastDialogueForm'),input=byId('beastDialogueInput');
 form?.addEventListener('submit',()=>{
@@ -200,7 +219,7 @@ document.addEventListener('click',e=>{
  e.preventDefault();setRoom(room,{historyMode:'push',focus:true});
 });
 window.addEventListener('hashchange',()=>{const room=roomForHash(location.hash);if(room)setRoom(room,{historyMode:'replace'});});
-window.addEventListener('popstate',()=>{const room=roomForHash(location.hash)||history.state?.laBeteHouseRoom;if(room)setRoom(room,{historyMode:'replace'});});
+window.addEventListener('popstate',()=>{if(location.hash.startsWith('#/'))return;const room=roomForHash(location.hash)||history.state?.laBeteHouseRoom;if(room)setRoom(room,{historyMode:'replace'});});
 
 const observed=[byId('sourceAlertCount'),byId('realityConfidence'),byId('franceBindingLabel')].filter(Boolean);
 if(observed.length){
@@ -217,6 +236,7 @@ window.LaBeteAdvisoryHouseV5=Object.freeze({
  schema:'LA_BETE_ADVISORY_HOUSE_SPATIAL_EXPERIENCE_V5',
  mode:'PRESENTATION_ORCHESTRATION_ONLY',
  second_engine:false,second_registry:false,second_truth:false,private_storage:false,
+ specialist_binding_proof:specialistBindingProof,
  rooms:roomSpec.map(x=>x.id),
  state:()=>({...state}),
  setRoom:r=>setRoom(r,{historyMode:'push'}),

@@ -16,7 +16,7 @@ assert.ok(js.includes('Aucune identité professionnelle humaine n’est simulée
 assert.ok(js.includes('Bureau privé SUPRA'));assert.ok(js.includes('ne stocke ni dossier privé ni mémoire client'));pass('public/private boundary is explicit');
 assert.ok(js.includes('href="supra://private-office"'));assert.ok(js.includes('Aucun dossier, message ou identifiant n’est transmis dans ce lien.'));assert.ok(!js.includes('supra://private-office?')&&!js.includes('supra://private-office#'));pass('private-office handoff is a payload-free native deep link');
 assert.ok(js.includes('COMITÉ · SYNTHÈSE'));assert.ok(js.includes('NONE_EVIDENCED'));pass('committee is a bounded synthesis without fabricated disagreement');
-assert.ok(js.includes('CONVERSATIONAL SOLUTION & MISSION FACTORY'));assert.ok(js.includes('PRIVATE_SPECIALIST_BINDING_REQUIRED'));pass('mission composition exists and fail-closes missing private specialist binding');
+assert.ok(js.includes('CONVERSATIONAL SOLUTION & MISSION FACTORY'));assert.ok(js.includes("verdict:'PROVEN_FOR_V5_BINDING_GATE'"));assert.ok(js.includes("authority:'ROUTING_ONLY_NOT_EXECUTION_PROOF'"));assert.ok(js.includes('BOUND_EXISTING_SUPRA_COCKPITS_ROUTING_ONLY'));assert.ok(!js.includes('PRIVATE_SPECIALIST_BINDING_REQUIRED'));pass('mission composition projects the proven existing SUPRA cockpit bindings without execution authority');
 assert.ok(js.includes("window.LaBeteExplorerActivate?.('#/atlas')")===false);assert.ok(js.includes("explore.open=true"));pass('V5 does not directly activate Cosmos');
 assert.ok(css.includes('@media(max-width:560px)'));assert.ok(css.includes('@media(prefers-reduced-motion:reduce)'));pass('mobile and reduced-motion constraints are explicit');
 console.log('LA_BETE_ADVISORY_HOUSE_V5_STATIC_PASS 13');
