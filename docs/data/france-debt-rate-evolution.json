@@ -1,7 +1,7 @@
 {
   "schema": "OJO_LA_BETE_VIRTUOUS_EVOLUTION_V1",
-  "generation": 184,
-  "updated_at": "2026-10-04T01:40:02Z",
+  "generation": 185,
+  "updated_at": "2026-10-04T01:52:43Z",
   "source_snapshot_id": "OJO-03035CE5C9B6B290",
   "source_sequence": 11,
   "dna": {
@@ -13379,6 +13379,9 @@
               "scheme": "CHAUM_STYLE_RAW_RSA_RESEARCH_PROOF",
               "rfc9474_reference": "RFC_9474_RSA_BLIND_SIGNATURES",
               "rfc9474_conformance": false,
+              "standard_backend_target": "CLOUDFLARE_CIRCL_V1_6_5",
+              "standard_backend_ci": "PASS_RFC9474_RFC9578",
+              "standard_backend_runtime_binding": "NOT_PROVEN",
               "privacy_pass_reference": "RFC_9576_ISSUANCE_REDEMPTION_SEPARATION",
               "metadata_unlinkability": "NOT_PROVEN_TIMING_IP_TLS_FINGERPRINT_AND_SMALL_ANONYMITY_SETS_REMAIN",
               "production_requirement": "AUDITED_RFC_GRADE_BLIND_SIGNATURE_OR_ANONYMOUS_CREDENTIAL_PLUS_METADATA_SEPARATION",
@@ -13400,6 +13403,69 @@
             },
             "protected_commitments_overrideable_by_ballot": false,
             "capital_weighting": false
+          },
+          "production_privacy_gate": {
+            "schema": "LA_BETE_SCIC_PRODUCTION_PRIVACY_GATE_V1",
+            "state": "IMPLEMENTED_FAIL_CLOSED",
+            "production_activation": false,
+            "current_verdict": "BLOCKED",
+            "cryptographic_gate": {
+              "state": "RFC9474_RFC9578_CI_PASS",
+              "profile": "RFC9578_PUBLICLY_VERIFIABLE_BLIND_RSA_TOKEN_TYPE_0x0002",
+              "variant": "RSABSSA-SHA384-PSS-Deterministic",
+              "backend": "CLOUDFLARE_CIRCL",
+              "backend_version": "v1.6.5",
+              "project_ci": "PASS",
+              "upstream_rfc9474_vectors": "PASS",
+              "standard_rsa_pss_crosscheck": "PASS",
+              "runtime_binding": "NOT_PROVEN",
+              "workflow": ".github/workflows/scic-production-privacy-gate.yml",
+              "go_module": "privacy/rfc9474_gate"
+            },
+            "network_gate": {
+              "profile": "RFC9458_OHTTP_OR_EQUIVALENT_INDEPENDENT_RELAY",
+              "state": "NOT_CONFIGURED",
+              "relay_gateway_same_operator_allowed": false,
+              "https_both_hops_required": true,
+              "relay_may_forward_identifying_headers": false,
+              "fresh_hpke_context_per_request_required": true,
+              "padding_policy": "NOT_APPROVED"
+            },
+            "anonymity_gate": {
+              "state": "NOT_APPROVED",
+              "mechanism": "FIXED_WINDOW_OPAQUE_ENVELOPE_BATCH",
+              "production_minimum_set_size": "UNSET_REQUIRES_PRIVACY_REVIEW",
+              "production_window_seconds": "UNSET_REQUIRES_PRIVACY_REVIEW",
+              "small_set_release": "FORBIDDEN",
+              "individual_public_timestamps": false,
+              "synthetic_batch_mechanics": "PROVEN_BY_UNIT_TESTS"
+            },
+            "key_gate": {
+              "state": "NOT_PROVEN",
+              "issuer_private_key_non_exportable_required": true,
+              "rotation_policy": "NOT_APPROVED",
+              "compromise_runbook": "NOT_APPROVED"
+            },
+            "review_gate": {
+              "external_cryptographic_review": "NOT_COMPLETED",
+              "privacy_threat_model_review": "NOT_COMPLETED",
+              "independent_relay_operator": "NOT_VERIFIED"
+            },
+            "blocking_reasons": [
+              "CRYPTO_RUNTIME_BINDING_NOT_PROVEN",
+              "OHTTP_INDEPENDENT_RELAY_NOT_CONFIGURED",
+              "ANONYMITY_SET_POLICY_NOT_APPROVED",
+              "BATCH_WINDOW_NOT_APPROVED",
+              "KEY_CUSTODY_NOT_PROVEN",
+              "EXTERNAL_CRYPTO_REVIEW_NOT_COMPLETED",
+              "PRIVACY_THREAT_MODEL_REVIEW_NOT_COMPLETED"
+            ],
+            "standards": [
+              "RFC9474_RSA_BLIND_SIGNATURES",
+              "RFC9578_PRIVACY_PASS_ISSUANCE_PUBLICLY_VERIFIABLE_BLIND_RSA",
+              "RFC9576_PRIVACY_PASS_ARCHITECTURE",
+              "RFC9458_OBLIVIOUS_HTTP"
+            ]
           },
           "decision_to_execution": {
             "vote_is_execution": false,
@@ -13870,19 +13936,6 @@
     }
   },
   "receipts": [
-    {
-      "generation": 145,
-      "at": "2026-10-03T22:40:52Z",
-      "from_mode": "EVIDENCE_GUARD",
-      "to_mode": "EVIDENCE_GUARD",
-      "reason": [
-        "4 source(s) require explicit attention.",
-        "TEC10 delta versus the published budget assumption: +109.9 bp.",
-        "Decision Delta status: MATERIAL_CHANGE.",
-        "Self-health: ATTENTION."
-      ],
-      "verdict": "PROMOTED_AFTER_NON_REGRESSION"
-    },
     {
       "generation": 146,
       "at": "2026-10-03T22:45:57Z",
@@ -14389,12 +14442,25 @@
         "Self-health: ATTENTION."
       ],
       "verdict": "PROMOTED_AFTER_NON_REGRESSION"
+    },
+    {
+      "generation": 185,
+      "at": "2026-10-04T01:52:43Z",
+      "from_mode": "EVIDENCE_GUARD",
+      "to_mode": "EVIDENCE_GUARD",
+      "reason": [
+        "4 source(s) require explicit attention.",
+        "TEC10 delta versus the published budget assumption: +109.9 bp.",
+        "Decision Delta status: MATERIAL_CHANGE.",
+        "Self-health: ATTENTION."
+      ],
+      "verdict": "PROMOTED_AFTER_NON_REGRESSION"
     }
   ],
   "status": "ACTIVE",
   "verification": {
-    "generation": 184,
-    "at": "2026-10-04T01:40:05Z",
+    "generation": 185,
+    "at": "2026-10-04T01:52:43Z",
     "verdict": "NON_REGRESSION_PASS",
     "checks": [
       "truth",

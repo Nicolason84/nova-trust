@@ -1,0 +1,82 @@
+{
+  "schema": "LA_BETE_SCIC_PRODUCTION_PRIVACY_GATE_PROOF_V1",
+  "verdict": "CRYPTOGRAPHIC_PREREQUISITE_PROVEN_PRODUCTION_BLOCKED",
+  "proved_at": "2026-10-04T01:54:05.356Z",
+  "branch": "mission/scic-production-privacy-gate-20261004",
+  "validated_code_commit": "d8758f3a51a6f9c11923e6c16894b3f86d7f5060",
+  "base_main": "2ff6022968b302a87aaba1b962237d08779887a4",
+  "evolution_generation": 185,
+  "evolution_verdict": "NON_REGRESSION_PASS",
+  "source_snapshot_id": "OJO-03035CE5C9B6B290",
+  "cryptographic_gate": {
+    "state": "RFC9474_RFC9578_CI_PASS",
+    "backend": "CLOUDFLARE_CIRCL",
+    "backend_version": "v1.6.5",
+    "profile": "RFC9578_PUBLICLY_VERIFIABLE_BLIND_RSA_TOKEN_TYPE_0x0002",
+    "variant": "RSABSSA-SHA384-PSS-Deterministic",
+    "pinned_checksum": true,
+    "project_ci": "PASS",
+    "upstream_rfc9474_vectors": "PASS",
+    "standard_rsa_pss_crosscheck": "PASS",
+    "runtime_binding": "NOT_PROVEN",
+    "workflow_run_id": 37169316271,
+    "workflow_job_id": 111338842172
+  },
+  "deployment_privacy_gate": {
+    "production_activation": false,
+    "current_verdict": "BLOCKED",
+    "ohttp_profile": "RFC9458_OHTTP_OR_EQUIVALENT_INDEPENDENT_RELAY",
+    "ohttp_state": "NOT_CONFIGURED",
+    "anonymity_policy": "NOT_APPROVED",
+    "production_minimum_set_size": "UNSET_REQUIRES_PRIVACY_REVIEW",
+    "production_window_seconds": "UNSET_REQUIRES_PRIVACY_REVIEW",
+    "small_set_release": "FORBIDDEN",
+    "individual_public_timestamps": false,
+    "key_custody": "NOT_PROVEN",
+    "external_cryptographic_review": "NOT_COMPLETED",
+    "privacy_threat_model_review": "NOT_COMPLETED",
+    "blockers": [
+      "CRYPTO_RUNTIME_BINDING_NOT_PROVEN",
+      "OHTTP_INDEPENDENT_RELAY_NOT_CONFIGURED",
+      "ANONYMITY_SET_POLICY_NOT_APPROVED",
+      "BATCH_WINDOW_NOT_APPROVED",
+      "KEY_CUSTODY_NOT_PROVEN",
+      "EXTERNAL_CRYPTO_REVIEW_NOT_COMPLETED",
+      "PRIVACY_THREAT_MODEL_REVIEW_NOT_COMPLETED"
+    ]
+  },
+  "verification": {
+    "private_unit_tests": 49,
+    "private_webauthn_browser_checks": 26,
+    "blind_signature_research_tests": 14,
+    "process_separation_tests": 1,
+    "production_privacy_gate_tests": 10,
+    "public_model_tests": 40,
+    "explorer_tests": 63,
+    "public_browser_checks": 49,
+    "public_browser_uncaught_exceptions": 0,
+    "git_diff_check": "PASS"
+  },
+  "boundaries": {
+    "real_member_data_used": false,
+    "real_ballot_cast": false,
+    "production_vote_open": false,
+    "standard_backend_bound_to_runtime": false,
+    "independent_ohttp_relay_deployed": false,
+    "external_security_audit_completed": false,
+    "private_state_published": false
+  },
+  "standards": [
+    "RFC9474_RSA_BLIND_SIGNATURES",
+    "RFC9578_PRIVACY_PASS_ISSUANCE_PUBLICLY_VERIFIABLE_BLIND_RSA",
+    "RFC9576_PRIVACY_PASS_ARCHITECTURE",
+    "RFC9458_OBLIVIOUS_HTTP"
+  ],
+  "references": [
+    "https://www.rfc-editor.org/info/rfc9474",
+    "https://www.rfc-editor.org/info/rfc9578",
+    "https://www.rfc-editor.org/info/rfc9576",
+    "https://www.rfc-editor.org/info/rfc9458",
+    "https://github.com/cloudflare/circl/tree/v1.6.5/blindsign/blindrsa"
+  ]
+}
