@@ -271,3 +271,37 @@
 .muEvidenceBrowserCard{display:flex;flex-direction:column;gap:5px;padding:11px;border:1px solid var(--mu-line);border-radius:10px;background:rgba(22,36,44,.48);text-decoration:none}
 .muEvidenceBrowserCard b{font-size:18px;color:#BBD0DC}.muEvidenceBrowserCard small{font-size:8px;color:#91A3AA}
 @media(max-width:800px){.muEvidenceMetrics,.muEvidenceEngineGrid{grid-template-columns:repeat(2,minmax(0,1fr))}.muEvidenceBrowserGrid{grid-template-columns:1fr}}
+
+/* LA_BETE_COSMOS_SPATIAL_PROJECTION_V1 · same Three.js scene, derived view only. */
+.mu-atlas-home .muTitle{padding:9px 0 8px}.mu-atlas-home .muTitle h1{margin:5px 0 7px;font-size:44px}
+.muAtlas.muAtlasWithPresence{height:630px;background:radial-gradient(ellipse at 50% 45%,rgba(91,124,153,.13),transparent 36%),radial-gradient(ellipse at 26% 74%,rgba(111,143,134,.08),transparent 31%),#071018}
+.muAtlasWithPresence .muAtlasPresence{width:72%;top:6px;bottom:6px}
+.muAtlasWithPresence .muAtlasScene{height:535px}
+.muAtlasWithPresence #beastStage{background:radial-gradient(circle at 50% 46%,rgba(54,80,96,.10),transparent 23%),transparent}
+.muAtlasWithPresence .muUniverse{opacity:.44;filter:saturate(.82);transition:opacity .18s,filter .18s,border-color .18s}
+.muAtlasWithPresence .muUniverse:hover,.muAtlasWithPresence .muUniverse:focus-visible{opacity:1;filter:none}
+.muCosmosHud{position:absolute;z-index:5;left:23%;right:23%;top:14px;display:grid;gap:8px;padding:10px 12px;border:1px solid rgba(128,154,175,.26);border-radius:14px;background:linear-gradient(180deg,rgba(8,18,27,.86),rgba(8,18,27,.48));backdrop-filter:blur(12px);pointer-events:none}
+.muCosmosEyebrow{font-size:8px;letter-spacing:.16em;color:#AFC3CF;text-align:center}
+.muCosmosMetrics{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:5px}
+.muCosmosMetric{display:grid;gap:1px;text-align:center;padding:6px 4px;border-radius:8px;background:rgba(23,39,50,.66);border:1px solid rgba(128,154,175,.16)}
+.muCosmosMetric strong{font-size:14px;color:#EDF3F4}.muCosmosMetric span{font-size:6px;line-height:1.25;text-transform:uppercase;letter-spacing:.07em;color:#92A8B4}
+.muCosmosTraversal{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:4px;pointer-events:auto}
+.muApp button.muCosmosStep{display:grid;gap:2px;align-content:center;min-height:46px;padding:5px 6px;border-radius:8px;background:rgba(28,47,60,.78);border-color:rgba(111,143,134,.30);font-size:7px;letter-spacing:.08em;text-transform:uppercase;overflow:hidden}
+.muApp button.muCosmosStep small{display:block;font-size:6px;line-height:1.2;letter-spacing:0;text-transform:none;color:#B7C6CE;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.muApp button.muCosmosStep:hover{border-color:#B58A62;background:rgba(54,67,72,.92)}
+.muCosmosTrace{margin:0;font-size:7px;line-height:1.45;color:#9EB0B9;text-align:center}
+.muAtlasWithPresence #beastMount[data-cosmos-mode="on"] canvas{cursor:crosshair}
+.muAtlasWithPresence #beastMount[data-cosmos-mode="on"]+#beastTag{display:block;opacity:.84}
+@media(max-width:1200px){.muAtlas.muAtlasWithPresence{height:600px}.muAtlasWithPresence .muAtlasPresence{width:66%}.muCosmosHud{left:22%;right:22%}.muCosmosMetric span{font-size:5.5px}}
+@media(max-width:650px){
+ .muAtlas.muAtlasWithPresence{height:auto;display:grid;background:#071018}
+ .muAtlasWithPresence .muAtlasPresence{width:100%}
+ .muAtlasWithPresence .muAtlasScene{height:clamp(330px,48dvh,410px);min-height:330px}
+ .muCosmosHud{position:relative;inset:auto;grid-column:1/-1;gap:7px;padding:10px;margin:-5px 0 8px;backdrop-filter:none}
+ .muCosmosMetrics{grid-template-columns:repeat(5,minmax(0,1fr))}
+ .muCosmosMetric{padding:5px 2px}.muCosmosMetric strong{font-size:12px}.muCosmosMetric span{font-size:5px}
+ .muCosmosTraversal{grid-template-columns:repeat(3,minmax(0,1fr));gap:5px}
+ .muApp button.muCosmosStep{min-height:44px;font-size:7px}.muApp button.muCosmosStep small{font-size:6px}
+ .muCosmosTrace{font-size:7px}
+ .muAtlasWithPresence .muUniverse{opacity:.78;filter:saturate(.9)}
+}
