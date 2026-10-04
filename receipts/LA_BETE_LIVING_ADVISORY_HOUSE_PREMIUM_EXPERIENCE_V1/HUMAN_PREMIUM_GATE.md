@@ -1,15 +1,28 @@
-# HUMAN PREMIUM GATE — LA_BETE_LIVING_ADVISORY_HOUSE_PREMIUM_EXPERIENCE_V1
+# HUMAN PREMIUM GATE — V1.1
 
-Comparer les captures de ce rapport avec la baseline V5.
+## Revue précédente
 
-Répondre explicitement :
+CURRENT_PUBLIC_V5 = REJECTED_BY_HUMAN_REVIEW
 
-- PAGE_WEB = NON / OUI
-- GENERIC_B2B = NON / OUI
-- SENSITIVE_EXECUTIVE_TRUST = OUI / NON
+Motif : expérience perçue comme page web/dashboard, pas comme Maison de conseil numérique.
 
-Promotion autorisée uniquement avec :
+Cette revue invalide toute promotion automatique du premier candidat Premium V1.
 
-`PAGE_WEB=NON`
-`GENERIC_B2B=NON`
-`SENSITIVE_EXECUTIVE_TRUST=OUI`
+## Nouvelle candidate
+
+Candidate : LA_BETE_LIVING_ADVISORY_HOUSE_PREMIUM_EXPERIENCE_V1.1
+
+Les captures à examiner sont dans :
+
+`receipts/LA_BETE_LIVING_ADVISORY_HOUSE_PREMIUM_EXPERIENCE_V1/final-v11-browser/`
+
+Validation nécessaire avant merge :
+
+- PAGE_WEB = NON
+- GENERIC_B2B = NON
+- SENSITIVE_EXECUTIVE_TRUST = OUI
+
+Tant que cette validation n'est pas explicitement donnée :
+
+`MERGE=BLOCKED`
+`PUBLIC_DEPLOY=BLOCKED`

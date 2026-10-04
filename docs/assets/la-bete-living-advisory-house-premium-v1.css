@@ -1,765 +1,1183 @@
-/* LA_BETE_LIVING_ADVISORY_HOUSE_PREMIUM_EXPERIENCE_V1
-   Luxury advisory presentation layer over V5. No engine, registry, truth, memory, network or execution authority. */
+/* LA_BETE_LIVING_ADVISORY_HOUSE_PREMIUM_EXPERIENCE_V1_1
+   Full-viewport advisory-house presentation over V5.
+   Presentation only: no engine, registry, truth, memory, network or execution authority. */
 
-.premium-house-v1{
-  --premium-ink:#f2f0ea;
-  --premium-muted:#9aa7aa;
-  --premium-copper:#c28b5a;
-  --premium-copper-soft:#9d6a42;
-  --premium-blue:#6f98ad;
-  --premium-stone:#121a1d;
-  --premium-panel:rgba(10,18,22,.78);
-  --premium-line:rgba(207,180,145,.16);
-  --premium-shadow:0 38px 120px rgba(0,0,0,.48);
+html{background:#070b0d}
+body.premium-house-v11{
+  --house-ink:#f1efe9;
+  --house-soft:#c7cbc7;
+  --house-muted:#879397;
+  --house-copper:#c58e5e;
+  --house-copper-soft:#8f6d50;
+  --house-blue:#7193a2;
+  --house-line:rgba(219,190,156,.14);
+  --house-glass:rgba(7,13,16,.68);
+  margin:0;
   background:
-    radial-gradient(circle at 18% 0%,rgba(184,115,51,.06),transparent 28%),
-    radial-gradient(circle at 82% 22%,rgba(68,105,125,.07),transparent 30%),
-    linear-gradient(180deg,#071015 0%,#091216 42%,#050b0e 100%);
+    radial-gradient(circle at 82% 18%,rgba(128,40,37,.20),transparent 28%),
+    radial-gradient(circle at 12% 84%,rgba(197,142,94,.06),transparent 26%),
+    #070b0d;
+  color:var(--house-ink);
 }
-.premium-house-v1 .top{
-  position:relative;
-  top:auto;
-  min-height:52px;
-  padding:12px 0 7px;
-  background:transparent;
-  border-bottom:0;
-  backdrop-filter:none;
+body.premium-house-v11:not(.mu-active){overflow:hidden}
+body.premium-house-v11 .wrap{max-width:none!important;padding:0!important;margin:0!important}
+
+/* -------- minimal product chrome -------- */
+body.premium-house-v11 .top{
+  position:fixed!important;
+  inset:0 0 auto 0!important;
+  z-index:200!important;
+  height:50px!important;
+  min-height:50px!important;
+  display:flex!important;
+  align-items:center!important;
+  padding:0 28px!important;
+  margin:0!important;
+  border:0!important;
+  background:linear-gradient(180deg,rgba(4,9,11,.84),rgba(4,9,11,.20))!important;
+  backdrop-filter:blur(12px);
+  pointer-events:none;
 }
-.premium-house-v1 .topNav{display:none}
-.premium-house-v1 .brand{letter-spacing:.08em}
-.premiumHouseV1{
+body.premium-house-v11 .top .brand{
+  pointer-events:auto;
+  font-size:31px!important;
+  letter-spacing:.04em;
+}
+body.premium-house-v11 .topNav,
+body.premium-house-v11 .soundShortcut{display:none!important}
+
+/* -------- the House is the viewport, not a centered card -------- */
+.premiumHouseV11{
   position:relative;
+  width:100vw!important;
+  height:100dvh!important;
+  min-height:100dvh!important;
+  margin:0!important;
+  border:0!important;
+  border-radius:0!important;
+  overflow:hidden!important;
+  box-shadow:none!important;
+  background:
+    radial-gradient(circle at 78% 14%,rgba(197,142,94,.10),transparent 30%),
+    radial-gradient(circle at 14% 90%,rgba(74,112,129,.08),transparent 28%),
+    linear-gradient(145deg,#11191c 0%,#0a1114 46%,#070c0e 100%)!important;
   isolation:isolate;
-  margin:8px 0 60px;
-  min-height:calc(100dvh - 78px);
-  border:1px solid rgba(210,177,139,.22);
-  border-radius:34px;
-  background:
-    linear-gradient(90deg,rgba(255,255,255,.018) 1px,transparent 1px) 0 0/76px 100%,
-    radial-gradient(circle at 72% 12%,rgba(184,115,51,.10),transparent 31%),
-    radial-gradient(circle at 18% 86%,rgba(77,119,140,.08),transparent 30%),
-    linear-gradient(145deg,#111b1f 0%,#091216 52%,#071015 100%);
-  box-shadow:var(--premium-shadow),inset 0 1px rgba(255,255,255,.05);
-  overflow:hidden;
 }
-.premiumHouseV1::before{
+.premiumHouseV11::before{
   content:"";
   position:absolute;
   inset:0;
-  z-index:-2;
+  z-index:-5;
   pointer-events:none;
   background:
-    linear-gradient(118deg,transparent 0 58%,rgba(255,255,255,.025) 58.1% 58.5%,transparent 58.6%),
-    linear-gradient(180deg,rgba(255,255,255,.025),transparent 18%);
+    linear-gradient(90deg,transparent 0 67%,rgba(255,255,255,.018) 67% 67.1%,transparent 67.1%),
+    linear-gradient(180deg,rgba(255,255,255,.025),transparent 20%);
 }
-.premiumHouseV1::after{
-  content:"";
-  position:absolute;
-  left:245px;right:0;bottom:0;height:38%;
-  z-index:-1;
-  pointer-events:none;
-  background:linear-gradient(180deg,transparent,rgba(0,0,0,.28));
-  clip-path:polygon(0 18%,100% 0,100% 100%,0 100%);
-}
-.premiumAtmosphere{
-  position:absolute;
-  inset:0;
-  z-index:-1;
-  pointer-events:none;
-  overflow:hidden;
-}
-.premiumAtmosphere::before,.premiumAtmosphere::after{
-  content:"";
-  position:absolute;
-  border:1px solid rgba(202,174,142,.08);
-  border-radius:50%;
-  filter:blur(.2px);
-}
-.premiumAtmosphere::before{width:480px;height:480px;right:-270px;top:-250px}
-.premiumAtmosphere::after{width:620px;height:620px;left:-420px;bottom:-420px;border-color:rgba(111,152,173,.07)}
 
-.premiumHouseV1 .houseHeader{
-  position:relative;
-  grid-template-columns:minmax(0,1.45fr) minmax(240px,.55fr);
-  min-height:210px;
-  gap:34px;
-  padding:38px 42px 32px;
-  border-bottom:1px solid var(--premium-line);
+/* -------- architectural scene -------- */
+.premiumScene{position:absolute;inset:0;z-index:-2;overflow:hidden;pointer-events:none}
+.premiumWall{position:absolute;top:0;bottom:0;width:1px;background:linear-gradient(180deg,transparent,rgba(216,185,150,.15) 16%,rgba(216,185,150,.05) 70%,transparent)}
+.premiumWallLeft{left:5.5vw;transform:rotate(3deg);transform-origin:top}
+.premiumWallRight{right:31vw;transform:rotate(-7deg);transform-origin:top}
+.premiumCeiling{
+  position:absolute;
+  left:0;right:0;top:0;height:34%;
+  clip-path:polygon(0 0,100% 0,68% 100%,8% 100%);
+  background:linear-gradient(180deg,rgba(255,255,255,.018),transparent);
+  border-bottom:1px solid rgba(216,185,150,.04);
+}
+.premiumFloor{
+  position:absolute;
+  left:-7%;right:-7%;bottom:-3%;height:45%;
+  clip-path:polygon(10% 0,70% 0,100% 100%,0 100%);
   background:
-    linear-gradient(90deg,rgba(18,27,30,.90),rgba(12,20,24,.52)),
-    radial-gradient(circle at 90% 0%,rgba(194,139,90,.12),transparent 32%);
+    repeating-linear-gradient(90deg,rgba(255,255,255,.016) 0 1px,transparent 1px 11vw),
+    linear-gradient(180deg,rgba(255,255,255,.012),rgba(0,0,0,.35));
+  border-top:1px solid rgba(216,185,150,.07);
+  transform:perspective(900px) rotateX(5deg);
+  transform-origin:bottom;
 }
-.premiumHouseV1 .houseEyebrow{
-  color:#c7a681;
-  font-size:8px;
-  letter-spacing:.20em;
+.premiumWindow{
+  position:absolute;
+  right:7vw;top:14vh;
+  width:24vw;height:45vh;
+  min-width:250px;
+  border:1px solid rgba(207,180,146,.10);
+  border-bottom-color:rgba(207,180,146,.20);
+  background:
+    linear-gradient(90deg,transparent 49.8%,rgba(207,180,146,.06) 50%,transparent 50.2%),
+    linear-gradient(180deg,transparent 61%,rgba(207,180,146,.06) 61.2%,transparent 61.4%),
+    radial-gradient(circle at 65% 22%,rgba(128,40,37,.15),transparent 34%),
+    rgba(1,5,7,.16);
+  box-shadow:inset 0 0 80px rgba(0,0,0,.25);
 }
-.premiumHouseV1 .houseHeader h1{
-  margin:13px 0 18px;
-  max-width:850px;
-  font-size:clamp(46px,5.8vw,82px);
-  line-height:.91;
-  letter-spacing:-4.2px;
-  font-weight:520;
-  color:var(--premium-ink);
+.premiumLight{
+  position:absolute;
+  right:11vw;top:-14vh;
+  width:30vw;height:100vh;
+  transform:rotate(11deg);
+  background:linear-gradient(180deg,rgba(205,160,116,.08),transparent 64%);
+  filter:blur(30px);
+  opacity:.7;
 }
-.premiumHouseV1 .houseHeader h1 em{
+
+/* -------- arrival lounge -------- */
+.premiumHouseV11 .houseHeader{
+  position:absolute!important;
+  inset:0!important;
+  z-index:4;
+  display:block!important;
+  min-height:0!important;
+  height:100%!important;
+  padding:0!important;
+  border:0!important;
+  background:transparent!important;
+  pointer-events:none;
+}
+.premiumHouseV11 .houseHeader>div:first-child{
+  position:absolute;
+  left:7vw;
+  top:12vh;
+  width:min(760px,58vw);
+}
+.premiumHouseV11 .houseHeader .houseEyebrow{
+  color:#b9916d!important;
+  font-size:8px!important;
+  letter-spacing:.22em!important;
+}
+.premiumHouseV11 .houseHeader h1{
+  margin:18px 0 20px!important;
+  max-width:820px!important;
+  font-size:clamp(58px,7.1vw,104px)!important;
+  line-height:.84!important;
+  letter-spacing:-5.5px!important;
+  font-weight:480!important;
+  color:var(--house-ink)!important;
+}
+.premiumHouseV11 .houseHeader h1 em{
   display:block;
-  margin-top:8px;
-  color:#d0ab85;
-  font-weight:480;
+  margin-top:13px;
+  color:#d1a57c!important;
+  font-weight:440!important;
 }
-.premiumHouseV1 .houseHeader p{
-  max-width:700px;
-  color:#b7c1c1;
-  font-size:14px;
-  line-height:1.8;
+.premiumHouseV11 .houseHeader p{
+  max-width:690px!important;
+  margin:0!important;
+  color:#aab4b5!important;
+  font-size:15px!important;
+  line-height:1.75!important;
 }
-.premiumHouseV1 .houseIdentity{
-  align-self:center;
-  position:relative;
-  grid-template-columns:68px 1fr;
-  gap:16px;
-  min-height:108px;
-  padding:18px 18px 18px 16px;
-  border:0;
-  border-left:1px solid rgba(205,170,129,.28);
-  border-radius:0;
-  background:linear-gradient(90deg,rgba(255,255,255,.02),transparent);
-}
-.premiumHouseV1 .houseIdentityOrb{
-  position:relative;
-  width:68px;height:68px;
-  border:1px solid rgba(219,183,144,.36);
-  background:
-    radial-gradient(circle at 48% 36%,rgba(235,215,192,.88) 0 4%,rgba(194,139,90,.64) 5% 10%,rgba(82,109,118,.38) 11% 37%,rgba(5,12,15,.94) 38%),
-    linear-gradient(145deg,#1c2a2f,#0b1216);
-  box-shadow:0 0 42px rgba(194,139,90,.10),inset 0 0 24px rgba(255,255,255,.025);
-}
-.premiumHouseV1 .houseIdentityOrb::after{
-  content:"";
-  position:absolute;
-  width:22px;height:1px;
-  background:rgba(224,192,155,.55);
-  left:22px;top:33px;
-  box-shadow:0 -9px rgba(111,152,173,.18),0 9px rgba(194,139,90,.16);
-}
-.premiumHouseV1 .houseIdentity strong{font-size:15px;font-weight:560;letter-spacing:.01em}
-.premiumHouseV1 .houseIdentity small{font-size:9px;line-height:1.65;color:#829296}
+.premiumHouseV11 .houseIdentity{display:none!important}
+.premiumHouseV11:not([data-active-room="desk"]) .houseHeader{display:none!important}
 
-.premiumHouseV1 .houseCaseBar{
-  grid-template-columns:minmax(0,1.5fr) minmax(200px,.6fr) auto;
-  gap:14px;
-  padding:10px 42px;
-  border-bottom:1px solid rgba(205,170,129,.11);
-  background:rgba(5,11,14,.46);
+/* -------- dossier label becomes a quiet plaque -------- */
+.premiumHouseV11 .houseCaseBar{
+  position:absolute!important;
+  z-index:44;
+  top:68px;
+  left:7vw;
+  right:auto;
+  width:auto;
+  max-width:55vw;
+  display:block!important;
+  padding:0!important;
+  border:0!important;
+  background:transparent!important;
 }
-.premiumHouseV1 .houseCaseCell{
-  padding:8px 0;
-  border:0;
-  border-radius:0;
-  background:transparent;
+.premiumHouseV11[data-active-room="desk"] .houseCaseBar{display:none!important}
+.premiumHouseV11 .houseCaseCell{
+  display:block!important;
+  padding:0!important;
+  border:0!important;
+  background:transparent!important;
 }
-.premiumHouseV1 .houseCaseCell+ .houseCaseCell{padding-left:16px;border-left:1px solid rgba(205,170,129,.12)}
-.premiumHouseV1 .houseCaseCell small{font-size:7px;color:#738287}
-.premiumHouseV1 .houseCaseCell strong{font-size:11px;font-weight:520;color:#cdd3d2}
-.premiumHouseV1 .houseCasePulse{font-size:9px;color:#8f9b9d}
+.premiumHouseV11 .houseCaseCell small{
+  font-size:7px!important;
+  letter-spacing:.18em!important;
+  color:#647277!important;
+}
+.premiumHouseV11 .houseCaseCell strong{
+  margin-top:5px!important;
+  color:#bcc5c4!important;
+  font-size:10px!important;
+  font-weight:520!important;
+}
+.premiumHouseV11 .houseCaseCell:nth-child(2),
+.premiumHouseV11 .houseCasePulse{display:none!important}
 
-.premiumHouseV1 .houseInterior{grid-template-columns:245px minmax(0,1fr);min-height:660px}
-.premiumHouseV1 .houseRail{
-  position:relative;
-  padding:26px 18px 22px;
-  border-right:1px solid rgba(205,170,129,.13);
-  background:
-    linear-gradient(180deg,rgba(17,27,31,.78),rgba(6,12,15,.88)),
-    linear-gradient(90deg,rgba(255,255,255,.015),transparent);
+/* -------- remove the dashboard rail entirely -------- */
+.premiumHouseV11 .houseInterior{display:block!important;min-height:100dvh!important}
+.premiumHouseV11 .houseRail{display:none!important}
+.premiumHouseV11 .houseStage{
+  position:absolute!important;
+  inset:0!important;
+  z-index:10;
+  min-width:0!important;
+  overflow:hidden!important;
+  background:transparent!important;
 }
-.premiumHouseV1 .houseRail::after{
-  content:"";
-  position:absolute;
-  top:0;right:-1px;width:1px;height:100%;
-  background:linear-gradient(180deg,transparent,rgba(194,139,90,.28) 18%,rgba(194,139,90,.08) 62%,transparent);
-}
-.premiumHouseV1 .houseDirector{
-  position:relative;
-  min-height:190px;
-  margin:0 0 24px;
-  padding:14px 10px 18px 74px;
-  border:0;
-  border-bottom:1px solid rgba(205,170,129,.14);
-  border-radius:0;
-  background:transparent;
+
+/* -------- digital specialist inhabits the room -------- */
+.premiumHouseV11 .houseDirector{
+  position:absolute!important;
+  z-index:36;
+  right:6.5vw;
+  top:50%;
+  transform:translateY(-46%);
+  width:255px!important;
+  min-height:330px;
+  margin:0!important;
+  padding:195px 0 0!important;
+  border:0!important;
+  border-radius:0!important;
+  background:transparent!important;
+  box-shadow:none!important;
+  pointer-events:auto;
 }
 .premiumPresenceFigure{
   position:absolute;
-  left:7px;top:8px;
-  width:50px;height:86px;
-  opacity:.88;
+  left:50%;
+  top:0;
+  width:150px;height:185px;
+  transform:translateX(-50%);
+  opacity:.95;
 }
 .premiumPresenceFigure::before{
   content:"";
   position:absolute;
-  left:14px;top:1px;
-  width:22px;height:22px;
+  left:50%;top:6px;
+  width:60px;height:60px;
+  transform:translateX(-50%);
   border-radius:50%;
-  border:1px solid rgba(220,190,154,.38);
-  background:radial-gradient(circle at 40% 35%,rgba(220,190,154,.22),rgba(14,24,29,.85) 55%);
-  box-shadow:0 0 26px rgba(194,139,90,.10);
+  border:1px solid rgba(221,188,152,.35);
+  background:
+    radial-gradient(circle at 44% 34%,rgba(220,190,156,.22) 0 4%,transparent 5%),
+    radial-gradient(circle at 56% 34%,rgba(102,142,160,.16) 0 4%,transparent 5%),
+    radial-gradient(circle at 50% 50%,rgba(52,71,78,.35),rgba(5,10,12,.88) 64%);
+  box-shadow:0 0 70px rgba(197,142,94,.11);
 }
-.premiumPresenceFigure::after{
-  content:"";
+.premiumHead{display:none}
+.premiumShoulders{
   position:absolute;
-  left:6px;top:29px;
-  width:38px;height:52px;
-  border:1px solid rgba(117,149,164,.18);
-  border-radius:26px 26px 10px 10px;
-  background:linear-gradient(180deg,rgba(99,128,140,.16),rgba(13,22,26,.18));
-  clip-path:polygon(18% 0,82% 0,100% 100%,0 100%);
+  left:17px;top:76px;
+  width:116px;height:94px;
+  clip-path:polygon(22% 0,78% 0,100% 100%,0 100%);
+  border:1px solid rgba(121,151,164,.15);
+  border-radius:58px 58px 16px 16px;
+  background:linear-gradient(180deg,rgba(66,88,96,.22),rgba(7,14,17,.10));
 }
-.premiumHouseV1 .houseDirectorLabel{font-size:7px;letter-spacing:.18em}
-.premiumHouseV1 .houseDirector h2{margin:7px 0 10px;font-size:18px;font-weight:520;color:#e8e8e3}
-.premiumHouseV1 .houseDirector p{font-size:9px;line-height:1.72;color:#9eacad}
-.premiumExpertTrace{margin-top:12px;border-top:1px solid rgba(205,170,129,.10);padding-top:8px}
-.premiumExpertTrace>summary{cursor:pointer;list-style:none;font-size:7px;letter-spacing:.14em;text-transform:uppercase;color:#6e8085}
-.premiumExpertTrace>summary::-webkit-details-marker{display:none}
-.premiumExpertTrace .houseBinding{display:block;margin:8px 0 0;padding:0;border:0;font-size:7px;line-height:1.55;color:#6f8085}
-.premiumExpertTrace .houseRoleLine{margin-top:8px}
-.premiumHouseV1 .houseRoleChip{font-size:6px;background:rgba(255,255,255,.018)}
-
-.premiumSpecialists{
-  display:grid;
-  gap:6px;
-  margin:0 0 22px;
-  padding:0 2px;
+.premiumGesture{
+  position:absolute;
+  left:72px;top:96px;
+  width:76px;height:1px;
+  transform:rotate(-12deg);
+  background:linear-gradient(90deg,rgba(197,142,94,.38),transparent);
+  transform-origin:left;
 }
-.premiumSpecialists[hidden]{display:none!important}
-.premiumSpecialistsTitle{
-  margin-bottom:3px;
+.premiumHouseV11 .houseDirectorLabel{
+  display:block!important;
+  margin-bottom:8px!important;
+  color:#a98462!important;
+  font-size:7px!important;
+  letter-spacing:.18em!important;
+  text-align:center;
+}
+.premiumHouseV11 .houseDirector h2{
+  margin:0!important;
+  color:#e6e4dd!important;
+  font-size:20px!important;
+  line-height:1.2!important;
+  font-weight:540!important;
+  text-align:center;
+}
+.premiumHouseV11 .houseDirector p{
+  margin:10px auto 0!important;
+  max-width:230px;
+  color:#8f9a9c!important;
+  font-size:9px!important;
+  line-height:1.7!important;
+  text-align:center;
+}
+.premiumOrientation{
+  color:#c1a486!important;
+  border-top:1px solid rgba(207,180,146,.10);
+  padding-top:10px!important;
+}
+.premiumExpertTrace{
+  width:100%;
+  margin-top:13px;
+  padding-top:9px;
+  border-top:1px solid rgba(207,180,146,.08);
+  text-align:center;
+}
+.premiumExpertTrace>summary{
+  cursor:pointer;
+  list-style:none;
+  color:#66777c;
   font-size:7px;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+}
+.premiumExpertTrace>summary::-webkit-details-marker{display:none}
+.premiumExpertTrace .houseBinding{
+  display:block!important;
+  margin:8px 0 0!important;
+  padding:0!important;
+  border:0!important;
+  color:#66777c!important;
+  font-size:7px!important;
+  line-height:1.55!important;
+  text-align:left;
+}
+.premiumExpertTrace .houseRoleLine{display:none!important}
+.premiumSpecialists{
+  display:flex;
+  justify-content:center;
+  gap:7px;
+  flex-wrap:wrap;
+  margin-top:12px;
+}
+.premiumSpecialists small{
+  width:100%;
+  color:#66777c;
+  font-size:6px;
   letter-spacing:.16em;
   text-transform:uppercase;
-  color:#6f8085;
+  text-align:center;
 }
-.premiumSpecialist{
-  display:grid;
-  grid-template-columns:8px 1fr auto;
-  gap:8px;
-  align-items:center;
-  min-height:27px;
-  color:#aeb9b9;
-  font-size:9px;
-}
-.premiumSpecialist::before{
-  content:"";
-  width:5px;height:5px;border-radius:50%;
-  background:#6e8995;
-  box-shadow:0 0 0 3px rgba(110,137,149,.08);
-}
-.premiumSpecialist[data-active="true"]::before{background:#c38b58;box-shadow:0 0 0 4px rgba(195,139,88,.10)}
-.premiumSpecialist small{font-size:6px;letter-spacing:.08em;text-transform:uppercase;color:#68787d}
-
-.premiumHouseV1 .houseRooms{gap:0;border-top:1px solid rgba(205,170,129,.11)}
-.premiumHouseV1 .houseRoomButton{
-  position:relative;
-  grid-template-columns:26px 1fr auto;
-  min-height:48px;
-  padding:10px 4px 10px 8px;
-  border:0;
-  border-bottom:1px solid rgba(205,170,129,.08);
-  border-radius:0;
-  background:transparent;
-  transition:background .22s ease,color .22s ease,padding .22s ease;
-}
-.premiumHouseV1 .houseRoomButton::after{
-  content:"";
-  position:absolute;
-  left:-18px;top:0;bottom:0;width:2px;
-  background:transparent;
-  transition:background .22s ease;
-}
-.premiumHouseV1 .houseRoomButton:hover,.premiumHouseV1 .houseRoomButton:focus-visible{
-  border-color:rgba(205,170,129,.08);
-  background:linear-gradient(90deg,rgba(194,139,90,.07),transparent);
-  outline:1px solid rgba(194,139,90,.16);
-  outline-offset:-1px;
-}
-.premiumHouseV1 .houseRoomButton[aria-selected="true"]{
-  padding-left:14px;
-  color:#efece5;
-  border-color:rgba(205,170,129,.08);
-  background:linear-gradient(90deg,rgba(194,139,90,.11),transparent 82%);
-}
-.premiumHouseV1 .houseRoomButton[aria-selected="true"]::after{background:#c38b58}
-.premiumHouseV1 .houseRoomButton .houseRoomNo{font-size:7px;color:#8f7359}
-.premiumHouseV1 .houseRoomButton strong{font-size:10px;font-weight:520;letter-spacing:.02em}
-.premiumHouseV1 .houseRoomButton small{font-size:7px;color:#5f7279}
-
-.premiumHouseV1 .housePrivateBoundary{
-  margin-top:auto;
-  padding:20px 4px 0;
-  border-top:1px solid rgba(205,170,129,.12);
+.premiumSpecialists span{
+  color:#9fadae;
   font-size:8px;
-  line-height:1.65;
-  color:#7f8e92;
 }
-.premiumHouseV1 .housePrivateBoundary b{font-size:10px;font-weight:520;color:#d1d6d3}
-.premiumHouseV1 .housePrivateBoundary span{color:#c3a17c}
-.premiumHouseV1 .housePrivateDoor{
-  position:relative;
-  display:grid;
+.premiumSpecialists span+span::before{content:"·";margin-right:7px;color:#8c6e53}
+
+/* -------- one room owns the viewport -------- */
+.premiumHouseV11 .housePane{
+  position:absolute!important;
+  inset:0!important;
+  min-height:100dvh!important;
+  padding:112px 32vw 118px 7vw!important;
+  background:transparent!important;
+}
+.premiumHouseV11 .housePane[hidden]{display:none!important}
+.premiumHouseV11 .housePaneHead{
+  display:flex!important;
+  align-items:flex-end!important;
+  justify-content:space-between!important;
+  gap:30px!important;
+  width:min(880px,100%);
+  margin:0 0 28px!important;
+  padding:0 0 18px!important;
+  border:0!important;
+  border-bottom:1px solid rgba(207,180,146,.10)!important;
+}
+.premiumHouseV11 .housePaneHead small{
+  color:#9b795c!important;
+  font-size:7px!important;
+  letter-spacing:.21em!important;
+}
+.premiumHouseV11 .housePaneHead strong{
+  display:block!important;
+  margin-top:8px!important;
+  color:#eeece5!important;
+  font-size:clamp(26px,3vw,44px)!important;
+  line-height:1.05!important;
+  letter-spacing:-1.2px!important;
+  font-weight:480!important;
+}
+.premiumHouseV11 .housePaneHead span{
+  max-width:340px!important;
+  color:#74858a!important;
+  font-size:9px!important;
+  line-height:1.65!important;
+  text-align:right!important;
+}
+.premiumHouseV11 .housePaneBody{
+  width:min(900px,100%);
+  max-height:calc(100dvh - 205px)!important;
+  overflow:auto!important;
+  padding:0 10px 100px 0!important;
+  scrollbar-width:thin;
+  scrollbar-color:rgba(197,142,94,.20) transparent;
+}
+.premiumHouseV11 .housePaneBody::-webkit-scrollbar{width:5px}
+.premiumHouseV11 .housePaneBody::-webkit-scrollbar-thumb{background:rgba(197,142,94,.18);border-radius:10px}
+.premiumHouseV11 .housePaneBody>*{
+  max-width:100%!important;
+}
+
+/* -------- Arrival Lounge uses the same question node, stripped to essentials -------- */
+.premiumHouseV11 .housePane[data-house-room="desk"]{
+  z-index:18;
+  padding:0!important;
+}
+.premiumHouseV11 .housePane[data-house-room="desk"] .housePaneHead,
+.premiumHouseV11 .houseDeskPrelude,
+.premiumHouseV11 .housePane[data-house-room="desk"] .houseRoomFooter{display:none!important}
+.premiumHouseV11 .housePane[data-house-room="desk"] .housePaneBody{
+  position:absolute;
+  left:7vw;
+  bottom:11vh;
+  width:min(720px,56vw);
+  max-height:34vh!important;
+  padding:0!important;
+  overflow:auto!important;
+}
+.premiumHouseV11 #dialogue-public{
+  margin:0!important;
+  padding:0!important;
+  border:0!important;
+  border-radius:0!important;
+  background:transparent!important;
+  box-shadow:none!important;
+}
+.premiumHouseV11 #dialogue-public>.head,
+.premiumHouseV11 #dialogue-public .beastParticipationAside,
+.premiumHouseV11 #dialogue-public .beastMode,
+.premiumHouseV11 #dialogue-public .beastExamples{display:none!important}
+.premiumHouseV11 #dialogue-public .beastDialogueGrid{display:block!important}
+.premiumHouseV11 #dialogue-public .beastDialoguePanel{
+  margin:0!important;
+  padding:0!important;
+  border:0!important;
+  border-radius:0!important;
+  background:transparent!important;
+  box-shadow:none!important;
+}
+.premiumHouseV11 #dialogue-public .beastDialoguePanel>.beastHint{display:none!important}
+.premiumHouseV11 #beastDialogueForm{
+  display:grid!important;
   grid-template-columns:1fr auto;
-  align-items:center;
-  min-height:58px;
-  margin-top:13px;
-  padding:12px 13px;
-  border:1px solid rgba(194,139,90,.30);
-  border-radius:4px;
-  background:
-    linear-gradient(90deg,rgba(194,139,90,.08),rgba(255,255,255,.015)),
-    #111a1d;
-  color:#ead7c4;
-  font-size:9px;
-  letter-spacing:.01em;
+  gap:12px;
+  align-items:end;
+  margin:0!important;
 }
-.premiumHouseV1 .housePrivateDoor::after{content:"↗";font-size:13px;color:#c38b58}
-.premiumHouseV1 .housePrivateDoor:hover,.premiumHouseV1 .housePrivateDoor:focus-visible{
-  border-color:rgba(211,164,117,.58);
-  background:#182125;
-  outline:none;
+.premiumHouseV11 #beastDialogueForm>label,
+.premiumHouseV11 #beastDialogueKind,
+.premiumHouseV11 #beastDialoguePrivacy,
+.premiumHouseV11 #beastClearDialogue,
+.premiumHouseV11 #beastExportDialogue,
+.premiumHouseV11 #beastDialogueNotice{display:none!important}
+.premiumHouseV11 #beastDialogueInput{
+  grid-column:1;
+  min-height:90px!important;
+  max-height:150px;
+  resize:none;
+  margin:0!important;
+  padding:18px 20px!important;
+  border:1px solid rgba(213,183,149,.24)!important;
+  border-radius:22px!important;
+  background:rgba(7,13,16,.52)!important;
+  box-shadow:0 20px 70px rgba(0,0,0,.22),inset 0 1px rgba(255,255,255,.025)!important;
+  color:#efede7!important;
+  font:400 18px/1.5 inherit!important;
+  backdrop-filter:blur(16px);
 }
-.premiumHouseV1 .housePrivateBoundary small{font-size:7px;color:#64757a}
+.premiumHouseV11 #beastDialogueInput::placeholder{color:#69797e!important}
+.premiumHouseV11 #beastDialogueInput:focus{
+  outline:none!important;
+  border-color:rgba(213,160,109,.54)!important;
+  box-shadow:0 20px 80px rgba(0,0,0,.28),0 0 0 1px rgba(213,160,109,.12)!important;
+}
+.premiumHouseV11 #beastDialogueForm .beastActionRow{
+  grid-column:2;
+  display:block!important;
+  margin:0!important;
+}
+.premiumHouseV11 #beastDialogueSubmit{
+  min-height:54px;
+  padding:0 22px!important;
+  border:1px solid rgba(197,142,94,.40)!important;
+  border-radius:999px!important;
+  background:rgba(197,142,94,.10)!important;
+  color:#e9ceb3!important;
+  font-size:10px!important;
+  letter-spacing:.03em;
+}
+.premiumHouseV11 #beastDialogueLog{
+  max-height:130px;
+  overflow:auto;
+  margin:0 0 12px!important;
+}
+.premiumHouseV11 #beastDialogueLog:empty{display:none!important}
 
-.premiumHouseV1 .houseStage{
-  position:relative;
-  min-width:0;
-  overflow:hidden;
-  background:
-    radial-gradient(circle at 50% -10%,rgba(111,152,173,.06),transparent 36%),
-    linear-gradient(135deg,rgba(255,255,255,.012),transparent 42%);
+/* -------- canonical surfaces lose their "software card" frame -------- */
+.premiumHouseV11 .housePaneBody>#decision-twin,
+.premiumHouseV11 .housePaneBody>#evidence-graph,
+.premiumHouseV11 .housePaneBody>#supra-mission,
+.premiumHouseV11 .housePaneBody>#experience-explore{
+  margin:0!important;
+  padding:0!important;
+  border:0!important;
+  border-radius:0!important;
+  background:transparent!important;
+  box-shadow:none!important;
 }
-.premiumRoomVeil{
-  position:absolute;
-  inset:0;
-  z-index:12;
-  pointer-events:none;
-  opacity:0;
-  background:linear-gradient(110deg,rgba(7,14,17,.98),rgba(31,36,36,.84) 42%,rgba(9,16,19,.96));
-}
-.premiumHouseV1.is-room-transitioning .premiumRoomVeil{animation:premiumRoomShift .34s cubic-bezier(.2,.8,.2,1)}
-@keyframes premiumRoomShift{
-  0%{opacity:0;transform:translateX(7%)}
-  46%{opacity:.82}
-  100%{opacity:0;transform:translateX(-7%)}
-}
-.premiumHouseV1 .housePane{
-  position:relative;
-  min-height:660px;
-  padding:34px 38px 44px;
-  background:linear-gradient(180deg,rgba(13,22,26,.22),rgba(7,14,17,.16));
-}
-.premiumHouseV1 .housePane::before{
-  content:"";
-  position:absolute;
-  left:38px;right:38px;top:0;height:1px;
-  background:linear-gradient(90deg,transparent,rgba(194,139,90,.18),transparent);
-}
-.premiumHouseV1 .housePaneHead{
-  align-items:flex-end;
-  margin:0 0 24px;
-  padding:0 0 17px;
-  border-bottom:1px solid rgba(205,170,129,.11);
-}
-.premiumHouseV1 .housePaneHead small{font-size:7px;letter-spacing:.20em;color:#8f755c}
-.premiumHouseV1 .housePaneHead strong{margin-top:7px;font-size:24px;font-weight:500;letter-spacing:-.02em;color:#ebeae5}
-.premiumHouseV1 .housePaneHead span{max-width:420px;font-size:9px;line-height:1.72;color:#75868b}
-.premiumHouseV1 .housePaneBody{scrollbar-color:rgba(194,139,90,.18) transparent}
-.premiumHouseV1 .housePaneBody>#dialogue-public,
-.premiumHouseV1 .housePaneBody>#decision-twin,
-.premiumHouseV1 .housePaneBody>#evidence-graph,
-.premiumHouseV1 .housePaneBody>#supra-mission,
-.premiumHouseV1 .housePaneBody>#experience-explore{
-  border-radius:10px;
-  border-color:rgba(205,170,129,.10);
-  box-shadow:none;
-}
-.premiumHouseV1 .houseDeskPrelude{
-  grid-template-columns:minmax(0,1.4fr) minmax(190px,.6fr);
-  margin:0 0 18px;
-  gap:1px;
-  border:1px solid rgba(205,170,129,.10);
-  border-radius:8px;
-  overflow:hidden;
-}
-.premiumHouseV1 .houseDeskCard{
-  min-height:90px;
-  padding:17px 18px;
-  border:0;
-  border-radius:0;
-  background:rgba(255,255,255,.018);
-}
-.premiumHouseV1 .houseDeskCard+ .houseDeskCard{border-left:1px solid rgba(205,170,129,.10)}
-.premiumHouseV1 .houseDeskCard small{font-size:7px;color:#728388}
-.premiumHouseV1 .houseDeskCard strong{font-size:12px;font-weight:520;color:#d7dcda}
-.premiumHouseV1 .houseDeskCard p{font-size:9px;line-height:1.65;color:#798a8f}
 
+/* decision room */
+.premiumHouseV11 .houseCommittee{display:none!important}
 .premiumProofJump{
-  appearance:none;
-  border:0;
-  border-bottom:1px solid rgba(194,139,90,.38);
-  background:transparent;
-  color:#d8b28d;
-  padding:6px 0;
-  font:500 9px/1.2 inherit;
+  flex:0 0 auto;
+  padding:8px 0!important;
+  border:0!important;
+  border-bottom:1px solid rgba(197,142,94,.42)!important;
+  background:transparent!important;
+  color:#d2a67d!important;
+  font:500 10px/1.2 inherit!important;
   cursor:pointer;
 }
-.premiumProofJump:hover,.premiumProofJump:focus-visible{color:#f0d4b6;outline:none;border-color:#d4a777}
-
-.premiumHouseV1 .houseCommittee{
-  margin-bottom:18px;
-  border:1px solid rgba(205,170,129,.10);
-  border-radius:8px;
-  background:rgba(255,255,255,.016);
+.premiumProofJump::after{content:"  →"}
+.premiumHouseV11 #decision-twin .execTop{
+  display:block!important;
+  margin:0 0 30px!important;
+  padding:0!important;
 }
-.premiumHouseV1 .houseCommittee>summary{padding:15px 17px}
-.premiumHouseV1 .houseCommittee>summary span{font-size:7px;color:#8d745c}
-.premiumHouseV1 .houseCommittee>summary strong{font-size:12px;font-weight:520;color:#cfd5d3}
-.premiumHouseV1 .houseCommitteeGrid{gap:1px;padding:0;border-top:1px solid rgba(205,170,129,.08)}
-.premiumHouseV1 .houseCommitteeGrid article{
-  min-height:72px;
-  padding:13px 15px;
-  border:0;
-  border-radius:0;
-  background:transparent;
+.premiumHouseV11 #decision-twin .execTop .ey{color:#9f7c5e!important}
+.premiumHouseV11 #decision-twin .execTop h2{
+  max-width:850px!important;
+  margin:8px 0 16px!important;
+  color:#f0eee8!important;
+  font-size:clamp(42px,5vw,72px)!important;
+  line-height:.98!important;
+  letter-spacing:-3px!important;
+  font-weight:430!important;
 }
-.premiumHouseV1 .houseCommitteeGrid article:nth-child(even){border-left:1px solid rgba(205,170,129,.08)}
-.premiumHouseV1 .houseCommitteeGrid small{font-size:6px;color:#687a7f}
-.premiumHouseV1 .houseCommitteeGrid b{font-size:9px;font-weight:500;color:#aebaba}
-
-.premiumHouseV1 .houseMissionBrief{
-  margin:0 0 18px;
-  padding:20px;
-  border:1px solid rgba(194,139,90,.20);
-  border-radius:8px;
-  background:
-    linear-gradient(135deg,rgba(194,139,90,.06),transparent 38%),
-    rgba(255,255,255,.016);
+.premiumHouseV11 #decision-twin .execTop p{
+  max-width:760px!important;
+  margin:0!important;
+  color:#a6b0b0!important;
+  font-size:15px!important;
+  line-height:1.75!important;
 }
-.premiumHouseV1 .houseMissionBriefHead small{font-size:7px;color:#947557}
-.premiumHouseV1 .houseMissionBriefHead strong{margin:6px 0 9px;font-size:17px;font-weight:500;color:#e1ded8}
-.premiumMissionMoment{margin:0 0 16px;max-width:660px;font-size:10px;line-height:1.7;color:#9eacac}
-.premiumHouseV1 .houseMissionBriefGrid{
-  grid-template-columns:repeat(2,minmax(0,1fr));
-  gap:1px;
-  border:1px solid rgba(205,170,129,.08);
+.premiumHouseV11 #decision-twin .execBadge{
+  display:inline-block!important;
+  margin-top:17px!important;
+  padding:7px 10px!important;
+  border:1px solid rgba(111,147,162,.20)!important;
+  border-radius:3px!important;
+  background:transparent!important;
+  color:#9b7a5e!important;
+  font-size:7px!important;
+  letter-spacing:.16em!important;
 }
-.premiumHouseV1 .houseMissionBriefGrid article{
-  min-height:70px;
-  padding:13px 15px;
-  border:0;
-  border-radius:0;
-  background:rgba(4,11,14,.24);
+.premiumHouseV11 #decision-twin .decisionRoom{display:block!important}
+.premiumHouseV11 #decision-twin .decisionRoom>article.card{
+  padding:22px 0 0!important;
+  border:0!important;
+  border-top:1px solid rgba(207,180,146,.10)!important;
+  border-radius:0!important;
+  background:transparent!important;
+  box-shadow:none!important;
 }
-.premiumHouseV1 .houseMissionBriefGrid article:nth-child(even){border-left:1px solid rgba(205,170,129,.08)}
-.premiumHouseV1 .houseMissionBriefGrid article:nth-child(n+3){border-top:1px solid rgba(205,170,129,.08)}
-.premiumHouseV1 .houseMissionBriefGrid small{font-size:6px;color:#687a7f}
-.premiumHouseV1 .houseMissionBriefGrid b{font-size:9px;font-weight:500;color:#afbbba}
-.premiumHouseV1 .houseMissionBrief:not(.is-contextual) .premiumMissionMoment{display:none}
-
-.premiumHouseV1 .houseRouteHint{
-  margin:12px 0 0;
-  padding:11px 0 0;
-  border:0;
-  border-top:1px solid rgba(194,139,90,.16);
-  background:transparent;
-  font-size:8px;
-  line-height:1.65;
-  color:#9cabaa;
+.premiumHouseV11 #decision-twin .decisionRoom>article.card h3{
+  margin:0 0 12px!important;
+  color:#9c7a5e!important;
+  font-size:8px!important;
+  letter-spacing:.18em!important;
+  text-transform:uppercase;
 }
-.premiumHouseV1 .houseRoomFooter{
-  margin-top:22px;
-  padding-top:15px;
-  border-top:1px solid rgba(205,170,129,.09);
-  color:#617277;
-  font-size:7px;
+.premiumHouseV11 #decision-twin .decisionRoom>article.card>p{
+  max-width:800px;
+  margin:0 0 26px!important;
+  color:#d8ddda!important;
+  font-size:20px!important;
+  line-height:1.6!important;
 }
-.premiumHouseV1 .houseNext{
-  border:0;
-  border-bottom:1px solid rgba(194,139,90,.30);
-  border-radius:0;
-  background:transparent;
-  color:#c7a27e;
-  padding:5px 0;
-  font-size:8px;
+.premiumHouseV11 #decision-twin .decisionRoom>article.card>p strong{color:#f1efe9!important;font-weight:550!important}
+.premiumHouseV11 #decision-twin .decisionRoom>aside.card{display:none!important}
+.premiumHouseV11 #decision-twin .decisionList{
+  display:grid!important;
+  grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  gap:0!important;
+  border-top:1px solid rgba(207,180,146,.08)!important;
 }
-
-.premiumHouseV1[data-active-room="decision"] .houseStage{background:radial-gradient(circle at 48% 0%,rgba(194,139,90,.07),transparent 34%),linear-gradient(180deg,rgba(255,255,255,.01),transparent)}
-.premiumHouseV1[data-active-room="proof"] .houseStage{background:radial-gradient(circle at 75% 10%,rgba(126,143,148,.06),transparent 36%),linear-gradient(180deg,rgba(255,255,255,.008),transparent)}
-.premiumHouseV1[data-active-room="explore"] .houseStage{background:radial-gradient(circle at 55% 0%,rgba(78,123,145,.10),transparent 36%),linear-gradient(180deg,rgba(255,255,255,.008),transparent)}
-.premiumHouseV1[data-active-room="mission"] .houseStage{background:radial-gradient(circle at 62% 0%,rgba(194,139,90,.10),transparent 34%),linear-gradient(180deg,rgba(255,255,255,.01),transparent)}
-
-@media(min-width:1000px){
-  .premiumHouseV1 .housePaneBody{max-height:calc(100dvh - 300px)}
-  .premiumHouseV1 .housePane[data-house-room="desk"] .housePaneBody{max-height:calc(100dvh - 300px)}
+.premiumHouseV11 #decision-twin .decisionItem{
+  padding:16px 18px 16px 0!important;
+  border:0!important;
+  border-bottom:1px solid rgba(207,180,146,.07)!important;
+  background:transparent!important;
+}
+.premiumHouseV11 #decision-twin .decisionItem:nth-child(even){padding-left:20px!important;border-left:1px solid rgba(207,180,146,.07)!important}
+.premiumHouseV11 #decision-twin .decisionItem b{
+  display:block!important;
+  margin-bottom:5px!important;
+  color:#a98768!important;
+  font-size:8px!important;
+  letter-spacing:.12em!important;
+  text-transform:uppercase;
+}
+.premiumHouseV11 #decision-twin .decisionItem span{
+  color:#9eaaaa!important;
+  font-size:10px!important;
+  line-height:1.6!important;
 }
 
-@media(max-width:900px){
-  .premiumHouseV1{
-    margin:6px -4px 34px;
-    min-height:0;
-    border-radius:24px;
-  }
-  .premiumHouseV1::after{left:0}
-  .premiumHouseV1 .houseHeader{
-    grid-template-columns:1fr;
-    min-height:0;
-    gap:22px;
-    padding:28px 22px 22px;
-  }
-  .premiumHouseV1 .houseHeader h1{font-size:clamp(42px,8vw,64px);letter-spacing:-3px}
-  .premiumHouseV1 .houseIdentity{
-    grid-template-columns:54px 1fr;
-    min-height:0;
-    padding:14px 0 0;
-    border-left:0;
-    border-top:1px solid rgba(205,170,129,.13);
-    background:transparent;
-  }
-  .premiumHouseV1 .houseIdentityOrb{width:54px;height:54px}
-  .premiumHouseV1 .houseIdentityOrb::after{left:16px;top:26px}
-  .premiumHouseV1 .houseCaseBar{grid-template-columns:1fr 1fr;padding:9px 22px}
-  .premiumHouseV1 .houseCasePulse{grid-column:1/-1;text-align:left}
-  .premiumHouseV1 .houseInterior{grid-template-columns:1fr;min-height:0}
-  .premiumHouseV1 .houseRail{
-    padding:14px 18px 10px;
-    border-right:0;
-    border-bottom:1px solid rgba(205,170,129,.12);
-  }
-  .premiumHouseV1 .houseRail::after{display:none}
-  .premiumHouseV1 .houseDirector{
-    min-height:0;
-    margin-bottom:12px;
-    padding:6px 0 12px 62px;
-  }
-  .premiumPresenceFigure{left:0;top:0;transform:scale(.78);transform-origin:top left}
-  .premiumHouseV1 .houseDirector h2{font-size:15px}
-  .premiumSpecialists{display:flex;gap:11px;overflow-x:auto;margin:0 0 10px;padding-bottom:3px}
-  .premiumSpecialist{flex:0 0 auto;grid-template-columns:7px auto;min-height:20px}
-  .premiumSpecialist small{display:none}
-  .premiumHouseV1 .houseRooms{
-    display:flex;
-    overflow-x:auto;
-    gap:0;
-    border:1px solid rgba(205,170,129,.10);
-    scrollbar-width:none;
-  }
-  .premiumHouseV1 .houseRooms::-webkit-scrollbar{display:none}
-  .premiumHouseV1 .houseRoomButton{
-    flex:0 0 auto;
-    width:auto;
-    min-width:104px;
-    grid-template-columns:17px auto;
-    min-height:48px;
-    padding:9px 12px;
-    border-bottom:0;
-    border-right:1px solid rgba(205,170,129,.08);
-  }
-  .premiumHouseV1 .houseRoomButton::after{left:0;right:0;top:auto;bottom:-1px;width:auto;height:2px}
-  .premiumHouseV1 .houseRoomButton[aria-selected="true"]{padding-left:12px}
-  .premiumHouseV1 .houseRoomButton small{display:none}
-  .premiumHouseV1 .housePrivateBoundary{margin-top:11px;padding:12px 0 0}
-  .premiumHouseV1 .housePrivateDoor{max-width:310px}
-  .premiumHouseV1 .housePane{min-height:0;padding:24px 20px 34px}
-  .premiumHouseV1 .housePane::before{left:20px;right:20px}
-  .premiumHouseV1 .housePaneHead{display:block}
-  .premiumHouseV1 .housePaneHead span{display:block;margin-top:8px;text-align:left}
+/* evidence room */
+.premiumHouseV11 #evidence-graph>.head{
+  display:grid!important;
+  grid-template-columns:minmax(0,1.3fr) minmax(240px,.7fr)!important;
+  gap:24px!important;
+  margin:0 0 24px!important;
+}
+.premiumHouseV11 #evidence-graph>.head h2{
+  margin:8px 0 0!important;
+  color:#efede7!important;
+  font-size:clamp(38px,4.6vw,66px)!important;
+  line-height:.98!important;
+  letter-spacing:-2.5px!important;
+  font-weight:440!important;
+}
+.premiumHouseV11 #evidence-graph>.head p{
+  color:#849498!important;
+  font-size:10px!important;
+  line-height:1.7!important;
+}
+.premiumHouseV11 #evidence-graph .proofRelations,
+.premiumHouseV11 #evidence-graph .proofFlow,
+.premiumHouseV11 #evidence-graph .sourceStates{display:none!important}
+.premiumHouseV11 #evidence-graph .claimGrid{
+  display:grid!important;
+  grid-template-columns:1fr!important;
+  gap:0!important;
+  border-top:1px solid rgba(207,180,146,.11)!important;
+}
+.premiumHouseV11 #evidence-graph .proofTrace{
+  margin:0!important;
+  padding:0!important;
+  border:0!important;
+  border-bottom:1px solid rgba(207,180,146,.09)!important;
+  border-radius:0!important;
+  background:transparent!important;
+}
+.premiumHouseV11 #evidence-graph .proofTrace>summary{
+  padding:18px 0!important;
+  color:#d7dcda!important;
+  font-size:12px!important;
+  cursor:pointer;
+}
+.premiumHouseV11 #evidence-graph .proofTrace[open]>summary{color:#e4c29f!important}
+.premiumHouseV11 #evidence-graph .proofTrace p{
+  max-width:800px!important;
+  color:#8c9a9d!important;
+  font-size:10px!important;
+  line-height:1.65!important;
 }
 
-@media(max-width:560px){
-  .premium-house-v1 .wrap{padding-inline:10px}
-  .premiumHouseV1{margin-inline:-2px;border-radius:18px}
-  .premiumHouseV1 .houseHeader{padding:24px 18px 20px}
-  .premiumHouseV1 .houseHeader h1{font-size:42px;line-height:.93;letter-spacing:-2.5px}
-  .premiumHouseV1 .houseHeader p{font-size:11px;line-height:1.72}
-  .premiumHouseV1 .houseCaseBar{grid-template-columns:1fr;padding:8px 18px}
-  .premiumHouseV1 .houseCaseCell+ .houseCaseCell{padding-left:0;border-left:0;border-top:1px solid rgba(205,170,129,.08)}
-  .premiumHouseV1 .houseRail{padding:12px 14px 10px}
-  .premiumHouseV1 .houseDirector{padding-left:54px}
-  .premiumPresenceFigure{transform:scale(.68)}
-  .premiumHouseV1 .houseRooms{margin-inline:-2px}
-  .premiumHouseV1 .houseRoomButton{min-width:92px}
-  .premiumHouseV1 .housePane{padding:20px 12px 28px}
-  .premiumHouseV1 .housePane::before{left:12px;right:12px}
-  .premiumHouseV1 .housePaneHead strong{font-size:21px}
-  .premiumHouseV1 .houseDeskPrelude{grid-template-columns:1fr}
-  .premiumHouseV1 .houseDeskCard+ .houseDeskCard{border-left:0;border-top:1px solid rgba(205,170,129,.10)}
-  .premiumHouseV1 .houseCommitteeGrid,.premiumHouseV1 .houseMissionBriefGrid{grid-template-columns:1fr}
-  .premiumHouseV1 .houseCommitteeGrid article:nth-child(even),.premiumHouseV1 .houseMissionBriefGrid article:nth-child(even){border-left:0}
-  .premiumHouseV1 .houseCommitteeGrid article+article,.premiumHouseV1 .houseMissionBriefGrid article+article{border-top:1px solid rgba(205,170,129,.08)}
-  .premiumHouseV1 .houseRoomFooter span{max-width:58%}
+/* observatory */
+.premiumHouseV11 #experience-explore{
+  min-height:55vh;
+}
+.premiumHouseV11 #experience-explore>summary{display:none!important}
+.premiumHouseV11 #experience-explore .experienceExploreBody{padding:0!important}
+.premiumHouseV11 #experience-explore .cosmosGate{
+  min-height:48vh;
+  display:flex!important;
+  flex-direction:column;
+  align-items:flex-start;
+  justify-content:center;
+  gap:18px!important;
+  margin:0!important;
+  padding:0!important;
+  border:0!important;
+  background:transparent!important;
+}
+.premiumHouseV11 #experience-explore .cosmosGate h3{
+  max-width:700px;
+  color:#eeece6!important;
+  font-size:clamp(42px,5vw,70px)!important;
+  line-height:.98!important;
+  font-weight:430!important;
+  letter-spacing:-2.6px!important;
+}
+.premiumHouseV11 #experience-explore .cosmosGate p{
+  max-width:620px!important;
+  color:#87969a!important;
+  font-size:12px!important;
+  line-height:1.75!important;
+}
+.premiumHouseV11 #experience-explore .cosmosGate button{
+  padding:12px 18px!important;
+  border:1px solid rgba(111,147,162,.28)!important;
+  border-radius:999px!important;
+  background:rgba(111,147,162,.08)!important;
+  color:#bcd0d7!important;
 }
 
-@media(prefers-reduced-motion:reduce){
-  .premiumHouseV1 *{animation:none!important;transition:none!important;scroll-behavior:auto!important}
-  .premiumHouseV1.is-room-transitioning .premiumRoomVeil{animation:none!important;opacity:0!important}
+/* mission office */
+.premiumHouseV11 .houseMissionBrief{
+  margin:0 0 30px!important;
+  padding:0!important;
+  border:0!important;
+  border-radius:0!important;
+  background:transparent!important;
 }
-
-/* Premium V1 refinement: normal surface hides technical routing; expert detail remains available. */
-.premiumHouseV1 .premiumRawRouteHint{display:none!important}
-.premiumOrientation{
-  margin-top:12px;
-  padding:10px 0 0;
-  border-top:1px solid rgba(194,139,90,.14);
-  color:#b8c2c1;
-  font-size:8px;
-  line-height:1.65;
+.premiumHouseV11 .houseMissionBriefHead{
+  max-width:760px;
+  padding-bottom:18px;
+  border-bottom:1px solid rgba(207,180,146,.10);
 }
-.premiumOrientation[hidden]{display:none!important}
+.premiumHouseV11 .houseMissionBriefHead small{
+  color:#9b795c!important;
+  font-size:7px!important;
+  letter-spacing:.18em!important;
+}
+.premiumHouseV11 .houseMissionBriefHead strong{
+  display:block!important;
+  margin:7px 0 8px!important;
+  color:#efede8!important;
+  font-size:clamp(34px,4vw,58px)!important;
+  line-height:1!important;
+  font-weight:440!important;
+  letter-spacing:-2px!important;
+}
+.premiumMissionMoment{
+  max-width:680px;
+  margin:0!important;
+  color:#88979a!important;
+  font-size:11px!important;
+  line-height:1.7!important;
+}
 .premiumMissionSummary{
   display:grid;
   grid-template-columns:repeat(2,minmax(0,1fr));
-  margin-top:15px;
-  border:1px solid rgba(205,170,129,.10);
+  max-width:860px;
+  margin-top:18px;
+  border-top:1px solid rgba(207,180,146,.10);
 }
 .premiumMissionSummary article{
-  min-height:78px;
-  padding:14px 15px;
-  background:rgba(4,11,14,.22);
+  min-height:90px;
+  padding:18px 20px 18px 0;
+  border-bottom:1px solid rgba(207,180,146,.08);
 }
-.premiumMissionSummary article:nth-child(even){border-left:1px solid rgba(205,170,129,.08)}
-.premiumMissionSummary article:nth-child(n+3){border-top:1px solid rgba(205,170,129,.08)}
+.premiumMissionSummary article:nth-child(even){padding-left:20px;border-left:1px solid rgba(207,180,146,.08)}
 .premiumMissionSummary small{
   display:block;
-  font-size:6px;
+  color:#718288;
+  font-size:7px;
   letter-spacing:.14em;
   text-transform:uppercase;
-  color:#73858a;
 }
 .premiumMissionSummary b{
   display:block;
-  margin-top:6px;
-  font-size:10px;
+  margin-top:7px;
+  color:#c7d0ce;
+  font-size:11px;
   line-height:1.55;
   font-weight:520;
-  color:#c7d0ce;
 }
-.premiumMissionExpert{margin-top:12px;border-top:1px solid rgba(205,170,129,.08);padding-top:10px}
+.premiumMissionExpert{
+  max-width:860px;
+  margin-top:13px;
+  color:#65767b;
+}
 .premiumMissionExpert>summary{
   cursor:pointer;
   list-style:none;
   font-size:7px;
   letter-spacing:.14em;
   text-transform:uppercase;
-  color:#6f8085;
 }
 .premiumMissionExpert>summary::-webkit-details-marker{display:none}
-.premiumMissionExpert .houseMissionBriefGrid{margin-top:10px}
-
-@media(max-width:900px){
-  .premiumHouseV1>.housePrivateBoundary{
-    margin:0;
-    padding:18px;
-    border-top:1px solid rgba(205,170,129,.12);
-    background:rgba(5,11,14,.54);
-  }
+.premiumMissionExpert .houseMissionBriefGrid{margin-top:12px!important}
+.premiumHouseV11 #supra-mission{
+  padding-top:24px!important;
+  border-top:1px solid rgba(207,180,146,.10)!important;
 }
-@media(max-width:560px){
-  .premiumHouseV1 .houseHeader{
-    display:block;
-    padding:20px 18px 17px;
-  }
-  .premiumHouseV1 .houseHeader h1{
-    margin:9px 0 0;
-    font-size:36px;
-    line-height:.94;
-  }
-  .premiumHouseV1 .houseHeader p,
-  .premiumHouseV1 .houseIdentity{display:none}
-  .premiumHouseV1 .houseCaseBar{
-    display:block;
-    padding:7px 18px;
-  }
-  .premiumHouseV1 .houseCaseCell{padding:5px 0}
-  .premiumHouseV1 .houseCaseCell:nth-child(2),
-  .premiumHouseV1 .houseCasePulse{display:none}
-  .premiumHouseV1 .houseCaseCell strong{font-size:9px}
-  .premiumHouseV1 .houseRail{padding:10px 12px 8px}
-  .premiumHouseV1 .houseDirector{
-    min-height:0;
-    margin-bottom:8px;
-    padding:4px 0 9px 46px;
-  }
-  .premiumPresenceFigure{transform:scale(.58)}
-  .premiumHouseV1 .houseDirectorLabel{font-size:6px}
-  .premiumHouseV1 .houseDirector h2{margin:4px 0 0;font-size:14px}
-  .premiumHouseV1 .houseDirector p{display:none}
-  .premiumOrientation{margin-top:7px;padding-top:7px;font-size:7px}
-  .premiumExpertTrace{display:none}
-  .premiumSpecialists{
-    margin:0 0 7px;
-    gap:10px;
-  }
-  .premiumSpecialistsTitle{display:none}
-  .premiumSpecialist{font-size:8px}
-  .premiumHouseV1 .houseRooms{
-    position:sticky;
-    top:0;
-    z-index:8;
-    background:rgba(7,14,17,.96);
-    backdrop-filter:blur(12px);
-  }
-  .premiumHouseV1 .houseRoomButton{
-    min-width:84px;
-    min-height:44px;
-    padding:8px 10px;
-  }
-  .premiumHouseV1 .houseRoomButton strong{font-size:9px}
-  .premiumHouseV1 .housePane{padding-top:17px}
-  .premiumHouseV1 .housePaneHead{margin-bottom:16px;padding-bottom:12px}
-  .premiumHouseV1 .housePaneHead strong{font-size:19px}
-  .premiumHouseV1 .housePaneHead span{font-size:8px}
-  .premiumHouseV1>.housePrivateBoundary{
-    padding:15px 14px 18px;
-  }
-  .premiumHouseV1>.housePrivateBoundary .housePrivateDoor{max-width:none;min-height:50px}
-  .premiumMissionSummary{grid-template-columns:1fr}
-  .premiumMissionSummary article+article{border-top:1px solid rgba(205,170,129,.08)}
-  .premiumMissionSummary article:nth-child(even){border-left:0}
+.premiumHouseV11 #supra-mission>.head h2{
+  color:#efede8!important;
+  font-size:clamp(38px,4.7vw,66px)!important;
+  line-height:.98!important;
+  letter-spacing:-2.4px!important;
+  font-weight:440!important;
 }
 
-/* Room sovereignty: the Arrival Lounge is majestic only when the Desk is active. */
-.public-experience-v1.premium-house-v1 .topNav{display:none!important}
-.public-experience-v1.premium-house-v1 .soundShortcut{display:none!important}
-.public-experience-v1.premium-house-v1 .top{padding:8px 0!important}
+/* technical routing copy exists but stays expert-only */
+.premiumHouseV11 .premiumRawRouteHint{display:none!important}
+.premiumHouseV11 .houseRoomFooter{display:none!important}
 
-.premiumHouseV1:not([data-active-room="desk"]) .houseHeader{
-  min-height:0;
-  grid-template-columns:1fr;
-  padding:14px 28px 13px;
-  background:linear-gradient(90deg,rgba(17,27,31,.78),rgba(8,15,18,.54));
-}
-.premiumHouseV1:not([data-active-room="desk"]) .houseHeader>div{
+/* -------- door dock: the only persistent navigation -------- */
+.premiumPortalDock{
+  position:fixed;
+  z-index:110;
+  left:50%;
+  bottom:22px;
+  transform:translateX(-50%);
   display:flex;
   align-items:center;
-  min-height:20px;
+  max-width:min(680px,70vw);
+  padding:5px;
+  border:1px solid rgba(213,183,149,.17);
+  border-radius:999px;
+  background:rgba(5,11,14,.70);
+  box-shadow:0 18px 70px rgba(0,0,0,.34),inset 0 1px rgba(255,255,255,.025);
+  backdrop-filter:blur(18px);
 }
-.premiumHouseV1:not([data-active-room="desk"]) .houseHeader h1,
-.premiumHouseV1:not([data-active-room="desk"]) .houseHeader p,
-.premiumHouseV1:not([data-active-room="desk"]) .houseIdentity{display:none}
-.premiumHouseV1:not([data-active-room="desk"]) .houseHeader .houseEyebrow{
-  color:#87735f;
-  font-size:7px;
+.premiumPortalDock .houseRooms{
+  display:flex!important;
+  gap:2px!important;
+  margin:0!important;
+  padding:0!important;
+  border:0!important;
+  background:transparent!important;
+  overflow-x:auto;
+  scrollbar-width:none;
 }
-.premiumHouseV1:not([data-active-room="desk"]) .houseCaseBar{padding-block:7px}
-.premiumHouseV1:not([data-active-room="desk"]) .houseInterior{min-height:calc(100dvh - 160px)}
-.premiumHouseV1:not([data-active-room="desk"]) .housePane{min-height:calc(100dvh - 160px)}
+.premiumPortalDock .houseRooms::-webkit-scrollbar{display:none}
+.premiumPortalDock .houseRoomButton{
+  flex:0 0 auto!important;
+  width:auto!important;
+  min-width:86px;
+  grid-template-columns:1fr!important;
+  padding:10px 14px!important;
+  border:0!important;
+  border-radius:999px!important;
+  background:transparent!important;
+  color:#8e9c9f!important;
+  text-align:center!important;
+  transition:background .18s ease,color .18s ease!important;
+}
+.premiumPortalDock .houseRoomButton .houseRoomNo,
+.premiumPortalDock .houseRoomButton small{display:none!important}
+.premiumPortalDock .houseRoomButton strong{
+  font-size:9px!important;
+  font-weight:540!important;
+  letter-spacing:.01em!important;
+}
+.premiumPortalDock .houseRoomButton:hover,
+.premiumPortalDock .houseRoomButton:focus-visible{
+  outline:none!important;
+  background:rgba(255,255,255,.035)!important;
+  color:#d9deda!important;
+}
+.premiumPortalDock .houseRoomButton[aria-selected="true"]{
+  background:rgba(197,142,94,.13)!important;
+  color:#edddcc!important;
+}
 
-@media(max-width:900px){
-  .premiumHouseV1:not([data-active-room="desk"]) .houseHeader{padding:11px 18px 10px}
-  .premiumHouseV1:not([data-active-room="desk"]) .houseInterior,
-  .premiumHouseV1:not([data-active-room="desk"]) .housePane{min-height:0}
+/* private door stays a door, not a paragraph */
+.premiumHouseV11 .premiumPrivateDoor{
+  position:fixed;
+  z-index:112;
+  right:24px;
+  bottom:24px;
+  width:auto!important;
+  margin:0!important;
+  padding:0!important;
+  border:0!important;
+  background:transparent!important;
+  color:transparent!important;
+  font-size:0!important;
 }
-@media(max-width:560px){
-  .public-experience-v1.premium-house-v1 .top{min-height:42px!important;padding:5px 2px!important}
-  .public-experience-v1.premium-house-v1 .brand{font-size:28px}
-  .premiumHouseV1:not([data-active-room="desk"]) .houseHeader{display:none}
+.premiumHouseV11 .premiumPrivateDoor>b,
+.premiumHouseV11 .premiumPrivateDoor>span,
+.premiumHouseV11 .premiumPrivateDoor>small{display:none!important}
+.premiumHouseV11 .premiumPrivateDoor .housePrivateDoor{
+  display:block!important;
+  min-height:0!important;
+  margin:0!important;
+  padding:10px 14px!important;
+  border:1px solid rgba(197,142,94,.24)!important;
+  border-radius:999px!important;
+  background:rgba(5,11,14,.68)!important;
+  color:#caa783!important;
+  font-size:8px!important;
+  font-weight:550!important;
+  letter-spacing:.03em!important;
+  backdrop-filter:blur(18px);
+}
+.premiumHouseV11 .premiumPrivateDoor .housePrivateDoor::after{content:" ↗"}
+
+/* -------- cognitive room transition -------- */
+.premiumRoomVeil{
+  position:absolute;
+  inset:0;
+  z-index:96;
+  pointer-events:none;
+  opacity:0;
+  background:
+    linear-gradient(108deg,rgba(6,12,15,.98),rgba(24,29,29,.92) 48%,rgba(6,12,15,.98)),
+    radial-gradient(circle at 70% 40%,rgba(197,142,94,.06),transparent 36%);
+}
+.premiumHouseV11.is-room-transitioning .premiumRoomVeil{animation:houseRoomMove .34s cubic-bezier(.2,.8,.2,1)}
+@keyframes houseRoomMove{
+  0%{opacity:0;transform:translateX(5%)}
+  48%{opacity:.9}
+  100%{opacity:0;transform:translateX(-5%)}
+}
+
+/* -------- room-specific atmosphere -------- */
+.premiumHouseV11[data-active-room="decision"] .premiumLight{opacity:.95}
+.premiumHouseV11[data-active-room="proof"] .premiumLight{opacity:.36;filter:blur(42px)}
+.premiumHouseV11[data-active-room="explore"] .premiumWindow{
+  border-color:rgba(111,147,162,.16);
+  background:
+    linear-gradient(90deg,transparent 49.8%,rgba(111,147,162,.07) 50%,transparent 50.2%),
+    radial-gradient(circle at 50% 34%,rgba(70,118,140,.14),transparent 42%),
+    rgba(1,5,7,.12);
+}
+.premiumHouseV11[data-active-room="mission"] .premiumLight{opacity:1}
+
+/* -------- tablet -------- */
+@media(max-width:1000px){
+  .premiumWindow{right:4vw;width:30vw}
+  .premiumWallRight{right:36vw}
+  .premiumHouseV11 .houseDirector{right:4vw;width:220px}
+  .premiumHouseV11 .housePane{padding-right:31vw!important}
+  .premiumPortalDock{max-width:76vw}
+}
+
+/* -------- mobile: room cards become portals, one full-screen room at a time -------- */
+@media(max-width:700px){
+  body.premium-house-v11 .top{
+    height:44px!important;
+    min-height:44px!important;
+    padding:0 14px!important;
+  }
+  body.premium-house-v11 .top .brand{font-size:27px!important}
+
+  .premiumHouseV11{height:100dvh!important}
+  .premiumWallLeft{left:14px}
+  .premiumWallRight{right:18px}
+  .premiumCeiling{height:27%}
+  .premiumFloor{height:38%}
+  .premiumWindow{
+    right:-16vw;top:9vh;
+    width:58vw;height:32vh;
+    min-width:0;
+    opacity:.5;
+  }
+
+  .premiumHouseV11 .houseHeader>div:first-child{
+    left:20px;
+    top:10vh;
+    width:calc(100vw - 40px);
+  }
+  .premiumHouseV11 .houseHeader .houseEyebrow{font-size:7px!important}
+  .premiumHouseV11 .houseHeader h1{
+    margin-top:13px!important;
+    font-size:clamp(48px,15vw,68px)!important;
+    line-height:.88!important;
+    letter-spacing:-3.8px!important;
+  }
+  .premiumHouseV11 .houseHeader p{
+    max-width:88vw!important;
+    font-size:11px!important;
+    line-height:1.65!important;
+  }
+
+  .premiumHouseV11 .houseCaseBar{
+    top:55px;
+    left:20px;
+    max-width:calc(100vw - 40px);
+  }
+
+  .premiumHouseV11 .houseDirector{
+    top:auto;
+    right:auto;
+    left:20px;
+    bottom:88px;
+    transform:none;
+    width:auto!important;
+    max-width:calc(100vw - 40px);
+    min-height:0;
+    padding:0 0 0 42px!important;
+    text-align:left;
+  }
+  .premiumPresenceFigure{
+    left:0;top:0;
+    width:32px;height:48px;
+    transform:none;
+  }
+  .premiumPresenceFigure::before{
+    left:50%;top:0;
+    width:26px;height:26px;
+  }
+  .premiumShoulders{
+    left:3px;top:29px;
+    width:28px;height:20px;
+    border-radius:14px 14px 5px 5px;
+  }
+  .premiumGesture{display:none}
+  .premiumHouseV11 .houseDirectorLabel{
+    margin:0 0 3px!important;
+    font-size:6px!important;
+    text-align:left;
+  }
+  .premiumHouseV11 .houseDirector h2{
+    font-size:13px!important;
+    text-align:left;
+  }
+  .premiumHouseV11 .houseDirector p,
+  .premiumOrientation,
+  .premiumExpertTrace,
+  .premiumSpecialists{display:none!important}
+
+  .premiumHouseV11 .housePane{
+    padding:86px 20px 126px!important;
+  }
+  .premiumHouseV11 .housePaneHead{
+    display:block!important;
+    margin-bottom:18px!important;
+    padding-bottom:13px!important;
+  }
+  .premiumHouseV11 .housePaneHead strong{
+    font-size:29px!important;
+    letter-spacing:-1px!important;
+  }
+  .premiumHouseV11 .housePaneHead span{
+    display:block!important;
+    margin-top:8px!important;
+    max-width:none!important;
+    font-size:8px!important;
+    text-align:left!important;
+  }
+  .premiumHouseV11 .housePaneBody{
+    width:100%!important;
+    max-height:calc(100dvh - 190px)!important;
+    padding-right:3px!important;
+    padding-bottom:100px!important;
+  }
+
+  .premiumHouseV11 .housePane[data-house-room="desk"] .housePaneBody{
+    left:20px;
+    right:20px;
+    bottom:148px;
+    width:auto;
+    max-height:28vh!important;
+  }
+  .premiumHouseV11 #beastDialogueForm{
+    grid-template-columns:1fr!important;
+    gap:10px!important;
+  }
+  .premiumHouseV11 #beastDialogueInput{
+    grid-column:1!important;
+    min-height:78px!important;
+    padding:14px 16px!important;
+    border-radius:17px!important;
+    font-size:15px!important;
+  }
+  .premiumHouseV11 #beastDialogueForm .beastActionRow{
+    grid-column:1!important;
+  }
+  .premiumHouseV11 #beastDialogueSubmit{
+    width:100%!important;
+    min-height:44px!important;
+  }
+
+  .premiumHouseV11 #decision-twin .execTop h2,
+  .premiumHouseV11 #evidence-graph>.head h2,
+  .premiumHouseV11 .houseMissionBriefHead strong,
+  .premiumHouseV11 #supra-mission>.head h2{
+    font-size:38px!important;
+    letter-spacing:-1.8px!important;
+  }
+  .premiumHouseV11 #decision-twin .execTop p{font-size:12px!important}
+  .premiumHouseV11 #decision-twin .decisionRoom>article.card>p{font-size:16px!important}
+  .premiumHouseV11 #decision-twin .decisionList{grid-template-columns:1fr!important}
+  .premiumHouseV11 #decision-twin .decisionItem:nth-child(even){
+    padding-left:0!important;
+    border-left:0!important;
+  }
+  .premiumHouseV11 #evidence-graph>.head{grid-template-columns:1fr!important}
+  .premiumMissionSummary{grid-template-columns:1fr!important}
+  .premiumMissionSummary article:nth-child(even){padding-left:0;border-left:0}
+
+  .premiumPortalDock{
+    left:12px;
+    right:12px;
+    bottom:14px;
+    transform:none;
+    max-width:none;
+    padding:4px;
+    border-radius:18px;
+  }
+  .premiumPortalDock .houseRooms{
+    width:100%;
+  }
+  .premiumPortalDock .houseRoomButton{
+    min-width:76px;
+    padding:9px 11px!important;
+  }
+  .premiumPortalDock .houseRoomButton strong{font-size:8px!important}
+
+  .premiumHouseV11 .premiumPrivateDoor{
+    right:14px;
+    top:8px;
+    bottom:auto;
+  }
+  .premiumHouseV11 .premiumPrivateDoor .housePrivateDoor{
+    padding:8px 10px!important;
+    font-size:7px!important;
+    background:rgba(5,11,14,.56)!important;
+  }
+}
+
+/* -------- reduced motion -------- */
+@media(prefers-reduced-motion:reduce){
+  .premiumHouseV11 *,
+  .premiumHouseV11 *::before,
+  .premiumHouseV11 *::after{
+    animation:none!important;
+    transition:none!important;
+    scroll-behavior:auto!important;
+  }
+  .premiumHouseV11.is-room-transitioning .premiumRoomVeil{opacity:0!important}
+}
+
+/* V1.1 visual cleanup after real-device review */
+.premiumHouseV11 .housePane[data-house-room="desk"] .questionAdvanced{display:none!important}
+.premiumHouseV11 #decision-twin .answerMethod{display:none!important}
+.premiumHouseV11 #beastDialogueInput{
+  width:100%!important;
+  min-width:0!important;
+  box-sizing:border-box!important;
+}
+
+@media(max-width:700px){
+  .premiumHouseV11 .houseDirector{
+    position:fixed!important;
+    z-index:74!important;
+    top:56px!important;
+    right:14px!important;
+    bottom:auto!important;
+    left:auto!important;
+    width:auto!important;
+    max-width:150px!important;
+    min-height:0!important;
+    padding:0!important;
+    transform:none!important;
+    pointer-events:none!important;
+  }
+  .premiumHouseV11 .houseDirector .premiumPresenceFigure,
+  .premiumHouseV11 .houseDirector .houseDirectorLabel,
+  .premiumHouseV11 .houseDirector p,
+  .premiumHouseV11 .houseDirector .premiumOrientation,
+  .premiumHouseV11 .houseDirector .premiumExpertTrace,
+  .premiumHouseV11 .houseDirector .premiumSpecialists{display:none!important}
+  .premiumHouseV11 .houseDirector h2{
+    margin:0!important;
+    padding:6px 9px!important;
+    border:1px solid rgba(197,142,94,.17)!important;
+    border-radius:999px!important;
+    background:rgba(5,11,14,.56)!important;
+    color:#b99979!important;
+    font-size:7px!important;
+    font-weight:550!important;
+    letter-spacing:.05em!important;
+    text-align:center!important;
+    backdrop-filter:blur(12px);
+  }
+  .premiumPortalDock .houseRoomButton{
+    flex:1 1 20%!important;
+    min-width:0!important;
+    padding:9px 5px!important;
+  }
+  .premiumPortalDock .houseRoomButton strong{
+    font-size:7.5px!important;
+    white-space:nowrap;
+  }
+  .premiumHouseV11 .housePane[data-house-room="desk"] .housePaneBody{
+    bottom:92px!important;
+    max-height:36vh!important;
+  }
 }

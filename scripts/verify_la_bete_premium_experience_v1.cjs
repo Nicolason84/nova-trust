@@ -17,6 +17,6 @@ assert.ok(base.includes('href="supra://private-office"'));assert.ok(!base.includ
 assert.ok(js.includes("base.setRoom('proof')"));assert.ok(js.includes('decision_twin_sovereign:true'));assert.ok(js.includes('proofgraph_unchanged_spine:true'));pass('decision stays sovereign and proof remains one hop away');
 assert.ok(js.includes('cosmos_voluntary:true'));assert.ok(!js.includes('LaBeteExplorerActivate'));pass('premium presentation never auto-activates Cosmos');
 for(const scenario of ['banque|financ','croire|conclusion','tout ce qui est lié','vous vous occupiez'])assert.ok(base.includes(scenario),scenario);pass('five mission scenarios are covered by the existing V5 route function');
-assert.ok(css.includes('@media(max-width:560px)'));assert.ok(css.includes('@media(prefers-reduced-motion:reduce)'));pass('mobile and reduced-motion remain first-class');
+assert.ok(css.includes('@media(max-width:700px)'));assert.ok(css.includes('@media(prefers-reduced-motion:reduce)'));pass('mobile and reduced-motion remain first-class');
 assert.ok(css.includes('.premiumRawRouteHint{display:none!important}'));assert.ok(js.includes('premiumMissionExpert'));pass('technical routing and governance are progressively disclosed');
 console.log('LA_BETE_PREMIUM_EXPERIENCE_V1_STATIC_PASS 11');
