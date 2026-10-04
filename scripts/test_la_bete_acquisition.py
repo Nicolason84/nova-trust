@@ -223,8 +223,42 @@ class HybridModelTests(unittest.TestCase):
         self.assertFalse(anon['issuer_receives_ballot_serial'])
         self.assertFalse(anon['ballot_box_receives_entitlement'])
         self.assertFalse(anon['rfc9474_conformance'])
+        self.assertEqual(anon['standard_backend_target'], 'CLOUDFLARE_CIRCL_V1_6_5')
+        self.assertEqual(anon['standard_backend_ci'], 'PASS_RFC9474_RFC9578')
+        self.assertEqual(anon['standard_backend_runtime_binding'], 'NOT_PROVEN')
         self.assertEqual(anon['same_college_anonymity_set_proven'], 2)
         self.assertIn('NOT_PROVEN', anon['metadata_unlinkability'])
+
+    def test_production_privacy_gate_proves_standard_primitive_but_remains_closed(self):
+        gate = self.hybrid['cooperative_direction']['democracy']['production_privacy_gate']
+        self.assertEqual(gate['schema'], 'LA_BETE_SCIC_PRODUCTION_PRIVACY_GATE_V1')
+        self.assertEqual(gate['state'], 'IMPLEMENTED_FAIL_CLOSED')
+        self.assertFalse(gate['production_activation'])
+        self.assertEqual(gate['current_verdict'], 'BLOCKED')
+        crypto = gate['cryptographic_gate']
+        self.assertEqual(crypto['state'], 'RFC9474_RFC9578_CI_PASS')
+        self.assertEqual(crypto['backend'], 'CLOUDFLARE_CIRCL')
+        self.assertEqual(crypto['backend_version'], 'v1.6.5')
+        self.assertEqual(crypto['project_ci'], 'PASS')
+        self.assertEqual(crypto['upstream_rfc9474_vectors'], 'PASS')
+        self.assertEqual(crypto['standard_rsa_pss_crosscheck'], 'PASS')
+        self.assertEqual(crypto['runtime_binding'], 'NOT_PROVEN')
+        self.assertIn('CRYPTO_RUNTIME_BINDING_NOT_PROVEN', gate['blocking_reasons'])
+        self.assertIn('OHTTP_INDEPENDENT_RELAY_NOT_CONFIGURED', gate['blocking_reasons'])
+        self.assertIn('EXTERNAL_CRYPTO_REVIEW_NOT_COMPLETED', gate['blocking_reasons'])
+
+    def test_production_privacy_gate_has_ohttp_and_batch_fail_closed_targets(self):
+        gate = self.hybrid['cooperative_direction']['democracy']['production_privacy_gate']
+        network = gate['network_gate']
+        self.assertEqual(network['profile'], 'RFC9458_OHTTP_OR_EQUIVALENT_INDEPENDENT_RELAY')
+        self.assertFalse(network['relay_gateway_same_operator_allowed'])
+        self.assertFalse(network['relay_may_forward_identifying_headers'])
+        self.assertTrue(network['fresh_hpke_context_per_request_required'])
+        batch = gate['anonymity_gate']
+        self.assertEqual(batch['production_minimum_set_size'], 'UNSET_REQUIRES_PRIVACY_REVIEW')
+        self.assertEqual(batch['production_window_seconds'], 'UNSET_REQUIRES_PRIVACY_REVIEW')
+        self.assertEqual(batch['small_set_release'], 'FORBIDDEN')
+        self.assertFalse(batch['individual_public_timestamps'])
 
     def test_truth_is_never_a_ballot_target(self):
         democracy = self.hybrid['cooperative_direction']['democracy']

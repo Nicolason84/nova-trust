@@ -31,6 +31,7 @@ def default_gate_state():
             "project_ci": "PENDING",
             "upstream_rfc9474_vectors": "PENDING",
             "standard_rsa_pss_crosscheck": "PENDING",
+            "runtime_binding": "NOT_PROVEN",
         },
         "network_gate": {
             "profile": NETWORK_PROFILE,
@@ -75,6 +76,8 @@ def evaluate_gate(state):
     for key in ("project_ci", "upstream_rfc9474_vectors", "standard_rsa_pss_crosscheck"):
         if c.get(key) != "PASS":
             failures.append("CRYPTO_" + key.upper() + "_NOT_PASS")
+    if c.get("runtime_binding") != "PROVEN":
+        failures.append("CRYPTO_RUNTIME_BINDING_NOT_PROVEN")
 
     n = state.get("network_gate", {})
     relay, gateway = n.get("relay_operator"), n.get("gateway_operator")

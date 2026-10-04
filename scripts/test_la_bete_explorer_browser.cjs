@@ -154,7 +154,15 @@ async function main(){
  assert.ok(await evaluate("document.getElementById('muStage').textContent.includes('ALL_ISSUANCE_TRANSCRIPTS_COMPATIBLE_WITH_ALL_VALID_SAME_KEY_TOKENS')"));
  assert.ok(await evaluate("document.getElementById('muStage').textContent.includes('Conformité RFC 9474 revendiquée : NON')"));
  assert.ok(await evaluate("document.getElementById('muStage').textContent.includes('NOT_PROVEN_TIMING_IP_TLS_FINGERPRINT_AND_SMALL_ANONYMITY_SETS_REMAIN')"));
- assert.ok(await evaluate("document.getElementById('muStage').textContent.includes('Ancrages juridiques à relire avant constitution')"));pass('SCIC route exposes blind issuer/ballot separation, synthetic transcript unlinkability proof and explicit metadata limits');
+ assert.ok(await evaluate("document.getElementById('muStage').textContent.includes('Production Privacy Gate · fail-closed')"));
+ assert.ok(await evaluate("document.getElementById('muStage').textContent.includes('RFC9474_RFC9578_CI_PASS')"));
+ assert.ok(await evaluate("document.getElementById('muStage').textContent.includes('BINDING RUNTIME')"));
+ assert.ok(await evaluate("document.getElementById('muStage').textContent.includes('NOT_PROVEN')"));
+ assert.ok(await evaluate("document.getElementById('muStage').textContent.includes('RFC9458_OHTTP_OR_EQUIVALENT_INDEPENDENT_RELAY')"));
+ assert.ok(await evaluate("document.getElementById('muStage').textContent.includes('UNSET_REQUIRES_PRIVACY_REVIEW')"));
+ assert.ok(await evaluate("document.getElementById('muStage').textContent.includes('CRYPTO_RUNTIME_BINDING_NOT_PROVEN')"));
+ assert.ok(await evaluate("document.getElementById('muStage').textContent.includes('EXTERNAL_CRYPTO_REVIEW_NOT_COMPLETED')"));
+ assert.ok(await evaluate("document.getElementById('muStage').textContent.includes('Ancrages juridiques à relire avant constitution')"));pass('SCIC route exposes blind issuer proof plus fail-closed production privacy gate');
  await navigate('#/services');assert.ok(await evaluate("document.getElementById('muStage').textContent.includes('DESIGN_ONLY_NOT_FOR_SALE')"));
  assert.ok(await evaluate("document.getElementById('muStage').textContent.includes('NOT_CONNECTED')"));
  assert.equal(await evaluate("document.querySelectorAll('#muStage input,#muStage form').length"),0);

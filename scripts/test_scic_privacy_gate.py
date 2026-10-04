@@ -16,6 +16,7 @@ class PrivacyGateTests(unittest.TestCase):
         self.assertEqual(verdict["verdict"], "BLOCKED")
         self.assertFalse(verdict["production_activation_allowed"])
         self.assertIn("CRYPTO_PROJECT_CI_NOT_PASS", verdict["failures"])
+        self.assertIn("CRYPTO_RUNTIME_BINDING_NOT_PROVEN", verdict["failures"])
         self.assertIn("OHTTP_OPERATORS_NOT_CONFIGURED", verdict["failures"])
         self.assertIn("ANONYMITY_POLICY_NOT_APPROVED", verdict["failures"])
         self.assertIn("EXTERNAL_CRYPTO_REVIEW_NOT_PASS", verdict["failures"])
@@ -26,6 +27,7 @@ class PrivacyGateTests(unittest.TestCase):
             "project_ci": "PASS",
             "upstream_rfc9474_vectors": "PASS",
             "standard_rsa_pss_crosscheck": "PASS",
+            "runtime_binding": "PROVEN",
         })
         verdict = evaluate_gate(state)
         self.assertFalse(verdict["production_activation_allowed"])
@@ -104,6 +106,7 @@ class PrivacyGateTests(unittest.TestCase):
             "project_ci": "PASS",
             "upstream_rfc9474_vectors": "PASS",
             "standard_rsa_pss_crosscheck": "PASS",
+            "runtime_binding": "PROVEN",
         })
         state["network_gate"].update({
             "relay_operator": "independent-relay-operator",

@@ -106,7 +106,7 @@ function hybridView(kind,g){
   if(next.action)stage.append(list('Proposition actuelle de La Bête',[next.reason,next.action,'Cette proposition ne vaut ni mandat ni exécution.']));
   const actions=el('div',undefined,'muActions');append(actions,link('Ouvrir les démarches','#/univers/demarches','muPrimary'),link('Voir l’espace privé avant mandat','#/prive'));stage.append(actions);
  }else if(kind==='scic'){
-  const b=coop.institutional_blueprint||{},dem=coop.democracy||{},pilot=dem.pilot||{},truth=dem.truth_firewall||{},ballot=dem.ballot_protocol||{};
+  const b=coop.institutional_blueprint||{},dem=coop.democracy||{},pilot=dem.pilot||{},truth=dem.truth_firewall||{},ballot=dem.ballot_protocol||{},privacy=dem.production_privacy_gate||{};
   title('SCIC · DÉMOCRATIE OPÉRABLE','Délibérer, décider, mandater, vérifier.','La mécanique démocratique fonctionne en mode pré-constitution non contraignant. Aucun vote réel de sociétaire ni effet juridique n’est revendiqué tant que la SCIC, ses membres et ses statuts ne sont pas vérifiés.');
   cards([['ÉTAT JURIDIQUE',coop.state||'UNKNOWN'],['DESIGN INSTITUTIONNEL',b.state||'UNKNOWN'],['EFFET JURIDIQUE',b.binding_effect===false?'AUCUN':'NON VÉRIFIÉ'],['PONT ÉCONOMIQUE',bridge.state||'UNKNOWN']]);
   stage.append(list('Mission coopérative',[coop.mission,coop.governance_direction].filter(Boolean)));
@@ -160,6 +160,23 @@ function hybridView(kind,g){
    'Risque restant : '+(anon.metadata_unlinkability||'UNKNOWN'),
    'Révocation après émission : '+(anon.revocation_model||'UNKNOWN')
   ]));
+  cards([['PRIMITIVE RFC',privacy.cryptographic_gate?.state||'UNKNOWN'],['BINDING RUNTIME',privacy.cryptographic_gate?.runtime_binding||'UNKNOWN'],['RÉSEAU OHTTP',privacy.network_gate?.state||'UNKNOWN'],['PRODUCTION',privacy.production_activation===false?'BLOQUÉE':'NON VÉRIFIÉE']]);
+  stage.append(list('Production Privacy Gate · fail-closed',[
+   'Verdict : '+(privacy.current_verdict||'UNKNOWN'),
+   'Backend standard : '+(privacy.cryptographic_gate?.backend||'UNKNOWN')+' '+(privacy.cryptographic_gate?.backend_version||''),
+   'Profil RFC9578 : '+(privacy.cryptographic_gate?.profile||'UNKNOWN'),
+   'Variante RFC9474 : '+(privacy.cryptographic_gate?.variant||'UNKNOWN'),
+   'CI primitive : '+(privacy.cryptographic_gate?.project_ci||'UNKNOWN')+' · vecteurs upstream : '+(privacy.cryptographic_gate?.upstream_rfc9474_vectors||'UNKNOWN')+' · cross-check RSA-PSS : '+(privacy.cryptographic_gate?.standard_rsa_pss_crosscheck||'UNKNOWN'),
+   'Binding du backend standard au runtime : '+(privacy.cryptographic_gate?.runtime_binding||'UNKNOWN'),
+   'Relais réseau cible : '+(privacy.network_gate?.profile||'UNKNOWN'),
+   'Relais et gateway même opérateur autorisés : '+(privacy.network_gate?.relay_gateway_same_operator_allowed===false?'NON':'NON VÉRIFIÉ'),
+   'Batching : '+(privacy.anonymity_gate?.mechanism||'UNKNOWN'),
+   'Seuil de production : '+String(privacy.anonymity_gate?.production_minimum_set_size??'UNKNOWN'),
+   'Fenêtre de production : '+String(privacy.anonymity_gate?.production_window_seconds??'UNKNOWN'),
+   'Petit ensemble libérable : '+(privacy.anonymity_gate?.small_set_release||'UNKNOWN')
+  ]));
+  stage.append(list('Pourquoi la production reste fermée',privacy.blocking_reasons));
+  stage.append(list('Standards de référence',privacy.standards));
   stage.append(list('Constitution protégée',b.protected_commitments));
   const colleges=el('section',undefined,'muObjectMain');colleges.append(el('h2','5 collèges proposés · 100 % des voix','muSubhead'));
   const collegeGrid=el('div',undefined,'muCards');for(const c of b.colleges||[]){const x=el('article',undefined,'muObjectCard');append(x,el('span',c.id,'muCardType'),el('strong',c.label+' · '+c.vote_weight_pct+' %'),el('small',c.purpose));collegeGrid.append(x);}colleges.append(collegeGrid);stage.append(colleges);

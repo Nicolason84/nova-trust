@@ -305,6 +305,78 @@ def tally_scic_ballot(blueprint, ballot, decision_class="ORDINARY"):
     }
 
 
+
+def build_production_privacy_gate_projection():
+    """Public projection of the fail-closed production privacy gate.
+
+    Cryptographic primitive conformance is proven in CI, but production remains
+    blocked until the RFC-grade backend is bound to the voting runtime and the
+    deployment privacy/audit gates are independently satisfied.
+    """
+    return {
+        "schema":"LA_BETE_SCIC_PRODUCTION_PRIVACY_GATE_V1",
+        "state":"IMPLEMENTED_FAIL_CLOSED",
+        "production_activation":False,
+        "current_verdict":"BLOCKED",
+        "cryptographic_gate":{
+            "state":"RFC9474_RFC9578_CI_PASS",
+            "profile":"RFC9578_PUBLICLY_VERIFIABLE_BLIND_RSA_TOKEN_TYPE_0x0002",
+            "variant":"RSABSSA-SHA384-PSS-Deterministic",
+            "backend":"CLOUDFLARE_CIRCL",
+            "backend_version":"v1.6.5",
+            "project_ci":"PASS",
+            "upstream_rfc9474_vectors":"PASS",
+            "standard_rsa_pss_crosscheck":"PASS",
+            "runtime_binding":"NOT_PROVEN",
+            "workflow":".github/workflows/scic-production-privacy-gate.yml",
+            "go_module":"privacy/rfc9474_gate",
+        },
+        "network_gate":{
+            "profile":"RFC9458_OHTTP_OR_EQUIVALENT_INDEPENDENT_RELAY",
+            "state":"NOT_CONFIGURED",
+            "relay_gateway_same_operator_allowed":False,
+            "https_both_hops_required":True,
+            "relay_may_forward_identifying_headers":False,
+            "fresh_hpke_context_per_request_required":True,
+            "padding_policy":"NOT_APPROVED",
+        },
+        "anonymity_gate":{
+            "state":"NOT_APPROVED",
+            "mechanism":"FIXED_WINDOW_OPAQUE_ENVELOPE_BATCH",
+            "production_minimum_set_size":"UNSET_REQUIRES_PRIVACY_REVIEW",
+            "production_window_seconds":"UNSET_REQUIRES_PRIVACY_REVIEW",
+            "small_set_release":"FORBIDDEN",
+            "individual_public_timestamps":False,
+            "synthetic_batch_mechanics":"PROVEN_BY_UNIT_TESTS",
+        },
+        "key_gate":{
+            "state":"NOT_PROVEN",
+            "issuer_private_key_non_exportable_required":True,
+            "rotation_policy":"NOT_APPROVED",
+            "compromise_runbook":"NOT_APPROVED",
+        },
+        "review_gate":{
+            "external_cryptographic_review":"NOT_COMPLETED",
+            "privacy_threat_model_review":"NOT_COMPLETED",
+            "independent_relay_operator":"NOT_VERIFIED",
+        },
+        "blocking_reasons":[
+            "CRYPTO_RUNTIME_BINDING_NOT_PROVEN",
+            "OHTTP_INDEPENDENT_RELAY_NOT_CONFIGURED",
+            "ANONYMITY_SET_POLICY_NOT_APPROVED",
+            "BATCH_WINDOW_NOT_APPROVED",
+            "KEY_CUSTODY_NOT_PROVEN",
+            "EXTERNAL_CRYPTO_REVIEW_NOT_COMPLETED",
+            "PRIVACY_THREAT_MODEL_REVIEW_NOT_COMPLETED",
+        ],
+        "standards":[
+            "RFC9474_RSA_BLIND_SIGNATURES",
+            "RFC9578_PRIVACY_PASS_ISSUANCE_PUBLICLY_VERIFIABLE_BLIND_RSA",
+            "RFC9576_PRIVACY_PASS_ARCHITECTURE",
+            "RFC9458_OBLIVIOUS_HTTP",
+        ],
+    }
+
 def build_scic_democracy(blueprint):
     """Operational democratic protocol in pre-constitution dry-run mode.
     It reuses the hybrid projection and existing public contribution channel.
@@ -477,6 +549,9 @@ def build_scic_democracy(blueprint):
                 "scheme":"CHAUM_STYLE_RAW_RSA_RESEARCH_PROOF",
                 "rfc9474_reference":"RFC_9474_RSA_BLIND_SIGNATURES",
                 "rfc9474_conformance":False,
+                "standard_backend_target":"CLOUDFLARE_CIRCL_V1_6_5",
+                "standard_backend_ci":"PASS_RFC9474_RFC9578",
+                "standard_backend_runtime_binding":"NOT_PROVEN",
                 "privacy_pass_reference":"RFC_9576_ISSUANCE_REDEMPTION_SEPARATION",
                 "metadata_unlinkability":"NOT_PROVEN_TIMING_IP_TLS_FINGERPRINT_AND_SMALL_ANONYMITY_SETS_REMAIN",
                 "production_requirement":"AUDITED_RFC_GRADE_BLIND_SIGNATURE_OR_ANONYMOUS_CREDENTIAL_PLUS_METADATA_SEPARATION",
@@ -491,6 +566,7 @@ def build_scic_democracy(blueprint):
             "protected_commitments_overrideable_by_ballot":False,
             "capital_weighting":False,
         },
+        "production_privacy_gate":build_production_privacy_gate_projection(),
         "decision_to_execution":{
             "vote_is_execution":False,
             "mandate_required":True,
