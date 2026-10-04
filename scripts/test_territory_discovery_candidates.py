@@ -87,6 +87,20 @@ class DiscoveryContractTests(unittest.TestCase):
         self.assertFalse(BUILDER.explicit_department_text_hint("Aube", "à proximité du département de l'Aube."))
         self.assertTrue(BUILDER.explicit_department_text_hint("Somme", "un parc naturel (Somme) protégé."))
 
+    def test_nature_title_semantics_reject_name_collisions(self):
+        self.assertFalse(BUILDER.nature_title_is_plausible("Cher", "Château de la Forêt (Thaumiers)"))
+        self.assertFalse(BUILDER.nature_title_is_plausible("Oise", "Coye-la-Forêt"))
+        self.assertTrue(BUILDER.nature_title_is_plausible("Charente", "Forêt de la Braconne"))
+        self.assertTrue(BUILDER.nature_title_is_plausible("Ardèche", "Gorges de l'Ardèche"))
+        self.assertTrue(BUILDER.nature_title_is_plausible("Aube", "Réserve naturelle nationale de la forêt d'Orient"))
+        self.assertTrue(BUILDER.nature_title_is_plausible("Ariège", "Parc naturel régional Pyrénées Ariégeoises"))
+        self.assertTrue(BUILDER.nature_title_is_plausible("Lozère", "Parc national des Cévennes"))
+        self.assertTrue(BUILDER.nature_title_is_plausible("Somme", "Parc du Marquenterre"))
+        self.assertTrue(BUILDER.nature_title_is_plausible("Seine-Saint-Denis", "Parc Georges-Valbon"))
+        self.assertFalse(BUILDER.nature_title_is_plausible("Paris", "Parc zoologique de Paris"))
+        self.assertFalse(BUILDER.nature_title_is_plausible("Hautes-Pyrénées", "Parc animalier des Pyrénées"))
+        self.assertFalse(BUILDER.nature_title_is_plausible("Exemple", "Parc de loisirs Exemple"))
+
     def test_existing_nature_migration_upgrades_explicit_and_drops_collisions(self):
         departments = {
             "16": {
@@ -235,7 +249,7 @@ class DiscoveryContractTests(unittest.TestCase):
             for x in d.get("nature", []):
                 self.assertEqual(x["state"], "UNVERIFIED_AUTODISCOVERY_CANDIDATE")
                 self.assertTrue(x["source"].startswith("https://fr.wikipedia.org/"))
-                self.assertRegex(x["label"].lower(), r"(réserve|forêt|parc|baie|marais|dune|massif|vallée|estuaire|lac|étang|arboretum|jardin|zone humide|littoral)")
+                self.assertTrue(BUILDER.nature_title_is_plausible(d["name"], x["label"]))
                 self.assertIn(x["administrative_binding"], {"P131_PATH_TO_DEPARTMENT","TEXT_EXPLICIT_DEPARTMENT_WITH_FRANCE_P17"})
                 if x["administrative_binding"] == "TEXT_EXPLICIT_DEPARTMENT_WITH_FRANCE_P17":
                     hay = (x.get("label") or "") + " " + (x.get("description") or "")
