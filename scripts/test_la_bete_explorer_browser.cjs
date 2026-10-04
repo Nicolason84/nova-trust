@@ -38,7 +38,7 @@ async function main(){
  await wait("!!document.getElementById('muAtlas')",'atlas');
  const civicPalette=await evaluate("(()=>{const s=getComputedStyle(document.getElementById('multiunivers'));const p=getComputedStyle(document.querySelector('.muPrimary'));return {blue:s.getPropertyValue('--civic-blue').trim(),sage:s.getPropertyValue('--civic-sage').trim(),copper:s.getPropertyValue('--civic-copper').trim(),alert:s.getPropertyValue('--civic-alert').trim(),primaryBorder:p.borderTopColor}})()");
  assert.deepEqual(civicPalette,{blue:'#5B7C99',sage:'#6F8F86',copper:'#B58A62',alert:'#B55E63',primaryBorder:'rgb(91, 124, 153)'});pass('civic institutional palette is computed in the real browser');
- assert.equal(await evaluate("document.querySelectorAll('.muUniverse').length"),8);assert.ok(await evaluate("document.getElementById('legacyReadingDocument').hidden"));pass('atlas is default, legacy monolith not primary');
+ assert.equal(await evaluate("document.querySelectorAll('.muUniverse').length"),9);assert.ok(await evaluate("document.getElementById('legacyReadingDocument').hidden"));pass('atlas exposes nine universes including confidence, legacy monolith not primary');
  await wait("document.querySelector('#muAtlasPresence #beastMount')?.classList.contains('organism-ready')",'existing beast rendered on Atlas');
  await evaluate("window.__atlasOriginalCanvas=document.querySelector('#beastMount canvas');window.__atlasOriginalStage=document.getElementById('beastStage')");
  assert.equal(await evaluate("document.querySelectorAll('#beastMount canvas').length"),1);pass('existing 3D beast is the Atlas focus without an extra canvas');
@@ -48,6 +48,10 @@ async function main(){
 
  assert.equal(requests.filter(u=>u.includes('/data/france-organism.json')).length,0);pass('territorial document is lazy');
  await screenshot('atlas-desktop');
+ await navigate('#/univers/confiance');await wait("document.querySelector('#muStage h1')?.textContent==='Confiance & cohérence'",'confidence universe');
+ assert.ok(await evaluate("document.getElementById('muStage').textContent.includes('ProofGraph reste la colonne vertébrale')"));assert.ok(await evaluate("document.getElementById('muStage').textContent.includes('uSCRC')"));assert.ok(await evaluate("document.getElementById('muStage').textContent.includes('pas un certificat')"));pass('confidence universe renders ProofGraph TRUST COHERENCE SMCA uSCRC boundaries');
+ assert.equal(requests.filter(u=>u.includes('/data/la-bete-evidence-universe-v1.json')).length,1);pass('evidence universe loads once through the existing canonical reader');
+ await navigate('#/atlas');await wait("!!document.getElementById('muAtlas')",'atlas return after confidence');
  await evaluate("document.querySelector('.muAtlasCore').click()");await wait("document.querySelector('#muStage h1')?.textContent==='France'",'country');
  const COUNTRY='OJO_FRANCE_ORGANISM_V1#/identity',FINANCE='OJO_FRANCE_ORGANISM_V1#/physiology/systems/finance',DEBT='OJO_FRANCE_DEBT_RATE_LIVE_V1';
  await clickObject(FINANCE);await clickObject(DEBT);await clickObject('AFT_MATURITY_OAT');await clickObject('source-domain:www.aft.gouv.fr');await clickObject('AFT_MATURITY_OAT');await clickObject('source:AFT_MATURITY_OAT');await clickObject('LA_BETE_AFT_PUBLIC_DATA_ACCESS_V1');

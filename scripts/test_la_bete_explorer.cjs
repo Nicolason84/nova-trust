@@ -57,14 +57,19 @@ test('civic institutional palette is explicit and neutral',()=>{
 });
 test('public cache keys expose current civic art and official territory discovery',()=>{
  assert.match(page,/la-bete-art\.css\?v=20261004-civic-institutional-v1/);
- assert.match(page,/la-bete-explorer\.css\?v=20261004-territory-discovery-official-v1/);
- assert.match(page,/la-bete-explorer\.js\?v=20261004-territory-discovery-official-v1/);
+ assert.match(page,/la-bete-explorer\.css\?v=20261004-evidence-universe-v1/);
+ assert.match(page,/la-bete-explorer-model\.js\?v=20261004-evidence-universe-v1/);
+ assert.match(page,/la-bete-explorer\.js\?v=20261004-evidence-universe-v1/);
 });
 test('no hidden dialog transcript persistence',()=>assert.doesNotMatch(ui,/localStorage|sessionStorage|indexedDB|document\.cookie/));
 test('no public action API or credentials',()=>assert.doesNotMatch(ui,/Bearer |POST["']|OPENAI_API_KEY|GH_TOKEN|18765|localhost/));
 test('no user HTML execution sinks',()=>assert.doesNotMatch(ui,/innerHTML|outerHTML|insertAdjacentHTML|\beval\(|new Function/));
 test('territory contribution UI discloses external GitHub account gate',()=>{assert.match(ui,/exige un compte \/ une connexion GitHub/);assert.match(ui,/territory-contribution\.yml/);assert.match(ui,/labels=territoire/);assert.match(ui,/\[CANDIDATE /);});
 test('territory discovery is fail closed and separate from canon',()=>{assert.match(ui,/LA_BETE_TERRITORY_DISCOVERY_CANDIDATES_V1/);for(const x of ['automatic_discovery_is_proof','automatic_discovery_can_promote_living_identity','automatic_discovery_mints_phi','automatic_discovery_changes_documentation_score'])assert.ok(ui.includes(x));assert.match(ui,/verified_receipt_required_for_phi/);assert.match(ui,/CANDIDATS À VÉRIFIER · NON CANON/);assert.match(ui,/la-bete-territory-discovery-candidates-v1\.json/);});
+test('confidence universe is distinct from canonical proofs',()=>{assert.ok(M.UNIVERSES.some(x=>x.id==='preuves'));assert.ok(M.UNIVERSES.some(x=>x.id==='confiance'));assert.notEqual(M.UNIVERSES.find(x=>x.id==='preuves').id,M.UNIVERSES.find(x=>x.id==='confiance').id);assert.match(ui,/universe==='confiance'/);});
+test('evidence universe is fail closed and derived from ProofGraph',()=>{for(const x of ['LA_BETE_EVIDENCE_UNIVERSE_V1','READ_ONLY_PUBLIC_PROOFGRAPH_DERIVED_PROJECTION','proofgraph_is_spine','truth_verdict','authenticity_verdict','automatic_phi_minting','second_runtime','second_registry','second_scheduler'])assert.ok(ui.includes(x));assert.match(ui,/la-bete-evidence-universe-v1\.json/);});
+test('trust smca and uscrc UI never claim truth or certificate',()=>{assert.match(ui,/Indice de préparation documentaire/);assert.match(ui,/jamais un score de vérité/);assert.match(ui,/uSCRC · .*profil seulement/);assert.match(ui,/SMCA · .*structure partielle/);assert.doesNotMatch(ui,/uSCRC · CERTIFIÉ/);});
+test('evidence profiles decorate sources claims and territorial media without action authority',()=>{assert.match(ui,/evidenceProfileForNode/);assert.match(ui,/evidenceProfileForCandidate/);assert.match(ui,/evidenceProfileForLivingMedia/);assert.match(ui,/proofBody\.append\(evidenceProfilePanel/);assert.doesNotMatch(ui,/EVIDENCE.*POST|TRUST.*POST|USCRC.*POST/i);});
 test('living identity is fail closed and loaded through canonical reader',()=>{assert.match(ui,/LA_BETE_TERRITORY_LIVING_IDENTITY_V1/);assert.match(ui,/no_random_identity_color/);assert.match(ui,/no_unlicensed_image/);assert.match(ui,/empty_is_better_than_fabricated/);assert.match(ui,/la-bete-territory-living-identity-v1\.json/);assert.doesNotMatch(ui,/fetch\([^)]*territory-living/i);});
 test('lazy territorial read uses existing bounded fetch',()=>assert.match(ui,/laBeteReadCanonicalJSON\('data\/france-organism\.json'/));
 test('native browser navigation and modal semantics',()=>{assert.match(ui,/history\.pushState/);assert.match(ui,/popstate/);assert.match(ui,/showModal\(/);});
