@@ -211,7 +211,20 @@ class HybridModelTests(unittest.TestCase):
         self.assertTrue(ballot['one_time_private_ballot_token'])
         self.assertEqual(ballot['token_replay'], 'REJECTED')
         self.assertEqual(ballot['public_registry_unlinkability'], 'PROVEN_IN_SYNTHETIC_PRIVATE_PILOT')
-        self.assertIn('NOT_PROVEN', ballot['issuer_level_cryptographic_unlinkability'])
+        self.assertIn('PROVEN_FOR_SIGNATURE_TRANSCRIPT_MATCHING', ballot['issuer_level_cryptographic_unlinkability'])
+        self.assertEqual(ballot['issuer_level_metadata_unlinkability'], 'NOT_PROVEN')
+        anon = ballot['anonymous_credential']
+        self.assertEqual(anon['state'], 'SYNTHETIC_CRYPTOGRAPHIC_PROOF_IMPLEMENTED')
+        self.assertFalse(anon['production_activation'])
+        self.assertTrue(anon['separate_processes_proven'])
+        self.assertTrue(anon['separate_stores_proven'])
+        self.assertFalse(anon['issuer_receives_member_identity'])
+        self.assertFalse(anon['issuer_receives_member_public_id'])
+        self.assertFalse(anon['issuer_receives_ballot_serial'])
+        self.assertFalse(anon['ballot_box_receives_entitlement'])
+        self.assertFalse(anon['rfc9474_conformance'])
+        self.assertEqual(anon['same_college_anonymity_set_proven'], 2)
+        self.assertIn('NOT_PROVEN', anon['metadata_unlinkability'])
 
     def test_truth_is_never_a_ballot_target(self):
         democracy = self.hybrid['cooperative_direction']['democracy']

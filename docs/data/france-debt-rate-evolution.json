@@ -1,7 +1,7 @@
 {
   "schema": "OJO_LA_BETE_VIRTUOUS_EVOLUTION_V1",
-  "generation": 181,
-  "updated_at": "2026-10-04T01:16:56Z",
+  "generation": 182,
+  "updated_at": "2026-10-04T01:29:57Z",
   "source_snapshot_id": "OJO-03035CE5C9B6B290",
   "source_sequence": 11,
   "dna": {
@@ -13352,8 +13352,42 @@
             "member_public_id_in_ballot": false,
             "one_time_private_ballot_token": true,
             "token_replay": "REJECTED",
+            "direct_membership_server_ballot_token_route": "CLOSED",
+            "anonymous_credential": {
+              "schema": "LA_BETE_SCIC_BLIND_BALLOT_ARCHITECTURE_V1",
+              "state": "SYNTHETIC_CRYPTOGRAPHIC_PROOF_IMPLEMENTED",
+              "production_activation": false,
+              "architecture": [
+                "MEMBERSHIP_AUTHORITY",
+                "BLIND_ISSUER",
+                "BALLOT_BOX"
+              ],
+              "separate_processes_proven": true,
+              "separate_stores_proven": true,
+              "membership_authority_output": "SIGNED_RANDOM_ENTITLEMENT_NO_IDENTITY",
+              "blind_issuer_input": "ELECTION_COLLEGE_ENTITLEMENT_PLUS_BLINDED_MESSAGE",
+              "ballot_box_input": "ELECTION_COLLEGE_UNBLINDED_TOKEN_PLUS_CHOICE",
+              "issuer_receives_member_identity": false,
+              "issuer_receives_member_public_id": false,
+              "issuer_receives_ballot_serial": false,
+              "ballot_box_receives_entitlement": false,
+              "ballot_box_receives_member_identity": false,
+              "ballot_box_receives_member_public_id": false,
+              "same_college_anonymity_set_proven": 2,
+              "transcript_token_matching": "UNDETERMINED_BY_BLIND_SIGNATURE_RELATION_IN_SYNTHETIC_PROOF",
+              "compatibility_matrix": "ALL_ISSUANCE_TRANSCRIPTS_COMPATIBLE_WITH_ALL_VALID_SAME_KEY_TOKENS",
+              "scheme": "CHAUM_STYLE_RAW_RSA_RESEARCH_PROOF",
+              "rfc9474_reference": "RFC_9474_RSA_BLIND_SIGNATURES",
+              "rfc9474_conformance": false,
+              "privacy_pass_reference": "RFC_9576_ISSUANCE_REDEMPTION_SEPARATION",
+              "metadata_unlinkability": "NOT_PROVEN_TIMING_IP_TLS_FINGERPRINT_AND_SMALL_ANONYMITY_SETS_REMAIN",
+              "production_requirement": "AUDITED_RFC_GRADE_BLIND_SIGNATURE_OR_ANONYMOUS_CREDENTIAL_PLUS_METADATA_SEPARATION",
+              "selective_revocation_after_issue": false,
+              "revocation_model": "SHORT_LIVED_ELECTION_SPECIFIC_CREDENTIALS_AND_FUTURE_ISSUANCE_BLOCK"
+            },
             "public_registry_unlinkability": "PROVEN_IN_SYNTHETIC_PRIVATE_PILOT",
-            "issuer_level_cryptographic_unlinkability": "NOT_PROVEN_REQUIRES_SEPARATE_ANONYMOUS_CREDENTIAL_OR_BALLOT_AUTHORITY",
+            "issuer_level_cryptographic_unlinkability": "PROVEN_FOR_SIGNATURE_TRANSCRIPT_MATCHING_IN_SYNTHETIC_MULTI_MEMBER_SAME_COLLEGE_PROOF",
+            "issuer_level_metadata_unlinkability": "NOT_PROVEN",
             "ordinary": {
               "support_pct": 50.0,
               "positive_colleges": 3,
@@ -13836,19 +13870,6 @@
     }
   },
   "receipts": [
-    {
-      "generation": 142,
-      "at": "2026-10-03T22:25:21Z",
-      "from_mode": "EVIDENCE_GUARD",
-      "to_mode": "EVIDENCE_GUARD",
-      "reason": [
-        "4 source(s) require explicit attention.",
-        "TEC10 delta versus the published budget assumption: +109.9 bp.",
-        "Decision Delta status: MATERIAL_CHANGE.",
-        "Self-health: ATTENTION."
-      ],
-      "verdict": "PROMOTED_AFTER_NON_REGRESSION"
-    },
     {
       "generation": 143,
       "at": "2026-10-03T22:30:27Z",
@@ -14355,12 +14376,25 @@
         "Self-health: ATTENTION."
       ],
       "verdict": "PROMOTED_AFTER_NON_REGRESSION"
+    },
+    {
+      "generation": 182,
+      "at": "2026-10-04T01:29:57Z",
+      "from_mode": "EVIDENCE_GUARD",
+      "to_mode": "EVIDENCE_GUARD",
+      "reason": [
+        "4 source(s) require explicit attention.",
+        "TEC10 delta versus the published budget assumption: +109.9 bp.",
+        "Decision Delta status: MATERIAL_CHANGE.",
+        "Self-health: ATTENTION."
+      ],
+      "verdict": "PROMOTED_AFTER_NON_REGRESSION"
     }
   ],
   "status": "ACTIVE",
   "verification": {
-    "generation": 181,
-    "at": "2026-10-04T01:16:58Z",
+    "generation": 182,
+    "at": "2026-10-04T01:29:57Z",
     "verdict": "NON_REGRESSION_PASS",
     "checks": [
       "truth",

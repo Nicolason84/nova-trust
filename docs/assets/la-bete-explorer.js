@@ -138,7 +138,27 @@ function hybridView(kind,g){
    'Identité/pseudonyme dans le bulletin : '+(ballot.member_public_id_in_ballot===false?'NON':'NON VÉRIFIÉ'),
    'Jeton privé à usage unique : '+(ballot.one_time_private_ballot_token===true?'OUI':'NON VÉRIFIÉ'),
    'Secret vis-à-vis du registre public : '+(ballot.public_registry_unlinkability||'UNKNOWN'),
-   'Anonymat cryptographique vis-à-vis de l’émetteur : '+(ballot.issuer_level_cryptographic_unlinkability||'UNKNOWN')
+   'Unlinkability cryptographique transcript → bulletin : '+(ballot.issuer_level_cryptographic_unlinkability||'UNKNOWN'),
+   'Unlinkability métadonnées émetteur → urne : '+(ballot.issuer_level_metadata_unlinkability||'UNKNOWN')
+  ]));
+  const anon=ballot.anonymous_credential||{};
+  stage.append(list('Credential anonyme · séparation émetteur / urne',[
+   'État : '+(anon.state||'UNKNOWN'),
+   'Activation production : '+(anon.production_activation===false?'NON':'NON VÉRIFIÉ'),
+   'Architecture : '+(anon.architecture||[]).join(' → '),
+   'Processus séparés prouvés : '+(anon.separate_processes_proven===true?'OUI':'NON VÉRIFIÉ'),
+   'Stockages séparés prouvés : '+(anon.separate_stores_proven===true?'OUI':'NON VÉRIFIÉ'),
+   'L’Issuer reçoit l’identité : '+(anon.issuer_receives_member_identity===false?'NON':'NON VÉRIFIÉ'),
+   'L’Issuer reçoit le pseudonyme public : '+(anon.issuer_receives_member_public_id===false?'NON':'NON VÉRIFIÉ'),
+   'L’Issuer reçoit le serial final : '+(anon.issuer_receives_ballot_serial===false?'NON':'NON VÉRIFIÉ'),
+   'L’urne reçoit l’entitlement : '+(anon.ballot_box_receives_entitlement===false?'NON':'NON VÉRIFIÉ'),
+   'Preuve transcript↔token : '+(anon.transcript_token_matching||'UNKNOWN'),
+   'Matrice de compatibilité : '+(anon.compatibility_matrix||'UNKNOWN'),
+   'Ensemble d’anonymat même collège prouvé : '+String(anon.same_college_anonymity_set_proven??'UNKNOWN'),
+   'Schéma de preuve : '+(anon.scheme||'UNKNOWN'),
+   'Conformité RFC 9474 revendiquée : '+(anon.rfc9474_conformance===false?'NON':'NON VÉRIFIÉ'),
+   'Risque restant : '+(anon.metadata_unlinkability||'UNKNOWN'),
+   'Révocation après émission : '+(anon.revocation_model||'UNKNOWN')
   ]));
   stage.append(list('Constitution protégée',b.protected_commitments));
   const colleges=el('section',undefined,'muObjectMain');colleges.append(el('h2','5 collèges proposés · 100 % des voix','muSubhead'));

@@ -12,6 +12,8 @@ from http.server import BaseHTTPRequestHandler, HTTPServer
 from pathlib import Path
 from urllib.parse import urlsplit
 
+from cryptography.hazmat.primitives import serialization
+from cryptography.hazmat.primitives.asymmetric import ed25519
 from cryptography.hazmat.primitives.ciphers.aead import AESGCM
 from webauthn import (generate_registration_options, verify_registration_response,
                       generate_authentication_options, verify_authentication_response, options_to_json)
@@ -27,7 +29,10 @@ FIXTURES={
                    'membership_evidence':'SYNTHETIC_BENEFICIARY_EVIDENCE_NO_REAL_PERSON'},
  'test-citizen-b':{'name':'Citoyen fictif B','address':'Adresse de démonstration B','reference':'SYNTHETIC_B_NO_REAL_PERSON',
                    'membership_basis':'VOLUNTEER_CONTRIBUTOR','membership_college':'CONTRIBUTORS_CIVIL_SOCIETY',
-                   'membership_evidence':'SYNTHETIC_CONTRIBUTOR_EVIDENCE_NO_REAL_PERSON'}}
+                   'membership_evidence':'SYNTHETIC_CONTRIBUTOR_EVIDENCE_NO_REAL_PERSON'},
+ 'test-citizen-c':{'name':'Citoyen fictif C','address':'Adresse de démonstration C','reference':'SYNTHETIC_C_NO_REAL_PERSON',
+                   'membership_basis':'BENEFICIARY_OR_REGULAR_USER','membership_college':'CITIZENS_USERS',
+                   'membership_evidence':'SYNTHETIC_BENEFICIARY_EVIDENCE_C_NO_REAL_PERSON'}}
 SERVICES={'information':'information@service-test.invalid','suivi':'suivi@service-test.invalid'}
 
 def encoded(b):return base64.urlsafe_b64encode(b).rstrip(b'=').decode()
@@ -51,6 +56,7 @@ class Pilot:
         self.root.mkdir(parents=True,exist_ok=True,mode=0o700);os.chmod(self.root,0o700)
         keydir=self.root/'keys';keydir.mkdir(exist_ok=True,mode=0o700)
         self.keyfile=keydir/'wrapping.key'
+        self.ballot_entitlement_keyfile=keydir/'ballot-entitlement-ed25519.key'
         dbfile=self.root/'data'/'synthetic.sqlite';dbfile.parent.mkdir(exist_ok=True,mode=0o700)
         if not self.keyfile.exists():
             if dbfile.exists():raise RuntimeError('KEY_MISSING_NO_SILENT_REPLACEMENT')
@@ -59,6 +65,15 @@ class Pilot:
         if self.keyfile.is_symlink() or self.keyfile.stat().st_mode & 0o077:raise RuntimeError('PRIVATE_KEY_PERMISSIONS')
         self.kek=self.keyfile.read_bytes()
         if len(self.kek)!=32:raise RuntimeError('INVALID_KEY')
+        if not self.ballot_entitlement_keyfile.exists():
+            private=ed25519.Ed25519PrivateKey.generate()
+            raw_key=private.private_bytes(serialization.Encoding.Raw,serialization.PrivateFormat.Raw,serialization.NoEncryption())
+            fd=os.open(self.ballot_entitlement_keyfile,os.O_WRONLY|os.O_CREAT|os.O_EXCL,0o600)
+            with os.fdopen(fd,'wb') as f:f.write(raw_key)
+        if self.ballot_entitlement_keyfile.is_symlink() or self.ballot_entitlement_keyfile.stat().st_mode & 0o077:raise RuntimeError('PRIVATE_BALLOT_ENTITLEMENT_KEY_PERMISSIONS')
+        raw_key=self.ballot_entitlement_keyfile.read_bytes()
+        if len(raw_key)!=32:raise RuntimeError('INVALID_BALLOT_ENTITLEMENT_KEY')
+        self.ballot_entitlement_private=ed25519.Ed25519PrivateKey.from_private_bytes(raw_key)
         self.db=sqlite3.connect(dbfile,check_same_thread=False,isolation_level=None)
         os.chmod(dbfile,0o600);self.db.row_factory=sqlite3.Row;self.db.execute('PRAGMA foreign_keys=ON')
         self.db.executescript('''
@@ -74,6 +89,7 @@ CREATE TABLE IF NOT EXISTS fixture_receipts(id TEXT PRIMARY KEY,request_id TEXT 
 CREATE TABLE IF NOT EXISTS membership_applications(id TEXT PRIMARY KEY,subject TEXT NOT NULL UNIQUE,basis TEXT NOT NULL,evidence_cipher BLOB NOT NULL,evidence_digest TEXT NOT NULL,state TEXT NOT NULL,applied_at REAL NOT NULL,reviewed_at REAL,verifier_receipt TEXT,admission_receipt TEXT,college TEXT);
 CREATE TABLE IF NOT EXISTS member_credentials(id TEXT PRIMARY KEY,subject TEXT NOT NULL UNIQUE,application TEXT NOT NULL,public_id TEXT NOT NULL UNIQUE,college TEXT NOT NULL,status TEXT NOT NULL,issued_at REAL NOT NULL,review_due REAL NOT NULL,eligibility_attestation TEXT NOT NULL,revoked INTEGER NOT NULL DEFAULT 0);
 CREATE TABLE IF NOT EXISTS ballot_entitlements(member_credential TEXT NOT NULL,election_id TEXT NOT NULL,issued_at REAL NOT NULL,PRIMARY KEY(member_credential,election_id));
+CREATE TABLE IF NOT EXISTS blind_ballot_entitlements(member_credential TEXT NOT NULL,election_id TEXT NOT NULL,entitlement_hash TEXT NOT NULL UNIQUE,issued_at REAL NOT NULL,PRIMARY KEY(member_credential,election_id));
 CREATE TABLE IF NOT EXISTS ballot_tokens(hash TEXT PRIMARY KEY,election_id TEXT NOT NULL,college TEXT NOT NULL,expires REAL NOT NULL,used INTEGER NOT NULL DEFAULT 0);
 CREATE TABLE IF NOT EXISTS secret_ballots(receipt TEXT PRIMARY KEY,election_id TEXT NOT NULL,college TEXT NOT NULL,choice TEXT NOT NULL,cast_at REAL NOT NULL);
 CREATE TABLE IF NOT EXISTS audit(seq INTEGER PRIMARY KEY AUTOINCREMENT,subject TEXT NOT NULL,event TEXT NOT NULL,at REAL NOT NULL,ref TEXT);
@@ -290,6 +306,51 @@ CREATE TABLE IF NOT EXISTS audit(seq INTEGER PRIMARY KEY AUTOINCREMENT,subject T
             if not receipt:raise Denied('MEMBERSHIP_NOT_ACTIVE',404)
             return receipt
 
+    def anonymous_ballot_entitlement_public_key(self):
+        public=self.ballot_entitlement_private.public_key().public_bytes(serialization.Encoding.Raw,serialization.PublicFormat.Raw)
+        return public
+
+    def issue_blind_ballot_entitlement(self,session_token,election_id,ttl=300):
+        """Membership authority output for a separate blind issuer.
+        The signed entitlement contains no subject, member credential or public member id.
+        Eligibility is snapshotted at issuance; selective revocation afterwards would
+        reintroduce linkability, so credentials are election-specific and short-lived.
+        """
+        if not isinstance(election_id,str) or not 4<=len(election_id)<=120 or ttl<30 or ttl>900:
+            raise Denied('INVALID_ELECTION')
+        with self.tx():
+            sess=self.session(session_token)
+            member=self.db.execute('SELECT * FROM member_credentials WHERE subject=? AND revoked=0',(sess['subject'],)).fetchone()
+            if not member or member['status']!='ACTIVE_SYNTHETIC' or member['review_due']<=self.clock():
+                raise Denied('VOTING_RIGHTS_NOT_ACTIVE')
+            entitlement={
+                'schema':'LA_BETE_SCIC_ANONYMOUS_BALLOT_ENTITLEMENT_V1',
+                'entitlement_id':secrets.token_urlsafe(32),
+                'election_id':election_id,
+                'college':member['college'],
+                'issued_at':self.clock(),
+                'expires_at':self.clock()+ttl,
+                'member_identity_embedded':False,
+                'member_public_id_embedded':False,
+                'member_credential_embedded':False,
+                'selective_post_issuance_revocation':False,
+                'mode':MODE,
+            }
+            ent_hash=digest(entitlement)
+            try:
+                self.db.execute('INSERT INTO blind_ballot_entitlements VALUES(?,?,?,?)',(member['id'],election_id,ent_hash,self.clock()))
+            except sqlite3.IntegrityError:
+                raise Denied('BLIND_BALLOT_ENTITLEMENT_ALREADY_ISSUED',409) from None
+            signature=self.ballot_entitlement_private.sign(raw(entitlement))
+            self.audit(sess['subject'],'BLIND_BALLOT_ENTITLEMENT_ISSUED',election_id)
+            return {
+                'entitlement':entitlement,
+                'signature':encoded(signature),
+                'membership_authority_identity_disclosed_to_issuer':False,
+                'public_member_id_disclosed_to_issuer':False,
+                'mode':MODE,
+            }
+
     def issue_secret_ballot_token(self,session_token,election_id,ttl=300):
         """One entitlement per election. Token store carries college, never member identity/public id.
         Public unlinkability is proven; issuer-level cryptographic unlinkability is NOT claimed.
@@ -403,7 +464,7 @@ class PilotHandler(BaseHTTPRequestHandler):
             if not 2<=size<=24000:raise Denied('BODY_SIZE_REJECTED',413)
             j=json.loads(self.rfile.read(size))
             if not isinstance(j,dict):raise Denied('OBJECT_REQUIRED',400)
-            fields={'/api/register/options':{'invite'},'/api/register/verify':{'ceremony_id','credential'},'/api/login/options':{'subject'},'/api/login/verify':{'ceremony_id','credential'},'/api/documents':set(),'/api/documents/replace-fixture':{'document'},'/api/mandates/options':{'document','templates'},'/api/mandates/verify':{'ceremony_id','credential'},'/api/prepare':{'mandate','template'},'/api/submit-fixture':{'mandate','template'},'/api/membership/apply':set(),'/api/ballot/token':{'election_id'},'/api/ballot/cast':{'token','election_id','choice'},'/api/revoke':{'mandate'},'/api/revoke-all':set(),'/api/logout':set()}
+            fields={'/api/register/options':{'invite'},'/api/register/verify':{'ceremony_id','credential'},'/api/login/options':{'subject'},'/api/login/verify':{'ceremony_id','credential'},'/api/documents':set(),'/api/documents/replace-fixture':{'document'},'/api/mandates/options':{'document','templates'},'/api/mandates/verify':{'ceremony_id','credential'},'/api/prepare':{'mandate','template'},'/api/submit-fixture':{'mandate','template'},'/api/membership/apply':set(),'/api/ballot/entitlement':{'election_id'},'/api/revoke':{'mandate'},'/api/revoke-all':set(),'/api/logout':set()}
             if u.path not in fields:raise Denied('NOT_FOUND',404)
             if set(j)!=fields[u.path]:raise Denied('FIELDS_NOT_ALLOWED',400)
             # All endpoints accept only protocol fields or fixed synthetic selectors. No upload.
@@ -424,8 +485,7 @@ class PilotHandler(BaseHTTPRequestHandler):
             if u.path=='/api/prepare':return self.respond(p.prepare(t,j['mandate'],j['template']))
             if u.path=='/api/submit-fixture':return self.respond(p.submit_fixture(t,j['mandate'],j['template']))
             if u.path=='/api/membership/apply':return self.respond(p.apply_membership_fixture(t))
-            if u.path=='/api/ballot/token':return self.respond(p.issue_secret_ballot_token(t,j['election_id']))
-            if u.path=='/api/ballot/cast':return self.respond(p.cast_secret_ballot_fixture(j['token'],j['election_id'],j['choice']))
+            if u.path=='/api/ballot/entitlement':return self.respond(p.issue_blind_ballot_entitlement(t,j['election_id']))
             if u.path=='/api/revoke':return self.respond(p.revoke_mandate(t,j['mandate']))
             if u.path=='/api/revoke-all':return self.respond(p.revoke_all(t),cookies={SESSION:'',PREAUTH:''})
             if u.path=='/api/logout':return self.respond(p.logout(t),cookies={SESSION:''})

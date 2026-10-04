@@ -1,0 +1,64 @@
+{
+  "schema": "LA_BETE_SCIC_BLIND_ISSUER_BALLOT_UNLINKABILITY_PROOF_V1",
+  "verdict": "SYNTHETIC_CRYPTOGRAPHIC_AND_PROCESS_SEPARATION_PROVEN_PUBLICATION_READY",
+  "proved_at": "2026-10-04T01:30:02.803Z",
+  "evolution_generation": 182,
+  "source_snapshot_id": "OJO-03035CE5C9B6B290",
+  "architecture": {
+    "authorities": [
+      "MEMBERSHIP_AUTHORITY",
+      "BLIND_ISSUER",
+      "BALLOT_BOX"
+    ],
+    "separate_processes_proven": true,
+    "separate_stores_proven": true,
+    "direct_membership_server_ballot_token_route": "CLOSED",
+    "issuer_receives_member_identity": false,
+    "issuer_receives_member_public_id": false,
+    "issuer_receives_ballot_serial": false,
+    "ballot_box_receives_entitlement": false,
+    "ballot_box_receives_member_identity": false,
+    "ballot_box_receives_member_public_id": false
+  },
+  "blindness_proof": {
+    "same_college_anonymity_set_proven": 2,
+    "transcript_token_matching": "UNDETERMINED_BY_BLIND_SIGNATURE_RELATION_IN_SYNTHETIC_PROOF",
+    "compatibility_matrix": "ALL_ISSUANCE_TRANSCRIPTS_COMPATIBLE_WITH_ALL_VALID_SAME_KEY_TOKENS",
+    "issuer_level_cryptographic_unlinkability": "PROVEN_FOR_SIGNATURE_TRANSCRIPT_MATCHING_IN_SYNTHETIC_MULTI_MEMBER_SAME_COLLEGE_PROOF",
+    "issuer_level_metadata_unlinkability": "NOT_PROVEN",
+    "scheme": "CHAUM_STYLE_RAW_RSA_RESEARCH_PROOF",
+    "rfc9474_reference": "RFC_9474_RSA_BLIND_SIGNATURES",
+    "rfc9474_conformance": false,
+    "privacy_pass_reference": "RFC_9576_ISSUANCE_REDEMPTION_SEPARATION",
+    "metadata_unlinkability": "NOT_PROVEN_TIMING_IP_TLS_FINGERPRINT_AND_SMALL_ANONYMITY_SETS_REMAIN"
+  },
+  "revocation": {
+    "selective_revocation_after_issue": false,
+    "model": "SHORT_LIVED_ELECTION_SPECIFIC_CREDENTIALS_AND_FUTURE_ISSUANCE_BLOCK"
+  },
+  "verification": {
+    "private_unit_tests": 49,
+    "private_browser_checks": 26,
+    "blind_signature_tests": 14,
+    "process_separation_tests": 1,
+    "public_model_tests": 38,
+    "explorer_tests": 62,
+    "public_browser_checks": 49,
+    "public_browser_uncaught_exceptions": 0,
+    "evolution_verdict": "NON_REGRESSION_PASS",
+    "git_diff_check": "PASS"
+  },
+  "boundaries": {
+    "production_activation": false,
+    "real_member_data_used": false,
+    "real_ballot_cast": false,
+    "rfc9474_conformance_claimed": false,
+    "network_metadata_unlinkability_claimed": false,
+    "external_security_audit_completed": false,
+    "private_state_published": false
+  },
+  "references": [
+    "https://www.rfc-editor.org/info/rfc9474",
+    "https://www.rfc-editor.org/info/rfc9576"
+  ]
+}

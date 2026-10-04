@@ -38,6 +38,6 @@ Lancer à nouveau le test crée un nouvel environnement. La récupération de co
 | Compte perdu | Toutes les sessions/clés de test peuvent être révoquées | Récupération refusée, pas résolue |
 | Confidentialité | Aucun modèle ni tiers appelé par le pilote | Une future chaîne de traitement devra être approuvée et auditée séparément |
 | Sociétariat | Candidature chiffrée, vérification et admission séparées, reçu public pseudonyme sans PII | Identité civile réelle, statuts adoptés et admission juridique non activés |
-| Bulletin | Jeton privé à usage unique, bulletin sans identité ni pseudonyme, tally agrégé par collège | Anonymat cryptographique contre l'autorité émettrice non prouvé ; séparation/credential anonyme requise avant production |
+| Bulletin | Entitlement anonyme, Blind Issuer et urne séparés ; transcript↔token non déterminable par la relation de signature dans la preuve synthétique | Implémentation de recherche non conforme RFC 9474 ; métadonnées réseau/temps, taille de l'ensemble d'anonymat et audit externe restent ouverts |
 
 Ne pas exposer ce serveur de test via un tunnel, une adresse publique ou un reverse proxy. Ne pas installer son certificat comme autorité de confiance globale. Un écran fonctionnel, les tests et le chiffrement ne constituent pas une certification de sécurité.

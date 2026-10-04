@@ -150,8 +150,11 @@ async function main(){
  assert.ok(await evaluate("document.getElementById('muStage').textContent.includes('Inscription réelle ouverte : NON')"));
  assert.ok(await evaluate("document.getElementById('muStage').textContent.includes('Identité/pseudonyme dans le bulletin : NON')"));
  assert.ok(await evaluate("document.getElementById('muStage').textContent.includes('Jeton privé à usage unique : OUI')"));
- assert.ok(await evaluate("document.getElementById('muStage').textContent.includes('NOT_PROVEN_REQUIRES_SEPARATE_ANONYMOUS_CREDENTIAL_OR_BALLOT_AUTHORITY')"));
- assert.ok(await evaluate("document.getElementById('muStage').textContent.includes('Ancrages juridiques à relire avant constitution')"));pass('SCIC route exposes operable non-binding democracy plus private verified membership and explicit ballot-secrecy limits');
+ assert.ok(await evaluate("document.getElementById('muStage').textContent.includes('SYNTHETIC_CRYPTOGRAPHIC_PROOF_IMPLEMENTED')"));
+ assert.ok(await evaluate("document.getElementById('muStage').textContent.includes('ALL_ISSUANCE_TRANSCRIPTS_COMPATIBLE_WITH_ALL_VALID_SAME_KEY_TOKENS')"));
+ assert.ok(await evaluate("document.getElementById('muStage').textContent.includes('Conformité RFC 9474 revendiquée : NON')"));
+ assert.ok(await evaluate("document.getElementById('muStage').textContent.includes('NOT_PROVEN_TIMING_IP_TLS_FINGERPRINT_AND_SMALL_ANONYMITY_SETS_REMAIN')"));
+ assert.ok(await evaluate("document.getElementById('muStage').textContent.includes('Ancrages juridiques à relire avant constitution')"));pass('SCIC route exposes blind issuer/ballot separation, synthetic transcript unlinkability proof and explicit metadata limits');
  await navigate('#/services');assert.ok(await evaluate("document.getElementById('muStage').textContent.includes('DESIGN_ONLY_NOT_FOR_SALE')"));
  assert.ok(await evaluate("document.getElementById('muStage').textContent.includes('NOT_CONNECTED')"));
  assert.equal(await evaluate("document.querySelectorAll('#muStage input,#muStage form').length"),0);
