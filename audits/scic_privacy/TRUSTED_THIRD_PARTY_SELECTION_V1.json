@@ -1,0 +1,275 @@
+{
+  "schema": "LA_BETE_SCIC_TRUSTED_THIRD_PARTY_SELECTION_V1",
+  "state": "OUTREACH_ACTIVE_WAITING_FOR_TRUSTED_PARTY_REPLIES",
+  "production_activation": false,
+  "decision_date": "2026-10-04",
+  "governing_principle": "NO_SINGLE_PARTY_MAY_SEE_BOTH_MEMBER_IDENTITY_AND_BALLOT_PLAINTEXT_OR_CONTROL_ALL_PRIVACY_GATES",
+  "relay": {
+    "role": "INDEPENDENT_OHTTP_RELAY_OPERATOR",
+    "primary": {
+      "vendor": "Fastly",
+      "product": "OHTTP Relay",
+      "verdict": "PRIMARY_CONTACT",
+      "reasons": [
+        "Documented OHTTP relay implementation with strict header allow-list behavior.",
+        "Independent third-party relay model matches RFC 9458 trust separation.",
+        "NCC Group publicly documented Fastly acting as Oblivious Relay in Meta/WhatsApp private processing."
+      ],
+      "must_reconfirm": [
+        "Current commercial availability in 2026 for a small/new privacy service.",
+        "RFC 9458 production compatibility and supported OHTTP media types.",
+        "Ability to map only to the nominated La Bête gateway.",
+        "Header stripping policy and absence of identifying relay-to-gateway headers.",
+        "Request/IP logging, retention, operator access and customer-access controls.",
+        "Padding capabilities and traffic-analysis mitigations.",
+        "DPA/GDPR terms and processing locations.",
+        "Service-level metrics only or equivalent privacy-preserving observability."
+      ],
+      "public_evidence": [
+        "https://www.fastly.com/blog/enabling-privacy-on-the-internet-with-oblivious-http",
+        "https://www.nccgroup.com/research/public-report-meta-whatsapp-message-summarization-service/"
+      ]
+    },
+    "fallback": {
+      "vendor": "Cloudflare",
+      "product": "OHTTP Relay",
+      "verdict": "FALLBACK_CONTACT",
+      "reasons": [
+        "Current managed OHTTP Relay documentation explicitly states RFC/IETF OHTTP support.",
+        "Global managed relay service designed to hide client IP from the application backend."
+      ],
+      "constraints": [
+        "Current public documentation states Enterprise-only and closed beta/select privacy-oriented partners.",
+        "Access and commercial eligibility must be confirmed before selection."
+      ],
+      "public_evidence": [
+        "https://developers.cloudflare.com/ohttp-relay/"
+      ]
+    },
+    "disqualifiers": [
+      "Relay operated by the same legal/operational entity as the gateway.",
+      "Relay forwards client IP, Forwarded, Via, User-Agent, Cookie, Authorization or stable pseudonymous identifiers to gateway.",
+      "Raw request logs are accessible to the gateway operator.",
+      "Relay can decrypt OHTTP payloads.",
+      "No contractual retention/access statement."
+    ]
+  },
+  "gateway": {
+    "role": "SCIC_CONTROLLED_OHTTP_GATEWAY_AND_BALLOT_BOX",
+    "operator_model": "LA_BETE_SCIC_OR_ITS_DULY_AUTHORIZED_ENTITY",
+    "separation_rule": "MUST_NOT_BE_OPERATED_BY_RELAY_PROVIDER",
+    "hosting_choice": "TO_BE_SELECTED_AFTER_RELAY_AND_HSM_CONTRACTS",
+    "evidence_required": [
+      "Separate operator credentials and access control from relay provider.",
+      "Public TLS endpoint with certificate lifecycle evidence.",
+      "RFC 9458 gateway configuration and HPKE key rotation evidence.",
+      "No client IP available at gateway.",
+      "Batching input accepts only opaque/validated OHTTP-decapsulated ballot payloads."
+    ]
+  },
+  "key_custody": {
+    "role": "BLIND_RSA_ISSUER_PRODUCTION_KEY",
+    "primary": {
+      "vendor": "AWS",
+      "product": "AWS CloudHSM",
+      "verdict": "PRIMARY_TECHNICAL_VALIDATION",
+      "reasons": [
+        "PKCS#11 Client SDK 5 supports RSA 2048-4096.",
+        "PKCS#11 mechanism set includes CKM_RSA_X_509 sign/verify, needed for the raw RSA private operation over the already encoded/blinded representative.",
+        "CloudHSM supports non-extractable keys when explicitly configured; production must not use extractable defaults."
+      ],
+      "proof_requirements": [
+        "RSA-2048 key generated inside HSM, not generated in software then imported.",
+        "CKA_EXTRACTABLE=false and inability to transition to extractable.",
+        "CKA_SIGN=true; disable decrypt/wrap/unwrap/encrypt where technically possible for issuer key.",
+        "Successful blind-RSA interoperability test through PKCS#11 without exporting private material.",
+        "Separate Crypto Officer / Crypto User administration and documented dual-control procedure.",
+        "Rotation drill with overlap window and old-key verification.",
+        "Destruction/revocation drill.",
+        "Tamper-evident or immutable key-usage audit logs.",
+        "Region/account/operator separation documented."
+      ],
+      "public_evidence": [
+        "https://docs.aws.amazon.com/cloudhsm/latest/userguide/pkcs11-key-types.html",
+        "https://docs.aws.amazon.com/cloudhsm/latest/userguide/pkcs11-mechanisms.html",
+        "https://docs.aws.amazon.com/cloudhsm/latest/userguide/bp-hsm-key-management.html"
+      ]
+    },
+    "fallback": {
+      "vendor": "Entrust",
+      "product": "nShield HSM",
+      "verdict": "FALLBACK_TECHNICAL_VALIDATION",
+      "reasons": [
+        "Current nShield PKCS#11 documentation includes CKM_RSA_X_509 and RSA 2048+.",
+        "Supports non-extractable/private-key controls and hardware-backed lifecycle management."
+      ],
+      "public_evidence": [
+        "https://nshielddocs.entrust.com/security-world-docs/v13.6.12/api-pkcs11/mechanisms.html",
+        "https://nshielddocs.entrust.com/security-world-docs/v13.4.5/api-pkcs11/attributes.html"
+      ]
+    },
+    "disqualifiers": [
+      "Private key exportable or software-generated production key.",
+      "No raw RSA/CKM_RSA_X_509 equivalent required by blind signing flow.",
+      "Single administrator can create, export, rotate and destroy production issuer key without independent approval.",
+      "No auditable key usage trail."
+    ]
+  },
+  "external_review": {
+    "crypto_protocol_primary": {
+      "vendor": "NCC Group",
+      "practice": "Cryptography Services",
+      "verdict": "PRIMARY_RFP",
+      "reasons": [
+        "Publicly documented reviews of privacy-preserving systems involving IP-blinding relays, HSMs, key directories and cryptographic protocols.",
+        "Public Google Private AI Compute review included security analysis of an IP-blinding relay.",
+        "Public Meta/WhatsApp work documents Fastly as an Oblivious Relay in a privacy-sensitive production architecture."
+      ],
+      "scope_required": [
+        "RFC 9474 / RFC 9578 Blind RSA design and CIRCL runtime integration.",
+        "Issuer unlinkability and entitlement lifecycle.",
+        "RFC 9458 OHTTP + RFC 9292 BHTTP client/relay/gateway implementation.",
+        "Header minimization, traffic-analysis assumptions, HPKE key/context handling.",
+        "Persistent batching, anonymity-set policy and timing leakage.",
+        "HSM/PKCS#11 raw-RSA integration and key ceremony.",
+        "Collusion analysis across membership authority, issuer, relay, gateway, batcher and registry.",
+        "Retest after remediation."
+      ],
+      "public_evidence": [
+        "https://www.nccgroup.com/research/public-report-google-private-ai-compute-review/",
+        "https://www.nccgroup.com/research/public-report-meta-whatsapp-message-summarization-service/",
+        "https://www.nccgroup.com/research/public-report-vetkeys-cryptography-review/"
+      ]
+    },
+    "privacy_architecture_secondary": {
+      "vendor": "Cure53",
+      "practice": "Independent architecture / crypto / infrastructure assessment",
+      "verdict": "SECOND_INDEPENDENT_RFP",
+      "reasons": [
+        "Recent public assessments cover cryptography, key management, TEE/privacy architecture and infrastructure.",
+        "Separate reviewer reduces single-auditor blind spots."
+      ],
+      "scope_required": [
+        "Adversarial privacy threat model independent of NCC findings.",
+        "Metadata correlation and anonymity-set analysis.",
+        "Relay/gateway deployment review and logging/observability checks.",
+        "HSM administration and operational separation review.",
+        "Public-vs-private data boundary and failure-mode review.",
+        "Retest of critical/high findings."
+      ],
+      "public_evidence": [
+        "https://cure53.de/",
+        "https://cure53.de/pentest-report_expressvpn-ai_2026.pdf"
+      ]
+    },
+    "fallback": {
+      "vendor": "Trail of Bits",
+      "practice": "Cryptography",
+      "verdict": "FALLBACK_OR_SECOND_OPINION",
+      "reasons": [
+        "Dedicated cryptography practice covering protocols, primitives and implementations.",
+        "Recent public HSM provisioning and cryptography reviews.",
+        "Offers design assessment, implementation review, fuzzing/tooling and retest."
+      ],
+      "public_evidence": [
+        "https://trailofbits.com/services/cryptography",
+        "https://trailofbits.com/reports/"
+      ]
+    }
+  },
+  "cooperative_legal": {
+    "organization": "URSCOP Hauts-de-France",
+    "role": "SCIC_FORMATION_AND_GOVERNANCE_ADVISOR",
+    "verdict": "PARALLEL_CONTACT_BEFORE_REAL_MEMBER_ADMISSION_OR_BALLOT",
+    "reasons": [
+      "Regional network explicitly accompanies Scop and Scic creation and development.",
+      "Can review statutes, colleges, admission process and governance before any legally binding vote."
+    ],
+    "public_evidence": [
+      "https://les-scop-hautsdefrance.coop/10/contactez-nous",
+      "https://les-scop-hautsdefrance.coop/13/nos-missions"
+    ]
+  },
+  "sequencing": [
+    "RFI relay in parallel to Fastly and Cloudflare.",
+    "Technical validation session with AWS CloudHSM; nShield as fallback if raw-RSA/key-control requirements cannot be met.",
+    "RFP to NCC Group using the frozen audit pack and source commit.",
+    "Independent privacy review RFP to Cure53; Trail of Bits held as fallback/second opinion.",
+    "Parallel SCIC governance session with URSCOP Hauts-de-France.",
+    "No production activation until relay contract, HSM evidence, approved anonymity policy, external crypto audit, privacy review and SCIC legal gates all pass."
+  ],
+  "external_actions": {
+    "emails_sent": true,
+    "forms_submitted": true,
+    "contracts_signed": false,
+    "purchases_made": false,
+    "accounts_created": false
+  },
+  "outreach_receipts": [
+    {
+      "party": "Fastly",
+      "channel": "EMAIL",
+      "to": "sales@fastly.com",
+      "gmail_message_id": "1a10507551449431",
+      "state": "SENT"
+    },
+    {
+      "party": "Cloudflare",
+      "channel": "EMAIL",
+      "to": "sales@cloudflare.com",
+      "gmail_message_id": "1a105075d063eb7f",
+      "state": "SENT"
+    },
+    {
+      "party": "NCC Group",
+      "channel": "EMAIL",
+      "to": "response@nccgroup.com",
+      "gmail_message_id": "1a1050766da93c5b",
+      "state": "SENT"
+    },
+    {
+      "party": "Cure53",
+      "channel": "EMAIL",
+      "to": "hello@cure53.de",
+      "gmail_message_id": "1a105076e21460a7",
+      "state": "SENT"
+    },
+    {
+      "party": "Trail of Bits",
+      "channel": "EMAIL",
+      "to": "info@trailofbits.com",
+      "gmail_message_id": "1a105077414685e2",
+      "state": "SENT"
+    },
+    {
+      "party": "URSCOP Hauts-de-France",
+      "channel": "EMAIL",
+      "to": "ur-hdf@scop.coop",
+      "gmail_message_id": "1a105077e962363d",
+      "state": "SENT"
+    },
+    {
+      "party": "AWS CloudHSM",
+      "channel": "OFFICIAL_SALES_FORM",
+      "state": "SUBMITTED_CONFIRMED",
+      "confirmation_url": "https://aws.amazon.com/fr/contact-us/sales-contact-confirmation/",
+      "contact_profile": {
+        "function": "Entrepreneur (Founder/Co-Founder)",
+        "company_type": "Start-Up",
+        "industry": "Software & Internet",
+        "country": "France",
+        "use_case": "Other",
+        "inquiry": "Sales Support",
+        "phone_supplied": true,
+        "phone_value_stored_in_registry": false,
+        "marketing_opt_in": false
+      }
+    }
+  ],
+  "outreach_policy": {
+    "no_address_guessing": true,
+    "no_personal_phone_invented_or_inferred": true,
+    "email_recipients_publicly_verified": true,
+    "reply_is_evidence_candidate_not_automatic_pass": true
+  }
+}
