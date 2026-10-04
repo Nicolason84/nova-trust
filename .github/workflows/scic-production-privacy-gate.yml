@@ -29,6 +29,10 @@ on:
       - 'docs/assets/la-bete-explorer.css'
       - 'docs/data/la-bete-territory-culture-v1.json'
       - 'docs/data/phi-coins-v1.json'
+      - 'docs/data/la-bete-territory-contributions-v1.json'
+      - 'docs/data/phi-territory-quests-v1.json'
+      - 'scripts/build_phi_territory_quests.py'
+      - 'scripts/test_phi_territory_quests.py'
       - 'scripts/test_la_bete_territory_culture.py'
       - 'scripts/test_la_bete_explorer.cjs'
       - 'scripts/test_la_bete_explorer_browser.cjs'
@@ -140,6 +144,8 @@ jobs:
         run: |
           python3 scripts/test_la_bete_acquisition.py
           python3 scripts/test_la_bete_territory_culture.py
+          python3 scripts/build_phi_territory_quests.py
+          python3 scripts/test_phi_territory_quests.py
       - name: Run static explorer guards
         run: node scripts/test_la_bete_explorer.cjs
       - name: Diff hygiene

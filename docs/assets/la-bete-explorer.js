@@ -8,7 +8,7 @@ const id=x=>document.getElementById(x), append=(p,...c)=>{c.forEach(x=>x&&p.appe
 const button=(text,action,cls)=>{const b=el('button',text,cls);b.type='button';b.addEventListener('click',action);return b;};
 const link=(label,href,cls)=>{const a=el('a',label,cls);a.href=href;if(href.startsWith('#/'))a.dataset.muRoute=href;else{a.target='_blank';a.rel='noopener noreferrer';}return a;};
 const records=new Map(), moves=[], proofViews=new Map(), communeShards=new Map(), shardPromises=new Map();
-let topology=null,topologyPromise=null;let serial=0,current=null,territories=null,territoryPromise=null,renderToken=0,latest=null,proofNode=null,proofScroll=0,territoryCulture=null,territoryCulturePromise=null,phiPolicy=null,phiPromise=null;
+let topology=null,topologyPromise=null;let serial=0,current=null,territories=null,territoryPromise=null,renderToken=0,latest=null,proofNode=null,proofScroll=0,territoryCulture=null,territoryCulturePromise=null,phiPolicy=null,phiPromise=null,territoryQuests=null,territoryQuestsPromise=null;
 const legacyChat=id('dialogue-public'), chatPlace=document.createComment('existing-dialogue-home');legacyChat.before(chatPlace);
 const root=el('div',undefined,'muApp');root.id='multiunivers';
 const AUDIENCE_MODES={simple:'Essentiel',explain:'Comprendre',expert:'Expert'};
@@ -152,6 +152,44 @@ function storySlotLabel(slot){
  const en={places:'Places that matter',heritage:'Heritage & memory',languages:'Languages & expressions',know_how:'Skills & crafts',people:'People & local stories',events:'Events & traditions',nature:'Landscapes, nature & risks',initiatives:'Useful initiatives today'};
  const es={places:'Lugares que importan',heritage:'Patrimonio y memoria',languages:'Lenguas y expresiones',know_how:'Saberes y oficios',people:'Personas y relatos locales',events:'Eventos y tradiciones',nature:'Paisajes, naturaleza y riesgos',initiatives:'Iniciativas útiles hoy'};
  return uiLocale==='en'?(en[slot.id]||slot.label):uiLocale==='es'?(es[slot.id]||slot.label):slot.label;
+}
+function questLabel(q){
+ const en={language_context:'Document the local language context',local_expressions:'Document 5 local expressions',heritage_memory:'Source 3 heritage or memory items',know_how:'Tell 3 local skills or trades',people_stories:'Document 3 people or local stories',events_traditions:'Source 3 events or traditions',nature_risks:'Document 3 landscapes, environments or risks',local_initiatives:'Identify 3 useful local initiatives',translations:'Translate and review 2 languages',accessibility:'Validate 2 clarity or accessibility improvements'};
+ const es={language_context:'Documentar el contexto lingüístico local',local_expressions:'Documentar 5 expresiones locales',heritage_memory:'Aportar fuentes para 3 elementos de patrimonio o memoria',know_how:'Contar 3 saberes u oficios locales',people_stories:'Documentar 3 personas o relatos locales',events_traditions:'Aportar fuentes para 3 eventos o tradiciones',nature_risks:'Documentar 3 paisajes, medios o riesgos',local_initiatives:'Identificar 3 iniciativas locales útiles',translations:'Traducir y revisar 2 idiomas',accessibility:'Validar 2 mejoras de claridad o accesibilidad'};
+ return uiLocale==='en'?(en[q.id]||q.label):uiLocale==='es'?(es[q.id]||q.label):q.label;
+}
+function questContributionURL(dep,quest){
+ return 'https://github.com/Nicolason84/nova-trust/issues/new?template=territory-contribution.yml&title='+encodeURIComponent('[TERRITOIRE '+dep+'][QUEST '+quest.id+'] ');
+}
+function territoryQuestPanel(code){
+ const t=territoryQuests?.territories?.[code];if(!t)return null;
+ const box=el('section',undefined,'muQuestPanel');
+ const head=el('div',undefined,'muQuestHead');
+ const titleText=uiLocale==='en'?'Φ TERRITORY QUESTS':uiLocale==='es'?'Φ MISIONES TERRITORIALES':'Φ TERRITORY QUESTS';
+ const scoreLabel=uiLocale==='en'?'verified documentation':uiLocale==='es'?'documentación verificada':'documentation vérifiée';
+ append(head,append(el('div'),el('div',titleText,'muEyebrow'),el('h2',t.name+' · '+t.documentation_score_pct+' % '+scoreLabel)),el('strong',t.community_phi_awarded+' Φ','muQuestPhi'));
+ box.append(head);
+ const bar=el('div',undefined,'muQuestProgress');const fillBar=el('span',undefined,'muQuestProgressFill');fillBar.style.width=Math.max(0,Math.min(100,t.documentation_score_pct))+'%';bar.append(fillBar);box.append(bar);
+ box.append(el('p',uiLocale==='en'?'This percentage measures verified local documentation only — never wealth, population, economic performance or political value.':uiLocale==='es'?'Este porcentaje mide únicamente documentación local verificada: nunca riqueza, población, rendimiento económico ni valor político.':'Ce pourcentage mesure uniquement la documentation locale vérifiée — jamais la richesse, la population, la performance économique ou la valeur politique.','muGuard'));
+ const grid=el('div',undefined,'muQuestGrid');
+ for(const q of t.quests){
+   const card=el('article',undefined,'muQuestCard '+(q.state==='COMPLETE'?'isComplete':'isOpen'));
+   const badge=q.state==='COMPLETE'?(uiLocale==='en'?'Complete':uiLocale==='es'?'Completada':'Terminée'):(q.remaining_items+' '+(uiLocale==='en'?'left':uiLocale==='es'?'pendiente(s)':'à documenter'));
+   append(card,el('span',badge,'muQuestState'),el('h3',questLabel(q)),el('p',q.verified_items+' / '+q.target+' · '+q.completion_pct+' %'),el('small','+'+q.phi_per_item+' Φ / '+(uiLocale==='en'?'verified item':uiLocale==='es'?'elemento verificado':'élément vérifié')));
+   if(q.state!=='COMPLETE')card.append(link(uiLocale==='en'?'Contribute ↗':uiLocale==='es'?'Contribuir ↗':'Contribuer ↗',questContributionURL(code,q),'muQuestionLink'));
+   grid.append(card);
+ }
+ box.append(grid);
+ const foot=el('p',(uiLocale==='en'?'Community verified contributions: ':uiLocale==='es'?'Contribuciones comunitarias verificadas: ':'Contributions communautaires vérifiées : ')+t.community_verified_items+' · '+t.community_phi_awarded+' Φ','muFineprint');box.append(foot);
+ return box;
+}
+function territoryProgressBoard(){
+ if(!territoryQuests)return null;
+ const box=el('section',undefined,'muTerritoryBoard'),rows=territoryQuests.progress_board||[];
+ append(box,el('div','Φ · PROGRESSION NATIONALE','muEyebrow'),el('h2',uiLocale==='en'?'Which territories are being documented?':uiLocale==='es'?'¿Qué territorios se están documentando?':'Quels territoires sont en train d’être documentés ?'),el('p',uiLocale==='en'?'This is a documentation progress board, not a ranking of territories. A higher score means more local knowledge has been verified.':uiLocale==='es'?'Es un tablero de avance documental, no una clasificación de territorios. Un porcentaje más alto significa que se ha verificado más conocimiento local.':'C’est un tableau de progression documentaire, pas un classement de la valeur des territoires. Un score plus élevé signifie seulement que davantage de connaissances locales ont été vérifiées.','muGuard'));
+ const grid=el('div',undefined,'muTerritoryBoardGrid');
+ for(const x of rows.slice(0,12)){const a=link('',M.route('objet',M.TOPO+'#/departments/'+x.code),'muTerritoryBoardCard');append(a,el('strong',x.name),el('span',x.documentation_score_pct+' %'),el('small',x.community_verified_items+' contributions · '+x.community_phi_awarded+' Φ'));grid.append(a);}
+ box.append(grid);return box;
 }
 function phiPanel(departmentCode=null){
  if(!phiPolicy)return null;
@@ -427,7 +465,7 @@ function departmentPortrait(node,g){
  if(uiLocale==='local')language.prepend(el('p',local?.options?.length?(uiLocale==='local'?'Mode local : contexte régional disponible, traduction locale à construire avec des locuteurs et des sources.':''):'','muLocalModeNotice'));
  box.append(language);
  const story=el('section',undefined,'muDepartmentSection');story.append(el('h2',tr('story_open','Que devrait mieux raconter ce département ?')));const sg=el('div',undefined,'muStorySlots');for(const slot of profile?.story_slots||[]){const c=el('article',undefined,'muStorySlot');append(c,el('strong',storySlotLabel(slot)),el('span',uiLocale==='en'?'Open for verified local contributions':uiLocale==='es'?'Abierto a contribuciones locales verificadas':'Ouvert aux contributions locales vérifiées'));sg.append(c);}story.append(sg);box.append(story);
- const phi=phiPanel(d.code);if(phi)box.append(phi);return box;
+ const quests=territoryQuestPanel(d.code);if(quests)box.append(quests);const phi=phiPanel(d.code);if(phi)box.append(phi);return box;
 }
 function objectView(node,g){
  const isDepartment=node.kind==='DEPARTMENT',humanDepartment=isDepartment&&audienceMode!=='expert',profile=isDepartment?territoryCulture?.departments?.[node.data?.code]:null;
@@ -473,6 +511,10 @@ async function ensurePhiPolicy(){
  if(phiPolicy)return phiPolicy;if(phiPromise)return phiPromise;
  phiPromise=(async()=>{const r=await window.laBeteReadCanonicalJSON('data/phi-coins-v1.json',{cache:'no-cache'});if(!r.ok)throw Error('PHI_HTTP_'+r.status);const j=await r.json(),f=j.financial_status||{};if(j.schema!=='LA_BETE_PHI_COINS_V1'||f.money!==false||f.cryptoasset!==false||f.transferable!==false||f.purchasable!==false||f.redeemable_for_cash!==false)throw Error('PHI_POLICY_UNSAFE');phiPolicy=j;return j;})().catch(e=>{phiPromise=null;throw e;});return phiPromise;
 }
+async function ensureTerritoryQuests(){
+ if(territoryQuests)return territoryQuests;if(territoryQuestsPromise)return territoryQuestsPromise;
+ territoryQuestsPromise=(async()=>{const r=await window.laBeteReadCanonicalJSON('data/phi-territory-quests-v1.json',{cache:'no-cache'});if(!r.ok)throw Error('TERRITORY_QUESTS_HTTP_'+r.status);const j=await r.json(),c=j.score_contract||{};if(j.schema!=='LA_BETE_PHI_TERRITORY_QUESTS_V1'||Object.keys(j.territories||{}).length!==101||c.economic_inputs!==false||c.wealth_inputs!==false||c.political_inputs!==false)throw Error('TERRITORY_QUESTS_SCHEMA');territoryQuests=j;return j;})().catch(e=>{territoryQuestsPromise=null;throw e;});return territoryQuestsPromise;
+}
 async function ensureTerritories(){
  if(territories)return territories;if(territoryPromise)return territoryPromise;
  territoryPromise=(async()=>{const response=await window.laBeteReadCanonicalJSON('data/france-organism.json',{cache:'no-cache'});if(!response.ok)throw Error('TERRITORY_HTTP_'+response.status);const j=await response.json();if(j.schema!=='OJO_FRANCE_ORGANISM_V1'||!Array.isArray(j.topology?.regions)||j.topology.regions.length>100)throw Error('TERRITORY_SCHEMA');const seen=new Set();for(const r of j.topology.regions){if(typeof r.name!=='string'||!/^\d{2,3}$/.test(String(r.code))||seen.has(String(r.code)))throw Error('TERRITORY_IDENTITY');seen.add(String(r.code));}territories=j;return j;})().catch(e=>{territoryPromise=null;throw e;});return territoryPromise;
@@ -497,6 +539,7 @@ function universeView(universe,g){const u=M.UNIVERSES.find(x=>x.id===universe);t
  const nodes=[...g.nodes.values()].filter(n=>n.universe===universe);
  if(universe==='territoires'){
   const d=g.detail;stage.append(el('p',d?d.counts.regions+' régions · '+d.counts.departments+' départements · '+d.counts.epcis_catalog+' entrées au catalogue des intercommunalités · '+d.counts.communes_cog+' communes du COG. Les fiches détaillées communales se chargent à la demande.':'Le référentiel détaillé n’est pas disponible ; aucune fiche locale ne sera inventée.','muGuard'));
+  const board=territoryProgressBoard();if(board)stage.append(board);
   const search=el('form',undefined,'muTerritorySearch');search.setAttribute('role','search');const input=el('input');input.type='search';input.placeholder='Nom ou code Insee d’une commune…';input.setAttribute('aria-label','Rechercher une commune');input.id='muCommuneSearch';const submit=el('button','Trouver une commune');submit.type='submit';append(search,input,submit);search.addEventListener('submit',e=>{e.preventDefault();searchInput.value=input.value;searchForm.requestSubmit();});stage.append(search);
   listCards(nodes.filter(n=>n.kind==='COUNTRY'||n.kind==='REGION'),'Pays et régions');
   const detail=el('details',undefined,'muCatalogDetails');detail.append(el('summary','Catalogue des départements et intercommunalités'));stage.append(detail);
@@ -527,13 +570,14 @@ async function renderCurrent(useLatest=false,restore=false){
  const token=++renderToken;try{
   if(useLatest){current.graph=graphFrom(getBase());current.hash=current.hash.replace(/\?snapshot=.*$/,'');history.replaceState(history.state,'',current.hash);}
   current.parsed=M.parseRoute(current.hash);const p=current.parsed;let g=current.graph;
-  if(p.kind==='atlas'){try{await ensurePhiPolicy();}catch(e){status('Φ Coins indisponibles : '+e.message);}if(token!==renderToken)return;}
+  if(p.kind==='atlas'){try{await Promise.all([ensurePhiPolicy(),ensureTerritoryQuests()]);}catch(e){status('Φ indisponible : '+e.message);}if(token!==renderToken)return;}
   const departmentPrefix=M.TOPO+'#/departments/',communePrefix=M.TOPO+'#/communes/';
   if(p.kind==='univers'&&p.id==='territoires'||p.kind==='objet'&&(p.id.startsWith('OJO_FRANCE_ORGANISM_V1#/topology/regions/')||p.id.startsWith(M.TOPO+'#/'))){
    if(!territories){status('Chargement du document territorial existant…');try{await ensureTerritories();}catch(e){status('Document territorial indisponible. Aucun détail de remplacement n’est inventé.');}}
    try{
     await ensureTopology();
-    if(p.kind==='objet'&&p.id.startsWith(departmentPrefix)){const dep=p.id.slice(departmentPrefix.length);await Promise.all([ensureDepartmentShard(dep),ensureTerritoryCulture(),ensurePhiPolicy()]);}
+    if(p.kind==='univers'&&p.id==='territoires')await ensureTerritoryQuests();
+    if(p.kind==='objet'&&p.id.startsWith(departmentPrefix)){const dep=p.id.slice(departmentPrefix.length);await Promise.all([ensureDepartmentShard(dep),ensureTerritoryCulture(),ensurePhiPolicy(),ensureTerritoryQuests()]);}
     else if(p.kind==='objet'&&p.id.startsWith(communePrefix))await ensureCommune(p.id.slice(communePrefix.length));
    }catch(e){status('Détail non disponible ou non vérifié : '+e.message);}
    if(token!==renderToken)return;g=current.graph=M.build(g.live,g.evolution,territories,topology,communeShards);
