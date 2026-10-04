@@ -1,0 +1,87 @@
+name: Territory Living Discovery
+
+on:
+  workflow_dispatch:
+    inputs:
+      codes:
+        description: "Optional comma-separated department codes (example: 13,80,45)"
+        required: false
+        default: ""
+      batch_size:
+        description: "Departments to scan when codes are empty"
+        required: false
+        default: "12"
+  schedule:
+    - cron: "17 4 * * *"
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/territory-living-discovery.yml"
+      - "scripts/build_territory_discovery_candidates.py"
+      - "scripts/test_territory_discovery_candidates.py"
+      - "scripts/verify_territory_contribution_links.py"
+      - ".github/ISSUE_TEMPLATE/territory-contribution.yml"
+      - "docs/assets/la-bete-explorer.js"
+      - "docs/assets/la-bete-explorer.css"
+
+permissions:
+  contents: write
+  issues: read
+
+concurrency:
+  group: territory-living-discovery
+  cancel-in-progress: false
+
+jobs:
+  discover:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - name: Checkout current main
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: Discover next territory batch
+        shell: bash
+        env:
+          INPUT_CODES: ${{ github.event.inputs.codes || '' }}
+          INPUT_BATCH_SIZE: ${{ github.event.inputs.batch_size || '12' }}
+        run: |
+          set -euo pipefail
+          if [ -n "$INPUT_CODES" ]; then
+            python3 scripts/build_territory_discovery_candidates.py --codes "$INPUT_CODES"
+          else
+            python3 scripts/build_territory_discovery_candidates.py --batch-size "$INPUT_BATCH_SIZE"
+          fi
+
+      - name: Prove discovery stays outside canon and Phi
+        run: |
+          python3 scripts/test_territory_discovery_candidates.py
+          python3 scripts/verify_territory_contribution_links.py
+          node --check docs/assets/la-bete-explorer.js
+          git diff --check
+
+      - name: Commit candidates only when material
+        shell: bash
+        run: |
+          set -euo pipefail
+          tracked=(docs/data/la-bete-territory-discovery-candidates-v1.json docs/assets/territory-candidates)
+          if git diff --quiet -- "${tracked[@]}" && [ -z "$(git ls-files --others --exclude-standard docs/assets/territory-candidates)" ]; then
+            echo "No material territory discovery delta."
+            exit 0
+          fi
+          git config user.name "ojo-territory-discovery[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add "${tracked[@]}"
+          git commit -m "data: territory discovery candidate batch"
+          for attempt in 1 2 3; do
+            if git push origin HEAD:main; then
+              exit 0
+            fi
+            echo "Push race detected (attempt $attempt). Reconcile with latest main."
+            git fetch origin main
+            git rebase origin/main
+          done
+          echo "Unable to publish territory discovery batch."
+          exit 1

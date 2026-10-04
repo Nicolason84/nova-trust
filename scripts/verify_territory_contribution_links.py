@@ -15,8 +15,9 @@ def get(url: str) -> tuple[int, str, bytes]:
     with urllib.request.urlopen(req, timeout=15) as r:
         return r.status, r.geturl(), r.read(600000)
 
-def contribution_url(dep: str, quest: str) -> str:
-    title = f"[TERRITOIRE {dep}][QUEST {quest}] "
+def contribution_url(dep: str, quest: str, candidate: str = "") -> str:
+    suffix = f"[CANDIDATE {candidate}]" if candidate else ""
+    title = f"[TERRITOIRE {dep}][QUEST {quest}]{suffix} "
     return "https://github.com/" + REPO + "/issues/new?" + urllib.parse.urlencode({
         "template": "territory-contribution.yml",
         "labels": "territoire",
@@ -24,7 +25,7 @@ def contribution_url(dep: str, quest: str) -> str:
     })
 
 template = (ROOT / ".github/ISSUE_TEMPLATE/territory-contribution.yml").read_text()
-for required in ("name: Enrichir un territoire", "id: department", "id: quest", "id: contribution", "id: source", "territoire"):
+for required in ("name: Enrichir un territoire", "id: department", "id: quest", "id: candidate_reference", "id: contribution", "id: source", "territoire"):
     if required not in template:
         raise SystemExit("CONTRIBUTION_TEMPLATE_MISSING:" + required)
 
@@ -41,8 +42,8 @@ status, _, raw = get(raw_url)
 if status != 200 or b"id: department" not in raw or b"id: quest" not in raw:
     raise SystemExit("REMOTE_CONTRIBUTION_TEMPLATE_BROKEN")
 
-for dep, quest in (("60","local_expressions"),("13","heritage_memory"),("80","nature_risks")):
-    expected = contribution_url(dep, quest)
+for dep, quest, candidate in (("60","local_expressions",""),("13","heritage_memory","heritage:merimee:PA00081001"),("80","nature_risks","nature:wikipedia:Q123")):
+    expected = contribution_url(dep, quest, candidate)
     status, final, _ = get(expected)
     if status != 200:
         raise SystemExit("CONTRIBUTION_LINK_HTTP:" + str(status))
@@ -50,11 +51,18 @@ for dep, quest in (("60","local_expressions"),("13","heritage_memory"),("80","na
     if host != "github.com":
         raise SystemExit("CONTRIBUTION_LINK_HOST")
     if "/login" in final:
-        return_to = urllib.parse.parse_qs(urllib.parse.urlparse(final).query).get("return_to", [""])[0]
-        if "/Nicolason84/nova-trust/issues/new" not in urllib.parse.unquote(return_to):
+        target = urllib.parse.parse_qs(urllib.parse.urlparse(final).query).get("return_to", [""])[0]
+        if "/Nicolason84/nova-trust/issues/new" not in urllib.parse.unquote(target):
             raise SystemExit("CONTRIBUTION_LOGIN_RETURN_BROKEN")
-    elif "/Nicolason84/nova-trust/issues/new" not in final:
-        raise SystemExit("CONTRIBUTION_FORM_ROUTE_BROKEN")
-    print("PASS_LINK", dep, quest, final)
+    else:
+        target = final
+        if "/Nicolason84/nova-trust/issues/new" not in final:
+            raise SystemExit("CONTRIBUTION_FORM_ROUTE_BROKEN")
+    query = urllib.parse.parse_qs(urllib.parse.urlparse(target).query)
+    if query.get("labels", [""])[0] != "territoire":
+        raise SystemExit("CONTRIBUTION_LABEL_LOST")
+    if candidate and f"[CANDIDATE {candidate}]" not in query.get("title", [""])[0]:
+        raise SystemExit("CONTRIBUTION_CANDIDATE_REFERENCE_LOST")
+    print("PASS_LINK", dep, quest, candidate or "NO_CANDIDATE", final)
 
 print("TERRITORY_CONTRIBUTION_LINKS_PASS")

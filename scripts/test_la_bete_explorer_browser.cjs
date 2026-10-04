@@ -96,7 +96,13 @@ async function main(){
  await navigate('#/atlas');assert.ok(await evaluate("document.getElementById('legacyReadingDocument').hidden"));assert.ok(await evaluate("!!document.getElementById('muAtlas')"));pass('return from reading mode to atlas');
  await navigate('#/univers/territoires');await wait("!!document.getElementById('muCommuneSearch')",'territorial catalog available');
  assert.equal(await evaluate("document.querySelectorAll('#muStage .muTerritoryBoardCard').length"),12);assert.ok(await evaluate("document.querySelector('#muStage .muTerritoryBoardCard')?.textContent.includes('Oise')&&document.querySelector('#muStage .muTerritoryBoardCard')?.textContent.includes('10 %')"));assert.ok(await evaluate("document.getElementById('muStage').textContent.includes('pas un classement de la valeur des territoires')"));pass('national quest board compares verified documentation only');
- await clickObject('OJO_FRANCE_ORGANISM_V1#/topology/regions/32');await clickObject('OJO_FRANCE_TOPOLOGY_V2#/departments/60');
+ await navigate('#/objet/'+encodeURIComponent('OJO_FRANCE_TOPOLOGY_V2#/departments/80'));await wait("document.querySelector('#muStage h1')?.textContent==='Découvrez Somme autrement'&&!!document.querySelector('#muStage .muDiscoveryPanel')",'Somme discovery candidates');
+ assert.equal(await evaluate("document.querySelectorAll('#muStage .muDiscoveryStat').length"),5);assert.ok(await evaluate("document.querySelector('.muDiscoveryPanel').textContent.includes('CANDIDATS À VÉRIFIER · NON CANON')&&document.querySelector('.muDiscoveryPanel').textContent.includes('ne produit aucun Φ')"));
+ assert.equal(await evaluate("document.querySelectorAll('#muStage .muDiscoveryMedia').length"),1);assert.equal(await evaluate("document.querySelectorAll('#muStage .muDiscoveryGroup').length"),4);
+ assert.ok(await evaluate("['Patrimoine','Nature','Communs utiles','Initiatives locales'].every(x=>document.querySelector('.muDiscoveryPanel').textContent.includes(x))"));
+ assert.ok(await evaluate("[...document.querySelectorAll('.muDiscoveryPanel a')].some(a=>a.href.includes('labels=territoire')&&decodeURIComponent(a.href).includes('[CANDIDATE heritage:merimee:'))"));
+ assert.ok(await evaluate("document.querySelector('.muQuestPanel h2')?.textContent.includes('Somme · 0 % documentation vérifiée')"));pass('Somme exposes rich autodiscovery candidates without promoting score or Phi');
+ await navigate('#/univers/territoires');await clickObject('OJO_FRANCE_ORGANISM_V1#/topology/regions/32');await clickObject('OJO_FRANCE_TOPOLOGY_V2#/departments/60');
  await wait("document.querySelector('#muStage h1')?.textContent==='Découvrez Oise autrement'",'human Oise portrait');
  await wait("!!document.querySelector('#muStage .muTerritorySoul[data-territory-state=\"LIVING_IDENTITY_VERIFIED_PILOT\"]')",'Oise living identity');
  assert.equal(await evaluate("document.querySelectorAll('#muStage .muPaletteSwatch').length"),5);
