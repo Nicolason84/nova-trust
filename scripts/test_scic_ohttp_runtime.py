@@ -22,6 +22,7 @@ class OHTTPRuntimeTests(unittest.TestCase):
  def test_runtime_uses_rfc9458_backend(self):
   p=self.binding.roundtrip(b'SCIC_SECRET_BALLOT_PROBE_004')
   self.assertEqual(p['backend'],'martinthomson/ohttp');self.assertEqual(p['backend_version'],'0.8.0');self.assertEqual(p['profile'],'RFC9458_OBLIVIOUS_HTTP')
+  self.assertEqual(p['bhttp_profile'],'RFC9292_BINARY_HTTP');self.assertTrue(p['bhttp_request_validated']);self.assertTrue(p['bhttp_response_validated'])
   self.assertEqual(p['runtime_binding'],'PROVEN_CI_THREE_PROCESS_RFC9458')
  def test_network_operator_proof_remains_open(self):
   p=self.binding.roundtrip(b'SCIC_SECRET_BALLOT_PROBE_005')
