@@ -63,6 +63,7 @@ test('public cache keys expose current civic art and territory living identity',
 test('no hidden dialog transcript persistence',()=>assert.doesNotMatch(ui,/localStorage|sessionStorage|indexedDB|document\.cookie/));
 test('no public action API or credentials',()=>assert.doesNotMatch(ui,/Bearer |POST["']|OPENAI_API_KEY|GH_TOKEN|18765|localhost/));
 test('no user HTML execution sinks',()=>assert.doesNotMatch(ui,/innerHTML|outerHTML|insertAdjacentHTML|\beval\(|new Function/));
+test('territory contribution UI discloses external GitHub account gate',()=>{assert.match(ui,/exige un compte \/ une connexion GitHub/);assert.match(ui,/territory-contribution\.yml/);});
 test('living identity is fail closed and loaded through canonical reader',()=>{assert.match(ui,/LA_BETE_TERRITORY_LIVING_IDENTITY_V1/);assert.match(ui,/no_random_identity_color/);assert.match(ui,/no_unlicensed_image/);assert.match(ui,/empty_is_better_than_fabricated/);assert.match(ui,/la-bete-territory-living-identity-v1\.json/);assert.doesNotMatch(ui,/fetch\([^)]*territory-living/i);});
 test('lazy territorial read uses existing bounded fetch',()=>assert.match(ui,/laBeteReadCanonicalJSON\('data\/france-organism\.json'/));
 test('native browser navigation and modal semantics',()=>{assert.match(ui,/history\.pushState/);assert.match(ui,/popstate/);assert.match(ui,/showModal\(/);});
