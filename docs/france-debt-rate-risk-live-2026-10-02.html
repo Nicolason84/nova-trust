@@ -82,10 +82,10 @@ body[data-evo-focus="evidence"] #rpEvidenceCard,body[data-evo-focus="decision"] 
 <link rel="stylesheet" href="assets/la-bete-participation.css?v=20261003-v1">
 <script src="assets/la-bete-dialogue.js?v=20261003-fill-v1" defer></script>
 <script src="assets/la-bete-participation.js?v=20261003-fill-v1" defer></script>
-<link rel="stylesheet" href="assets/la-bete-explorer.css?v=20261004-evidence-universe-v2">
-<script src="assets/la-bete-explorer-model.js?v=20261004-evidence-universe-v2" defer></script>
+<link rel="stylesheet" href="assets/la-bete-explorer.css?v=20261004-cosmos-spatial-v1">
+<script src="assets/la-bete-explorer-model.js?v=20261004-cosmos-spatial-v1" defer></script>
 <script src="assets/la-bete-access.js?v=20261003-v1" defer></script>
-<script src="assets/la-bete-explorer.js?v=20261004-evidence-universe-v2" defer></script>
+<script src="assets/la-bete-explorer.js?v=20261004-cosmos-spatial-v1" defer></script>
 </head><body data-identity-url="system_identity.json" class="beast-dna beast-prismatic"><svg class="artFilterDefs" width="0" height="0" aria-hidden="true" focusable="false"><defs><filter id="beast-glass-optics" x="-15%" y="-15%" width="130%" height="130%"><feTurbulence type="fractalNoise" baseFrequency=".013 .035" numOctaves="1" seed="7" result="grain"/><feDisplacementMap in="SourceGraphic" in2="grain" scale="9" xChannelSelector="R" yChannelSelector="G"/></filter></defs></svg><div class="wrap">
 <header class="top"><a class="brand" href="#reality-pulse" aria-label="ojO · revenir au pouls" style="text-decoration:none;color:var(--ink)">oj<i>O</i></a><nav class="topNav" aria-label="Lecture de La Bête"><a href="#dialogue-public">Dialoguer</a><a href="#demarches">Démarches</a><a href="#reality-pulse">Le pouls</a><a href="#la-bete">La Bête</a><a href="#market-anatomy">Analyse</a><a href="#evidence-graph">Preuves</a></nav><a class="soundShortcut" href="#beast-resonance"><span class="miniWave" aria-hidden="true"><i></i><i></i><i></i><i></i></span>Son</a></header>
 <div class="liveSignals" aria-label="Les trois horloges de La Bête"><span class="pill" id="runner"><span class="dot"></span>RUNNER UNKNOWN · SNAPSHOT STATIQUE</span><span class="pill" id="feed"><span class="dot"></span>ÉTAT #11 · 2026-10-02T11:33:30Z</span><span class="pill" id="evolution"><span class="dot"></span>ÉVOLUTION G210 · EVIDENCE GUARD</span><a class="pill" href="#autoevolution">Preuve de vie ↗</a></div>
@@ -1276,6 +1276,59 @@ async function initBeast(){
     window.updateBeastMarket=(rows)=>{if(!Array.isArray(rows)||rows.length<2)return;const rates=rows.map(r=>Number(r.rate_pct)),lo=Math.min(...rates),hi=Math.max(...rates),n=rows.length;const p=rows.map((r,i)=>new THREE.Vector3(-3.65+(7.3*i/(n-1)),((Number(r.rate_pct)-lo)/Math.max(.01,hi-lo))*1.0,0));marketGeo.setFromPoints(p);marketLine.material.color.set(0xe7bd72)};
     window.updateBeastStressShape=(shocks)=>{const base=historicState?.curve||state?.observed?.yield_curve||[];if(base.length<2)return;const stressed=base.map(r=>({...r,rate_pct:Number(r.rate_pct)+Number(shocks?.[String(r.tenor_years)]||0)/100}));window.updateBeastMarket(stressed);marketLine.material.color.set(0xff8f79)};
 
+    // COSMOS V1 is a view inside this existing scene/renderer/frame loop. It owns no canonical object registry.
+    const cosmosGroup=new THREE.Group();cosmosGroup.name='EvidenceUniverseCosmosProjection';cosmosGroup.visible=false;scene.add(cosmosGroup);
+    const cosmosFocusGroup=new THREE.Group();cosmosFocusGroup.name='CosmosFocus';cosmosGroup.add(cosmosFocusGroup);
+    const cosmosPalette={knowledge:0x8fd8e8,people:0xe7bd72,territory:0x9fd5ae,action:0xd78d96};
+    let cosmosProjection=null,cosmosMode=false,cosmosPlanetPoints=null,cosmosMoonPoints=null,cosmosWormholeLines=null,cosmosFocusKind=null,cosmosFocusId=null,cosmosYaw=0,cosmosPitch=0;
+    const cosmosCameraTarget=new THREE.Vector3(0,.25,34),cosmosLookTarget=new THREE.Vector3(0,0,-5),cosmosCurrentLook=new THREE.Vector3(0,0,-5);
+    function clearCosmosGroup(){
+      for(const child of [...cosmosGroup.children])if(child!==cosmosFocusGroup){cosmosGroup.remove(child);child.traverse?.(o=>{o.geometry?.dispose?.();if(o.material){const mats=Array.isArray(o.material)?o.material:[o.material];mats.forEach(m=>{m.map?.dispose?.();m.dispose?.()})}});}
+      for(const child of [...cosmosFocusGroup.children]){cosmosFocusGroup.remove(child);child.geometry?.dispose?.();child.material?.dispose?.();}
+      cosmosPlanetPoints=cosmosMoonPoints=cosmosWormholeLines=null;
+    }
+    function cosmosPlanet(id){return cosmosProjection?.planetById?.get?.(id)||null}
+    function cosmosSystem(id){return cosmosProjection?.systems?.find?.(x=>x.id===id)||null}
+    function cosmosGalaxy(id){return cosmosProjection?.galaxies?.find?.(x=>x.id===id)||null}
+    function cosmosMoon(id){return cosmosProjection?.moons?.find?.(x=>x.id===id)||null}
+    function cosmosWormhole(id){return cosmosProjection?.wormholes?.find?.(x=>x.id===id)||null}
+    function buildCosmos(projection){
+      clearCosmosGroup();cosmosProjection=projection;
+      const pos=[],cols=[];for(const p of projection.planets){pos.push(...p.position);const c=new THREE.Color(cosmosPalette[p.galaxy_id]||0xbfd4da);cols.push(c.r,c.g,c.b);}
+      const pg=new THREE.BufferGeometry();pg.setAttribute('position',new THREE.Float32BufferAttribute(pos,3));pg.setAttribute('color',new THREE.Float32BufferAttribute(cols,3));
+      cosmosPlanetPoints=new THREE.Points(pg,new THREE.PointsMaterial({size:.115,vertexColors:true,transparent:true,opacity:.9,depthWrite:false,sizeAttenuation:true,blending:THREE.AdditiveBlending}));cosmosPlanetPoints.name='CanonicalEvidencePlanets';cosmosGroup.add(cosmosPlanetPoints);
+      const mp=[];for(const m of projection.moons)mp.push(...m.position);const mg=new THREE.BufferGeometry();mg.setAttribute('position',new THREE.Float32BufferAttribute(mp,3));
+      cosmosMoonPoints=new THREE.Points(mg,new THREE.PointsMaterial({color:0xe9eef0,size:.038,transparent:true,opacity:.42,depthWrite:false,blending:THREE.AdditiveBlending}));cosmosMoonPoints.name='ProofReferenceMoons';cosmosGroup.add(cosmosMoonPoints);
+      const wp=[];for(const w of projection.wormholes){const a=cosmosPlanet(w.from_object_id),b=cosmosPlanet(w.to_object_id);if(a&&b)wp.push(...a.position,...b.position);}const wg=new THREE.BufferGeometry();wg.setAttribute('position',new THREE.Float32BufferAttribute(wp,3));
+      cosmosWormholeLines=new THREE.LineSegments(wg,new THREE.LineBasicMaterial({color:0xb58a62,transparent:true,opacity:.24,blending:THREE.AdditiveBlending,depthWrite:false}));cosmosWormholeLines.name='ProofGraphWormholes';cosmosGroup.add(cosmosWormholeLines);
+      for(const g of projection.galaxies){const c=cosmosPalette[g.id]||0x8fd8e8,anchor=new THREE.Mesh(new THREE.IcosahedronGeometry(.48,2),new THREE.MeshBasicMaterial({color:c,transparent:true,opacity:.25,wireframe:true}));anchor.position.fromArray(g.position);anchor.userData={cosmosKind:'galaxy',cosmosId:g.id};cosmosGroup.add(anchor);const ring=new THREE.Mesh(new THREE.TorusGeometry(1.35,.016,6,72),new THREE.MeshBasicMaterial({color:c,transparent:true,opacity:.18,depthWrite:false}));ring.position.copy(anchor.position);ring.rotation.x=Math.PI/2;cosmosGroup.add(ring);}
+      const links=[];for(const sys of projection.systems){const g=cosmosGalaxy(sys.galaxy_id);if(g)links.push(...g.position,...sys.position);const star=new THREE.Mesh(new THREE.SphereGeometry(.11,10,8),new THREE.MeshBasicMaterial({color:cosmosPalette[sys.galaxy_id]||0xbfd4da,transparent:true,opacity:.72}));star.position.fromArray(sys.position);star.userData={cosmosKind:'system',cosmosId:sys.id};cosmosGroup.add(star);}const lg=new THREE.BufferGeometry();lg.setAttribute('position',new THREE.Float32BufferAttribute(links,3));cosmosGroup.add(new THREE.LineSegments(lg,new THREE.LineBasicMaterial({color:0x6f8f9e,transparent:true,opacity:.11,depthWrite:false})));
+      mount.dataset.cosmosState='ready';mount.dataset.cosmosPlanets=String(projection.planets.length);mount.dataset.cosmosWormholes=String(projection.wormholes.length);
+    }
+    function setCosmosProjection(projection){
+      if(!projection){cosmosMode=false;cosmosGroup.visible=false;root.scale.setScalar(1);root.position.set(0,0,0);mount.dataset.cosmosMode='off';cosmosFocusKind=cosmosFocusId=null;return;}
+      if(projection.schema!=='LA_BETE_COSMOS_SPATIAL_PROJECTION_V1'||projection.state!=='DERIVED_VIEW_ONLY'||projection.contract?.second_runtime!==false||projection.contract?.second_registry!==false||projection.contract?.proofgraph_is_spine!==true)throw Error('COSMOS_PROJECTION_CONTRACT');
+      if(!cosmosProjection||cosmosProjection.source_projection_fingerprint!==projection.source_projection_fingerprint)buildCosmos(projection);else cosmosProjection=projection;
+      for(const child of [...cosmosFocusGroup.children]){cosmosFocusGroup.remove(child);child.geometry?.dispose?.();child.material?.dispose?.();}cosmosYaw=cosmosPitch=0;cosmosGroup.rotation.set(0,0,0);
+      cosmosMode=true;cosmosGroup.visible=true;root.scale.setScalar(.28);root.position.set(0,-.6,2.6);mount.dataset.cosmosMode='on';mount.dataset.cosmosState='ready';cosmosCameraTarget.set(0,.2,34);cosmosLookTarget.set(0,0,-5);cosmosFocusKind='cosmos';cosmosFocusId=projection.source_projection_fingerprint;$('beastTag').textContent='Evidence Universe · '+projection.planets.length+' objets · '+projection.wormholes.length+' wormholes ProofGraph';
+    }
+    function focusCosmos(kind,id){
+      if(!cosmosMode||!cosmosProjection||!id)return false;let point=null,label=id,zoomDistance=7;
+      if(kind==='galaxy'){const x=cosmosGalaxy(id);if(x){point=x.position;label=x.label;zoomDistance=10;}}
+      else if(kind==='system'){const x=cosmosSystem(id);if(x){point=x.position;label=x.label;zoomDistance=6;}}
+      else if(kind==='planet'){const x=cosmosPlanet(id);if(x){point=x.position;label=x.label;zoomDistance=3.3;}}
+      else if(kind==='moon'){const x=cosmosMoon(id);if(x){point=x.position;label='Preuve · '+x.proof_ref;zoomDistance=2.7;}}
+      else if(kind==='wormhole'){const w=cosmosWormhole(id),a=w&&cosmosPlanet(w.from_object_id),b=w&&cosmosPlanet(w.to_object_id);if(a&&b){point=[(a.position[0]+b.position[0])/2,(a.position[1]+b.position[1])/2,(a.position[2]+b.position[2])/2];label='Wormhole · '+(w.proof_ref||w.relation);zoomDistance=Math.max(5,new THREE.Vector3(...a.position).distanceTo(new THREE.Vector3(...b.position))*.58);}}
+      if(!point)return false;cosmosYaw=cosmosPitch=0;cosmosGroup.rotation.set(0,0,0);const v=new THREE.Vector3(...point);cosmosLookTarget.copy(v);cosmosCameraTarget.set(v.x,v.y+zoomDistance*.08,v.z+zoomDistance);cosmosFocusKind=kind;cosmosFocusId=id;
+      for(const child of [...cosmosFocusGroup.children]){cosmosFocusGroup.remove(child);child.geometry?.dispose?.();child.material?.dispose?.();}
+      const halo=new THREE.Mesh(new THREE.TorusGeometry(kind==='galaxy'?1.7:(kind==='system' ? .48 : .24),.018,6,64),new THREE.MeshBasicMaterial({color:0xf0c47b,transparent:true,opacity:.78,depthWrite:false,blending:THREE.AdditiveBlending}));halo.position.copy(v);halo.rotation.x=Math.PI/2;cosmosFocusGroup.add(halo);
+      if(kind==='planet'){const p=cosmosPlanet(id),related=cosmosProjection.moons.filter(m=>m.planet_id===id).slice(0,48);const pts=[];for(const m of related)pts.push(...m.position);if(pts.length){const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.Float32BufferAttribute(pts,3));cosmosFocusGroup.add(new THREE.Points(g,new THREE.PointsMaterial({color:0xffffff,size:.075,transparent:true,opacity:.95,depthWrite:false})));}if(p)$('beastTag').textContent=p.kind+' · '+p.label+' · TRUST '+(p.object?.trust?.index??'—')+'/100';}
+      else $('beastTag').textContent=label;
+      mount.dataset.cosmosFocusKind=kind;mount.dataset.cosmosFocusId=id;beastTouch([12,24,12]);return true;
+    }
+    window.laBeteSetCosmosProjection=setCosmosProjection;window.laBeteCosmosFocus=focusCosmos;
+    window.laBeteCosmosState=()=>({mode:cosmosMode?'COSMOS':'ORGANISM',ready:mount.dataset.cosmosState==='ready',focusKind:cosmosFocusKind,focusId:cosmosFocusId,planets:cosmosProjection?.planets?.length||0,moons:cosmosProjection?.moons?.length||0,wormholes:cosmosProjection?.wormholes?.length||0,fingerprint:cosmosProjection?.source_projection_fingerprint||null});
+
     let rx=.06,ry=.08,homeZoom=13.8,zoom=13.8,drag=false,downX=0,downY=0,px=0,py=0,stress=.5;
     let materialState={viscosity:.78,fluidity:.36,elasticity:.62,tension:.5,turbulence:.35,memory:.82,compression:.5};
     function clamp01(v){return Math.max(0,Math.min(1,Number(v)||0))}
@@ -1333,13 +1386,13 @@ async function initBeast(){
       return {regime,profile:matterRegimeProfiles[regime]||matterRegimeProfiles.TENSION};
     }
     const ray=new THREE.Raycaster(),pointer=new THREE.Vector2();
-    function resize(){const w=mount.clientWidth,h=mount.clientHeight;renderer.setSize(w,h,false);camera.aspect=w/Math.max(1,h);const previous=homeZoom;homeZoom=13.8*Math.max(1,1.08/Math.max(.1,camera.aspect));zoom*=homeZoom/previous;camera.position.z=zoom;camera.updateProjectionMatrix()}
+    function resize(){const w=mount.clientWidth,h=mount.clientHeight;renderer.setSize(w,h,false);camera.aspect=w/Math.max(1,h);const previous=homeZoom;homeZoom=13.8*Math.max(1,1.08/Math.max(.1,camera.aspect));zoom*=homeZoom/previous;if(!cosmosMode)camera.position.z=zoom;camera.updateProjectionMatrix()}
     const ro=new ResizeObserver(resize);ro.observe(mount);resize();
     renderer.domElement.addEventListener('pointerdown',e=>{drag=true;downX=px=e.clientX;downY=py=e.clientY;renderer.domElement.setPointerCapture(e.pointerId)});
-    renderer.domElement.addEventListener('pointermove',e=>{if(!drag)return;ry+=(e.clientX-px)*.0048;rx+=(e.clientY-py)*.0032;px=e.clientX;py=e.clientY});
-    renderer.domElement.addEventListener('pointerup',e=>{if(drag&&Math.hypot(e.clientX-downX,e.clientY-downY)<9){const rct=renderer.domElement.getBoundingClientRect();pointer.x=((e.clientX-rct.left)/rct.width)*2-1;pointer.y=-((e.clientY-rct.top)/rct.height)*2+1;ray.setFromCamera(pointer,camera);const hit=ray.intersectObjects(arms,false)[0];if(hit){const u=hit.object.userData;$('beastTag').innerHTML='<b>'+u.label+'</b> — '+u.detail;arms.forEach(a=>a.material.opacity=(a===hit.object ? .96 : .38));beastTouch([16,34,10])}}drag=false});
+    renderer.domElement.addEventListener('pointermove',e=>{if(!drag)return;const dx=e.clientX-px,dy=e.clientY-py;if(cosmosMode){cosmosYaw+=dx*.0025;cosmosPitch=Math.max(-.42,Math.min(.42,cosmosPitch+dy*.0018));}else{ry+=dx*.0048;rx+=dy*.0032;}px=e.clientX;py=e.clientY});
+    renderer.domElement.addEventListener('pointerup',e=>{if(drag&&Math.hypot(e.clientX-downX,e.clientY-downY)<9){const rct=renderer.domElement.getBoundingClientRect();pointer.x=((e.clientX-rct.left)/rct.width)*2-1;pointer.y=-((e.clientY-rct.top)/rct.height)*2+1;ray.setFromCamera(pointer,camera);if(cosmosMode&&cosmosPlanetPoints){ray.params.Points.threshold=.24;const ph=ray.intersectObject(cosmosPlanetPoints,false)[0];if(ph&&Number.isInteger(ph.index)){const p=cosmosProjection.planets[ph.index];focusCosmos('planet',p.object_id);window.dispatchEvent(new CustomEvent('la-bete-cosmos-select',{detail:{kind:'planet',object_id:p.object_id,label:p.label}}));}else{const ah=ray.intersectObjects(cosmosGroup.children,true).find(h=>h.object.userData?.cosmosKind);if(ah)focusCosmos(ah.object.userData.cosmosKind,ah.object.userData.cosmosId);}}else{const hit=ray.intersectObjects(arms,false)[0];if(hit){const u=hit.object.userData;$('beastTag').innerHTML='<b>'+u.label+'</b> — '+u.detail;arms.forEach(a=>a.material.opacity=(a===hit.object ? .96 : .38));beastTouch([16,34,10])}}}drag=false});
     renderer.domElement.addEventListener('pointercancel',()=>{drag=false});
-    renderer.domElement.addEventListener('wheel',e=>{zoom=Math.max(homeZoom*.58,Math.min(homeZoom*1.48,zoom+Math.sign(e.deltaY)*.62));e.preventDefault()},{passive:false});
+    renderer.domElement.addEventListener('wheel',e=>{if(cosmosMode){const d=cosmosCameraTarget.clone().sub(cosmosLookTarget),next=Math.max(2.2,Math.min(42,d.length()+Math.sign(e.deltaY)*1.15));d.setLength(next);cosmosCameraTarget.copy(cosmosLookTarget).add(d);}else zoom=Math.max(homeZoom*.58,Math.min(homeZoom*1.48,zoom+Math.sign(e.deltaY)*.62));e.preventDefault()},{passive:false});
 
     window.updateBeastArt=p=>{
       artProjection=p;const a=p.palette,d=p.dna,u=membraneMat.uniforms;
@@ -1376,11 +1429,15 @@ async function initBeast(){
         wingGroup.rotation.y=Math.sin(t*.00024)*.035;
       }
 
-      if(!beastMotionOn){
-        const drift=(!drag&&liveArt)?Math.sin(t*.000115)*.055:0;
-        root.rotation.x+=(rx-root.rotation.x)*.045;if(liveArt)root.rotation.y+=(ry+drift-root.rotation.y)*.045
-      }else if(liveArt){root.rotation.y+=.00065}
-      camera.position.z+=(zoom-camera.position.z)*.08;
+      if(cosmosMode){
+        if(cosmosFocusKind==='cosmos'){const drift=(!drag&&liveArt)?Math.sin(t*.00008)*.08:0;cosmosGroup.rotation.y+=(cosmosYaw+drift-cosmosGroup.rotation.y)*.055;cosmosGroup.rotation.x+=(cosmosPitch-cosmosGroup.rotation.x)*.055;}
+        camera.position.lerp(cosmosCameraTarget,.075);cosmosCurrentLook.lerp(cosmosLookTarget,.09);camera.lookAt(cosmosCurrentLook);
+        if(liveArt){root.rotation.y+=.0011;root.position.y=-.6+Math.sin(t*.0007)*.12;}
+      }else{
+        if(!beastMotionOn){const drift=(!drag&&liveArt)?Math.sin(t*.000115)*.055:0;root.rotation.x+=(rx-root.rotation.x)*.045;if(liveArt)root.rotation.y+=(ry+drift-root.rotation.y)*.045}
+        else if(liveArt)root.rotation.y+=.00065;
+        camera.position.x+=(0-camera.position.x)*.08;camera.position.y+=(.25-camera.position.y)*.08;camera.position.z+=(zoom-camera.position.z)*.08;cosmosCurrentLook.lerp(new THREE.Vector3(0,0,0),.12);camera.lookAt(cosmosCurrentLook);
+      }
       if(liveArt){
         const viscosity=materialState.viscosity,fluidity=materialState.fluidity,elasticity=materialState.elasticity,tension=materialState.tension,turbulence=materialState.turbulence,memory=materialState.memory;
         const breath=Math.sin(t*(.00072+.00072*(1-viscosity)));
@@ -1421,7 +1478,7 @@ async function initBeast(){
     if(shaderFailure){renderer.dispose();renderer.domElement.remove();throw Error('Compilation des matériaux refusée');}
     artFrameId=requestAnimationFrame(frame);
     mount.classList.add('webgl-ready','organism-ready');
-    beast3d={THREE,scene,camera,renderer,root,mantle,membrane,heart,heartAura,eyes,rings,ringMats,arms,armLabels,flowDots,reset(){rx=.06;ry=.08;zoom=homeZoom;arms.forEach(a=>a.material.opacity=a.userData.baseOpacity||.77)}};
+    beast3d={THREE,scene,camera,renderer,root,mantle,membrane,heart,heartAura,eyes,rings,ringMats,arms,armLabels,flowDots,setCosmosProjection,focusCosmos,reset(){if(cosmosMode&&cosmosProjection){setCosmosProjection(cosmosProjection);return;}rx=.06;ry=.08;zoom=homeZoom;arms.forEach(a=>a.material.opacity=a.userData.baseOpacity||.77)}};
     window.updateBeast=(shock,curve)=>{
       const f=Math.max(.25,Math.min(2,shock/100));stress=Math.min(1.5,f);
       const vals=curve.slice(0,5),den=Math.max(.1,Number(vals[4]||1)*2);

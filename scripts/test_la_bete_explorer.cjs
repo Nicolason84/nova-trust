@@ -4,7 +4,8 @@ const M=require('../docs/assets/la-bete-explorer-model.js'),D=require('../docs/a
 const live=JSON.parse(fs.readFileSync('docs/data/france-debt-rate-live.json','utf8'));
 const evolution=JSON.parse(fs.readFileSync('docs/data/france-debt-rate-evolution.json','utf8'));
 const territories=JSON.parse(fs.readFileSync('docs/data/france-organism.json','utf8'));
-const before=JSON.stringify({live,evolution,territories}),g=M.build(live,evolution,territories);
+const evidence=JSON.parse(fs.readFileSync('docs/data/la-bete-evidence-universe-v1.json','utf8'));
+const before=JSON.stringify({live,evolution,territories}),g=M.build(live,evolution,territories),cosmos=M.spatialProjection(g,evidence);
 let count=0;
 function test(name,fn){fn();count++;console.log('PASS '+name);}
 test('canonical country identity reused',()=>assert.equal(g.nodes.get(M.COUNTRY).id,live.france_binding.country_object_id));
@@ -13,6 +14,9 @@ test('single debt object references original payload',()=>assert.strictEqual(g.n
 test('source payload not duplicated',()=>assert.strictEqual(g.nodes.get(live.sources[0].id).data,live.sources[0]));
 test('unique node identity',()=>assert.equal(new Set([...g.nodes.keys()]).size,g.nodes.size));
 test('unique relation identity',()=>assert.equal(new Set(g.edges.map(e=>[e.from,e.to,e.relation].join('|'))).size,g.edges.length));
+test('cosmos is a derived projection over the one evidence registry',()=>{assert.equal(cosmos.schema,'LA_BETE_COSMOS_SPATIAL_PROJECTION_V1');assert.equal(cosmos.state,'DERIVED_VIEW_ONLY');assert.equal(cosmos.planets.length,evidence.coverage.objects_total);assert.equal(new Set(cosmos.planets.map(x=>x.object_id)).size,cosmos.planets.length);assert.ok(cosmos.planets.every(x=>x.object===evidence.objects[x.object_id]));assert.equal(cosmos.contract.second_registry,false);assert.equal(cosmos.contract.second_runtime,false);assert.equal(cosmos.contract.persistent_spatial_registry,false);});
+test('cosmos projects galaxies systems moons and ProofGraph wormholes',()=>{assert.equal(cosmos.galaxies.length,4);assert.ok(cosmos.systems.length>=10);assert.ok(cosmos.moons.length>cosmos.planets.length);assert.ok(cosmos.wormholes.length>0);assert.equal(cosmos.source_projection_fingerprint,evidence.projection_fingerprint);});
+test('canonical spatial traversal crosses a proof wormhole into another object',()=>{const t=cosmos.traversal;assert.ok(t);assert.notEqual(t.planet_id,t.target_object_id);assert.ok(cosmos.planetById.has(t.planet_id));assert.ok(cosmos.planetById.has(t.target_object_id));const moon=cosmos.moons.find(x=>x.id===t.moon_id),wormhole=cosmos.wormholes.find(x=>x.id===t.wormhole_id);assert.ok(moon);assert.ok(wormhole);assert.equal(moon.planet_id,t.planet_id);assert.equal(moon.proof_ref,t.proof_ref);assert.equal(wormhole.from_object_id,t.planet_id);assert.equal(wormhole.to_object_id,t.target_object_id);assert.equal(wormhole.relation,'PROOF_REF');});
 test('all relations resolve',()=>assert.ok(g.edges.every(e=>g.nodes.has(e.from)&&g.nodes.has(e.to))));
 test('every canonical ProofGraph edge preserved',()=>assert.ok(live.evidence_graph.edges.every(e=>g.edges.some(x=>x.from===e.from&&x.to===e.to&&x.relation===e.relation))));
 test('country to finance to debt traversal',()=>{assert.ok(M.neighbors(g,M.COUNTRY).some(x=>x.node.id===M.FINANCE));assert.ok(M.neighbors(g,M.FINANCE).some(x=>x.node.id===M.DEBT));});
@@ -57,9 +61,9 @@ test('civic institutional palette is explicit and neutral',()=>{
 });
 test('public cache keys expose current civic art and official territory discovery',()=>{
  assert.match(page,/la-bete-art\.css\?v=20261004-civic-institutional-v1/);
- assert.match(page,/la-bete-explorer\.css\?v=20261004-evidence-universe-v2/);
- assert.match(page,/la-bete-explorer-model\.js\?v=20261004-evidence-universe-v2/);
- assert.match(page,/la-bete-explorer\.js\?v=20261004-evidence-universe-v2/);
+ assert.match(page,/la-bete-explorer\.css\?v=20261004-cosmos-spatial-v1/);
+ assert.match(page,/la-bete-explorer-model\.js\?v=20261004-cosmos-spatial-v1/);
+ assert.match(page,/la-bete-explorer\.js\?v=20261004-cosmos-spatial-v1/);
 });
 test('no hidden dialog transcript persistence',()=>assert.doesNotMatch(ui,/localStorage|sessionStorage|indexedDB|document\.cookie/));
 test('no public action API or credentials',()=>assert.doesNotMatch(ui,/Bearer |POST["']|OPENAI_API_KEY|GH_TOKEN|18765|localhost/));
@@ -76,7 +80,9 @@ test('lazy territorial read uses existing bounded fetch',()=>assert.match(ui,/la
 test('native browser navigation and modal semantics',()=>{assert.match(ui,/history\.pushState/);assert.match(ui,/popstate/);assert.match(ui,/showModal\(/);});
 test('three is not eagerly initialized at boot',()=>{const tail=page.slice(page.indexOf('// LA_BETE_BOOT_START'));assert.doesNotMatch(tail,/^initBeast\(\);/m);assert.match(tail,/laBeteEnsurePresence/);});
 test('existing body remains no-JavaScript fallback',()=>{assert.match(page,/id="canonicalSnapshot"/);assert.match(page,/id="market-anatomy"/);assert.match(page,/id="dialogue-public"/);});
-test('Atlas mounts the single existing beast stage',()=>assert.match(ui,/mountExisting\('beastStage',scene\)/));
+test('Cosmos mounts the single existing beast stage',()=>assert.match(ui,/mountExisting\('beastStage',scene\)/));
+test('Cosmos reuses the existing Three scene renderer and frame loop',()=>{assert.match(page,/EvidenceUniverseCosmosProjection/);assert.match(page,/CanonicalEvidencePlanets/);assert.match(page,/ProofGraphWormholes/);assert.match(page,/window\.laBeteSetCosmosProjection=setCosmosProjection/);assert.match(page,/window\.laBeteCosmosFocus=focusCosmos/);assert.equal((page.match(/new THREE\.WebGLRenderer/g)||[]).length,1);assert.equal((page.match(/function frame\(t\)/g)||[]).length,1);assert.equal((page.match(/requestAnimationFrame\(frame\)/g)||[]).length>=1,true);assert.doesNotMatch(ui,/new THREE\.|WebGLRenderer/);});
+test('Cosmos primary surface exposes canonical traversal controls',()=>{for(const x of ['COSMOS · PROJECTION SPATIALE DU REGISTRE UNIQUE','GALAXIE','SYSTÈME','PLANÈTE','LUNE / PREUVE','WORMHOLE','AUTRE OBJET','laBeteCosmosFocus'])assert.ok(ui.includes(x));});
 test('Atlas itself requests presence initialization',()=>assert.match(ui.slice(ui.indexOf('function atlas(g)'),ui.indexOf('function factTable')),/laBeteEnsurePresence/));
 test('presence stays one-click accessible from the header',()=>assert.match(ui,/link\('La Bête','#\/presence','muPresenceShortcut'\)/));
 test('hybrid product surfaces reuse loaded evolution',()=>{assert.match(ui,/function hybridView\(kind,g\)/);assert.match(ui,/g\.evolution\?\.self_model\?\.hybrid_model/);assert.doesNotMatch(ui,/la-bete-hybrid.*fetch|fetch\([^)]*hybrid/i);});
