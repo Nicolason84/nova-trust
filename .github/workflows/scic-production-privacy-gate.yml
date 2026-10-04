@@ -82,12 +82,12 @@ jobs:
       - name: Resolve Rust dependency lock candidate
         working-directory: privacy/ohttp_runtime
         run: cargo generate-lockfile
-      - name: Build OHTTP runtime candidate
+      - name: Build pinned OHTTP runtime
         working-directory: privacy/ohttp_runtime
-        run: cargo build --release
+        run: cargo build --locked --release
       - name: Run Rust crate tests
         working-directory: privacy/ohttp_runtime
-        run: cargo test
+        run: cargo test --locked
       - name: Prove client-relay-gateway runtime separation
         run: SCIC_OHTTP_RUNTIME_BIN="$GITHUB_WORKSPACE/privacy/ohttp_runtime/target/release/scic_ohttp_runtime" PYTHONPATH=. python3 scripts/test_scic_ohttp_runtime.py
       - name: Prove persistent OHTTP batching pipeline
