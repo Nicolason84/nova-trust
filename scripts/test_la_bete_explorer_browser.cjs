@@ -162,10 +162,16 @@ async function main(){
  assert.ok(await evaluate("document.getElementById('muStage').textContent.includes('UNSET_REQUIRES_PRIVACY_REVIEW')"));
  assert.ok(await evaluate("document.getElementById('muStage').textContent.includes('PROVEN_CI_SIDECAR')"));
  assert.ok(await evaluate("document.getElementById('muStage').textContent.includes('PROVEN_CI_THREE_PROCESS_RFC9458')"));
+ assert.ok(await evaluate("document.getElementById('muStage').textContent.includes('RFC9292_BINARY_HTTP')"));
+ assert.ok(await evaluate("document.getElementById('muStage').textContent.includes('PROVEN_CI_TWO_HOP_TLS_HOSTNAME_VERIFIED')"));
+ assert.ok(await evaluate("document.getElementById('muStage').textContent.includes('PROVEN_CI_RELAY_STRIPS_IDENTIFYING_HEADERS')"));
+ assert.ok(await evaluate("document.getElementById('muStage').textContent.includes('PROVEN_CI_DISTINCT_CIPHERTEXT')"));
+ assert.ok(await evaluate("document.getElementById('muStage').textContent.includes('OHTTP_PUBLIC_TLS_ENDPOINTS_NOT_CONFIGURED')"));
  assert.ok(await evaluate("document.getElementById('muStage').textContent.includes('PROVEN_PERSISTENT_SQLITE_OPAQUE_BATCHER')"));
  assert.ok(await evaluate("document.getElementById('muStage').textContent.includes('FILE_TEST_ONLY')"));
  assert.ok(await evaluate("document.getElementById('muStage').textContent.includes('READY_FOR_EXTERNAL_REVIEW')"));
  assert.ok(await evaluate("document.getElementById('muStage').textContent.includes('OHTTP_INDEPENDENT_RELAY_NOT_DEPLOYED')"));
+ assert.ok(await evaluate("document.getElementById('muStage').textContent.includes('OHTTP_PRODUCTION_OPERATOR_ATTESTATION_NOT_PROVEN')"));
  assert.ok(await evaluate("document.getElementById('muStage').textContent.includes('HSM_KEY_CUSTODY_NOT_PROVEN')"));
  assert.ok(await evaluate("document.getElementById('muStage').textContent.includes('EXTERNAL_CRYPTO_REVIEW_NOT_COMPLETED')"));
  assert.ok(await evaluate("document.getElementById('muStage').textContent.includes('Ancrages juridiques à relire avant constitution')"));pass('SCIC route exposes blind issuer proof plus fail-closed production privacy gate');

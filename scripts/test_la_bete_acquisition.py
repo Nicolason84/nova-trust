@@ -245,15 +245,26 @@ class HybridModelTests(unittest.TestCase):
         self.assertEqual(crypto['runtime_binding'], 'PROVEN_CI_SIDECAR')
         self.assertNotIn('CRYPTO_RUNTIME_BINDING_NOT_PROVEN', gate['blocking_reasons'])
         self.assertIn('OHTTP_INDEPENDENT_RELAY_NOT_DEPLOYED', gate['blocking_reasons'])
+        self.assertIn('OHTTP_PUBLIC_TLS_ENDPOINTS_NOT_CONFIGURED', gate['blocking_reasons'])
+        self.assertIn('OHTTP_PRODUCTION_OPERATOR_ATTESTATION_NOT_PROVEN', gate['blocking_reasons'])
+        self.assertNotIn('OHTTP_REAL_HTTPS_HOPS_NOT_PROVEN', gate['blocking_reasons'])
+        self.assertNotIn('OHTTP_HEADER_MINIMIZATION_NOT_DEPLOYMENT_PROVEN', gate['blocking_reasons'])
         self.assertIn('EXTERNAL_CRYPTO_REVIEW_NOT_COMPLETED', gate['blocking_reasons'])
 
     def test_production_privacy_gate_has_ohttp_and_batch_fail_closed_targets(self):
         gate = self.hybrid['cooperative_direction']['democracy']['production_privacy_gate']
         network = gate['network_gate']
         self.assertEqual(network['profile'], 'RFC9458_OHTTP_OR_EQUIVALENT_INDEPENDENT_RELAY')
-        self.assertEqual(network['state'], 'RFC9458_RUNTIME_PROVEN_DEPLOYMENT_NOT_CONFIGURED')
+        self.assertEqual(network['state'], 'RFC9458_BHTTP_LOCAL_TLS_TWO_HOP_PROVEN_EXTERNAL_DEPLOYMENT_NOT_CONFIGURED')
         self.assertEqual(network['runtime_binding'], 'PROVEN_CI_THREE_PROCESS_RFC9458')
         self.assertEqual(network['backend_version'], '0.8.0')
+        self.assertEqual(network['bhttp_profile'], 'RFC9292_BINARY_HTTP')
+        self.assertEqual(network['bhttp_validation'], 'PASS_CI_REQUEST_AND_RESPONSE')
+        self.assertEqual(network['local_https_transport'], 'PROVEN_CI_TWO_HOP_TLS_HOSTNAME_VERIFIED')
+        self.assertEqual(network['local_header_minimization'], 'PROVEN_CI_RELAY_STRIPS_IDENTIFYING_HEADERS')
+        self.assertEqual(network['fresh_hpke_context_per_request'], 'PROVEN_CI_DISTINCT_CIPHERTEXT')
+        self.assertEqual(network['public_tls_endpoints'], 'NOT_CONFIGURED')
+        self.assertEqual(network['independent_operator'], 'NOT_VERIFIED')
         self.assertFalse(network['relay_plaintext_probe'])
         self.assertFalse(network['relay_gateway_same_operator_allowed'])
         self.assertFalse(network['relay_may_forward_identifying_headers'])

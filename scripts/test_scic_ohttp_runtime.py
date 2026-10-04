@@ -24,6 +24,13 @@ class OHTTPRuntimeTests(unittest.TestCase):
   self.assertEqual(p['backend'],'martinthomson/ohttp');self.assertEqual(p['backend_version'],'0.8.0');self.assertEqual(p['profile'],'RFC9458_OBLIVIOUS_HTTP')
   self.assertEqual(p['bhttp_profile'],'RFC9292_BINARY_HTTP');self.assertTrue(p['bhttp_request_validated']);self.assertTrue(p['bhttp_response_validated'])
   self.assertEqual(p['runtime_binding'],'PROVEN_CI_THREE_PROCESS_RFC9458')
+ def test_fresh_hpke_context_changes_ciphertext_for_same_ballot(self):
+  plain=b'SCIC_SAME_BALLOT_HPKE_PROBE'
+  probe=__import__('base64').b64encode(plain).decode()
+  a=self.binding.client.call({'op':'encapsulate','id':'hpke-a','payload_b64':probe})
+  b=self.binding.client.call({'op':'encapsulate','id':'hpke-b','payload_b64':probe})
+  self.assertNotEqual(a['payload_b64'],b['payload_b64'])
+  self.assertTrue(a.get('bhttp_validated'));self.assertTrue(b.get('bhttp_validated'))
  def test_network_operator_proof_remains_open(self):
   p=self.binding.roundtrip(b'SCIC_SECRET_BALLOT_PROBE_005')
   self.assertFalse(p['https_hops_proven']);self.assertFalse(p['independent_operator_proven'])
