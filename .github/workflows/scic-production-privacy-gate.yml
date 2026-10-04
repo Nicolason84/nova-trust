@@ -9,9 +9,17 @@ on:
       - 'app/scic_privacy_gate.py'
       - 'app/scic_circl_runtime.py'
       - 'app/scic_ohttp_runtime.py'
+      - 'app/scic_batch_runtime.py'
+      - 'app/scic_key_custody.py'
       - 'scripts/test_scic_privacy_gate.py'
       - 'scripts/test_scic_circl_runtime.py'
       - 'scripts/test_scic_ohttp_runtime.py'
+      - 'scripts/test_scic_batch_runtime.py'
+      - 'scripts/test_scic_ohttp_batch_pipeline.py'
+      - 'scripts/test_scic_key_custody.py'
+      - 'scripts/build_scic_privacy_audit_pack.py'
+      - 'scripts/test_scic_privacy_audit_pack.py'
+      - 'audits/scic_privacy/**'
       - 'scripts/la_bete_acquisition.py'
       - 'scripts/test_la_bete_acquisition.py'
       - 'scripts/verify_la_bete_evolution.py'
@@ -61,7 +69,7 @@ jobs:
           go list -m all
 
   ohttp-rfc9458:
-    name: RFC9458 OHTTP three-process runtime
+    name: RFC9458 OHTTP + persistent batching runtime
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -71,9 +79,9 @@ jobs:
           rustup default 1.86.0
           rustc --version
           cargo --version
-      - name: Resolve Rust dependency lock
+      - name: Verify pinned Rust dependency lock
         working-directory: privacy/ohttp_runtime
-        run: cargo generate-lockfile
+        run: cargo fetch --locked
       - name: Build pinned OHTTP runtime
         working-directory: privacy/ohttp_runtime
         run: cargo build --locked --release
@@ -81,13 +89,45 @@ jobs:
         working-directory: privacy/ohttp_runtime
         run: cargo test --locked
       - name: Prove client-relay-gateway runtime separation
-        env:
-          PYTHONPATH: .
-          SCIC_OHTTP_RUNTIME_BIN: ${{ github.workspace }}/privacy/ohttp_runtime/target/release/scic_ohttp_runtime
-        run: python3 scripts/test_scic_ohttp_runtime.py
-      - name: Record Rust dependency lock
+        run: SCIC_OHTTP_RUNTIME_BIN="$GITHUB_WORKSPACE/privacy/ohttp_runtime/target/release/scic_ohttp_runtime" PYTHONPATH=. python3 scripts/test_scic_ohttp_runtime.py
+      - name: Prove persistent OHTTP batching pipeline
+        run: SCIC_OHTTP_RUNTIME_BIN="$GITHUB_WORKSPACE/privacy/ohttp_runtime/target/release/scic_ohttp_runtime" PYTHONPATH=. python3 scripts/test_scic_ohttp_batch_pipeline.py
+      - name: Record pinned OHTTP dependency graph
         working-directory: privacy/ohttp_runtime
         run: |
-          echo '---BEGIN CARGO.LOCK---'
-          cat Cargo.lock
-          echo '---END CARGO.LOCK---'
+          cargo metadata --locked --format-version 1 --no-deps > /tmp/ohttp-metadata.json
+          sha256sum Cargo.lock
+
+  policy-audit-gates:
+    name: Batching, key custody and audit-pack gates
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run fail-closed privacy policy tests
+        env:
+          PYTHONPATH: .
+        run: python3 scripts/test_scic_privacy_gate.py
+      - name: Run persistent batching tests
+        env:
+          PYTHONPATH: .
+        run: python3 scripts/test_scic_batch_runtime.py
+      - name: Run key custody contract tests
+        env:
+          PYTHONPATH: .
+        run: python3 scripts/test_scic_key_custody.py
+      - name: Run audit pack tests
+        env:
+          PYTHONPATH: .
+        run: python3 scripts/test_scic_privacy_audit_pack.py
+      - name: Build clean audit pack
+        env:
+          PYTHONPATH: .
+        run: |
+          python3 scripts/build_scic_privacy_audit_pack.py
+          python3 -c 'import json; p=json.load(open("audits/scic_privacy/SCIC_PRIVACY_AUDIT_PACK_V1.json")); assert p["source_dirty"] is False; assert p["audit_verdict"] == "NOT_PERFORMED"; assert p["contains_private_state"] is False'
+      - name: Run public model guards
+        run: python3 scripts/test_la_bete_acquisition.py
+      - name: Run static explorer guards
+        run: node scripts/test_la_bete_explorer.cjs
+      - name: Diff hygiene
+        run: git diff --check

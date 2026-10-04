@@ -15,20 +15,19 @@ class PrivacyGateTests(unittest.TestCase):
         verdict = evaluate_gate(state)
         self.assertEqual(verdict["verdict"], "BLOCKED")
         self.assertFalse(verdict["production_activation_allowed"])
-        self.assertIn("CRYPTO_PROJECT_CI_NOT_PASS", verdict["failures"])
-        self.assertIn("CRYPTO_RUNTIME_BINDING_NOT_PROVEN", verdict["failures"])
+        self.assertNotIn("CRYPTO_PROJECT_CI_NOT_PASS", verdict["failures"])
+        self.assertNotIn("CRYPTO_RUNTIME_BINDING_NOT_PROVEN", verdict["failures"])
+        self.assertNotIn("OHTTP_RUNTIME_BINDING_NOT_PROVEN", verdict["failures"])
         self.assertIn("OHTTP_OPERATORS_NOT_CONFIGURED", verdict["failures"])
+        self.assertIn("HSM_KEY_CUSTODY_NOT_PROVEN", verdict["failures"])
         self.assertIn("ANONYMITY_POLICY_NOT_APPROVED", verdict["failures"])
         self.assertIn("EXTERNAL_CRYPTO_REVIEW_NOT_PASS", verdict["failures"])
 
     def test_crypto_pass_alone_does_not_open_production(self):
         state = default_gate_state()
-        state["cryptographic_gate"].update({
-            "project_ci": "PASS",
-            "upstream_rfc9474_vectors": "PASS",
-            "standard_rsa_pss_crosscheck": "PASS",
-            "runtime_binding": "PROVEN",
-        })
+        self.assertEqual(state["cryptographic_gate"]["runtime_binding"], "PROVEN_CI_SIDECAR")
+        self.assertEqual(state["network_gate"]["runtime_binding"], "PROVEN_CI_THREE_PROCESS_RFC9458")
+        self.assertEqual(state["anonymity_gate"]["runtime_binding"], "PROVEN_PERSISTENT_SQLITE_OPAQUE_BATCHER")
         verdict = evaluate_gate(state)
         self.assertFalse(verdict["production_activation_allowed"])
         self.assertIn("OHTTP_OPERATORS_NOT_CONFIGURED", verdict["failures"])
@@ -50,6 +49,12 @@ class PrivacyGateTests(unittest.TestCase):
         self.assertFalse(p["production_activation"])
         self.assertEqual(p["state"], "IMPLEMENTED_FAIL_CLOSED")
         self.assertEqual(p["current_verdict"], "BLOCKED")
+        self.assertEqual(p["cryptographic_target"]["runtime_binding"], "PROVEN_CI_SIDECAR")
+        self.assertEqual(p["network_target"]["runtime_binding"], "PROVEN_CI_THREE_PROCESS_RFC9458")
+        self.assertEqual(p["batching_target"]["runtime_binding"], "PROVEN_PERSISTENT_SQLITE_OPAQUE_BATCHER")
+        self.assertEqual(p["batching_target"]["small_set_behavior"], "ROLL_FORWARD")
+        self.assertEqual(p["key_custody_target"]["current_provider"], "FILE_TEST_ONLY")
+        self.assertEqual(p["audit_target"]["audit_pack"], "READY_FOR_EXTERNAL_REVIEW")
         self.assertEqual(
             p["batching_target"]["production_minimum_set_size"],
             "UNSET_REQUIRES_PRIVACY_REVIEW",
@@ -106,7 +111,7 @@ class PrivacyGateTests(unittest.TestCase):
             "project_ci": "PASS",
             "upstream_rfc9474_vectors": "PASS",
             "standard_rsa_pss_crosscheck": "PASS",
-            "runtime_binding": "PROVEN",
+            "runtime_binding": "PROVEN_CI_SIDECAR",
         })
         state["network_gate"].update({
             "relay_operator": "independent-relay-operator",
@@ -125,6 +130,8 @@ class PrivacyGateTests(unittest.TestCase):
             "small_set_release": "FORBIDDEN",
         })
         state["key_gate"].update({
+            "current_provider": "PKCS11_HSM",
+            "custody_verdict": "PASS",
             "issuer_private_key_exportable": False,
             "rotation_policy": "APPROVED",
             "compromise_runbook": "APPROVED",

@@ -309,9 +309,9 @@ def tally_scic_ballot(blueprint, ballot, decision_class="ORDINARY"):
 def build_production_privacy_gate_projection():
     """Public projection of the fail-closed production privacy gate.
 
-    Cryptographic primitive conformance is proven in CI, but production remains
-    blocked until the RFC-grade backend is bound to the voting runtime and the
-    deployment privacy/audit gates are independently satisfied.
+    Cryptographic primitive conformance and executable runtime adapters are proven
+    in CI. Production remains blocked until the independent network, anonymity
+    policy, HSM custody and external review gates are satisfied.
     """
     return {
         "schema":"LA_BETE_SCIC_PRODUCTION_PRIVACY_GATE_V1",
@@ -319,7 +319,7 @@ def build_production_privacy_gate_projection():
         "production_activation":False,
         "current_verdict":"BLOCKED",
         "cryptographic_gate":{
-            "state":"RFC9474_RFC9578_CI_PASS",
+            "state":"RFC9474_RFC9578_CI_PASS_RUNTIME_BOUND",
             "profile":"RFC9578_PUBLICLY_VERIFIABLE_BLIND_RSA_TOKEN_TYPE_0x0002",
             "variant":"RSABSSA-SHA384-PSS-Deterministic",
             "backend":"CLOUDFLARE_CIRCL",
@@ -327,13 +327,17 @@ def build_production_privacy_gate_projection():
             "project_ci":"PASS",
             "upstream_rfc9474_vectors":"PASS",
             "standard_rsa_pss_crosscheck":"PASS",
-            "runtime_binding":"NOT_PROVEN",
+            "runtime_binding":"PROVEN_CI_SIDECAR",
             "workflow":".github/workflows/scic-production-privacy-gate.yml",
             "go_module":"privacy/rfc9474_gate",
         },
         "network_gate":{
             "profile":"RFC9458_OHTTP_OR_EQUIVALENT_INDEPENDENT_RELAY",
-            "state":"NOT_CONFIGURED",
+            "state":"RFC9458_RUNTIME_PROVEN_DEPLOYMENT_NOT_CONFIGURED",
+            "runtime_binding":"PROVEN_CI_THREE_PROCESS_RFC9458",
+            "backend":"MARTINTHOMSON_OHTTP",
+            "backend_version":"0.8.0",
+            "relay_plaintext_probe":False,
             "relay_gateway_same_operator_allowed":False,
             "https_both_hops_required":True,
             "relay_may_forward_identifying_headers":False,
@@ -341,33 +345,44 @@ def build_production_privacy_gate_projection():
             "padding_policy":"NOT_APPROVED",
         },
         "anonymity_gate":{
-            "state":"NOT_APPROVED",
+            "state":"PERSISTENT_RUNTIME_PROVEN_POLICY_NOT_APPROVED",
             "mechanism":"FIXED_WINDOW_OPAQUE_ENVELOPE_BATCH",
+            "runtime_binding":"PROVEN_PERSISTENT_SQLITE_OPAQUE_BATCHER",
+            "persistence_restart_proven":True,
+            "small_set_behavior":"ROLL_FORWARD",
             "production_minimum_set_size":"UNSET_REQUIRES_PRIVACY_REVIEW",
             "production_window_seconds":"UNSET_REQUIRES_PRIVACY_REVIEW",
             "small_set_release":"FORBIDDEN",
             "individual_public_timestamps":False,
-            "synthetic_batch_mechanics":"PROVEN_BY_UNIT_TESTS",
+            "synthetic_batch_mechanics":"SUPERSEDED_BY_PERSISTENT_RUNTIME_PROOF",
         },
         "key_gate":{
-            "state":"NOT_PROVEN",
+            "state":"CONTRACT_IMPLEMENTED_CURRENT_PROVIDER_BLOCKED",
+            "contract":"LA_BETE_SCIC_KEY_CUSTODY_GATE_V1",
+            "current_provider":"FILE_TEST_ONLY",
+            "custody_verdict":"BLOCKED",
             "issuer_private_key_non_exportable_required":True,
             "rotation_policy":"NOT_APPROVED",
             "compromise_runbook":"NOT_APPROVED",
         },
         "review_gate":{
+            "internal_threat_model":"V1_COMPLETE",
+            "audit_pack":"READY_FOR_EXTERNAL_REVIEW",
             "external_cryptographic_review":"NOT_COMPLETED",
             "privacy_threat_model_review":"NOT_COMPLETED",
             "independent_relay_operator":"NOT_VERIFIED",
         },
         "blocking_reasons":[
-            "CRYPTO_RUNTIME_BINDING_NOT_PROVEN",
-            "OHTTP_INDEPENDENT_RELAY_NOT_CONFIGURED",
+            "OHTTP_INDEPENDENT_RELAY_NOT_DEPLOYED",
+            "OHTTP_REAL_HTTPS_HOPS_NOT_PROVEN",
+            "OHTTP_HEADER_MINIMIZATION_NOT_DEPLOYMENT_PROVEN",
+            "OHTTP_PADDING_POLICY_NOT_APPROVED",
             "ANONYMITY_SET_POLICY_NOT_APPROVED",
             "BATCH_WINDOW_NOT_APPROVED",
-            "KEY_CUSTODY_NOT_PROVEN",
+            "HSM_KEY_CUSTODY_NOT_PROVEN",
+            "KEY_ROTATION_AND_DESTRUCTION_DRILLS_NOT_PROVEN",
             "EXTERNAL_CRYPTO_REVIEW_NOT_COMPLETED",
-            "PRIVACY_THREAT_MODEL_REVIEW_NOT_COMPLETED",
+            "PRIVACY_THREAT_MODEL_EXTERNAL_REVIEW_NOT_COMPLETED",
         ],
         "standards":[
             "RFC9474_RSA_BLIND_SIGNATURES",
@@ -551,7 +566,7 @@ def build_scic_democracy(blueprint):
                 "rfc9474_conformance":False,
                 "standard_backend_target":"CLOUDFLARE_CIRCL_V1_6_5",
                 "standard_backend_ci":"PASS_RFC9474_RFC9578",
-                "standard_backend_runtime_binding":"NOT_PROVEN",
+                "standard_backend_runtime_binding":"PROVEN_CI_SIDECAR_NOT_PRODUCTION_ACTIVATED",
                 "privacy_pass_reference":"RFC_9576_ISSUANCE_REDEMPTION_SEPARATION",
                 "metadata_unlinkability":"NOT_PROVEN_TIMING_IP_TLS_FINGERPRINT_AND_SMALL_ANONYMITY_SETS_REMAIN",
                 "production_requirement":"AUDITED_RFC_GRADE_BLIND_SIGNATURE_OR_ANONYMOUS_CREDENTIAL_PLUS_METADATA_SEPARATION",

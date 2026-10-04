@@ -28,13 +28,17 @@ def default_gate_state():
             "variant": RFC9474_VARIANT,
             "backend": "CLOUDFLARE_CIRCL",
             "backend_version": CIRCL_VERSION,
-            "project_ci": "PENDING",
-            "upstream_rfc9474_vectors": "PENDING",
-            "standard_rsa_pss_crosscheck": "PENDING",
-            "runtime_binding": "NOT_PROVEN",
+            "project_ci": "PASS",
+            "upstream_rfc9474_vectors": "PASS",
+            "standard_rsa_pss_crosscheck": "PASS",
+            "runtime_binding": "PROVEN_CI_SIDECAR",
         },
         "network_gate": {
             "profile": NETWORK_PROFILE,
+            "runtime_binding": "PROVEN_CI_THREE_PROCESS_RFC9458",
+            "backend": "MARTINTHOMSON_OHTTP",
+            "backend_version": "0.8.0",
+            "relay_plaintext_probe": False,
             "relay_operator": None,
             "gateway_operator": None,
             "https_client_to_relay": False,
@@ -44,6 +48,9 @@ def default_gate_state():
             "padding_policy": "NOT_APPROVED",
         },
         "anonymity_gate": {
+            "runtime_binding": "PROVEN_PERSISTENT_SQLITE_OPAQUE_BATCHER",
+            "persistence_restart_proven": True,
+            "small_set_behavior": "ROLL_FORWARD",
             "policy_state": "PROPOSAL_ONLY",
             "minimum_set_size": None,
             "window_seconds": None,
@@ -51,11 +58,16 @@ def default_gate_state():
             "small_set_release": "FORBIDDEN",
         },
         "key_gate": {
-            "issuer_private_key_exportable": None,
+            "contract_state": "IMPLEMENTED_FAIL_CLOSED",
+            "current_provider": "FILE_TEST_ONLY",
+            "custody_verdict": "BLOCKED",
+            "issuer_private_key_exportable": True,
             "rotation_policy": "NOT_APPROVED",
             "compromise_runbook": "NOT_APPROVED",
         },
         "review_gate": {
+            "internal_threat_model": "V1_COMPLETE",
+            "audit_pack": "READY_FOR_EXTERNAL_REVIEW",
             "external_cryptographic_review": "NOT_COMPLETED",
             "privacy_threat_model_review": "NOT_COMPLETED",
             "independent_relay_operator_verified": False,
@@ -76,10 +88,12 @@ def evaluate_gate(state):
     for key in ("project_ci", "upstream_rfc9474_vectors", "standard_rsa_pss_crosscheck"):
         if c.get(key) != "PASS":
             failures.append("CRYPTO_" + key.upper() + "_NOT_PASS")
-    if c.get("runtime_binding") != "PROVEN":
+    if c.get("runtime_binding") != "PROVEN_CI_SIDECAR":
         failures.append("CRYPTO_RUNTIME_BINDING_NOT_PROVEN")
 
     n = state.get("network_gate", {})
+    if n.get("runtime_binding") != "PROVEN_CI_THREE_PROCESS_RFC9458":
+        failures.append("OHTTP_RUNTIME_BINDING_NOT_PROVEN")
     relay, gateway = n.get("relay_operator"), n.get("gateway_operator")
     if not relay or not gateway:
         failures.append("OHTTP_OPERATORS_NOT_CONFIGURED")
@@ -97,6 +111,10 @@ def evaluate_gate(state):
         failures.append("PADDING_POLICY_NOT_APPROVED")
 
     a = state.get("anonymity_gate", {})
+    if a.get("runtime_binding") != "PROVEN_PERSISTENT_SQLITE_OPAQUE_BATCHER":
+        failures.append("PERSISTENT_BATCH_RUNTIME_NOT_PROVEN")
+    if a.get("small_set_behavior") != "ROLL_FORWARD":
+        failures.append("SMALL_SET_ROLL_FORWARD_NOT_PROVEN")
     if a.get("policy_state") != "APPROVED_BY_PRIVACY_REVIEW":
         failures.append("ANONYMITY_POLICY_NOT_APPROVED")
     size = a.get("minimum_set_size")
@@ -111,6 +129,10 @@ def evaluate_gate(state):
         failures.append("SMALL_SET_RELEASE_MUST_BE_FORBIDDEN")
 
     k = state.get("key_gate", {})
+    if k.get("contract_state") != "IMPLEMENTED_FAIL_CLOSED":
+        failures.append("KEY_CUSTODY_CONTRACT_NOT_IMPLEMENTED")
+    if k.get("custody_verdict") != "PASS":
+        failures.append("HSM_KEY_CUSTODY_NOT_PROVEN")
     if k.get("issuer_private_key_exportable") is not False:
         failures.append("ISSUER_PRIVATE_KEY_EXPORTABILITY_NOT_BLOCKED")
     if k.get("rotation_policy") != "APPROVED":
@@ -229,22 +251,34 @@ def public_projection():
             "rfc9578_profile": RFC9578_PROFILE,
             "backend": "CLOUDFLARE_CIRCL",
             "backend_version": CIRCL_VERSION,
+            "runtime_binding": "PROVEN_CI_SIDECAR",
             "ci_workflow": ".github/workflows/scic-production-privacy-gate.yml",
         },
         "network_target": {
             "profile": NETWORK_PROFILE,
+            "runtime_binding": "PROVEN_CI_THREE_PROCESS_RFC9458",
+            "backend": "MARTINTHOMSON_OHTTP_0_8_0",
             "relay_gateway_same_operator_allowed": False,
             "relay_may_forward_identifying_headers": False,
             "fresh_hpke_context_per_request_required": True,
         },
         "batching_target": {
             "mechanism": "FIXED_WINDOW_OPAQUE_ENVELOPE_BATCH",
+            "runtime_binding": "PROVEN_PERSISTENT_SQLITE_OPAQUE_BATCHER",
+            "small_set_behavior": "ROLL_FORWARD",
             "production_minimum_set_size": "UNSET_REQUIRES_PRIVACY_REVIEW",
             "production_window_seconds": "UNSET_REQUIRES_PRIVACY_REVIEW",
             "small_set_release": "FORBIDDEN",
             "individual_public_timestamps": False,
         },
+        "key_custody_target": {
+            "contract_state": "IMPLEMENTED_FAIL_CLOSED",
+            "current_provider": "FILE_TEST_ONLY",
+            "production_hsm": "REQUIRED",
+        },
         "audit_target": {
+            "internal_threat_model": "V1_COMPLETE",
+            "audit_pack": "READY_FOR_EXTERNAL_REVIEW",
             "external_cryptographic_review": "REQUIRED",
             "privacy_threat_model_review": "REQUIRED",
             "independent_relay_operator": "REQUIRED",

@@ -225,7 +225,7 @@ class HybridModelTests(unittest.TestCase):
         self.assertFalse(anon['rfc9474_conformance'])
         self.assertEqual(anon['standard_backend_target'], 'CLOUDFLARE_CIRCL_V1_6_5')
         self.assertEqual(anon['standard_backend_ci'], 'PASS_RFC9474_RFC9578')
-        self.assertEqual(anon['standard_backend_runtime_binding'], 'NOT_PROVEN')
+        self.assertEqual(anon['standard_backend_runtime_binding'], 'PROVEN_CI_SIDECAR_NOT_PRODUCTION_ACTIVATED')
         self.assertEqual(anon['same_college_anonymity_set_proven'], 2)
         self.assertIn('NOT_PROVEN', anon['metadata_unlinkability'])
 
@@ -236,29 +236,42 @@ class HybridModelTests(unittest.TestCase):
         self.assertFalse(gate['production_activation'])
         self.assertEqual(gate['current_verdict'], 'BLOCKED')
         crypto = gate['cryptographic_gate']
-        self.assertEqual(crypto['state'], 'RFC9474_RFC9578_CI_PASS')
+        self.assertEqual(crypto['state'], 'RFC9474_RFC9578_CI_PASS_RUNTIME_BOUND')
         self.assertEqual(crypto['backend'], 'CLOUDFLARE_CIRCL')
         self.assertEqual(crypto['backend_version'], 'v1.6.5')
         self.assertEqual(crypto['project_ci'], 'PASS')
         self.assertEqual(crypto['upstream_rfc9474_vectors'], 'PASS')
         self.assertEqual(crypto['standard_rsa_pss_crosscheck'], 'PASS')
-        self.assertEqual(crypto['runtime_binding'], 'NOT_PROVEN')
-        self.assertIn('CRYPTO_RUNTIME_BINDING_NOT_PROVEN', gate['blocking_reasons'])
-        self.assertIn('OHTTP_INDEPENDENT_RELAY_NOT_CONFIGURED', gate['blocking_reasons'])
+        self.assertEqual(crypto['runtime_binding'], 'PROVEN_CI_SIDECAR')
+        self.assertNotIn('CRYPTO_RUNTIME_BINDING_NOT_PROVEN', gate['blocking_reasons'])
+        self.assertIn('OHTTP_INDEPENDENT_RELAY_NOT_DEPLOYED', gate['blocking_reasons'])
         self.assertIn('EXTERNAL_CRYPTO_REVIEW_NOT_COMPLETED', gate['blocking_reasons'])
 
     def test_production_privacy_gate_has_ohttp_and_batch_fail_closed_targets(self):
         gate = self.hybrid['cooperative_direction']['democracy']['production_privacy_gate']
         network = gate['network_gate']
         self.assertEqual(network['profile'], 'RFC9458_OHTTP_OR_EQUIVALENT_INDEPENDENT_RELAY')
+        self.assertEqual(network['state'], 'RFC9458_RUNTIME_PROVEN_DEPLOYMENT_NOT_CONFIGURED')
+        self.assertEqual(network['runtime_binding'], 'PROVEN_CI_THREE_PROCESS_RFC9458')
+        self.assertEqual(network['backend_version'], '0.8.0')
+        self.assertFalse(network['relay_plaintext_probe'])
         self.assertFalse(network['relay_gateway_same_operator_allowed'])
         self.assertFalse(network['relay_may_forward_identifying_headers'])
         self.assertTrue(network['fresh_hpke_context_per_request_required'])
         batch = gate['anonymity_gate']
+        self.assertEqual(batch['state'], 'PERSISTENT_RUNTIME_PROVEN_POLICY_NOT_APPROVED')
+        self.assertEqual(batch['runtime_binding'], 'PROVEN_PERSISTENT_SQLITE_OPAQUE_BATCHER')
+        self.assertTrue(batch['persistence_restart_proven'])
+        self.assertEqual(batch['small_set_behavior'], 'ROLL_FORWARD')
         self.assertEqual(batch['production_minimum_set_size'], 'UNSET_REQUIRES_PRIVACY_REVIEW')
         self.assertEqual(batch['production_window_seconds'], 'UNSET_REQUIRES_PRIVACY_REVIEW')
         self.assertEqual(batch['small_set_release'], 'FORBIDDEN')
         self.assertFalse(batch['individual_public_timestamps'])
+        self.assertEqual(gate['key_gate']['state'], 'CONTRACT_IMPLEMENTED_CURRENT_PROVIDER_BLOCKED')
+        self.assertEqual(gate['key_gate']['current_provider'], 'FILE_TEST_ONLY')
+        self.assertEqual(gate['key_gate']['custody_verdict'], 'BLOCKED')
+        self.assertEqual(gate['review_gate']['internal_threat_model'], 'V1_COMPLETE')
+        self.assertEqual(gate['review_gate']['audit_pack'], 'READY_FOR_EXTERNAL_REVIEW')
 
     def test_truth_is_never_a_ballot_target(self):
         democracy = self.hybrid['cooperative_direction']['democracy']

@@ -167,13 +167,21 @@ function hybridView(kind,g){
    'Profil RFC9578 : '+(privacy.cryptographic_gate?.profile||'UNKNOWN'),
    'Variante RFC9474 : '+(privacy.cryptographic_gate?.variant||'UNKNOWN'),
    'CI primitive : '+(privacy.cryptographic_gate?.project_ci||'UNKNOWN')+' · vecteurs upstream : '+(privacy.cryptographic_gate?.upstream_rfc9474_vectors||'UNKNOWN')+' · cross-check RSA-PSS : '+(privacy.cryptographic_gate?.standard_rsa_pss_crosscheck||'UNKNOWN'),
-   'Binding du backend standard au runtime : '+(privacy.cryptographic_gate?.runtime_binding||'UNKNOWN'),
+   'Binding CIRCL au runtime : '+(privacy.cryptographic_gate?.runtime_binding||'UNKNOWN'),
+   'Runtime OHTTP : '+(privacy.network_gate?.runtime_binding||'UNKNOWN')+' · backend '+(privacy.network_gate?.backend||'UNKNOWN')+' '+(privacy.network_gate?.backend_version||''),
+   'Relay voit le plaintext sonde : '+(privacy.network_gate?.relay_plaintext_probe===false?'NON':'NON VÉRIFIÉ'),
+   'Déploiement réseau : '+(privacy.network_gate?.state||'UNKNOWN'),
    'Relais réseau cible : '+(privacy.network_gate?.profile||'UNKNOWN'),
    'Relais et gateway même opérateur autorisés : '+(privacy.network_gate?.relay_gateway_same_operator_allowed===false?'NON':'NON VÉRIFIÉ'),
-   'Batching : '+(privacy.anonymity_gate?.mechanism||'UNKNOWN'),
+   'Batching : '+(privacy.anonymity_gate?.mechanism||'UNKNOWN')+' · '+(privacy.anonymity_gate?.runtime_binding||'UNKNOWN'),
+   'Persistance batch après redémarrage : '+(privacy.anonymity_gate?.persistence_restart_proven===true?'PROUVÉE':'NON VÉRIFIÉE'),
+   'Petit ensemble : '+(privacy.anonymity_gate?.small_set_behavior||privacy.anonymity_gate?.small_set_release||'UNKNOWN'),
    'Seuil de production : '+String(privacy.anonymity_gate?.production_minimum_set_size??'UNKNOWN'),
    'Fenêtre de production : '+String(privacy.anonymity_gate?.production_window_seconds??'UNKNOWN'),
-   'Petit ensemble libérable : '+(privacy.anonymity_gate?.small_set_release||'UNKNOWN')
+   'Key custody : '+(privacy.key_gate?.state||'UNKNOWN')+' · provider '+(privacy.key_gate?.current_provider||'UNKNOWN')+' · verdict '+(privacy.key_gate?.custody_verdict||'UNKNOWN'),
+   'Threat model interne : '+(privacy.review_gate?.internal_threat_model||'UNKNOWN'),
+   'Audit pack : '+(privacy.review_gate?.audit_pack||'UNKNOWN'),
+   'Audit cryptographique externe : '+(privacy.review_gate?.external_cryptographic_review||'UNKNOWN')
   ]));
   stage.append(list('Pourquoi la production reste fermée',privacy.blocking_reasons));
   stage.append(list('Standards de référence',privacy.standards));
