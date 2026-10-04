@@ -9,7 +9,7 @@ DATA=ROOT/"docs/data/france-debt-rate-live.json"
 HTML=ROOT/"docs/france-debt-rate-risk-live-2026-10-02.html"
 ASSETS=ROOT/"docs/assets"
 CARD=ASSETS/"la-bete-social-card.png"
-CANON="https://nicolason84.github.io/nova-trust/france-debt-rate-risk-live-2026-10-02.html"
+CANON="https://nicolason84.github.io/nova-trust/la-bete/"
 
 j=json.loads(DATA.read_text())
 o=j.get("observed",{}); s=j.get("summary",{})
@@ -19,8 +19,8 @@ date_fr="/".join(reversed(date)) if len(date)==3 else "—"
 warnings=int(s.get("warnings",0))
 snapshot=str(j.get("snapshot_id","OJO-LIVE"))
 version=re.sub(r"[^A-Za-z0-9]","",snapshot)[-12:] or "live"
-title=f"La Bête · TEC10 {rate_fr} % · dette, taux & décision"
-desc=f"Decision Twin public · observation {date_fr} · {warnings} source(s) en alerte · horizons, preuves et état des sources visibles."
+title="La Bête · The Living Advisory House"
+desc=f"QUESTION → DECISION → PROOF → EXPLORE → MISSION · Decision Twin public · {warnings} source(s) en alerte."
 
 def font(size,bold=False):
     candidates=[
@@ -43,10 +43,10 @@ d.ellipse((760,-260,1370,350),fill="#102e3b")
 d.ellipse((885,-110,1280,280),outline="#8bd6e5",width=2)
 d.rounded_rectangle((55,48,1145,582),radius=32,outline="#29404b",width=2,fill="#09151e")
 d.text((92,82),"ojO / SUPRA",font=font(28,True),fill="#c8f09a")
-d.text((92,126),"LA BÊTE · FRANCE · DETTE & TAUX",font=font(21,True),fill="#e7bd72")
-d.text((92,194),"Signal ≠ diagnostic.",font=font(58,True),fill="#eef5f2")
-d.text((92,282),f"TEC10  {rate_fr} %",font=font(78,True),fill="#c8f09a")
-d.text((94,382),f"Observation {date_fr} · courbe · refinancement · horizons · preuves",font=font(24),fill="#cbd8dc")
+d.text((92,126),"LA BÊTE · THE LIVING ADVISORY HOUSE",font=font(21,True),fill="#e7bd72")
+d.text((92,194),"Décider. Prouver. Agir.",font=font(54,True),fill="#eef5f2")
+d.text((92,282),"QUESTION → DECISION → PROOF",font=font(45,True),fill="#c8f09a")
+d.text((94,382),f"Dossier public · TEC10 {rate_fr} % · observation {date_fr}",font=font(24),fill="#cbd8dc")
 badge="#623f35" if warnings else "#173d2a"; badge_text=f"{warnings} SOURCE(S) EN ALERTE" if warnings else "SOURCES OPÉRATIONNELLES"
 d.rounded_rectangle((92,438,510,493),radius=27,fill=badge,outline="#e7bd72" if warnings else "#7ed8a0",width=2)
 d.text((116,453),badge_text,font=font(18,True),fill="#f0e2c0" if warnings else "#bfe8cb")
@@ -62,7 +62,7 @@ def icon(path,size):
 icon(ASSETS/"la-bete-icon-192.png",192); icon(ASSETS/"la-bete-icon-512.png",512); icon(ASSETS/"la-bete-apple-touch-icon.png",180)
 
 text=HTML.read_text()
-image=f"https://nicolason84.github.io/nova-trust/assets/la-bete-social-card.png?v={version}"
+image=f"https://nicolason84.github.io/nova-trust/assets/la-bete-social-card.png?v=premiumv11-{version}"
 def set_meta(text,key,value,kind="property"):
     pat=rf'(<meta {kind}="{re.escape(key)}" content=")[^"]*(">)'
     out,n=re.subn(pat,lambda m:m.group(1)+escape(value,quote=True)+m.group(2),text,count=1)
