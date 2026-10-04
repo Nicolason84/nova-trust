@@ -11,17 +11,35 @@ const records=new Map(), moves=[], proofViews=new Map(), communeShards=new Map()
 let topology=null,topologyPromise=null;let serial=0,current=null,territories=null,territoryPromise=null,renderToken=0,latest=null,proofNode=null,proofScroll=0;
 const legacyChat=id('dialogue-public'), chatPlace=document.createComment('existing-dialogue-home');legacyChat.before(chatPlace);
 const root=el('div',undefined,'muApp');root.id='multiunivers';
+const AUDIENCE_MODES={simple:'Essentiel',explain:'Comprendre',expert:'Expert'};
+let audienceMode='simple';
+root.dataset.audienceMode=audienceMode;
 const header=el('header',undefined,'muHeader');
-const mark=link('ojO','#/atlas','muBrand');mark.setAttribute('aria-label','La Bête · atlas');
-const brand=append(el('div',undefined,'muBrandBlock'),mark,el('span','LA BÊTE / MULTIUNIVERS','muBrandSub'));
+const mark=link('ojO','#/atlas','muBrand');mark.setAttribute('aria-label','La Bête · accueil');
+const brand=append(el('div',undefined,'muBrandBlock'),mark,el('span','COMPRENDRE · VÉRIFIER · AGIR','muBrandSub'));
 const searchForm=el('form',undefined,'muSearch');searchForm.setAttribute('role','search');
-const searchInput=el('input');searchInput.id='muSearchInput';searchInput.type='search';searchInput.placeholder='Un objet, une source, une question…';searchInput.maxLength=150;searchInput.setAttribute('aria-label','Rechercher dans les objets documentés');
-const searchSubmit=el('button','Rechercher');searchSubmit.type='submit';append(searchForm,searchInput,searchSubmit);
-const headActions=append(el('div',undefined,'muHeadActions'),link('La Bête','#/presence','muPresenceShortcut'),button('Dialoguer',()=>openChat(),'muPrimary'),link('Mode lecture','#/lecture','muReadingLink'));
+const searchInput=el('input');searchInput.id='muSearchInput';searchInput.type='search';searchInput.placeholder='Posez une question ou cherchez un sujet…';searchInput.maxLength=150;searchInput.setAttribute('aria-label','Rechercher une réponse, un sujet ou une source');
+const searchSubmit=el('button','Chercher');searchSubmit.type='submit';append(searchForm,searchInput,searchSubmit);
+const headActions=append(el('div',undefined,'muHeadActions'),link('La Bête','#/presence','muPresenceShortcut'),button('Poser une question',()=>openChat(),'muPrimary'),link('Lire l’article','#/lecture','muReadingLink'));
 append(header,brand,searchForm,headActions);root.append(header);
+const audienceBar=el('div',undefined,'muAudienceBar');audienceBar.setAttribute('aria-label','Niveau de lecture');
+audienceBar.append(el('span','Niveau de lecture','muAudienceLabel'));
+const audienceButtons=[];
+for(const [key,label] of Object.entries(AUDIENCE_MODES)){const b=button(label,()=>setAudienceMode(key),'muAudienceButton');b.id='muMode-'+key;b.dataset.mode=key;audienceButtons.push(b);audienceBar.append(b);}
+root.append(audienceBar);
+function syncAudienceMode(){
+ root.dataset.audienceMode=audienceMode;
+ audienceButtons.forEach(b=>{b.setAttribute('aria-pressed',String(b.dataset.mode===audienceMode));});
+ searchInput.placeholder=audienceMode==='expert'?'Un objet, une source, un identifiant…':'Posez une question ou cherchez un sujet…';
+}
+function setAudienceMode(mode){
+ if(!AUDIENCE_MODES[mode]||mode===audienceMode)return;
+ audienceMode=mode;syncAudienceMode();if(current)renderCurrent(false,false);
+}
+syncAudienceMode();
 let mobileAccess=null;
-const nav=el('nav',undefined,'muRail');nav.setAttribute('aria-label','Univers explorables');nav.append(link('◉  Atlas','#/atlas','muRailAtlas'),link('○  Public','#/public'),link('↗  Agir','#/agir'),link('◇  SCIC','#/scic'),link('◆  Services','#/services'),link('◇  Espace privé','#/prive'),link('▣  Mobile','#/mobile'));
-M.UNIVERSES.forEach(u=>nav.append(link(u.symbol+'  '+u.label,M.route('univers',u.id))));root.append(nav);
+const nav=el('nav',undefined,'muRail');nav.setAttribute('aria-label','Chemins de lecture');nav.append(link('◉  Accueil','#/atlas','muRailAtlas'),link('○  Comprendre','#/public'),link('↗  Faire une démarche','#/agir'),link('◇  Décider ensemble','#/scic'),link('◆  Aide personnalisée','#/services'),link('◇  Mes données','#/prive'),link('▣  Sur mobile','#/mobile'));
+M.UNIVERSES.forEach(u=>{const a=link(u.symbol+'  '+u.label,M.route('univers',u.id),'muDeepNav');nav.append(a);});root.append(nav);
 const workspace=el('div',undefined,'muWorkspace');
 const trailbar=el('div',undefined,'muTrailbar');
 const back=button('← Retour',()=>{if(current?.depth>0)history.back();else navigate('#/atlas');},'muBack');back.id='muBack';
@@ -48,9 +66,10 @@ function navigate(raw,replace=false){save();const hash=canonicalRoute(raw),base=
  current=next;const state={...(history.state||{}),mu:{key:next.key,depth:next.depth}};if(replace)history.replaceState(state,'',hash);else history.pushState(state,'',hash);renderCurrent();}
 function restoreMoves(){for(const {node,placeholder}of moves.splice(0))placeholder.replaceWith(node);}
 function mountExisting(section,target=stage){const n=id(section);if(!n)return false;const p=document.createComment('mounted-existing-'+section);n.before(p);moves.push({node:n,placeholder:p});target.append(n);return true;}
-function routeLabel(parsed,g){if(parsed.kind==='objet')return M.resolveNode(g,parsed.id)?.label||'Objet introuvable';if(parsed.kind==='univers')return M.UNIVERSES.find(u=>u.id===parsed.id)?.label||'Univers';return ({public:'Bien commun public',agir:'Agir',scic:'SCIC · direction coopérative',services:'Services privés',mobile:'Mobile & téléchargements',prive:'Espace privé · état du pilote',atlas:'Atlas',lecture:'Mode lecture',presence:'Présence de La Bête',analyse:'Analyse des taux',horizons:'Horizons de refinancement',chronologie:'Temps & scénarios',sante:'État et mémoire'})[parsed.kind]||'Route inconnue';}
+function routeLabel(parsed,g){if(parsed.kind==='objet')return M.resolveNode(g,parsed.id)?.label||'Objet introuvable';if(parsed.kind==='univers')return M.UNIVERSES.find(u=>u.id===parsed.id)?.label||'Univers';return ({public:'Comprendre',agir:'Faire une démarche',scic:'Décider ensemble',services:'Aide personnalisée',mobile:'Sur mobile',prive:'Mes données',atlas:'Accueil',lecture:'Lire l’article',presence:'La Bête',analyse:'Taux & scénarios',horizons:'Dans le temps',chronologie:'Ce qui a changé',sante:'Fiabilité'})[parsed.kind]||'Route inconnue';}
 function title(kicker,text,sub){const head=el('div',undefined,'muTitle');append(head,el('div',kicker,'muEyebrow'),el('h1',text),sub?el('p',sub):null);stage.append(head);}
-function card(node,relation){const a=link('',M.route('objet',node.id),'muObjectCard');a.dataset.objectId=node.id;append(a,el('span',relation||M.LABELS[node.kind]||node.kind,'muCardType'),el('strong',node.label),el('small',node.status||'Objet relié à la preuve'),el('span','Explorer ↗','muCardArrow'));return a;}
+function friendlyStatus(value){const s=String(value||'').toUpperCase();const map={LIVE_VERIFIED:'Vérifié',VERIFIED:'Vérifié',UNAVAILABLE:'Source indisponible',DEGRADED:'Source à surveiller',CONTRADICTED:'À vérifier',RETAINED_LAST_GOOD:'Dernière donnée fiable conservée',DRAFT_READY:'Prêt à relire',PROPOSAL_ONLY:'Proposition',NOT_CONNECTED:'Non activé',NOT_EXECUTED:'Pas encore réalisé',TO_FORMALIZE_NOT_A_VERIFIED_REGISTERED_ENTITY:'En projet · pas encore constituée',OPERABLE_NON_BINDING:'Fonctionne en test · sans effet juridique',BLOCKED:'Fermé par sécurité',ACTIVE:'Actif'};return map[s]||(!s||s==='UNKNOWN'?'À vérifier':value);}
+function card(node,relation){const a=link('',M.route('objet',node.id),'muObjectCard');a.dataset.objectId=node.id;append(a,el('span',relation||M.LABELS[node.kind]||node.kind,'muCardType'),el('strong',node.label),el('small',audienceMode==='expert'?(node.status||'Objet relié à la preuve'):friendlyStatus(node.status)),el('span','Explorer ↗','muCardArrow'));return a;}
 function paginatedCards(host,items,heading,key,relationMode=false){
  if(heading)host.append(el('h2',heading,'muSubhead'));const area=el('div',undefined,relationMode?'muRelationsList':'muCards');let shown=0;const pageSize=40;
  const more=button('Afficher davantage',()=>{show();current.pages=current.pages||{};current.pages[key]=shown;});
@@ -60,8 +79,85 @@ function paginatedCards(host,items,heading,key,relationMode=false){
 }
 function listCards(nodes,heading){paginatedCards(stage,nodes,heading,'cards:'+(heading||'default'));}
 function sourceStamp(g){return 'Instantané '+g.source_snapshot_id+' · état matériel '+g.updated_at+' · dates propres à chaque source';}
+function humanStamp(g){return audienceMode==='expert'?sourceStamp(g):audienceMode==='explain'?'Données sourcées et datées · dernière mise à jour '+g.updated_at+' · détails complets en mode Expert.':'Données sourcées et datées · les détails techniques restent accessibles en mode Expert.';}
+function qa(question,answer,href,label='Comprendre pourquoi'){
+ const article=el('article',undefined,'muQuestionCard');append(article,el('h2',question),el('p',answer));
+ if(href)article.append(link(label,href,'muQuestionLink'));return article;
+}
+function questionHub(g){
+ const live=g.live||{},obs=live.observed||{},summary=live.summary||{},grid=el('section',undefined,'muQuestionGrid');
+ const tec=obs.tec10_pct??obs.tec_10y_pct??obs.tec10??null;
+ append(grid,
+  qa('La France emprunte-t-elle plus cher qu’avant ?',tec!==null?'Le taux à 10 ans suivi ici est de '+tec+' %. La question importante est ensuite de savoir quand ce coût se transmet réellement au budget.':'Le taux courant est suivi, mais sa valeur n’est pas disponible dans cet affichage.','#/analyse','Voir les taux'),
+  qa('Quand est-ce que ça pèse vraiment sur le budget ?','Pas d’un seul coup. La dette est renouvelée progressivement : les horizons de 12, 36, 60 et 120 mois montrent comment le choc se transmet dans le temps.','#/horizons','Voir la transmission'),
+  qa('Combien cela peut-il coûter en plus ?','La Bête calcule des scénarios conditionnels à partir des données disponibles. Ce ne sont pas des prédictions : ils servent à voir l’ordre de grandeur selon les taux.','#/analyse','Tester les scénarios'),
+  qa('D’où viennent les chiffres ?','Chaque valeur importante est reliée à une source et à une date. Quand une source manque ou vieillit, La Bête le signale au lieu de compléter au hasard.','#/univers/preuves','Voir les sources'),
+  qa('Qu’est-ce qu’on sait vraiment aujourd’hui ?',String(summary.warnings||0)+' source(s) demandent actuellement de l’attention. Les faits observés, les calculs et les hypothèses restent séparés.','#/public','Voir ce qui est établi'),
+  qa('Puis-je poser ma propre question ?','Oui. Le dialogue reprend le contexte de la page où vous êtes, sans transformer votre question en preuve ni en décision.',null)
+ );
+ const ask=button('Poser ma question',()=>openChat(),'muPrimary');grid.append(ask);return grid;
+}
+function humanHybrid(kind,h,g){
+ const publicModel=h.public_common_good||{},coop=h.cooperative_direction||{},privateModel=h.private_services||{},auto=h.autoevolution||{},acq=g.evolution?.self_model?.acquisition||{};
+ const dem=coop.democracy||{},privacy=dem.production_privacy_gate||{},membership=dem.membership||{},truth=dem.truth_firewall||{},b=coop.institutional_blueprint||{};
+ const detailed=audienceMode==='explain';
+ const list=(heading,items)=>{const section=el('section',undefined,'muObjectMain');section.append(el('h2',heading,'muSubhead'));const ul=el('ul',undefined,'muSteps');(items||[]).forEach(x=>ul.append(el('li',x)));section.append(ul);return section;};
+ if(kind==='public'){
+  title('POUR TOUT LE MONDE','Est-ce que La Bête est gratuite ?','Oui pour comprendre les informations publiques, vérifier les sources et poser des questions. Les services privés éventuels restent séparés.');
+  const grid=el('section',undefined,'muQuestionGrid');append(grid,
+   qa('Faut-il payer pour voir les faits et les sources ?',publicModel.paywall===false?'Non. Le noyau public est conçu pour rester accessible sans abonnement.':'Ce point n’est pas encore vérifié.'),
+   qa('Quelqu’un peut-il payer pour “acheter” une vérité ?',publicModel.saleable_public_truth===false?'Non. Un client, un sponsor ou un financeur ne peut pas acheter un fait, un classement ou une conclusion.':'Ce garde-fou n’est pas vérifié.'),
+   qa('Puis-je vérifier par moi-même ?','Oui. Les sources, les dates et les limites doivent rester consultables, y compris quand elles contredisent une lecture confortable.','#/univers/preuves','Voir les preuves'),
+   qa('Puis-je participer ?','Oui : vous pouvez questionner, proposer une correction ou ouvrir une discussion. Une proposition ne devient jamais automatiquement une preuve.','#/univers/idees','Participer')
+  );stage.append(grid);
+  if(detailed)stage.append(list('Ce que le bien commun public comprend',publicModel.scope));
+  return true;
+ }
+ if(kind==='agir'){
+  title('FAIRE UNE DÉMARCHE','La Bête peut-elle agir à ma place ?','Elle peut préparer et vérifier. Elle ne doit pas vous représenter, envoyer ou engager quelque chose en votre nom sans autorisation adaptée.');
+  const req=(acq.requests||[]).length,init=(acq.initiatives||[]).length;
+  const grid=el('section',undefined,'muQuestionGrid');append(grid,
+   qa('Que peut-elle faire seule ?','Repérer une information manquante, rassembler les faits, préparer un dossier ou un brouillon et proposer l’étape suivante.'),
+   qa('Peut-elle envoyer un message sans me demander ?', 'Non par défaut. Un envoi ou une représentation extérieure exige un mandat et un destinataire vérifiés.'),
+   qa('Y a-t-il déjà quelque chose de prêt ?',req+' démarche(s) d’information et '+init+' initiative(s) sont actuellement préparées ou documentées.','#/univers/demarches','Voir les démarches'),
+   qa('Comment savoir si ça a vraiment marché ?','Un brouillon ou un mail envoyé ne suffit pas : le résultat utile doit être observé et vérifié.')
+  );stage.append(grid);
+  if(detailed)stage.append(list('Étapes normales',['Besoin ou manque documenté','Faits et contradictions','Préparation de l’action','Autorisation si nécessaire','Réponse réelle','Résultat vérifié ou blocage clair']));
+  return true;
+ }
+ if(kind==='services'){
+  title('AIDE PERSONNALISÉE','Dois-je payer pour utiliser La Bête ?','Non pour le bien commun public. Des services privés plus poussés sont envisagés séparément, mais ils ne sont pas ouverts à la vente ici.');
+  const grid=el('section',undefined,'muQuestionGrid');append(grid,
+   qa('Qu’est-ce qui resterait toujours gratuit ?','Les informations publiques, leurs sources, leurs limites et les outils de participation.'),
+   qa('À quoi serviraient des services privés ?','À traiter un dossier personnel ou professionnel avec plus d’accompagnement, sans déplacer les faits publics derrière un paywall.'),
+   qa('Puis-je déjà acheter un service ?',privateModel.payment==='NOT_CONNECTED'?'Non. Aucun paiement ni onboarding commercial n’est activé sur cette page.':'L’état commercial doit être revérifié.'),
+   qa('Mes documents privés sont-ils envoyés sur cette page ?',privateModel.real_private_documents==='NOT_ACCEPTED_ON_PUBLIC_ORIGIN'?'Non. La page publique n’accepte pas vos documents privés.':'Cette frontière doit être revérifiée.','#/prive','Voir la frontière privée')
+  );stage.append(grid);return true;
+ }
+ if(kind==='scic'){
+  title('DÉCIDER ENSEMBLE','Peut-on voter ici, aujourd’hui ?','Non. Le système de décision est testé, mais aucun vrai scrutin de sociétaires n’est ouvert tant que la structure, les membres et les protections externes ne sont pas prêts.');
+  const privacyClosed=privacy.production_activation===false;
+  const grid=el('section',undefined,'muQuestionGrid');append(grid,
+   qa('Puis-je voter maintenant ?',membership.real_enrollment_open===false?'Non. Il n’y a pas encore d’inscription réelle de sociétaires ni de vote juridiquement contraignant.':'L’ouverture réelle n’est pas vérifiée.'),
+   qa('Mon identité serait-elle publiée avec mon vote ?','Non par conception : l’identité sert à vérifier le droit de participer, puis le vote doit rester séparé de cette identité. Les tests actuels utilisent des données synthétiques, pas de vraies personnes.'),
+   qa('Une majorité peut-elle décider qu’un fait est vrai ?',truth.ballot_may_change_evidence===false?'Non. On peut voter sur une action, une règle ou une priorité ; pas transformer une hypothèse en fait ni effacer une preuve.':'Ce garde-fou doit être revérifié.'),
+   qa('Qui aurait le pouvoir ?',(b.colleges||[]).length+' groupes de sociétaires sont proposés pour éviter qu’un seul acteur contrôle tout. Le capital ne doit pas acheter davantage de voix.'),
+   qa('Pourquoi le vote réel reste-t-il fermé ?',privacyClosed?'Parce qu’il manque encore des preuves externes indépendantes : séparation réelle des opérateurs, protection matérielle des clés, revue sécurité/vie privée et cadre juridique final.':'Le niveau de protection production doit être revérifié.'),
+   qa('Qu’est-ce qui est déjà démontré ?','Le parcours de vote secret, la séparation identité/vote, la prévention du double vote et le comptage par groupes ont été testés. Cela démontre le mécanisme, pas encore un scrutin réel.')
+  );stage.append(grid);
+  if(detailed){
+   stage.append(list('Comment ça fonctionnerait concrètement',['1. Vérifier qu’une personne a le droit de participer, sans publier son identité.','2. Lui donner un droit de vote à usage unique sans inscrire son nom dans le bulletin.','3. Faire passer le bulletin par une infrastructure séparée pour réduire les liens techniques avec la personne.','4. Attendre un groupe suffisant de bulletins avant publication pour réduire les recoupements temporels.','5. Publier uniquement des résultats agrégés et vérifiables.']));
+   stage.append(list('Ce qu’il manque avant un vrai scrutin',['Constituer juridiquement la SCIC et adopter ses règles.','Admettre de vrais sociétaires selon des critères vérifiés.','Faire opérer le relais réseau par une entité indépendante.','Protéger les clés de signature dans du matériel dédié avec double contrôle.','Faire auditer le protocole et le modèle de menace par des tiers indépendants.','Fixer les paramètres d’anonymat après cette revue, pas avant.']));
+   if((b.colleges||[]).length)stage.append(list('Les groupes proposés',(b.colleges||[]).map(x=>x.label+' · '+x.vote_weight_pct+' % · '+x.purpose)));
+  }
+  return true;
+ }
+ return false;
+}
 function atlas(g){
- title('LA BÊTE · AU CŒUR DES UNIVERS','La Bête.','Défendre les intérêts des personnes : comprendre, vérifier, faire entendre et agir sous mandat.');
+ if(audienceMode==='simple')title('COMMENCER PAR UNE QUESTION','Qu’est-ce que vous voulez comprendre ?','Pas besoin de connaître le jargon : partez d’une question concrète, puis ouvrez les sources si vous voulez aller plus loin.');
+ else if(audienceMode==='explain')title('COMPRENDRE AVANT DE CONCLURE','La Bête, expliquée.','Les mêmes données et les mêmes preuves, avec davantage de contexte mais sans entrer d’emblée dans les détails techniques.');
+ else title('LA BÊTE · AU CŒUR DES UNIVERS','La Bête.','Défendre les intérêts des personnes : comprendre, vérifier, faire entendre et agir sous mandat.');
  const map=el('div',undefined,'muAtlas muAtlasWithPresence');map.id='muAtlas';map.setAttribute('aria-label','La Bête au centre des univers explorables');
  const hero=el('section',undefined,'muAtlasPresence');hero.id='muAtlasPresence';hero.setAttribute('aria-label','Présence principale de La Bête');
  const scene=el('div',undefined,'muAtlasScene');scene.id='muAtlasScene';
@@ -73,10 +169,11 @@ function atlas(g){
  append(hero,scene,caption,actions);map.append(hero);
  M.UNIVERSES.forEach((u,i)=>{const a=link('',M.route('univers',u.id),'muUniverse muUniverse-'+i);const count=[...g.nodes.values()].filter(n=>n.universe===u.id).length;const label=u.id==='temps'?g.live.curve_history?.length+' observations':u.id==='idees'?'Dialogue & propositions':u.id==='etat'?'Mémoire opérationnelle':u.id==='territoires'?(g.detail?g.detail.counts.communes_cog+' communes référencées':'Territoires · détail à la demande'):count+' objets documentés';append(a,el('span',u.symbol,'muSymbol'),el('strong',u.label),el('small',u.subtitle),el('span',label,'muUniverseCount'));map.append(a);});
  stage.append(map);
+ if(audienceMode!=='expert')stage.append(questionHub(g));
  // One existing canvas, one initialization. Atlas is now itself a visible presence route.
  window.laBeteEnsurePresence?.();
  if(g.nodes.has('LA_BETE_CIVIC_MISSION_V1')){const mission=el('div',undefined,'muCivicMission');append(mission,el('strong','Au service des personnes. Sans consigne politique.'),link('Mission, limites et engagements',M.route('objet','LA_BETE_CIVIC_MISSION_V1')));stage.append(mission);}
- const access=el('div',undefined,'muAccessShortcuts');access.id='muAccessShortcuts';append(access,link('Public · toujours gratuit','#/public'),link('Agir · du fait à la démarche','#/agir'),link('SCIC · gouvernance à formaliser','#/scic'),link('Services · optionnels et séparés','#/services'),link('Espace privé · sécurité avant ouverture','#/prive'),link('Mobile','#/mobile'));stage.append(access);
+ const access=el('div',undefined,'muAccessShortcuts');access.id='muAccessShortcuts';append(access,link('Comprendre · toujours gratuit','#/public'),link('Faire une démarche','#/agir'),link('Décider ensemble','#/scic'),link('Aide personnalisée · optionnelle','#/services'),link('Mes données · protégées','#/prive'),link('Sur mobile','#/mobile'));stage.append(access);
  const path=el('div',undefined,'muSuggested');append(path,el('div','UN PREMIER PARCOURS','muEyebrow'),el('p','France → finances publiques → dette → source → manque → démarche'),link('Commencer par la France',M.route('objet',M.COUNTRY),'muPrimary'));stage.append(path);
  stage.append(el('p','La présence visuelle suit le scénario et le flux existants. Ni ses mouvements ni la position des univers ne constituent une opinion ou une causalité politique.','muFineprint'));
 }
@@ -87,6 +184,7 @@ function hybridView(kind,g){
   title('MODÈLE HYBRIDE NON LIÉ','Cette vue attend le même instantané vérifié.','Aucun statut SCIC, service ou prix de remplacement n’est inventé.');
   return;
  }
+ if(audienceMode!=='expert'){humanHybrid(kind,h,g);return;}
  const publicModel=h.public_common_good||{},coop=h.cooperative_direction||{},privateModel=h.private_services||{},bridge=h.economic_bridge||{},auto=h.autoevolution||{},acq=g.evolution?.self_model?.acquisition||{};
  const info=(label,value)=>{const row=el('div',undefined,'muObjectCard');append(row,el('span',label,'muCardType'),el('strong',value));return row;};
  const list=(heading,items)=>{const section=el('section',undefined,'muObjectMain');section.append(el('h2',heading,'muSubhead'));const ul=el('ul',undefined,'muSteps');(items||[]).forEach(x=>ul.append(el('li',x)));section.append(ul);return section;};
@@ -358,14 +456,24 @@ async function renderCurrent(useLatest=false,restore=false){
   else if(p.kind==='objet'){const node=M.resolveNode(g,p.id);if(node)objectView(node,g);else{title('OBJET NON TROUVÉ','Ce point n’est pas documenté ici.','Le lien n’est pas remplacé par un objet inventé.');stage.append(link('Revenir à l’atlas','#/atlas','muPrimary'));}}
   else if(['presence','analyse','horizons','chronologie','sante'].includes(p.kind)){
    const section={presence:'la-bete',analyse:'market-anatomy',horizons:'refinancing-twin',chronologie:'time-machine',sante:'autoevolution'}[p.kind];
-   title('COMPOSANT EXISTANT · MÊME FLUX',routeLabel(p,g),'Ce composant est réutilisé, non recopié. Ses valeurs suivent le flux existant ; les objets et preuves disposent de leur propre instantané.');mountExisting(section);
+   if(audienceMode==='expert')title('COMPOSANT EXISTANT · MÊME FLUX',routeLabel(p,g),'Ce composant est réutilisé, non recopié. Ses valeurs suivent le flux existant ; les objets et preuves disposent de leur propre instantané.');
+   else {
+    const copy={
+     presence:['LA BÊTE','Pourquoi cette forme bouge-t-elle ?','La représentation visuelle réagit aux états déjà calculés. Elle aide à explorer ; elle ne constitue ni un diagnostic ni une opinion.'],
+     analyse:['TAUX & SCÉNARIOS','Que se passe-t-il si les taux changent ?','Comparez des scénarios pour voir des ordres de grandeur. Ils décrivent des conditions possibles, pas l’avenir.'],
+     horizons:['DANS LE TEMPS','Quand le coût se transmet-il vraiment ?','La dette se renouvelle progressivement : cette vue montre pourquoi une hausse de taux ne frappe pas tout le budget le même jour.'],
+     chronologie:['CE QUI A CHANGÉ','Comment la situation a-t-elle évolué ?','Remontez les observations et les scénarios sans confondre une date de donnée avec une prédiction.'],
+     sante:['FIABILITÉ','Les données sont-elles à jour ?','Cette vue montre ce qui est disponible, ce qui manque et ce que La Bête conserve comme dernière information fiable.']
+    }[p.kind];title(copy[0],copy[1],copy[2]);
+   }
+   mountExisting(section);
    if(p.kind==='presence')window.laBeteEnsurePresence?.();
   }else {title('ROUTE INCONNUE','Reprendre un chemin documenté.','Cette adresse ne correspond à aucun objet ou univers pris en charge.');stage.append(link('Ouvrir l’atlas','#/atlas','muPrimary'));}
-  current.label=routeLabel(p,g);trail.replaceChildren(link('Atlas','#/atlas'));
-  for(const v of current.visited||[])if(v.hash!==current.hash&&v.label!=='Atlas')append(trail,el('span','/'),link(v.label,v.hash));append(trail,el('span','/'),el('span',current.label));
+  current.label=routeLabel(p,g);trail.replaceChildren(link('Accueil','#/atlas'));
+  for(const v of current.visited||[])if(v.hash!==current.hash&&!['Atlas','Accueil'].includes(v.label))append(trail,el('span','/'),link(v.label,v.hash));append(trail,el('span','/'),el('span',current.label));
   [...nav.querySelectorAll('a')].forEach(a=>{const target=a.dataset.muRoute;const active=(['atlas','public','agir','scic','services','mobile','prive'].includes(p.kind)&&target===M.route(p.kind))||(p.kind==='univers'&&target===M.route('univers',p.id))||(p.kind==='objet'&&target===M.route('univers',M.resolveNode(g,p.id)?.universe));if(active)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current');});
   document.title=current.label+' · La Bête · ojO';refreshChatLabel();updateBar.hidden=true;
-  if(!workspace.hidden){stage.append(el('p',sourceStamp(g),'muSnapshot'));}
+  if(!workspace.hidden){stage.append(el('p',humanStamp(g),'muSnapshot'));}
   if(restore){searchInput.value=current.search||'';[...stage.querySelectorAll('details')].forEach((d,i)=>d.open=!!current.details?.[i]);window.scrollTo({top:current.scrollY||0,behavior:'instant'});const f=current.focusId?id(current.focusId):[...document.querySelectorAll('[data-mu-route]')].find(a=>a.dataset.muRoute===current.focusRoute);f?.focus({preventScroll:true});}
   else {window.scrollTo({top:0,behavior:'instant'});if(!workspace.hidden)stage.focus({preventScroll:true});searchInput.value=current.search||'';}
   status('');records.set(current.key,current);

@@ -55,9 +55,10 @@ test('civic institutional palette is explicit and neutral',()=>{
  assert.doesNotMatch(tail,/var\(--supra-red/);
  assert.match(artCss.slice(artCss.lastIndexOf('CIVIC INSTITUTIONAL PALETTE V1')),/--art-copper:#B58A62/);
 });
-test('public CSS cache key moved to civic institutional version',()=>{
+test('public cache keys expose current civic art and human reading modes',()=>{
  assert.match(page,/la-bete-art\.css\?v=20261004-civic-institutional-v1/);
- assert.match(page,/la-bete-explorer\.css\?v=20261004-civic-institutional-v1/);
+ assert.match(page,/la-bete-explorer\.css\?v=20261004-human-modes-v1/);
+ assert.match(page,/la-bete-explorer\.js\?v=20261004-human-modes-v1/);
 });
 test('no hidden dialog transcript persistence',()=>assert.doesNotMatch(ui,/localStorage|sessionStorage|indexedDB|document\.cookie/));
 test('no public action API or credentials',()=>assert.doesNotMatch(ui,/Bearer |POST["']|OPENAI_API_KEY|GH_TOKEN|18765|localhost/));
