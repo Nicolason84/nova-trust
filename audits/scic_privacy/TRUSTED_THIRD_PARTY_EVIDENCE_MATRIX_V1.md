@@ -1,7 +1,8 @@
 # SCIC Trusted Third Parties — Evidence Matrix V1
 
 **Prepared:** 2026-10-04  
-**State:** PRE-CONTACT / NO EXTERNAL COMMITMENT
+**State:** OUTREACH ACTIVE / WAITING FOR TRUSTED-PARTY REPLIES
+**Receipts:** six verified Gmail sends + one confirmed AWS CloudHSM sales-form submission are recorded in `TRUSTED_THIRD_PARTY_SELECTION_V1.json`; no reply may change a production gate without independent verification and retest.
 
 | Role | Candidate | Publicly verified now | Still requires vendor evidence | Selection status |
 | --- | --- | --- | --- | --- |

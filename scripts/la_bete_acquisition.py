@@ -856,3 +856,31 @@ def verify_received_document(document, *, trusted_verifier):
     required = ("official_provenance", "same_scope", "dated", "complete", "coherent", "canonical_gate_passed")
     return {"state": "VERIFIED" if all(result.get(k) is True for k in required) else "NEEDS_REVIEW",
             "canonical_write_performed": False, "checks": {k: result.get(k) is True for k in required}}
+
+
+def admit_trusted_party_reply(reply, *, expected_party, expected_thread_id, trusted_verifier):
+    """Bind a real provider reply to an existing outreach thread, then verify it without promotion."""
+    if not isinstance(reply, dict):
+        raise ValueError("TRUSTED_PARTY_REPLY_REQUIRED")
+    message_id = reply.get("id") or reply.get("message_id")
+    thread_id = reply.get("thread_id")
+    body = str(reply.get("body") or "")
+    subject = str(reply.get("subject") or "")
+    sender = str(reply.get("from") or reply.get("from_") or "")
+    received_at = reply.get("email_ts") or reply.get("received_at")
+    if not all((message_id, thread_id, body.strip(), subject.strip(), sender.strip(), received_at)):
+        raise ValueError("TRUSTED_PARTY_REPLY_INCOMPLETE")
+    if str(thread_id) != str(expected_thread_id):
+        raise ValueError("TRUSTED_PARTY_REPLY_THREAD_MISMATCH")
+    document = {
+        "party": expected_party, "message_id": str(message_id), "thread_id": str(thread_id),
+        "sender": sender, "subject": subject, "body": body, "received_at": stamp(received_at).isoformat(),
+    }
+    verification = verify_received_document(document, trusted_verifier=trusted_verifier)
+    return {
+        "schema": "LA_BETE_TRUSTED_PARTY_REPLY_CANDIDATE_V1",
+        "state": "VERIFIED_CANDIDATE" if verification["state"] == "VERIFIED" else "RECEIVED_NOT_VERIFIED",
+        "party": expected_party, "provider_message_id": str(message_id), "provider_thread_id": str(thread_id),
+        "received_at": document["received_at"], "subject_sha256": digest(subject), "body_sha256": digest(body),
+        "verification": verification, "canonical_write_performed": False, "production_gate_mutation": False,
+    }
