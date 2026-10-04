@@ -17,9 +17,10 @@
   },
   "batch_policy": {
     "default_batch_size": 12,
-    "selection": "UNSCANNED_FIRST_THEN_OLDEST_SCAN",
+    "selection": "UNSCANNED_FIRST_THEN_DAILY_DETERMINISTIC_ROTATION",
     "scheduled_cadence": "DAILY",
-    "full_cycle_target_runs": 9
+    "full_cycle_target_runs": 9,
+    "material_change_policy": "EVIDENCE_SEMANTIC_DIFF_ONLY"
   },
   "sources": {
     "wikidata": "https://www.wikidata.org/w/api.php",

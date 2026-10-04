@@ -64,24 +64,44 @@ jobs:
 
       - name: Commit candidates only when material
         shell: bash
+        env:
+          INPUT_CODES: ${{ github.event.inputs.codes || '' }}
+          INPUT_BATCH_SIZE: ${{ github.event.inputs.batch_size || '12' }}
         run: |
           set -euo pipefail
           tracked=(docs/data/la-bete-territory-discovery-candidates-v1.json docs/assets/territory-candidates)
-          if git diff --quiet -- "${tracked[@]}" && [ -z "$(git ls-files --others --exclude-standard docs/assets/territory-candidates)" ]; then
-            echo "No material territory discovery delta."
-            exit 0
-          fi
-          git config user.name "ojo-territory-discovery[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add "${tracked[@]}"
-          git commit -m "data: territory discovery candidate batch"
+          material_delta() {
+            ! git diff --quiet -- "${tracked[@]}" || [ -n "$(git ls-files --others --exclude-standard docs/assets/territory-candidates)" ]
+          }
+          prepare_commit() {
+            if ! material_delta; then
+              echo "No material territory discovery delta."
+              return 1
+            fi
+            git config user.name "ojo-territory-discovery[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add "${tracked[@]}"
+            git commit -m "data: territory discovery candidate batch"
+          }
+          prepare_commit || exit 0
           for attempt in 1 2 3; do
             if git push origin HEAD:main; then
               exit 0
             fi
-            echo "Push race detected (attempt $attempt). Reconcile with latest main."
+            echo "Push race detected (attempt $attempt). Regenerate from latest main."
             git fetch origin main
-            git rebase origin/main
+            git reset --hard origin/main
+            git clean -fd -- docs/assets/territory-candidates
+            if [ -n "$INPUT_CODES" ]; then
+              python3 scripts/build_territory_discovery_candidates.py --codes "$INPUT_CODES"
+            else
+              python3 scripts/build_territory_discovery_candidates.py --batch-size "$INPUT_BATCH_SIZE"
+            fi
+            python3 scripts/test_territory_discovery_candidates.py
+            python3 scripts/verify_territory_contribution_links.py
+            node --check docs/assets/la-bete-explorer.js
+            git diff --check
+            prepare_commit || exit 0
           done
-          echo "Unable to publish territory discovery batch."
+          echo "Unable to publish territory discovery batch after regeneration."
           exit 1
