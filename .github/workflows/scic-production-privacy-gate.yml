@@ -25,13 +25,16 @@ jobs:
         with:
           go-version: '1.26.x'
           cache-dependency-path: privacy/rfc9474_gate/go.mod
-      - name: Resolve pinned module
-        run: go mod download
+      - name: Resolve and checksum pinned module
+        run: go mod tidy
       - name: Run project RFC gate
         run: go test -v ./...
       - name: Run CIRCL upstream blindrsa RFC9474 suite
         run: go test -v github.com/cloudflare/circl/blindsign/blindrsa
-      - name: Record dependency graph
+      - name: Record dependency graph and checksums
         run: |
           go version
           go list -m all
+          echo '---BEGIN GO.SUM---'
+          cat go.sum
+          echo '---END GO.SUM---'
