@@ -106,10 +106,26 @@ function hybridView(kind,g){
   if(next.action)stage.append(list('Proposition actuelle de La Bête',[next.reason,next.action,'Cette proposition ne vaut ni mandat ni exécution.']));
   const actions=el('div',undefined,'muActions');append(actions,link('Ouvrir les démarches','#/univers/demarches','muPrimary'),link('Voir l’espace privé avant mandat','#/prive'));stage.append(actions);
  }else if(kind==='scic'){
-  const b=coop.institutional_blueprint||{};
-  title('SCIC · CONSTITUTION EN CONSTRUCTION','Donner un corps institutionnel au bien commun.','Cette architecture décrit une future institution coopérative : elle n’immatricule aucune société, n’adopte aucun statut et ne crée aucun pouvoir externe. Les arbitrages juridiques restent des Human Gates.');
+  const b=coop.institutional_blueprint||{},dem=coop.democracy||{},pilot=dem.pilot||{},truth=dem.truth_firewall||{},ballot=dem.ballot_protocol||{};
+  title('SCIC · DÉMOCRATIE OPÉRABLE','Délibérer, décider, mandater, vérifier.','La mécanique démocratique fonctionne en mode pré-constitution non contraignant. Aucun vote réel de sociétaire ni effet juridique n’est revendiqué tant que la SCIC, ses membres et ses statuts ne sont pas vérifiés.');
   cards([['ÉTAT JURIDIQUE',coop.state||'UNKNOWN'],['DESIGN INSTITUTIONNEL',b.state||'UNKNOWN'],['EFFET JURIDIQUE',b.binding_effect===false?'AUCUN':'NON VÉRIFIÉ'],['PONT ÉCONOMIQUE',bridge.state||'UNKNOWN']]);
   stage.append(list('Mission coopérative',[coop.mission,coop.governance_direction].filter(Boolean)));
+  cards([['DÉMOCRATIE',dem.state||'UNKNOWN'],['EFFET DU SCRUTIN',dem.binding_effect===false?'NON CONTRAIGNANT':'NON VÉRIFIÉ'],['SOCIÉTAIRES JURIDIQUES',String(dem.membership?.current_legal_societaires??'UNKNOWN')],['SECOND REGISTRE',dem.second_registry===false?'NON':'NON VÉRIFIÉ']]);
+  stage.append(list('Pare-feu de vérité',[
+   'Principe : '+(truth.principle||'UNKNOWN'),
+   'Peut être voté : '+(truth.votable_classes||[]).join(' · '),
+   'Ne peut jamais être voté : '+(truth.never_votable_classes||[]).join(' · '),
+   'Correction des preuves : '+(truth.evidence_correction_route||'UNKNOWN'),
+   'Un amendement peut changer une preuve : '+(truth.amendment_may_change_evidence===false?'NON':'NON VÉRIFIÉ')
+  ]));
+  stage.append(list('Cycle démocratique',(dem.lifecycle||[]).map(x=>x.order+'. '+x.label+' — '+x.state+' — gate '+x.gate)));
+  stage.append(list('Règles de scrutin',[
+   'Une personne = une voix dans son collège : '+(dem.membership?.one_member_one_vote_within_college===true?'OUI':'NON VÉRIFIÉ'),
+   'Vote réel : secret ; publication : agrégée par collège.',
+   'Décision ordinaire : > '+(ballot.ordinary?.support_pct??'UNKNOWN')+' % pondéré, '+(ballot.ordinary?.positive_colleges??'UNKNOWN')+' collèges favorables minimum, quorum '+(ballot.ordinary?.college_quorum_pct??'UNKNOWN')+' % par collège.',
+   'Décision constitutionnelle : ≥ '+(ballot.constitutional?.support_pct??'UNKNOWN')+' % pondéré, '+(ballot.constitutional?.positive_colleges??'UNKNOWN')+' collèges favorables minimum, quorum '+(ballot.constitutional?.college_quorum_pct??'UNKNOWN')+' %.',
+   'Les engagements protégés sont surmontables par bulletin : '+(ballot.protected_commitments_overrideable_by_ballot===false?'NON':'NON VÉRIFIÉ')
+  ]));
   stage.append(list('Constitution protégée',b.protected_commitments));
   const colleges=el('section',undefined,'muObjectMain');colleges.append(el('h2','5 collèges proposés · 100 % des voix','muSubhead'));
   const collegeGrid=el('div',undefined,'muCards');for(const c of b.colleges||[]){const x=el('article',undefined,'muObjectCard');append(x,el('span',c.id,'muCardType'),el('strong',c.label+' · '+c.vote_weight_pct+' %'),el('small',c.purpose));collegeGrid.append(x);}colleges.append(collegeGrid);stage.append(colleges);
@@ -135,6 +151,24 @@ function hybridView(kind,g){
    'Contrôle exclusif de la vérité publique : '+(econ.exclusive_transfer_of_public_truth_control||'UNKNOWN')
   ]));
   stage.append(list('Transparence institutionnelle',b.transparency));
+  if(pilot.id){
+   const dry=el('section',undefined,'muObjectMain');dry.append(el('h2','Dossier pilote · chaîne complète sans faux vote réel','muSubhead'));
+   append(dry,el('p',pilot.title,'muGuard'),el('p',pilot.problem,'muFineprint'));
+   const pc=el('div',undefined,'muCards');append(pc,info('DÉCISION',pilot.decision?.state||'UNKNOWN'),info('EFFET JURIDIQUE',pilot.decision?.legal_effect||'UNKNOWN'),info('EXÉCUTION',pilot.execution?.state||'UNKNOWN'),info('RÉSULTAT',pilot.result?.state||'UNKNOWN'));dry.append(pc);
+   dry.append(list('Débat fixture',[...(pilot.debate?.arguments_for||[]).map(x=>'POUR · '+x),...(pilot.debate?.arguments_against||[]).map(x=>'CONTRE · '+x),...(pilot.debate?.questions||[]).map(x=>'QUESTION · '+x)]));
+   const tally=pilot.tally||{};dry.append(el('p','Scrutin de test — données synthétiques, aucune personne réelle : soutien pondéré '+(tally.weighted_support_pct??'UNKNOWN')+' % · '+(tally.positive_colleges??'UNKNOWN')+' collèges favorables.','muGuard'));
+   const tg=el('div',undefined,'muCards');for(const row of tally.colleges||[]){const c=el('article',undefined,'muObjectCard');append(c,el('span',row.weight_pct+' % DU TOTAL','muCardType'),el('strong',row.label+' · '+row.support_pct+' % oui/non'),el('small','Participation '+row.turnout_pct+' % · '+row.yes+' oui · '+row.no+' non · '+row.abstain+' abst.'));tg.append(c);}dry.append(tg);
+   dry.append(list('Mandat puis résultat',[
+    'Le vote vaut exécution : '+(dem.decision_to_execution?.vote_is_execution===false?'NON':'NON VÉRIFIÉ'),
+    'Mandat explicite requis : '+(dem.decision_to_execution?.mandate_required===true?'OUI':'NON VÉRIFIÉ'),
+    'Action extérieure automatique : '+(dem.decision_to_execution?.automatic_external_action===false?'NON':'NON VÉRIFIÉ'),
+    pilot.result?.outcome
+   ].filter(Boolean)));
+   stage.append(dry);
+  }
+  const ledger=dem.public_result_registry||[];stage.append(list('Registre public des résultats',ledger.map(x=>x.decision_id+' — '+x.decision_state+' → '+x.execution_state+' → '+x.result_state+' · binding '+x.binding)));
+  const participation=el('div',undefined,'muActions');append(participation,link('Déposer une proposition publique ↗',dem.participation?.proposal_url||'https://github.com/Nicolason84/nova-trust/issues','muPrimary'),button('Dialoguer avant de proposer',()=>openChat()),button('Exporter le protocole démocratique',()=>download(dem,'la-bete-scic-democracy-v1.json')));stage.append(participation);
+  stage.append(el('p','Une proposition GitHub ouvre un débat public ; elle ne crée ni sociétaire, ni vote contraignant, ni mandat. Le canal de vote réel restera fermé jusqu’à identité de sociétaire vérifiée et activation juridique.','muGuard'));
   stage.append(list('Chemin vers la SCIC réelle',(b.formation_path||[]).map(x=>x.step+'. '+x.label+' — '+x.state)));
   const law=el('section',undefined,'muObjectMain');law.append(el('h2','Ancrages juridiques à relire avant constitution','muSubhead'));
   for(const x of b.legal_basis||[]){const row=el('p',undefined,'muFineprint');append(row,el('strong',x.article+' — '),el('span',x.rule+' '),link('Légifrance ↗',x.url));law.append(row);}stage.append(law);

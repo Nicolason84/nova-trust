@@ -235,6 +235,252 @@ def build_scic_institutional_blueprint():
         ],
     }
 
+
+def tally_scic_ballot(blueprint, ballot, decision_class="ORDINARY"):
+    """Pure tally. Ballots cannot target facts or execute anything.
+    Counts are aggregate inputs; voter identities never belong in public truth.
+    """
+    rules = {
+        "ORDINARY": {"support_pct": 50.0, "positive_colleges": 3, "college_quorum_pct": 20.0},
+        "CONSTITUTIONAL": {"support_pct": 66.6667, "positive_colleges": 4, "college_quorum_pct": 33.3333},
+    }
+    if decision_class not in rules:
+        raise ValueError("DECISION_CLASS_NOT_VOTABLE")
+    colleges = {x["id"]: x for x in blueprint.get("colleges", [])}
+    rows = ballot.get("colleges", {})
+    if set(rows) != set(colleges):
+        raise ValueError("BALLOT_COLLEGE_SET_MISMATCH")
+    threshold = rules[decision_class]
+    weighted_support = 0.0
+    positive = 0
+    quorum_failures = []
+    public_rows = []
+    for college_id, college in colleges.items():
+        row = rows[college_id]
+        eligible = int(row.get("eligible", 0))
+        yes = int(row.get("yes", 0))
+        no = int(row.get("no", 0))
+        abstain = int(row.get("abstain", 0))
+        if min(eligible, yes, no, abstain) < 0 or yes + no + abstain > eligible:
+            raise ValueError("INVALID_BALLOT_COUNTS")
+        turnout = (yes + no + abstain) / eligible * 100.0 if eligible else 0.0
+        decisive = yes + no
+        support = yes / decisive * 100.0 if decisive else 0.0
+        quorum_met = turnout + 1e-9 >= threshold["college_quorum_pct"]
+        if not quorum_met:
+            quorum_failures.append(college_id)
+        if quorum_met and support > 50.0:
+            positive += 1
+        weighted_support += college["vote_weight_pct"] * support / 100.0
+        public_rows.append({
+            "college_id": college_id,
+            "label": college["label"],
+            "weight_pct": college["vote_weight_pct"],
+            "eligible": eligible,
+            "turnout_pct": round(turnout, 2),
+            "yes": yes,
+            "no": no,
+            "abstain": abstain,
+            "support_pct": round(support, 2),
+            "quorum_met": quorum_met,
+        })
+    passed = (
+        not quorum_failures
+        and weighted_support + 1e-9 >= threshold["support_pct"]
+        and positive >= threshold["positive_colleges"]
+    )
+    return {
+        "schema": "LA_BETE_SCIC_BALLOT_TALLY_V1",
+        "decision_class": decision_class,
+        "passed": passed,
+        "weighted_support_pct": round(weighted_support, 2),
+        "positive_colleges": positive,
+        "required_positive_colleges": threshold["positive_colleges"],
+        "required_support_pct": threshold["support_pct"],
+        "college_quorum_pct": threshold["college_quorum_pct"],
+        "quorum_failures": quorum_failures,
+        "colleges": public_rows,
+        "identity_data_published": False,
+        "capital_weighting_used": False,
+    }
+
+
+def build_scic_democracy(blueprint):
+    """Operational democratic protocol in pre-constitution dry-run mode.
+    It reuses the hybrid projection and existing public contribution channel.
+    No legal membership, binding vote, external mandate or execution is created.
+    """
+    fixture_ballot = {
+        "kind": "TEST_FIXTURE_NOT_REAL_PEOPLE",
+        "colleges": {
+            "CITIZENS_USERS": {"eligible": 10, "yes": 7, "no": 2, "abstain": 1},
+            "WORKERS_PRODUCERS": {"eligible": 10, "yes": 6, "no": 3, "abstain": 1},
+            "CONTRIBUTORS_CIVIL_SOCIETY": {"eligible": 10, "yes": 8, "no": 1, "abstain": 1},
+            "PUBLIC_TERRITORIES": {"eligible": 10, "yes": 6, "no": 2, "abstain": 2},
+            "MISSION_PARTNERS_ESS": {"eligible": 10, "yes": 7, "no": 2, "abstain": 1},
+        },
+    }
+    tally = tally_scic_ballot(blueprint, fixture_ballot, "ORDINARY")
+    lifecycle = [
+        {"order":1,"state":"DRAFT","label":"Proposition","gate":"AUTHOR_IDENTIFIED_OR_PUBLIC_PSEUDONYM"},
+        {"order":2,"state":"ADMISSIBILITY_REVIEW","label":"Recevabilité","gate":"VOTABLE_DOMAIN_AND_CONSTITUTION_CHECK"},
+        {"order":3,"state":"OPEN_DEBATE","label":"Débat contradictoire","gate":"ARGUMENTS_AND_CONFLICTS_VISIBLE"},
+        {"order":4,"state":"AMENDMENT_WINDOW","label":"Amendements","gate":"NORMATIVE_TEXT_ONLY"},
+        {"order":5,"state":"BALLOT_FROZEN","label":"Texte figé","gate":"FINAL_TEXT_HASH_AND_EVIDENCE_SNAPSHOT"},
+        {"order":6,"state":"VOTING_OPEN","label":"Vote par collèges","gate":"VERIFIED_MEMBER_ONE_VOTE_WITHIN_COLLEGE"},
+        {"order":7,"state":"DECIDED","label":"Décision","gate":"QUORUM_THRESHOLD_AND_INTEGRITY_REVIEW"},
+        {"order":8,"state":"MANDATE_PENDING","label":"Mandat","gate":"EXPLICIT_SCOPE_BUDGET_DURATION_RESPONSIBLE"},
+        {"order":9,"state":"EXECUTING","label":"Exécution","gate":"AUTHORITY_RECEIPT_IF_EXTERNAL_ACTION"},
+        {"order":10,"state":"RESULT_RECORDED","label":"Résultat public","gate":"EVIDENCE_OUTCOME_INCIDENTS_AND_CORRECTIONS"},
+        {"order":11,"state":"REVIEW_CLOSED","label":"Réexamen","gate":"POST_RESULT_REVIEW"},
+    ]
+    pilot = {
+        "id": "SCIC_DEMOCRACY_DRY_RUN_001",
+        "state": "RESULT_RECORDED",
+        "binding": False,
+        "title": "Publier un registre public des décisions et de leurs résultats pendant la phase pré-constitution",
+        "decision_class": "ORDINARY",
+        "votable_domain": "GOVERNANCE_PROCEDURE",
+        "author": "SYSTEM_TEST_FIXTURE_NOT_A_SOCIATE",
+        "problem": "Prouver qu’une décision coopérative peut être instruite, débattue, amendée, comptée et suivie sans soumettre la vérité au vote.",
+        "requested_decision": "Adopter le protocole de registre public comme règle expérimentale non contraignante jusqu’à la constitution juridique.",
+        "evidence_snapshot": [
+            "Loi 47-1775 art. 1 : gouvernance démocratique et voix des membres.",
+            "Loi 47-1775 art. 19 octies : voix, collèges et pondération hors capital.",
+            "Blueprint LA_BETE_SCIC_INSTITUTIONAL_BLUEPRINT_V1 : vérité hors vote et Human Gates.",
+        ],
+        "debate": {
+            "state": "DRY_RUN_FIXTURE",
+            "arguments_for": [
+                "Rendre visibles le texte décidé, les seuils, les conflits et le résultat.",
+                "Permettre un contrôle après exécution au lieu de s’arrêter au vote.",
+            ],
+            "arguments_against": [
+                "Un registre public peut devenir lourd si chaque micro-décision y entre.",
+                "La transparence doit préserver les données personnelles et les discussions confidentielles légitimes.",
+            ],
+            "questions": [
+                "Quelles décisions méritent une publication intégrale ?",
+                "Quel délai de réexamen appliquer après le résultat ?",
+            ],
+        },
+        "amendments": [
+            {
+                "id":"A1",
+                "kind":"NORMATIVE_CHANGE",
+                "text":"Limiter le registre aux décisions structurantes et publier les résultats sous forme agrégée lorsque des données personnelles sont en jeu.",
+                "state":"ACCEPTED_IN_DRY_RUN",
+                "changes_evidence":False,
+            }
+        ],
+        "ballot": fixture_ballot,
+        "tally": tally,
+        "decision": {
+            "state": "DRY_RUN_PASSED" if tally["passed"] else "DRY_RUN_NOT_PASSED",
+            "binding": False,
+            "legal_effect": "NONE",
+            "text_hash_required_for_real_vote": True,
+        },
+        "mandate": {
+            "state":"NOT_GRANTED_DRY_RUN",
+            "responsible":"NONE",
+            "scope":"NONE",
+            "budget_cap_eur":0,
+            "duration":"NONE",
+            "external_action":"NOT_AUTHORIZED",
+        },
+        "execution": {
+            "state":"NOT_EXECUTED",
+            "external_action_performed":False,
+            "reason":"Dry-run institutionnel uniquement.",
+        },
+        "result": {
+            "state":"DRY_RUN_PIPELINE_PROVEN",
+            "outcome":"Le mécanisme de décision est calculable et traçable ; aucun vote réel de sociétaire ni acte externe n’est revendiqué.",
+            "evidence":["30+ tests métier/SCIC attendus","navigateur réel attendu","registre public agrégé"],
+            "correction_open":True,
+        },
+    }
+    return {
+        "schema":"LA_BETE_SCIC_DEMOCRACY_V1",
+        "mode":"PRE_CONSTITUTION_OPERATIONAL_DRY_RUN",
+        "state":"OPERABLE_NON_BINDING",
+        "binding_effect":False,
+        "legal_activation":"AFTER_VERIFIED_SCIC_REGISTRATION_AND_ADOPTED_STATUTES",
+        "same_runtime":True,
+        "second_registry":False,
+        "public_record_location":"hybrid_model.cooperative_direction.democracy.public_result_registry",
+        "membership":{
+            "current_legal_societaires":0,
+            "preconstitution_participant_status":"PARTICIPANT_NOT_LEGAL_ASSOCIATE",
+            "states":["APPLICANT","ELIGIBILITY_REVIEW","ADMITTED","SUSPENDED","EXITED"],
+            "identity_verification":"PRIVATE_ONLY_BEFORE_MEMBER_ACTIVATION",
+            "public_identity":"PSEUDONYM_OR_AGGREGATE_WITH_CONSENT",
+            "one_member_one_vote_within_college":True,
+            "college_assignment":"VERIFIED_RULE_BASED_NOT_SELF_SELECTED_FOR_VOTE",
+        },
+        "truth_firewall":{
+            "principle":"THE_MAJORITY_CHOOSES_ACTIONS_NOT_FACTS",
+            "votable_classes":["NORMATIVE_CHOICE","RESOURCE_ALLOCATION","GOVERNANCE_RULE","SERVICE_PRIORITY","MANDATE_POLICY"],
+            "never_votable_classes":["OBSERVED_FACT","SOURCE_PROVENANCE","EVIDENCE_STATUS","DATE","IDENTITY_FACT","CONFIDENCE_SCORE","LEGAL_FACT"],
+            "evidence_correction_route":"EXISTING_PROOF_AND_CANONICAL_VERIFICATION_PIPELINE",
+            "ballot_may_change_evidence":False,
+            "amendment_may_change_evidence":False,
+            "integrity_council_may_rewrite_truth":False,
+        },
+        "lifecycle":lifecycle,
+        "debate_protocol":{
+            "argument_types":["FOR","AGAINST","QUESTION","CONFLICT_OF_INTEREST","EVIDENCE_LINK"],
+            "required_before_ballot":["FINAL_TEXT","CONTRADICTIONS","AFFECTED_GROUPS","ESTIMATED_COSTS","CONFLICTS","EVIDENCE_SNAPSHOT"],
+            "personal_attacks":"FORBIDDEN_BY_MODERATION_RULE",
+            "private_data":"FORBIDDEN_ON_PUBLIC_ORIGIN",
+            "minority_position_preserved":True,
+        },
+        "amendment_protocol":{
+            "types":["NORMATIVE_CHANGE","SCOPE_CHANGE","BUDGET_CHANGE","TIMING_CHANGE"],
+            "fact_or_source_change":"REDIRECT_TO_EVIDENCE_CORRECTION_NOT_AMENDMENT",
+            "final_text_hash_required":True,
+        },
+        "ballot_protocol":{
+            "secret_ballot_for_real_members":True,
+            "public_output":"AGGREGATED_BY_COLLEGE",
+            "identity_publication":False,
+            "ordinary":{"support_pct":50.0,"positive_colleges":3,"college_quorum_pct":20.0},
+            "constitutional":{"support_pct":66.6667,"positive_colleges":4,"college_quorum_pct":33.3333},
+            "protected_commitments_overrideable_by_ballot":False,
+            "capital_weighting":False,
+        },
+        "decision_to_execution":{
+            "vote_is_execution":False,
+            "mandate_required":True,
+            "mandate_fields":["decision_id","responsible","scope","budget_cap","start","expiry","external_action_permissions"],
+            "external_action_requires_authority_receipt":True,
+            "budget_payment_or_contract_requires_separate_human_gate":True,
+            "automatic_external_action":False,
+        },
+        "public_result_registry":[
+            {
+                "decision_id":pilot["id"],
+                "kind":"DRY_RUN_NOT_REAL_MEMBER_VOTE",
+                "decision_state":pilot["decision"]["state"],
+                "execution_state":pilot["execution"]["state"],
+                "result_state":pilot["result"]["state"],
+                "binding":False,
+                "correction_open":True,
+            }
+        ],
+        "participation":{
+            "public_proposal_channel":"EXISTING_GITHUB_ISSUES_AFTER_USER_CONSENT",
+            "proposal_template":".github/ISSUE_TEMPLATE/scic-proposal.yml",
+            "proposal_url":"https://github.com/Nicolason84/nova-trust/issues/new?template=scic-proposal.yml",
+            "public_debate":"ISSUE_THREAD_WITH_MODERATION_AND_NO_PRIVATE_DATA",
+            "binding_vote_channel":"NOT_OPEN_UNTIL_VERIFIED_MEMBERSHIP_AND_SCIC_ACTIVATION",
+            "contextual_dialogue":"PREPARE_AND_CLARIFY_ONLY_NOT_A_BALLOT",
+        },
+        "pilot":pilot,
+    }
+
+
 def build_hybrid_model(live, acquisition):
     """Project the SCIC/common-good + optional private-service model inside the
     existing verified evolution. It creates no legal entity, payment rail,
@@ -272,6 +518,8 @@ def build_hybrid_model(live, acquisition):
             "action": "Observer les retours citoyens consentis et proposer des améliorations bornées sans déduire une demande commerciale des simples visites.",
         }
 
+    blueprint = build_scic_institutional_blueprint()
+    democracy = build_scic_democracy(blueprint)
     return {
         "schema": "LA_BETE_HYBRID_COMMON_GOOD_SERVICE_MODEL_V1",
         "source_snapshot_id": live.get("snapshot_id"),
@@ -297,7 +545,8 @@ def build_hybrid_model(live, acquisition):
             "governance_direction": "Gouvernance multi-parties à formaliser juridiquement avant tout engagement.",
             "public_asset_transfer": "NOT_EXECUTED",
             "statutes": "NOT_ADOPTED_BY_THIS_RUNTIME",
-            "institutional_blueprint": build_scic_institutional_blueprint(),
+            "institutional_blueprint": blueprint,
+            "democracy": democracy,
         },
         "private_services": {
             "state": "DESIGN_ONLY_NOT_FOR_SALE",

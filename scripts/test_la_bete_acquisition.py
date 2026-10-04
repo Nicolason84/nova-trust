@@ -2,7 +2,7 @@ import copy
 import json
 import unittest
 from pathlib import Path
-from la_bete_acquisition import build_acquisition, build_hybrid_model, build_initiatives, civic_mission, dispatch_once, digest, verify_received_document
+from la_bete_acquisition import build_acquisition, build_hybrid_model, build_initiatives, build_scic_institutional_blueprint, tally_scic_ballot, civic_mission, dispatch_once, digest, verify_received_document
 
 ROOT = Path(__file__).resolve().parents[1]
 LIVE = json.loads((ROOT / 'docs/data/france-debt-rate-live.json').read_text())
@@ -183,6 +183,65 @@ class HybridModelTests(unittest.TestCase):
         self.assertEqual(len(blueprint['institutions']), 5)
         self.assertEqual(len(blueprint['formation_path']), 8)
         self.assertTrue(all(x['state'] != 'DONE' for x in blueprint['formation_path']))
+
+    def test_democracy_is_operable_but_non_binding_before_registration(self):
+        democracy = self.hybrid['cooperative_direction']['democracy']
+        self.assertEqual(democracy['schema'], 'LA_BETE_SCIC_DEMOCRACY_V1')
+        self.assertEqual(democracy['state'], 'OPERABLE_NON_BINDING')
+        self.assertFalse(democracy['binding_effect'])
+        self.assertTrue(democracy['same_runtime'])
+        self.assertFalse(democracy['second_registry'])
+        self.assertEqual(democracy['membership']['current_legal_societaires'], 0)
+        self.assertEqual(democracy['participation']['binding_vote_channel'], 'NOT_OPEN_UNTIL_VERIFIED_MEMBERSHIP_AND_SCIC_ACTIVATION')
+
+    def test_truth_is_never_a_ballot_target(self):
+        democracy = self.hybrid['cooperative_direction']['democracy']
+        firewall = democracy['truth_firewall']
+        self.assertEqual(firewall['principle'], 'THE_MAJORITY_CHOOSES_ACTIONS_NOT_FACTS')
+        self.assertFalse(firewall['ballot_may_change_evidence'])
+        self.assertFalse(firewall['amendment_may_change_evidence'])
+        self.assertFalse(firewall['integrity_council_may_rewrite_truth'])
+        self.assertIn('OBSERVED_FACT', firewall['never_votable_classes'])
+        self.assertIn('LEGAL_FACT', firewall['never_votable_classes'])
+
+    def test_ballot_tally_is_college_weighted_not_capital_weighted(self):
+        democracy = self.hybrid['cooperative_direction']['democracy']
+        tally = democracy['pilot']['tally']
+        self.assertTrue(tally['passed'])
+        self.assertAlmostEqual(tally['weighted_support_pct'], 77.36, places=2)
+        self.assertEqual(tally['positive_colleges'], 5)
+        self.assertFalse(tally['capital_weighting_used'])
+        self.assertFalse(tally['identity_data_published'])
+
+    def test_ballot_rejects_missing_college_and_invalid_decision_class(self):
+        blueprint = build_scic_institutional_blueprint()
+        ballot = copy.deepcopy(self.hybrid['cooperative_direction']['democracy']['pilot']['ballot'])
+        ballot['colleges'].pop('MISSION_PARTNERS_ESS')
+        with self.assertRaises(ValueError):
+            tally_scic_ballot(blueprint, ballot, 'ORDINARY')
+        with self.assertRaises(ValueError):
+            tally_scic_ballot(blueprint, self.hybrid['cooperative_direction']['democracy']['pilot']['ballot'], 'FACT')
+
+    def test_vote_never_executes_or_grants_mandate(self):
+        democracy = self.hybrid['cooperative_direction']['democracy']
+        flow = democracy['decision_to_execution']
+        self.assertFalse(flow['vote_is_execution'])
+        self.assertTrue(flow['mandate_required'])
+        self.assertTrue(flow['external_action_requires_authority_receipt'])
+        self.assertFalse(flow['automatic_external_action'])
+        pilot = democracy['pilot']
+        self.assertEqual(pilot['mandate']['state'], 'NOT_GRANTED_DRY_RUN')
+        self.assertEqual(pilot['execution']['state'], 'NOT_EXECUTED')
+        self.assertFalse(pilot['execution']['external_action_performed'])
+
+    def test_public_result_registry_is_aggregate_and_correctable(self):
+        democracy = self.hybrid['cooperative_direction']['democracy']
+        ledger = democracy['public_result_registry']
+        self.assertEqual(len(ledger), 1)
+        self.assertFalse(ledger[0]['binding'])
+        self.assertTrue(ledger[0]['correction_open'])
+        self.assertEqual(democracy['ballot_protocol']['public_output'], 'AGGREGATED_BY_COLLEGE')
+        self.assertFalse(democracy['ballot_protocol']['identity_publication'])
 
     def test_autoevolution_reuses_existing_runtime_and_only_proposes(self):
         auto = self.hybrid['autoevolution']

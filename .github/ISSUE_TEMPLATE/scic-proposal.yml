@@ -1,0 +1,77 @@
+name: "SCIC · proposition coopérative"
+description: "Proposer une décision au débat public de La Bête. Ceci n'est pas un vote ni un mandat."
+title: "[SCIC-PROP] "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Cette fiche prépare une proposition publique. Les faits et preuves ne sont pas décidés par vote.
+        N'incluez aucune donnée personnelle, pièce privée, identifiant ou donnée de santé.
+  - type: dropdown
+    id: decision_class
+    attributes:
+      label: Nature de la décision
+      options:
+        - Gouvernance coopérative
+        - Priorité de service
+        - Allocation de ressources
+        - Règle du bien commun
+        - Politique de mandat
+    validations:
+      required: true
+  - type: textarea
+    id: decision
+    attributes:
+      label: Décision proposée
+      description: "Écrivez la règle ou l'action exacte qui pourrait être adoptée."
+    validations:
+      required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problème concret
+      description: "Qui est concerné, quel manque existe et quel résultat utile est recherché ?"
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Faits, sources et incertitudes
+      description: "Séparez ce qui est vérifié, dérivé, hypothétique ou encore inconnu. Ces éléments ne seront pas mis au vote."
+    validations:
+      required: true
+  - type: textarea
+    id: contradictions
+    attributes:
+      label: Arguments contraires et risques
+      description: "Qu'est-ce qui pourrait rendre cette proposition mauvaise, inutile ou dangereuse ?"
+    validations:
+      required: true
+  - type: textarea
+    id: affected
+    attributes:
+      label: Personnes et collèges concernés
+      description: "Indiquez les groupes affectés sans publier de données personnelles."
+    validations:
+      required: true
+  - type: textarea
+    id: cost
+    attributes:
+      label: Coûts, ressources et conflits d'intérêts
+      description: "Budget estimé, temps, dépendances, financeurs ou intérêts particuliers éventuels."
+  - type: textarea
+    id: execution
+    attributes:
+      label: Mandat d'exécution envisagé
+      description: "Responsable, périmètre, durée et limites. Une décision ne vaut jamais automatiquement mandat."
+  - type: checkboxes
+    id: safeguards
+    attributes:
+      label: Garde-fous
+      options:
+        - label: "Je n'ai inclus aucune donnée privée ou pièce personnelle."
+          required: true
+        - label: "Je comprends qu'un fait, une source ou un niveau de confiance ne devient pas vrai par vote."
+          required: true
+        - label: "Je comprends qu'une proposition publique n'est ni une décision, ni un mandat, ni une exécution."
+          required: true
