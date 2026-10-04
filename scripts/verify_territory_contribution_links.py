@@ -28,14 +28,12 @@ for required in ("name: Enrichir un territoire", "id: department", "id: quest", 
     if required not in template:
         raise SystemExit("CONTRIBUTION_TEMPLATE_MISSING:" + required)
 
-status, _, raw = get("https://api.github.com/repos/" + REPO)
-repo = json.loads(raw)
-if status != 200 or not repo.get("has_issues"):
-    raise SystemExit("GITHUB_ISSUES_DISABLED")
+status, final, raw = get("https://github.com/" + REPO + "/issues")
+if status != 200 or "/issues" not in final:
+    raise SystemExit("GITHUB_ISSUES_ROUTE_BROKEN")
 
-status, _, raw = get("https://api.github.com/repos/" + REPO + "/labels/territoire")
-label = json.loads(raw)
-if status != 200 or label.get("name") != "territoire":
+status, final, raw = get("https://github.com/" + REPO + "/labels/territoire")
+if status != 200 or b"territoire" not in raw.lower():
     raise SystemExit("TERRITORY_LABEL_MISSING")
 
 raw_url = "https://raw.githubusercontent.com/" + REPO + "/main/.github/ISSUE_TEMPLATE/territory-contribution.yml"

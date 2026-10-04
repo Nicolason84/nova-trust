@@ -35,6 +35,12 @@ body:
         - accessibility · Améliorer compréhension ou accessibilité
     validations:
       required: true
+  - type: input
+    id: candidate_reference
+    attributes:
+      label: Référence candidat (facultatif)
+      description: Si vous venez d'une carte « candidat à vérifier » de La Bête, copiez sa référence candidate:… / heritage:… / nature:… affichée dans le titre du lien.
+      placeholder: "heritage:merimee:PA…"
   - type: dropdown
     id: contribution_type
     attributes:

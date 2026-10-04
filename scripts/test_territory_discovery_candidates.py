@@ -28,6 +28,9 @@ class DiscoveryContractTests(unittest.TestCase):
         self.assertEqual(p["selection"], "UNSCANNED_FIRST_THEN_OLDEST_SCAN")
         self.assertLessEqual(p["full_cycle_target_runs"], 9)
         self.assertEqual(DOC["coverage"]["departments_total"], 101)
+        for source in ("merimee_monuments_historiques","bibliotheques_publiques","tiers_lieux_2026","wikimedia_commons","wikipedia_fr","canonical_relations"):
+            self.assertIn(source, DOC["sources"])
+        self.assertNotIn("openstreetmap_overpass", DOC["sources"])
 
     def test_every_scan_record_has_verified_topology_relations(self):
         for code, d in DOC["departments"].items():
@@ -39,14 +42,30 @@ class DiscoveryContractTests(unittest.TestCase):
             self.assertGreaterEqual(r["same_epci_pair_count"], 0)
             self.assertIn("ne prouve aucune proximité", r["gate"])
 
-    def test_candidates_are_explicitly_unverified_or_license_only(self):
+    def test_candidates_preserve_source_specific_evidence_state(self):
         for d in DOC["departments"].values():
-            for lane in ("heritage","nature","commons","initiatives"):
-                for x in d.get(lane, []):
-                    self.assertEqual(x["state"], "UNVERIFIED_AUTODISCOVERY_CANDIDATE")
-                    self.assertTrue(x["source"].startswith("https://www.wikidata.org/wiki/"))
-                    self.assertTrue(x["quest_id"])
-                    self.assertIn("Vérifier", x["gate"])
+            for x in d.get("heritage", []):
+                self.assertEqual(x["state"], "OFFICIAL_DATASET_CANDIDATE")
+                self.assertEqual(x["producer"], "Ministère de la Culture")
+                self.assertTrue(x["source"].startswith("https://pop.culture.gouv.fr/notice/merimee/"))
+                self.assertIn("Open Licence", x["license"])
+                self.assertIn("promotion", x["gate"])
+            for x in d.get("commons", []):
+                self.assertEqual(x["state"], "OFFICIAL_DATASET_CANDIDATE")
+                self.assertEqual(x["producer"], "Ministère de la Culture")
+                self.assertIn("Open Licence", x["license"])
+                self.assertTrue(x["quest_id"])
+            for x in d.get("initiatives", []):
+                self.assertEqual(x["state"], "PUBLIC_CENSUS_CANDIDATE")
+                self.assertEqual(x["producer"], "France Tiers-Lieux")
+                self.assertIn("Open Licence", x["license"])
+                self.assertIn("Vérifier", x["gate"])
+            for x in d.get("nature", []):
+                self.assertEqual(x["state"], "UNVERIFIED_AUTODISCOVERY_CANDIDATE")
+                self.assertTrue(x["source"].startswith("https://fr.wikipedia.org/"))
+                self.assertRegex(x["label"].lower(), r"(réserve|forêt|parc|baie|marais|dune|massif|vallée|estuaire|lac|étang|arboretum|jardin|zone humide|littoral)")
+                self.assertIn(x["administrative_binding"], {"P131_PATH_TO_DEPARTMENT","TEXT_LOCALITY_HINT_ONLY"})
+                self.assertIn("Vérifier", x["gate"])
             for x in d.get("media", []):
                 self.assertEqual(x["state"], "LICENSE_VERIFIED_LOCATION_CANDIDATE")
                 self.assertTrue(x["license"])

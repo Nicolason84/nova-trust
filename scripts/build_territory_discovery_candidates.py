@@ -2,8 +2,10 @@
 from __future__ import annotations
 
 import argparse
+import csv
 import hashlib
 import html
+import io
 import json
 import re
 import time
@@ -21,32 +23,43 @@ OUT = ROOT / "docs/data/la-bete-territory-discovery-candidates-v1.json"
 ASSET_ROOT = ROOT / "docs/assets/territory-candidates"
 UA = "LaBeteTerritoryDiscovery/1.0 (+https://github.com/Nicolason84/nova-trust)"
 WIKIDATA_API = "https://www.wikidata.org/w/api.php"
+WIKIPEDIA_API = "https://fr.wikipedia.org/w/api.php"
 COMMONS_API = "https://commons.wikimedia.org/w/api.php"
+TABULAR_API = "https://tabular-api.data.gouv.fr/api/resources"
+MERIMEE_RESOURCE = "3a52af4a-f9da-4dcc-8110-b07774dfb3bc"
+LIBRARIES_RESOURCE = "806a8aa1-952f-404d-9857-3f27b7c0ca86"
+TIERS_IDENTITY_URL = "https://static.data.gouv.fr/resources/recensement-des-tiers-lieux-en-france-2026/20260902-111854/bdftl-2026-01-fiche-identite.csv"
+MERIMEE_DATASET = "https://www.data.gouv.fr/datasets/immeubles-proteges-au-titre-des-monuments-historiques-2"
+LIBRARIES_DATASET = "https://www.data.gouv.fr/datasets/adresses-des-bibliotheques-publiques-2"
+TIERS_DATASET = "https://www.data.gouv.fr/datasets/recensement-des-tiers-lieux-en-france-2026"
 SCHEMA = "LA_BETE_TERRITORY_DISCOVERY_CANDIDATES_V1"
 MAX_CANDIDATES = 3
 
 LANES = {
     "heritage": {
-        "queries": ["monument historique {name}", "patrimoine {name}"],
+        "queries": ["monument historique {commune}", "château {commune}", "patrimoine {name}"],
         "quest_id": "heritage_memory",
         "label": "Patrimoine",
     },
     "nature": {
-        "queries": ["réserve naturelle {name}", "parc naturel {name}", "forêt {name}"],
+        "queries": ["parc {commune}", "forêt {commune}", "réserve naturelle {name}"],
         "quest_id": "nature_risks",
         "label": "Nature",
     },
     "commons": {
-        "queries": ["médiathèque {name}", "centre culturel {name}", "tiers-lieu {name}"],
+        "queries": ["médiathèque {commune}", "centre culturel {commune}", "tiers-lieu {name}"],
         "quest_id": "local_initiatives",
         "label": "Communs utiles",
     },
     "initiatives": {
-        "queries": ["association {name}", "coopérative {name}", "fablab {name}"],
+        "queries": ["association {commune}", "coopérative {commune}", "fablab {commune}"],
         "quest_id": "local_initiatives",
         "label": "Initiatives",
     },
 }
+
+ENTITY_CACHE: dict[str, dict] = {}
+TIERS_ROWS: list[dict] | None = None
 
 def norm(value: str) -> str:
     s = unicodedata.normalize("NFD", str(value or ""))
@@ -65,6 +78,188 @@ def fetch_json(url: str, timeout: int = 12) -> dict:
             raise ValueError("REMOTE_RESPONSE_TOO_LARGE")
         return json.loads(raw)
 
+def tabular_rows(resource_id: str, filters: dict[str, str], page_size: int = 6) -> list[dict]:
+    params = {"page_size": page_size}
+    params.update({k + "__exact": v for k, v in filters.items()})
+    url = TABULAR_API + "/" + resource_id + "/data/?" + urllib.parse.urlencode(params)
+    return fetch_json(url, timeout=15).get("data", [])
+
+def load_tiers_rows() -> list[dict]:
+    global TIERS_ROWS
+    if TIERS_ROWS is not None:
+        return TIERS_ROWS
+    req = urllib.request.Request(TIERS_IDENTITY_URL, headers={"User-Agent": UA})
+    with urllib.request.urlopen(req, timeout=20) as response:
+        raw = response.read(4_000_000)
+    text = raw.decode("utf-8-sig", "replace")
+    TIERS_ROWS = list(csv.DictReader(io.StringIO(text), delimiter=";"))
+    return TIERS_ROWS
+
+def heritage_candidates(dep_code: str) -> list[dict]:
+    rows = tabular_rows(MERIMEE_RESOURCE, {"Departement_format_numerique": dep_code}, 6)
+    out = []
+    for row in rows:
+        ref = row.get("Reference")
+        if not ref:
+            continue
+        label = row.get("Titre_editorial_de_la_notice") or row.get("Denomination_de_l_edifice") or "Monument historique"
+        commune = row.get("Commune_forme_editoriale") or row.get("Commune_forme_index")
+        out.append({
+            "candidate_id": "heritage:merimee:" + ref,
+            "state": "OFFICIAL_DATASET_CANDIDATE",
+            "lane": "heritage",
+            "label": label,
+            "commune": commune,
+            "description": row.get("Historique") or row.get("Description_de_l_edifice"),
+            "source": "https://pop.culture.gouv.fr/notice/merimee/" + ref,
+            "dataset": MERIMEE_DATASET,
+            "producer": "Ministère de la Culture",
+            "license": "Licence Ouverte / Open Licence 2.0",
+            "quest_id": "heritage_memory",
+            "gate": "La protection patrimoniale est sourcée officiellement. La sélection éditoriale et la représentation visuelle restent à valider avant promotion.",
+        })
+        if len(out) >= MAX_CANDIDATES:
+            break
+    return out
+
+def library_candidates(dep_code: str) -> list[dict]:
+    rows = tabular_rows(LIBRARIES_RESOURCE, {"code_departement": dep_code}, 6)
+    out = []
+    for row in rows:
+        rid = row.get("Code_bib")
+        label = row.get("nom_de_l_etablissement")
+        if not rid or not label:
+            continue
+        out.append({
+            "candidate_id": "commons:library:" + rid,
+            "state": "OFFICIAL_DATASET_CANDIDATE",
+            "lane": "commons",
+            "label": label,
+            "commune": row.get("Ville"),
+            "address": row.get("Adresse"),
+            "website": row.get("site_internet"),
+            "source": LIBRARIES_DATASET,
+            "producer": "Ministère de la Culture",
+            "license": "Licence Ouverte / Open Licence 2.0",
+            "quest_id": "local_initiatives",
+            "gate": "Établissement public sourcé. Son rôle comme commun utile dans La Bête reste une sélection éditoriale à valider.",
+        })
+        if len(out) >= MAX_CANDIDATES:
+            break
+    return out
+
+def tier_place_candidates(dep_name: str) -> list[dict]:
+    rows = [r for r in load_tiers_rows() if norm(r.get("DEPARTEMENT_TL")) == norm(dep_name)]
+    rows.sort(key=lambda r: (r.get("NOM") or "", r.get("ID_UNIQUE") or ""))
+    out = []
+    for row in rows:
+        rid = row.get("ID_UNIQUE")
+        label = row.get("NOM")
+        if not rid or not label:
+            continue
+        out.append({
+            "candidate_id": "initiative:tierslieu:" + rid,
+            "state": "PUBLIC_CENSUS_CANDIDATE",
+            "lane": "initiatives",
+            "label": label,
+            "commune": row.get("VILLE"),
+            "address": row.get("ADRESSE"),
+            "postal_code": row.get("CODPOST"),
+            "latitude": row.get("LATITUDE"),
+            "longitude": row.get("LONGITUDE"),
+            "website": row.get("INTERNET"),
+            "project_state": row.get("état du projet"),
+            "families": row.get("familles_tiers_lieux"),
+            "initiative_origin": row.get("initiative_origine"),
+            "source": TIERS_DATASET,
+            "producer": "France Tiers-Lieux",
+            "license": "Licence Ouverte / Open Licence 2.0",
+            "quest_id": "local_initiatives",
+            "gate": "Recensement public 2026. Vérifier l'état actuel du lieu et son utilité locale avant promotion ; aucune activité économique n'est inférée.",
+        })
+        if len(out) >= MAX_CANDIDATES:
+            break
+    return out
+
+def wikipedia_search(query: str, limit: int = 8) -> list[dict]:
+    url = WIKIPEDIA_API + "?" + urllib.parse.urlencode({
+        "action": "query",
+        "list": "search",
+        "srsearch": query,
+        "srlimit": limit,
+        "format": "json",
+        "utf8": 1,
+        "origin": "*",
+    })
+    return fetch_json(url, timeout=12).get("query", {}).get("search", [])
+
+def wikipedia_pageprops(titles: list[str]) -> dict[str, dict]:
+    if not titles:
+        return {}
+    url = WIKIPEDIA_API + "?" + urllib.parse.urlencode({
+        "action": "query",
+        "titles": "|".join(titles[:20]),
+        "prop": "pageprops|info",
+        "inprop": "url",
+        "format": "json",
+        "origin": "*",
+    })
+    pages = fetch_json(url, timeout=12).get("query", {}).get("pages", {})
+    return {p.get("title"): p for p in pages.values() if p.get("title")}
+
+def nature_candidates(dep_code: str, dep_name: str, dep_qid: str | None) -> list[dict]:
+    seen = set()
+    out = []
+    for query in (f"réserve naturelle {dep_name}", f"forêt {dep_name}", f"parc naturel {dep_name}"):
+        rows = wikipedia_search(query, 8)
+        pages = wikipedia_pageprops([r["title"] for r in rows])
+        for row in rows:
+            title = row.get("title")
+            page = pages.get(title) or {}
+            qid = (page.get("pageprops") or {}).get("wikibase_item")
+            if not title or not qid or qid in seen:
+                continue
+            title_norm = norm(title)
+            nature_title_terms = (
+                "reserve naturelle", "foret", "parc", "baie", "marais", "dune",
+                "massif", "vallee", "estuaire", "lac", "etang", "arboretum",
+                "jardin botanique", "zone humide", "littoral",
+            )
+            generic_title = (
+                title_norm in {norm(dep_name), norm(dep_name + " departement")}
+                or title_norm.startswith("geographie ")
+                or title_norm in {"reserves naturelles en france", "reserve naturelle en france"}
+                or title_norm.startswith("liste ")
+            )
+            if generic_title or not any(term in title_norm for term in nature_title_terms):
+                continue
+            seen.add(qid)
+            path = None
+            if dep_qid:
+                try:
+                    path = administrative_path_to_department(qid, dep_qid)
+                except Exception:
+                    path = None
+            text_hint = norm(dep_name) in norm(title + " " + re.sub(r"<[^>]+>", " ", row.get("snippet") or ""))
+            if not path and not text_hint:
+                continue
+            out.append({
+                "candidate_id": "nature:wikipedia:" + qid,
+                "state": "UNVERIFIED_AUTODISCOVERY_CANDIDATE",
+                "lane": "nature",
+                "label": title,
+                "description": clean_html(row.get("snippet")),
+                "wikidata_id": qid,
+                "source": page.get("fullurl") or ("https://fr.wikipedia.org/wiki/" + urllib.parse.quote(title.replace(" ", "_"))),
+                "administrative_binding": "P131_PATH_TO_DEPARTMENT" if path else "TEXT_LOCALITY_HINT_ONLY",
+                "administrative_path": path,
+                "quest_id": "nature_risks",
+                "gate": "Découverte encyclopédique seulement. Vérifier une source naturaliste ou institutionnelle avant promotion.",
+            })
+            if len(out) >= MAX_CANDIDATES:
+                return out
+    return out
+
 def wikidata_search(search: str, limit: int = 8) -> list[dict]:
     url = WIKIDATA_API + "?" + urllib.parse.urlencode({
         "action": "wbsearchentities",
@@ -78,16 +273,58 @@ def wikidata_search(search: str, limit: int = 8) -> list[dict]:
     })
     return fetch_json(url).get("search", [])
 
+def wikidata_entities(qids: list[str] | set[str]) -> dict[str, dict]:
+    wanted = [q for q in dict.fromkeys(qids) if q and q not in ENTITY_CACHE]
+    for start in range(0, len(wanted), 40):
+        batch = wanted[start:start + 40]
+        url = WIKIDATA_API + "?" + urllib.parse.urlencode({
+            "action": "wbgetentities",
+            "ids": "|".join(batch),
+            "props": "claims|labels|descriptions",
+            "languages": "fr|en",
+            "format": "json",
+            "origin": "*",
+        })
+        ENTITY_CACHE.update(fetch_json(url).get("entities", {}))
+    return {qid: ENTITY_CACHE.get(qid, {}) for qid in qids}
+
 def wikidata_entity(qid: str) -> dict:
-    url = WIKIDATA_API + "?" + urllib.parse.urlencode({
-        "action": "wbgetentities",
-        "ids": qid,
-        "props": "claims|labels|descriptions",
-        "languages": "fr|en",
-        "format": "json",
-        "origin": "*",
-    })
-    return fetch_json(url).get("entities", {}).get(qid, {})
+    return wikidata_entities([qid]).get(qid, {})
+
+def parent_qids(entity: dict) -> set[str]:
+    out = set()
+    for claim in (entity.get("claims") or {}).get("P131", []):
+        try:
+            out.add(claim["mainsnak"]["datavalue"]["value"]["id"])
+        except Exception:
+            pass
+    return out
+
+def administrative_path_to_department(qid: str, department_qid: str, max_depth: int = 5) -> list[str] | None:
+    frontier = {qid}
+    parents_of: dict[str, str | None] = {qid: None}
+    seen = set()
+    for _depth in range(max_depth + 1):
+        if department_qid in frontier:
+            path = [department_qid]
+            cur = department_qid
+            while parents_of.get(cur) is not None:
+                cur = parents_of[cur]
+                path.append(cur)
+            return list(reversed(path))
+        current = frontier - seen
+        if not current:
+            break
+        seen |= current
+        entities = wikidata_entities(current)
+        nxt = set()
+        for child, entity in entities.items():
+            for parent in parent_qids(entity):
+                if parent not in parents_of:
+                    parents_of[parent] = child
+                nxt.add(parent)
+        frontier = nxt
+    return None
 
 def department_qid(name: str) -> tuple[str | None, dict | None]:
     target = norm(name)
@@ -184,15 +421,35 @@ def locality_tokens(dep_code: str, dep_name: str) -> set[str]:
             tokens.add(norm(row[1]))
     return tokens
 
-def candidate_search(dep_code: str, dep_name: str, lane: str) -> list[dict]:
+def top_communes(dep_code: str, limit: int = 2) -> list[str]:
+    descriptor = (TOPO["detail"].get("shards") or {}).get(dep_code) or {}
+    path = descriptor.get("path")
+    if path:
+        full = ROOT / "docs" / path
+        if full.exists():
+            try:
+                payload = json.loads(full.read_text())
+                rows = [x for x in payload.get("communes", []) if isinstance(x.get("population"), (int, float))]
+                rows.sort(key=lambda x: (-x["population"], x["name"]))
+                names = [x["name"] for x in rows[:limit]]
+                if names:
+                    return names
+            except Exception:
+                pass
+    return [row[1] for row in TOPO["detail"]["commune_index"] if row[2] == dep_code][:limit]
+
+def candidate_search(dep_code: str, dep_name: str, lane: str, dep_qid: str | None) -> list[dict]:
     config = LANES[lane]
     local = locality_tokens(dep_code, dep_name)
+    communes = top_communes(dep_code) or [dep_name]
     seen = set()
     accepted = []
     for template in config["queries"]:
-        query = template.format(name=dep_name)
+        commune = communes[min(len(seen), len(communes) - 1)]
+        query = template.format(name=dep_name, commune=commune)
         try:
             rows = wikidata_search(query, 10)
+            wikidata_entities([row.get("id") for row in rows if row.get("id")])
         except Exception:
             continue
         for row in rows:
@@ -202,7 +459,13 @@ def candidate_search(dep_code: str, dep_name: str, lane: str) -> list[dict]:
             seen.add(qid)
             hay = norm((row.get("label") or "") + " " + (row.get("description") or ""))
             matched = next((token for token in local if token and token in hay), None)
-            if not matched:
+            path = None
+            if dep_qid:
+                try:
+                    path = administrative_path_to_department(qid, dep_qid)
+                except Exception:
+                    path = None
+            if not path and not matched:
                 continue
             accepted.append({
                 "candidate_id": f"{lane}:{qid}",
@@ -214,8 +477,10 @@ def candidate_search(dep_code: str, dep_name: str, lane: str) -> list[dict]:
                 "source": "https://www.wikidata.org/wiki/" + qid,
                 "search_query": query,
                 "matched_locality": matched,
+                "administrative_binding": "P131_PATH_TO_DEPARTMENT" if path else "TEXT_LOCALITY_HINT_ONLY",
+                "administrative_path": path,
                 "quest_id": config["quest_id"],
-                "gate": "Résultat de recherche seulement. Vérifier la localisation, la nature de l'entité, une source locale et l'utilité avant promotion.",
+                "gate": "Découverte automatique seulement. Vérifier la nature de l'entité, une source locale ou officielle et l'utilité avant promotion.",
             })
             if len(accepted) >= MAX_CANDIDATES:
                 return accepted
@@ -309,13 +574,26 @@ def scan_department(code: str, offline: bool = False) -> dict:
             base["source_health"]["commons_license_media"] = "PASS" if base["media"] else "NO_LICENSED_MEDIA"
     except Exception as exc:
         base["source_health"]["wikidata_department"] = "ERROR:" + type(exc).__name__
-    for lane in LANES:
-        try:
-            base[lane] = candidate_search(code, name, lane)
-            base["source_health"]["wikidata_search_" + lane] = "PASS" if base[lane] else "NO_LOCAL_MATCH"
-        except Exception as exc:
-            base["source_health"]["wikidata_search_" + lane] = "ERROR:" + type(exc).__name__
-        time.sleep(0.08)
+    try:
+        base["heritage"] = heritage_candidates(code)
+        base["source_health"]["merimee_tabular"] = "PASS" if base["heritage"] else "NO_MATCH"
+    except Exception as exc:
+        base["source_health"]["merimee_tabular"] = "ERROR:" + type(exc).__name__
+    try:
+        base["commons"] = library_candidates(code)
+        base["source_health"]["libraries_tabular"] = "PASS" if base["commons"] else "NO_MATCH"
+    except Exception as exc:
+        base["source_health"]["libraries_tabular"] = "ERROR:" + type(exc).__name__
+    try:
+        base["initiatives"] = tier_place_candidates(name)
+        base["source_health"]["tiers_lieux_2026_csv"] = "PASS" if base["initiatives"] else "NO_MATCH"
+    except Exception as exc:
+        base["source_health"]["tiers_lieux_2026_csv"] = "ERROR:" + type(exc).__name__
+    try:
+        base["nature"] = nature_candidates(code, name, qid)
+        base["source_health"]["nature_wikipedia_wikidata"] = "PASS" if base["nature"] else "NO_MATCH"
+    except Exception as exc:
+        base["source_health"]["nature_wikipedia_wikidata"] = "ERROR:" + type(exc).__name__
     return base
 
 def main() -> None:
@@ -387,7 +665,11 @@ def main() -> None:
         },
         "sources": {
             "wikidata": WIKIDATA_API,
+            "wikipedia_fr": WIKIPEDIA_API,
             "wikimedia_commons": COMMONS_API,
+            "merimee_monuments_historiques": MERIMEE_DATASET,
+            "bibliotheques_publiques": LIBRARIES_DATASET,
+            "tiers_lieux_2026": TIERS_DATASET,
             "canonical_relations": "docs/data/france-topology.json",
         },
         "coverage": {
