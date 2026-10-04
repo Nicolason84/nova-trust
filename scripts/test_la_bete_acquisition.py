@@ -2,7 +2,7 @@ import copy
 import json
 import unittest
 from pathlib import Path
-from la_bete_acquisition import build_acquisition, build_hybrid_model, build_initiatives, build_scic_institutional_blueprint, tally_scic_ballot, civic_mission, dispatch_once, digest, verify_received_document
+from la_bete_acquisition import admit_trusted_party_reply, build_acquisition, build_hybrid_model, build_initiatives, build_scic_institutional_blueprint, tally_scic_ballot, civic_mission, dispatch_once, digest, verify_received_document
 
 ROOT = Path(__file__).resolve().parents[1]
 LIVE = json.loads((ROOT / 'docs/data/france-debt-rate-live.json').read_text())
@@ -107,6 +107,23 @@ class AcquisitionTests(unittest.TestCase):
         class Verifier:
             def verify(self, doc): return {'official_provenance': True}
         self.assertEqual(verify_received_document({}, trusted_verifier=Verifier())['state'], 'NEEDS_REVIEW')
+    def test_trusted_party_reply_is_thread_bound_candidate_not_public_body(self):
+        class Verifier:
+            def verify(self, doc): return {k: True for k in ('official_provenance','same_scope','dated','complete','coherent','canonical_gate_passed')}
+        reply = {'id':'REPLY-1','thread_id':'THREAD-1','from':'rep@vendor.example','subject':'Re: OHTTP',
+                 'body':'commercial details remain private','email_ts':'2026-10-04T12:00:00+00:00'}
+        candidate = admit_trusted_party_reply(reply, expected_party='Vendor', expected_thread_id='THREAD-1', trusted_verifier=Verifier())
+        self.assertEqual(candidate['state'], 'VERIFIED_CANDIDATE')
+        self.assertFalse(candidate['canonical_write_performed']); self.assertFalse(candidate['production_gate_mutation'])
+        self.assertEqual(len(candidate['body_sha256']), 64)
+        self.assertNotIn(reply['body'], json.dumps(candidate))
+    def test_trusted_party_reply_wrong_thread_is_rejected(self):
+        class Verifier:
+            def verify(self, doc): return {}
+        reply = {'id':'REPLY-1','thread_id':'OTHER','from':'rep@vendor.example','subject':'Re: OHTTP',
+                 'body':'reply','email_ts':'2026-10-04T12:00:00+00:00'}
+        with self.assertRaises(ValueError):
+            admit_trusted_party_reply(reply, expected_party='Vendor', expected_thread_id='THREAD-1', trusted_verifier=Verifier())
 
 class InitiativeTests(unittest.TestCase):
     def test_civic_purpose_does_not_grant_external_authority(self):
