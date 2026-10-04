@@ -1,7 +1,7 @@
 {
   "schema": "LA_BETE_TERRITORY_DISCOVERY_CANDIDATES_V1",
   "state": "AUTODISCOVERY_CANDIDATES_SEPARATE_FROM_CANON",
-  "generated_at": "2026-10-04T13:43:20.402311Z",
+  "generated_at": "2026-10-04T14:08:22.510557Z",
   "topology_snapshot": "FR-TOPO-43287a81359296e3b1ff8def",
   "culture_schema": "LA_BETE_TERRITORY_CULTURE_V1",
   "contract": {
@@ -21,13 +21,17 @@
   },
   "sources": {
     "wikidata": "https://www.wikidata.org/w/api.php",
+    "wikipedia_fr": "https://fr.wikipedia.org/w/api.php",
     "wikimedia_commons": "https://commons.wikimedia.org/w/api.php",
+    "merimee_monuments_historiques": "https://www.data.gouv.fr/datasets/immeubles-proteges-au-titre-des-monuments-historiques-2",
+    "bibliotheques_publiques": "https://www.data.gouv.fr/datasets/adresses-des-bibliotheques-publiques-2",
+    "tiers_lieux_2026": "https://www.data.gouv.fr/datasets/recensement-des-tiers-lieux-en-france-2026",
     "canonical_relations": "docs/data/france-topology.json"
   },
   "coverage": {
     "departments_total": 101,
     "departments_with_scan_record": 8,
-    "candidate_items": 8,
+    "candidate_items": 102,
     "selected_this_run": [
       "13",
       "80",
@@ -43,7 +47,7 @@
     "13": {
       "code": "13",
       "name": "Bouches-du-Rhône",
-      "scanned_at": "2026-10-04T13:42:41.863525Z",
+      "scanned_at": "2026-10-04T14:07:41.957702Z",
       "state": "DISCOVERY_CANDIDATES_NOT_CANON",
       "promotion_authorized": false,
       "mints_phi": false,
@@ -220,17 +224,215 @@
           "quest_id": "heritage_memory"
         }
       ],
-      "heritage": [],
-      "nature": [],
-      "commons": [],
-      "initiatives": [],
+      "heritage": [
+        {
+          "candidate_id": "heritage:merimee:PA00081001",
+          "state": "OFFICIAL_DATASET_CANDIDATE",
+          "lane": "heritage",
+          "label": "Église Saint-Jean-de-Malte",
+          "commune": "Aix-en-Provence",
+          "description": null,
+          "source": "https://pop.culture.gouv.fr/notice/merimee/PA00081001",
+          "dataset": "https://www.data.gouv.fr/datasets/immeubles-proteges-au-titre-des-monuments-historiques-2",
+          "producer": "Ministère de la Culture",
+          "license": "Licence Ouverte / Open Licence 2.0",
+          "quest_id": "heritage_memory",
+          "gate": "La protection patrimoniale est sourcée officiellement. La sélection éditoriale et la représentation visuelle restent à valider avant promotion."
+        },
+        {
+          "candidate_id": "heritage:merimee:PA00081038",
+          "state": "OFFICIAL_DATASET_CANDIDATE",
+          "lane": "heritage",
+          "label": "Hôtel de Lacépède",
+          "commune": "Aix-en-Provence",
+          "description": null,
+          "source": "https://pop.culture.gouv.fr/notice/merimee/PA00081038",
+          "dataset": "https://www.data.gouv.fr/datasets/immeubles-proteges-au-titre-des-monuments-historiques-2",
+          "producer": "Ministère de la Culture",
+          "license": "Licence Ouverte / Open Licence 2.0",
+          "quest_id": "heritage_memory",
+          "gate": "La protection patrimoniale est sourcée officiellement. La sélection éditoriale et la représentation visuelle restent à valider avant promotion."
+        },
+        {
+          "candidate_id": "heritage:merimee:PA00081068",
+          "state": "OFFICIAL_DATASET_CANDIDATE",
+          "lane": "heritage",
+          "label": "Immeuble",
+          "commune": "Aix-en-Provence",
+          "description": null,
+          "source": "https://pop.culture.gouv.fr/notice/merimee/PA00081068",
+          "dataset": "https://www.data.gouv.fr/datasets/immeubles-proteges-au-titre-des-monuments-historiques-2",
+          "producer": "Ministère de la Culture",
+          "license": "Licence Ouverte / Open Licence 2.0",
+          "quest_id": "heritage_memory",
+          "gate": "La protection patrimoniale est sourcée officiellement. La sélection éditoriale et la représentation visuelle restent à valider avant promotion."
+        }
+      ],
+      "nature": [
+        {
+          "candidate_id": "nature:wikipedia:Q3457504",
+          "state": "UNVERIFIED_AUTODISCOVERY_CANDIDATE",
+          "lane": "nature",
+          "label": "Réserve naturelle nationale des Coussouls de Crau",
+          "description": "Réserve naturelle nationale des Coussouls de Crau Localisation sur la carte des Bouches - du - Rhône Localisation sur la carte de France La réserve naturelle",
+          "wikidata_id": "Q3457504",
+          "source": "https://fr.wikipedia.org/wiki/R%C3%A9serve_naturelle_nationale_des_Coussouls_de_Crau",
+          "administrative_binding": "P131_PATH_TO_DEPARTMENT",
+          "administrative_path": [
+            "Q3457504",
+            "Q235865",
+            "Q3240"
+          ],
+          "quest_id": "nature_risks",
+          "gate": "Découverte encyclopédique seulement. Vérifier une source naturaliste ou institutionnelle avant promotion."
+        },
+        {
+          "candidate_id": "nature:wikipedia:Q3457334",
+          "state": "UNVERIFIED_AUTODISCOVERY_CANDIDATE",
+          "lane": "nature",
+          "label": "Réserve naturelle nationale de Camargue",
+          "description": "protection de la nature (SNPN). Le territoire de la réserve naturelle est dans le département des Bouches - du - Rhône , sur les communes de Arles et des Saintes-Maries-de-la-Mer",
+          "wikidata_id": "Q3457334",
+          "source": "https://fr.wikipedia.org/wiki/R%C3%A9serve_naturelle_nationale_de_Camargue",
+          "administrative_binding": "P131_PATH_TO_DEPARTMENT",
+          "administrative_path": [
+            "Q3457334",
+            "Q3240"
+          ],
+          "quest_id": "nature_risks",
+          "gate": "Découverte encyclopédique seulement. Vérifier une source naturaliste ou institutionnelle avant promotion."
+        },
+        {
+          "candidate_id": "nature:wikipedia:Q3457423",
+          "state": "UNVERIFIED_AUTODISCOVERY_CANDIDATE",
+          "lane": "nature",
+          "label": "Réserve naturelle nationale des marais du Vigueirat",
+          "description": "Réserve naturelle nationale des marais du Vigueirat Logo des marais du Vigueirat. Localisation sur la carte des Bouches - du - Rhône Localisation sur la carte",
+          "wikidata_id": "Q3457423",
+          "source": "https://fr.wikipedia.org/wiki/R%C3%A9serve_naturelle_nationale_des_marais_du_Vigueirat",
+          "administrative_binding": "P131_PATH_TO_DEPARTMENT",
+          "administrative_path": [
+            "Q3457423",
+            "Q48292",
+            "Q3240"
+          ],
+          "quest_id": "nature_risks",
+          "gate": "Découverte encyclopédique seulement. Vérifier une source naturaliste ou institutionnelle avant promotion."
+        }
+      ],
+      "commons": [
+        {
+          "candidate_id": "commons:library:LI411",
+          "state": "OFFICIAL_DATASET_CANDIDATE",
+          "lane": "commons",
+          "label": "Bibliothèque municipale",
+          "commune": "Fuveau",
+          "address": "Rue Marc Scudo",
+          "website": null,
+          "source": "https://www.data.gouv.fr/datasets/adresses-des-bibliotheques-publiques-2",
+          "producer": "Ministère de la Culture",
+          "license": "Licence Ouverte / Open Licence 2.0",
+          "quest_id": "local_initiatives",
+          "gate": "Établissement public sourcé. Son rôle comme commun utile dans La Bête reste une sélection éditoriale à valider."
+        },
+        {
+          "candidate_id": "commons:library:LI420",
+          "state": "OFFICIAL_DATASET_CANDIDATE",
+          "lane": "commons",
+          "label": "Médiathèque municipale du Roulage",
+          "commune": "Lançon-Provence",
+          "address": "3 Boulevard Victor Hugo",
+          "website": "https://lancon-en-provence-pom.c3rb.org/",
+          "source": "https://www.data.gouv.fr/datasets/adresses-des-bibliotheques-publiques-2",
+          "producer": "Ministère de la Culture",
+          "license": "Licence Ouverte / Open Licence 2.0",
+          "quest_id": "local_initiatives",
+          "gate": "Établissement public sourcé. Son rôle comme commun utile dans La Bête reste une sélection éditoriale à valider."
+        },
+        {
+          "candidate_id": "commons:library:LI425",
+          "state": "OFFICIAL_DATASET_CANDIDATE",
+          "lane": "commons",
+          "label": "Médiathèque Louis Aragon",
+          "commune": "Martigues",
+          "address": "quai des anglais",
+          "website": "https://www.mediatheque-martigues.fr/fr/",
+          "source": "https://www.data.gouv.fr/datasets/adresses-des-bibliotheques-publiques-2",
+          "producer": "Ministère de la Culture",
+          "license": "Licence Ouverte / Open Licence 2.0",
+          "quest_id": "local_initiatives",
+          "gate": "Établissement public sourcé. Son rôle comme commun utile dans La Bête reste une sélection éditoriale à valider."
+        }
+      ],
+      "initiatives": [
+        {
+          "candidate_id": "initiative:tierslieu:491",
+          "state": "PUBLIC_CENSUS_CANDIDATE",
+          "lane": "initiatives",
+          "label": "20 000 lieux",
+          "commune": "Aix-en-Provence",
+          "address": "18 Rue  Jules Verne 13090 Aix-en-Provence",
+          "postal_code": "13090",
+          "latitude": "43,521291",
+          "longitude": "5,431009",
+          "website": " ",
+          "project_state": "On ne sait pas",
+          "families": "",
+          "initiative_origin": "",
+          "source": "https://www.data.gouv.fr/datasets/recensement-des-tiers-lieux-en-france-2026",
+          "producer": "France Tiers-Lieux",
+          "license": "Licence Ouverte / Open Licence 2.0",
+          "quest_id": "local_initiatives",
+          "gate": "Recensement public 2026. Vérifier l'état actuel du lieu et son utilité locale avant promotion ; aucune activité économique n'est inférée."
+        },
+        {
+          "candidate_id": "initiative:tierslieu:551",
+          "state": "PUBLIC_CENSUS_CANDIDATE",
+          "lane": "initiatives",
+          "label": "ACCELERATEUR M",
+          "commune": "Marseille",
+          "address": "61 Boulevard des dames 13002 Marseille",
+          "postal_code": "13002",
+          "latitude": "43,3032",
+          "longitude": "5,365417",
+          "website": "https://accelerateurm.com",
+          "project_state": "On ne sait pas",
+          "families": "",
+          "initiative_origin": "",
+          "source": "https://www.data.gouv.fr/datasets/recensement-des-tiers-lieux-en-france-2026",
+          "producer": "France Tiers-Lieux",
+          "license": "Licence Ouverte / Open Licence 2.0",
+          "quest_id": "local_initiatives",
+          "gate": "Recensement public 2026. Vérifier l'état actuel du lieu et son utilité locale avant promotion ; aucune activité économique n'est inférée."
+        },
+        {
+          "candidate_id": "initiative:tierslieu:492",
+          "state": "PUBLIC_CENSUS_CANDIDATE",
+          "lane": "initiatives",
+          "label": "AIX COWORKING",
+          "commune": "Aix-en-Provence",
+          "address": "Rue  Emile Henriot 13090 Aix-en-Provence",
+          "postal_code": "13090",
+          "latitude": "43,519072",
+          "longitude": "5,431395",
+          "website": "https://www.aix-coworking.com/",
+          "project_state": "On ne sait pas",
+          "families": "",
+          "initiative_origin": "",
+          "source": "https://www.data.gouv.fr/datasets/recensement-des-tiers-lieux-en-france-2026",
+          "producer": "France Tiers-Lieux",
+          "license": "Licence Ouverte / Open Licence 2.0",
+          "quest_id": "local_initiatives",
+          "gate": "Recensement public 2026. Vérifier l'état actuel du lieu et son utilité locale avant promotion ; aucune activité économique n'est inférée."
+        }
+      ],
       "source_health": {
         "wikidata_department": "PASS",
         "commons_license_media": "PASS",
-        "wikidata_search_heritage": "NO_LOCAL_MATCH",
-        "wikidata_search_nature": "NO_LOCAL_MATCH",
-        "wikidata_search_commons": "NO_LOCAL_MATCH",
-        "wikidata_search_initiatives": "NO_LOCAL_MATCH"
+        "merimee_tabular": "PASS",
+        "libraries_tabular": "PASS",
+        "tiers_lieux_2026_csv": "PASS",
+        "nature_wikipedia_wikidata": "PASS"
       },
       "wikidata_department": {
         "id": "Q3240",
@@ -242,7 +444,7 @@
     "80": {
       "code": "80",
       "name": "Somme",
-      "scanned_at": "2026-10-04T13:42:46.528901Z",
+      "scanned_at": "2026-10-04T14:07:45.804907Z",
       "state": "DISCOVERY_CANDIDATES_NOT_CANON",
       "promotion_authorized": false,
       "mints_phi": false,
@@ -503,31 +705,215 @@
           "quest_id": "heritage_memory"
         }
       ],
-      "heritage": [],
-      "nature": [],
-      "commons": [],
+      "heritage": [
+        {
+          "candidate_id": "heritage:merimee:PA00116053",
+          "state": "OFFICIAL_DATASET_CANDIDATE",
+          "lane": "heritage",
+          "label": "Église Saint-Leu",
+          "commune": "Amiens",
+          "description": null,
+          "source": "https://pop.culture.gouv.fr/notice/merimee/PA00116053",
+          "dataset": "https://www.data.gouv.fr/datasets/immeubles-proteges-au-titre-des-monuments-historiques-2",
+          "producer": "Ministère de la Culture",
+          "license": "Licence Ouverte / Open Licence 2.0",
+          "quest_id": "heritage_memory",
+          "gate": "La protection patrimoniale est sourcée officiellement. La sélection éditoriale et la représentation visuelle restent à valider avant promotion."
+        },
+        {
+          "candidate_id": "heritage:merimee:PA00116093",
+          "state": "OFFICIAL_DATASET_CANDIDATE",
+          "lane": "heritage",
+          "label": "Château",
+          "commune": "Belloy-Saint-Léonard",
+          "description": null,
+          "source": "https://pop.culture.gouv.fr/notice/merimee/PA00116093",
+          "dataset": "https://www.data.gouv.fr/datasets/immeubles-proteges-au-titre-des-monuments-historiques-2",
+          "producer": "Ministère de la Culture",
+          "license": "Licence Ouverte / Open Licence 2.0",
+          "quest_id": "heritage_memory",
+          "gate": "La protection patrimoniale est sourcée officiellement. La sélection éditoriale et la représentation visuelle restent à valider avant promotion."
+        },
+        {
+          "candidate_id": "heritage:merimee:PA00116124",
+          "state": "OFFICIAL_DATASET_CANDIDATE",
+          "lane": "heritage",
+          "label": "Ancienne église collégiale Saint-Etienne",
+          "commune": "Corbie",
+          "description": null,
+          "source": "https://pop.culture.gouv.fr/notice/merimee/PA00116124",
+          "dataset": "https://www.data.gouv.fr/datasets/immeubles-proteges-au-titre-des-monuments-historiques-2",
+          "producer": "Ministère de la Culture",
+          "license": "Licence Ouverte / Open Licence 2.0",
+          "quest_id": "heritage_memory",
+          "gate": "La protection patrimoniale est sourcée officiellement. La sélection éditoriale et la représentation visuelle restent à valider avant promotion."
+        }
+      ],
+      "nature": [
+        {
+          "candidate_id": "nature:wikipedia:Q3457392",
+          "state": "UNVERIFIED_AUTODISCOVERY_CANDIDATE",
+          "lane": "nature",
+          "label": "Réserve naturelle nationale de la baie de Somme",
+          "description": "Réserve naturelle nationale de la baie de Somme En baie de Somme . La réserve naturelle nationale de la baie de Somme (RNN118) est une réserve naturelle",
+          "wikidata_id": "Q3457392",
+          "source": "https://fr.wikipedia.org/wiki/R%C3%A9serve_naturelle_nationale_de_la_baie_de_Somme",
+          "administrative_binding": "P131_PATH_TO_DEPARTMENT",
+          "administrative_path": [
+            "Q3457392",
+            "Q758882",
+            "Q12770"
+          ],
+          "quest_id": "nature_risks",
+          "gate": "Découverte encyclopédique seulement. Vérifier une source naturaliste ou institutionnelle avant promotion."
+        },
+        {
+          "candidate_id": "nature:wikipedia:Q1741383",
+          "state": "UNVERIFIED_AUTODISCOVERY_CANDIDATE",
+          "lane": "nature",
+          "label": "Baie de Somme",
+          "description": "Wikimedia : Baie de Somme , sur Wikimedia Commons Réserve naturelle nationale de la baie de Somme Parc du Marquenterre Le Hâble-d'Ault Parc naturel marin des estuaires",
+          "wikidata_id": "Q1741383",
+          "source": "https://fr.wikipedia.org/wiki/Baie_de_Somme",
+          "administrative_binding": "P131_PATH_TO_DEPARTMENT",
+          "administrative_path": [
+            "Q1741383",
+            "Q12770"
+          ],
+          "quest_id": "nature_risks",
+          "gate": "Découverte encyclopédique seulement. Vérifier une source naturaliste ou institutionnelle avant promotion."
+        },
+        {
+          "candidate_id": "nature:wikipedia:Q2051974",
+          "state": "UNVERIFIED_AUTODISCOVERY_CANDIDATE",
+          "lane": "nature",
+          "label": "Parc du Marquenterre",
+          "description": "inclus dans la réserve naturelle nationale de la baie de Somme . Entre la Sibérie et l’Afrique du Nord-Ouest, l'estuaire de la baie de Somme est une halte",
+          "wikidata_id": "Q2051974",
+          "source": "https://fr.wikipedia.org/wiki/Parc_du_Marquenterre",
+          "administrative_binding": "P131_PATH_TO_DEPARTMENT",
+          "administrative_path": [
+            "Q2051974",
+            "Q758882",
+            "Q12770"
+          ],
+          "quest_id": "nature_risks",
+          "gate": "Découverte encyclopédique seulement. Vérifier une source naturaliste ou institutionnelle avant promotion."
+        }
+      ],
+      "commons": [
+        {
+          "candidate_id": "commons:library:LI6076",
+          "state": "OFFICIAL_DATASET_CANDIDATE",
+          "lane": "commons",
+          "label": "Bibliotheque De Creuse",
+          "commune": "Creuse",
+          "address": "2 Rue Principale",
+          "website": "https://bibliotheques.amiens.fr/accueil-portal.aspx",
+          "source": "https://www.data.gouv.fr/datasets/adresses-des-bibliotheques-publiques-2",
+          "producer": "Ministère de la Culture",
+          "license": "Licence Ouverte / Open Licence 2.0",
+          "quest_id": "local_initiatives",
+          "gate": "Établissement public sourcé. Son rôle comme commun utile dans La Bête reste une sélection éditoriale à valider."
+        },
+        {
+          "candidate_id": "commons:library:LI9818",
+          "state": "OFFICIAL_DATASET_CANDIDATE",
+          "lane": "commons",
+          "label": "Bibliothèque de Fressenneville",
+          "commune": "Fressenneville",
+          "address": "25 rue Jean Jaurès",
+          "website": null,
+          "source": "https://www.data.gouv.fr/datasets/adresses-des-bibliotheques-publiques-2",
+          "producer": "Ministère de la Culture",
+          "license": "Licence Ouverte / Open Licence 2.0",
+          "quest_id": "local_initiatives",
+          "gate": "Établissement public sourcé. Son rôle comme commun utile dans La Bête reste une sélection éditoriale à valider."
+        },
+        {
+          "candidate_id": "commons:library:LI9882",
+          "state": "OFFICIAL_DATASET_CANDIDATE",
+          "lane": "commons",
+          "label": "Bibliothèque de Saint-Valery-Sur-Somme",
+          "commune": "Saint-Valery-sur-Somme",
+          "address": "rue jean de bailleul",
+          "website": "www.saint-valery-sur-somme.fr",
+          "source": "https://www.data.gouv.fr/datasets/adresses-des-bibliotheques-publiques-2",
+          "producer": "Ministère de la Culture",
+          "license": "Licence Ouverte / Open Licence 2.0",
+          "quest_id": "local_initiatives",
+          "gate": "Établissement public sourcé. Son rôle comme commun utile dans La Bête reste une sélection éditoriale à valider."
+        }
+      ],
       "initiatives": [
         {
-          "candidate_id": "initiatives:Q65553510",
-          "state": "UNVERIFIED_AUTODISCOVERY_CANDIDATE",
+          "candidate_id": "initiative:tierslieu:184",
+          "state": "PUBLIC_CENSUS_CANDIDATE",
           "lane": "initiatives",
-          "label": "Sommerakademie Paul Klee",
-          "description": null,
-          "wikidata_id": "Q65553510",
-          "source": "https://www.wikidata.org/wiki/Q65553510",
-          "search_query": "association Somme",
-          "matched_locality": "somme",
+          "label": "Briqueterie (La)",
+          "commune": "Amiens",
+          "address": "2 Rue Lescouvé 80000 Amiens",
+          "postal_code": "80000",
+          "latitude": "49,891523",
+          "longitude": "2,279269",
+          "website": "https://www.briket.fr",
+          "project_state": "Lieu ouvert",
+          "families": "",
+          "initiative_origin": "",
+          "source": "https://www.data.gouv.fr/datasets/recensement-des-tiers-lieux-en-france-2026",
+          "producer": "France Tiers-Lieux",
+          "license": "Licence Ouverte / Open Licence 2.0",
           "quest_id": "local_initiatives",
-          "gate": "Résultat de recherche seulement. Vérifier la localisation, la nature de l'entité, une source locale et l'utilité avant promotion."
+          "gate": "Recensement public 2026. Vérifier l'état actuel du lieu et son utilité locale avant promotion ; aucune activité économique n'est inférée."
+        },
+        {
+          "candidate_id": "initiative:tierslieu:5184",
+          "state": "PUBLIC_CENSUS_CANDIDATE",
+          "lane": "initiatives",
+          "label": "Café de la Place",
+          "commune": "Marcelcave",
+          "address": "8 Rue de la Mairie 80800 Marcelcave",
+          "postal_code": "80800",
+          "latitude": "49,848975",
+          "longitude": "2,573435",
+          "website": "",
+          "project_state": "Lieu ouvert",
+          "families": "",
+          "initiative_origin": "",
+          "source": "https://www.data.gouv.fr/datasets/recensement-des-tiers-lieux-en-france-2026",
+          "producer": "France Tiers-Lieux",
+          "license": "Licence Ouverte / Open Licence 2.0",
+          "quest_id": "local_initiatives",
+          "gate": "Recensement public 2026. Vérifier l'état actuel du lieu et son utilité locale avant promotion ; aucune activité économique n'est inférée."
+        },
+        {
+          "candidate_id": "initiative:tierslieu:3177",
+          "state": "PUBLIC_CENSUS_CANDIDATE",
+          "lane": "initiatives",
+          "label": "Château de Bouillancourt",
+          "commune": "Bouillancourt-en-Séry",
+          "address": "6 Grande Rue 80220 Bouillancourt-en-Séry",
+          "postal_code": "80220",
+          "latitude": "49,961314",
+          "longitude": "1,629285",
+          "website": "https://chateaudebouillancourt.com/",
+          "project_state": "Lieu ouvert",
+          "families": "Tiers-lieux solidaires;Tiers-lieux culturels / Lieux intermédiaires et indépendants",
+          "initiative_origin": "un entrepreneur individuel, une entreprise, un collectif d'artisans ou d'entreprises",
+          "source": "https://www.data.gouv.fr/datasets/recensement-des-tiers-lieux-en-france-2026",
+          "producer": "France Tiers-Lieux",
+          "license": "Licence Ouverte / Open Licence 2.0",
+          "quest_id": "local_initiatives",
+          "gate": "Recensement public 2026. Vérifier l'état actuel du lieu et son utilité locale avant promotion ; aucune activité économique n'est inférée."
         }
       ],
       "source_health": {
         "wikidata_department": "PASS",
         "commons_license_media": "PASS",
-        "wikidata_search_heritage": "NO_LOCAL_MATCH",
-        "wikidata_search_nature": "NO_LOCAL_MATCH",
-        "wikidata_search_commons": "NO_LOCAL_MATCH",
-        "wikidata_search_initiatives": "PASS"
+        "merimee_tabular": "PASS",
+        "libraries_tabular": "PASS",
+        "tiers_lieux_2026_csv": "PASS",
+        "nature_wikipedia_wikidata": "PASS"
       },
       "wikidata_department": {
         "id": "Q12770",
@@ -539,7 +925,7 @@
     "45": {
       "code": "45",
       "name": "Loiret",
-      "scanned_at": "2026-10-04T13:42:51.396120Z",
+      "scanned_at": "2026-10-04T14:07:49.053760Z",
       "state": "DISCOVERY_CANDIDATES_NOT_CANON",
       "promotion_authorized": false,
       "mints_phi": false,
@@ -800,17 +1186,214 @@
           "quest_id": "heritage_memory"
         }
       ],
-      "heritage": [],
-      "nature": [],
-      "commons": [],
-      "initiatives": [],
+      "heritage": [
+        {
+          "candidate_id": "heritage:merimee:PA00125371",
+          "state": "OFFICIAL_DATASET_CANDIDATE",
+          "lane": "heritage",
+          "label": "Immeuble",
+          "commune": "Montargis",
+          "description": "La rue du Four-Dieu est l'une des plus anciennes artères de la ville. Elle était située en bordure des fossés de la première enceinte fortifiée. Les hôtels ont conservé certaines des tours du 13e siècle. L'ouvrage à balustres tournés situé au n°12, est placé dans une cage d'escalier rectangulaire ouverte, épaulée sur deux côtés par un immeuble dont l'un est desservi par l'escalier et l'autre servant d'appui. La partie donnant sur la cour est constituée d'une structure à pans de bois, vide dans sa partie centrale et obturée dans la partie basse de chaque palier et certaines parties hautes. Cette structure peut remonter au 17e ou au 18e siècle. Un escalier en bois rampe sur rampe, à une volée droite par niveau, dessert trois niveaux d'étages. Une rampe d'appui avec balustres rampants court le long des volées et un garde-corps à balustres droits est placé à chaque palier et scande également le vide central à chaque niveau d'étage. Le pommeau de la rampe reprend un motif courant à Montargis et est postérieur à la rampe.",
+          "source": "https://pop.culture.gouv.fr/notice/merimee/PA00125371",
+          "dataset": "https://www.data.gouv.fr/datasets/immeubles-proteges-au-titre-des-monuments-historiques-2",
+          "producer": "Ministère de la Culture",
+          "license": "Licence Ouverte / Open Licence 2.0",
+          "quest_id": "heritage_memory",
+          "gate": "La protection patrimoniale est sourcée officiellement. La sélection éditoriale et la représentation visuelle restent à valider avant promotion."
+        },
+        {
+          "candidate_id": "heritage:merimee:PA00132575",
+          "state": "OFFICIAL_DATASET_CANDIDATE",
+          "lane": "heritage",
+          "label": "Maison Art Nouveau",
+          "commune": "Orléans",
+          "description": "Les plans de la maison, construite par son propriétaire en 1906, l'entrepreneur Morland, ont peut-être été conçus par Guimard. Ses éléments Art Nouveau tranchent avec les édifices plus anciens qui l'entourent et qui remontent surtout à une période allant du 15e au 18e siècle. Actuellement ne subsiste que le décor de l'entrée avec un décor d'artichauts stuqués et un escalier de bois à motifs géométriques ainsi que quelques verrières. La maison elle-même présente la forme d'un carré irrégulier et chaque niveau présente des dispositions différentes qui expliquent les différents types d'ouvertures. La terrasse a conservé sa corniche à balustrade terminée par deux amortissements encadrant un balcon en fer forgé aux lignes sinueuses.",
+          "source": "https://pop.culture.gouv.fr/notice/merimee/PA00132575",
+          "dataset": "https://www.data.gouv.fr/datasets/immeubles-proteges-au-titre-des-monuments-historiques-2",
+          "producer": "Ministère de la Culture",
+          "license": "Licence Ouverte / Open Licence 2.0",
+          "quest_id": "heritage_memory",
+          "gate": "La protection patrimoniale est sourcée officiellement. La sélection éditoriale et la représentation visuelle restent à valider avant promotion."
+        },
+        {
+          "candidate_id": "heritage:merimee:PA00132574",
+          "state": "OFFICIAL_DATASET_CANDIDATE",
+          "lane": "heritage",
+          "label": "Maison Art Nouveau",
+          "commune": "Orléans",
+          "description": "\"La maison présente, sur une structure traditionnelle, un amoncellement d'ornements inspirés de l'Art Nouveau. Trois travées irrégulières déterminent l'organisation de cette façade qui reste cependant marquée par une profonde asymétrie de volumes et un fort contraste entre les matériaux : meulière du parement, brique de la \"lucarne passante\", pierre de taille des ornements, ardoises du toit... Il n'existe pas deux baies identiques. La baie du premier niveau à gauche de la porte, réinterprête le motif célèbre de la porte imaginée par Guimard au Castel Béranger. Les bois des fenêtres du premier niveau présentent un motif japonisant de courbes et contre-courbes qui n'est pas repris au niveau supérieur. Le motif du chardon apparaît à plusieurs reprises. Un masque de sirène émergeant d'algues apparaît au balcon accompagné de motifs de stalactites ou de filets d'eau tombant du balcon ou s'échappant sous les appuis des fenêtres, accentuant l'effet de vagues ondoyantes qui parcourent l'ensemble du décor. Des aisseliers à volutes reposant sur une légère corniche rectiligne soutiennent la gouttière du toit bombé de ce côté et percé d'un oculus.\"",
+          "source": "https://pop.culture.gouv.fr/notice/merimee/PA00132574",
+          "dataset": "https://www.data.gouv.fr/datasets/immeubles-proteges-au-titre-des-monuments-historiques-2",
+          "producer": "Ministère de la Culture",
+          "license": "Licence Ouverte / Open Licence 2.0",
+          "quest_id": "heritage_memory",
+          "gate": "La protection patrimoniale est sourcée officiellement. La sélection éditoriale et la représentation visuelle restent à valider avant promotion."
+        }
+      ],
+      "nature": [
+        {
+          "candidate_id": "nature:wikipedia:Q16510598",
+          "state": "UNVERIFIED_AUTODISCOVERY_CANDIDATE",
+          "lane": "nature",
+          "label": "Réserve naturelle nationale de Saint-Mesmin",
+          "description": "Réserve naturelle nationale de Saint-Mesmin La pointe de Courpain. Localisation sur la carte du Loiret Localisation sur la carte du Centre-Val de Loire",
+          "wikidata_id": "Q16510598",
+          "source": "https://fr.wikipedia.org/wiki/R%C3%A9serve_naturelle_nationale_de_Saint-Mesmin",
+          "administrative_binding": "P131_PATH_TO_DEPARTMENT",
+          "administrative_path": [
+            "Q16510598",
+            "Q12574"
+          ],
+          "quest_id": "nature_risks",
+          "gate": "Découverte encyclopédique seulement. Vérifier une source naturaliste ou institutionnelle avant promotion."
+        },
+        {
+          "candidate_id": "nature:wikipedia:Q4784864",
+          "state": "UNVERIFIED_AUTODISCOVERY_CANDIDATE",
+          "lane": "nature",
+          "label": "Arboretum des Grandes Bruyères",
+          "description": "situé sur la commune d'Ingrannes, dans le département du Loiret . Il a été classé réserve naturelle volontaire française en 1979, cette dernière couvrait",
+          "wikidata_id": "Q4784864",
+          "source": "https://fr.wikipedia.org/wiki/Arboretum_des_Grandes_Bruy%C3%A8res",
+          "administrative_binding": "P131_PATH_TO_DEPARTMENT",
+          "administrative_path": [
+            "Q4784864",
+            "Q1423945",
+            "Q12574"
+          ],
+          "quest_id": "nature_risks",
+          "gate": "Découverte encyclopédique seulement. Vérifier une source naturaliste ou institutionnelle avant promotion."
+        },
+        {
+          "candidate_id": "nature:wikipedia:Q3078792",
+          "state": "UNVERIFIED_AUTODISCOVERY_CANDIDATE",
+          "lane": "nature",
+          "label": "Forêt d'Orléans",
+          "description": "département du Loiret en région Centre-Val de Loire. Il s'agit de la plus vaste forêt domaniale de France métropolitaine et de la plus vaste forêt de feuillus",
+          "wikidata_id": "Q3078792",
+          "source": "https://fr.wikipedia.org/wiki/For%C3%AAt_d%27Orl%C3%A9ans",
+          "administrative_binding": "P131_PATH_TO_DEPARTMENT",
+          "administrative_path": [
+            "Q3078792",
+            "Q12574"
+          ],
+          "quest_id": "nature_risks",
+          "gate": "Découverte encyclopédique seulement. Vérifier une source naturaliste ou institutionnelle avant promotion."
+        }
+      ],
+      "commons": [
+        {
+          "candidate_id": "commons:library:LI20068",
+          "state": "OFFICIAL_DATASET_CANDIDATE",
+          "lane": "commons",
+          "label": "Bibliothèque",
+          "commune": "Gy-les-Nonains",
+          "address": "Grande Rue",
+          "website": null,
+          "source": "https://www.data.gouv.fr/datasets/adresses-des-bibliotheques-publiques-2",
+          "producer": "Ministère de la Culture",
+          "license": "Licence Ouverte / Open Licence 2.0",
+          "quest_id": "local_initiatives",
+          "gate": "Établissement public sourcé. Son rôle comme commun utile dans La Bête reste une sélection éditoriale à valider."
+        },
+        {
+          "candidate_id": "commons:library:LI5730",
+          "state": "OFFICIAL_DATASET_CANDIDATE",
+          "lane": "commons",
+          "label": "Médiathèque Saint Marceau",
+          "commune": "Orléans",
+          "address": "1 rue des Roses",
+          "website": "http://mediatheques.orleans-metropole.fr",
+          "source": "https://www.data.gouv.fr/datasets/adresses-des-bibliotheques-publiques-2",
+          "producer": "Ministère de la Culture",
+          "license": "Licence Ouverte / Open Licence 2.0",
+          "quest_id": "local_initiatives",
+          "gate": "Établissement public sourcé. Son rôle comme commun utile dans La Bête reste une sélection éditoriale à valider."
+        },
+        {
+          "candidate_id": "commons:library:LI18012",
+          "state": "OFFICIAL_DATASET_CANDIDATE",
+          "lane": "commons",
+          "label": "Pas à Pages",
+          "commune": "Château-Renard",
+          "address": "45 place de la République",
+          "website": null,
+          "source": "https://www.data.gouv.fr/datasets/adresses-des-bibliotheques-publiques-2",
+          "producer": "Ministère de la Culture",
+          "license": "Licence Ouverte / Open Licence 2.0",
+          "quest_id": "local_initiatives",
+          "gate": "Établissement public sourcé. Son rôle comme commun utile dans La Bête reste une sélection éditoriale à valider."
+        }
+      ],
+      "initiatives": [
+        {
+          "candidate_id": "initiative:tierslieu:1793",
+          "state": "PUBLIC_CENSUS_CANDIDATE",
+          "lane": "initiatives",
+          "label": "108 (Le)",
+          "commune": "Orléans",
+          "address": "161 Rue de Bourgogne 45000 Orléans",
+          "postal_code": "45000",
+          "latitude": "47,900322",
+          "longitude": "1,911594",
+          "website": "https://le108.org",
+          "project_state": "Lieu ouvert",
+          "families": "",
+          "initiative_origin": "",
+          "source": "https://www.data.gouv.fr/datasets/recensement-des-tiers-lieux-en-france-2026",
+          "producer": "France Tiers-Lieux",
+          "license": "Licence Ouverte / Open Licence 2.0",
+          "quest_id": "local_initiatives",
+          "gate": "Recensement public 2026. Vérifier l'état actuel du lieu et son utilité locale avant promotion ; aucune activité économique n'est inférée."
+        },
+        {
+          "candidate_id": "initiative:tierslieu:5684",
+          "state": "PUBLIC_CENSUS_CANDIDATE",
+          "lane": "initiatives",
+          "label": "6-10 Pôle ESS",
+          "commune": "Saint-Jean-de-Braye",
+          "address": "6 Avenue François Rabelais 45800 Saint-Jean-de-Braye",
+          "postal_code": "45800",
+          "latitude": "47,907093",
+          "longitude": "1,952505",
+          "website": "",
+          "project_state": "On ne sait pas",
+          "families": "",
+          "initiative_origin": "",
+          "source": "https://www.data.gouv.fr/datasets/recensement-des-tiers-lieux-en-france-2026",
+          "producer": "France Tiers-Lieux",
+          "license": "Licence Ouverte / Open Licence 2.0",
+          "quest_id": "local_initiatives",
+          "gate": "Recensement public 2026. Vérifier l'état actuel du lieu et son utilité locale avant promotion ; aucune activité économique n'est inférée."
+        },
+        {
+          "candidate_id": "initiative:tierslieu:1807",
+          "state": "PUBLIC_CENSUS_CANDIDATE",
+          "lane": "initiatives",
+          "label": "A.Bell426",
+          "commune": "Villemandeur",
+          "address": "15 Rue Pierre Nobel 45700 Villemandeur",
+          "postal_code": "45700",
+          "latitude": "47,976227",
+          "longitude": "2,720168",
+          "website": "https://espace-abell.fr/",
+          "project_state": "On ne sait pas",
+          "families": "",
+          "initiative_origin": "",
+          "source": "https://www.data.gouv.fr/datasets/recensement-des-tiers-lieux-en-france-2026",
+          "producer": "France Tiers-Lieux",
+          "license": "Licence Ouverte / Open Licence 2.0",
+          "quest_id": "local_initiatives",
+          "gate": "Recensement public 2026. Vérifier l'état actuel du lieu et son utilité locale avant promotion ; aucune activité économique n'est inférée."
+        }
+      ],
       "source_health": {
         "wikidata_department": "PASS",
         "commons_license_media": "PASS",
-        "wikidata_search_heritage": "NO_LOCAL_MATCH",
-        "wikidata_search_nature": "NO_LOCAL_MATCH",
-        "wikidata_search_commons": "NO_LOCAL_MATCH",
-        "wikidata_search_initiatives": "NO_LOCAL_MATCH"
+        "merimee_tabular": "PASS",
+        "libraries_tabular": "PASS",
+        "tiers_lieux_2026_csv": "PASS",
+        "nature_wikipedia_wikidata": "PASS"
       },
       "wikidata_department": {
         "id": "Q12574",
@@ -822,7 +1405,7 @@
     "33": {
       "code": "33",
       "name": "Gironde",
-      "scanned_at": "2026-10-04T13:42:55.822207Z",
+      "scanned_at": "2026-10-04T14:07:54.932281Z",
       "state": "DISCOVERY_CANDIDATES_NOT_CANON",
       "promotion_authorized": false,
       "mints_phi": false,
@@ -1083,17 +1666,215 @@
           "quest_id": "heritage_memory"
         }
       ],
-      "heritage": [],
-      "nature": [],
-      "commons": [],
-      "initiatives": [],
+      "heritage": [
+        {
+          "candidate_id": "heritage:merimee:PA00083136",
+          "state": "OFFICIAL_DATASET_CANDIDATE",
+          "lane": "heritage",
+          "label": "Église Saint-Pierre",
+          "commune": "Bègles",
+          "description": null,
+          "source": "https://pop.culture.gouv.fr/notice/merimee/PA00083136",
+          "dataset": "https://www.data.gouv.fr/datasets/immeubles-proteges-au-titre-des-monuments-historiques-2",
+          "producer": "Ministère de la Culture",
+          "license": "Licence Ouverte / Open Licence 2.0",
+          "quest_id": "heritage_memory",
+          "gate": "La protection patrimoniale est sourcée officiellement. La sélection éditoriale et la représentation visuelle restent à valider avant promotion."
+        },
+        {
+          "candidate_id": "heritage:merimee:PA00083139",
+          "state": "OFFICIAL_DATASET_CANDIDATE",
+          "lane": "heritage",
+          "label": "Église Saint-Jacques",
+          "commune": "Bellebat",
+          "description": null,
+          "source": "https://pop.culture.gouv.fr/notice/merimee/PA00083139",
+          "dataset": "https://www.data.gouv.fr/datasets/immeubles-proteges-au-titre-des-monuments-historiques-2",
+          "producer": "Ministère de la Culture",
+          "license": "Licence Ouverte / Open Licence 2.0",
+          "quest_id": "heritage_memory",
+          "gate": "La protection patrimoniale est sourcée officiellement. La sélection éditoriale et la représentation visuelle restent à valider avant promotion."
+        },
+        {
+          "candidate_id": "heritage:merimee:PA00083141",
+          "state": "OFFICIAL_DATASET_CANDIDATE",
+          "lane": "heritage",
+          "label": "Église Saint-Eutrope et ancien prieuré",
+          "commune": "Bellefond",
+          "description": "Bellefond était primitivement un prieuré bâti par les chanoines réguliers de l'ordre de Saint-Augustin. En 1186, il fut soumis au monastère de la Sauve-Majeure. Durant les troubles du 16e siècle, d'importantes dégradations furent faites à l'église et aux bâtiments claustraux. En 1655, le prieuré fut uni au monastère des Feuillants de Bordeaux, qui le gardèrent jusqu'à la Révolution. Les parties inférieures du mur d'enceinte du prieuré, qui englobait l'église, le cimetière et les bâtiments claustraux, existent à peu près entièrement mais à l'état de ruines. L'église et les bâtiments claustraux durent être rebâtis à la fin du 12e siècle par les moines de la Sauve. L'église aurait dû se composer d'une longue nef terminée par une abside pentagonale. Deux bras de transept devaient lui donner la forme d'une croix latine. Le transept, l'abside et les absidioles ont été bâtis. La nef est restée à l'état de projet. Construction remaniée au 16e siècle. En 1863-1866, une importante restauration fut menée, modifiant profondément l'intérieur de l'édifice. Porte romane et contreforts plats du 12e ou 13e siècle.",
+          "source": "https://pop.culture.gouv.fr/notice/merimee/PA00083141",
+          "dataset": "https://www.data.gouv.fr/datasets/immeubles-proteges-au-titre-des-monuments-historiques-2",
+          "producer": "Ministère de la Culture",
+          "license": "Licence Ouverte / Open Licence 2.0",
+          "quest_id": "heritage_memory",
+          "gate": "La protection patrimoniale est sourcée officiellement. La sélection éditoriale et la représentation visuelle restent à valider avant promotion."
+        }
+      ],
+      "nature": [
+        {
+          "candidate_id": "nature:wikipedia:Q3457466",
+          "state": "UNVERIFIED_AUTODISCOVERY_CANDIDATE",
+          "lane": "nature",
+          "label": "Réserve naturelle nationale du Banc-d'Arguin",
+          "description": "Localisation sur la carte d’Aquitaine Localisation sur la carte de la Gironde La réserve naturelle nationale du Banc-d'Arguin (RNN5) est située en Nouvelle-Aquitaine",
+          "wikidata_id": "Q3457466",
+          "source": "https://fr.wikipedia.org/wiki/R%C3%A9serve_naturelle_nationale_du_Banc-d%27Arguin",
+          "administrative_binding": "P131_PATH_TO_DEPARTMENT",
+          "administrative_path": [
+            "Q3457466",
+            "Q233133",
+            "Q12526"
+          ],
+          "quest_id": "nature_risks",
+          "gate": "Découverte encyclopédique seulement. Vérifier une source naturaliste ou institutionnelle avant promotion."
+        },
+        {
+          "candidate_id": "nature:wikipedia:Q3457515",
+          "state": "UNVERIFIED_AUTODISCOVERY_CANDIDATE",
+          "lane": "nature",
+          "label": "Réserve naturelle nationale des marais de Bruges",
+          "description": "la carte de France La réserve naturelle nationale des marais de Bruges (RNN64), est une réserve naturelle nationale de Gironde . D’une superficie de 262 ha",
+          "wikidata_id": "Q3457515",
+          "source": "https://fr.wikipedia.org/wiki/R%C3%A9serve_naturelle_nationale_des_marais_de_Bruges",
+          "administrative_binding": "P131_PATH_TO_DEPARTMENT",
+          "administrative_path": [
+            "Q3457515",
+            "Q12526"
+          ],
+          "quest_id": "nature_risks",
+          "gate": "Découverte encyclopédique seulement. Vérifier une source naturaliste ou institutionnelle avant promotion."
+        },
+        {
+          "candidate_id": "nature:wikipedia:Q15427795",
+          "state": "UNVERIFIED_AUTODISCOVERY_CANDIDATE",
+          "lane": "nature",
+          "label": "Réserve naturelle nationale des dunes et marais d'Hourtin",
+          "description": "Réserve naturelle nationale des dunes et marais d'Hourtin Dunes de Hourtin Localisation sur la carte de la Gironde Localisation sur la carte de France",
+          "wikidata_id": "Q15427795",
+          "source": "https://fr.wikipedia.org/wiki/R%C3%A9serve_naturelle_nationale_des_dunes_et_marais_d%27Hourtin",
+          "administrative_binding": "P131_PATH_TO_DEPARTMENT",
+          "administrative_path": [
+            "Q15427795",
+            "Q380871",
+            "Q12526"
+          ],
+          "quest_id": "nature_risks",
+          "gate": "Découverte encyclopédique seulement. Vérifier une source naturaliste ou institutionnelle avant promotion."
+        }
+      ],
+      "commons": [
+        {
+          "candidate_id": "commons:library:LI4578",
+          "state": "OFFICIAL_DATASET_CANDIDATE",
+          "lane": "commons",
+          "label": "Bibliotheque intercommunale de Toulenne",
+          "commune": "Toulenne",
+          "address": "30 rue De Vincennes",
+          "website": "https://bibliotheques.cdcsudgironde.fr",
+          "source": "https://www.data.gouv.fr/datasets/adresses-des-bibliotheques-publiques-2",
+          "producer": "Ministère de la Culture",
+          "license": "Licence Ouverte / Open Licence 2.0",
+          "quest_id": "local_initiatives",
+          "gate": "Établissement public sourcé. Son rôle comme commun utile dans La Bête reste une sélection éditoriale à valider."
+        },
+        {
+          "candidate_id": "commons:library:LI7302",
+          "state": "OFFICIAL_DATASET_CANDIDATE",
+          "lane": "commons",
+          "label": "Bibliotheque Municipale",
+          "commune": "Saint-Ciers-de-Canesse",
+          "address": "2 BERBILLOT",
+          "website": null,
+          "source": "https://www.data.gouv.fr/datasets/adresses-des-bibliotheques-publiques-2",
+          "producer": "Ministère de la Culture",
+          "license": "Licence Ouverte / Open Licence 2.0",
+          "quest_id": "local_initiatives",
+          "gate": "Établissement public sourcé. Son rôle comme commun utile dans La Bête reste une sélection éditoriale à valider."
+        },
+        {
+          "candidate_id": "commons:library:LI11426",
+          "state": "OFFICIAL_DATASET_CANDIDATE",
+          "lane": "commons",
+          "label": "Bibliothèque municipale de Listrac-Médoc",
+          "commune": "Listrac-Médoc",
+          "address": "15 Avenue de",
+          "website": "WWW.bibliotheques-medullienne.fr",
+          "source": "https://www.data.gouv.fr/datasets/adresses-des-bibliotheques-publiques-2",
+          "producer": "Ministère de la Culture",
+          "license": "Licence Ouverte / Open Licence 2.0",
+          "quest_id": "local_initiatives",
+          "gate": "Établissement public sourcé. Son rôle comme commun utile dans La Bête reste une sélection éditoriale à valider."
+        }
+      ],
+      "initiatives": [
+        {
+          "candidate_id": "initiative:tierslieu:1275",
+          "state": "PUBLIC_CENSUS_CANDIDATE",
+          "lane": "initiatives",
+          "label": "A L'Ouest coworking",
+          "commune": "Lacanau",
+          "address": "6 Rue Edmond About 33680 Lacanau",
+          "postal_code": "33680",
+          "latitude": "44,97610092",
+          "longitude": "-1,077208161",
+          "website": "www.a-louest.org",
+          "project_state": "Lieu ouvert",
+          "families": "",
+          "initiative_origin": "",
+          "source": "https://www.data.gouv.fr/datasets/recensement-des-tiers-lieux-en-france-2026",
+          "producer": "France Tiers-Lieux",
+          "license": "Licence Ouverte / Open Licence 2.0",
+          "quest_id": "local_initiatives",
+          "gate": "Recensement public 2026. Vérifier l'état actuel du lieu et son utilité locale avant promotion ; aucune activité économique n'est inférée."
+        },
+        {
+          "candidate_id": "initiative:tierslieu:4747",
+          "state": "PUBLIC_CENSUS_CANDIDATE",
+          "lane": "initiatives",
+          "label": "A l'Ouest Coworking",
+          "commune": "Lacanau",
+          "address": "1 Rue Edmond About 33680 Lacanau",
+          "postal_code": "33680",
+          "latitude": "44,976329",
+          "longitude": "-1,076575",
+          "website": "",
+          "project_state": "Lieu ouvert",
+          "families": "",
+          "initiative_origin": "",
+          "source": "https://www.data.gouv.fr/datasets/recensement-des-tiers-lieux-en-france-2026",
+          "producer": "France Tiers-Lieux",
+          "license": "Licence Ouverte / Open Licence 2.0",
+          "quest_id": "local_initiatives",
+          "gate": "Recensement public 2026. Vérifier l'état actuel du lieu et son utilité locale avant promotion ; aucune activité économique n'est inférée."
+        },
+        {
+          "candidate_id": "initiative:tierslieu:4470",
+          "state": "PUBLIC_CENSUS_CANDIDATE",
+          "lane": "initiatives",
+          "label": "Ancien Collège Fieffé ",
+          "commune": "Bordeaux",
+          "address": "20 Rue Armand Caduc 33800 Bordeaux",
+          "postal_code": "33800",
+          "latitude": "44,823273",
+          "longitude": "-0,561844",
+          "website": "",
+          "project_state": "On ne sait pas",
+          "families": "",
+          "initiative_origin": "",
+          "source": "https://www.data.gouv.fr/datasets/recensement-des-tiers-lieux-en-france-2026",
+          "producer": "France Tiers-Lieux",
+          "license": "Licence Ouverte / Open Licence 2.0",
+          "quest_id": "local_initiatives",
+          "gate": "Recensement public 2026. Vérifier l'état actuel du lieu et son utilité locale avant promotion ; aucune activité économique n'est inférée."
+        }
+      ],
       "source_health": {
         "wikidata_department": "PASS",
         "commons_license_media": "PASS",
-        "wikidata_search_heritage": "NO_LOCAL_MATCH",
-        "wikidata_search_nature": "NO_LOCAL_MATCH",
-        "wikidata_search_commons": "NO_LOCAL_MATCH",
-        "wikidata_search_initiatives": "NO_LOCAL_MATCH"
+        "merimee_tabular": "PASS",
+        "libraries_tabular": "PASS",
+        "tiers_lieux_2026_csv": "PASS",
+        "nature_wikipedia_wikidata": "PASS"
       },
       "wikidata_department": {
         "id": "Q12526",
@@ -1105,7 +1886,7 @@
     "29": {
       "code": "29",
       "name": "Finistère",
-      "scanned_at": "2026-10-04T13:43:00.437633Z",
+      "scanned_at": "2026-10-04T14:08:02.976385Z",
       "state": "DISCOVERY_CANDIDATES_NOT_CANON",
       "promotion_authorized": false,
       "mints_phi": false,
@@ -1366,17 +2147,215 @@
           "quest_id": "heritage_memory"
         }
       ],
-      "heritage": [],
-      "nature": [],
-      "commons": [],
-      "initiatives": [],
+      "heritage": [
+        {
+          "candidate_id": "heritage:merimee:PA00089888",
+          "state": "OFFICIAL_DATASET_CANDIDATE",
+          "lane": "heritage",
+          "label": "Église Saint-Derrien",
+          "commune": "Commana",
+          "description": "Eglise de la fin du 16e siècle, composée de trois nefs et recouvert d'une voûte en bois dont quelques sablières sont sculptées et peintes. A l'église s'adosse au sud un porche de 1662 ayant les caractères d'une oeuvre du 16e siècle. Chapelle funéraire de 1686. Calvaire de 1742. La clôture du cimetière, à arc triomphal, est fermée par une grille en fer forgé du 17e siècle.",
+          "source": "https://pop.culture.gouv.fr/notice/merimee/PA00089888",
+          "dataset": "https://www.data.gouv.fr/datasets/immeubles-proteges-au-titre-des-monuments-historiques-2",
+          "producer": "Ministère de la Culture",
+          "license": "Licence Ouverte / Open Licence 2.0",
+          "quest_id": "heritage_memory",
+          "gate": "La protection patrimoniale est sourcée officiellement. La sélection éditoriale et la représentation visuelle restent à valider avant promotion."
+        },
+        {
+          "candidate_id": "heritage:merimee:PA00089904",
+          "state": "OFFICIAL_DATASET_CANDIDATE",
+          "lane": "heritage",
+          "label": "Chapelle Sainte-Anne",
+          "commune": "Daoulas",
+          "description": "Chapelle en forme de croix latine, avec un seul transept, contenue dans l'enclos monastique. La nef et la façade principale remontent au 16e siècle, avec ogives et sculptures. Le transept est séparé de la nef par une colonne qui possédait un chapiteau sculpté rappelant le style de l'architecture lombarde, détruit. Au Moyen-Age, s'y rassemblaient les pèlerins désirant rejoindre Rocamadour ou Compostelle à pied.",
+          "source": "https://pop.culture.gouv.fr/notice/merimee/PA00089904",
+          "dataset": "https://www.data.gouv.fr/datasets/immeubles-proteges-au-titre-des-monuments-historiques-2",
+          "producer": "Ministère de la Culture",
+          "license": "Licence Ouverte / Open Licence 2.0",
+          "quest_id": "heritage_memory",
+          "gate": "La protection patrimoniale est sourcée officiellement. La sélection éditoriale et la représentation visuelle restent à valider avant promotion."
+        },
+        {
+          "candidate_id": "heritage:merimee:PA00089935",
+          "state": "OFFICIAL_DATASET_CANDIDATE",
+          "lane": "heritage",
+          "label": "Maison",
+          "commune": "Le Faou",
+          "description": null,
+          "source": "https://pop.culture.gouv.fr/notice/merimee/PA00089935",
+          "dataset": "https://www.data.gouv.fr/datasets/immeubles-proteges-au-titre-des-monuments-historiques-2",
+          "producer": "Ministère de la Culture",
+          "license": "Licence Ouverte / Open Licence 2.0",
+          "quest_id": "heritage_memory",
+          "gate": "La protection patrimoniale est sourcée officiellement. La sélection éditoriale et la représentation visuelle restent à valider avant promotion."
+        }
+      ],
+      "nature": [
+        {
+          "candidate_id": "nature:wikipedia:Q15401923",
+          "state": "UNVERIFIED_AUTODISCOVERY_CANDIDATE",
+          "lane": "nature",
+          "label": "Réserve naturelle nationale de Saint-Nicolas des Glénan",
+          "description": "Réserve naturelle nationale de Saint-Nicolas des Glénan Plage à l'île Saint-Nicolas. Localisation sur la carte du Finistère Localisation sur la carte",
+          "wikidata_id": "Q15401923",
+          "source": "https://fr.wikipedia.org/wiki/R%C3%A9serve_naturelle_nationale_de_Saint-Nicolas_des_Gl%C3%A9nan",
+          "administrative_binding": "P131_PATH_TO_DEPARTMENT",
+          "administrative_path": [
+            "Q15401923",
+            "Q245149",
+            "Q3389"
+          ],
+          "quest_id": "nature_risks",
+          "gate": "Découverte encyclopédique seulement. Vérifier une source naturaliste ou institutionnelle avant promotion."
+        },
+        {
+          "candidate_id": "nature:wikipedia:Q3457519",
+          "state": "UNVERIFIED_AUTODISCOVERY_CANDIDATE",
+          "lane": "nature",
+          "label": "Réserve naturelle nationale du Venec",
+          "description": "Réserve naturelle nationale du Venec Localisation sur la carte du Finistère Localisation sur la carte de France La réserve naturelle nationale du Venec",
+          "wikidata_id": "Q3457519",
+          "source": "https://fr.wikipedia.org/wiki/R%C3%A9serve_naturelle_nationale_du_Venec",
+          "administrative_binding": "P131_PATH_TO_DEPARTMENT",
+          "administrative_path": [
+            "Q3457519",
+            "Q383649",
+            "Q3389"
+          ],
+          "quest_id": "nature_risks",
+          "gate": "Découverte encyclopédique seulement. Vérifier une source naturaliste ou institutionnelle avant promotion."
+        },
+        {
+          "candidate_id": "nature:wikipedia:Q2385242",
+          "state": "UNVERIFIED_AUTODISCOVERY_CANDIDATE",
+          "lane": "nature",
+          "label": "Réserve naturelle nationale d'Iroise",
+          "description": "Iroise. Réserve naturelle nationale d'Iroise Archipel de Molène. Localisation sur la carte de France Localisation sur la carte du Finistère La réserve naturelle",
+          "wikidata_id": "Q2385242",
+          "source": "https://fr.wikipedia.org/wiki/R%C3%A9serve_naturelle_nationale_d%27Iroise",
+          "administrative_binding": "P131_PATH_TO_DEPARTMENT",
+          "administrative_path": [
+            "Q2385242",
+            "Q3389"
+          ],
+          "quest_id": "nature_risks",
+          "gate": "Découverte encyclopédique seulement. Vérifier une source naturaliste ou institutionnelle avant promotion."
+        }
+      ],
+      "commons": [
+        {
+          "candidate_id": "commons:library:LI5281",
+          "state": "OFFICIAL_DATASET_CANDIDATE",
+          "lane": "commons",
+          "label": "BIBLIOTHEQUE  MUNICIPALE",
+          "commune": "Saint-Thonan",
+          "address": "82 rue de l'Eglise",
+          "website": "https://www.bibliotheque.saintthonan.fr",
+          "source": "https://www.data.gouv.fr/datasets/adresses-des-bibliotheques-publiques-2",
+          "producer": "Ministère de la Culture",
+          "license": "Licence Ouverte / Open Licence 2.0",
+          "quest_id": "local_initiatives",
+          "gate": "Établissement public sourcé. Son rôle comme commun utile dans La Bête reste une sélection éditoriale à valider."
+        },
+        {
+          "candidate_id": "commons:library:LI7148",
+          "state": "OFFICIAL_DATASET_CANDIDATE",
+          "lane": "commons",
+          "label": "Bibliotheque De Poullaouen",
+          "commune": "Poullaouen",
+          "address": "RUE DU JUSTISSOU",
+          "website": "https:/poullaouen-pom.c3rb.org/",
+          "source": "https://www.data.gouv.fr/datasets/adresses-des-bibliotheques-publiques-2",
+          "producer": "Ministère de la Culture",
+          "license": "Licence Ouverte / Open Licence 2.0",
+          "quest_id": "local_initiatives",
+          "gate": "Établissement public sourcé. Son rôle comme commun utile dans La Bête reste une sélection éditoriale à valider."
+        },
+        {
+          "candidate_id": "commons:library:LI1148",
+          "state": "OFFICIAL_DATASET_CANDIDATE",
+          "lane": "commons",
+          "label": "Mediatheque Municipale De Plozevet",
+          "commune": "Plozévet",
+          "address": "30 AVENUE GEORGES  LE  BAIL",
+          "website": "http://mediatheque-plozevet.fr",
+          "source": "https://www.data.gouv.fr/datasets/adresses-des-bibliotheques-publiques-2",
+          "producer": "Ministère de la Culture",
+          "license": "Licence Ouverte / Open Licence 2.0",
+          "quest_id": "local_initiatives",
+          "gate": "Établissement public sourcé. Son rôle comme commun utile dans La Bête reste une sélection éditoriale à valider."
+        }
+      ],
+      "initiatives": [
+        {
+          "candidate_id": "initiative:tierslieu:965",
+          "state": "PUBLIC_CENSUS_CANDIDATE",
+          "lane": "initiatives",
+          "label": "2D",
+          "commune": "Morlaix",
+          "address": "2d Voie d'Accès au Port 29600 Morlaix",
+          "postal_code": "29600",
+          "latitude": "48,583143",
+          "longitude": "-3,836106",
+          "website": "https://www.resam.net/le-2d-a-morlaix.html",
+          "project_state": "Lieu ouvert",
+          "families": "Tiers-lieux de formation;Espaces d'éducation populaire",
+          "initiative_origin": "une association déjà existante ou un collectif d’associations",
+          "source": "https://www.data.gouv.fr/datasets/recensement-des-tiers-lieux-en-france-2026",
+          "producer": "France Tiers-Lieux",
+          "license": "Licence Ouverte / Open Licence 2.0",
+          "quest_id": "local_initiatives",
+          "gate": "Recensement public 2026. Vérifier l'état actuel du lieu et son utilité locale avant promotion ; aucune activité économique n'est inférée."
+        },
+        {
+          "candidate_id": "initiative:tierslieu:973",
+          "state": "PUBLIC_CENSUS_CANDIDATE",
+          "lane": "initiatives",
+          "label": "Atelier Z",
+          "commune": "Névez",
+          "address": "8 Chemin de Kervic 29920 Névez",
+          "postal_code": "29920",
+          "latitude": "47,83273389",
+          "longitude": "-3,797128201",
+          "website": "https://az.atelierz.xyz",
+          "project_state": "On ne sait pas",
+          "families": "",
+          "initiative_origin": "",
+          "source": "https://www.data.gouv.fr/datasets/recensement-des-tiers-lieux-en-france-2026",
+          "producer": "France Tiers-Lieux",
+          "license": "Licence Ouverte / Open Licence 2.0",
+          "quest_id": "local_initiatives",
+          "gate": "Recensement public 2026. Vérifier l'état actuel du lieu et son utilité locale avant promotion ; aucune activité économique n'est inférée."
+        },
+        {
+          "candidate_id": "initiative:tierslieu:925",
+          "state": "PUBLIC_CENSUS_CANDIDATE",
+          "lane": "initiatives",
+          "label": "Au Coin d'la Rue",
+          "commune": "Brest",
+          "address": "35 rue Saint-Malo 29200 Brest",
+          "postal_code": "29200",
+          "latitude": "48,389347",
+          "longitude": "-4,501352",
+          "website": "http://aucoindlarue.vivrelarue.net/",
+          "project_state": "On ne sait pas",
+          "families": "",
+          "initiative_origin": "",
+          "source": "https://www.data.gouv.fr/datasets/recensement-des-tiers-lieux-en-france-2026",
+          "producer": "France Tiers-Lieux",
+          "license": "Licence Ouverte / Open Licence 2.0",
+          "quest_id": "local_initiatives",
+          "gate": "Recensement public 2026. Vérifier l'état actuel du lieu et son utilité locale avant promotion ; aucune activité économique n'est inférée."
+        }
+      ],
       "source_health": {
         "wikidata_department": "PASS",
         "commons_license_media": "PASS",
-        "wikidata_search_heritage": "NO_LOCAL_MATCH",
-        "wikidata_search_nature": "NO_LOCAL_MATCH",
-        "wikidata_search_commons": "NO_LOCAL_MATCH",
-        "wikidata_search_initiatives": "NO_LOCAL_MATCH"
+        "merimee_tabular": "PASS",
+        "libraries_tabular": "PASS",
+        "tiers_lieux_2026_csv": "PASS",
+        "nature_wikipedia_wikidata": "PASS"
       },
       "wikidata_department": {
         "id": "Q3389",
@@ -1388,7 +2367,7 @@
     "67": {
       "code": "67",
       "name": "Bas-Rhin",
-      "scanned_at": "2026-10-04T13:43:05.213405Z",
+      "scanned_at": "2026-10-04T14:08:06.915276Z",
       "state": "DISCOVERY_CANDIDATES_NOT_CANON",
       "promotion_authorized": false,
       "mints_phi": false,
@@ -1649,17 +2628,215 @@
           "quest_id": "heritage_memory"
         }
       ],
-      "heritage": [],
-      "nature": [],
-      "commons": [],
-      "initiatives": [],
+      "heritage": [
+        {
+          "candidate_id": "heritage:merimee:PA00084628",
+          "state": "OFFICIAL_DATASET_CANDIDATE",
+          "lane": "heritage",
+          "label": "Chapelle avec Mont des Oliviers",
+          "commune": "Boersch",
+          "description": null,
+          "source": "https://pop.culture.gouv.fr/notice/merimee/PA00084628",
+          "dataset": "https://www.data.gouv.fr/datasets/immeubles-proteges-au-titre-des-monuments-historiques-2",
+          "producer": "Ministère de la Culture",
+          "license": "Licence Ouverte / Open Licence 2.0",
+          "quest_id": "heritage_memory",
+          "gate": "La protection patrimoniale est sourcée officiellement. La sélection éditoriale et la représentation visuelle restent à valider avant promotion."
+        },
+        {
+          "candidate_id": "heritage:merimee:PA00084671",
+          "state": "OFFICIAL_DATASET_CANDIDATE",
+          "lane": "heritage",
+          "label": "Château de Hohenfels : vestiges en totalité",
+          "commune": "Dambach",
+          "description": "Château de type semi troglodytique. Des fouilles ont été effectuées au 20e siècle.",
+          "source": "https://pop.culture.gouv.fr/notice/merimee/PA00084671",
+          "dataset": "https://www.data.gouv.fr/datasets/immeubles-proteges-au-titre-des-monuments-historiques-2",
+          "producer": "Ministère de la Culture",
+          "license": "Licence Ouverte / Open Licence 2.0",
+          "quest_id": "heritage_memory",
+          "gate": "La protection patrimoniale est sourcée officiellement. La sélection éditoriale et la représentation visuelle restent à valider avant promotion."
+        },
+        {
+          "candidate_id": "heritage:merimee:PA00084734",
+          "state": "OFFICIAL_DATASET_CANDIDATE",
+          "lane": "heritage",
+          "label": "Ancien grenier de l'Hôpital",
+          "commune": "Haguenau",
+          "description": null,
+          "source": "https://pop.culture.gouv.fr/notice/merimee/PA00084734",
+          "dataset": "https://www.data.gouv.fr/datasets/immeubles-proteges-au-titre-des-monuments-historiques-2",
+          "producer": "Ministère de la Culture",
+          "license": "Licence Ouverte / Open Licence 2.0",
+          "quest_id": "heritage_memory",
+          "gate": "La protection patrimoniale est sourcée officiellement. La sélection éditoriale et la représentation visuelle restent à valider avant promotion."
+        }
+      ],
+      "nature": [
+        {
+          "candidate_id": "nature:wikipedia:Q3021921",
+          "state": "UNVERIFIED_AUTODISCOVERY_CANDIDATE",
+          "lane": "nature",
+          "label": "Réserve naturelle nationale du delta de la Sauer",
+          "description": "Réserve naturelle nationale du delta de la Sauer Le delta de la Sauer près de Munchhausen. Localisation sur la carte du Bas - Rhin Localisation sur la carte",
+          "wikidata_id": "Q3021921",
+          "source": "https://fr.wikipedia.org/wiki/R%C3%A9serve_naturelle_nationale_du_delta_de_la_Sauer",
+          "administrative_binding": "P131_PATH_TO_DEPARTMENT",
+          "administrative_path": [
+            "Q3021921",
+            "Q12717"
+          ],
+          "quest_id": "nature_risks",
+          "gate": "Découverte encyclopédique seulement. Vérifier une source naturaliste ou institutionnelle avant promotion."
+        },
+        {
+          "candidate_id": "nature:wikipedia:Q3078782",
+          "state": "UNVERIFIED_AUTODISCOVERY_CANDIDATE",
+          "lane": "nature",
+          "label": "Réserve naturelle nationale de la forêt d'Offendorf",
+          "description": "Réserve naturelle nationale de la forêt d'Offendorf Ried à la Wantzenau. Localisation sur la carte du Bas - Rhin Localisation sur la carte d’Alsace Localisation",
+          "wikidata_id": "Q3078782",
+          "source": "https://fr.wikipedia.org/wiki/R%C3%A9serve_naturelle_nationale_de_la_for%C3%AAt_d%27Offendorf",
+          "administrative_binding": "P131_PATH_TO_DEPARTMENT",
+          "administrative_path": [
+            "Q3078782",
+            "Q21326",
+            "Q12717"
+          ],
+          "quest_id": "nature_risks",
+          "gate": "Découverte encyclopédique seulement. Vérifier une source naturaliste ou institutionnelle avant promotion."
+        },
+        {
+          "candidate_id": "nature:wikipedia:Q13107588",
+          "state": "UNVERIFIED_AUTODISCOVERY_CANDIDATE",
+          "lane": "nature",
+          "label": "Réserve naturelle nationale du massif forestier de Strasbourg-Neuhof/Illkirch-Graffenstaden",
+          "description": "Localisation sur la carte du Bas - Rhin Localisation sur la carte d’Alsace Localisation sur la carte de France La réserve naturelle du Massif forestier de",
+          "wikidata_id": "Q13107588",
+          "source": "https://fr.wikipedia.org/wiki/R%C3%A9serve_naturelle_nationale_du_massif_forestier_de_Strasbourg-Neuhof/Illkirch-Graffenstaden",
+          "administrative_binding": "P131_PATH_TO_DEPARTMENT",
+          "administrative_path": [
+            "Q13107588",
+            "Q6602",
+            "Q12717"
+          ],
+          "quest_id": "nature_risks",
+          "gate": "Découverte encyclopédique seulement. Vérifier une source naturaliste ou institutionnelle avant promotion."
+        }
+      ],
+      "commons": [
+        {
+          "candidate_id": "commons:library:LI15032",
+          "state": "OFFICIAL_DATASET_CANDIDATE",
+          "lane": "commons",
+          "label": "Médiathèque de Soultz-sous-Forêts",
+          "commune": "Soultz-sous-Forêts",
+          "address": "31 Rue du Docteur Deutsch",
+          "website": "https://soultz-sous-forets.bibli.fr",
+          "source": "https://www.data.gouv.fr/datasets/adresses-des-bibliotheques-publiques-2",
+          "producer": "Ministère de la Culture",
+          "license": "Licence Ouverte / Open Licence 2.0",
+          "quest_id": "local_initiatives",
+          "gate": "Établissement public sourcé. Son rôle comme commun utile dans La Bête reste une sélection éditoriale à valider."
+        },
+        {
+          "candidate_id": "commons:library:LI15049",
+          "state": "OFFICIAL_DATASET_CANDIDATE",
+          "lane": "commons",
+          "label": "Point lecture du Hohwald",
+          "commune": "Le Hohwald",
+          "address": "Square Kuntz",
+          "website": null,
+          "source": "https://www.data.gouv.fr/datasets/adresses-des-bibliotheques-publiques-2",
+          "producer": "Ministère de la Culture",
+          "license": "Licence Ouverte / Open Licence 2.0",
+          "quest_id": "local_initiatives",
+          "gate": "Établissement public sourcé. Son rôle comme commun utile dans La Bête reste une sélection éditoriale à valider."
+        },
+        {
+          "candidate_id": "commons:library:LI2840",
+          "state": "OFFICIAL_DATASET_CANDIDATE",
+          "lane": "commons",
+          "label": "Bibliotheque Achenheim",
+          "commune": "Achenheim",
+          "address": "7 Rue des Tilleuls",
+          "website": "https://bibliothequeachenheim.opac-x.com/",
+          "source": "https://www.data.gouv.fr/datasets/adresses-des-bibliotheques-publiques-2",
+          "producer": "Ministère de la Culture",
+          "license": "Licence Ouverte / Open Licence 2.0",
+          "quest_id": "local_initiatives",
+          "gate": "Établissement public sourcé. Son rôle comme commun utile dans La Bête reste une sélection éditoriale à valider."
+        }
+      ],
+      "initiatives": [
+        {
+          "candidate_id": "initiative:tierslieu:2501",
+          "state": "PUBLIC_CENSUS_CANDIDATE",
+          "lane": "initiatives",
+          "label": "Afpa - Village des solutions Strasbourg",
+          "commune": "Strasbourg",
+          "address": "14 Rue des Corps-de-Garde 67100 Strasbourg",
+          "postal_code": "67100",
+          "latitude": "48,560194",
+          "longitude": "7,779661",
+          "website": "http://www.afpa.fr",
+          "project_state": "Lieu ouvert",
+          "families": "",
+          "initiative_origin": "",
+          "source": "https://www.data.gouv.fr/datasets/recensement-des-tiers-lieux-en-france-2026",
+          "producer": "France Tiers-Lieux",
+          "license": "Licence Ouverte / Open Licence 2.0",
+          "quest_id": "local_initiatives",
+          "gate": "Recensement public 2026. Vérifier l'état actuel du lieu et son utilité locale avant promotion ; aucune activité économique n'est inférée."
+        },
+        {
+          "candidate_id": "initiative:tierslieu:4845",
+          "state": "PUBLIC_CENSUS_CANDIDATE",
+          "lane": "initiatives",
+          "label": "Association Ballade ",
+          "commune": "Strasbourg",
+          "address": "25 Rue Jacob 67200 Strasbourg",
+          "postal_code": "67200",
+          "latitude": "48,592994",
+          "longitude": "7,716943",
+          "website": "",
+          "project_state": "Lieu ouvert",
+          "families": "",
+          "initiative_origin": "",
+          "source": "https://www.data.gouv.fr/datasets/recensement-des-tiers-lieux-en-france-2026",
+          "producer": "France Tiers-Lieux",
+          "license": "Licence Ouverte / Open Licence 2.0",
+          "quest_id": "local_initiatives",
+          "gate": "Recensement public 2026. Vérifier l'état actuel du lieu et son utilité locale avant promotion ; aucune activité économique n'est inférée."
+        },
+        {
+          "candidate_id": "initiative:tierslieu:2503",
+          "state": "PUBLIC_CENSUS_CANDIDATE",
+          "lane": "initiatives",
+          "label": "Atelier M33",
+          "commune": "Strasbourg",
+          "address": "33 Rue du Maréchal Lefèbvre 67100 Strasbourg",
+          "postal_code": "67100",
+          "latitude": "48,561335",
+          "longitude": "7,740343",
+          "website": "https://atelierm33.com",
+          "project_state": "Lieu ouvert",
+          "families": "Tiers-lieux culturels / Lieux intermédiaires et indépendants",
+          "initiative_origin": "une association déjà existante ou un collectif d’associations",
+          "source": "https://www.data.gouv.fr/datasets/recensement-des-tiers-lieux-en-france-2026",
+          "producer": "France Tiers-Lieux",
+          "license": "Licence Ouverte / Open Licence 2.0",
+          "quest_id": "local_initiatives",
+          "gate": "Recensement public 2026. Vérifier l'état actuel du lieu et son utilité locale avant promotion ; aucune activité économique n'est inférée."
+        }
+      ],
       "source_health": {
         "wikidata_department": "PASS",
         "commons_license_media": "PASS",
-        "wikidata_search_heritage": "NO_LOCAL_MATCH",
-        "wikidata_search_nature": "NO_LOCAL_MATCH",
-        "wikidata_search_commons": "NO_LOCAL_MATCH",
-        "wikidata_search_initiatives": "NO_LOCAL_MATCH"
+        "merimee_tabular": "PASS",
+        "libraries_tabular": "PASS",
+        "tiers_lieux_2026_csv": "PASS",
+        "nature_wikipedia_wikidata": "PASS"
       },
       "wikidata_department": {
         "id": "Q12717",
@@ -1671,7 +2848,7 @@
     "64": {
       "code": "64",
       "name": "Pyrénées-Atlantiques",
-      "scanned_at": "2026-10-04T13:43:09.681231Z",
+      "scanned_at": "2026-10-04T14:08:10.698317Z",
       "state": "DISCOVERY_CANDIDATES_NOT_CANON",
       "promotion_authorized": false,
       "mints_phi": false,
@@ -1915,17 +3092,207 @@
         "gate": "Relation administrative vérifiée. Elle ne prouve aucune proximité culturelle, économique ou affective."
       },
       "media": [],
-      "heritage": [],
-      "nature": [],
-      "commons": [],
-      "initiatives": [],
+      "heritage": [
+        {
+          "candidate_id": "heritage:merimee:PA00084356",
+          "state": "OFFICIAL_DATASET_CANDIDATE",
+          "lane": "heritage",
+          "label": "Château Boulard",
+          "commune": "Biarritz",
+          "description": "Dans cette villa, l'architecte Duc joua de l'éclectisme en mêlant motifs de la Renaissance et ceux des maisons méditerranéennes. La construction fut achevée par son collaborateur, Roux. L'habitation s'ordonne autour d'un patio central où huit colonnes entourent une vasque. Une tour ronde coiffée d'un dôme est logée dans un angle de la façade nord tandis qu'une tour carrée puis octogonale s'élève sur la façade est. Une terrasse à colonnes jumelées s'ouvre sur la façade sud. Des mascarons sous des frontons triangulaires ornent les fenêtres du premier étage. Une corniche à modillons court tout autour de la construction et donne naissance à un toit d'ardoises percé de lucarnes à coquilles.",
+          "source": "https://pop.culture.gouv.fr/notice/merimee/PA00084356",
+          "dataset": "https://www.data.gouv.fr/datasets/immeubles-proteges-au-titre-des-monuments-historiques-2",
+          "producer": "Ministère de la Culture",
+          "license": "Licence Ouverte / Open Licence 2.0",
+          "quest_id": "heritage_memory",
+          "gate": "La protection patrimoniale est sourcée officiellement. La sélection éditoriale et la représentation visuelle restent à valider avant promotion."
+        },
+        {
+          "candidate_id": "heritage:merimee:PA00084472",
+          "state": "OFFICIAL_DATASET_CANDIDATE",
+          "lane": "heritage",
+          "label": "Église Saint-Michel",
+          "commune": "Ordiarp",
+          "description": "L'église dépendait autrefois d'une maison de refuge, prieuré détaché de l'abbaye de Roncevaux. Les pèlerins en marche vers Compostelle s'y arrêtaient. L'édifice fut élevé vers le début du 12e siècle : le choeur et les deux culs de fours absidiaux datent de cette époque. La première travée de la nef, bâtie en même temps, eut ses voûtes exhaussées sans doute au milieu du 12e siècle. La façade et la travée attenante ont été remplacées par des maçonneries modernes.",
+          "source": "https://pop.culture.gouv.fr/notice/merimee/PA00084472",
+          "dataset": "https://www.data.gouv.fr/datasets/immeubles-proteges-au-titre-des-monuments-historiques-2",
+          "producer": "Ministère de la Culture",
+          "license": "Licence Ouverte / Open Licence 2.0",
+          "quest_id": "heritage_memory",
+          "gate": "La protection patrimoniale est sourcée officiellement. La sélection éditoriale et la représentation visuelle restent à valider avant promotion."
+        },
+        {
+          "candidate_id": "heritage:merimee:PA00084495",
+          "state": "OFFICIAL_DATASET_CANDIDATE",
+          "lane": "heritage",
+          "label": "Maison Esquerrénéa",
+          "commune": "Saint-Jean-de-Luz",
+          "description": "Maison bâtie à la fin du 15e siècle. Elle a appartenu à des armateurs. C'est une des rares maisons médiévales de Saint-Jean-de-Luz à avoir échappé à l'incendie de 1558 lors d'une attaque espagnole. La maison, formant corps de logis rectangulaire, comporte deux étages, un grenier et une tour. La façade sur rue de la République est en pierre de taille avec fenêtres à meneaux ornées de moulures Renaissance. La façade sur rue de la Baleine est construite en moëllons de mortier avec des ouvertures irrégulières. La tour carrée contient un escalier en pierre de taille, en colimaçon, donnant accès aux trois étages. Sous le toit, elle est couverte par une coupole sur trompes en pierre de taille.",
+          "source": "https://pop.culture.gouv.fr/notice/merimee/PA00084495",
+          "dataset": "https://www.data.gouv.fr/datasets/immeubles-proteges-au-titre-des-monuments-historiques-2",
+          "producer": "Ministère de la Culture",
+          "license": "Licence Ouverte / Open Licence 2.0",
+          "quest_id": "heritage_memory",
+          "gate": "La protection patrimoniale est sourcée officiellement. La sélection éditoriale et la représentation visuelle restent à valider avant promotion."
+        }
+      ],
+      "nature": [
+        {
+          "candidate_id": "nature:wikipedia:Q3457501",
+          "state": "UNVERIFIED_AUTODISCOVERY_CANDIDATE",
+          "lane": "nature",
+          "label": "Réserve naturelle nationale de la vallée d'Ossau",
+          "description": "Réserve naturelle nationale de la vallée d'Ossau La vallée d'Ossau. Localisation sur la carte des Pyrénées - Atlantiques Localisation sur la carte d’Aquitaine",
+          "wikidata_id": "Q3457501",
+          "source": "https://fr.wikipedia.org/wiki/R%C3%A9serve_naturelle_nationale_de_la_vall%C3%A9e_d%27Ossau",
+          "administrative_binding": "P131_PATH_TO_DEPARTMENT",
+          "administrative_path": [
+            "Q3457501",
+            "Q12703"
+          ],
+          "quest_id": "nature_risks",
+          "gate": "Découverte encyclopédique seulement. Vérifier une source naturaliste ou institutionnelle avant promotion."
+        },
+        {
+          "candidate_id": "nature:wikipedia:Q738435",
+          "state": "UNVERIFIED_AUTODISCOVERY_CANDIDATE",
+          "lane": "nature",
+          "label": "Parc national des Pyrénées",
+          "description": "massif montagneux des Pyrénées , à cheval sur les départements des Hautes- Pyrénées (actuelle région Occitanie) et des Pyrénées - Atlantiques (actuelle région",
+          "wikidata_id": "Q738435",
+          "source": "https://fr.wikipedia.org/wiki/Parc_national_des_Pyr%C3%A9n%C3%A9es",
+          "administrative_binding": "TEXT_LOCALITY_HINT_ONLY",
+          "administrative_path": null,
+          "quest_id": "nature_risks",
+          "gate": "Découverte encyclopédique seulement. Vérifier une source naturaliste ou institutionnelle avant promotion."
+        },
+        {
+          "candidate_id": "nature:wikipedia:Q3078795",
+          "state": "UNVERIFIED_AUTODISCOVERY_CANDIDATE",
+          "lane": "nature",
+          "label": "Forêt d'Iraty",
+          "description": "de la forêt Portail de la mythologie basque Portail des Pyrénées Portail des Pyrénées - Atlantiques Portail de la Navarre Portail du patrimoine mondial",
+          "wikidata_id": "Q3078795",
+          "source": "https://fr.wikipedia.org/wiki/For%C3%AAt_d%27Iraty",
+          "administrative_binding": "TEXT_LOCALITY_HINT_ONLY",
+          "administrative_path": null,
+          "quest_id": "nature_risks",
+          "gate": "Découverte encyclopédique seulement. Vérifier une source naturaliste ou institutionnelle avant promotion."
+        }
+      ],
+      "commons": [
+        {
+          "candidate_id": "commons:library:LI8998",
+          "state": "OFFICIAL_DATASET_CANDIDATE",
+          "lane": "commons",
+          "label": "Bibliothèque de Lembeye",
+          "commune": "Lembeye",
+          "address": "37 Place du Marcadieu",
+          "website": "https://www.mairie-lembeye.fr",
+          "source": "https://www.data.gouv.fr/datasets/adresses-des-bibliotheques-publiques-2",
+          "producer": "Ministère de la Culture",
+          "license": "Licence Ouverte / Open Licence 2.0",
+          "quest_id": "local_initiatives",
+          "gate": "Établissement public sourcé. Son rôle comme commun utile dans La Bête reste une sélection éditoriale à valider."
+        },
+        {
+          "candidate_id": "commons:library:LI9007",
+          "state": "OFFICIAL_DATASET_CANDIDATE",
+          "lane": "commons",
+          "label": "Bibliothèque de Mont",
+          "commune": "Mont",
+          "address": "2 Rue du Bilatge",
+          "website": "https://www.mairie-mont.fr/association/bibliotheque-foyer-",
+          "source": "https://www.data.gouv.fr/datasets/adresses-des-bibliotheques-publiques-2",
+          "producer": "Ministère de la Culture",
+          "license": "Licence Ouverte / Open Licence 2.0",
+          "quest_id": "local_initiatives",
+          "gate": "Établissement public sourcé. Son rôle comme commun utile dans La Bête reste une sélection éditoriale à valider."
+        },
+        {
+          "candidate_id": "commons:library:LI9031",
+          "state": "OFFICIAL_DATASET_CANDIDATE",
+          "lane": "commons",
+          "label": "Bibliothèque de Saint-Pée-sur-Nivelle",
+          "commune": "Saint-Pée-sur-Nivelle",
+          "address": "21 Rue de la Gendarmerie",
+          "website": null,
+          "source": "https://www.data.gouv.fr/datasets/adresses-des-bibliotheques-publiques-2",
+          "producer": "Ministère de la Culture",
+          "license": "Licence Ouverte / Open Licence 2.0",
+          "quest_id": "local_initiatives",
+          "gate": "Établissement public sourcé. Son rôle comme commun utile dans La Bête reste une sélection éditoriale à valider."
+        }
+      ],
+      "initiatives": [
+        {
+          "candidate_id": "initiative:tierslieu:2414",
+          "state": "PUBLIC_CENSUS_CANDIDATE",
+          "lane": "initiatives",
+          "label": "Afpa- Village des Solutions Bayonne",
+          "commune": "Bayonne",
+          "address": "17 Avenue de Lattre de Tassigny 64100 Bayonne",
+          "postal_code": "64100",
+          "latitude": "43,5031621",
+          "longitude": "-1,4724751",
+          "website": "http://www.afpa.fr",
+          "project_state": "On ne sait pas",
+          "families": "",
+          "initiative_origin": "",
+          "source": "https://www.data.gouv.fr/datasets/recensement-des-tiers-lieux-en-france-2026",
+          "producer": "France Tiers-Lieux",
+          "license": "Licence Ouverte / Open Licence 2.0",
+          "quest_id": "local_initiatives",
+          "gate": "Recensement public 2026. Vérifier l'état actuel du lieu et son utilité locale avant promotion ; aucune activité économique n'est inférée."
+        },
+        {
+          "candidate_id": "initiative:tierslieu:2429",
+          "state": "PUBLIC_CENSUS_CANDIDATE",
+          "lane": "initiatives",
+          "label": "Aldatu",
+          "commune": "Hasparren",
+          "address": "Rue Léon Larregain 64240 Hasparren",
+          "postal_code": "64240",
+          "latitude": "43,38173",
+          "longitude": "-1,303001",
+          "website": "https://www.aldatu.org/fr/centre-appui-aux-entreprises/historique-et-missions.html",
+          "project_state": "On ne sait pas",
+          "families": "",
+          "initiative_origin": "",
+          "source": "https://www.data.gouv.fr/datasets/recensement-des-tiers-lieux-en-france-2026",
+          "producer": "France Tiers-Lieux",
+          "license": "Licence Ouverte / Open Licence 2.0",
+          "quest_id": "local_initiatives",
+          "gate": "Recensement public 2026. Vérifier l'état actuel du lieu et son utilité locale avant promotion ; aucune activité économique n'est inférée."
+        },
+        {
+          "candidate_id": "initiative:tierslieu:146",
+          "state": "PUBLIC_CENSUS_CANDIDATE",
+          "lane": "initiatives",
+          "label": "Ateliers Hybride",
+          "commune": "Pau",
+          "address": "11 rue de Bordeu 64000 Pau",
+          "postal_code": "64000",
+          "latitude": "43,304013",
+          "longitude": "-0,371185",
+          "website": "https://www.ateliers-hybride.fr/",
+          "project_state": "Lieu ouvert",
+          "families": "",
+          "initiative_origin": "",
+          "source": "https://www.data.gouv.fr/datasets/recensement-des-tiers-lieux-en-france-2026",
+          "producer": "France Tiers-Lieux",
+          "license": "Licence Ouverte / Open Licence 2.0",
+          "quest_id": "local_initiatives",
+          "gate": "Recensement public 2026. Vérifier l'état actuel du lieu et son utilité locale avant promotion ; aucune activité économique n'est inférée."
+        }
+      ],
       "source_health": {
         "wikidata_department": "PASS",
         "commons_license_media": "NO_LICENSED_MEDIA",
-        "wikidata_search_heritage": "NO_LOCAL_MATCH",
-        "wikidata_search_nature": "NO_LOCAL_MATCH",
-        "wikidata_search_commons": "NO_LOCAL_MATCH",
-        "wikidata_search_initiatives": "NO_LOCAL_MATCH"
+        "merimee_tabular": "PASS",
+        "libraries_tabular": "PASS",
+        "tiers_lieux_2026_csv": "PASS",
+        "nature_wikipedia_wikidata": "PASS"
       },
       "wikidata_department": {
         "id": "Q12703",
@@ -1937,7 +3304,7 @@
     "31": {
       "code": "31",
       "name": "Haute-Garonne",
-      "scanned_at": "2026-10-04T13:43:13.740433Z",
+      "scanned_at": "2026-10-04T14:08:16.397377Z",
       "state": "DISCOVERY_CANDIDATES_NOT_CANON",
       "promotion_authorized": false,
       "mints_phi": false,
@@ -2198,17 +3565,198 @@
           "quest_id": "heritage_memory"
         }
       ],
-      "heritage": [],
-      "nature": [],
-      "commons": [],
-      "initiatives": [],
+      "heritage": [
+        {
+          "candidate_id": "heritage:merimee:PA00094279",
+          "state": "OFFICIAL_DATASET_CANDIDATE",
+          "lane": "heritage",
+          "label": "Église Notre-Dame-de-l'Assomption",
+          "commune": "Bagnères-de-Luchon",
+          "description": "Eglise reconstruite de 1847 à 1857 par l'architecte Emile Loupot, sur l'emplacement de la vieille église romane. La façace occidentale n'est édifiée qu'en 1890. Edifice neo-roman composé d'une nef unique voûtée en berceau et bordée de chapelles, d'un sanctuaire à trois absides voûtées en cul-de-four. Ensemble ornemental et mobilier contemporain. Peintures murales : 2e moitié 19e siècle, par Romain Cazes.",
+          "source": "https://pop.culture.gouv.fr/notice/merimee/PA00094279",
+          "dataset": "https://www.data.gouv.fr/datasets/immeubles-proteges-au-titre-des-monuments-historiques-2",
+          "producer": "Ministère de la Culture",
+          "license": "Licence Ouverte / Open Licence 2.0",
+          "quest_id": "heritage_memory",
+          "gate": "La protection patrimoniale est sourcée officiellement. La sélection éditoriale et la représentation visuelle restent à valider avant promotion."
+        },
+        {
+          "candidate_id": "heritage:merimee:PA00094281",
+          "state": "OFFICIAL_DATASET_CANDIDATE",
+          "lane": "heritage",
+          "label": "Thermes Chambert",
+          "commune": "Bagnères-de-Luchon",
+          "description": "Exploitées dès l'époque romaine, les sources furent oubliées au Moyen-Age puis redécouvertes au 17e siècle. Le premier bâtiment, construit en 1759, est détruit en 1803 et remplacé par la construction actuelle (vers 1850) due à l'architecte Chambert. La façade des thermes se compose de cinq pavillons juxtaposés, et précédés d'un péristyle soutenu par 28 colonnes monolithes en marbre blanc. Le pavillon central forme vestibule, et donne accès à la salle des Pas Perdus, décorée de fresques peintes de 1854 à 1858 par Romain Caze et B. Bernard pour la partie ornementale.",
+          "source": "https://pop.culture.gouv.fr/notice/merimee/PA00094281",
+          "dataset": "https://www.data.gouv.fr/datasets/immeubles-proteges-au-titre-des-monuments-historiques-2",
+          "producer": "Ministère de la Culture",
+          "license": "Licence Ouverte / Open Licence 2.0",
+          "quest_id": "heritage_memory",
+          "gate": "La protection patrimoniale est sourcée officiellement. La sélection éditoriale et la représentation visuelle restent à valider avant promotion."
+        },
+        {
+          "candidate_id": "heritage:merimee:PA00094266",
+          "state": "OFFICIAL_DATASET_CANDIDATE",
+          "lane": "heritage",
+          "label": "Ruines du château",
+          "commune": "Aurignac",
+          "description": "Le château présente des formes gothiques avec des détails romans. Deux enceintes sont visibles, mais le château en aurait compté trois. La première est occupée par la ville et son extrémité sud conserve l'ancienne chapelle castrale, aujourd'hui église paroissiale. L'enceinte intérieure pourrait être considérée comme le véritable donjon. Elle est située à l'est de la première, de forme rectangulaire avec tourelles en saillie et contreforts flanquant les quatre angles. A l'est se trouvait un bâtiment d'une seule pièce qui occupait toute la largeur de l'enceinte, sans doute la salle d'honneur du château. Le donjon est une tour cylindrique, au sud de l'enceinte intérieure, divisé en trois étages, les deux salles supérieures sont voûtées en coupoles. L'accès se faisait au premier étage. Le rez-de-chaussée servait d'oubliettes. A côté du bâtiment se trouvent les restes d'un bâtiment de forme barlongue. Le monogramme du Christ sculpté sur la porte de ce bâtiment, indique que c'était une chapelle. Ce château est un des rares monuments militaires gothiques de la contrée.",
+          "source": "https://pop.culture.gouv.fr/notice/merimee/PA00094266",
+          "dataset": "https://www.data.gouv.fr/datasets/immeubles-proteges-au-titre-des-monuments-historiques-2",
+          "producer": "Ministère de la Culture",
+          "license": "Licence Ouverte / Open Licence 2.0",
+          "quest_id": "heritage_memory",
+          "gate": "La protection patrimoniale est sourcée officiellement. La sélection éditoriale et la représentation visuelle restent à valider avant promotion."
+        }
+      ],
+      "nature": [
+        {
+          "candidate_id": "nature:wikipedia:Q20971154",
+          "state": "UNVERIFIED_AUTODISCOVERY_CANDIDATE",
+          "lane": "nature",
+          "label": "Réserve naturelle régionale Confluence Garonne-Ariège",
+          "description": "Réserve naturelle régionale Confluence Garonne -Ariège La réserve naturelle régionale Confluence Garonne -Ariège (RNR288) ou RNR Confluence Garonne Ariège",
+          "wikidata_id": "Q20971154",
+          "source": "https://fr.wikipedia.org/wiki/R%C3%A9serve_naturelle_r%C3%A9gionale_Confluence_Garonne-Ari%C3%A8ge",
+          "administrative_binding": "P131_PATH_TO_DEPARTMENT",
+          "administrative_path": [
+            "Q20971154",
+            "Q1371171",
+            "Q12538"
+          ],
+          "quest_id": "nature_risks",
+          "gate": "Découverte encyclopédique seulement. Vérifier une source naturaliste ou institutionnelle avant promotion."
+        },
+        {
+          "candidate_id": "nature:wikipedia:Q3078829",
+          "state": "UNVERIFIED_AUTODISCOVERY_CANDIDATE",
+          "lane": "nature",
+          "label": "Forêt de Bouconne",
+          "description": "La forêt de Bouconne est un massif forestier situé dans le Sud-Ouest de la France, principalement dans le département de la Haute - Garonne et plus marginalement",
+          "wikidata_id": "Q3078829",
+          "source": "https://fr.wikipedia.org/wiki/For%C3%AAt_de_Bouconne",
+          "administrative_binding": "P131_PATH_TO_DEPARTMENT",
+          "administrative_path": [
+            "Q3078829",
+            "Q12538"
+          ],
+          "quest_id": "nature_risks",
+          "gate": "Découverte encyclopédique seulement. Vérifier une source naturaliste ou institutionnelle avant promotion."
+        }
+      ],
+      "commons": [
+        {
+          "candidate_id": "commons:library:LI12222",
+          "state": "OFFICIAL_DATASET_CANDIDATE",
+          "lane": "commons",
+          "label": "Médiathèque Municipale de Mondouzil",
+          "commune": "Mondouzil",
+          "address": "24 CHEMIN DE LA TUILERIE",
+          "website": "https://www.mairie-mondouzil.fr/la-m%C3%A9diath%C3%A8que",
+          "source": "https://www.data.gouv.fr/datasets/adresses-des-bibliotheques-publiques-2",
+          "producer": "Ministère de la Culture",
+          "license": "Licence Ouverte / Open Licence 2.0",
+          "quest_id": "local_initiatives",
+          "gate": "Établissement public sourcé. Son rôle comme commun utile dans La Bête reste une sélection éditoriale à valider."
+        },
+        {
+          "candidate_id": "commons:library:LI20119",
+          "state": "OFFICIAL_DATASET_CANDIDATE",
+          "lane": "commons",
+          "label": "Médiathèque municipale Rémy Peyranne",
+          "commune": "Castelnau-d'Estrétefonds",
+          "address": "4 Grande Rue",
+          "website": "https://mediatheque.castelnau-estretefonds.fr/",
+          "source": "https://www.data.gouv.fr/datasets/adresses-des-bibliotheques-publiques-2",
+          "producer": "Ministère de la Culture",
+          "license": "Licence Ouverte / Open Licence 2.0",
+          "quest_id": "local_initiatives",
+          "gate": "Établissement public sourcé. Son rôle comme commun utile dans La Bête reste une sélection éditoriale à valider."
+        },
+        {
+          "candidate_id": "commons:library:LI5547",
+          "state": "OFFICIAL_DATASET_CANDIDATE",
+          "lane": "commons",
+          "label": "Pont Des Demoiselles",
+          "commune": "Toulouse",
+          "address": "place Pierre Mendès-France",
+          "website": "https://www.bibliotheque.toulouse.fr/",
+          "source": "https://www.data.gouv.fr/datasets/adresses-des-bibliotheques-publiques-2",
+          "producer": "Ministère de la Culture",
+          "license": "Licence Ouverte / Open Licence 2.0",
+          "quest_id": "local_initiatives",
+          "gate": "Établissement public sourcé. Son rôle comme commun utile dans La Bête reste une sélection éditoriale à valider."
+        }
+      ],
+      "initiatives": [
+        {
+          "candidate_id": "initiative:tierslieu:1108",
+          "state": "PUBLIC_CENSUS_CANDIDATE",
+          "lane": "initiatives",
+          "label": "APSAR",
+          "commune": "Toulouse",
+          "address": "70 Chemin Michoun 31500 Toulouse",
+          "postal_code": "31500",
+          "latitude": "43,626559",
+          "longitude": "1,468206",
+          "website": "https://www.associationapsar.org/",
+          "project_state": "Lieu ouvert",
+          "families": "",
+          "initiative_origin": "",
+          "source": "https://www.data.gouv.fr/datasets/recensement-des-tiers-lieux-en-france-2026",
+          "producer": "France Tiers-Lieux",
+          "license": "Licence Ouverte / Open Licence 2.0",
+          "quest_id": "local_initiatives",
+          "gate": "Recensement public 2026. Vérifier l'état actuel du lieu et son utilité locale avant promotion ; aucune activité économique n'est inférée."
+        },
+        {
+          "candidate_id": "initiative:tierslieu:1109",
+          "state": "PUBLIC_CENSUS_CANDIDATE",
+          "lane": "initiatives",
+          "label": "Artilect",
+          "commune": "Toulouse",
+          "address": "Rue Tripière 31000 Toulouse",
+          "postal_code": "31000",
+          "latitude": "43,60180682",
+          "longitude": "1,442770958",
+          "website": "http://artilect.fr",
+          "project_state": "Lieu ouvert",
+          "families": "",
+          "initiative_origin": "",
+          "source": "https://www.data.gouv.fr/datasets/recensement-des-tiers-lieux-en-france-2026",
+          "producer": "France Tiers-Lieux",
+          "license": "Licence Ouverte / Open Licence 2.0",
+          "quest_id": "local_initiatives",
+          "gate": "Recensement public 2026. Vérifier l'état actuel du lieu et son utilité locale avant promotion ; aucune activité économique n'est inférée."
+        },
+        {
+          "candidate_id": "initiative:tierslieu:1111",
+          "state": "PUBLIC_CENSUS_CANDIDATE",
+          "lane": "initiatives",
+          "label": "At Home Cité ",
+          "commune": "Toulouse",
+          "address": "55 Avenue Louis Breguet 31400 Toulouse",
+          "postal_code": "31400",
+          "latitude": "43,577057",
+          "longitude": "1,479033",
+          "website": "https://athome-ecosysteme.fr/espace-de-travail/at-home-cite/",
+          "project_state": "Lieu ouvert",
+          "families": "",
+          "initiative_origin": "",
+          "source": "https://www.data.gouv.fr/datasets/recensement-des-tiers-lieux-en-france-2026",
+          "producer": "France Tiers-Lieux",
+          "license": "Licence Ouverte / Open Licence 2.0",
+          "quest_id": "local_initiatives",
+          "gate": "Recensement public 2026. Vérifier l'état actuel du lieu et son utilité locale avant promotion ; aucune activité économique n'est inférée."
+        }
+      ],
       "source_health": {
         "wikidata_department": "PASS",
         "commons_license_media": "PASS",
-        "wikidata_search_heritage": "NO_LOCAL_MATCH",
-        "wikidata_search_nature": "NO_LOCAL_MATCH",
-        "wikidata_search_commons": "NO_LOCAL_MATCH",
-        "wikidata_search_initiatives": "NO_LOCAL_MATCH"
+        "merimee_tabular": "PASS",
+        "libraries_tabular": "PASS",
+        "tiers_lieux_2026_csv": "PASS",
+        "nature_wikipedia_wikidata": "PASS"
       },
       "wikidata_department": {
         "id": "Q12538",
