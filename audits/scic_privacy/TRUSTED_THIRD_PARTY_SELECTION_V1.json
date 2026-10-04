@@ -1,6 +1,6 @@
 {
   "schema": "LA_BETE_SCIC_TRUSTED_THIRD_PARTY_SELECTION_V1",
-  "state": "OUTREACH_STARTED_EXTERNAL_COMMITMENT_NONE",
+  "state": "OUTREACH_ACTIVE_WAITING_FOR_TRUSTED_PARTY_REPLIES",
   "production_activation": false,
   "decision_date": "2026-10-04",
   "governing_principle": "NO_SINGLE_PARTY_MAY_SEE_BOTH_MEMBER_IDENTITY_AND_BALLOT_PLAINTEXT_OR_CONTROL_ALL_PRIVACY_GATES",
@@ -200,7 +200,7 @@
   ],
   "external_actions": {
     "emails_sent": true,
-    "forms_submitted": false,
+    "forms_submitted": true,
     "contracts_signed": false,
     "purchases_made": false,
     "accounts_created": false
@@ -251,8 +251,19 @@
     {
       "party": "AWS CloudHSM",
       "channel": "OFFICIAL_SALES_FORM",
-      "state": "PENDING_REQUIRED_PHONE_NOT_PROVIDED",
-      "form": "https://aws.amazon.com/fr/contact-us/sales-support-1v/"
+      "state": "SUBMITTED_CONFIRMED",
+      "confirmation_url": "https://aws.amazon.com/fr/contact-us/sales-contact-confirmation/",
+      "contact_profile": {
+        "function": "Entrepreneur (Founder/Co-Founder)",
+        "company_type": "Start-Up",
+        "industry": "Software & Internet",
+        "country": "France",
+        "use_case": "Other",
+        "inquiry": "Sales Support",
+        "phone_supplied": true,
+        "phone_value_stored_in_registry": false,
+        "marketing_opt_in": false
+      }
     }
   ],
   "outreach_policy": {
