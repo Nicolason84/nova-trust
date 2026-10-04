@@ -7,6 +7,7 @@ const UNIVERSES=Object.freeze([
  {id:'finances',label:'Finances publiques',subtitle:'Lire les mécanismes',symbol:'◇'},
  {id:'sources',label:'Sources & organismes',subtitle:'Remonter à la provenance',symbol:'⌘'},
  {id:'preuves',label:'Preuves',subtitle:'Vérifier chaque affirmation',symbol:'⌁'},
+ {id:'confiance',label:'Confiance & cohérence',subtitle:'Pourquoi cette information tient — et ce qui lui manque',symbol:'◫'},
  {id:'temps',label:'Temps & scénarios',subtitle:'Explorer sans prédire',symbol:'◷'},
  {id:'demarches',label:'Démarches',subtitle:'Du manque à la demande',symbol:'↗'},
  {id:'idees',label:'Questions & idées',subtitle:'Proposer, préciser, examiner',symbol:'✧'},

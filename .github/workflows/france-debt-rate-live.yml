@@ -42,6 +42,8 @@ on:
       - "scripts/verify_territory_contribution_links.py"
       - "docs/data/la-bete-territory-discovery-candidates-v1.json"
       - "docs/assets/territory-candidates/**"
+      - "scripts/build_la_bete_evidence_universe.py"
+      - "scripts/test_la_bete_evidence_universe.py"
       - "scripts/test_la_bete_mobile_access.cjs"
       - "scripts/test_la_bete_explorer.cjs"
       - "scripts/test_la_bete_enrichment.cjs"
@@ -219,6 +221,8 @@ jobs:
           python3 scripts/test_phi_territory_quests.py
           python3 scripts/build_la_bete_territory_living_identity.py
           python3 scripts/test_la_bete_territory_living_identity.py
+          python3 scripts/build_la_bete_evidence_universe.py
+          python3 scripts/test_la_bete_evidence_universe.py
           node scripts/test_la_bete_dialogue.cjs
           node scripts/test_la_bete_explorer.cjs
           node scripts/test_la_bete_mobile_access.cjs
@@ -264,7 +268,7 @@ jobs:
       - name: Commit material state
         shell: bash
         run: |
-          tracked=(docs/data/france-debt-rate-live.json docs/data/france-debt-rate-evolution.json docs/data/FRANCE_BEAST_BINDING.json docs/france-debt-rate-risk-live-2026-10-02.html docs/manifest.webmanifest docs/assets/la-bete-favicon.svg docs/assets/la-bete-social-card.png docs/assets/la-bete-icon-192.png docs/assets/la-bete-icon-512.png docs/assets/la-bete-apple-touch-icon.png)
+          tracked=(docs/data/france-debt-rate-live.json docs/data/france-debt-rate-evolution.json docs/data/la-bete-evidence-universe-v1.json docs/data/FRANCE_BEAST_BINDING.json docs/france-debt-rate-risk-live-2026-10-02.html docs/manifest.webmanifest docs/assets/la-bete-favicon.svg docs/assets/la-bete-social-card.png docs/assets/la-bete-icon-192.png docs/assets/la-bete-icon-512.png docs/assets/la-bete-apple-touch-icon.png)
           if git diff --quiet -- "${tracked[@]}"; then
             echo "No material state or distribution delta. Heartbeat successful."
             exit 0
@@ -295,6 +299,8 @@ jobs:
               python3 scripts/test_phi_territory_quests.py
               python3 scripts/build_la_bete_territory_living_identity.py
               python3 scripts/test_la_bete_territory_living_identity.py
+              python3 scripts/build_la_bete_evidence_universe.py
+              python3 scripts/test_la_bete_evidence_universe.py
               node scripts/test_la_bete_dialogue.cjs
               node scripts/test_la_bete_explorer.cjs
               node scripts/test_la_bete_mobile_access.cjs

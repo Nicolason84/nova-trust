@@ -242,3 +242,32 @@
 .muDiscoveryMedia{display:grid;grid-template-columns:minmax(140px,220px) 1fr;gap:12px;margin:0;padding:10px;border:1px solid var(--mu-line);border-radius:12px;background:rgba(17,29,36,.56)}.muDiscoveryMedia img{width:100%;height:140px;object-fit:cover;border-radius:8px}.muDiscoveryMedia figcaption{display:grid;align-content:center;gap:5px}.muDiscoveryMedia figcaption strong{font-size:13px}.muDiscoveryMedia figcaption span,.muDiscoveryMedia figcaption small{font-size:9px;color:#9fb0b9}
 .muDiscoveryGroup{display:grid;gap:8px;padding-top:10px;border-top:1px solid rgba(181,138,98,.18)}.muDiscoveryGroup h3{font:400 19px/1.25 Georgia,serif;margin:0}.muDiscoveryGrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}.muDiscoveryCard,.muDiscoveryRelation{display:flex;flex-direction:column;gap:5px;padding:12px;border:1px solid var(--mu-line);border-radius:10px;background:rgba(22,36,44,.48)}.muDiscoveryCard strong,.muDiscoveryRelation strong{font-size:11px;line-height:1.45}.muDiscoveryCard small,.muDiscoveryRelation small{font-size:9px;color:#96a8af;line-height:1.45}.muDiscoveryCard .muQuestionLink{margin-top:auto}
 @media(max-width:700px){.muDiscoveryStats{grid-template-columns:repeat(2,minmax(0,1fr))}.muDiscoveryGrid{grid-template-columns:1fr}.muDiscoveryMedia{grid-template-columns:1fr}.muDiscoveryMedia img{height:210px}}
+
+/* Evidence Universe — ProofGraph-derived explanatory profiles; never a truth certificate. */
+.muEvidenceProfile{margin:18px 0;padding:18px;border:1px solid rgba(196,151,95,.28);border-radius:18px;background:linear-gradient(180deg,rgba(255,255,255,.035),rgba(255,255,255,.012));box-shadow:inset 0 1px 0 rgba(255,255,255,.035)}
+.muEvidenceProfileCompact{padding:12px;margin:12px 0}.muEvidenceProfileCompact h3{font-size:1rem;margin:.25rem 0}.muEvidenceProfileCompact .muGuard{font-size:.78rem}
+.muEvidenceEyebrow{font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--copper,#b58a62);font-weight:700}
+.muEvidenceMetrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:10px;margin:14px 0}
+.muEvidenceMetric{padding:12px;border:1px solid rgba(255,255,255,.07);border-radius:14px;background:rgba(4,10,14,.34);display:flex;flex-direction:column;gap:3px}
+.muEvidenceMetric strong{font-size:1.35rem;line-height:1}.muEvidenceMetric span{font-size:.74rem;color:var(--muted,#a8b7ba);text-transform:uppercase;letter-spacing:.05em}
+.muEvidenceFlags{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}.muEvidenceFlags span{padding:6px 9px;border-radius:999px;background:rgba(91,124,153,.13);border:1px solid rgba(91,124,153,.22);font-size:.72rem}
+.muEvidenceReasons{margin:10px 0 0;padding-left:20px}.muEvidenceReasons li{margin:5px 0;color:var(--muted,#a8b7ba)}
+
+/* Evidence Universe V1 · derived ProofGraph profile, never a truth/authenticity verdict. */
+.muEvidenceProfile{display:grid;gap:9px;margin:12px 0;padding:13px;border:1px solid rgba(91,124,153,.38);border-radius:12px;background:linear-gradient(145deg,rgba(24,42,52,.72),rgba(15,25,32,.66))}
+.muEvidenceProfileCompact{margin:8px 0 0;padding:9px;gap:6px;background:rgba(18,31,39,.7)}
+.muEvidenceEyebrow{font-size:8px;letter-spacing:.13em;text-transform:uppercase;color:#9EB9C8}
+.muEvidenceProfile h3{margin:0;font:400 18px/1.2 Georgia,serif}.muEvidenceProfileCompact h3{font-size:14px}
+.muEvidenceMetrics{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px}
+.muEvidenceMetric{display:grid;gap:2px;padding:8px;border:1px solid rgba(91,124,153,.24);border-radius:8px;background:rgba(13,24,31,.58)}
+.muEvidenceMetric strong{font-size:15px;color:#DCE7EB}.muEvidenceMetric span{font-size:7px;letter-spacing:.08em;text-transform:uppercase;color:#91A9B5}
+.muEvidenceFlags{display:flex;flex-wrap:wrap;gap:6px}.muEvidenceFlags span{padding:4px 7px;border:1px solid rgba(111,143,134,.34);border-radius:999px;font-size:8px;color:#AFC8BF;background:rgba(111,143,134,.07)}
+.muEvidenceReasons{margin:0;padding-left:19px;color:#B7C4C9;font-size:10px;line-height:1.5}
+.muEvidenceProfileCompact .muGuard{padding:6px 8px;font-size:8px}.muEvidenceProfileCompact .muEvidenceMetrics{grid-template-columns:repeat(2,minmax(0,1fr))}.muEvidenceProfileCompact .muEvidenceMetric{padding:5px}.muEvidenceProfileCompact .muEvidenceMetric strong{font-size:12px}.muEvidenceProfileCompact .muEvidenceFlags{display:none}
+.muEvidenceUniverse{display:grid;gap:12px}.muEvidenceEngineGrid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px}
+.muEvidenceEngine{display:grid;gap:5px;padding:11px;border:1px solid var(--mu-line);border-radius:10px;background:rgba(22,36,44,.5)}
+.muEvidenceEngine strong{font-size:11px}.muEvidenceEngine span{font-size:8px;line-height:1.35;color:#9DB0B8;overflow-wrap:anywhere}
+.muEvidenceBrowserGrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.muEvidenceBrowserCard{display:flex;flex-direction:column;gap:5px;padding:11px;border:1px solid var(--mu-line);border-radius:10px;background:rgba(22,36,44,.48);text-decoration:none}
+.muEvidenceBrowserCard b{font-size:18px;color:#BBD0DC}.muEvidenceBrowserCard small{font-size:8px;color:#91A3AA}
+@media(max-width:800px){.muEvidenceMetrics,.muEvidenceEngineGrid{grid-template-columns:repeat(2,minmax(0,1fr))}.muEvidenceBrowserGrid{grid-template-columns:1fr}}

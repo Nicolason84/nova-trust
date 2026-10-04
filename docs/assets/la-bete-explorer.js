@@ -8,7 +8,7 @@ const id=x=>document.getElementById(x), append=(p,...c)=>{c.forEach(x=>x&&p.appe
 const button=(text,action,cls)=>{const b=el('button',text,cls);b.type='button';b.addEventListener('click',action);return b;};
 const link=(label,href,cls)=>{const a=el('a',label,cls);a.href=href;if(href.startsWith('#/'))a.dataset.muRoute=href;else{a.target='_blank';a.rel='noopener noreferrer';}return a;};
 const records=new Map(), moves=[], proofViews=new Map(), communeShards=new Map(), shardPromises=new Map();
-let topology=null,topologyPromise=null;let serial=0,current=null,territories=null,territoryPromise=null,renderToken=0,latest=null,proofNode=null,proofScroll=0,territoryCulture=null,territoryCulturePromise=null,phiPolicy=null,phiPromise=null,territoryQuests=null,territoryQuestsPromise=null,territoryLivingIdentity=null,territoryLivingIdentityPromise=null,territoryDiscovery=null,territoryDiscoveryPromise=null;
+let topology=null,topologyPromise=null;let serial=0,current=null,territories=null,territoryPromise=null,renderToken=0,latest=null,proofNode=null,proofScroll=0,territoryCulture=null,territoryCulturePromise=null,phiPolicy=null,phiPromise=null,territoryQuests=null,territoryQuestsPromise=null,territoryLivingIdentity=null,territoryLivingIdentityPromise=null,territoryDiscovery=null,territoryDiscoveryPromise=null,evidenceUniverse=null,evidenceUniversePromise=null;
 const legacyChat=id('dialogue-public'), chatPlace=document.createComment('existing-dialogue-home');legacyChat.before(chatPlace);
 const root=el('div',undefined,'muApp');root.id='multiunivers';
 const AUDIENCE_MODES={simple:'Essentiel',explain:'Comprendre',expert:'Expert'};
@@ -456,6 +456,34 @@ function hybridView(kind,g){
  const cadence=el('p','Autoévolution : '+(auto.engine||'UNKNOWN')+' · second runtime : '+(auto.second_runtime===false?'NON':'NON VÉRIFIÉ')+' · prochaine action : proposition seulement.','muSnapshot');stage.append(cadence);
 }
 function factTable(node,g){const dl=el('dl',undefined,'muFacts');for(const [k,v]of M.facts(node,g))append(dl,el('dt',k),el('dd',v));return dl;}
+function evidenceProfileForNode(node){
+ if(!evidenceUniverse||!node)return null;
+ if(node.kind==='SOURCE')return evidenceUniverse.objects?.['source:'+node.id]||null;
+ if(node.kind==='CLAIM')return evidenceUniverse.objects?.['claim:'+node.id]||null;
+ return null;
+}
+function evidenceProfileForCandidate(code,candidateId){return evidenceUniverse?.objects?.['territory:'+code+':'+candidateId]||null;}
+function evidenceProfileForLivingMedia(item){if(!evidenceUniverse||!item?.id)return null;return Object.values(evidenceUniverse.objects||{}).find(x=>x.kind==='VERIFIED_LIVING_MEDIA'&&x.object_id.endsWith(':'+item.id))||null;}
+function evidenceIndexLabel(profile){const t=profile?.trust||{};return Number.isFinite(t.index)?t.index+' / 100 · '+(t.label||''):'NON CALCULÉ';}
+function evidenceProfilePanel(profile,compact=false){
+ if(!profile)return null;
+ const box=el('section',undefined,compact?'muEvidenceProfile muEvidenceProfileCompact':'muEvidenceProfile');
+ append(box,el('div','PROOFGRAPH · TRUST · COHERENCE','muEvidenceEyebrow'),el('h3',evidenceIndexLabel(profile)),el('p','Indice de préparation documentaire — jamais un score de vérité, d’authenticité ou d’approbation.','muGuard'));
+ const comps=profile.trust?.components||{},grid=el('div',undefined,'muEvidenceMetrics');
+ for(const [key,label] of Object.entries({source_quality:'Source',provenance:'Provenance',coherence:'Cohérence',crosscheck:'Recoupement',media_structure:'Structure média'})){const value=comps[key];if(value===null||value===undefined)continue;const c=el('div',undefined,'muEvidenceMetric');append(c,el('strong',value),el('span',label));grid.append(c);}if(grid.children.length)box.append(grid);
+ const flags=el('div',undefined,'muEvidenceFlags');append(flags,el('span','ProofGraph · '+(profile.proofgraph?.proof_refs?.length||0)+' preuve(s)'),el('span','uSCRC · profil seulement'),profile.smca?.asset?el('span','SMCA · '+(profile.smca.deep_smca==='DEEP_SMCA_NOT_RUN'?'structure partielle':'analyse structurelle disponible')):null);box.append(flags);
+ if(!compact){const reasons=[...(profile.coherence?.reasons||[]),...(profile.what_would_raise_confidence||[])].slice(0,5);if(reasons.length){const ul=el('ul',undefined,'muEvidenceReasons');for(const reason of reasons)ul.append(el('li',reason));box.append(ul);}if(profile.coherence?.contradictions?.length)box.append(el('p','Contradictions : '+profile.coherence.contradictions.join(' · '),'muGuard'));}
+ return box;
+}
+function evidenceUniverseView(){
+ const doc=evidenceUniverse;if(!doc){stage.append(el('p','Evidence Universe indisponible. Aucun indice de remplacement n’est inventé.','muGuard'));return;}
+ const c=doc.coverage||{};const stats=el('div',undefined,'muEvidenceMetrics');for(const [value,label] of [[c.objects_total||0,'objets profilés'],[c.departments_with_profiles||0,'départements'],[c.by_kind?.TERRITORY_MEDIA_CANDIDATE||0,'médias candidats'],[c.by_kind?.CLAIM||0,'claims']]){const x=el('div',undefined,'muEvidenceMetric');append(x,el('strong',value),el('span',label));stats.append(x);}stage.append(stats);
+ stage.append(el('p','ProofGraph reste la colonne vertébrale. TRUST et COHERENCE expliquent la préparation documentaire ; SMCA ne réalise ici que des contrôles structurels locaux ; uSCRC est un profil de compatibilité, pas un certificat.','muGuard'));
+ const methods=el('div',undefined,'muFeatureCards');for(const [id,row] of Object.entries(doc.engines||{})){const c=el('article',undefined,'muObjectCard');append(c,el('span',id.toUpperCase(),'muCardType'),el('strong',row.status||'UNKNOWN'),el('small',row.deep_analysis||row.schema||''));methods.append(c);}stage.append(methods);
+ const all=Object.values(doc.objects||{}),sorted=[...all].sort((a,b)=>(b.trust?.index||0)-(a.trust?.index||0)),strong=sorted.slice(0,12),gaps=[...all].sort((a,b)=>(a.trust?.index||0)-(b.trust?.index||0)).slice(0,12);
+ const renderProfiles=(heading,rows)=>{stage.append(el('h2',heading,'muSubhead'));const grid=el('div',undefined,'muCards');for(const p of rows){const c=el('article',undefined,'muObjectCard');append(c,el('span',(p.kind||'OBJET').replaceAll('_',' '),'muCardType'),el('strong',p.label),el('small',evidenceIndexLabel(p)));const target=p.department_code?M.route('objet',M.TOPO+'#/departments/'+p.department_code):p.kind==='SOURCE'?M.route('objet',p.object_id.replace(/^source:/,'')):p.kind==='CLAIM'?M.route('objet',p.object_id.replace(/^claim:/,'')):null;if(target)c.append(link('Explorer ↗',target,'muQuestionLink'));grid.append(c);}stage.append(grid);};
+ renderProfiles('Objets les mieux documentés',strong);renderProfiles('Objets où une preuve supplémentaire aiderait le plus',gaps);
+}
 function territoryExternalURL(value){
  try{const u=new URL(value);const hosts=new Set(['commons.wikimedia.org','creativecommons.org','oise.fr','www.oisetourisme.com','archives.oise.fr']);return u.protocol==='https:'&&hosts.has(u.hostname)?u.href:null;}catch(_){return null;}
 }
@@ -464,7 +492,7 @@ function territoryMediaCard(item){
  const card=el('figure',undefined,'muTerritoryMediaCard'),asset=territoryAsset(item?.asset);if(!asset)return null;
  const img=el('img');img.src=asset;img.alt=item.label||'Image territoriale';img.loading='lazy';img.decoding='async';append(card,img);
  const cap=el('figcaption'),meta=el('span',(item.author||'Auteur à vérifier')+' · '+(item.license||'licence à vérifier'),'muFineprint');append(cap,el('strong',item.label||'Lieu documenté'),item.caption?el('span',item.caption):null,meta);
- const source=territoryExternalURL(item.source_page),license=territoryExternalURL(item.license_url);if(source)cap.append(link('Source image ↗',source,'muQuestionLink'));if(license)cap.append(link('Licence ↗',license,'muQuestionLink'));card.append(cap);return card;
+ const source=territoryExternalURL(item.source_page),license=territoryExternalURL(item.license_url);if(source)cap.append(link('Source image ↗',source,'muQuestionLink'));if(license)cap.append(link('Licence ↗',license,'muQuestionLink'));const ep=evidenceProfileForLivingMedia(item);if(ep)cap.append(evidenceProfilePanel(ep,true));card.append(cap);return card;
 }
 function territorySoulPanel(code){
  const living=territoryLivingIdentity?.departments?.[code];if(!living)return null;
@@ -507,9 +535,9 @@ function territoryDiscoveryPanel(code){
  }
  const counts=[['MÉDIAS',record.media?.length||0],['PATRIMOINE',record.heritage?.length||0],['NATURE',record.nature?.length||0],['COMMUNS',record.commons?.length||0],['INITIATIVES',record.initiatives?.length||0]],stats=el('div',undefined,'muDiscoveryStats');
  for(const [label,count] of counts){const c=el('div',undefined,'muDiscoveryStat');append(c,el('strong',count),el('span',label));stats.append(c);}box.append(stats);
- const media=(record.media||[]).find(x=>discoveryAsset(x.asset));if(media){const fig=el('figure',undefined,'muDiscoveryMedia'),img=el('img');img.src=discoveryAsset(media.asset);img.alt=media.label||'Média candidat';img.loading='lazy';const cap=el('figcaption');append(cap,el('strong',media.label||'Média candidat'),el('span',(media.author||'Auteur à vérifier')+' · '+(media.license||'licence à vérifier')),el('small',discoveryStateLabel(media)));const src=discoveryExternalURL(media.source_page);if(src)cap.append(link('Voir la source image ↗',src,'muQuestionLink'));fig.append(img,cap);box.append(fig);}
+ const media=(record.media||[]).find(x=>discoveryAsset(x.asset));if(media){const fig=el('figure',undefined,'muDiscoveryMedia'),img=el('img');img.src=discoveryAsset(media.asset);img.alt=media.label||'Média candidat';img.loading='lazy';const cap=el('figcaption');append(cap,el('strong',media.label||'Média candidat'),el('span',(media.author||'Auteur à vérifier')+' · '+(media.license||'licence à vérifier')),el('small',discoveryStateLabel(media)));const src=discoveryExternalURL(media.source_page);if(src)cap.append(link('Voir la source image ↗',src,'muQuestionLink'));const ep=evidenceProfileForCandidate(code,media.candidate_id);if(ep)cap.append(evidenceProfilePanel(ep,true));fig.append(img,cap);box.append(fig);}
  const groups=[['Patrimoine',record.heritage||[]],['Nature',record.nature||[]],['Communs utiles',record.commons||[]],['Initiatives locales',record.initiatives||[]]];
- for(const [label,items] of groups){if(!items.length)continue;const section=el('section',undefined,'muDiscoveryGroup');section.append(el('h3',label));const grid=el('div',undefined,'muDiscoveryGrid');for(const item of items.slice(0,3)){const card=el('article',undefined,'muDiscoveryCard');append(card,el('span',discoveryStateLabel(item),'muCardType'),el('strong',item.label||item.candidate_id),item.commune?el('small',item.commune):null);const src=discoveryExternalURL(item.source);if(src)card.append(link('Source ↗',src,'muQuestionLink'));card.append(link('Vérifier / contribuer ↗',questContributionURL(code,{id:item.quest_id||'local_initiatives'},item.candidate_id),'muQuestionLink'));grid.append(card);}section.append(grid);box.append(section);}
+ for(const [label,items] of groups){if(!items.length)continue;const section=el('section',undefined,'muDiscoveryGroup');section.append(el('h3',label));const grid=el('div',undefined,'muDiscoveryGrid');for(const item of items.slice(0,3)){const card=el('article',undefined,'muDiscoveryCard');append(card,el('span',discoveryStateLabel(item),'muCardType'),el('strong',item.label||item.candidate_id),item.commune?el('small',item.commune):null);const ep=evidenceProfileForCandidate(code,item.candidate_id);if(ep)card.append(evidenceProfilePanel(ep,true));const src=discoveryExternalURL(item.source);if(src)card.append(link('Source ↗',src,'muQuestionLink'));card.append(link('Vérifier / contribuer ↗',questContributionURL(code,{id:item.quest_id||'local_initiatives'},item.candidate_id),'muQuestionLink'));grid.append(card);}section.append(grid);box.append(section);}
  const rel=record.relations;if(rel){const r=el('article',undefined,'muDiscoveryRelation');append(r,el('span','RELATION CANONIQUE','muCardType'),el('strong',(rel.epci_cluster_count||0)+' intercommunalité(s) · '+(rel.same_epci_pair_count||0)+' paire(s) de communes'),el('small',rel.gate||''));box.append(r);}
  append(box,el('p','Dernier scan : '+(record.scanned_at||'date inconnue')+' · les candidats externes sont séparés du canon vivant.','muFineprint'),contributionAccessNote());return box;
 }
@@ -553,6 +581,7 @@ function objectView(node,g){
  const layout=el('div',undefined,'muObjectLayout'),main=el('section',undefined,'muObjectMain'),aside=el('aside',undefined,'muRelations');
  main.append(el('span',humanDepartment?(profile?.region_name||'Territoire'):humanCommune?'Commune · '+(node.data?.department_code||'territoire'):node.status||'CONTEXTE DOCUMENTÉ','muTag'));
  if(humanDepartment)main.append(departmentPortrait(node,g));else if(humanCommune)main.append(communeLivingPanel(node,g),factTable(node,g));else main.append(factTable(node,g));
+ const evidencePanel=evidenceProfileForNode(node);if(evidencePanel)main.append(evidenceProfilePanel(evidencePanel));
  const actions=el('div',undefined,'muActions');append(actions,button('Interroger cet objet',()=>openChat(),'muPrimary'),button('Voir la pièce / provenance',()=>openProof(node,g)));
  if(node.url)actions.append(link('Ouvrir la source officielle ↗',node.url));
  if(node.id===M.DEBT)append(actions,link('Courbes & stress','#/analyse'),link('Horizons','#/horizons'),link('Explorer les dates','#/chronologie'));
@@ -602,6 +631,10 @@ async function ensureTerritoryDiscovery(){
  if(territoryDiscovery)return territoryDiscovery;if(territoryDiscoveryPromise)return territoryDiscoveryPromise;
  territoryDiscoveryPromise=(async()=>{const r=await window.laBeteReadCanonicalJSON('data/la-bete-territory-discovery-candidates-v1.json',{cache:'no-cache'});if(!r.ok)throw Error('TERRITORY_DISCOVERY_HTTP_'+r.status);const j=await r.json(),c=j.contract||{},coverage=j.coverage||{};if(j.schema!=='LA_BETE_TERRITORY_DISCOVERY_CANDIDATES_V1'||coverage.departments_total!==101||c.automatic_discovery_is_proof!==false||c.automatic_discovery_can_promote_living_identity!==false||c.automatic_discovery_mints_phi!==false||c.automatic_discovery_changes_documentation_score!==false||c.verified_receipt_required_for_phi!==true||c.last_good_retention!==true||c.last_good_retention_policy!=='PER_LANE_SOURCE_ERROR_ONLY'||c.last_good_retention_requires_current_schema!==true)throw Error('TERRITORY_DISCOVERY_SCHEMA');if(Object.keys(j.departments||{}).length>101)throw Error('TERRITORY_DISCOVERY_SCOPE');territoryDiscovery=j;return j;})().catch(e=>{territoryDiscoveryPromise=null;throw e;});return territoryDiscoveryPromise;
 }
+async function ensureEvidenceUniverse(){
+ if(evidenceUniverse)return evidenceUniverse;if(evidenceUniversePromise)return evidenceUniversePromise;
+ evidenceUniversePromise=(async()=>{const r=await window.laBeteReadCanonicalJSON('data/la-bete-evidence-universe-v1.json',{cache:'no-cache'});if(!r.ok)throw Error('EVIDENCE_UNIVERSE_HTTP_'+r.status);const j=await r.json(),c=j.contract||{},coverage=j.coverage||{},objects=Object.values(j.objects||{});if(j.schema!=='LA_BETE_EVIDENCE_UNIVERSE_V1'||j.state!=='READ_ONLY_PUBLIC_PROOFGRAPH_DERIVED_PROJECTION'||c.proofgraph_is_spine!==true||c.truth_verdict!==false||c.authenticity_verdict!==false||c.automatic_promotion!==false||c.automatic_phi_minting!==false||c.automatic_truth_mutation!==false||c.external_action!==false||c.second_runtime!==false||c.second_registry!==false||c.second_scheduler!==false||coverage.departments_with_profiles!==101||objects.length!==coverage.objects_total||objects.length>5000)throw Error('EVIDENCE_UNIVERSE_SCHEMA');for(const x of objects){const idx=x.trust?.index;if(!Number.isFinite(idx)||idx<0||idx>100||x.uscrc?.certificate_issued!==false||x.smca?.authenticity_verdict===true)throw Error('EVIDENCE_UNIVERSE_OVERCLAIM');}evidenceUniverse=j;return j;})().catch(e=>{evidenceUniversePromise=null;throw e;});return evidenceUniversePromise;
+}
 async function ensureTerritories(){
  if(territories)return territories;if(territoryPromise)return territoryPromise;
  territoryPromise=(async()=>{const response=await window.laBeteReadCanonicalJSON('data/france-organism.json',{cache:'no-cache'});if(!response.ok)throw Error('TERRITORY_HTTP_'+response.status);const j=await response.json();if(j.schema!=='OJO_FRANCE_ORGANISM_V1'||!Array.isArray(j.topology?.regions)||j.topology.regions.length>100)throw Error('TERRITORY_SCHEMA');const seen=new Set();for(const r of j.topology.regions){if(typeof r.name!=='string'||!/^\d{2,3}$/.test(String(r.code))||seen.has(String(r.code)))throw Error('TERRITORY_IDENTITY');seen.add(String(r.code));}territories=j;return j;})().catch(e=>{territoryPromise=null;throw e;});return territoryPromise;
@@ -633,6 +666,7 @@ function universeView(universe,g){const u=M.UNIVERSES.find(x=>x.id===universe);t
   paginatedCards(detail,nodes.filter(n=>n.kind==='DEPARTMENT'),'Départements','all-departments');paginatedCards(detail,nodes.filter(n=>n.kind==='EPCI'),'Intercommunalités','all-epcis');return;
  }
  if(universe==='sources'){listCards(nodes.filter(n=>n.kind==='ORGANIZATION_VIEW'),'Organismes · regroupements de sources');listCards(nodes.filter(n=>n.kind!=='ORGANIZATION_VIEW'),'Publications et accès');}
+ else if(universe==='confiance'){evidenceUniverseView();}
  else if(universe==='demarches'){listCards(nodes.filter(n=>n.kind==='INITIATIVE'),'Initiatives de collaboration');listCards(nodes.filter(n=>n.kind==='REQUEST'),'Demandes préparées');listCards(nodes.filter(n=>n.kind==='GAP'),'Manques documentés');if(!g.evolution)stage.append(el('p','L’évolution vérifiée ne correspond pas au même instantané. Les démarches ne sont pas présentées comme à jour.','muGuard'));}
  else if(universe==='temps'){const actions=el('div',undefined,'muFeatureCards');append(actions,link('◷  Ouvrir la chronologie existante','#/chronologie'),link('◇  Explorer les horizons 12 / 36 / 60 / 120 mois','#/horizons'),link('⌁  Manipuler les scénarios de taux','#/analyse'));stage.append(actions);listCards(nodes);stage.append(el('p','Les scénarios sont conditionnels. Ils ne prédisent ni résultats électoraux ni causalité politique.','muGuard'));}
  else if(universe==='idees'){
@@ -644,7 +678,7 @@ function universeView(universe,g){const u=M.UNIVERSES.find(x=>x.id===universe);t
 function contextForChat(){const g=current?.graph;if(current?.parsed?.snapshot&&current.parsed.snapshot!==g?.source_snapshot_id)return {live:{},evolution:null,object:null,context_label:'Instantané demandé indisponible'};const node=g?M.resolveNode(g,current?.parsed?.id):null;return {live:g?.live,evolution:g?.evolution,object:M.dialogueContext(node,g),route:current?.hash||'#/atlas',context_label:node?.label||current?.label||'Atlas'};}
 function refreshChatLabel(){const c=contextForChat();chatContext.textContent='Objet courant : '+c.context_label+' · '+(c.live?.snapshot_id||'sans instantané')+'. Les anciens messages conservent leur propre attribution.';}
 function openChat(){if(!legacyChat.isConnected||legacyChat.parentNode!==chat)chat.append(legacyChat);refreshChatLabel();if(!chat.open)chat.showModal();id('beastDialogueInput')?.focus({preventScroll:true});}
-function openProof(node,g){proofNode={node,g,key:node.id+'|'+g.source_snapshot_id};const saved=proofViews.get(proofNode.key)||{};proofBody.replaceChildren();append(proofBody,el('h2',node.label),el('p',sourceStamp(g),'muFineprint'),factTable(node,g));
+function openProof(node,g){proofNode={node,g,key:node.id+'|'+g.source_snapshot_id};const saved=proofViews.get(proofNode.key)||{};proofBody.replaceChildren();append(proofBody,el('h2',node.label),el('p',sourceStamp(g),'muFineprint'),factTable(node,g));const ep=evidenceProfileForNode(node);if(ep)proofBody.append(evidenceProfilePanel(ep));
  if(node.url)append(proofBody,link('Consulter le document original ↗',node.url),el('p','Le document externe s’ouvre sur son site. Ce panneau affiche les éléments présents dans le flux ; il ne prétend pas avoir téléchargé ni validé à nouveau la pièce.','muFineprint'));
  const d=el('details');append(d,el('summary','Voir l’enregistrement source exact'),el('pre',JSON.stringify(node.data,null,2)));proofBody.append(d);
  append(proofBody,el('p','Référence : '+node.ref,'muMono'),button('Copier la référence',async()=>{try{await navigator.clipboard.writeText(node.ref+'\n'+sourceStamp(g));status('Référence copiée.');}catch(_){status(node.ref);}}));
@@ -658,14 +692,16 @@ async function renderCurrent(useLatest=false,restore=false){
   if(useLatest){current.graph=graphFrom(getBase());current.hash=current.hash.replace(/\?snapshot=.*$/,'');history.replaceState(history.state,'',current.hash);}
   current.parsed=M.parseRoute(current.hash);const p=current.parsed;let g=current.graph;
   if(p.kind==='atlas'){try{await Promise.all([ensurePhiPolicy(),ensureTerritoryQuests()]);}catch(e){status('Φ indisponible : '+e.message);}if(token!==renderToken)return;}
+  if(p.kind==='univers'&&p.id==='confiance'){try{await ensureEvidenceUniverse();}catch(e){status('Evidence Universe indisponible : '+e.message);}if(token!==renderToken)return;}
+  if(p.kind==='objet'){const n=M.resolveNode(g,p.id);if(n&&['SOURCE','CLAIM'].includes(n.kind)){try{await ensureEvidenceUniverse();}catch(e){status('Profil de preuve indisponible : '+e.message);}if(token!==renderToken)return;}}
   const departmentPrefix=M.TOPO+'#/departments/',communePrefix=M.TOPO+'#/communes/';
   if(p.kind==='univers'&&p.id==='territoires'||p.kind==='objet'&&(p.id.startsWith('OJO_FRANCE_ORGANISM_V1#/topology/regions/')||p.id.startsWith(M.TOPO+'#/'))){
    if(!territories){status('Chargement du document territorial existant…');try{await ensureTerritories();}catch(e){status('Document territorial indisponible. Aucun détail de remplacement n’est inventé.');}}
    try{
     await ensureTopology();
     if(p.kind==='univers'&&p.id==='territoires')await ensureTerritoryQuests();
-    if(p.kind==='objet'&&p.id.startsWith(departmentPrefix)){const dep=p.id.slice(departmentPrefix.length);await Promise.all([ensureDepartmentShard(dep),ensureTerritoryCulture(),ensurePhiPolicy(),ensureTerritoryQuests(),ensureTerritoryLivingIdentity(),ensureTerritoryDiscovery()]);}
-    else if(p.kind==='objet'&&p.id.startsWith(communePrefix)){const code=p.id.slice(communePrefix.length);await Promise.all([ensureCommune(code),ensureTerritoryQuests(),ensureTerritoryLivingIdentity()]);}
+    if(p.kind==='objet'&&p.id.startsWith(departmentPrefix)){const dep=p.id.slice(departmentPrefix.length);await Promise.all([ensureDepartmentShard(dep),ensureTerritoryCulture(),ensurePhiPolicy(),ensureTerritoryQuests(),ensureTerritoryLivingIdentity(),ensureTerritoryDiscovery(),ensureEvidenceUniverse()]);}
+    else if(p.kind==='objet'&&p.id.startsWith(communePrefix)){const code=p.id.slice(communePrefix.length);await Promise.all([ensureCommune(code),ensureTerritoryQuests(),ensureTerritoryLivingIdentity(),ensureEvidenceUniverse()]);}
    }catch(e){status('Détail non disponible ou non vérifié : '+e.message);}
    if(token!==renderToken)return;g=current.graph=M.build(g.live,g.evolution,territories,topology,communeShards);
   }
