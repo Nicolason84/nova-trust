@@ -198,11 +198,13 @@ function updateMissionBrief(text,orientation){
 }
 function orientationFor(text){
  const q=String(text||'').toLowerCase();
+ if(/banque|financ|finanç|prêt|pret|crédit|credit|capacité de remboursement/.test(q))return {room:'decision',bindingRole:'Financing',label:'Orientation proposée : Financement + Evidence. Binding SUPRA prouvé vers Finance ; routage uniquement, aucune exécution automatique.'};
  if(/acheter|acquisition|reprendre|valoris|cible|m&a/.test(q))return {room:'mission',bindingRole:'M&A',label:'Orientation proposée : M&A + Financement + Evidence. Binding SUPRA prouvé vers Opportunités + Finance + Juridique + Réseau ; routage uniquement, aucune exécution automatique.'};
  if(/contrat|jurid|legal|litige|risque réglement/.test(q))return {room:'mission',bindingRole:'Legal & Risk',label:'Orientation proposée : Legal & Risk + Evidence. Binding SUPRA prouvé vers Juridique + Infos ; routage uniquement, aucun faux expert public ni exécution automatique.'};
- if(/preuve|source|justif|d'où|origine|fiab/.test(q))return {room:'proof',bindingRole:'Evidence',label:'Evidence est déjà lié à ce dossier : ouverture directe de la preuve existante. Binding SUPRA prouvé vers Infos ; routage uniquement.'};
+ if(/preuve|source|justif|d'où|origine|fiab|croire|conclusion/.test(q))return {room:'proof',bindingRole:'Evidence',label:'Evidence est déjà lié à ce dossier : ouverture directe de la preuve existante. Binding SUPRA prouvé vers Infos ; routage uniquement.'};
  if(/taux|dette|refinanc|tec10|france emprunte|oat/.test(q))return {room:'decision',label:'Le sujet correspond au dossier public chargé : Decision Twin + Evidence peuvent être utilisés sans nouveau moteur.'};
- if(/scénario|scenario|cosmos|explor|chronolog|dans le temps/.test(q))return {room:'explore',label:'Exploration demandée explicitement : Cosmos reste un approfondissement volontaire.'};
+ if(/scénario|scenario|cosmos|explor|chronolog|dans le temps|tout ce qui est lié|relations? avec|liens? avec/.test(q))return {room:'explore',label:'Exploration demandée explicitement : Cosmos reste un approfondissement volontaire.'};
+ if(/vous vous occupiez|prendre en charge|prenez la mission|confier le dossier|gérez le dossier|gerer le dossier/.test(q))return {room:'mission',bindingRole:'Solutions',label:'Le dossier peut passer au Mission Office. Binding SUPRA prouvé vers Opportunités ; routage uniquement, aucune exécution automatique.'};
  return {room:'desk',label:'Le besoin est conservé dans le dialogue. SUPRA n’active une spécialité que lorsqu’un binding existant et prouvé correspond au besoin.'};
 }
 const form=byId('beastDialogueForm'),input=byId('beastDialogueInput');
