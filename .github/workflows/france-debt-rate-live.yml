@@ -44,6 +44,11 @@ on:
       - "docs/assets/territory-candidates/**"
       - "scripts/build_la_bete_evidence_universe.py"
       - "scripts/test_la_bete_evidence_universe.py"
+      - "scripts/la_bete_patrimonial_engines.py"
+      - "scripts/run_patrimonial_smca.py"
+      - "scripts/refresh_la_bete_patrimonial_receipts.py"
+      - "docs/data/la-bete-patrimonial-engine-receipts-v1.json"
+      - "vendor/patrimonial-engines/**"
       - "scripts/test_la_bete_mobile_access.cjs"
       - "scripts/test_la_bete_explorer.cjs"
       - "scripts/test_la_bete_enrichment.cjs"
@@ -144,6 +149,21 @@ jobs:
 
       - name: Install social-card renderer dependency
         run: python3 -m pip install --quiet pillow==11.3.0
+
+      - name: Install pinned patrimonial Deep SMCA runtime
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends libimage-exiftool-perl ffmpeg libmagic1
+          smca_root=/tmp/la-bete-media-coherence-check
+          rm -rf "$smca_root"
+          mkdir -p "$smca_root"
+          git -C "$smca_root" init -q
+          git -C "$smca_root" remote add origin https://github.com/banna652/media-coherence-check.git
+          git -C "$smca_root" fetch -q --depth 1 origin 0c01bb99bdd32efa30814ee6fd430f322ed759e4
+          git -C "$smca_root" checkout -q --detach FETCH_HEAD
+          test "$(git -C "$smca_root" rev-parse HEAD)" = "0c01bb99bdd32efa30814ee6fd430f322ed759e4"
+          python3 -m pip install --quiet -r "$smca_root/requirements.txt"
+          echo "LA_BETE_SMCA_SOURCE_ROOT=$smca_root" >> "$GITHUB_ENV"
 
       - name: Refresh official debt and rate evidence
         run: python3 scripts/update_france_debt_rate_live.py
