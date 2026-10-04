@@ -23,9 +23,10 @@ a{color:var(--b);text-underline-offset:4px}.wrap{width:100%;max-width:1240px;mar
 .beastHud{position:absolute;inset:16px 16px auto 16px;z-index:4;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;pointer-events:none}.beastHud>div{background:#071019cc;border:1px solid #34505d;border-radius:12px;padding:10px 12px;backdrop-filter:blur(12px)}.beastHud small{display:block;color:#9eb3bb;font-size:9px;letter-spacing:.11em;text-transform:uppercase}.beastHud strong{display:block;font-size:18px;font-variant-numeric:tabular-nums}
 .beastTag{position:absolute;left:16px;bottom:18px;z-index:4;max-width:550px;background:#071019df;border:1px solid #34505d;border-radius:12px;padding:11px 13px;font-size:11px;color:#b8c8ce;pointer-events:none}.beastTag b{color:var(--a)}
 .beastTools{display:flex;gap:8px;flex-wrap:wrap;padding:13px;border-top:1px solid var(--line);background:#08131c}.beastTools button{min-height:44px;padding:8px 13px;border:1px solid #385564;border-radius:9px;background:#0e1b25;color:var(--ink);font:inherit;cursor:pointer}.beastTools button:hover{border-color:var(--a)}.beastTools button[aria-pressed=true]{color:var(--a);border-color:var(--a);background:#1a2e23}.beastTools button:disabled{opacity:.42;cursor:not-allowed}
+.avatarTelemetry{position:absolute;right:16px;bottom:18px;z-index:4;max-width:310px;padding:9px 11px;border:1px solid #6d8b96;border-radius:11px;background:#071019df;backdrop-filter:blur(10px);pointer-events:none}.avatarTelemetry small{display:block;color:#8fd8e8;font-size:8px;letter-spacing:.13em}.avatarTelemetry strong{display:block;color:#e7bd72;font-size:11px;margin-top:2px}.avatarPad{position:absolute;right:16px;bottom:82px;z-index:5;display:none;grid-template-columns:44px 44px 44px;grid-template-rows:44px 44px;gap:5px;grid-template-areas:". f ." "l b r";touch-action:none}.beastStage[data-avatar-pilot="on"] .avatarPad{display:grid}.avatarPad button{border:1px solid #5d7e8b;border-radius:10px;background:#071019d9;color:#dcebea;font:700 17px/1 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;backdrop-filter:blur(9px)}.avatarPad button[data-avatar-move="forward"]{grid-area:f}.avatarPad button[data-avatar-move="left"]{grid-area:l}.avatarPad button[data-avatar-move="back"]{grid-area:b}.avatarPad button[data-avatar-move="right"]{grid-area:r}.beastStage[data-xr-mode]:after{content:"XR · " attr(data-xr-mode);position:absolute;right:12px;top:12px;z-index:6;font-size:9px;letter-spacing:.14em;color:#d7edf2;background:#061118d9;border:1px solid #4f7885;padding:6px 8px;border-radius:20px}.beastStage[data-xr-mode="SCREEN"]:after{display:none}
 .beastLegend{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-top:14px}.beastLegend div{border:1px solid var(--line);border-radius:10px;padding:10px 11px;font-size:11px;color:var(--mut)}.beastLegend b{display:block;color:var(--ink);font-size:12px}.beastExplain{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px}.beastExplain .card p{font-size:13px;color:var(--mut)}.decisionUse{color:var(--a);font-size:11px}
 @media(max-width:850px){.execGrid{grid-template-columns:1fr 1fr}.decisionRoom{grid-template-columns:1fr}.beastStage{min-height:540px}.beastHud{grid-template-columns:1fr 1fr}.beastLegend{grid-template-columns:1fr 1fr}.beastExplain{grid-template-columns:1fr}}
-@media(max-width:520px){.execGrid{grid-template-columns:1fr}.questionGrid{grid-template-columns:1fr}.decisionItem{grid-template-columns:1fr;gap:2px}.beastStage{min-height:500px}.beastHud{inset:10px 10px auto 10px}.beastHud strong{font-size:15px}.beastTag{left:10px;right:10px;bottom:10px;max-width:none}.beastLegend{grid-template-columns:1fr}.beastTools{padding:10px}}
+@media(max-width:520px){.execGrid{grid-template-columns:1fr}.questionGrid{grid-template-columns:1fr}.decisionItem{grid-template-columns:1fr;gap:2px}.beastStage{min-height:500px}.beastHud{inset:10px 10px auto 10px}.beastHud strong{font-size:15px}.beastTag{left:10px;right:10px;bottom:10px;max-width:none}.avatarTelemetry{right:10px;bottom:116px;max-width:210px}.avatarPad{right:10px;bottom:168px}.beastLegend{grid-template-columns:1fr}.beastTools{padding:10px}}
 
 
 .beastConcept{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px;margin-top:14px}.beastConcept div{border:1px solid var(--line);border-radius:12px;padding:13px;background:#09151e}.beastConcept small{display:block;color:var(--gold);font-size:9px;letter-spacing:.11em;text-transform:uppercase}.beastConcept b{display:block;margin:3px 0 4px}.beastConcept span{font-size:11px;color:var(--mut)}
@@ -167,11 +168,21 @@ body[data-evo-focus="evidence"] #rpEvidenceCard,body[data-evo-focus="decision"] 
         <p>Indices de représentation dérivés du stock, de la maturité, du scénario et de l’état des sources — jamais des propriétés physiques mesurées.</p>
       </aside>
       <div class="beastTag" id="beastTag"><b>Lisez son corps.</b> Cœur = stock · halos = temps · membres = canaux. Glissez pour tourner ; touchez un membre pour identifier sa fonction. La tension lumineuse encode le scénario sélectionné, jamais une opinion.</div>
+      <div class="avatarTelemetry" id="avatarTelemetry" aria-live="polite"><small>AVATAR HOLOGRAPHIQUE · MÊME COSMOS</small><strong id="avatarTelemetryStatus">Présence en attente du Cosmos.</strong></div>
+      <div class="avatarPad" id="avatarPad" aria-label="Locomotion de l’avatar">
+        <button type="button" data-avatar-move="forward" aria-label="Avancer">↑</button>
+        <button type="button" data-avatar-move="left" aria-label="Aller à gauche">←</button>
+        <button type="button" data-avatar-move="back" aria-label="Reculer">↓</button>
+        <button type="button" data-avatar-move="right" aria-label="Aller à droite">→</button>
+      </div>
     </div>
     <div class="beastTools"><span class="beastAudioBadge" id="beastAudioState">EN SILENCE</span>
-      <button type="button" id="beastImmersive">Immersion plein écran</button>
+      <button type="button" id="beastAvatar" aria-pressed="true">Avatar holographique</button>
+      <button type="button" id="beastPilot" aria-pressed="false">Posséder la caméra</button>
+      <button type="button" id="beastXR" disabled>Détecter WebXR / AR</button>
+      <button type="button" id="beastImmersive">Immersion écran</button>
       <button type="button" id="beastMotion">Mouvement du téléphone</button>
-      <button type="button" id="beastCamera">AR caméra</button>
+      <button type="button" id="beastCamera">AR caméra (fallback)</button>
       <button type="button" id="beastReset">Recentrer</button>
     </div>
   </div>
@@ -203,7 +214,7 @@ body[data-evo-focus="evidence"] #rpEvidenceCard,body[data-evo-focus="decision"] 
   </div>
   <div class="beastExplain">
     <article class="card"><h3>3D utile</h3><p>Le rayon du cœur encode le stock observé. Les cinq anneaux utilisent la courbe officielle de sensibilité à 1–5 ans. Le scénario +50 / +100 / +150 / +200 pb modifie instantanément l’épaisseur et l’intensité des couches pour montrer la propagation, pas pour prédire le marché.</p></article>
-    <article class="card"><h3>Immersion & réalité augmentée</h3><p>Le mode plein écran transforme la page en salle de situation. Le mouvement du téléphone permet de “tourner autour” du système. Le mode AR caméra superpose La Bête au monde réel quand le navigateur autorise la caméra. Aucune image de caméra n’est envoyée ni stockée par cette page.</p></article>
+    <article class="card"><h3>Avatar, immersion & réalité augmentée</h3><p>L’avatar holographique vit dans la scène Three.js et le Cosmos existants : aucune seconde scène, aucun second registre. En mode pilote, son déplacement possède la caméra et les sélections galaxie → preuve deviennent ses destinations. WebXR tente une session AR puis VR uniquement après action explicite et support annoncé par le navigateur ; sinon le plein écran et l’AR caméra locale restent disponibles. Aucune image de caméra n’est envoyée ni stockée par cette page.</p></article>
   </div>
   <div class="beastConcept" aria-label="Anatomie conceptuelle de La Bête">
     <div><small>Les sens</small><b>Sources publiques</b><span>Chaque capteur garde son état : frais, vintage, dégradé ou indisponible.</span></div>
@@ -1282,8 +1293,138 @@ async function initBeast(){
     const cosmosPalette={knowledge:0x8fd8e8,people:0xe7bd72,territory:0x9fd5ae,action:0xd78d96};
     let cosmosProjection=null,cosmosMode=false,cosmosPlanetPoints=null,cosmosMoonPoints=null,cosmosWormholeLines=null,cosmosFocusKind=null,cosmosFocusId=null,cosmosYaw=0,cosmosPitch=0;
     const cosmosCameraTarget=new THREE.Vector3(0,.25,34),cosmosLookTarget=new THREE.Vector3(0,0,-5),cosmosCurrentLook=new THREE.Vector3(0,0,-5);
+    // AVATAR/XR V1: one actor inside the existing Cosmos, renderer, camera graph and frame loop.
+    // It is presentation/navigation state only; canonical evidence identities remain owned by Evidence Universe.
+    renderer.xr.enabled=true;renderer.xr.setReferenceSpaceType('local');
+    const avatarGroup=new THREE.Group();avatarGroup.name='HolographicNavigatorAvatar';cosmosGroup.add(avatarGroup);
+    const avatarRig=new THREE.Group();avatarRig.name='HolographicNavigatorRig';avatarGroup.add(avatarRig);
+    const avatarMat=new THREE.MeshPhysicalMaterial({color:0x8fd8e8,emissive:0x276b7d,emissiveIntensity:1.18,transparent:true,opacity:.47,roughness:.12,metalness:.08,transmission:.28,thickness:.35,depthWrite:false,side:THREE.DoubleSide});
+    const avatarCopper=new THREE.MeshPhysicalMaterial({color:0xb87333,emissive:0x6e2c1e,emissiveIntensity:1.05,transparent:true,opacity:.64,roughness:.2,metalness:.32,depthWrite:false});
+    const avatarRed=new THREE.MeshBasicMaterial({color:0xd34b52,transparent:true,opacity:.72,depthWrite:false,blending:THREE.AdditiveBlending});
+    const avatarWire=new THREE.LineBasicMaterial({color:0xe0c9a2,transparent:true,opacity:.42,depthWrite:false,blending:THREE.AdditiveBlending});
+    function avatarMesh(geometry,material=avatarMat){const m=new THREE.Mesh(geometry,material);m.add(new THREE.LineSegments(new THREE.EdgesGeometry(geometry),avatarWire));return m;}
+    const avatarTorso=avatarMesh(new THREE.CylinderGeometry(.34,.47,1.08,10,1,true));avatarTorso.position.y=1.55;avatarRig.add(avatarTorso);
+    const avatarPelvis=avatarMesh(new THREE.SphereGeometry(.36,16,12));avatarPelvis.scale.set(1,.62,.72);avatarPelvis.position.y=.94;avatarRig.add(avatarPelvis);
+    const avatarNeck=avatarMesh(new THREE.CylinderGeometry(.115,.14,.26,10),avatarCopper);avatarNeck.position.y=2.19;avatarRig.add(avatarNeck);
+    const avatarHead=avatarMesh(new THREE.SphereGeometry(.31,22,16));avatarHead.scale.set(.86,1.08,.86);avatarHead.position.y=2.55;avatarRig.add(avatarHead);
+    const avatarVisor=new THREE.Mesh(new THREE.BoxGeometry(.38,.055,.055),avatarRed);avatarVisor.position.set(0,2.58,.285);avatarRig.add(avatarVisor);
+    const avatarCore=new THREE.Mesh(new THREE.IcosahedronGeometry(.13,2),avatarCopper);avatarCore.position.set(0,1.58,.36);avatarRig.add(avatarCore);
+    const avatarHalo=new THREE.Mesh(new THREE.TorusGeometry(.48,.012,6,64),avatarRed);avatarHalo.position.y=2.58;avatarHalo.rotation.x=Math.PI/2;avatarRig.add(avatarHalo);
+    function makeArm(side){
+      const pivot=new THREE.Group();pivot.position.set(side*.48,1.93,0);avatarRig.add(pivot);
+      const upper=avatarMesh(new THREE.CylinderGeometry(.095,.12,.62,9));upper.position.y=-.31;pivot.add(upper);
+      const elbow=new THREE.Group();elbow.position.y=-.62;pivot.add(elbow);
+      const lower=avatarMesh(new THREE.CylinderGeometry(.075,.09,.55,9),avatarCopper);lower.position.y=-.275;elbow.add(lower);
+      const hand=avatarMesh(new THREE.SphereGeometry(.105,12,9),avatarCopper);hand.position.y=-.57;elbow.add(hand);
+      return {pivot,elbow,hand};
+    }
+    function makeLeg(side){
+      const pivot=new THREE.Group();pivot.position.set(side*.23,.78,0);avatarRig.add(pivot);
+      const upper=avatarMesh(new THREE.CylinderGeometry(.12,.15,.72,9));upper.position.y=-.36;pivot.add(upper);
+      const knee=new THREE.Group();knee.position.y=-.72;pivot.add(knee);
+      const lower=avatarMesh(new THREE.CylinderGeometry(.085,.11,.68,9),avatarCopper);lower.position.y=-.34;knee.add(lower);
+      const foot=avatarMesh(new THREE.BoxGeometry(.22,.1,.38),avatarCopper);foot.position.set(0,-.7,-.08);knee.add(foot);
+      return {pivot,knee,foot};
+    }
+    const avatarLeftArm=makeArm(-1),avatarRightArm=makeArm(1),avatarLeftLeg=makeLeg(-1),avatarRightLeg=makeLeg(1);
+    const avatarWings=new THREE.Group();avatarWings.name='HolographicIdentityWings';avatarRig.add(avatarWings);
+    [-1,1].forEach(side=>{const shape=new THREE.Shape();shape.moveTo(side*.1,1.95);shape.lineTo(side*.95,2.6);shape.lineTo(side*1.35,1.72);shape.lineTo(side*.88,.98);shape.lineTo(side*.18,1.35);shape.closePath();const geo=new THREE.ShapeGeometry(shape);const wing=new THREE.Mesh(geo,new THREE.MeshPhysicalMaterial({color:0xe0c9a2,emissive:0x623838,emissiveIntensity:.55,transparent:true,opacity:.18,transmission:.46,roughness:.16,iridescence:.75,side:THREE.DoubleSide,depthWrite:false}));wing.position.z=-.18;wing.add(new THREE.LineSegments(new THREE.EdgesGeometry(geo),avatarWire));wing.userData.side=side;avatarWings.add(wing);});
+    const avatarScan=[];for(let i=0;i<4;i++){const ring=new THREE.Mesh(new THREE.TorusGeometry(.52+i*.11,.008,5,48),avatarRed.clone());ring.rotation.x=Math.PI/2;ring.position.y=.55+i*.56;ring.scale.y=.7;avatarRig.add(ring);avatarScan.push(ring);}
+    avatarGroup.scale.setScalar(.78);avatarGroup.position.set(0,-1.15,20);
+    let avatarPresence=true,avatarPilot=false,avatarGesture='PRESENCE',avatarGestureUntil=0,avatarTravel=false,avatarTargetKind='cosmos',avatarTargetId=null,avatarLastFrame=0;
+    const avatarDestination=new THREE.Vector3(0,-1.15,20),avatarKeys=new Set(),avatarWorld=new THREE.Vector3(),avatarWorldQ=new THREE.Quaternion(),avatarForward=new THREE.Vector3(),avatarMove=new THREE.Vector3();
+    const avatarXR={checked:false,ar:false,vr:false,mode:'SCREEN',session:null};
+    function updateAvatarTelemetry(){
+      stage.dataset.avatarPilot=avatarPilot?'on':'off';stage.dataset.avatarPresence=(cosmosMode&&avatarPresence)?'on':'off';stage.dataset.xrMode=avatarXR.mode;
+      const status=$('avatarTelemetryStatus'),presence=$('beastAvatar'),pilot=$('beastPilot'),xr=$('beastXR');
+      if(presence)presence.setAttribute('aria-pressed',String(avatarPresence));
+      if(pilot){pilot.setAttribute('aria-pressed',String(avatarPilot));pilot.disabled=!cosmosMode||!avatarPresence;pilot.textContent=avatarPilot?'Libérer la caméra':'Posséder la caméra';}
+      if(status)status.textContent=!cosmosMode?'Présence en attente du Cosmos.':!avatarPresence?'Avatar masqué.':avatarXR.mode!=='SCREEN'?'Présence XR '+avatarXR.mode+' · sélection spatiale active.':avatarPilot?'PILOTE · caméra possédée · WASD / flèches / pad.':avatarTravel?'LOCOMOTION · destination '+(avatarTargetKind||'nœud')+'.':'PRÉSENCE · gestuelle vivante · caméra libre.';
+      if(xr&&avatarXR.checked){xr.disabled=!(avatarXR.ar||avatarXR.vr);xr.textContent=avatarXR.ar?'Entrer en WebXR AR':avatarXR.vr?'Entrer en WebXR spatial':'WebXR indisponible';}
+    }
+    function setAvatarPresence(on){
+      avatarPresence=!!on;avatarGroup.visible=cosmosMode&&avatarPresence;
+      if(!avatarPresence&&avatarPilot)avatarPilot=false;
+      updateAvatarTelemetry();return avatarPresence;
+    }
+    function setAvatarPilot(on){
+      if(on&&(!cosmosMode||!avatarPresence))return false;
+      avatarPilot=!!on;if(avatarPilot){avatarTravel=false;avatarGesture='PILOT';}
+      else if(cosmosMode)avatarGesture='PRESENCE';
+      updateAvatarTelemetry();return avatarPilot;
+    }
+    function avatarGoto(point,kind,id){
+      if(!point)return false;avatarDestination.set(point.x,point.y-.8,point.z+1.15);avatarTargetKind=kind||'node';avatarTargetId=id||null;avatarTravel=true;avatarGesture='TRAVEL';updateAvatarTelemetry();return true;
+    }
+    function avatarGestureNow(kind='WAVE',duration=1500){avatarGesture=kind;avatarGestureUntil=performance.now()+duration;updateAvatarTelemetry();return avatarGesture;}
+    function avatarCommand(action,on=true){
+      if(action==='presence')return setAvatarPresence(on);
+      if(action==='pilot')return setAvatarPilot(on);
+      if(action==='wave')return avatarGestureNow('WAVE',1800);
+      if(['forward','back','left','right','up','down'].includes(action)){on?avatarKeys.add(action):avatarKeys.delete(action);return true;}
+      return false;
+    }
+    async function checkAvatarXR(){
+      const xr=$('beastXR');avatarXR.checked=true;avatarXR.ar=avatarXR.vr=false;
+      if(window.isSecureContext&&navigator.xr?.isSessionSupported){
+        try{const [ar,vr]=await Promise.allSettled([navigator.xr.isSessionSupported('immersive-ar'),navigator.xr.isSessionSupported('immersive-vr')]);avatarXR.ar=ar.status==='fulfilled'&&ar.value===true;avatarXR.vr=vr.status==='fulfilled'&&vr.value===true;}catch(e){}
+      }
+      updateAvatarTelemetry();return {...avatarXR};
+    }
+    function selectCosmosFromXRController(controller){
+      if(!cosmosMode||!cosmosProjection||!controller)return false;
+      controller.getWorldPosition(avatarWorld);controller.getWorldQuaternion(avatarWorldQ);avatarForward.set(0,0,-1).applyQuaternion(avatarWorldQ).normalize();ray.set(avatarWorld,avatarForward);ray.params.Points.threshold=.28;
+      const ph=cosmosPlanetPoints&&ray.intersectObject(cosmosPlanetPoints,false)[0];
+      if(ph&&Number.isInteger(ph.index)){const p=cosmosProjection.planets[ph.index];return focusCosmos('planet',p.object_id);}
+      const hit=ray.intersectObjects(cosmosGroup.children,true).find(h=>h.object.userData?.cosmosKind);return hit?focusCosmos(hit.object.userData.cosmosKind,hit.object.userData.cosmosId):false;
+    }
+    const xrControllers=[0,1].map(i=>{const c=renderer.xr.getController(i);c.name='CosmosXRController'+i;c.addEventListener('select',()=>selectCosmosFromXRController(c));const g=new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(0,0,0),new THREE.Vector3(0,0,-1.5)]);c.add(new THREE.Line(g,new THREE.LineBasicMaterial({color:0x8fd8e8,transparent:true,opacity:.7})));c.visible=false;scene.add(c);return c;});
+    async function enterAvatarXR(mode=null){
+      if(avatarXR.session){await avatarXR.session.end();return true;}
+      if(!avatarXR.checked)await checkAvatarXR();
+      const chosen=mode|| (avatarXR.ar?'immersive-ar':avatarXR.vr?'immersive-vr':null);
+      if(!chosen)throw Error('WEBXR_UNAVAILABLE');
+      const options={optionalFeatures:['local-floor','bounded-floor','hand-tracking']};
+      if(chosen==='immersive-ar'){options.optionalFeatures.push('dom-overlay');options.domOverlay={root:stage};}
+      const session=await navigator.xr.requestSession(chosen,options);avatarXR.session=session;avatarXR.mode=chosen==='immersive-ar'?'AR':'VR';
+      xrControllers.forEach(c=>c.visible=true);setAvatarPresence(true);setAvatarPilot(false);updateAvatarTelemetry();
+      session.addEventListener('end',()=>{avatarXR.session=null;avatarXR.mode='SCREEN';xrControllers.forEach(c=>c.visible=false);updateAvatarTelemetry();},{once:true});
+      await renderer.xr.setSession(session);return true;
+    }
+    function animateAvatar(t,liveArt){
+      if(!avatarGroup.visible){avatarLastFrame=t;return;}
+      const dt=avatarLastFrame?Math.min(.05,Math.max(.001,(t-avatarLastFrame)/1000)):.016;avatarLastFrame=t;
+      let moving=false;avatarMove.set(0,0,0);
+      if(avatarPilot&&avatarKeys.size){
+        if(avatarKeys.has('forward'))avatarMove.z-=1;if(avatarKeys.has('back'))avatarMove.z+=1;if(avatarKeys.has('left'))avatarMove.x-=1;if(avatarKeys.has('right'))avatarMove.x+=1;if(avatarKeys.has('up'))avatarMove.y+=1;if(avatarKeys.has('down'))avatarMove.y-=1;
+        if(avatarMove.lengthSq()){avatarTravel=false;avatarMove.normalize().multiplyScalar(dt*4.2);avatarGroup.position.add(avatarMove);avatarGroup.position.x=Math.max(-28,Math.min(28,avatarGroup.position.x));avatarGroup.position.y=Math.max(-12,Math.min(12,avatarGroup.position.y));avatarGroup.position.z=Math.max(-30,Math.min(30,avatarGroup.position.z));avatarGroup.rotation.y=Math.atan2(avatarMove.x,-avatarMove.z);moving=true;avatarGesture='MANUAL';}
+      }else if(avatarTravel){
+        avatarMove.copy(avatarDestination).sub(avatarGroup.position);const dist=avatarMove.length();
+        if(dist>.09){const step=Math.min(dist,dt*3.6);avatarMove.normalize();avatarGroup.position.addScaledVector(avatarMove,step);avatarGroup.rotation.y=Math.atan2(avatarMove.x,-avatarMove.z);moving=true;}
+        else{avatarGroup.position.copy(avatarDestination);avatarTravel=false;avatarGesture='POINT';avatarGestureUntil=t+1550;updateAvatarTelemetry();}
+      }
+      if(avatarGestureUntil&&t>avatarGestureUntil){avatarGestureUntil=0;avatarGesture=avatarPilot?'PILOT':'PRESENCE';}
+      const gait=moving?Math.sin(t*.012):0,idle=liveArt?Math.sin(t*.0017):0;
+      avatarRig.position.y=(liveArt?.035*idle:0);avatarCore.rotation.y+=.012;avatarHalo.rotation.z+=.0035;avatarWings.rotation.y=(liveArt?.055*Math.sin(t*.0021):0);
+      avatarLeftArm.pivot.rotation.x=moving?gait*.54:(liveArt?.08*idle:0);avatarRightArm.pivot.rotation.x=moving?-gait*.54:(liveArt?-.08*idle:0);
+      avatarLeftLeg.pivot.rotation.x=moving?-gait*.46:0;avatarRightLeg.pivot.rotation.x=moving?gait*.46:0;
+      avatarLeftArm.pivot.rotation.z=.06;avatarRightArm.pivot.rotation.z=-.06;
+      if(avatarGesture==='POINT'){avatarRightArm.pivot.rotation.x=-1.12;avatarRightArm.pivot.rotation.z=-.42;avatarRightArm.elbow.rotation.x=-.28;}
+      else if(avatarGesture==='WAVE'){avatarRightArm.pivot.rotation.x=-1.35;avatarRightArm.pivot.rotation.z=-.52+.28*Math.sin(t*.012);avatarRightArm.elbow.rotation.x=-.55;}
+      else avatarRightArm.elbow.rotation.x=0;
+      avatarScan.forEach((r,i)=>{r.position.y=.52+i*.56+((t*.00045+i*.21)%1)*.12;r.material.opacity=.32+.18*Math.sin(t*.002+i);});
+      avatarMat.opacity=.40+(liveArt?.07*(.5+.5*Math.sin(t*.003)):0);avatarRed.opacity=.62+(liveArt?.12*Math.sin(t*.0024):0);
+      if(avatarPilot&&!renderer.xr.isPresenting){
+        avatarGroup.getWorldPosition(avatarWorld);avatarGroup.getWorldQuaternion(avatarWorldQ);avatarForward.set(0,0,-1).applyQuaternion(avatarWorldQ).normalize();
+        cosmosCameraTarget.copy(avatarWorld).addScaledVector(avatarForward,-3.6).add(new THREE.Vector3(0,1.15,0));
+        cosmosLookTarget.copy(avatarWorld).addScaledVector(avatarForward,2.1).add(new THREE.Vector3(0,.65,0));
+      }
+    }
+    window.laBeteAvatarControl=avatarCommand;window.laBeteAvatarXR=enterAvatarXR;
+    window.laBeteAvatarState=()=>({schema:'LA_BETE_HOLOGRAPHIC_AVATAR_XR_V1',state:'DERIVED_NAVIGATION_ACTOR',same_scene:avatarGroup.parent===cosmosGroup,second_world:false,second_engine:false,second_registry:false,presence:avatarGroup.visible,pilot:avatarPilot,gesture:avatarGesture,traveling:avatarTravel,targetKind:avatarTargetKind,targetId:avatarTargetId,position:avatarGroup.position.toArray().map(v=>Number(v.toFixed(3))),cameraMode:renderer.xr.isPresenting?'XR_VIEWER':avatarPilot?'AVATAR_FOLLOW':'COSMOS_FREE',xr:{checked:avatarXR.checked,ar:avatarXR.ar,vr:avatarXR.vr,mode:avatarXR.mode,presenting:renderer.xr.isPresenting},renderLoop:'THREE.WebGLRenderer.setAnimationLoop'});
+    checkAvatarXR();
     function clearCosmosGroup(){
-      for(const child of [...cosmosGroup.children])if(child!==cosmosFocusGroup){cosmosGroup.remove(child);child.traverse?.(o=>{o.geometry?.dispose?.();if(o.material){const mats=Array.isArray(o.material)?o.material:[o.material];mats.forEach(m=>{m.map?.dispose?.();m.dispose?.()})}});}
+      for(const child of [...cosmosGroup.children])if(child!==cosmosFocusGroup&&child!==avatarGroup){cosmosGroup.remove(child);child.traverse?.(o=>{o.geometry?.dispose?.();if(o.material){const mats=Array.isArray(o.material)?o.material:[o.material];mats.forEach(m=>{m.map?.dispose?.();m.dispose?.()})}});}
       for(const child of [...cosmosFocusGroup.children]){cosmosFocusGroup.remove(child);child.geometry?.dispose?.();child.material?.dispose?.();}
       cosmosPlanetPoints=cosmosMoonPoints=cosmosWormholeLines=null;
     }
@@ -1306,11 +1447,11 @@ async function initBeast(){
       mount.dataset.cosmosState='ready';mount.dataset.cosmosPlanets=String(projection.planets.length);mount.dataset.cosmosWormholes=String(projection.wormholes.length);
     }
     function setCosmosProjection(projection){
-      if(!projection){cosmosMode=false;cosmosGroup.visible=false;root.scale.setScalar(1);root.position.set(0,0,0);mount.dataset.cosmosMode='off';cosmosFocusKind=cosmosFocusId=null;return;}
+      if(!projection){cosmosMode=false;cosmosGroup.visible=false;avatarGroup.visible=false;setAvatarPilot(false);root.scale.setScalar(1);root.position.set(0,0,0);mount.dataset.cosmosMode='off';cosmosFocusKind=cosmosFocusId=null;updateAvatarTelemetry();return;}
       if(projection.schema!=='LA_BETE_COSMOS_SPATIAL_PROJECTION_V1'||projection.state!=='DERIVED_VIEW_ONLY'||projection.contract?.second_runtime!==false||projection.contract?.second_registry!==false||projection.contract?.proofgraph_is_spine!==true)throw Error('COSMOS_PROJECTION_CONTRACT');
       if(!cosmosProjection||cosmosProjection.source_projection_fingerprint!==projection.source_projection_fingerprint)buildCosmos(projection);else cosmosProjection=projection;
       for(const child of [...cosmosFocusGroup.children]){cosmosFocusGroup.remove(child);child.geometry?.dispose?.();child.material?.dispose?.();}cosmosYaw=cosmosPitch=0;cosmosGroup.rotation.set(0,0,0);
-      cosmosMode=true;cosmosGroup.visible=true;root.scale.setScalar(.28);root.position.set(0,-.6,2.6);mount.dataset.cosmosMode='on';mount.dataset.cosmosState='ready';cosmosCameraTarget.set(0,.2,34);cosmosLookTarget.set(0,0,-5);cosmosFocusKind='cosmos';cosmosFocusId=projection.source_projection_fingerprint;$('beastTag').textContent='Evidence Universe · '+projection.planets.length+' objets · '+projection.wormholes.length+' wormholes ProofGraph';
+      cosmosMode=true;cosmosGroup.visible=true;avatarGroup.visible=avatarPresence;root.scale.setScalar(.28);root.position.set(0,-.6,2.6);mount.dataset.cosmosMode='on';mount.dataset.cosmosState='ready';cosmosCameraTarget.set(0,.2,34);cosmosLookTarget.set(0,0,-5);cosmosFocusKind='cosmos';cosmosFocusId=projection.source_projection_fingerprint;if(!avatarTargetId){avatarGroup.position.set(0,-1.15,20);avatarDestination.copy(avatarGroup.position);}updateAvatarTelemetry();$('beastTag').textContent='Evidence Universe · '+projection.planets.length+' objets · '+projection.wormholes.length+' wormholes ProofGraph';
     }
     function focusCosmos(kind,id){
       if(!cosmosMode||!cosmosProjection||!id)return false;let point=null,label=id,zoomDistance=7;
@@ -1319,7 +1460,7 @@ async function initBeast(){
       else if(kind==='planet'){const x=cosmosPlanet(id);if(x){point=x.position;label=x.label;zoomDistance=3.3;}}
       else if(kind==='moon'){const x=cosmosMoon(id);if(x){point=x.position;label='Preuve · '+x.proof_ref;zoomDistance=2.7;}}
       else if(kind==='wormhole'){const w=cosmosWormhole(id),a=w&&cosmosPlanet(w.from_object_id),b=w&&cosmosPlanet(w.to_object_id);if(a&&b){point=[(a.position[0]+b.position[0])/2,(a.position[1]+b.position[1])/2,(a.position[2]+b.position[2])/2];label='Wormhole · '+(w.proof_ref||w.relation);zoomDistance=Math.max(5,new THREE.Vector3(...a.position).distanceTo(new THREE.Vector3(...b.position))*.58);}}
-      if(!point)return false;cosmosYaw=cosmosPitch=0;cosmosGroup.rotation.set(0,0,0);const v=new THREE.Vector3(...point);cosmosLookTarget.copy(v);cosmosCameraTarget.set(v.x,v.y+zoomDistance*.08,v.z+zoomDistance);cosmosFocusKind=kind;cosmosFocusId=id;
+      if(!point)return false;cosmosYaw=cosmosPitch=0;cosmosGroup.rotation.set(0,0,0);const v=new THREE.Vector3(...point);cosmosLookTarget.copy(v);cosmosCameraTarget.set(v.x,v.y+zoomDistance*.08,v.z+zoomDistance);cosmosFocusKind=kind;cosmosFocusId=id;if(avatarPresence)avatarGoto(v,kind,id);
       for(const child of [...cosmosFocusGroup.children]){cosmosFocusGroup.remove(child);child.geometry?.dispose?.();child.material?.dispose?.();}
       const halo=new THREE.Mesh(new THREE.TorusGeometry(kind==='galaxy'?1.7:(kind==='system' ? .48 : .24),.018,6,64),new THREE.MeshBasicMaterial({color:0xf0c47b,transparent:true,opacity:.78,depthWrite:false,blending:THREE.AdditiveBlending}));halo.position.copy(v);halo.rotation.x=Math.PI/2;cosmosFocusGroup.add(halo);
       if(kind==='planet'){const p=cosmosPlanet(id),related=cosmosProjection.moons.filter(m=>m.planet_id===id).slice(0,48);const pts=[];for(const m of related)pts.push(...m.position);if(pts.length){const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.Float32BufferAttribute(pts,3));cosmosFocusGroup.add(new THREE.Points(g,new THREE.PointsMaterial({color:0xffffff,size:.075,transparent:true,opacity:.95,depthWrite:false})));}if(p)$('beastTag').textContent=p.kind+' · '+p.label+' · TRUST '+(p.object?.trust?.index??'—')+'/100';}
@@ -1416,11 +1557,11 @@ async function initBeast(){
       u.uTension.value=materialState.tension;u.uTurbulence.value=materialState.turbulence;u.uFluidity.value=materialState.fluidity;
       mount.dataset.prismState=p.known?'CANONICAL_SIGNAL':'UNKNOWN_SIGNAL';
     };
-    let artFrameId=0,stageVisible=true;
+    let stageVisible=true;
     if(typeof IntersectionObserver!=='undefined'){const visibility=new IntersectionObserver(entries=>{stageVisible=entries[0]?.isIntersecting!==false;},{rootMargin:'120px'});visibility.observe(stage);}
-    renderer.domElement.addEventListener('webglcontextlost',e=>{e.preventDefault();cancelAnimationFrame(artFrameId);mount.classList.remove('webgl-ready','organism-ready');$('beastTag').textContent='WebGL interrompu · prismes CSS et preuves conservés. Recharger pour réactiver la 3D.';});
+    renderer.domElement.addEventListener('webglcontextlost',e=>{e.preventDefault();renderer.setAnimationLoop(null);mount.classList.remove('webgl-ready','organism-ready');$('beastTag').textContent='WebGL interrompu · prismes CSS et preuves conservés. Recharger pour réactiver la 3D.';});
     function frame(t){
-      if(document.hidden||!stageVisible){artFrameId=requestAnimationFrame(frame);return;}
+      if((document.hidden||!stageVisible)&&!renderer.xr.isPresenting)return;
       const liveArt=!reducedMotion&&document.documentElement.dataset.artMotion!=='calm';
       const fullArt=document.documentElement.dataset.artEffects!=='essential';
       prismGroup.visible=fullArt;wingGroup.visible=fullArt;
@@ -1428,6 +1569,7 @@ async function initBeast(){
         prismGroup.children.forEach((shard,i)=>{const b=shard.userData,seconds=t*.001;shard.position.y=b.baseY+Math.sin(seconds*(.22+i*.035)+b.phase)*.13;shard.rotation.y=.3+i*.2+Math.sin(seconds*.16+b.phase)*.22;shard.rotation.z=b.baseZ+Math.sin(seconds*.12+b.phase)*.035;});
         wingGroup.rotation.y=Math.sin(t*.00024)*.035;
       }
+      animateAvatar(t,liveArt);
 
       if(cosmosMode){
         if(cosmosFocusKind==='cosmos'){const drift=(!drag&&liveArt)?Math.sin(t*.00008)*.08:0;cosmosGroup.rotation.y+=(cosmosYaw+drift-cosmosGroup.rotation.y)*.055;cosmosGroup.rotation.x+=(cosmosPitch-cosmosGroup.rotation.x)*.055;}
@@ -1472,13 +1614,13 @@ async function initBeast(){
           mantlePosition.needsUpdate=true;lastSkinUpdate=t;
         }
       }
-      renderer.render(scene,camera);artFrameId=requestAnimationFrame(frame)
+      renderer.render(scene,camera);
     }
     renderer.compile(scene,camera);
     if(shaderFailure){renderer.dispose();renderer.domElement.remove();throw Error('Compilation des matériaux refusée');}
-    artFrameId=requestAnimationFrame(frame);
+    renderer.setAnimationLoop(frame);
     mount.classList.add('webgl-ready','organism-ready');
-    beast3d={THREE,scene,camera,renderer,root,mantle,membrane,heart,heartAura,eyes,rings,ringMats,arms,armLabels,flowDots,setCosmosProjection,focusCosmos,reset(){if(cosmosMode&&cosmosProjection){setCosmosProjection(cosmosProjection);return;}rx=.06;ry=.08;zoom=homeZoom;arms.forEach(a=>a.material.opacity=a.userData.baseOpacity||.77)}};
+    beast3d={THREE,scene,camera,renderer,root,mantle,membrane,heart,heartAura,eyes,rings,ringMats,arms,armLabels,flowDots,avatarGroup,setCosmosProjection,focusCosmos,setAvatarPresence,setAvatarPilot,enterAvatarXR,endXR(){if(avatarXR.session)avatarXR.session.end().catch(()=>{});setAvatarPilot(false)},reset(){if(cosmosMode&&cosmosProjection){setAvatarPilot(false);avatarKeys.clear();avatarTravel=false;avatarTargetKind='cosmos';avatarTargetId=null;avatarGroup.position.set(0,-1.15,20);avatarDestination.copy(avatarGroup.position);setCosmosProjection(cosmosProjection);return;}rx=.06;ry=.08;zoom=homeZoom;arms.forEach(a=>a.material.opacity=a.userData.baseOpacity||.77)}};
     window.updateBeast=(shock,curve)=>{
       const f=Math.max(.25,Math.min(2,shock/100));stress=Math.min(1.5,f);
       const vals=curve.slice(0,5),den=Math.max(.1,Number(vals[4]||1)*2);
@@ -1533,6 +1675,13 @@ async function initBeast(){
   }catch(e){$('beastTag').innerHTML='<b>Mode 3D indisponible.</b> La couche analytique reste intégralement accessible. '+esc(e.message)}
 }
 
+$('beastAvatar')?.addEventListener('click',async e=>{const button=e.currentTarget;await window.laBeteEnsurePresence?.();const active=button.getAttribute('aria-pressed')==='true';window.laBeteAvatarControl?.('presence',!active);});
+$('beastPilot')?.addEventListener('click',async e=>{const button=e.currentTarget;await window.laBeteEnsurePresence?.();const active=button.getAttribute('aria-pressed')==='true';window.laBeteAvatarControl?.('pilot',!active);});
+$('beastXR')?.addEventListener('click',async()=>{await window.laBeteEnsurePresence?.();try{await window.laBeteAvatarXR?.();}catch(err){$('beastTag').innerHTML='<b>WebXR non activé.</b> '+esc(err.message==='WEBXR_UNAVAILABLE'?'Ce navigateur ne déclare aucune session immersive AR/VR.':err.message)}});
+document.querySelectorAll('[data-avatar-move]').forEach(button=>{const action=button.dataset.avatarMove;const start=e=>{e.preventDefault();window.laBeteAvatarControl?.(action,true)};const stop=e=>{e.preventDefault();window.laBeteAvatarControl?.(action,false)};button.addEventListener('pointerdown',start);button.addEventListener('pointerup',stop);button.addEventListener('pointercancel',stop);button.addEventListener('pointerleave',stop);});
+const avatarKeyAction={w:'forward',arrowup:'forward',s:'back',arrowdown:'back',a:'left',arrowleft:'left',d:'right',arrowright:'right',q:'down',e:'up'};
+window.addEventListener('keydown',e=>{const action=avatarKeyAction[String(e.key||'').toLowerCase()];if(!action||!window.laBeteAvatarState?.().pilot)return;e.preventDefault();window.laBeteAvatarControl?.(action,true);});
+window.addEventListener('keyup',e=>{const action=avatarKeyAction[String(e.key||'').toLowerCase()];if(!action)return;window.laBeteAvatarControl?.(action,false);});
 $('beastImmersive')?.addEventListener('click',async()=>{const s=$('beastStage');try{if(!document.fullscreenElement)await s.requestFullscreen();else await document.exitFullscreen()}catch(e){}});
 $('beastReset')?.addEventListener('click',()=>beast3d?.reset());
 $('beastCamera')?.addEventListener('click',async e=>{const button=e.currentTarget,v=$('arVideo'),s=$('beastStage');if(beastStream){beastStream.getTracks().forEach(t=>t.stop());beastStream=null;v.srcObject=null;s.classList.remove('ar-on');button.setAttribute('aria-pressed','false');return}try{beastStream=await navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:'environment'}},audio:false});v.srcObject=beastStream;s.classList.add('ar-on');button.setAttribute('aria-pressed','true')}catch(err){$('beastTag').innerHTML='<b>AR caméra non activée.</b> Autorisation caméra refusée ou indisponible sur ce navigateur.'}});
@@ -1549,7 +1698,7 @@ window.laBeteSuspendPresence=()=>{
   stopBeastResonance(true);
   if(beastStream){beastStream.getTracks().forEach(t=>t.stop());beastStream=null;}
   const v=$('arVideo');if(v)v.srcObject=null;$('beastStage')?.classList.remove('ar-on');$('beastCamera')?.setAttribute('aria-pressed','false');
-  beastMotionOn=false;$('beastMotion')?.setAttribute('aria-pressed','false');
+  beastMotionOn=false;$('beastMotion')?.setAttribute('aria-pressed','false');beast3d?.endXR?.();window.laBeteAvatarControl?.('pilot',false);
 };
 document.addEventListener?.('DOMContentLoaded',()=>{if(!window.LaBeteExplorer||!document.body.classList.contains('mu-active'))window.laBeteEnsurePresence();},{once:true});
 initResonance();
