@@ -9,11 +9,13 @@ on:
       - 'app/scic_privacy_gate.py'
       - 'app/scic_circl_runtime.py'
       - 'app/scic_ohttp_runtime.py'
+      - 'app/scic_ohttp_https_harness.py'
       - 'app/scic_batch_runtime.py'
       - 'app/scic_key_custody.py'
       - 'scripts/test_scic_privacy_gate.py'
       - 'scripts/test_scic_circl_runtime.py'
       - 'scripts/test_scic_ohttp_runtime.py'
+      - 'scripts/test_scic_ohttp_https_harness.py'
       - 'scripts/test_scic_batch_runtime.py'
       - 'scripts/test_scic_ohttp_batch_pipeline.py'
       - 'scripts/test_scic_key_custody.py'
@@ -90,6 +92,8 @@ jobs:
         run: cargo test --locked
       - name: Prove client-relay-gateway runtime separation
         run: SCIC_OHTTP_RUNTIME_BIN="$GITHUB_WORKSPACE/privacy/ohttp_runtime/target/release/scic_ohttp_runtime" PYTHONPATH=. python3 scripts/test_scic_ohttp_runtime.py
+      - name: Prove two-hop HTTPS relay/gateway transport and header minimization
+        run: SCIC_OHTTP_RUNTIME_BIN="$GITHUB_WORKSPACE/privacy/ohttp_runtime/target/release/scic_ohttp_runtime" PYTHONPATH=. python3 scripts/test_scic_ohttp_https_harness.py
       - name: Prove persistent OHTTP batching pipeline
         run: SCIC_OHTTP_RUNTIME_BIN="$GITHUB_WORKSPACE/privacy/ohttp_runtime/target/release/scic_ohttp_runtime" PYTHONPATH=. python3 scripts/test_scic_ohttp_batch_pipeline.py
       - name: Record candidate OHTTP dependency lock
