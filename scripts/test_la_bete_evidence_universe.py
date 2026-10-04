@@ -79,7 +79,22 @@ for forbidden in (
     '"authenticity_certified": true',
     '"certificate_issued": true',
     '"automatic_phi_minting": true',
+    "/Users/",
+    "Library/Application Support",
+    "NOVA_OS/",
 ):
     assert forbidden not in encoded
+
+materialized = json.loads((ROOT / "docs/data/la-bete-evidence-universe-v1.json").read_text())
+assert materialized == doc, "materialized Evidence Universe does not match deterministic builder"
+
+workflow = (ROOT / ".github/workflows/france-debt-rate-live.yml").read_text()
+trigger_section = workflow.split("permissions:", 1)[0]
+assert '"scripts/build_la_bete_evidence_universe.py"' in trigger_section
+assert '"scripts/test_la_bete_evidence_universe.py"' in trigger_section
+assert '"docs/data/la-bete-evidence-universe-v1.json"' not in trigger_section, "derived Evidence JSON must not self-trigger its producer"
+assert workflow.count("python3 scripts/build_la_bete_evidence_universe.py") >= 2
+assert workflow.count("python3 scripts/test_la_bete_evidence_universe.py") >= 2
+assert "docs/data/la-bete-evidence-universe-v1.json" in workflow.split("tracked=(", 1)[1], "derived Evidence JSON must still be committed as material state"
 
 print("LA_BETE_EVIDENCE_UNIVERSE_V1_PASS", doc["coverage"], doc["projection_fingerprint"])
