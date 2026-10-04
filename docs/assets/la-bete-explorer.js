@@ -859,7 +859,7 @@ function deactivateExplorer(){
  document.body.classList.remove('mu-active','mu-reading');root.classList.remove('mu-reading');
  history.scrollRestoration=savedRestoration;document.title=legacyTitle;
  if(location.hash.startsWith('#/'))history.replaceState({...history.state},'','#experience-explore');
- requestAnimationFrame(()=>document.getElementById('experience-explore')?.scrollIntoView({block:'start'}));
+ document.getElementById('experience-explore')?.scrollIntoView({block:'start'});
 }
 window.LaBeteExplorer=Object.freeze({getDialogueContext:contextForChat,navigate,openChat,activate:activateExplorer,deactivate:deactivateExplorer,update(c){latest=c;if(!current||!c?.live)return;const changed=c.live.snapshot_id!==current.graph.source_snapshot_id||c.evolution?.generation!==current.graph.evolution?.generation;updateBar.hidden=!changed;},state:()=>({active:document.body.classList.contains('mu-active'),route:current?.hash,object:current?.parsed?.id||null,snapshot:current?.graph.source_snapshot_id,territoriesLoaded:!!territories,historyEntries:records.size,cosmos:current?.cosmos?{schema:current.cosmos.schema,galaxies:current.cosmos.galaxies.length,systems:current.cosmos.systems.length,planets:current.cosmos.planets.length,moons:current.cosmos.moons.length,wormholes:current.cosmos.wormholes.length,traversal:current.cosmos.traversal}:null})});
 window.LaBeteExplorerActivate=activateExplorer;window.LaBeteExplorerDeactivate=deactivateExplorer;
