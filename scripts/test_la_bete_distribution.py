@@ -12,6 +12,11 @@ for token in ['property="og:title"','property="og:description"','property="og:im
 for token in ['property="og:title"','property="og:image"','name="twitter:card"','rel="manifest"']:
     must(html.count(token)==1,f"duplicate {token}")
 must('https://nicolason84.github.io/nova-trust/assets/la-bete-social-card.png?v=' in html,"absolute cache-busted OG image missing")
+must('La Bête · The Living Advisory House' in html,"Living Advisory House social identity regressed")
+must('property="og:url" content="https://nicolason84.github.io/nova-trust/la-bete/"' in html,"stable LinkedIn public URL regressed")
+must('id="laBeteCacheHardening"' in html and '20261005-v11' in html,"public cache hardening missing")
+alias=(ROOT/"docs/la-bete/index.html").read_text()
+must('house=20261005-v11' in alias,"stable alias does not force current house build")
 must('scroll-snap-type:x mandatory' in html and '.rpAdapt .signalSculpture{display:none}' in html,"mobile first-screen optimization missing")
 must(manifest.get("display")=="standalone","manifest display")
 must(manifest.get("start_url","").endswith("france-debt-rate-risk-live-2026-10-02.html"),"manifest start_url")
