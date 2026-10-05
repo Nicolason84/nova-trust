@@ -1,7 +1,7 @@
 {
   "schema": "LA_BETE_TERRITORY_DISCOVERY_CANDIDATES_V1",
   "state": "AUTODISCOVERY_CANDIDATES_SEPARATE_FROM_CANON",
-  "generated_at": "2026-10-04T22:46:35.690725Z",
+  "generated_at": "2026-10-05T11:31:06.638356Z",
   "topology_snapshot": "FR-TOPO-43287a81359296e3b1ff8def",
   "culture_schema": "LA_BETE_TERRITORY_CULTURE_V1",
   "contract": {
@@ -34,20 +34,20 @@
   "coverage": {
     "departments_total": 101,
     "departments_with_scan_record": 101,
-    "candidate_items": 1225,
+    "candidate_items": 1223,
     "selected_this_run": [
-      "09",
-      "10",
-      "11",
-      "12",
-      "13",
-      "14",
-      "15",
-      "16",
-      "17",
-      "18",
-      "19",
-      "21"
+      "22",
+      "23",
+      "24",
+      "25",
+      "26",
+      "27",
+      "28",
+      "29",
+      "2A",
+      "2B",
+      "30",
+      "31"
     ]
   },
   "departments": {
@@ -12946,7 +12946,7 @@
     "22": {
       "code": "22",
       "name": "Côtes-d'Armor",
-      "scanned_at": "2026-10-04T14:22:32.652013Z",
+      "scanned_at": "2026-10-05T11:29:42.989241Z",
       "state": "DISCOVERY_CANDIDATES_NOT_CANON",
       "promotion_authorized": false,
       "mints_phi": false,
@@ -13291,18 +13291,15 @@
           "gate": "Découverte encyclopédique seulement. Vérifier une source naturaliste ou institutionnelle avant promotion."
         },
         {
-          "candidate_id": "nature:wikipedia:Q69867486",
+          "candidate_id": "nature:wikipedia:Q16507883",
           "state": "UNVERIFIED_AUTODISCOVERY_CANDIDATE",
           "lane": "nature",
-          "label": "Parc naturel régional Vallée de la Rance - Côte d'Émeraude",
-          "description": "parc naturel régional Vallée de la Rance - Côte d'Émeraude est un parc naturel régional de France situé dans les départements des Côtes - d'Armor et d'Ille-et-Vilaine",
-          "wikidata_id": "Q69867486",
-          "source": "https://fr.wikipedia.org/wiki/Parc_naturel_r%C3%A9gional_Vall%C3%A9e_de_la_Rance_-_C%C3%B4te_d%27%C3%89meraude",
-          "administrative_binding": "P131_PATH_TO_DEPARTMENT",
-          "administrative_path": [
-            "Q69867486",
-            "Q3349"
-          ],
+          "label": "Forêt de Coat-an-Noz",
+          "description": "La forêt de Coat an Noz- Coat an Hay est située dans le département des Côtes - d'Armor , sur les communes de Belle-Isle-en-Terre et Louargat et en moindre",
+          "wikidata_id": "Q16507883",
+          "source": "https://fr.wikipedia.org/wiki/For%C3%AAt_de_Coat-an-Noz",
+          "administrative_binding": "TEXT_EXPLICIT_DEPARTMENT_WITH_FRANCE_P17",
+          "administrative_path": null,
           "country_wikidata_ids": [
             "Q142"
           ],
@@ -13885,7 +13882,7 @@
     "24": {
       "code": "24",
       "name": "Dordogne",
-      "scanned_at": "2026-10-04T14:22:44.874111Z",
+      "scanned_at": "2026-10-05T11:30:04.236086Z",
       "state": "DISCOVERY_CANDIDATES_NOT_CANON",
       "promotion_authorized": false,
       "mints_phi": false,
@@ -14211,26 +14208,6 @@
           "gate": "Découverte encyclopédique seulement. Vérifier une source naturaliste ou institutionnelle avant promotion."
         },
         {
-          "candidate_id": "nature:wikipedia:Q3457547",
-          "state": "UNVERIFIED_AUTODISCOVERY_CANDIDATE",
-          "lane": "nature",
-          "label": "Réserve naturelle volontaire de Peyssac",
-          "description": "Pleyssac, dans le département de la Dordogne . Elle occupait une superficie de 80 hectares. Le territoire de la réserve naturelle correspond à un domaine de 76",
-          "wikidata_id": "Q3457547",
-          "source": "https://fr.wikipedia.org/wiki/R%C3%A9serve_naturelle_volontaire_de_Peyssac",
-          "administrative_binding": "P131_PATH_TO_DEPARTMENT",
-          "administrative_path": [
-            "Q3457547",
-            "Q1078494",
-            "Q3357"
-          ],
-          "country_wikidata_ids": [
-            "Q142"
-          ],
-          "quest_id": "nature_risks",
-          "gate": "Découverte encyclopédique seulement. Vérifier une source naturaliste ou institutionnelle avant promotion."
-        },
-        {
           "candidate_id": "nature:wikipedia:Q3078995",
           "state": "UNVERIFIED_AUTODISCOVERY_CANDIDATE",
           "lane": "nature",
@@ -14243,6 +14220,22 @@
             "Q3078995",
             "Q3357"
           ],
+          "country_wikidata_ids": [
+            "Q142"
+          ],
+          "quest_id": "nature_risks",
+          "gate": "Découverte encyclopédique seulement. Vérifier une source naturaliste ou institutionnelle avant promotion."
+        },
+        {
+          "candidate_id": "nature:wikipedia:Q49328518",
+          "state": "UNVERIFIED_AUTODISCOVERY_CANDIDATE",
+          "lane": "nature",
+          "label": "Forêt Barade",
+          "description": "projets correspondants. La forêt Barade est une forêt domaniale située dans le département français de la Dordogne . La forêt est parfois désignée sous",
+          "wikidata_id": "Q49328518",
+          "source": "https://fr.wikipedia.org/wiki/For%C3%AAt_Barade",
+          "administrative_binding": "TEXT_EXPLICIT_DEPARTMENT_WITH_FRANCE_P17",
+          "administrative_path": null,
           "country_wikidata_ids": [
             "Q142"
           ],
@@ -14374,7 +14367,7 @@
     "25": {
       "code": "25",
       "name": "Doubs",
-      "scanned_at": "2026-10-04T14:22:49.644397Z",
+      "scanned_at": "2026-10-05T11:30:10.305881Z",
       "state": "DISCOVERY_CANDIDATES_NOT_CANON",
       "promotion_authorized": false,
       "mints_phi": false,
@@ -14681,22 +14674,6 @@
       ],
       "nature": [
         {
-          "candidate_id": "nature:wikipedia:Q21294438",
-          "state": "UNVERIFIED_AUTODISCOVERY_CANDIDATE",
-          "lane": "nature",
-          "label": "Réserve naturelle régionale du gouffre du Creux à Pépé",
-          "description": "Localisation sur la carte du Doubs La réserve naturelle régionale du gouffre du Creux à Pépé (RNR293) est une réserve naturelle régionale (RNR) située en",
-          "wikidata_id": "Q21294438",
-          "source": "https://fr.wikipedia.org/wiki/R%C3%A9serve_naturelle_r%C3%A9gionale_du_gouffre_du_Creux_%C3%A0_P%C3%A9p%C3%A9",
-          "administrative_binding": "TEXT_EXPLICIT_DEPARTMENT_WITH_FRANCE_P17",
-          "administrative_path": null,
-          "country_wikidata_ids": [
-            "Q142"
-          ],
-          "quest_id": "nature_risks",
-          "gate": "Découverte encyclopédique seulement. Vérifier une source naturaliste ou institutionnelle avant promotion."
-        },
-        {
           "candidate_id": "nature:wikipedia:Q15427758",
           "state": "UNVERIFIED_AUTODISCOVERY_CANDIDATE",
           "lane": "nature",
@@ -14713,13 +14690,29 @@
           "gate": "Découverte encyclopédique seulement. Vérifier une source naturaliste ou institutionnelle avant promotion."
         },
         {
-          "candidate_id": "nature:wikipedia:Q16882616",
+          "candidate_id": "nature:wikipedia:Q48758732",
           "state": "UNVERIFIED_AUTODISCOVERY_CANDIDATE",
           "lane": "nature",
-          "label": "Réserve naturelle régionale des tourbières de Frasne-Bouverans",
-          "description": "tourbières dans la vallée du Drugeon. Le territoire de la réserve naturelle est dans le département du Doubs , sur les communes de Bouverans et Frasne, dans la",
-          "wikidata_id": "Q16882616",
-          "source": "https://fr.wikipedia.org/wiki/R%C3%A9serve_naturelle_r%C3%A9gionale_des_tourbi%C3%A8res_de_Frasne-Bouverans",
+          "label": "Réserve naturelle régionale des grottes de Chenecey",
+          "description": "réserve naturelle est situé dans le département du Doubs , sur la commune de Chenecey-Buillon. Surplombant la vallée de la Loue, la réserve naturelle se",
+          "wikidata_id": "Q48758732",
+          "source": "https://fr.wikipedia.org/wiki/R%C3%A9serve_naturelle_r%C3%A9gionale_des_grottes_de_Chenecey",
+          "administrative_binding": "TEXT_EXPLICIT_DEPARTMENT_WITH_FRANCE_P17",
+          "administrative_path": null,
+          "country_wikidata_ids": [
+            "Q142"
+          ],
+          "quest_id": "nature_risks",
+          "gate": "Découverte encyclopédique seulement. Vérifier une source naturaliste ou institutionnelle avant promotion."
+        },
+        {
+          "candidate_id": "nature:wikipedia:Q14623692",
+          "state": "UNVERIFIED_AUTODISCOVERY_CANDIDATE",
+          "lane": "nature",
+          "label": "Réserve naturelle nationale du lac de Remoray",
+          "description": "carte du Doubs La réserve naturelle nationale du lac de Remoray (RNN46) est une réserve naturelle nationale située dans le département du Doubs , en",
+          "wikidata_id": "Q14623692",
+          "source": "https://fr.wikipedia.org/wiki/R%C3%A9serve_naturelle_nationale_du_lac_de_Remoray",
           "administrative_binding": "TEXT_EXPLICIT_DEPARTMENT_WITH_FRANCE_P17",
           "administrative_path": null,
           "country_wikidata_ids": [
@@ -15343,7 +15336,7 @@
     "27": {
       "code": "27",
       "name": "Eure",
-      "scanned_at": "2026-10-04T14:22:59.238206Z",
+      "scanned_at": "2026-10-05T11:30:21.885372Z",
       "state": "DISCOVERY_CANDIDATES_NOT_CANON",
       "promotion_authorized": false,
       "mints_phi": false,
@@ -15668,26 +15661,6 @@
           ],
           "quest_id": "nature_risks",
           "gate": "Découverte encyclopédique seulement. Vérifier une source naturaliste ou institutionnelle avant promotion."
-        },
-        {
-          "candidate_id": "nature:wikipedia:Q3457382",
-          "state": "UNVERIFIED_AUTODISCOVERY_CANDIDATE",
-          "lane": "nature",
-          "label": "Réserve naturelle nationale de l'estuaire de la Seine",
-          "description": "réserve : les agriculteurs, les coupeurs de roseau et, même, les chasseurs. Le territoire de la réserve naturelle est dans les départements de l'Eure",
-          "wikidata_id": "Q3457382",
-          "source": "https://fr.wikipedia.org/wiki/R%C3%A9serve_naturelle_nationale_de_l%27estuaire_de_la_Seine",
-          "administrative_binding": "P131_PATH_TO_DEPARTMENT",
-          "administrative_path": [
-            "Q3457382",
-            "Q1010454",
-            "Q3372"
-          ],
-          "country_wikidata_ids": [
-            "Q142"
-          ],
-          "quest_id": "nature_risks",
-          "gate": "Découverte encyclopédique seulement. Vérifier une source naturaliste ou institutionnelle avant promotion."
         }
       ],
       "commons": [
@@ -15814,7 +15787,7 @@
     "28": {
       "code": "28",
       "name": "Eure-et-Loir",
-      "scanned_at": "2026-10-04T14:23:04.773169Z",
+      "scanned_at": "2026-10-05T11:30:29.599062Z",
       "state": "DISCOVERY_CANDIDATES_NOT_CANON",
       "promotion_authorized": false,
       "mints_phi": false,
@@ -16138,26 +16111,6 @@
           ],
           "quest_id": "nature_risks",
           "gate": "Découverte encyclopédique seulement. Vérifier une source naturaliste ou institutionnelle avant promotion."
-        },
-        {
-          "candidate_id": "nature:wikipedia:Q3457556",
-          "state": "UNVERIFIED_AUTODISCOVERY_CANDIDATE",
-          "lane": "nature",
-          "label": "Réserve naturelle volontaire de la Côte du prieur",
-          "description": "Villemeux-sur- Eure , dans le département d'Eure - et - Loir . Elle occupait une superficie de 2,49 hectares. L'intérêt du site aboutit à un classement en réserve naturelle",
-          "wikidata_id": "Q3457556",
-          "source": "https://fr.wikipedia.org/wiki/R%C3%A9serve_naturelle_volontaire_de_la_C%C3%B4te_du_prieur",
-          "administrative_binding": "P131_PATH_TO_DEPARTMENT",
-          "administrative_path": [
-            "Q3457556",
-            "Q616543",
-            "Q3377"
-          ],
-          "country_wikidata_ids": [
-            "Q142"
-          ],
-          "quest_id": "nature_risks",
-          "gate": "Découverte encyclopédique seulement. Vérifier une source naturaliste ou institutionnelle avant promotion."
         }
       ],
       "commons": [
@@ -16284,7 +16237,7 @@
     "2A": {
       "code": "2A",
       "name": "Corse-du-Sud",
-      "scanned_at": "2026-10-04T14:23:13.570132Z",
+      "scanned_at": "2026-10-05T11:30:37.947696Z",
       "state": "DISCOVERY_CANDIDATES_NOT_CANON",
       "promotion_authorized": false,
       "mints_phi": false,
@@ -16630,19 +16583,15 @@
           "gate": "Découverte encyclopédique seulement. Vérifier une source naturaliste ou institutionnelle avant promotion."
         },
         {
-          "candidate_id": "nature:wikipedia:Q3457437",
+          "candidate_id": "nature:wikipedia:Q1426466",
           "state": "UNVERIFIED_AUTODISCOVERY_CANDIDATE",
           "lane": "nature",
-          "label": "Réserve naturelle des îles Lavezzi",
-          "description": "1999 dans la réserve naturelle des Bouches de Bonifacio. Le territoire de la réserve naturelle est dans le département de la Corse - du - Sud , sur la commune",
-          "wikidata_id": "Q3457437",
-          "source": "https://fr.wikipedia.org/wiki/R%C3%A9serve_naturelle_des_%C3%AEles_Lavezzi",
-          "administrative_binding": "P131_PATH_TO_DEPARTMENT",
-          "administrative_path": [
-            "Q3457437",
-            "Q204051",
-            "Q3336"
-          ],
+          "label": "Réserve naturelle de Scandola",
+          "description": "(homonymie). Réserve naturelle de Scandola Localisation sur la carte de Corse Localisation sur la carte de la Corse - du - Sud La réserve naturelle de Scandola",
+          "wikidata_id": "Q1426466",
+          "source": "https://fr.wikipedia.org/wiki/R%C3%A9serve_naturelle_de_Scandola",
+          "administrative_binding": "TEXT_EXPLICIT_DEPARTMENT_WITH_FRANCE_P17",
+          "administrative_path": null,
           "country_wikidata_ids": [
             "Q142"
           ],
