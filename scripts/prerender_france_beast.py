@@ -36,7 +36,20 @@ def main():
     script=script[:script.rindex('\n// LA_BETE_BOOT_START')]
     script=script[:script.index("\ntry{const initial=JSON.parse($('canonicalSnapshot')")]
     engine=Path('scripts/prerender_france_beast.cjs')
-    result=subprocess.run(['node',str(engine)],input=json.dumps({'script':script,'live':live,'evolution':evo,'seeds':seeds}),text=True,capture_output=True,check=True)
+    observability=Path('docs/assets/la-bete-observability.js').read_text()
+    result=subprocess.run(
+        ['node',str(engine)],
+        input=json.dumps({
+            'script':script,
+            'prelude':observability,
+            'live':live,
+            'evolution':evo,
+            'seeds':seeds
+        }),
+        text=True,
+        capture_output=True,
+        check=True
+    )
     changes=json.loads(result.stdout)
     edits=[]
     for ident,html in changes.items():

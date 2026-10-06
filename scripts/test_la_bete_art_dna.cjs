@@ -7,9 +7,12 @@ const snapshot=JSON.parse(fs.readFileSync('docs/data/france-debt-rate-live.json'
 const identity=JSON.parse(fs.readFileSync('app/system_identity.json','utf8'));
 const identityScript=fs.readFileSync('docs/assets/system-identity.js','utf8');
 const evolution=JSON.parse(fs.readFileSync('docs/data/france-debt-rate-evolution.json','utf8'));
+const observability=fs.readFileSync('docs/assets/la-bete-observability.js','utf8');
 const node=()=>({textContent:'',innerHTML:'',dataset:{},classList:{add(){},remove(){},toggle(){}},style:{setProperty(){}},querySelector(){return node()},setAttribute(){},addEventListener(){},animate(){}});
 const nodes=new Map(),document={getElementById(id){if(!nodes.has(id))nodes.set(id,node());return nodes.get(id);},querySelectorAll(){return[]},body:node(),documentElement:node()};
 const context=vm.createContext({document,window:{matchMedia(){return{matches:true}},addEventListener(){}},console,Date,Number,Math,String,Array,Object,JSON,setTimeout(){},Blob:class{},URL,ResizeObserver:class{},snapshot});
+vm.runInContext(observability,context,{timeout:1000});
+if(context.LaBeteObservability)context.window.LaBeteObservability=context.LaBeteObservability;
 vm.runInContext(script.slice(0,script.lastIndexOf('\n// LA_BETE_BOOT_START')),context,{timeout:3000});
 const evaluate=s=>vm.runInContext(s,context,{timeout:3000});
 let checks=0;const check=(x,message)=>{assert(x,message);checks++};

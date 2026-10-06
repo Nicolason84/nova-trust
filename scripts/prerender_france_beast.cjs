@@ -14,6 +14,10 @@ class Node {
 const document={getElementById(id){if(!nodes.has(id))nodes.set(id,new Node(input.seeds[id]||''));return nodes.get(id);},querySelectorAll(){return[];},body:new Node(),documentElement:new Node()};
 const window={matchMedia(){return{matches:true};},addEventListener(){}};
 const context=vm.createContext({document,window,console:{log(){}},Date,Number,Math,String,Array,Object,JSON,setTimeout(){},Blob:class{},URL,ResizeObserver:class{}});
+if(input.prelude){
+  vm.runInContext(input.prelude,context,{timeout:1000});
+  if(context.LaBeteObservability)context.window.LaBeteObservability=context.LaBeteObservability;
+}
 vm.runInContext(input.script,context,{timeout:3000});
 context.snapshot=input.live;context.evo=input.evolution;
 // Archived HTML uses absolute timestamps: it must not look live or create
@@ -21,6 +25,6 @@ context.snapshot=input.live;context.evo=input.evolution;
 vm.runInContext("ago=x=>x?String(x):'UNKNOWN';",context);
 vm.runInContext('render(snapshot); applyEvolution(evo); renderFranceBinding(snapshot);',context,{timeout:3000});
 // Archived HTML records absolute canonical time, never an age that changes at build time.
-vm.runInContext("setEvo('evoFeed',snapshot.updated_at,'séquence #'+snapshot.sequence+' · '+(snapshot.summary?.warnings||0)+' source(s) en alerte'); pill($('runner'),'RUNNER UNKNOWN · SNAPSHOT STATIQUE','warn'); setEvo('evoRunner','UNKNOWN','Heartbeat accessible avec JavaScript ; indépendant du snapshot','warn');",context);
+vm.runInContext("setEvo('evoFeed',snapshot.updated_at,'séquence #'+snapshot.sequence+' · '+(snapshot.summary?.warnings||0)+' source(s) en alerte'); pill($('runner'),'RUNNER NON VÉRIFIÉ · SNAPSHOT STATIQUE','warn'); setEvo('evoRunner','NON VÉRIFIÉ','Heartbeat accessible avec JavaScript ; indépendant du snapshot','warn');",context);
 const out={};for(const [id,n] of nodes){const html=n.output();if(n.changed)out[id]=html;}
 process.stdout.write(JSON.stringify(out));

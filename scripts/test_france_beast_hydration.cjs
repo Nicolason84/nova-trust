@@ -2,9 +2,12 @@ const fs=require('node:fs'),vm=require('node:vm'),assert=require('node:assert/st
 const page=fs.readFileSync('docs/france-debt-rate-risk-live-2026-10-02.html','utf8');
 const script=page.match(/<script>([\s\S]*?)<\/script>/)[1];
 const j=JSON.parse(fs.readFileSync('docs/data/france-debt-rate-live.json','utf8'));
+const observability=fs.readFileSync('docs/assets/la-bete-observability.js','utf8');
 const node=()=>({textContent:'',innerHTML:'',dataset:{},classList:{add(){},remove(){}},style:{setProperty(){}},querySelector(){return node()},setAttribute(){},addEventListener(){},animate(){}});
 const nodes=new Map(),document={getElementById(id){if(!nodes.has(id))nodes.set(id,node());return nodes.get(id);},querySelectorAll(){return[]},body:node(),documentElement:node()};
 const c=vm.createContext({document,window:{matchMedia(){return{matches:true}},addEventListener(){}},console,Date,Number,Math,String,Array,Object,JSON,setTimeout(){},Blob:class{},URL,ResizeObserver:class{},snapshot:j});
+vm.runInContext(observability,c,{timeout:1000});
+if(c.LaBeteObservability)c.window.LaBeteObservability=c.LaBeteObservability;
 vm.runInContext(script.slice(0,script.lastIndexOf('\n// LA_BETE_BOOT_START')),c,{timeout:3000});
 const evaluate=s=>vm.runInContext(s,c,{timeout:3000});
 assert(evaluate('acceptCanonical(snapshot)'));
@@ -38,7 +41,7 @@ async function test(){
  c.fetch=async()=>({ok:true,json:async()=>fresh});await evaluate('load()');
  assert.match(nodes.get('feed').innerHTML,/ÉTAT/);
  c.fetch=async()=>({ok:false,json:async()=>({})});await evaluate('run()');
- assert.match(nodes.get('runner').innerHTML,/UNKNOWN/);
+ assert.match(nodes.get('runner').innerHTML,/NON VÉRIFIÉ/);
  assert.equal(nodes.get('realityHeadline').textContent,headline);
  const functions=['renderDecisionTwin','renderMarket','renderTimeMachine','renderSim','buildBrief','initBeast'];
  for(const f of functions)assert.equal(evaluate('typeof '+f),'function');
