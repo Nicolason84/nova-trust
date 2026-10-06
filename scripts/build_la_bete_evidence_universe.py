@@ -203,6 +203,17 @@ def crosscheck_score(source_ids: list[str] | None, extra_refs: int = 0) -> tuple
     return 20, ["Aucun recoupement indépendant n'est encore relié."]
 
 
+def claim_crosscheck_score(claim_state: str | None, source_ids: list[str] | None) -> tuple[int, list[str]]:
+    ids = list(dict.fromkeys(source_ids or []))
+    if claim_state == "CROSSCHECKED":
+        return crosscheck_score(ids)
+    if claim_state == "CONTRADICTED":
+        return 10, ["Des références multiples existent mais elles se contredisent sur la même portée."]
+    if ids:
+        return 55, ["Référence(s) liée(s), mais le claim n'est pas recoupé sur la même portée et le même millésime."]
+    return 20, ["Aucun recoupement indépendant n'est encore relié."]
+
+
 def readiness(components: dict[str, int | None]) -> tuple[int, str]:
     total_weight = 0.0
     value = 0.0
@@ -329,7 +340,7 @@ def build() -> dict:
             "date": claim.get("date"), "digest": stable_hash(proof) if proof else None,
         })
         coh = coherence_score(claim_state=claim.get("state"), contradiction=claim.get("state") == "CONTRADICTED")
-        cross = crosscheck_score(source_ids)
+        cross = claim_crosscheck_score(claim.get("state"), source_ids)
         base = 96 if claim.get("confidence") == "HIGH" else 78 if claim.get("confidence") in {"MEDIUM", "MODEL_BOUND"} else 55
         urls = [source_by_id.get(sid, {}).get("url") for sid in source_ids]
         missing = []

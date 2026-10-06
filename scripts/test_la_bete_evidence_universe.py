@@ -78,6 +78,7 @@ assert bindings["bindings"]["uscrc"]["object_execution"] is False
 assert bindings["bindings"]["uscrc"]["certificate_issued"] is False
 assert bindings["bindings"]["uscrc"]["scope"] == "HISTORICAL_INTERNAL_SYSTEM_CONTEXT_NOT_LA_BETE_OBJECT_RISK"
 
+live = json.loads((ROOT / "docs/data/france-debt-rate-live.json").read_text())
 objects = doc["objects"]
 for oid, item in objects.items():
     assert item["uscrc"]["certificate_issued"] is False, oid
@@ -86,15 +87,29 @@ for oid, item in objects.items():
         if score is not None:
             assert 0 <= score <= 100, (oid, score)
 
+live_source = next(x for x in live["sources"] if x.get("id") == "BDF_TEC")
 source = objects["source:BDF_TEC"]
-assert source["evidence_state"] == "LIVE_VERIFIED"
-assert source["trust"]["index"] >= 80
+assert source["evidence_state"] == live_source["health"]
+assert source["trust"]["components"]["source_quality"] == B.SOURCE_STATE_SCORE.get(live_source["health"], 50)
 assert source["proofgraph"]["source_urls"]
 
+live_claim = next(x for x in live["claims"] if x.get("claim_id") == "TEC10")
 claim = objects["claim:TEC10"]
-assert claim["evidence_state"] == "CROSSCHECKED"
-assert claim["trust"]["components"]["crosscheck"] >= 90
-assert len(claim["proofgraph"]["proof_refs"]) >= 3
+assert claim["evidence_state"] == live_claim["state"]
+assert {"TEC10", *live_claim.get("source_ids", [])}.issubset(set(claim["proofgraph"]["proof_refs"]))
+if live_claim["state"] == "CROSSCHECKED":
+    assert claim["trust"]["components"]["crosscheck"] >= 90
+elif live_claim["state"] == "CONTRADICTED":
+    assert claim["trust"]["components"]["crosscheck"] <= 10
+else:
+    assert claim["trust"]["components"]["crosscheck"] <= 55
+
+# The public pulse is allowed to degrade when one same-vintage crosscheck is absent.
+# Evidence readiness must follow that state instead of fabricating CROSSCHECKED.
+assert B.claim_crosscheck_score("CROSSCHECKED", ["BDF_TEC", "BDF_WEBSTAT"])[0] >= 90
+assert B.claim_crosscheck_score("LIVE_VERIFIED", ["BDF_TEC", "BDF_WEBSTAT"])[0] == 55
+assert B.claim_crosscheck_score("RETAINED_LAST_GOOD", ["BDF_TEC_RETAINED"])[0] == 55
+assert B.claim_crosscheck_score("CONTRADICTED", ["BDF_TEC", "BDF_WEBSTAT"])[0] <= 10
 
 media_candidates = [x for x in objects.values() if x["kind"] == "TERRITORY_MEDIA_CANDIDATE"]
 assert len(media_candidates) >= 90
