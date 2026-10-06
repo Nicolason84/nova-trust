@@ -1,0 +1,284 @@
+/* LA_BETE_HOUSE_GAME_V1
+   Full-screen navigable projection in the existing Three.js renderer.
+   No second engine, scene authority, registry, truth or execution authority. */
+
+#houseGameEnter{
+  position:absolute;
+  z-index:58;
+  left:6.5vw;
+  bottom:4.8vh;
+  min-height:42px;
+  padding:0 2px;
+  border:0;
+  border-bottom:1px solid rgba(205,156,109,.52);
+  background:transparent;
+  color:#d8b591;
+  font:600 9px/1.2 system-ui,sans-serif;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  cursor:pointer;
+}
+#houseGameEnter:hover,#houseGameEnter:focus-visible{outline:none;color:#f0d1b0;border-bottom-color:#e2af7e}
+#houseGameEnter[disabled]{opacity:.34;cursor:not-allowed}
+
+body.house-game-active{overflow:hidden!important;background:#030607!important}
+body.house-game-active .premiumHouseV11,
+body.house-game-active .top,
+body.house-game-active .premiumPortalDock,
+body.house-game-active .premiumPrivateDoor{visibility:hidden!important;pointer-events:none!important}
+body.house-game-active #beastStage{
+  position:fixed!important;
+  inset:0!important;
+  z-index:1000!important;
+  width:100vw!important;
+  height:100vh!important;
+  min-height:100vh!important;
+  margin:0!important;
+  border:0!important;
+  border-radius:0!important;
+  background:#030607!important;
+  overflow:hidden!important;
+  visibility:visible!important;
+  pointer-events:auto!important;
+}
+body.house-game-active #beastMount{
+  position:absolute!important;
+  inset:0!important;
+  width:100%!important;
+  height:100%!important;
+  min-height:0!important;
+  background:#030607!important;
+}
+body.house-game-active #beastMount canvas{
+  position:absolute!important;
+  inset:0!important;
+  width:100%!important;
+  height:100%!important;
+  display:block!important;
+  cursor:crosshair;
+}
+body.house-game-active #beastMount .beastFallback,
+body.house-game-active #beastStage>.beastHud,
+body.house-game-active #beastStage>.beastMatter,
+body.house-game-active #beastStage>.beastTag,
+body.house-game-active #beastStage>.avatarTelemetry,
+body.house-game-active #beastStage>.avatarPad,
+body.house-game-active #beastStage>#arVideo{display:none!important}
+
+#houseGameHUD{
+  position:fixed;
+  inset:0;
+  z-index:1200;
+  pointer-events:none;
+  display:none;
+  color:#e8e4dc;
+  font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+}
+body.house-game-active #houseGameHUD{display:block}
+.houseGameTop{
+  position:absolute;
+  left:20px;right:20px;top:18px;
+  display:flex;align-items:flex-start;justify-content:space-between;gap:18px;
+}
+.houseGameStatus{
+  display:grid;gap:4px;
+  max-width:min(600px,68vw);
+  padding:11px 14px;
+  border:1px solid rgba(213,183,149,.14);
+  background:rgba(3,8,10,.58);
+  backdrop-filter:blur(12px);
+}
+.houseGameStatus small{color:#99795d;font-size:7px;letter-spacing:.2em;text-transform:uppercase}
+.houseGameStatus strong{font-size:15px;font-weight:520;letter-spacing:-.2px}
+.houseGameStatus span{color:#859397;font-size:8px;line-height:1.5}
+#houseGameExit{
+  pointer-events:auto;
+  min-height:42px;
+  padding:0 13px;
+  border:1px solid rgba(213,183,149,.16);
+  border-radius:999px;
+  background:rgba(3,8,10,.58);
+  color:#c8a582;
+  font:600 8px/1 system-ui;
+  letter-spacing:.05em;
+  cursor:pointer;
+  backdrop-filter:blur(12px);
+}
+#houseGameExit:hover,#houseGameExit:focus-visible{outline:none;border-color:rgba(213,183,149,.34);color:#edcfaf}
+
+.houseGameCrosshair{
+  position:absolute;
+  left:50%;top:50%;
+  width:24px;height:24px;
+  transform:translate(-50%,-50%);
+  opacity:.66;
+}
+.houseGameCrosshair::before,.houseGameCrosshair::after{
+  content:"";position:absolute;left:50%;top:50%;background:#d8b590;
+  transform:translate(-50%,-50%);
+}
+.houseGameCrosshair::before{width:14px;height:1px}
+.houseGameCrosshair::after{width:1px;height:14px}
+
+#houseGamePrompt{
+  position:absolute;
+  left:50%;bottom:84px;
+  transform:translateX(-50%);
+  min-width:260px;max-width:min(720px,78vw);
+  padding:10px 14px;
+  border:1px solid rgba(213,183,149,.13);
+  background:rgba(3,8,10,.64);
+  color:#cfd4d1;
+  font-size:9px;
+  line-height:1.5;
+  text-align:center;
+  letter-spacing:.02em;
+  opacity:0;
+  transition:opacity .16s ease;
+  backdrop-filter:blur(12px);
+}
+#houseGamePrompt.is-visible{opacity:1}
+#houseGamePrompt b{color:#d7ad84;font-weight:650}
+
+.houseGameHelp{
+  position:absolute;
+  left:20px;bottom:18px;
+  color:#718085;
+  font-size:7px;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+}
+
+#houseGamePanel{
+  position:absolute;
+  pointer-events:auto;
+  right:22px;top:82px;
+  width:min(400px,34vw);
+  max-height:calc(100vh - 128px);
+  overflow:auto;
+  padding:20px;
+  border:1px solid rgba(213,183,149,.16);
+  background:rgba(4,9,11,.86);
+  backdrop-filter:blur(18px);
+  box-shadow:0 28px 80px rgba(0,0,0,.38);
+}
+#houseGamePanel[hidden]{display:none!important}
+#houseGamePanel small{display:block;color:#98775a;font-size:7px;letter-spacing:.2em;text-transform:uppercase}
+#houseGamePanel h2{margin:8px 0 10px;color:#ebe7de;font-size:27px;line-height:1.05;font-weight:470;letter-spacing:-1px}
+#houseGamePanel p{margin:0 0 14px;color:#9aa5a5;font-size:11px;line-height:1.65}
+#houseGamePanel .houseGamePanelBody{display:grid;gap:10px}
+#houseGamePanel .houseGamePanelBody article{padding:10px 0;border-top:1px solid rgba(213,183,149,.09)}
+#houseGamePanel .houseGamePanelBody article b{display:block;color:#d0d5d1;font-size:10px;font-weight:560}
+#houseGamePanel .houseGamePanelBody article span{display:block;margin-top:4px;color:#7f8e91;font-size:8px;line-height:1.55}
+#houseGamePanelClose{
+  min-height:38px;margin-top:12px;padding:0;
+  border:0;border-bottom:1px solid rgba(197,142,94,.38);
+  background:transparent;color:#caa27d;font:600 8px/1 system-ui;letter-spacing:.08em;cursor:pointer
+}
+
+.houseGameTouch{
+  position:absolute;
+  left:16px;right:16px;bottom:18px;
+  display:none;
+  align-items:end;
+  justify-content:space-between;
+  gap:16px;
+  pointer-events:none;
+}
+.houseGameDpad{
+  display:grid;
+  grid-template-columns:50px 50px 50px;
+  grid-template-rows:50px 50px;
+  gap:6px;
+  pointer-events:auto;
+}
+.houseGameDpad button,.houseGameInteractMobile{
+  border:1px solid rgba(213,183,149,.18);
+  background:rgba(3,8,10,.62);
+  color:#cbb092;
+  backdrop-filter:blur(10px);
+  touch-action:none;
+}
+.houseGameDpad button{font-size:18px;border-radius:13px}
+.houseGameDpad [data-move="forward"]{grid-column:2}
+.houseGameDpad [data-move="left"]{grid-column:1;grid-row:2}
+.houseGameDpad [data-move="back"]{grid-column:2;grid-row:2}
+.houseGameDpad [data-move="right"]{grid-column:3;grid-row:2}
+.houseGameInteractMobile{
+  pointer-events:auto;
+  width:76px;height:76px;
+  border-radius:50%;
+  font-size:10px;font-weight:700;letter-spacing:.05em;
+}
+
+@media(max-width:700px){
+  #houseGameEnter{left:20px;bottom:72px;font-size:8px}
+  .houseGameTop{left:12px;right:12px;top:10px}
+  .houseGameStatus{max-width:72vw;padding:8px 10px}
+  .houseGameStatus strong{font-size:12px}
+  .houseGameStatus span{display:none}
+  #houseGameExit{min-height:36px;padding:0 10px;font-size:7px}
+  #houseGamePrompt{bottom:110px;min-width:0;width:calc(100vw - 32px);font-size:8px}
+  .houseGameHelp{display:none}
+  #houseGamePanel{left:12px;right:12px;top:auto;bottom:106px;width:auto;max-height:46vh;padding:16px}
+  #houseGamePanel h2{font-size:23px}
+  .houseGameTouch{display:flex}
+}
+@media(hover:none),(pointer:coarse){.houseGameTouch{display:flex}}
+@media(prefers-reduced-motion:reduce){
+  #houseGamePrompt{transition:none}
+}
+
+/* Physical room-entry feedback; disabled with reduced motion. */
+#houseGameHUD.house-game-room-change .houseGameStatus{
+  animation:houseGameRoomPulse .48s ease-out;
+}
+@keyframes houseGameRoomPulse{
+  0%{border-color:rgba(213,183,149,.48);background:rgba(26,18,14,.78)}
+  100%{border-color:rgba(213,183,149,.14);background:rgba(3,8,10,.58)}
+}
+@media(prefers-reduced-motion:reduce){
+  #houseGameHUD.house-game-room-change .houseGameStatus{animation:none!important}
+}
+
+.houseGameTopActions{display:flex;align-items:center;gap:8px;pointer-events:auto}
+#houseGameSound{
+  min-height:42px;
+  padding:0 12px;
+  border:1px solid rgba(213,183,149,.16);
+  border-radius:999px;
+  background:rgba(3,8,10,.58);
+  color:#9e8a75;
+  font:600 8px/1 system-ui;
+  letter-spacing:.05em;
+  cursor:pointer;
+  backdrop-filter:blur(12px);
+}
+#houseGameSound[aria-pressed="true"]{color:#c8a582;border-color:rgba(213,183,149,.27)}
+#houseGameSound:hover,#houseGameSound:focus-visible{outline:none;color:#edcfaf;border-color:rgba(213,183,149,.34)}
+@media(max-width:700px){
+  .houseGameTopActions{gap:5px}
+  #houseGameSound{min-height:36px;padding:0 9px;font-size:7px}
+}
+
+/* First playable slice: comfortable controls and restrained visitor-facing HUD. */
+.houseGameStatus small{font-size:9px}
+.houseGameStatus span{font-size:11px}
+#houseGameExit,#houseGameSound{min-height:44px;font-size:11px}
+#houseGamePrompt{font-size:13px}
+.houseGameHelp{font-size:10px}
+#houseGamePanel p,#houseGamePanel .houseGamePanelBody article span{font-size:14px}
+#houseGamePanel .houseGamePanelBody article b{font-size:14px}
+#houseGamePanelClose{min-height:44px;font-size:13px}
+#houseGamePanel button:focus-visible,#houseGameHUD button:focus-visible{outline:2px solid #d8b591;outline-offset:3px}
+@media(max-width:700px){
+ .houseGameTop{flex-wrap:wrap;gap:8px}
+ .houseGameStatus{max-width:100%;padding:8px}
+ .houseGameStatus small{font-size:8px}
+ .houseGameStatus strong{font-size:13px}
+ .houseGameTopActions{margin-left:auto}
+ #houseGameExit,#houseGameSound{font-size:10px;min-height:44px}
+ #houseGamePrompt{box-sizing:border-box;font-size:12px;bottom:138px}
+ #houseGamePanel{bottom:145px;max-height:43vh}
+ .houseGameInteractMobile{font-size:13px}
+}

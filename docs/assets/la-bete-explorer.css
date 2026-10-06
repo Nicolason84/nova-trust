@@ -342,3 +342,35 @@
  .muTruthLegend{display:none}.muGuidePrompts{padding-bottom:3px}
  .muAtlasSecondary{margin:0;border-radius:0}
 }
+
+/* M02: traversal, scene and guide occupy distinct layout cells. */
+.muApp .muAtlas.muAtlasWithPresence{display:grid!important;grid-template-columns:minmax(0,1fr) minmax(280px,34%);grid-template-rows:auto auto;height:auto!important;min-height:560px;padding:12px;gap:12px;overflow:visible}
+.muAtlas.muAtlasWithPresence .muCosmosHud{display:grid!important;position:relative;inset:auto;grid-column:1/-1;grid-row:1;margin:0;width:auto;pointer-events:auto}
+.muAtlas.muAtlasWithPresence .muAtlasPresence{position:relative;inset:auto;transform:none;width:100%;height:460px;grid-column:1;grid-row:2;margin:0}
+.muAtlas.muAtlasWithPresence .muAtlasScene{height:100%;min-height:0;width:100%}
+.muAtlas.muAtlasWithPresence .muCosmosGuide{position:relative;inset:auto;grid-column:2;grid-row:2;display:flex;flex-direction:column;gap:10px;min-width:0;pointer-events:auto}
+.muAtlas .muExperienceDoors{position:relative;inset:auto;transform:none;width:100%;grid-template-columns:1fr;gap:6px}
+.muAtlas .muCosmosSheet{position:relative;inset:auto;width:100%;max-height:420px;box-sizing:border-box;padding:12px;z-index:auto}
+.muCosmosSheet summary{cursor:pointer;min-height:44px}
+.muApp .muCosmosStep{min-height:48px;font-size:11px}.muCosmosStep small{font-size:10px;overflow-wrap:anywhere}
+.muExperienceDoor strong{font-size:11px}.muExperienceDoor span{font-size:11px}
+.muCosmosSheetBody h2{font-size:22px}.muGuideLead{font-size:14px}.muHealthSummary,.muGuideLimit,.muGuideContext{font-size:12px}
+.muCosmosSheetActions{grid-template-columns:repeat(2,minmax(0,1fr))}.muApp .muCosmosSheetActions button{min-height:44px;font-size:12px}
+.muApp button.muGuidePrompt{min-height:44px;font-size:12px}
+.muAtlasWithPresence .muUniverse{position:relative!important;inset:auto!important;width:auto;grid-column:1/-1}
+@media(max-width:1000px){.muCosmosTraversal{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:800px){
+ .muApp .muAtlas.muAtlasWithPresence{grid-template-columns:1fr;padding:10px;min-height:0}
+ .muAtlas.muAtlasWithPresence .muAtlasPresence{grid-column:1;grid-row:2;height:300px}
+ .muAtlas.muAtlasWithPresence .muCosmosGuide{grid-column:1;grid-row:3}
+ .muAtlas .muCosmosSheet{position:relative;max-height:none;border:1px solid #476478;border-radius:14px}
+ .muAtlas .muExperienceDoors{grid-template-columns:1fr}
+ .muAtlas .muPresenceActions{bottom:10px;left:10px;max-width:none}
+ .muCosmosMetric span{font-size:9px}.muCosmosSheetActions{grid-template-columns:repeat(3,minmax(0,1fr))}
+}
+
+.muApp button.muCosmosStep{font-size:12px;min-height:48px;padding:8px}
+.muApp button.muCosmosStep small{font-size:10px;line-height:1.3}
+.muHeadActions #muExit{display:flex;min-height:44px}
+@media(max-width:800px){.muHeadActions{flex-wrap:wrap}.muHeadActions #muExit{font-size:12px;padding:8px}}
+#sourceOperations{font-size:14px;line-height:1.5}#sourceOperations details{padding:12px;margin:10px 0;border:1px solid #476478;border-radius:12px}#sourceOperations summary{min-height:44px;cursor:pointer}#sourceOperations a{display:inline-flex;min-height:44px;align-items:center}

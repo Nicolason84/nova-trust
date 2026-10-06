@@ -93,7 +93,7 @@ if(missionBrief){
   if(head&&!head.querySelector('.premiumMissionMoment')){
     const p=document.createElement('p');
     p.className='premiumMissionMoment';
-    p.textContent='Ce dossier est assez défini pour devenir une Mission SUPRA. La Maison réutilise ce qui est déjà connu et ne redemande que ce qui peut changer la décision.';
+    p.textContent='À préciser : aucun objectif qualifié, aucune mission admise.';
     head.appendChild(p);
   }
   if(grid&&!missionBrief.querySelector('.premiumMissionSummary')){
@@ -101,10 +101,10 @@ if(missionBrief){
     summary.className='premiumMissionSummary';
     summary.innerHTML=
       '<article><small>Votre objectif</small><b id="premiumMissionObjective">Dossier à préciser.</b></article>'+
-      '<article><small>Déjà acquis</small><b>Décision, contexte public et preuves disponibles restent dans le même dossier.</b></article>'+
-      '<article><small>Spécialistes mobilisés</small><b id="premiumMissionSpecialists">Solutions</b></article>'+
+      '<article><small>Éléments disponibles</small><b id="premiumMissionAvailable">Dossier public France, distinct du besoin à qualifier.</b></article>'+
+      '<article><small>Orientation proposée</small><b id="premiumMissionSpecialists">Solutions</b></article>'+
       '<article><small>À vérifier</small><b id="premiumMissionMissing">Seulement les inconnues qui changeraient la décision.</b></article>'+
-      '<article><small>Résultat attendu</small><b>Décision défendable, dossier de preuve et prochaine action claire.</b></article>'+
+      '<article><small>Résultat attendu</small><b>À définir avec l’objectif, la méthode et un critère de réussite vérifiable.</b></article>'+
       '<article><small>Prochaine étape</small><b id="premiumMissionOffer">Voir l’offre après la valeur.</b></article>';
     grid.before(summary);
     const expert=document.createElement('details');
@@ -130,7 +130,7 @@ function safeSpecialists(){
   if(st.room==='decision')return ['Decision','Evidence'];
   if(st.room==='proof')return ['Evidence'];
   if(st.room==='explore')return ['Evidence'];
-  if(st.room==='mission')return ['Solutions'];
+  if(st.room==='mission')return st.lastQuestion?['Solutions · orientation seulement']:['Aucun besoin qualifié'];
   return ['Mission Director'];
 }
 
@@ -170,13 +170,20 @@ function renderMission(){
   if(!missionBrief)return;
   const st=base.state();
   missionBrief.classList.toggle('is-contextual',Boolean(st.lastQuestion));
+  missionBrief.dataset.missionStatus=st.missionStatus;
+  missionBrief.querySelector('.premiumMissionMoment').textContent=st.lastQuestion?'À qualifier : objectif exprimé ; données, méthode et résultat attendu à vérifier. Aucune mission admise ni lancée.':'À préciser : aucun objectif qualifié, aucune mission admise.';
   const objective=byId('premiumMissionObjective');
   if(objective)objective.textContent=st.lastQuestion||'Dossier à préciser.';
+  const available=byId('premiumMissionAvailable');
+  if(available)available.textContent=st.questionScope==='clarify'?'Besoin exprimé uniquement ; aucune analyse ni preuve propre à ce besoin.':'Dossier public France et sources datées ; rattachement à votre objectif à vérifier.';
+  const local=window.LaBeteParticipation?.draftState?.();
+  if(local){missionBrief.querySelector('.premiumMissionMoment').textContent=local.qualification.label+' · aucune mission admise ni lancée.';}
   const missing=byId('premiumMissionMissing');
   const alert=byId('sourceAlertCount')?.textContent?.trim();
-  if(missing)missing.textContent=alert
+  if(missing)missing.textContent=st.questionScope==='clarify'?'Objectif, données autorisées, méthode et critère de résultat à définir.':alert
     ?alert+' · compléter uniquement ce qui peut changer la décision.'
     :'Compléter uniquement ce qui peut changer la décision.';
+  if(missing&&local)missing.textContent=local.qualification.missing.length?'À préciser : '+local.qualification.missing.join(', ')+'.':'Déclarations renseignées ; méthode, preuves, droits et admission native restent à vérifier.';
   const offer=byId('premiumMissionOffer');
   const canonical=byId('houseMissionOffer')?.textContent?.trim();
   if(offer)offer.textContent=canonical||'SUPRA Mission · offre existante';
@@ -220,6 +227,7 @@ if(rawHint)observer.observe(rawHint,{subtree:true,childList:true,characterData:t
 document.addEventListener('submit',event=>{
   if(event.target?.id==='beastDialogueForm')queueMicrotask(syncRoom);
 },{capture:true});
+document.addEventListener('la-bete-draft-context',()=>queueMicrotask(syncRoom));
 window.addEventListener('popstate',()=>queueMicrotask(syncRoom));
 window.addEventListener('hashchange',()=>queueMicrotask(syncRoom));
 

@@ -44,7 +44,7 @@ const specialistBindingProof=Object.freeze({
   'Solutions':'Opportunités'
  }
 });
-const state={room:'desk',orientation:'',caseState:'PUBLIC_CASE_ACTIVE',privateOffice:'BOUNDARY_ONLY',lastQuestion:''};
+const state={room:'desk',orientation:'',caseState:'PUBLIC_CASE_ACTIVE',privateOffice:'BOUNDARY_ONLY',lastQuestion:'',questionScope:'public',missionStatus:'À PRÉCISER'};
 const house=document.createElement('section');
 house.id='advisory-house-v5';
 house.className='advisoryHouseV5';
@@ -109,6 +109,8 @@ for(const spec of roomSpec){
    bodyWrap.appendChild(brief);
  }
  bodyWrap.appendChild(spec.node);
+ if(spec.id==='desk'){const home=document.createComment('house-dialogue-home');spec.node.before(home);question._houseHome=home;}
+ if(['decision','proof'].includes(spec.id)){const notice=document.createElement('p');notice.className='houseScopeNotice';notice.textContent='Cette question est à préciser au Bureau. Aucune analyse ni preuve propre à ce besoin n’est encore disponible.';bodyWrap.prepend(notice);}
  const footer=document.createElement('div');footer.className='houseRoomFooter';
  const truth=document.createElement('span');truth.textContent='Même vérité canonique · aucune copie de registre';
  const next=document.createElement('button');next.type='button';next.className='houseNext';next.textContent=spec.id==='mission'?'Revenir au Bureau':'Pièce suivante →';
@@ -117,6 +119,12 @@ for(const spec of roomSpec){
  next.addEventListener('click',()=>{const i=roomSpec.findIndex(x=>x.id===spec.id);setRoom(spec.id==='mission'?'desk':roomSpec[i+1].id,{historyMode:'push'});});
  b.addEventListener('click',()=>setRoom(spec.id,{historyMode:'push'}));
 }
+roomNav.addEventListener('keydown',event=>{
+ const keys=['ArrowLeft','ArrowRight','Home','End'];if(!keys.includes(event.key))return;
+ event.preventDefault();const i=roomSpec.findIndex(x=>x.id===state.room);
+ const n=event.key==='Home'?0:event.key==='End'?roomSpec.length-1:(i+(event.key==='ArrowLeft'?-1:1)+roomSpec.length)%roomSpec.length;
+ setRoom(roomSpec[n].id,{historyMode:'push'});roomNav.querySelector('[data-house-room="'+roomSpec[n].id+'"]').focus();
+});
 header.after(house);
 if(intro){const archive=document.createElement('details');archive.className='houseArchive';archive.innerHTML='<summary>Voir le parcours public simplifié précédent</summary>';archive.appendChild(intro);paneByRoom.get('explore').querySelector('.housePaneBody').appendChild(archive);}
 
@@ -126,6 +134,9 @@ originalLinks.forEach((a,i)=>{const x=navMap[i];if(!x)return;a.textContent=x[1];
 header.querySelector('.brand')?.setAttribute('href','#house-desk');
 
 function friendlyCase(){
+ const local=window.LaBeteParticipation?.draftState?.();
+ if(local){byId('houseCaseTitle').textContent=local.meta.objective||'Brouillon à préciser';byId('houseCaseState').textContent=(local.restored?'Archive non revérifiée · ':'')+local.qualification.label;byId('houseCasePulse').textContent=local.meta.id+' · v'+local.meta.version+' · aucune mission admise';return;}
+ if(state.questionScope==='clarify'){byId('houseCaseTitle').textContent=state.lastQuestion||'Besoin à préciser';byId('houseCaseState').textContent='À qualifier · aucun résultat propre au besoin';byId('houseCasePulse').textContent='Aucune mission admise';return;}
  const title=byId('franceBindingLabel')?.textContent?.replace(/\s+/g,' ').trim()||'Dossier public courant';
  const warn=byId('sourceAlertCount')?.textContent?.trim();
  const confidence=byId('realityConfidence')?.textContent?.trim();
@@ -160,13 +171,15 @@ function directorCopy(room){
  roleState(room);
 }
 function setRoom(room,{historyMode='replace',focus=false}={}){
+ if(historyMode!=='none'&&window.LaBeteExplorer?.state().active)window.LaBeteExplorer.deactivate({restoreRoom:false});
  if(!paneByRoom.has(room))room='desk';
  state.room=room;
+ if(!window.LaBeteExplorer?.state().active&&question._houseHome?.isConnected)question._houseHome.after(question);
  for(const [id,pane] of paneByRoom){const active=id===room;pane.hidden=!active;const b=roomNav.querySelector('[data-house-room="'+id+'"]');b?.setAttribute('aria-selected',String(active));b?.setAttribute('tabindex',active?'0':'-1');}
  directorCopy(room);
  if(room==='explore'){explore.open=true;}else{window.laBeteSuspendPresence?.();}
  const hash='#house-'+room;
- if(location.hash!==hash){if(historyMode==='push')history.pushState({laBeteHouseRoom:room},'',hash);else history.replaceState({...history.state,laBeteHouseRoom:room},'',hash);}
+ if(historyMode!=='none'&&location.hash!==hash){if(historyMode==='push')history.pushState({laBeteHouseRoom:room},'',hash);else history.replaceState({...history.state,laBeteHouseRoom:room},'',hash);}
  if(focus)paneByRoom.get(room)?.querySelector('.housePaneHead')?.scrollIntoView({block:'start',behavior:'smooth'});
 }
 function roomForHash(hash){
@@ -180,6 +193,7 @@ function roomForHash(hash){
  return explore.querySelector('.experienceExploreBody')?.contains(target)?'explore':null;
 }
 function updateCommittee(){
+ updateMissionBrief(state.lastQuestion,state.lastQuestion?orientationFor(state.lastQuestion):null);
  const recommendation=answer.querySelector('.decisionRoom .card p strong')?.textContent?.trim()||byId('decisionTwinTitle')?.textContent?.trim()||'Lecture décisionnelle disponible.';
  const warnings=byId('sourceAlertCount')?.textContent?.trim()||'Inconnues explicites dans Evidence.';
  if(byId('houseCommitteeConsensus'))byId('houseCommitteeConsensus').textContent=recommendation;
@@ -193,8 +207,10 @@ function updateMissionBrief(text,orientation){
  if(cap)cap.textContent=binding
    ?'BOUND_EXISTING_SUPRA_COCKPITS_ROUTING_ONLY · '+binding
    :'BOUND_TO_EXISTING_MISSION_SURFACE';
- const pageOffer=(action.textContent.match(/(?:à partir de|from)\s+[0-9\s .,]+\s*€/i)||[])[0];
- if(offer)offer.textContent=pageOffer?('SUPRA Mission · '+pageOffer):'SUPRA Mission · offre existante ci-dessous';
+ const c=window.getLaBeteDialogueContext?.()||{};
+ const commerce=window.LaBeteObservability?.commercial(c.live,c.evolution);
+ if(offer)offer.textContent=commerce?.label||'Disponibilité non vérifiée · souscription fermée';
+ action.dataset.commercialState=commerce?.state||'UNKNOWN';
 }
 function orientationFor(text){
  const q=String(text||'').toLowerCase();
@@ -208,13 +224,24 @@ function orientationFor(text){
  return {room:'desk',label:'Le besoin est conservé dans le dialogue. SUPRA n’active une spécialité que lorsqu’un binding existant et prouvé correspond au besoin.'};
 }
 const form=byId('beastDialogueForm'),input=byId('beastDialogueInput');
-form?.addEventListener('submit',()=>{
- const text=input?.value?.trim()||'';if(!text)return;
- state.lastQuestion=text;const o=orientationFor(text);state.orientation=o.label;
- const hint=byId('houseRouteHint');hint.hidden=false;hint.textContent=o.label;
- updateMissionBrief(text,o);
- queueMicrotask(()=>setRoom(o.room,{historyMode:'push'}));
-},{capture:true});
+document.addEventListener('la-bete-draft-context',event=>{
+ const local=event.detail?.state;state.lastQuestion=local?.meta.objective||'';state.questionScope=local?'clarify':'public';state.missionStatus=state.lastQuestion?'À QUALIFIER':'À PRÉCISER';house.dataset.questionScope=state.questionScope;
+ const hint=byId('houseRouteHint');hint.hidden=true;hint.textContent='';updateMissionBrief(state.lastQuestion,null);friendlyCase();
+ if(['reset','import'].includes(event.detail?.reason))setRoom('desk',{historyMode:'push'});
+});
+document.addEventListener('la-bete-dialogue-result',event=>{
+ if(window.LaBeteExplorer?.state().active)return;
+ const {text,result}=event.detail||{};if(!text||!result)return;
+ const safe=!['PRIVATE_DATA_REVIEW','OUTSIDE_AUTHORITY','INVALID_INPUT'].includes(result.status);
+ state.lastQuestion=safe?text:'';
+ state.questionScope=result.status==='CANONICAL_CONTEXT'?'public':'clarify';
+ state.missionStatus=safe?'À QUALIFIER':'À PRÉCISER';
+ house.dataset.questionScope=state.questionScope;
+ const o=['LOCAL_METHOD_CONTEXT','LOCAL_METHOD_RESULT'].includes(result.status)?{room:'desk',label:'Simulation synthétique rattachée au brouillon · reçu dans le laboratoire, aucune mission native.'}:result.status==='METHOD_RECHECK_REQUIRED'?{room:'desk',label:'Calcul à réexaminer · aucun chiffre ancien présenté comme courant.'}:state.questionScope==='public'?orientationFor(text):{room:'desk',label:'Besoin à préciser · aucune méthode exécutée pour cette question.'};
+ state.orientation=o.label;const hint=byId('houseRouteHint');hint.hidden=false;hint.textContent=o.label;
+ updateMissionBrief(state.lastQuestion,o);friendlyCase();
+ setRoom(o.room,{historyMode:'push'});
+});
 document.addEventListener('click',e=>{
  const a=e.target.closest?.('a[href^="#"]');if(!a||a.closest('.houseRooms'))return;
  const room=roomForHash(a.getAttribute('href'));if(!room)return;
@@ -232,7 +259,7 @@ friendlyCase();
 updateCommittee();
 updateMissionBrief('',null);
 const initial=roomForHash(location.hash)||'desk';
-setRoom(initial,{historyMode:'replace'});
+setRoom(initial,{historyMode:location.hash.startsWith('#/')?'none':'replace'});
 body.classList.add('advisory-house-v5');
 window.LaBeteAdvisoryHouseV5=Object.freeze({
  schema:'LA_BETE_ADVISORY_HOUSE_SPATIAL_EXPERIENCE_V5',

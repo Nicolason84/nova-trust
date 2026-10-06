@@ -37,7 +37,8 @@ const I18N={
   local_unverified:'El modo local solo usa variantes documentadas; nunca se inventa automáticamente un habla.'
  }
 };
-let audienceMode='simple',uiLocale='fr';
+const viewParams=new URLSearchParams(location.search);
+let audienceMode=Object.hasOwn(AUDIENCE_MODES,viewParams.get('lecture'))?viewParams.get('lecture'):'simple',uiLocale=Object.hasOwn(UI_LOCALES,viewParams.get('lang'))?viewParams.get('lang'):'fr';
 root.dataset.audienceMode=audienceMode;root.dataset.uiLocale=uiLocale;
 const tr=(key,fallback)=>I18N[uiLocale]?.[key]||fallback;
 const fill=(text,values={})=>String(text).replace(/\{(\w+)\}/g,(_,k)=>values[k]??'');
@@ -48,7 +49,7 @@ const searchForm=el('form',undefined,'muSearch');searchForm.setAttribute('role',
 const searchInput=el('input');searchInput.id='muSearchInput';searchInput.type='search';searchInput.placeholder='Posez une question ou cherchez un sujet…';searchInput.maxLength=150;searchInput.setAttribute('aria-label','Rechercher une réponse, un sujet ou une source');
 const searchSubmit=el('button','Chercher');searchSubmit.type='submit';append(searchForm,searchInput,searchSubmit);
 const presenceShortcut=link('La Bête','#/presence','muPresenceShortcut'),askShortcut=button('Poser une question',()=>openChat(),'muPrimary'),readingShortcut=link('Vue document','#/lecture','muReadingLink');
-const exitShortcut=button('← Expérience',()=>deactivateExplorer(),'muReadingLink');const headActions=append(el('div',undefined,'muHeadActions'),presenceShortcut,askShortcut,readingShortcut);if(document.body.classList.contains('public-experience-v1'))headActions.prepend(exitShortcut);
+const exitShortcut=button('← Expérience',()=>deactivateExplorer(),'muReadingLink');exitShortcut.id='muExit';const headActions=append(el('div',undefined,'muHeadActions'),presenceShortcut,askShortcut,readingShortcut);if(document.body.classList.contains('public-experience-v1'))headActions.prepend(exitShortcut);
 append(header,brand,searchForm,headActions);root.append(header);
 const audienceBar=el('div',undefined,'muAudienceBar');audienceBar.setAttribute('aria-label','Niveau de lecture et langue');
 const audienceLabel=el('span','Niveau de lecture','muAudienceLabel');audienceBar.append(audienceLabel);
@@ -72,13 +73,15 @@ function syncUiLocale(){
  if(navLinks){navLinks.home.textContent='◉  '+tr('nav_home','Cosmos');navLinks.public.textContent='○  '+tr('nav_public','Comprendre');navLinks.act.textContent='↗  '+tr('nav_act','Faire une démarche');navLinks.decide.textContent='◇  '+tr('nav_decide','Décider ensemble');navLinks.services.textContent='◆  '+tr('nav_services','Aide personnalisée');navLinks.data.textContent='◇  '+tr('nav_data','Mes données');navLinks.mobile.textContent='▣  '+tr('nav_mobile','Sur mobile');}
  syncAudienceMode();
 }
+function saveViewPreferences(){const url=new URL(location.href);url.searchParams.set('lecture',audienceMode);url.searchParams.set('lang',uiLocale);history.replaceState(history.state,'',url);}
+function restoreViewPreferences(){const params=new URLSearchParams(location.search);audienceMode=Object.hasOwn(AUDIENCE_MODES,params.get('lecture'))?params.get('lecture'):'simple';uiLocale=Object.hasOwn(UI_LOCALES,params.get('lang'))?params.get('lang'):'fr';syncUiLocale();}
 function setAudienceMode(mode){
  if(!AUDIENCE_MODES[mode]||mode===audienceMode)return;
- audienceMode=mode;syncAudienceMode();if(current)renderCurrent(false,false);
+ audienceMode=mode;saveViewPreferences();syncAudienceMode();if(current)renderCurrent(false,false);
 }
 function setUiLocale(locale){
  if(!UI_LOCALES[locale]||locale===uiLocale)return;
- uiLocale=locale;syncUiLocale();if(current)renderCurrent(false,false);
+ uiLocale=locale;saveViewPreferences();syncUiLocale();if(current)renderCurrent(false,false);
 }
 let mobileAccess=null;
 const nav=el('nav',undefined,'muRail');nav.setAttribute('aria-label','Chemins de lecture');
@@ -100,8 +103,9 @@ append(chat,append(el('div',undefined,'muDialogHead'),el('strong','Dialoguer, sa
 const proof=el('dialog',undefined,'muProof');proof.id='muProof';proof.setAttribute('aria-label','Pièce et provenance sélectionnées');
 const proofBody=el('div',undefined,'muProofBody');proofBody.id='muProofBody';
 append(proof,append(el('div',undefined,'muDialogHead'),el('strong','Pièce / provenance'),button('Fermer',()=>proof.close())),proofBody);
-root.append(chat,proof);legacy.before(root);legacy.id='legacyReadingDocument';if(document.body.classList.contains('public-experience-v1'))chatPlace.after(legacyChat);
+root.append(chat,proof);legacy.before(root);legacy.id='legacyReadingDocument';if(document.body.classList.contains('public-experience-v1'))restoreDialogue();
 const savedRestoration=history.scrollRestoration;if(!document.body.classList.contains('public-experience-v1'))history.scrollRestoration='manual';
+function restoreDialogue(){if(chat.open)chat.close();const home=legacyChat._houseHome||chatPlace;if(home.isConnected)home.after(legacyChat);}
 function getBase(){const c=window.getLaBeteDialogueContext();if(!c?.live)throw Error('CANON_NOT_LOADED');return c;}
 function graphFrom(c){return M.build(c.live,c.evolution,territories,topology,communeShards);}
 function status(text){notice.textContent=text;}
@@ -157,11 +161,12 @@ function cosmosProofRoute(cosmos,objectId){
  return {planet,moon,wormhole,sourceWormhole,source,url:urls.find(x=>M.safeURL(x))||null};
 }
 function cosmosGuide(cosmos,g){
- const wrap=el('div',undefined,'muCosmosGuide'),doors=el('section',undefined,'muExperienceDoors'),sheet=el('section',undefined,'muCosmosSheet');
+ const wrap=el('div',undefined,'muCosmosGuide'),doors=el('section',undefined,'muExperienceDoors'),sheet=el('details',undefined,'muCosmosSheet');sheet.open=true;
  sheet.id='muCosmosSheet';sheet.setAttribute('aria-live','polite');sheet.setAttribute('aria-label','Guide spatial de La Bête');
  const body=el('div',undefined,'muCosmosSheetBody'),actions=el('div',undefined,'muCosmosSheetActions'),prompts=el('div',undefined,'muGuidePrompts');
- append(sheet,append(el('div',undefined,'muCosmosSheetHead'),el('span','AVATAR · GUIDE SPATIAL','muCosmosEyebrow'),el('strong','La Bête vous guide dans le même Cosmos.')),body,actions,prompts);
+ append(sheet,append(el('summary',undefined,'muCosmosSheetHead'),el('span','AVATAR · GUIDE SPATIAL','muCosmosEyebrow'),el('strong','La Bête vous guide dans le même Cosmos.')),body,actions,prompts);
  const health=cosmosHealth(g),tec=Number(g.live?.observed?.tec10_pct),unavailableIds=(g.live?.sources||[]).filter(x=>String(x.health).toUpperCase()==='UNAVAILABLE').map(x=>'source:'+x.id).sort((a,b)=>(a==='source:AFT_MATURITY_OAT'?-1:0)-(b==='source:AFT_MATURITY_OAT'?-1:0));
+ let focusSelection=null;
  let selected=cosmos.planetById.has('claim:TEC10')?'claim:TEC10':cosmos.traversal?.planet_id||cosmos.planets[0]?.object_id,mode='understand';
  function focus(kind,value){if(!value)return false;const ok=window.laBeteCosmosFocus?.(kind,value);if(ok)window.laBeteAvatarControl?.('wave',true);return !!ok;}
  function selectObject(objectId,nextMode='understand'){if(!cosmos.planetById.has(objectId))return false;selected=objectId;mode=nextMode;focus('planet',objectId);render();return true;}
@@ -176,7 +181,13 @@ function cosmosGuide(cosmos,g){
  function render(){
   const planet=cosmos.planetById.get(selected),proofRoute=cosmosProofRoute(cosmos,selected),obj=planet?.object||{},truth=planet?.truth_state||'UNSPECIFIED';
   body.replaceChildren();actions.replaceChildren();prompts.replaceChildren();
-  append(body,el('div',truth,'muTruthBadge muTruth-'+truth.toLowerCase().replaceAll('_','-')),el('h2',planet?.label||'Cosmos des preuves'),el('p',humanReading(planet),'muGuideLead'),el('p',health.text,'muHealthSummary'));
+  sheet.dataset.focusKind=focusSelection?.kind||'planet';sheet.dataset.focusId=focusSelection?.id||selected;
+  if(focusSelection&&['galaxy','system'].includes(focusSelection.kind)){
+   const item=(focusSelection.kind==='galaxy'?cosmos.galaxies:cosmos.systems).find(x=>x.id===focusSelection.id);
+   append(body,el('h2',(focusSelection.kind==='galaxy'?'Galaxie · ':'Système · ')+(item?.label||focusSelection.id)),el('p','Niveau de navigation : '+focusSelection.id+'. Choisir une planète pour lire sa source et ses preuves.','muGuideLead'));
+   actions.append(button('Ouvrir la planète du parcours',()=>selectObject(cosmos.traversal.planet_id)));return;
+  }
+  append(body,el('div',truth,'muTruthBadge muTruth-'+truth.toLowerCase().replaceAll('_','-')),el('h2',focusSelection?.kind==='moon'?'Preuve · '+(cosmos.moons.find(x=>x.id===focusSelection.id)?.proof_ref||focusSelection.id):focusSelection?.kind==='wormhole'?'Relation · '+(cosmos.wormholes.find(x=>x.id===focusSelection.id)?.relation||focusSelection.id):planet?.label||'Cosmos des preuves'),el('p',humanReading(planet),'muGuideLead'),el('p',health.text,'muHealthSummary'));
   if(health.retained&&health.unavailable.length)body.append(el('p','Les sources indisponibles restent visibles comme limites ; le dernier état officiel de même portée est conservé lorsqu’il existe.','muGuideLimit'));
   const route=proofRoute;
   append(actions,
@@ -213,9 +224,17 @@ function cosmosGuide(cosmos,g){
   door('EXPLORER','Emmène-moi dans le Cosmos des preuves.',()=>{mode='explore';focus('planet',selected);render();}),
   door('CONTRIBUER / AGIR','Montre-moi ce qui manque et ce que je peux apporter.',()=>{const x=unavailableIds.find(v=>cosmos.planetById.has(v));if(x)selectObject(x,'contribute');else navigate('#/univers/demarches');})
  );
- activeCosmosGuide={select(detail){if(detail?.kind==='planet'&&detail.object_id)selectObject(detail.object_id,'understand');},selectObject,state:()=>({selected,mode,health})};
+ activeCosmosGuide={syncFocus(detail){
+   if(!detail?.id)return;
+   focusSelection={kind:detail.kind,id:detail.id};
+   if(detail.kind==='planet')selected=detail.id;
+   if(detail.kind==='moon')selected=cosmos.moons.find(x=>x.id===detail.id)?.planet_id||selected;
+   if(detail.kind==='wormhole')selected=cosmos.wormholes.find(x=>x.id===detail.id)?.from_object_id||selected;
+   mode=detail.kind==='moon'?'proof':detail.kind==='wormhole'?'relations':'understand';render();
+  },select(detail){if(detail?.kind==='planet'&&detail.object_id)selectObject(detail.object_id,'understand');},selectObject,state:()=>({selected,mode,health})};
  render();append(wrap,doors,sheet);return wrap;
 }
+window.addEventListener('la-bete-cosmos-focus',event=>activeCosmosGuide?.syncFocus?.(event.detail));
 window.addEventListener('la-bete-cosmos-select',event=>activeCosmosGuide?.select?.(event.detail));
 function phiRewardLabel(r){
  const en={verified_official_source:'Add a verified official source',material_correction:'Correct a demonstrated error',verified_translation:'Translate a page with review',local_language:'Document a local word or variant with context',heritage_story:'Add sourced heritage, skills or local memory',accessibility:'Improve accessibility or clarity',local_place_event:'Add a verifiable local place or event'};
@@ -367,7 +386,12 @@ function atlas(g){
  const secondary=el('details',undefined,'muAtlasSecondary');secondary.open=audienceMode==='expert';secondary.append(el('summary','Vue approfondie · questions, participation et accès experts'));
  const secondaryBody=el('div',undefined,'muAtlasSecondaryBody');if(audienceMode!=='expert')secondaryBody.append(questionHub(g));const phi=phiPanel();if(phi)secondaryBody.append(phi);
  // Same scene, renderer and frame loop: Cosmos is a derived spatial view, never a second engine.
- Promise.resolve(window.laBeteEnsurePresence?.()).then(()=>window.laBeteSetCosmosProjection?.(cosmos));
+ Promise.resolve(window.laBeteEnsurePresence?.()).then(()=>{
+  if(current?.cosmos!==cosmos||current?.parsed?.kind!=='atlas'||!document.body.classList.contains('mu-active'))return;
+  window.laBeteSetCosmosProjection?.(cosmos);
+  const selected=activeCosmosGuide?.state().selected;
+  if(selected)window.laBeteCosmosFocus?.('planet',selected);
+ });
  if(g.nodes.has('LA_BETE_CIVIC_MISSION_V1')){const mission=el('div',undefined,'muCivicMission');append(mission,el('strong','Au service des personnes. Sans consigne politique.'),link('Mission, limites et engagements',M.route('objet','LA_BETE_CIVIC_MISSION_V1')));secondaryBody.append(mission);}
  const access=el('div',undefined,'muAccessShortcuts');access.id='muAccessShortcuts';append(access,link('Comprendre · toujours gratuit','#/public'),link('Faire une démarche','#/agir'),link('Décider ensemble','#/scic'),link('Aide personnalisée · optionnelle','#/services'),link('Mes données · protégées','#/prive'),link('Sur mobile','#/mobile'));secondaryBody.append(access);
  const path=el('div',undefined,'muSuggested');append(path,el('div','UN PREMIER PARCOURS','muEyebrow'),el('p','France → finances publiques → dette → source → manque → démarche'),link('Commencer par la France',M.route('objet',M.COUNTRY),'muPrimary'));secondaryBody.append(path);
@@ -763,7 +787,7 @@ function universeView(universe,g){const u=M.UNIVERSES.find(x=>x.id===universe);t
   const p=el('div',undefined,'muFeatureCards');append(p,link('◈  Mémoire et santé opérationnelle','#/sante'),link('◇  Explorer la présence 3D existante','#/presence'));stage.append(p);stage.append(el('p','La Bête est visible dès le Cosmos. La vue détaillée réutilise la même scène ; aucun accès caméra, micro ou son n’est activé par la navigation.','muGuard'));listCards(nodes,'Éléments réellement observés');
  }else listCards(nodes);
 }
-function contextForChat(){const g=current?.graph;if(current?.parsed?.snapshot&&current.parsed.snapshot!==g?.source_snapshot_id)return {live:{},evolution:null,object:null,context_label:'Instantané demandé indisponible'};const node=g?M.resolveNode(g,current?.parsed?.id):null;return {live:g?.live,evolution:g?.evolution,object:M.dialogueContext(node,g),route:current?.hash||'#/atlas',context_label:node?.label||current?.label||'Cosmos'};}
+function contextForChat(){if(!document.body.classList.contains('mu-active'))return getBase();const g=current?.graph;if(current?.parsed?.snapshot&&current.parsed.snapshot!==g?.source_snapshot_id)return {live:{},evolution:null,object:null,context_label:'Instantané demandé indisponible'};const node=g?M.resolveNode(g,current?.parsed?.id):null;return {live:g?.live,evolution:g?.evolution,object:M.dialogueContext(node,g),route:current?.hash||'#/atlas',context_label:node?.label||current?.label||'Cosmos'};}
 function refreshChatLabel(){const c=contextForChat();chatContext.textContent='Objet courant : '+c.context_label+' · '+(c.live?.snapshot_id||'sans instantané')+'. Les anciens messages conservent leur propre attribution.';}
 function openChat(){if(!legacyChat.isConnected||legacyChat.parentNode!==chat)chat.append(legacyChat);refreshChatLabel();if(!chat.open)chat.showModal();id('beastDialogueInput')?.focus({preventScroll:true});}
 function openProof(node,g){proofNode={node,g,key:node.id+'|'+g.source_snapshot_id};const saved=proofViews.get(proofNode.key)||{};proofBody.replaceChildren();append(proofBody,el('h2',node.label),el('p',sourceStamp(g),'muFineprint'),factTable(node,g));const ep=evidenceProfileForNode(node);if(ep)proofBody.append(evidenceProfilePanel(ep));
@@ -797,7 +821,7 @@ async function renderCurrent(useLatest=false,restore=false){
   if(!['presence','lecture'].includes(p.kind)||current.isSearch)window.laBeteSuspendPresence?.();
   restoreMoves();root.classList.toggle('mu-atlas-home',p.kind==='atlas'&&!current.isSearch&&(!p.snapshot||p.snapshot===g.source_snapshot_id));stage.replaceChildren();legacy.hidden=true;legacy.inert=true;workspace.hidden=false;document.body.classList.remove('mu-reading');root.classList.remove('mu-reading');
   if(p.kind==='lecture'){
-   legacy.hidden=false;legacy.inert=false;workspace.hidden=true;chatPlace.after(legacyChat);document.body.classList.add('mu-reading');root.classList.add('mu-reading');window.laBeteEnsurePresence?.();
+   legacy.hidden=false;legacy.inert=false;workspace.hidden=true;restoreDialogue();document.body.classList.add('mu-reading');root.classList.add('mu-reading');window.laBeteEnsurePresence?.();
   }else if(p.snapshot&&p.snapshot!==g.source_snapshot_id){
    title('INSTANTANÉ NON DISPONIBLE','Ce lien vise une autre version.','Version demandée : '+p.snapshot+'. Version chargée : '+g.source_snapshot_id+'. Aucun remplacement silencieux.');stage.append(button('Ouvrir explicitement la version chargée',()=>renderCurrent(true),'muPrimary'));
   }else if(current.isSearch){title('RECHERCHE DANS LE CONTEXTE CHARGÉ',current.search,'Résultats conservés au retour.');listCards(M.search(g,current.search));}
@@ -835,13 +859,13 @@ async function renderCurrent(useLatest=false,restore=false){
   if(restore){searchInput.value=current.search||'';[...stage.querySelectorAll('details')].forEach((d,i)=>d.open=!!current.details?.[i]);window.scrollTo({top:current.scrollY||0,behavior:'instant'});const f=current.focusId?id(current.focusId):[...document.querySelectorAll('[data-mu-route]')].find(a=>a.dataset.muRoute===current.focusRoute);f?.focus({preventScroll:true});}
   else {window.scrollTo({top:0,behavior:'instant'});if(!workspace.hidden)stage.focus({preventScroll:true});searchInput.value=current.search||'';}
   status('');records.set(current.key,current);
- }catch(error){restoreMoves();chatPlace.after(legacyChat);document.body.classList.remove('mu-active');legacy.hidden=false;legacy.inert=false;root.hidden=true;console.error('MULTIUNIVERS_SAFE_FALLBACK',String(error.message));}
+ }catch(error){restoreMoves();restoreDialogue();document.body.classList.remove('mu-active');legacy.hidden=false;legacy.inert=false;root.hidden=true;console.error('MULTIUNIVERS_SAFE_FALLBACK',String(error.message));}
 }
 searchForm.addEventListener('submit',async event=>{event.preventDefault();save();const q=searchInput.value.trim();if(!q){status('Écrivez un nom, un identifiant ou un thème.');return;}const key=current.key;try{await ensureTopology();}catch(e){status('Recherche dans les objets disponibles uniquement.');}if(current.key!==key)return;current.graph=M.build(current.graph.live,current.graph.evolution,territories,topology,communeShards);const results=M.search(current.graph,q);window.laBeteSuspendPresence?.();root.classList.remove('mu-atlas-home');restoreMoves();stage.replaceChildren();legacy.hidden=true;legacy.inert=true;workspace.hidden=false;title('RECHERCHE DANS LE CONTEXTE CHARGÉ',q,results.length+' objet(s) trouvé(s). Recherche dans les objets et l’index communal publiés. Au plus 200 résultats, affichés par groupes de 40.');listCards(results);current.search=q;current.isSearch=true;status('');});
 root.addEventListener('click',event=>{const a=event.target.closest?.('a[data-mu-route]');if(!a||event.defaultPrevented||event.button!==0||event.metaKey||event.ctrlKey||event.shiftKey||event.altKey)return;event.preventDefault();navigate(a.dataset.muRoute);});
 document.addEventListener('click',event=>{if(!document.body.classList.contains('mu-active')||event.defaultPrevented)return;const a=event.target.closest?.('a[href^="#"]');if(!a||a.dataset.muRoute||event.metaKey||event.ctrlKey||event.shiftKey||event.altKey)return;const mapped=canonicalRoute(a.getAttribute('href'));if(mapped.startsWith('#/')){event.preventDefault();navigate(mapped);}});
-window.addEventListener('popstate',()=>{if(!document.body.classList.contains('mu-active'))return;if(!location.hash.startsWith('#/')){deactivateExplorer();return;}save();const key=history.state?.mu?.key,cached=records.get(key);current=cached||{key:key||'mu-'+(++serial),hash:canonicalRoute(location.hash),depth:history.state?.mu?.depth||0,scrollY:0,graph:graphFrom(getBase()),visited:[]};renderCurrent(false,true);});
-window.addEventListener('hashchange',()=>{if(!document.body.classList.contains('mu-active'))return;if(!location.hash.startsWith('#/')){deactivateExplorer();return;}const hash=canonicalRoute(location.hash);if(hash!==current?.hash)navigate(hash,true);});
+window.addEventListener('popstate',()=>{restoreViewPreferences();if(!document.body.classList.contains('mu-active')){if(location.hash.startsWith('#/'))activateExplorer(location.hash);return;}if(!location.hash.startsWith('#/')){deactivateExplorer();return;}save();const key=history.state?.mu?.key,cached=records.get(key);current=cached||{key:key||'mu-'+(++serial),hash:canonicalRoute(location.hash),depth:history.state?.mu?.depth||0,scrollY:0,graph:graphFrom(getBase()),visited:[]};renderCurrent(false,true);});
+window.addEventListener('hashchange',()=>{if(!document.body.classList.contains('mu-active')){if(location.hash.startsWith('#/'))activateExplorer(location.hash);return;}if(!location.hash.startsWith('#/')){deactivateExplorer();return;}const hash=canonicalRoute(location.hash);if(hash!==current?.hash)navigate(hash,true);});
 window.addEventListener('pagehide',()=>{save();});
 const legacyTitle=document.title;
 function activateExplorer(raw='#/atlas'){
@@ -851,14 +875,15 @@ function activateExplorer(raw='#/atlas'){
   if(current){navigate(hash,true);return;}
   const g=graphFrom(getBase());current={key:'mu-'+(++serial),hash,depth:0,scrollY:0,search:'',graph:g,visited:[]};
   history.replaceState({...history.state,mu:{key:current.key,depth:0}},'',current.hash);renderCurrent();
- }catch(e){restoreMoves();chatPlace.after(legacyChat);root.hidden=true;legacy.hidden=false;legacy.inert=false;document.body.classList.remove('mu-active','mu-reading');history.scrollRestoration=savedRestoration;console.error('MULTIUNIVERS_BOOT_FALLBACK',String(e.message));}
+ }catch(e){restoreMoves();restoreDialogue();root.hidden=true;legacy.hidden=false;legacy.inert=false;document.body.classList.remove('mu-active','mu-reading');history.scrollRestoration=savedRestoration;console.error('MULTIUNIVERS_BOOT_FALLBACK',String(e.message));}
 }
-function deactivateExplorer(){
- save();restoreMoves();chatPlace.after(legacyChat);window.laBeteSuspendPresence?.();
+function deactivateExplorer({restoreRoom=true}={}){
+ save();restoreMoves();restoreDialogue();window.laBeteSuspendPresence?.();
  legacy.hidden=false;legacy.inert=false;root.hidden=true;workspace.hidden=false;
  document.body.classList.remove('mu-active','mu-reading');root.classList.remove('mu-reading');
  history.scrollRestoration=savedRestoration;document.title=legacyTitle;
- if(location.hash.startsWith('#/'))history.replaceState({...history.state},'','#experience-explore');
+ if(restoreRoom&&window.LaBeteAdvisoryHouseV5){window.LaBeteAdvisoryHouseV5.setRoom(window.LaBeteAdvisoryHouseV5.state().room);}
+ else if(restoreRoom&&location.hash.startsWith('#/'))history.replaceState({...history.state},'','#experience-explore');
  document.getElementById('experience-explore')?.scrollIntoView({block:'start'});
 }
 window.LaBeteExplorer=Object.freeze({getDialogueContext:contextForChat,navigate,openChat,activate:activateExplorer,deactivate:deactivateExplorer,update(c){latest=c;if(!current||!c?.live)return;const changed=c.live.snapshot_id!==current.graph.source_snapshot_id||c.evolution?.generation!==current.graph.evolution?.generation;updateBar.hidden=!changed;},state:()=>({active:document.body.classList.contains('mu-active'),route:current?.hash,object:current?.parsed?.id||null,snapshot:current?.graph.source_snapshot_id,territoriesLoaded:!!territories,historyEntries:records.size,cosmos:current?.cosmos?{schema:current.cosmos.schema,galaxies:current.cosmos.galaxies.length,systems:current.cosmos.systems.length,planets:current.cosmos.planets.length,moons:current.cosmos.moons.length,wormholes:current.cosmos.wormholes.length,traversal:current.cosmos.traversal}:null})});
