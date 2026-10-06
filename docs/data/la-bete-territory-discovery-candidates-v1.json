@@ -1,7 +1,7 @@
 {
   "schema": "LA_BETE_TERRITORY_DISCOVERY_CANDIDATES_V1",
   "state": "AUTODISCOVERY_CANDIDATES_SEPARATE_FROM_CANON",
-  "generated_at": "2026-10-06T03:44:26.470003Z",
+  "generated_at": "2026-10-06T11:18:29.176146Z",
   "topology_snapshot": "FR-TOPO-43287a81359296e3b1ff8def",
   "culture_schema": "LA_BETE_TERRITORY_CULTURE_V1",
   "contract": {
@@ -34,7 +34,7 @@
   "coverage": {
     "departments_total": 101,
     "departments_with_scan_record": 101,
-    "candidate_items": 1225,
+    "candidate_items": 1224,
     "selected_this_run": [
       "32",
       "33",
@@ -1439,7 +1439,7 @@
     "33": {
       "code": "33",
       "name": "Gironde",
-      "scanned_at": "2026-10-04T14:23:50.926570Z",
+      "scanned_at": "2026-10-06T11:17:04.986816Z",
       "state": "DISCOVERY_CANDIDATES_NOT_CANON",
       "promotion_authorized": false,
       "mints_phi": false,
@@ -1766,25 +1766,6 @@
           "gate": "Découverte encyclopédique seulement. Vérifier une source naturaliste ou institutionnelle avant promotion."
         },
         {
-          "candidate_id": "nature:wikipedia:Q3457515",
-          "state": "UNVERIFIED_AUTODISCOVERY_CANDIDATE",
-          "lane": "nature",
-          "label": "Réserve naturelle nationale des marais de Bruges",
-          "description": "la carte de France La réserve naturelle nationale des marais de Bruges (RNN64), est une réserve naturelle nationale de Gironde . D’une superficie de 262 ha",
-          "wikidata_id": "Q3457515",
-          "source": "https://fr.wikipedia.org/wiki/R%C3%A9serve_naturelle_nationale_des_marais_de_Bruges",
-          "administrative_binding": "P131_PATH_TO_DEPARTMENT",
-          "administrative_path": [
-            "Q3457515",
-            "Q12526"
-          ],
-          "country_wikidata_ids": [
-            "Q142"
-          ],
-          "quest_id": "nature_risks",
-          "gate": "Découverte encyclopédique seulement. Vérifier une source naturaliste ou institutionnelle avant promotion."
-        },
-        {
           "candidate_id": "nature:wikipedia:Q15427795",
           "state": "UNVERIFIED_AUTODISCOVERY_CANDIDATE",
           "lane": "nature",
@@ -1796,6 +1777,26 @@
           "administrative_path": [
             "Q15427795",
             "Q380871",
+            "Q12526"
+          ],
+          "country_wikidata_ids": [
+            "Q142"
+          ],
+          "quest_id": "nature_risks",
+          "gate": "Découverte encyclopédique seulement. Vérifier une source naturaliste ou institutionnelle avant promotion."
+        },
+        {
+          "candidate_id": "nature:wikipedia:Q3457495",
+          "state": "UNVERIFIED_AUTODISCOVERY_CANDIDATE",
+          "lane": "nature",
+          "label": "Réserve naturelle nationale de l'étang de Cousseau",
+          "description": "de la Gironde La réserve naturelle nationale de l'étang de Cousseau (RNN31) est une réserve naturelle nationale qui protège un étang de Gironde classé",
+          "wikidata_id": "Q3457495",
+          "source": "https://fr.wikipedia.org/wiki/R%C3%A9serve_naturelle_nationale_de_l%27%C3%A9tang_de_Cousseau",
+          "administrative_binding": "P131_PATH_TO_DEPARTMENT",
+          "administrative_path": [
+            "Q3457495",
+            "Q504892",
             "Q12526"
           ],
           "country_wikidata_ids": [
@@ -19075,7 +19076,7 @@
     "36": {
       "code": "36",
       "name": "Indre",
-      "scanned_at": "2026-10-06T03:43:17.210459Z",
+      "scanned_at": "2026-10-06T11:17:19.885802Z",
       "state": "DISCOVERY_CANDIDATES_NOT_CANON",
       "promotion_authorized": false,
       "mints_phi": false,
@@ -19380,24 +19381,7 @@
           "gate": "La protection patrimoniale est sourcée officiellement. La sélection éditoriale et la représentation visuelle restent à valider avant promotion."
         }
       ],
-      "nature": [
-        {
-          "candidate_id": "nature:wikipedia:Q3457579",
-          "state": "UNVERIFIED_AUTODISCOVERY_CANDIDATE",
-          "lane": "nature",
-          "label": "Réserve naturelle régionale du Bois des Roches",
-          "description": "Pouligny-Saint-Pierre » est une réserve naturelle régionale (RNR) située dans la région naturelle du Blancois, dans le département de l'Indre (région Centre-Val de",
-          "wikidata_id": "Q3457579",
-          "source": "https://fr.wikipedia.org/wiki/R%C3%A9serve_naturelle_r%C3%A9gionale_du_Bois_des_Roches",
-          "administrative_binding": "TEXT_EXPLICIT_DEPARTMENT_WITH_FRANCE_P17",
-          "administrative_path": null,
-          "country_wikidata_ids": [
-            "Q142"
-          ],
-          "quest_id": "nature_risks",
-          "gate": "Découverte encyclopédique seulement. Vérifier une source naturaliste ou institutionnelle avant promotion."
-        }
-      ],
+      "nature": [],
       "commons": [
         {
           "candidate_id": "commons:library:LI1517",
@@ -19510,7 +19494,7 @@
         "merimee_tabular": "PASS",
         "libraries_tabular": "PASS",
         "tiers_lieux_2026_csv": "PASS",
-        "nature_wikipedia_wikidata": "PASS"
+        "nature_wikipedia_wikidata": "NO_MATCH"
       },
       "wikidata_department": {
         "id": "Q217347",
@@ -20463,7 +20447,7 @@
     "39": {
       "code": "39",
       "name": "Jura",
-      "scanned_at": "2026-10-06T03:43:36.555738Z",
+      "scanned_at": "2026-10-06T11:17:37.515005Z",
       "state": "DISCOVERY_CANDIDATES_NOT_CANON",
       "promotion_authorized": false,
       "mints_phi": false,
@@ -20790,26 +20774,6 @@
           "gate": "Découverte encyclopédique seulement. Vérifier une source naturaliste ou institutionnelle avant promotion."
         },
         {
-          "candidate_id": "nature:wikipedia:Q3457493",
-          "state": "UNVERIFIED_AUTODISCOVERY_CANDIDATE",
-          "lane": "nature",
-          "label": "Réserve naturelle nationale de l'île du Girard",
-          "description": "carte : Jura La réserve naturelle nationale de l'île du Girard (RNN61) est une réserve naturelle nationale située dans le département du Jura . Créée en",
-          "wikidata_id": "Q3457493",
-          "source": "https://fr.wikipedia.org/wiki/R%C3%A9serve_naturelle_nationale_de_l%27%C3%AEle_du_Girard",
-          "administrative_binding": "P131_PATH_TO_DEPARTMENT",
-          "administrative_path": [
-            "Q3457493",
-            "Q321966",
-            "Q3120"
-          ],
-          "country_wikidata_ids": [
-            "Q142"
-          ],
-          "quest_id": "nature_risks",
-          "gate": "Découverte encyclopédique seulement. Vérifier une source naturaliste ou institutionnelle avant promotion."
-        },
-        {
           "candidate_id": "nature:wikipedia:Q110211159",
           "state": "UNVERIFIED_AUTODISCOVERY_CANDIDATE",
           "lane": "nature",
@@ -20821,6 +20785,26 @@
           "administrative_path": [
             "Q110211159",
             "Q21979681",
+            "Q3120"
+          ],
+          "country_wikidata_ids": [
+            "Q142"
+          ],
+          "quest_id": "nature_risks",
+          "gate": "Découverte encyclopédique seulement. Vérifier une source naturaliste ou institutionnelle avant promotion."
+        },
+        {
+          "candidate_id": "nature:wikipedia:Q48758737",
+          "state": "UNVERIFIED_AUTODISCOVERY_CANDIDATE",
+          "lane": "nature",
+          "label": "Réserve naturelle régionale des grottes de la côte de la Baume",
+          "description": "Le territoire de la réserve naturelle est situé dans le département du Jura , sur la commune de Poligny. La réserve naturelle se trouve sur le flanc de la",
+          "wikidata_id": "Q48758737",
+          "source": "https://fr.wikipedia.org/wiki/R%C3%A9serve_naturelle_r%C3%A9gionale_des_grottes_de_la_c%C3%B4te_de_la_Baume",
+          "administrative_binding": "P131_PATH_TO_DEPARTMENT",
+          "administrative_path": [
+            "Q48758737",
+            "Q544212",
             "Q3120"
           ],
           "country_wikidata_ids": [
