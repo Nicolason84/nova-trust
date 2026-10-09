@@ -183,6 +183,8 @@ def build_health_memory(live, model, previous=None, observation=None):
             "label": source.get("label", sid), "state": source.get("health", "UNKNOWN"),
             "kind": "SOURCE", "source_id": sid,
             "checked_at": source.get("checked_at"), "evidence": source.get("health", "UNKNOWN"),
+            "access_review_required": source.get("access_review_required", False),
+            "http_status": source.get("http_status"),
         }
     for dim in model["wellbeing"]["dimensions"]:
         if dim["id"] in {"truth_integrity", "resilience", "maturity_coverage"}:
@@ -214,6 +216,8 @@ def build_health_memory(live, model, previous=None, observation=None):
         old_status = issue["status"]
         previously_bad = issue.get("last_state") in BAD | {"ATTENTION", "CRITICAL"}
         issue.update(last_observed_at=at, last_state=sample["state"], evidence=sample["evidence"], observation_status="OBSERVED")
+        issue["access_review_required"] = sample.get("access_review_required", False)
+        issue["http_status"] = sample.get("http_status")
         if bad:
             if old_status in {"NEW", "RECOVERED"}:
                 issue["episodes"] += 1
@@ -258,6 +262,14 @@ def build_health_memory(live, model, previous=None, observation=None):
         })
     memory["care_plan"] = sorted(plan, key=lambda x: (-x["priority"], x["issue_id"]))
     transitions.extend(evaluate_care(memory, samples, executed, cycle_id))
+    for item in memory["care_plan"]:
+        issue = memory["issues"][item["issue_id"]]
+        if issue.get("access_review_required"):
+            item.update(action="RECONCILE_SOURCE_ACCESS", status="BLOCKED_SOURCE_ACCESS", human_gate=True,
+                        automatic_refresh="SUSPENDED_UNTIL_ACCESS_REVIEW", http_status=issue.get("http_status"),
+                        care="Accès automatisé refusé : relances identiques suspendues. Vérifier un accès officiel autorisé ou un export officiel de même portée; conserver le dernier bon état.")
+            item["priority"] += 50
+    memory["care_plan"].sort(key=lambda x: (-x["priority"], x["issue_id"]))
     memory["history"] = (memory["history"] + [{
         "cycle": cycle, "cycle_id": cycle_id, "at": at, "source_snapshot_id": live.get("snapshot_id"),
         "health": model["wellbeing"]["state"], "transitions": transitions,

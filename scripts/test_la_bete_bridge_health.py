@@ -108,4 +108,28 @@ class BridgeTests(unittest.TestCase):
         self.assertEqual(load(self.registry)['entries'][0],self.original)
         self.assertEqual(self.mem()['observations'][-1]['states']['native_visibility'],'UNPROVEN')
 
+
+    def test_retention_preserves_lifetime_replay_and_validates_digest(self):
+        d=load(self.registry);entry,m=memory(d)
+        for i in range(130):
+            o=self.observation(0);o['id']='retained-'+str(i);o['observed_at']='2026-10-02T21:00:00+00:00' if i==0 else __import__('datetime').datetime.fromtimestamp(1790974800+i,tz=__import__('datetime').timezone.utc).isoformat()
+            observe(m,o)
+        self.assertEqual(len(m['observations']),120);self.assertEqual(len(m['seen']),130)
+        memory(d);before=copy.deepcopy(m)
+        self.assertFalse(observe(m,dict(m['observations'][0],id='retained-0')));self.assertEqual(m,before)
+        m['observations'][-1]['context']='TAMPERED'
+        with self.assertRaisesRegex(ValueError,'INVALID_OBSERVATION_DIGEST'):memory(d)
+
+    def test_unmarked_history_loss_remains_blocked(self):
+        d=load(self.registry);entry,m=memory(d);o=self.observation(0);observe(m,o)
+        m['observations']=[]
+        with self.assertRaises(ValueError):memory(d)
+
+    def test_archived_index_tampering_remains_blocked(self):
+        d=load(self.registry);entry,m=memory(d);o=self.observation(0);observe(m,o)
+        m['seen']['historic']='a'*64
+        m['retention']={'schema':'LA_BETE_BRIDGE_RETENTION_V1','archived_count':1,'archived_index_sha256':digest({'historic':'a'*64})}
+        memory(d);m['seen']['historic']='b'*64
+        with self.assertRaises(ValueError):memory(d)
+
 if __name__=='__main__':unittest.main()

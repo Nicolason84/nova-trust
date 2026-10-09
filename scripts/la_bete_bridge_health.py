@@ -42,8 +42,20 @@ def memory(registry):
     if m.get('schema') != SCHEMA or not all(isinstance(m.get(k), t) for k,t in
             [('observations',list),('seen',dict),('issues',dict),('trials',list),('experiences',list)]):
         raise ValueError('INVALID_BRIDGE_MEMORY_REFUSE_ERASURE')
-    if len(m['observations'])!=len(m['seen']) or any(o['id'] not in m['seen'] for o in m['observations']):
+    ids = [o.get('id') for o in m['observations']]
+    if len(set(ids)) != len(ids) or any(not isinstance(i, str) or i not in m['seen'] for i in ids):
         raise ValueError('INVALID_OBSERVATION_LINEAGE')
+    if any(m['seen'][o['id']] != digest(o) for o in m['observations']):
+        raise ValueError('INVALID_OBSERVATION_DIGEST')
+    if any(not isinstance(v, str) or len(v) != 64 or any(c not in '0123456789abcdef' for c in v) for v in m['seen'].values()):
+        raise ValueError('INVALID_OBSERVATION_INDEX')
+    archived = {k:v for k,v in m['seen'].items() if k not in set(ids)}
+    retention = m.get('retention')
+    if archived or retention is not None:
+        if not isinstance(retention, dict) or retention.get('schema') != 'LA_BETE_BRIDGE_RETENTION_V1' or retention.get('archived_count') != len(archived) or retention.get('archived_index_sha256') != digest(archived):
+            raise ValueError('INVALID_OBSERVATION_RETENTION')
+    # The lifetime index keeps replay protection for archived observations.
+    # Retention never invents missing bodies or reclassifies historical trials.
     for t in m['trials']:
         if t.get('result') not in {'PENDING','GOAL_MET','NOT_MET'} or t.get('causal_effect_proven') is not False:
             raise ValueError('INVALID_CARE_RESULT')
@@ -142,6 +154,14 @@ def observe(m, o):
         return False
     if m['observations'] and seconds(o['observed_at'])<=seconds(m['observations'][-1]['observed_at']): return False
     m['seen'][o['id']]=digest(o); m['observations'].append(o)
+    if len(m['observations']) > 120:
+        m['observations'] = m['observations'][-120:]
+    if m.get('retention') is not None or len(m['seen']) != len(m['observations']):
+        retained = {x['id'] for x in m['observations']}
+        archived = {k:v for k,v in m['seen'].items() if k not in retained}
+        m['retention'] = dict(m.get('retention', {}), schema='LA_BETE_BRIDGE_RETENTION_V1',
+                             archived_count=len(archived), archived_index_sha256=digest(archived),
+                             recent_limit=120, body_history_complete=False)
     for key,state in o['states'].items():
         issue=m['issues'].setdefault(key,{'episodes':[],'good_streak':0,'affected':0})
         issue['state']=state

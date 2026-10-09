@@ -54,6 +54,7 @@ on:
       - "scripts/test_la_bete_enrichment.cjs"
       - "scripts/test_la_bete_explorer_browser.cjs"
       - "scripts/test_la_bete_health_memory.py"
+      - "scripts/test_la_bete_source_access.py"
       - "scripts/verify_la_bete_evolution.py"
       - "scripts/test_la_bete_evolution.py"
       - "scripts/render_la_bete_social_card.py"
@@ -235,6 +236,7 @@ jobs:
           PYTHONPATH=scripts python3 scripts/test_la_bete_evolution.py
           PYTHONPATH=scripts python3 scripts/test_la_bete_supra_system_knowhow.py
           PYTHONPATH=scripts python3 scripts/test_la_bete_health_memory.py
+          PYTHONPATH=scripts python3 scripts/test_la_bete_source_access.py
           PYTHONPATH=scripts python3 scripts/test_la_bete_acquisition.py
           python3 scripts/test_la_bete_territory_culture.py
           python3 scripts/build_phi_territory_quests.py
@@ -313,6 +315,7 @@ jobs:
               PYTHONPATH=scripts python3 scripts/test_la_bete_evolution.py
               PYTHONPATH=scripts python3 scripts/test_la_bete_supra_system_knowhow.py
               PYTHONPATH=scripts python3 scripts/test_la_bete_health_memory.py
+              PYTHONPATH=scripts python3 scripts/test_la_bete_source_access.py
               PYTHONPATH=scripts python3 scripts/test_la_bete_acquisition.py
               python3 scripts/test_la_bete_territory_culture.py
               python3 scripts/build_phi_territory_quests.py

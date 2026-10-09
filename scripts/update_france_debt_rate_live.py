@@ -166,12 +166,45 @@ def fetch_bdf_csv():
             errs.append(f"{type(e).__name__}: {e}")
     return src("BDF_WEBSTAT","Banque de France · Webstat","Historique CNO-TEC · export CSV",BDF_CSV[0],health="ERROR",error=" | ".join(errs)[:500]),{}
 
-def fetch_watch(i,publisher,label,url,accept):
+def previous_source(previous, source_id, url):
+    return next((s for s in (previous or {}).get("sources", [])
+                 if s.get("id") == source_id and s.get("url") == url), {})
+
+
+def denied_http_status(source):
+    if source.get("http_status") in (401, 403):
+        return source["http_status"]
+    error = source.get("error", "") or ""
+    return next((code for code in (401, 403) if "HTTP Error " + str(code) + ":" in error), None)
+
+
+def suspend_denied_source(source, executed=False):
+    # Keep explicit refusal evidence; review access before another same-URL request.
+    result = dict(source)
+    result.update(health="UNAVAILABLE", executed=executed,
+                  http_status=denied_http_status(source), access_review_required=True,
+                  automatic_refresh="SUSPENDED_UNTIL_ACCESS_REVIEW",
+                  next_action="VERIFY_OFFICIAL_AUTOMATED_ACCESS_OR_SAME_SCOPE_OFFICIAL_EXPORT")
+    return result
+
+
+def paused_source(previous, source_id, url):
+    old = previous_source(previous, source_id, url)
+    if denied_http_status(old) is not None:
+        return suspend_denied_source(old, executed=False)
+    return None
+
+
+def fetch_watch(i,publisher,label,url,accept,previous=None):
+    paused = paused_source(previous, i, url)
+    if paused is not None:
+        return paused
     try:
         status,b,etag,lm,cs=req(url,accept)
         return src(i,publisher,label,url,digest=hashlib.sha256(b).hexdigest(),etag=etag,lm=lm,extra={"bytes":len(b)})
     except Exception as e:
-        return src(i,publisher,label,url,health="ERROR",error=f"{type(e).__name__}: {e}"[:500])
+        failed = src(i,publisher,label,url,health="ERROR",error=f"{type(e).__name__}: {e}"[:500], extra={"executed": True})
+        return suspend_denied_source(failed, executed=True) if denied_http_status(failed) is not None else failed
 
 def document_period(title):
     months={
@@ -263,6 +296,11 @@ def fetch_aft_maturity(previous):
     tables={}
     sources=[]
     for kind,url in AFT_MATURITY_URLS.items():
+        source_id = "AFT_MATURITY_" + kind.upper()
+        paused = paused_source(previous, source_id, url)
+        if paused is not None:
+            sources.append(paused)
+            continue
         try:
             status,b,etag,lm,cs=req(url)
             text=b.decode(cs or "utf-8","replace")
@@ -275,9 +313,9 @@ def fetch_aft_maturity(previous):
                                digest=hashlib.sha256(norm(text).encode()).hexdigest(),
                                etag=etag,lm=lm,extra={"rows":len(table)}))
         except Exception as e:
-            sources.append(src("AFT_MATURITY_"+kind.upper(),"Agence France Trésor",
-                               "Encours détaillé "+kind.upper(),url,health="ERROR",
-                               error=f"{type(e).__name__}: {e}"[:500]))
+            failed = src(source_id,"Agence France Trésor", "Encours détaillé "+kind.upper(),url,health="ERROR",
+                         error=f"{type(e).__name__}: {e}"[:500], extra={"executed": True})
+            sources.append(suspend_denied_source(failed, executed=True) if denied_http_status(failed) is not None else failed)
     if len(tables)==3:
         years=sorted(set().union(*[set(x) for x in tables.values()]))
         rows=[]
@@ -465,7 +503,7 @@ def collect_sources(previous):
         jobs = {
             "bdf": pool.submit(fetch_bdf_html),
             "webstat": pool.submit(fetch_bdf_csv),
-            "rss": pool.submit(fetch_watch, "AFT_RSS", "Agence France Trésor", "Flux RSS des publications", "https://www.aft.gouv.fr/fr/rss.xml", "application/rss+xml,application/xml,text/xml,*/*;q=0.8"),
+            "rss": pool.submit(fetch_watch, "AFT_RSS", "Agence France Trésor", "Flux RSS des publications", "https://www.aft.gouv.fr/fr/rss.xml", "application/rss+xml,application/xml,text/xml,*/*;q=0.8", previous),
             "dgfip": pool.submit(fetch_dgfip_execution),
             "maturity": pool.submit(fetch_aft_maturity, previous),
         }
@@ -667,7 +705,13 @@ def main():
        "official_model_vintages":2,
        "political_recommendation":False
      },
-     "sources":sources,
+     "source_access_review": {
+        "state": "BLOCKED_SOURCE_ACCESS" if any(s.get("access_review_required") for s in sources) else "NO_ACCESS_BLOCKER",
+        "blocked_sources": [{k: s.get(k) for k in ("id", "url", "http_status", "checked_at", "automatic_refresh", "next_action")} for s in sources if s.get("access_review_required")],
+        "automatic_access_bypass": False, "access_request_sent": False,
+        "retained_evidence_is_not_recovery": True
+      },
+      "sources":sources,
      "events":(prev.get("events",[])+events)[-120:],
      "material_changes":events,
      "summary":{"healthy":sum(s.get("health") in ok_states for s in sources),"monitored":len(sources),"warnings":sum(s.get("health") not in ok_states for s in sources),"source_state_counts":source_state_counts,"changed_this_sequence":len(events),
@@ -688,7 +732,7 @@ def main():
             "observed_at": now(), "source_snapshot_id": snapshot_id,
             "sources": sources,
             "performance": {"collection_ms": collection_ms, "parallel_source_groups": 5},
-            "executed_source_ids": [s["id"] for s in sources if s["id"] in {"BDF_TEC", "BDF_WEBSTAT", "AFT_RSS", "DGFIP_EXECUTION", "AFT_MATURITY_OAT", "AFT_MATURITY_OATI", "AFT_MATURITY_OATEI"}],
+            "executed_source_ids": [s["id"] for s in sources if s["id"] in {"BDF_TEC", "BDF_WEBSTAT", "AFT_RSS", "DGFIP_EXECUTION", "AFT_MATURITY_OAT", "AFT_MATURITY_OATI", "AFT_MATURITY_OATEI"} and s.get("executed", True)],
         }
         Path(receipt_path).write_text(json.dumps(receipt, ensure_ascii=False))
 
