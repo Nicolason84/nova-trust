@@ -3,7 +3,7 @@
   "version": "2026-10-02.7",
   "snapshot_id": "OJO-AC155143079E5192",
   "sequence": 19,
-  "updated_at": "2026-10-09T11:34:54Z",
+  "updated_at": "2026-10-09T13:19:35Z",
   "policy": {
     "political_recommendation": "NONE",
     "market_yield_is_not_whole_debt_cost": true,
@@ -5663,10 +5663,10 @@
           "url": "https://www.banque-france.fr/fr/statistiques/taux-et-cours/indices-obligataires-2026-10-09",
           "health": "LIVE_VERIFIED",
           "digest": "6f6593bbce43e9e529e62b96442c39925243aa726c56758ea190529c31c6607b",
-          "checked_at": "2026-10-09T11:34:52Z",
+          "checked_at": "2026-10-09T13:19:34Z",
           "error": null,
-          "etag": "\"1791545410-gzip\"",
-          "last_modified": "Fri, 09 Oct 2026 11:30:10 GMT",
+          "etag": "\"1791550816-gzip\"",
+          "last_modified": "Fri, 09 Oct 2026 13:00:16 GMT",
           "observation_date": "2026-10-09"
         },
         {
@@ -5676,7 +5676,7 @@
           "url": "https://webstat.banque-france.fr/export/csv-columns/fr/selection/5385693",
           "health": "CROSSCHECKED",
           "digest": "bdfcd5a3f07c0dcc1e9454578c4a0107ea36501b6350e93049afaeb242d15cda",
-          "checked_at": "2026-10-09T11:34:53Z",
+          "checked_at": "2026-10-09T13:19:35Z",
           "error": null,
           "etag": null,
           "last_modified": "Fri, 09 Oct 2026 11:01:22 UTC",
@@ -5756,10 +5756,10 @@
           "url": "https://www.banque-france.fr/fr/statistiques/taux-et-cours/indices-obligataires-2026-10-09",
           "health": "LIVE_VERIFIED",
           "digest": "6f6593bbce43e9e529e62b96442c39925243aa726c56758ea190529c31c6607b",
-          "checked_at": "2026-10-09T11:34:52Z",
+          "checked_at": "2026-10-09T13:19:34Z",
           "error": null,
-          "etag": "\"1791545410-gzip\"",
-          "last_modified": "Fri, 09 Oct 2026 11:30:10 GMT",
+          "etag": "\"1791550816-gzip\"",
+          "last_modified": "Fri, 09 Oct 2026 13:00:16 GMT",
           "observation_date": "2026-10-09"
         },
         {
@@ -5769,7 +5769,7 @@
           "url": "https://webstat.banque-france.fr/export/csv-columns/fr/selection/5385693",
           "health": "CROSSCHECKED",
           "digest": "bdfcd5a3f07c0dcc1e9454578c4a0107ea36501b6350e93049afaeb242d15cda",
-          "checked_at": "2026-10-09T11:34:53Z",
+          "checked_at": "2026-10-09T13:19:35Z",
           "error": null,
           "etag": null,
           "last_modified": "Fri, 09 Oct 2026 11:01:22 UTC",
@@ -5808,10 +5808,10 @@
           "url": "https://www.banque-france.fr/fr/statistiques/taux-et-cours/indices-obligataires-2026-10-09",
           "health": "LIVE_VERIFIED",
           "digest": "6f6593bbce43e9e529e62b96442c39925243aa726c56758ea190529c31c6607b",
-          "checked_at": "2026-10-09T11:34:52Z",
+          "checked_at": "2026-10-09T13:19:34Z",
           "error": null,
-          "etag": "\"1791545410-gzip\"",
-          "last_modified": "Fri, 09 Oct 2026 11:30:10 GMT",
+          "etag": "\"1791550816-gzip\"",
+          "last_modified": "Fri, 09 Oct 2026 13:00:16 GMT",
           "observation_date": "2026-10-09"
         },
         {
@@ -5821,7 +5821,7 @@
           "url": "https://webstat.banque-france.fr/export/csv-columns/fr/selection/5385693",
           "health": "CROSSCHECKED",
           "digest": "bdfcd5a3f07c0dcc1e9454578c4a0107ea36501b6350e93049afaeb242d15cda",
-          "checked_at": "2026-10-09T11:34:53Z",
+          "checked_at": "2026-10-09T13:19:35Z",
           "error": null,
           "etag": null,
           "last_modified": "Fri, 09 Oct 2026 11:01:22 UTC",
@@ -5878,7 +5878,7 @@
           "url": "https://www.aft.gouv.fr/fr",
           "health": "RETAINED_LAST_GOOD",
           "digest": "9410017f63f2964a204534faec4e7ef4f3403cb822d423b239dff66d8a969318",
-          "checked_at": "2026-10-09T11:34:54Z",
+          "checked_at": "2026-10-09T13:19:35Z",
           "error": null,
           "etag": null,
           "last_modified": null,
@@ -6113,6 +6113,46 @@
     "official_model_vintages": 2,
     "political_recommendation": false
   },
+  "source_access_review": {
+    "state": "BLOCKED_SOURCE_ACCESS",
+    "blocked_sources": [
+      {
+        "id": "AFT_RSS",
+        "url": "https://www.aft.gouv.fr/fr/rss.xml",
+        "http_status": 403,
+        "checked_at": "2026-10-09T11:34:53Z",
+        "automatic_refresh": "SUSPENDED_UNTIL_ACCESS_REVIEW",
+        "next_action": "VERIFY_OFFICIAL_AUTOMATED_ACCESS_OR_SAME_SCOPE_OFFICIAL_EXPORT"
+      },
+      {
+        "id": "AFT_MATURITY_OAT",
+        "url": "https://www.aft.gouv.fr/fr/encours-detaille-oat",
+        "http_status": 403,
+        "checked_at": "2026-10-09T11:34:53Z",
+        "automatic_refresh": "SUSPENDED_UNTIL_ACCESS_REVIEW",
+        "next_action": "VERIFY_OFFICIAL_AUTOMATED_ACCESS_OR_SAME_SCOPE_OFFICIAL_EXPORT"
+      },
+      {
+        "id": "AFT_MATURITY_OATI",
+        "url": "https://www.aft.gouv.fr/fr/encours-detaille-oati",
+        "http_status": 403,
+        "checked_at": "2026-10-09T11:34:53Z",
+        "automatic_refresh": "SUSPENDED_UNTIL_ACCESS_REVIEW",
+        "next_action": "VERIFY_OFFICIAL_AUTOMATED_ACCESS_OR_SAME_SCOPE_OFFICIAL_EXPORT"
+      },
+      {
+        "id": "AFT_MATURITY_OATEI",
+        "url": "https://www.aft.gouv.fr/fr/encours-detaille-oatei",
+        "http_status": 403,
+        "checked_at": "2026-10-09T11:34:54Z",
+        "automatic_refresh": "SUSPENDED_UNTIL_ACCESS_REVIEW",
+        "next_action": "VERIFY_OFFICIAL_AUTOMATED_ACCESS_OR_SAME_SCOPE_OFFICIAL_EXPORT"
+      }
+    ],
+    "automatic_access_bypass": false,
+    "access_request_sent": false,
+    "retained_evidence_is_not_recovery": true
+  },
   "sources": [
     {
       "id": "BDF_TEC",
@@ -6121,10 +6161,10 @@
       "url": "https://www.banque-france.fr/fr/statistiques/taux-et-cours/indices-obligataires-2026-10-09",
       "health": "LIVE_VERIFIED",
       "digest": "6f6593bbce43e9e529e62b96442c39925243aa726c56758ea190529c31c6607b",
-      "checked_at": "2026-10-09T11:34:52Z",
+      "checked_at": "2026-10-09T13:19:34Z",
       "error": null,
-      "etag": "\"1791545410-gzip\"",
-      "last_modified": "Fri, 09 Oct 2026 11:30:10 GMT"
+      "etag": "\"1791550816-gzip\"",
+      "last_modified": "Fri, 09 Oct 2026 13:00:16 GMT"
     },
     {
       "id": "BDF_WEBSTAT",
@@ -6133,7 +6173,7 @@
       "url": "https://webstat.banque-france.fr/export/csv-columns/fr/selection/5385693",
       "health": "CROSSCHECKED",
       "digest": "bdfcd5a3f07c0dcc1e9454578c4a0107ea36501b6350e93049afaeb242d15cda",
-      "checked_at": "2026-10-09T11:34:53Z",
+      "checked_at": "2026-10-09T13:19:35Z",
       "error": null,
       "etag": null,
       "last_modified": "Fri, 09 Oct 2026 11:01:22 UTC",
@@ -6149,7 +6189,12 @@
       "checked_at": "2026-10-09T11:34:53Z",
       "error": "HTTPError: HTTP Error 403: Forbidden",
       "etag": null,
-      "last_modified": null
+      "last_modified": null,
+      "executed": false,
+      "http_status": 403,
+      "access_review_required": true,
+      "automatic_refresh": "SUSPENDED_UNTIL_ACCESS_REVIEW",
+      "next_action": "VERIFY_OFFICIAL_AUTOMATED_ACCESS_OR_SAME_SCOPE_OFFICIAL_EXPORT"
     },
     {
       "id": "DGFIP_EXECUTION",
@@ -6158,7 +6203,7 @@
       "url": "https://data.economie.gouv.fr/api/explore/v2.1/catalog/datasets/situation-mensuelle-de-l-etat/exports/json",
       "health": "LIVE_VERIFIED",
       "digest": "70a012d524d65a4015910181cfff0305576d3a9a45b043d8c814e7900845fb3e",
-      "checked_at": "2026-10-09T11:34:53Z",
+      "checked_at": "2026-10-09T13:19:34Z",
       "error": null,
       "etag": null,
       "last_modified": null,
@@ -6171,7 +6216,7 @@
       "url": "https://www.aft.gouv.fr/fr",
       "health": "OFFICIAL_VINTAGE",
       "digest": "4e5bb942ec1b466f53d1eda4d5bff3e28c8e8848da2071d5d23a97ca4bc67127",
-      "checked_at": "2026-10-09T11:34:54Z",
+      "checked_at": "2026-10-09T13:19:35Z",
       "error": null,
       "etag": null,
       "last_modified": null,
@@ -6188,7 +6233,12 @@
       "checked_at": "2026-10-09T11:34:53Z",
       "error": "HTTPError: HTTP Error 403: Forbidden",
       "etag": null,
-      "last_modified": null
+      "last_modified": null,
+      "executed": false,
+      "http_status": 403,
+      "access_review_required": true,
+      "automatic_refresh": "SUSPENDED_UNTIL_ACCESS_REVIEW",
+      "next_action": "VERIFY_OFFICIAL_AUTOMATED_ACCESS_OR_SAME_SCOPE_OFFICIAL_EXPORT"
     },
     {
       "id": "AFT_MATURITY_OATI",
@@ -6200,7 +6250,12 @@
       "checked_at": "2026-10-09T11:34:53Z",
       "error": "HTTPError: HTTP Error 403: Forbidden",
       "etag": null,
-      "last_modified": null
+      "last_modified": null,
+      "executed": false,
+      "http_status": 403,
+      "access_review_required": true,
+      "automatic_refresh": "SUSPENDED_UNTIL_ACCESS_REVIEW",
+      "next_action": "VERIFY_OFFICIAL_AUTOMATED_ACCESS_OR_SAME_SCOPE_OFFICIAL_EXPORT"
     },
     {
       "id": "AFT_MATURITY_OATEI",
@@ -6212,7 +6267,12 @@
       "checked_at": "2026-10-09T11:34:54Z",
       "error": "HTTPError: HTTP Error 403: Forbidden",
       "etag": null,
-      "last_modified": null
+      "last_modified": null,
+      "executed": false,
+      "http_status": 403,
+      "access_review_required": true,
+      "automatic_refresh": "SUSPENDED_UNTIL_ACCESS_REVIEW",
+      "next_action": "VERIFY_OFFICIAL_AUTOMATED_ACCESS_OR_SAME_SCOPE_OFFICIAL_EXPORT"
     },
     {
       "id": "AFT_MATURITY_RETAINED",
@@ -6221,7 +6281,7 @@
       "url": "https://www.aft.gouv.fr/fr",
       "health": "RETAINED_LAST_GOOD",
       "digest": "9410017f63f2964a204534faec4e7ef4f3403cb822d423b239dff66d8a969318",
-      "checked_at": "2026-10-09T11:34:54Z",
+      "checked_at": "2026-10-09T13:19:35Z",
       "error": null,
       "etag": null,
       "last_modified": null,
@@ -6664,50 +6724,7 @@
       "detail": "[{'tenor_years': 1, 'rate_pct': 3.263}, {'tenor_years': 2, 'rate_pct': 3.65}, {'tenor_years': 3, 'rate_pct': 3.842}, {'tenor_years': 5, 'rate_pct': 4.202}, {'tenor_years': 7, 'rate_pct': 4.529}, {'tenor_years': 10, 'rate_pct': 4.898}, {'tenor_years': 15, 'rate_pct': 5.201}, {'tenor_years': 20, 'rate_pct': 5.33}, {'tenor_years': 25, 'rate_pct': 5.289}, {'tenor_years': 30, 'rate_pct': 5.446}] → [{'tenor_years': 1, 'rate_pct': 3.251}, {'tenor_years': 2, 'rate_pct': 3.602}, {'tenor_years': 3, 'rate_pct': 3.782}, {'tenor_years': 5, 'rate_pct': 4.111}, {'tenor_years': 7, 'rate_pct': 4.435}, {'tenor_years': 10, 'rate_pct': 4.795}, {'tenor_years': 15, 'rate_pct': 5.104}, {'tenor_years': 20, 'rate_pct': 5.235}, {'tenor_years': 25, 'rate_pct': 5.194}, {'tenor_years': 30, 'rate_pct': 5.357}]"
     }
   ],
-  "material_changes": [
-    {
-      "kind": "SOURCE_CHANGED",
-      "source_id": "BDF_TEC",
-      "at": "2026-10-09T11:34:52Z",
-      "detail": "Public source fingerprint changed."
-    },
-    {
-      "kind": "SOURCE_HEALTH_CHANGED",
-      "source_id": "BDF_WEBSTAT",
-      "at": "2026-10-09T11:34:53Z",
-      "detail": "LIVE_VERIFIED → CROSSCHECKED"
-    },
-    {
-      "kind": "METRIC_CHANGED",
-      "metric": "tec10_pct",
-      "at": "2026-10-09T11:34:54Z",
-      "detail": "4.898 → 4.795"
-    },
-    {
-      "kind": "METRIC_CHANGED",
-      "metric": "tec10_date",
-      "at": "2026-10-09T11:34:54Z",
-      "detail": "2026-10-08 → 2026-10-09"
-    },
-    {
-      "kind": "METRIC_CHANGED",
-      "metric": "tec10_vs_plf_assumption_bps",
-      "at": "2026-10-09T11:34:54Z",
-      "detail": "109.8 → 99.5"
-    },
-    {
-      "kind": "METRIC_CHANGED",
-      "metric": "yield_curve_date",
-      "at": "2026-10-09T11:34:54Z",
-      "detail": "2026-10-08 → 2026-10-09"
-    },
-    {
-      "kind": "METRIC_CHANGED",
-      "metric": "yield_curve",
-      "at": "2026-10-09T11:34:54Z",
-      "detail": "[{'tenor_years': 1, 'rate_pct': 3.263}, {'tenor_years': 2, 'rate_pct': 3.65}, {'tenor_years': 3, 'rate_pct': 3.842}, {'tenor_years': 5, 'rate_pct': 4.202}, {'tenor_years': 7, 'rate_pct': 4.529}, {'tenor_years': 10, 'rate_pct': 4.898}, {'tenor_years': 15, 'rate_pct': 5.201}, {'tenor_years': 20, 'rate_pct': 5.33}, {'tenor_years': 25, 'rate_pct': 5.289}, {'tenor_years': 30, 'rate_pct': 5.446}] → [{'tenor_years': 1, 'rate_pct': 3.251}, {'tenor_years': 2, 'rate_pct': 3.602}, {'tenor_years': 3, 'rate_pct': 3.782}, {'tenor_years': 5, 'rate_pct': 4.111}, {'tenor_years': 7, 'rate_pct': 4.435}, {'tenor_years': 10, 'rate_pct': 4.795}, {'tenor_years': 15, 'rate_pct': 5.104}, {'tenor_years': 20, 'rate_pct': 5.235}, {'tenor_years': 25, 'rate_pct': 5.194}, {'tenor_years': 30, 'rate_pct': 5.357}]"
-    }
-  ],
+  "material_changes": [],
   "summary": {
     "healthy": 5,
     "monitored": 9,
@@ -6721,7 +6738,7 @@
       "UNAVAILABLE": 4,
       "CONTRADICTED": 0
     },
-    "changed_this_sequence": 7,
+    "changed_this_sequence": 0,
     "curve_history_points": 120,
     "maturity_mode": "RETAINED_LAST_GOOD",
     "decision_delta_status": "MATERIAL_CHANGE"
@@ -6756,7 +6773,7 @@
     "identity_note": "Existing schema + JSON pointer is the identity where no opaque ID existed. No second country object is allocated."
   },
   "freshness": {
-    "last_material_change_at": "2026-10-09T11:34:54Z",
+    "last_material_change_at": "2026-10-09T13:19:35Z",
     "last_market_observation_date": "2026-10-09",
     "runner_truth": "GitHub Actions workflow run status; independent from material state",
     "runner_api_unavailable": "UNKNOWN_KEEP_LAST_MATERIAL_STATE"
