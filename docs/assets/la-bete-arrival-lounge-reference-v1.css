@@ -383,3 +383,52 @@ body.discovery-x3[data-house-room="desk"]:not(.house-game-active){overflow-y:aut
  .discoveryX3 .discoveryArtwork{animation:none!important;transform:none!important}
  .discoveryX3 button{transition:none!important}
 }
+
+
+/* FREE_REQUEST_PUBLIC_V1 — isolated secondary form; existing three primary choices unchanged. */
+.freeRequestHelper{margin:24px 0 0;border-top:1px solid rgba(223,198,170,.24);scroll-margin-top:90px}
+.freeRequestHelper>summary{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:52px;list-style:none;cursor:pointer;color:#dcc7ad;font:500 13px/1.4 system-ui,sans-serif}
+.freeRequestHelper>summary::-webkit-details-marker{display:none}
+.freeRequestHelper[open]>summary>span:last-child{transform:rotate(45deg)}
+.freeRequestPanel{box-sizing:border-box;width:100%;padding:22px 20px 24px;border:1px solid rgba(213,188,159,.28);border-radius:16px;background:rgba(7,17,22,.96);box-shadow:0 12px 34px rgba(0,0,0,.16)}
+.freeRequestPanel *{box-sizing:border-box;min-width:0}
+.freeRequestEyebrow{margin:0 0 10px;color:#c5aa87;font:600 9px/1.4 system-ui,sans-serif;letter-spacing:.15em}
+.freeRequestPanel h3{margin:0 0 12px;color:#f5efe4;font:400 clamp(28px,5vw,38px)/1.08 Georgia,serif;letter-spacing:-.025em}
+.freeRequestLead{margin:0 0 16px;color:#d1d9d4;font:400 14px/1.6 system-ui,sans-serif}
+.freeRequestScope{padding:12px 14px;border-left:2px solid #c69c72;border-radius:0 8px 8px 0;background:rgba(182,167,142,.07);color:#c4ceca;font:400 12px/1.6 system-ui,sans-serif}
+.freeRequestRequired,.freeRequestHint{margin:7px 0 0;color:#aebfb8;font:400 11px/1.5 system-ui,sans-serif}
+.freeRequestRequired{margin:22px 0 14px}
+.freeRequestField{margin:0 0 20px}
+.freeRequestField label{display:block;margin:0 0 8px;color:#e9e7df;font:550 13px/1.45 system-ui,sans-serif}
+.freeRequestField input,.freeRequestField textarea,.freeRequestField select{display:block;box-sizing:border-box;width:100%;max-width:100%;min-height:46px;padding:12px;border:1px solid #637777;border-radius:8px;background:#101f26;color:#f2f0e6;font:400 16px/1.45 system-ui,sans-serif;letter-spacing:0;scroll-margin-top:125px}
+.freeRequestField textarea{resize:vertical;min-height:92px;max-height:280px}
+.freeRequestField input::placeholder,.freeRequestField textarea::placeholder{color:#9eafa9;opacity:1}
+.freeRequestField input:focus-visible,.freeRequestField textarea:focus-visible,.freeRequestField select:focus-visible{outline:2px solid #efd0a6;outline-offset:3px}
+.freeRequestField [aria-invalid=true]{border-color:#f1b0a2}
+.freeRequestError{margin:7px 0 0;color:#ffc7b9;font:500 12px/1.5 system-ui,sans-serif}
+.freeRequestFormActions,.freeRequestResultActions{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
+.freeRequestHelper button{max-width:100%;min-height:46px;padding:12px 15px;border:1px solid #a48668;border-radius:8px;background:#182a31;color:#ece8de;font:550 13px/1.35 system-ui,sans-serif;letter-spacing:0;cursor:pointer}
+.freeRequestHelper .freeRequestGenerate,.freeRequestHelper .freeRequestCopy{border-color:#d8b28d;background:#dbb389;color:#151f22}
+.freeRequestHelper button:hover{filter:brightness(1.08)}
+.freeRequestHelper button[disabled]{opacity:.55;cursor:default}
+.freeRequestHelper .freeRequestReset,.freeRequestHelper .freeRequestMission{background:transparent;border-color:transparent;color:#d3b593}
+.freeRequestStatus{min-height:34px;margin:16px 0 0;color:#c0ccc1;font:400 12px/1.6 system-ui,sans-serif}
+.freeRequestResult{margin-top:26px;padding-top:24px;border-top:1px solid rgba(222,199,165,.3);scroll-margin-top:100px}
+.freeRequestResult h4{margin:0 0 20px;color:#f2eadb;font:400 28px/1.15 Georgia,serif}
+.freeRequestResult h5{margin:24px 0 10px;color:#ceb79b;font:650 11px/1.4 system-ui,sans-serif;letter-spacing:.04em;text-transform:uppercase}
+.freeRequestSubject,.freeRequestMessage{margin:0;padding:14px;border:1px solid #34484d;border-radius:9px;background:#0c1920;color:#e0e5dc;font:400 13px/1.65 system-ui,sans-serif;white-space:pre-wrap;overflow-wrap:anywhere;word-break:normal;user-select:text}
+.freeRequestSubject{font-weight:550}
+.freeRequestChecklist{margin:0;padding-left:19px;color:#cbd5cc;font:400 12px/1.6 system-ui,sans-serif}
+.freeRequestChecklist li+li{margin-top:9px}
+.freeRequestLimits{margin:18px 0 8px;color:#b5c1b9;font:400 11px/1.6 system-ui,sans-serif}
+.freeRequestResult .freeRequestMission{padding-left:0;text-align:left}
+@media(max-width:700px){
+ .freeRequestPanel{padding:20px 16px 22px}
+ .freeRequestFormActions,.freeRequestResultActions{flex-direction:column}
+ .freeRequestFormActions>button,.freeRequestResultActions>button{width:100%}
+ .freeRequestHelper>summary{font-size:12px}
+}
+@media(max-width:360px){
+ .freeRequestPanel{padding:18px 12px 20px}
+ .freeRequestPanel h3{font-size:29px}
+}
