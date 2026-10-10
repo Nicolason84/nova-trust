@@ -9,7 +9,7 @@ const base=window.LaBeteAdvisoryHouseV5;
 if(!body||!house||!premium||!base||body.classList.contains('arrival-reference-v1'))return;
 const desk=house.querySelector('.housePane[data-house-room="desk"]');
 const stage=house.querySelector('.houseStage');
-const roomLabels={desk:'Private Advisory Desk',decision:'Decision Room',proof:'Evidence Room',explore:'Observatory',mission:'Mission Office'};
+const roomLabels={desk:'La Maison',decision:'Décision',proof:'Preuves',explore:'Explorer',mission:'Votre décision'};
 const roleSpec={
   decision:{label:'Decision',note:'Rôle numérique SUPRA · lecture et arbitrage du Decision Twin'},
   proof:{label:'Evidence',note:'Rôle numérique SUPRA · preuves, sources, incertitudes'},
@@ -35,15 +35,95 @@ if(!desk||!input||!submit)return;
 
 body.classList.add('arrival-reference-v1');
 house.classList.add('arrivalReferenceV1');
-if(title)title.innerHTML='Entrez. <em>Quel dossier devons-nous résoudre&nbsp;?</em>';
-if(headerCopy)headerCopy.textContent='Posez une question. La Maison précise ce qu’elle peut traiter, avec les sources disponibles.';
-submit.textContent='Confier le dossier →';
-input.setAttribute('placeholder','Décrivez le problème, la décision à prendre ou le risque à éclaircir…');
+if(title)title.innerHTML='Réparer<em>le chaos.</em>';
+if(headerCopy)headerCopy.innerHTML='Entrez dans la Maison.<br>Prenez le temps de regarder.';
+house.querySelector('.houseHeader .houseEyebrow').textContent='LA BÊTE · UN UNIVERS À EXPLORER';
+submit.textContent='Explorer ma question →';
+input.setAttribute('placeholder','Quelle question souhaitez-vous éclaircir sur ce dossier public ?');
+
+/* Discovery first. Reuse the current rooms, question node and original 3D entry. */
+body.classList.add('discovery-x3');
+house.classList.add('discoveryX3');
+if(director)house.appendChild(director);
+const deskBody=desk.querySelector('.housePaneBody');
+const discoveryActions=document.createElement('div');
+discoveryActions.className='discoveryActions';
+discoveryActions.innerHTML=
+  '<div class="discoveryPrimary"></div>'+
+  '<button type="button" class="discoveryCase" id="discoveryPublicCase">Voir le dossier public <span aria-hidden="true">↗</span></button>'+
+  '<button type="button" class="discoveryPrepare" id="discoveryPrepare">Et votre décision ? <span aria-hidden="true">→</span></button>'+
+  '<p class="discoveryFootnote" id="discoveryEntryHint">Exploration libre · son désactivé au départ</p>';
+deskBody.prepend(discoveryActions);
+discoveryActions.querySelector('#discoveryPublicCase').addEventListener('click',()=>base.setRoom('decision'));
+discoveryActions.querySelector('#discoveryPrepare').addEventListener('click',()=>base.setRoom('mission'));
+
+const question=document.getElementById('dialogue-public');
+const questionDisclosure=document.createElement('details');
+questionDisclosure.className='discoveryQuestion';
+questionDisclosure.innerHTML='<summary>Une question sur le dossier public ? <span aria-hidden="true">+</span></summary>';
+question.before(questionDisclosure);
+if(question._houseHome)questionDisclosure.appendChild(question._houseHome);
+questionDisclosure.appendChild(question);
+const initialNavigation=performance.getEntriesByType?.('navigation')[0]?.name;
+if(initialNavigation&&new URL(initialNavigation).hash==='#dialogue-public')questionDisclosure.open=true;
+questionDisclosure.addEventListener('toggle',()=>{
+  house.classList.toggle('discovery-question-open',questionDisclosure.open);
+});
+const dialogueNotice=document.getElementById('beastDialogueNotice');
+if(dialogueNotice?.textContent.includes('JavaScript est nécessaire'))dialogueNotice.textContent='Dialogue local · aucune demande transmise.';
+document.addEventListener('click',event=>{
+  if(event.target.closest?.('a[href="#dialogue-public"]')){
+    questionDisclosure.open=true;
+    questionDisclosure.scrollIntoView({block:'start',behavior:'instant'});
+  }
+});
+
+/* Human contact preparation, without creating a receiver or opening private admission. */
+const missionBody=house.querySelector('.housePane[data-house-room="mission"] .housePaneBody');
+const missionSurface=document.getElementById('supra-mission');
+const existingMissionBrief=document.getElementById('houseMissionBrief');
+const invitation='Bonjour, je souhaite une démonstration de SUPRA Mission. La décision que je prépare : … Mon échéance : …';
+const exchange=document.createElement('section');
+exchange.className='discoveryExchange';
+exchange.setAttribute('aria-labelledby','discoveryExchangeTitle');
+exchange.innerHTML=
+  '<div class="discoveryEyebrow">SUPRA MISSION</div>'+
+  '<h2 id="discoveryExchangeTitle">Et votre décision&nbsp;?</h2>'+
+  '<p>Une reprise, un financement, un développement. Préparons un premier échange autour de votre décision et de son échéance.</p>'+
+  '<p class="discoveryPrice">À partir de <strong>2 500 €</strong><span>sur devis · après qualification du besoin</span></p>'+
+  '<blockquote class="discoveryInvitation"></blockquote>'+
+  '<button type="button" id="discoveryCopyInvite">Copier la demande de démonstration <span aria-hidden="true">↗</span></button>'+
+  '<p class="discoveryContactHint">Envoyez ce message à votre contact SUPRA ou à l’auteur de votre invitation LinkedIn.</p>'+
+  '<p class="discoveryCopyStatus" role="status" id="discoveryCopyStatus">Copie uniquement · aucun message envoyé depuis cette page.</p>';
+exchange.querySelector('.discoveryInvitation').textContent=invitation;
+missionBody.prepend(exchange);
+const missionDetails=document.createElement('details');
+missionDetails.className='discoveryMissionDetails';
+missionDetails.innerHTML='<summary>Parcours et conditions d’accès <span aria-hidden="true">+</span></summary>';
+exchange.after(missionDetails);
+if(existingMissionBrief)missionDetails.appendChild(existingMissionBrief);
+if(missionSurface)missionDetails.appendChild(missionSurface);
+exchange.querySelector('#discoveryCopyInvite').addEventListener('click',async()=>{
+  const status=exchange.querySelector('#discoveryCopyStatus');
+  try{
+    if(navigator.clipboard?.writeText)await navigator.clipboard.writeText(invitation);
+    else{
+      const copy=document.createElement('textarea');copy.value=invitation;copy.setAttribute('readonly','');copy.style.cssText='position:fixed;left:-9999px;top:0';
+      document.body.appendChild(copy);copy.select();let copied=false;
+      try{copied=document.execCommand('copy');}finally{copy.remove();}
+      if(!copied)throw new Error('Copy unavailable');
+    }
+    status.textContent='Message copié. Adaptez-le puis envoyez-le à votre contact. Aucune demande transmise ici.';
+  }catch(error){status.textContent='La copie automatique est indisponible. Vous pouvez sélectionner le message ci-dessus. Aucune demande transmise.';}
+});
 
 const architecture=document.createElement('div');
 architecture.className='arrivalRefArchitecture';
 architecture.setAttribute('aria-hidden','true');
 architecture.innerHTML='<span class="arrivalRefWall"></span><span class="arrivalRefHorizon"></span><span class="arrivalRefDesk"></span><span class="arrivalRefFolio"></span><span class="arrivalRefLamp"></span>';
+const artwork=document.createElement('img');
+artwork.className='discoveryArtwork';artwork.src='assets/supra-noir-humanoid-butterfly.webp';artwork.alt='';artwork.decoding='async';artwork.fetchPriority='high';
+architecture.prepend(artwork);
 house.prepend(architecture);
 
 const whisper=document.createElement('p');
@@ -99,7 +179,10 @@ function animatePassage(destination){
 }
 function syncRoomAvatar(){
   const room=base.state().room||'desk';
-  if(room!==lastRoom)animatePassage(room);
+  if(room!==lastRoom){
+    animatePassage(room);
+    if(!body.classList.contains('house-game-active'))window.scrollTo({top:0,behavior:'instant'});
+  }
   for(const [id,avatar] of avatars){
     const active=id===room;
     avatar.classList.toggle('is-visible',active);
@@ -115,10 +198,10 @@ function syncRoomAvatar(){
 function isDesk(){return base.state().room==='desk';}
 function syncDirector(){
   if(!isDesk())return;
-  if(directorRole)directorRole.textContent='Mission Director';
+  if(directorRole)directorRole.textContent='Votre guide';
   if(directorStatus)directorStatus.textContent=input.value.trim()
-    ?'Je garde ce dossier. La prochaine pièce s’ouvre seulement quand elle apporte quelque chose.'
-    :'Présence numérique SUPRA · coordination du dossier, sans identité humaine simulée.';
+    ?'Votre question reste dans le dialogue local.'
+    :'Présence numérique ojO · les sources restent à portée de main.';
 }
 input.addEventListener('focus',()=>{if(!isDesk())return;house.classList.add('arrival-engaged');syncDirector();});
 input.addEventListener('input',()=>{if(!isDesk())return;house.classList.add('arrival-engaged');syncDirector();});

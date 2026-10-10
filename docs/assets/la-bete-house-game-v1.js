@@ -26,8 +26,9 @@ const enterButton=document.createElement('button');
 enterButton.id='houseGameEnter';
 enterButton.type='button';
 enterButton.disabled=false;
-enterButton.textContent='Entrer dans la Maison 3D →';
-deskPane.querySelector('.housePaneBody').appendChild(enterButton);
+enterButton.textContent='Entrer en 3D →';
+enterButton.setAttribute('aria-describedby','discoveryEntryHint');
+(deskPane.querySelector('.discoveryPrimary')||deskPane.querySelector('.housePaneBody')).appendChild(enterButton);
 
 const hud=document.createElement('section');
 hud.id='houseGameHUD';
@@ -36,10 +37,10 @@ hud.innerHTML=
   '<div class="houseGameTop">'+
     '<div class="houseGameStatus">'+
       '<small>THE LIVING ADVISORY HOUSE · NAVIGATION 3D</small>'+
-      '<strong id="houseGameRoom">Private Advisory Desk</strong>'+
+      '<strong id="houseGameRoom">La Maison</strong>'+
       '<span id="houseGameMode">WASD / flèches · souris · E pour interagir</span>'+
     '</div>'+
-    '<div class="houseGameTopActions"><button type="button" id="houseGameSound" aria-pressed="false">Son · OFF</button><button type="button" id="houseGameExit">Quitter la Maison 3D</button></div>'+
+    '<div class="houseGameTopActions"><button type="button" id="houseGameSound" aria-pressed="false">Son · OFF</button><button type="button" id="houseGameExit">Retour à l’accueil</button></div>'+
   '</div>'+
   '<div class="houseGameCrosshair" aria-hidden="true"></div>'+
   '<div id="houseGamePrompt" role="status"></div>'+
@@ -94,7 +95,7 @@ const FIRST_SLICE=['desk','decision'];
 const player={x:0,y:1.68,z:4.8,radius:.36};
 
 const rooms=Object.freeze({
-  desk:{label:'Private Advisory Desk',x:0,z:4,w:12,d:8,color:0xc58e5e},
+  desk:{label:'La Maison',x:0,z:4,w:12,d:8,color:0xc58e5e},
   decision:{label:'Decision Room',x:12,z:-5,w:10,d:10,color:0xc58e5e},
   proof:{label:'Evidence Room',x:-12,z:-5,w:10,d:10,color:0x6f95a6},
   explore:{label:'Observatory',x:-12,z:-17,w:10,d:10,color:0x638ba0},
@@ -739,7 +740,8 @@ async function enterGame({pointerLock=true}={}){
   gameGroup.visible=true;rt.root.visible=false;if(rt.avatarGroup)rt.avatarGroup.visible=false;
   rt.camera.fov=66;rt.camera.near=.08;rt.camera.far=120;rt.camera.updateProjectionMatrix();
   rt.scene.fog=new THREE.FogExp2(0x071012,.020);rt.scene.background=new THREE.Color(0x05090b);rt.renderer.toneMappingExposure=Math.max(1.42,originalToneExposure*1.28);
-  player.x=0;player.y=1.64;player.z=3.4;yaw=-.7;pitch=-.04;roomNow='desk';lastFrame=0;
+  player.x=0;player.y=1.64;player.z=3.4;yaw=innerWidth<700?-1.18:-.7;pitch=innerWidth<700?-.10:-.04;roomNow='desk';lastFrame=0;
+  rt.camera.position.set(player.x,player.y,player.z);rt.camera.rotation.set(pitch,yaw,0,'YXZ');
   velocityX=velocityZ=0;rt.renderer.setPixelRatio(Math.min(devicePixelRatio||1,innerWidth<700?1.25:1.5));
   originalShadow=rt.renderer.shadowMap.enabled;rt.renderer.shadowMap.enabled=true;rt.renderer.shadowMap.type=THREE.PCFSoftShadowMap;
   sceneVisibility=rt.scene.children.filter(o=>o!==gameGroup).map(o=>[o,o.visible]);for(const [o] of sceneVisibility)o.visible=false;
@@ -782,8 +784,15 @@ function control(action,on=true){
   if(action==='interact'&&on)return interact();
   return false;
 }
-enterButton.addEventListener('click',()=>{
-  enterGame().catch(err=>{if(active)exitGame();enterButton.disabled=false;enterButton.textContent='3D indisponible · réessayer';console.warn(err);});
+let entryPending=false;
+enterButton.addEventListener('click',async()=>{
+  if(entryPending)return;
+  entryPending=true;
+  const entry=enterGame();
+  enterButton.disabled=true;enterButton.setAttribute('aria-busy','true');enterButton.textContent='La Maison s’ouvre…';
+  try{await entry;enterButton.textContent='Entrer en 3D →';}
+  catch(err){if(active)exitGame();enterButton.textContent='3D indisponible · réessayer';console.warn(err);}
+  finally{entryPending=false;enterButton.disabled=false;enterButton.removeAttribute('aria-busy');}
 });
 soundButton.addEventListener('click',()=>toggleGameSound());
 exitButton.addEventListener('click',exitGame);
