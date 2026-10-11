@@ -1,7 +1,7 @@
 {
   "schema": "LA_BETE_TERRITORY_DISCOVERY_CANDIDATES_V1",
   "state": "AUTODISCOVERY_CANDIDATES_SEPARATE_FROM_CANON",
-  "generated_at": "2026-10-10T10:38:13.354838Z",
+  "generated_at": "2026-10-11T10:52:02.386208Z",
   "topology_snapshot": "FR-TOPO-43287a81359296e3b1ff8def",
   "culture_schema": "LA_BETE_TERRITORY_CULTURE_V1",
   "contract": {
@@ -34,20 +34,20 @@
   "coverage": {
     "departments_total": 101,
     "departments_with_scan_record": 101,
-    "candidate_items": 1236,
+    "candidate_items": 1234,
     "selected_this_run": [
-      "80",
-      "81",
-      "82",
-      "83",
-      "84",
-      "85",
-      "86",
-      "87",
-      "88",
-      "89",
-      "90",
-      "91"
+      "92",
+      "93",
+      "94",
+      "95",
+      "971",
+      "972",
+      "973",
+      "974",
+      "976",
+      "01",
+      "02",
+      "03"
     ]
   },
   "departments": {
@@ -3813,7 +3813,7 @@
     "01": {
       "code": "01",
       "name": "Ain",
-      "scanned_at": "2026-10-04T14:39:38.292019Z",
+      "scanned_at": "2026-10-11T10:51:44.876322Z",
       "state": "DISCOVERY_CANDIDATES_NOT_CANON",
       "promotion_authorized": false,
       "mints_phi": false,
@@ -4160,17 +4160,17 @@
           "gate": "Découverte encyclopédique seulement. Vérifier une source naturaliste ou institutionnelle avant promotion."
         },
         {
-          "candidate_id": "nature:wikipedia:Q15301060",
+          "candidate_id": "nature:wikipedia:Q19792231",
           "state": "UNVERIFIED_AUTODISCOVERY_CANDIDATE",
           "lane": "nature",
-          "label": "Réserve naturelle nationale du Haut-Rhône français",
-          "description": "départements de l'Ain , de l'Isère et de la Savoie. Classée en 2013 et occupant 1 707 hectares le long du Rhône, c'est la plus grande réserve naturelle fluviale",
-          "wikidata_id": "Q15301060",
-          "source": "https://fr.wikipedia.org/wiki/R%C3%A9serve_naturelle_nationale_du_Haut-Rh%C3%B4ne_fran%C3%A7ais",
+          "label": "Réserve naturelle nationale de la grotte de Hautecourt",
+          "description": "première réserve naturelle française créée pour protéger une grotte. Le territoire de la réserve naturelle est dans le département de l'Ain , sur la façade",
+          "wikidata_id": "Q19792231",
+          "source": "https://fr.wikipedia.org/wiki/R%C3%A9serve_naturelle_nationale_de_la_grotte_de_Hautecourt",
           "administrative_binding": "P131_PATH_TO_DEPARTMENT",
           "administrative_path": [
-            "Q15301060",
-            "Q211651",
+            "Q19792231",
+            "Q838245",
             "Q3083"
           ],
           "country_wikidata_ids": [
@@ -4795,7 +4795,7 @@
     "03": {
       "code": "03",
       "name": "Allier",
-      "scanned_at": "2026-10-04T14:39:50.986236Z",
+      "scanned_at": "2026-10-11T10:51:54.858921Z",
       "state": "DISCOVERY_CANDIDATES_NOT_CANON",
       "promotion_authorized": false,
       "mints_phi": false,
@@ -5040,18 +5040,18 @@
       },
       "media": [
         {
-          "candidate_id": "media:Q3113",
+          "candidate_id": "media:Q2464",
           "state": "LICENSE_VERIFIED_LOCATION_CANDIDATE",
           "kind": "representative_department_media",
-          "wikidata_id": "Q3113",
-          "label": "Hôtel Préfecture Moulins Allier 3.jpg",
-          "source_page": "https://commons.wikimedia.org/wiki/File:H%C3%B4tel_Pr%C3%A9fecture_Moulins_Allier_3.jpg",
-          "thumbnail_source": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/76/H%C3%B4tel_Pr%C3%A9fecture_Moulins_Allier_3.jpg/960px-H%C3%B4tel_Pr%C3%A9fecture_Moulins_Allier_3.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
-          "asset": "assets/territory-candidates/03/21f27191f65f7b60.jpg",
-          "license": "CC BY-SA 4.0",
-          "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
-          "author": "Chabe01",
-          "description": "Hôtel de préfecture de l'Allier, Moulins.",
+          "wikidata_id": "Q2464",
+          "label": "Langeac Vil1a.jpg",
+          "source_page": "https://commons.wikimedia.org/wiki/File:Langeac_Vil1a.jpg",
+          "thumbnail_source": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/43/Langeac_Vil1a.jpg/960px-Langeac_Vil1a.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+          "asset": "assets/territory-candidates/03/ac704a26b021dfa6.jpg",
+          "license": "CC BY 3.0",
+          "license_url": "https://creativecommons.org/licenses/by/3.0",
+          "author": "Jean-Pol GRANDMONT",
+          "description": "Langeac (Haute-Loire - France), the Allier River and the Saint Gal Collegiate church.",
           "gate": "Licence vérifiée. Pertinence éditoriale et représentativité restent à valider avant promotion.",
           "quest_id": "heritage_memory"
         }
@@ -5109,51 +5109,8 @@
           "description": "de la réserve naturelle du Val d'Allier ( Allier ) », sur Legifrance Sur les autres projets Wikimedia : Réserve naturelle nationale du val d'Allier , sur",
           "wikidata_id": "Q3553412",
           "source": "https://fr.wikipedia.org/wiki/R%C3%A9serve_naturelle_nationale_du_val_d%27Allier",
-          "administrative_binding": "P131_PATH_TO_DEPARTMENT",
-          "administrative_path": [
-            "Q3553412",
-            "Q3113"
-          ],
-          "country_wikidata_ids": [
-            "Q142"
-          ],
-          "quest_id": "nature_risks",
-          "gate": "Découverte encyclopédique seulement. Vérifier une source naturaliste ou institutionnelle avant promotion."
-        },
-        {
-          "candidate_id": "nature:wikipedia:Q22249425",
-          "state": "UNVERIFIED_AUTODISCOVERY_CANDIDATE",
-          "lane": "nature",
-          "label": "Réserve naturelle régionale du val de Loire Bourbonnais",
-          "description": "Réserve naturelle régionale du val de Loire Bourbonnais La réserve naturelle régionale du val de Loire Bourbonnais (RNR299) est une réserve naturelle",
-          "wikidata_id": "Q22249425",
-          "source": "https://fr.wikipedia.org/wiki/R%C3%A9serve_naturelle_r%C3%A9gionale_du_val_de_Loire_Bourbonnais",
-          "administrative_binding": "P131_PATH_TO_DEPARTMENT",
-          "administrative_path": [
-            "Q22249425",
-            "Q271774",
-            "Q3113"
-          ],
-          "country_wikidata_ids": [
-            "Q142"
-          ],
-          "quest_id": "nature_risks",
-          "gate": "Découverte encyclopédique seulement. Vérifier une source naturaliste ou institutionnelle avant promotion."
-        },
-        {
-          "candidate_id": "nature:wikipedia:Q761970",
-          "state": "UNVERIFIED_AUTODISCOVERY_CANDIDATE",
-          "lane": "nature",
-          "label": "Forêt de Tronçais",
-          "description": "La forêt de Tronçais est une forêt domaniale française située dans le Nord-Ouest de l'Allier . Elle est principalement constituée de chênes sessiles « conduits »",
-          "wikidata_id": "Q761970",
-          "source": "https://fr.wikipedia.org/wiki/For%C3%AAt_de_Tron%C3%A7ais",
-          "administrative_binding": "P131_PATH_TO_DEPARTMENT",
-          "administrative_path": [
-            "Q761970",
-            "Q260079",
-            "Q3113"
-          ],
+          "administrative_binding": "TEXT_EXPLICIT_DEPARTMENT_WITH_FRANCE_P17",
+          "administrative_path": null,
           "country_wikidata_ids": [
             "Q142"
           ],
@@ -5276,10 +5233,10 @@
         "nature_wikipedia_wikidata": "PASS"
       },
       "wikidata_department": {
-        "id": "Q3113",
+        "id": "Q2464",
         "label": "Allier",
-        "description": "département français numéro 03",
-        "source": "https://www.wikidata.org/wiki/Q3113"
+        "description": "affluent de la Loire, en France",
+        "source": "https://www.wikidata.org/wiki/Q2464"
       }
     },
     "04": {
@@ -43228,7 +43185,7 @@
     "92": {
       "code": "92",
       "name": "Hauts-de-Seine",
-      "scanned_at": "2026-10-04T14:29:35.290128Z",
+      "scanned_at": "2026-10-11T10:50:51.440158Z",
       "state": "DISCOVERY_CANDIDATES_NOT_CANON",
       "promotion_authorized": false,
       "mints_phi": false,
@@ -43363,6 +43320,25 @@
           ],
           "quest_id": "nature_risks",
           "gate": "Découverte encyclopédique seulement. Vérifier une source naturaliste ou institutionnelle avant promotion."
+        },
+        {
+          "candidate_id": "nature:wikipedia:Q3078865",
+          "state": "UNVERIFIED_AUTODISCOVERY_CANDIDATE",
+          "lane": "nature",
+          "label": "Forêt de Fausses-Reposes",
+          "description": "La forêt de Fausses-Reposes est une forêt domaniale française de 616 hectares 28 ares 20 centiares située principalement dans les Hauts - de - Seine (372",
+          "wikidata_id": "Q3078865",
+          "source": "https://fr.wikipedia.org/wiki/For%C3%AAt_de_Fausses-Reposes",
+          "administrative_binding": "P131_PATH_TO_DEPARTMENT",
+          "administrative_path": [
+            "Q3078865",
+            "Q12543"
+          ],
+          "country_wikidata_ids": [
+            "Q142"
+          ],
+          "quest_id": "nature_risks",
+          "gate": "Découverte encyclopédique seulement. Vérifier une source naturaliste ou institutionnelle avant promotion."
         }
       ],
       "commons": [
@@ -43489,7 +43465,7 @@
     "93": {
       "code": "93",
       "name": "Seine-Saint-Denis",
-      "scanned_at": "2026-10-04T14:29:43.872870Z",
+      "scanned_at": "2026-10-11T10:51:07.658600Z",
       "state": "DISCOVERY_CANDIDATES_NOT_CANON",
       "promotion_authorized": false,
       "mints_phi": false,
@@ -43605,26 +43581,6 @@
         }
       ],
       "nature": [
-        {
-          "candidate_id": "nature:wikipedia:Q60853305",
-          "state": "UNVERIFIED_AUTODISCOVERY_CANDIDATE",
-          "lane": "nature",
-          "label": "Parc départemental de l'Île-Saint-Denis",
-          "description": "article est une ébauche concernant un parc ou un jardin public et la Seine - Saint - Denis . Vous pouvez partager vos connaissances en l’améliorant (comment",
-          "wikidata_id": "Q60853305",
-          "source": "https://fr.wikipedia.org/wiki/Parc_d%C3%A9partemental_de_l%27%C3%8Ele-Saint-Denis",
-          "administrative_binding": "P131_PATH_TO_DEPARTMENT",
-          "administrative_path": [
-            "Q60853305",
-            "Q733971",
-            "Q12761"
-          ],
-          "country_wikidata_ids": [
-            "Q142"
-          ],
-          "quest_id": "nature_risks",
-          "gate": "Découverte encyclopédique seulement. Vérifier une source naturaliste ou institutionnelle avant promotion."
-        },
         {
           "candidate_id": "nature:wikipedia:Q3078813",
           "state": "UNVERIFIED_AUTODISCOVERY_CANDIDATE",
@@ -45295,7 +45251,7 @@
     "973": {
       "code": "973",
       "name": "Guyane",
-      "scanned_at": "2026-10-04T14:30:10.795042Z",
+      "scanned_at": "2026-10-11T10:51:33.993651Z",
       "state": "DISCOVERY_CANDIDATES_NOT_CANON",
       "promotion_authorized": false,
       "mints_phi": false,
@@ -45525,17 +45481,16 @@
           "gate": "Découverte encyclopédique seulement. Vérifier une source naturaliste ou institutionnelle avant promotion."
         },
         {
-          "candidate_id": "nature:wikipedia:Q3457388",
+          "candidate_id": "nature:wikipedia:Q3364621",
           "state": "UNVERIFIED_AUTODISCOVERY_CANDIDATE",
           "lane": "nature",
-          "label": "Réserve naturelle nationale de l'île du Grand Connétable",
-          "description": "Réserve naturelle nationale de l'Île du Grand-Connétable Îles du grand et du petit connétable. Localisation sur la carte de la Guyane La réserve naturelle",
-          "wikidata_id": "Q3457388",
-          "source": "https://fr.wikipedia.org/wiki/R%C3%A9serve_naturelle_nationale_de_l%27%C3%AEle_du_Grand_Conn%C3%A9table",
+          "label": "Parc naturel régional de la Guyane",
+          "description": "avenir des réserves naturelles nationales de l’Amana et de Kaw-Roura en Guyane , CGEDD, MTES, juin 2019, 74 p. (lire en ligne) « La réserve naturelle de Kaw-Roura",
+          "wikidata_id": "Q3364621",
+          "source": "https://fr.wikipedia.org/wiki/Parc_naturel_r%C3%A9gional_de_la_Guyane",
           "administrative_binding": "P131_PATH_TO_DEPARTMENT",
           "administrative_path": [
-            "Q3457388",
-            "Q996195",
+            "Q3364621",
             "Q3769"
           ],
           "country_wikidata_ids": [
@@ -45669,7 +45624,7 @@
     "974": {
       "code": "974",
       "name": "La Réunion",
-      "scanned_at": "2026-10-04T14:30:13.972819Z",
+      "scanned_at": "2026-10-11T10:51:37.643682Z",
       "state": "DISCOVERY_CANDIDATES_NOT_CANON",
       "promotion_authorized": false,
       "mints_phi": false,
@@ -45914,16 +45869,16 @@
           "gate": "Découverte encyclopédique seulement. Vérifier une source naturaliste ou institutionnelle avant promotion."
         },
         {
-          "candidate_id": "nature:wikipedia:Q3078834",
+          "candidate_id": "nature:wikipedia:Q550389",
           "state": "UNVERIFIED_AUTODISCOVERY_CANDIDATE",
           "lane": "nature",
-          "label": "Forêt de Bélouve",
-          "description": "LA REUNION , G.GERARD Sur les autres projets Wikimedia : la forêt de Bélouve, sur Wikimedia Commons Office National des Forêts , La Réunion : La forêt de",
-          "wikidata_id": "Q3078834",
-          "source": "https://fr.wikipedia.org/wiki/For%C3%AAt_de_B%C3%A9louve",
+          "label": "Parc national de La Réunion",
+          "description": "national de La Réunion Vue générale sur le cirque de Mafate depuis le sommet du Grand Bénare, un des sites du parc. Le parc national de La Réunion est un parc",
+          "wikidata_id": "Q550389",
+          "source": "https://fr.wikipedia.org/wiki/Parc_national_de_La_R%C3%A9union",
           "administrative_binding": "P131_PATH_TO_DEPARTMENT",
           "administrative_path": [
-            "Q3078834",
+            "Q550389",
             "Q17070"
           ],
           "country_wikidata_ids": [
