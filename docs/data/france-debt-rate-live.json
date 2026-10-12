@@ -1,9 +1,9 @@
 {
   "schema": "OJO_FRANCE_DEBT_RATE_LIVE_V1",
   "version": "2026-10-02.7",
-  "snapshot_id": "OJO-5E78058A73F15FB9",
-  "sequence": 25,
-  "updated_at": "2026-10-12T11:55:56Z",
+  "snapshot_id": "OJO-4B968101B217C9CF",
+  "sequence": 26,
+  "updated_at": "2026-10-12T12:05:59Z",
   "policy": {
     "political_recommendation": "NONE",
     "market_yield_is_not_whole_debt_cost": true,
@@ -5571,7 +5571,7 @@
     "transmission_channel": "Yield curve → new issuance/refinancing → portfolio average cost → interest charge over time.",
     "possible_impact": "Directional exposure may change if the move persists and reaches maturities that must be financed; no automatic budget amount is inferred from TEC10 alone.",
     "curve_regime": "PARALLEL_UP",
-    "confidence": "LIVE_VERIFIED",
+    "confidence": "CROSSCHECKED",
     "what_requires_review": [
       "Persistence of the observed curve move.",
       "Maturity stock actually exposed after buybacks and indexation.",
@@ -5630,8 +5630,8 @@
       "value": 4.855,
       "unit": "pct",
       "date": "2026-10-12",
-      "state": "LIVE_VERIFIED",
-      "confidence": "MEDIUM",
+      "state": "CROSSCHECKED",
+      "confidence": "HIGH",
       "source_ids": [
         "BDF_TEC",
         "BDF_WEBSTAT"
@@ -5654,7 +5654,7 @@
           "url": "https://www.banque-france.fr/fr/statistiques/taux-et-cours/indices-obligataires-2026-10-12",
           "health": "LIVE_VERIFIED",
           "digest": "55cadf554bcd9433bf3358ff1a2749588676921b0ada39e17f501fbabfb98464",
-          "checked_at": "2026-10-12T11:55:28Z",
+          "checked_at": "2026-10-12T12:05:58Z",
           "error": null,
           "etag": "\"1791805588-gzip\"",
           "last_modified": "Mon, 12 Oct 2026 11:46:28 GMT",
@@ -5665,12 +5665,13 @@
           "publisher": "Banque de France · Webstat",
           "label": "Historique CNO-TEC · export CSV",
           "url": "https://webstat.banque-france.fr/export/csv-columns/fr/selection/5385693",
-          "health": "UNAVAILABLE",
-          "digest": null,
-          "checked_at": "2026-10-12T11:55:56Z",
-          "error": "TimeoutError: The read operation timed out | Error: field larger than field limit (131072)",
+          "health": "CROSSCHECKED",
+          "digest": "1c3bb4310458ec2987c48f66beb9d9d89e2a4fa676f18d95187f71ccf5153ee6",
+          "checked_at": "2026-10-12T12:05:59Z",
+          "error": null,
           "etag": null,
-          "last_modified": null,
+          "last_modified": "Mon, 12 Oct 2026 11:01:25 UTC",
+          "history_rows": 120,
           "observation_date": "2026-10-12"
         }
       ]
@@ -5722,8 +5723,8 @@
         }
       ],
       "date": "2026-10-12",
-      "state": "LIVE_VERIFIED",
-      "confidence": "MEDIUM",
+      "state": "CROSSCHECKED",
+      "confidence": "HIGH",
       "source_ids": [
         "BDF_TEC",
         "BDF_WEBSTAT"
@@ -5746,7 +5747,7 @@
           "url": "https://www.banque-france.fr/fr/statistiques/taux-et-cours/indices-obligataires-2026-10-12",
           "health": "LIVE_VERIFIED",
           "digest": "55cadf554bcd9433bf3358ff1a2749588676921b0ada39e17f501fbabfb98464",
-          "checked_at": "2026-10-12T11:55:28Z",
+          "checked_at": "2026-10-12T12:05:58Z",
           "error": null,
           "etag": "\"1791805588-gzip\"",
           "last_modified": "Mon, 12 Oct 2026 11:46:28 GMT",
@@ -5757,12 +5758,13 @@
           "publisher": "Banque de France · Webstat",
           "label": "Historique CNO-TEC · export CSV",
           "url": "https://webstat.banque-france.fr/export/csv-columns/fr/selection/5385693",
-          "health": "UNAVAILABLE",
-          "digest": null,
-          "checked_at": "2026-10-12T11:55:56Z",
-          "error": "TimeoutError: The read operation timed out | Error: field larger than field limit (131072)",
+          "health": "CROSSCHECKED",
+          "digest": "1c3bb4310458ec2987c48f66beb9d9d89e2a4fa676f18d95187f71ccf5153ee6",
+          "checked_at": "2026-10-12T12:05:59Z",
+          "error": null,
           "etag": null,
-          "last_modified": null,
+          "last_modified": "Mon, 12 Oct 2026 11:01:25 UTC",
+          "history_rows": 120,
           "observation_date": "2026-10-12"
         }
       ]
@@ -5797,7 +5799,7 @@
           "url": "https://www.banque-france.fr/fr/statistiques/taux-et-cours/indices-obligataires-2026-10-12",
           "health": "LIVE_VERIFIED",
           "digest": "55cadf554bcd9433bf3358ff1a2749588676921b0ada39e17f501fbabfb98464",
-          "checked_at": "2026-10-12T11:55:28Z",
+          "checked_at": "2026-10-12T12:05:58Z",
           "error": null,
           "etag": "\"1791805588-gzip\"",
           "last_modified": "Mon, 12 Oct 2026 11:46:28 GMT",
@@ -5808,12 +5810,13 @@
           "publisher": "Banque de France · Webstat",
           "label": "Historique CNO-TEC · export CSV",
           "url": "https://webstat.banque-france.fr/export/csv-columns/fr/selection/5385693",
-          "health": "UNAVAILABLE",
-          "digest": null,
-          "checked_at": "2026-10-12T11:55:56Z",
-          "error": "TimeoutError: The read operation timed out | Error: field larger than field limit (131072)",
+          "health": "CROSSCHECKED",
+          "digest": "1c3bb4310458ec2987c48f66beb9d9d89e2a4fa676f18d95187f71ccf5153ee6",
+          "checked_at": "2026-10-12T12:05:59Z",
+          "error": null,
           "etag": null,
-          "last_modified": null,
+          "last_modified": "Mon, 12 Oct 2026 11:01:25 UTC",
+          "history_rows": 120,
           "observation_date": "2026-10-12"
         }
       ]
@@ -5866,7 +5869,7 @@
           "url": "https://www.aft.gouv.fr/fr",
           "health": "RETAINED_LAST_GOOD",
           "digest": "9410017f63f2964a204534faec4e7ef4f3403cb822d423b239dff66d8a969318",
-          "checked_at": "2026-10-12T11:55:56Z",
+          "checked_at": "2026-10-12T12:05:59Z",
           "error": null,
           "etag": null,
           "last_modified": null,
@@ -6061,7 +6064,7 @@
     "model_divergence_5y_bne": 5.1,
     "maturity_mode": "RETAINED_LAST_GOOD",
     "latest_budget_execution_period": "2026-08",
-    "webstat_crosscheck_bps": null
+    "webstat_crosscheck_bps": 0.0
   },
   "supra_bindings": {
     "mode": "READ_ONLY_PUBLIC_PROJECTION",
@@ -6149,7 +6152,7 @@
       "url": "https://www.banque-france.fr/fr/statistiques/taux-et-cours/indices-obligataires-2026-10-12",
       "health": "LIVE_VERIFIED",
       "digest": "55cadf554bcd9433bf3358ff1a2749588676921b0ada39e17f501fbabfb98464",
-      "checked_at": "2026-10-12T11:55:28Z",
+      "checked_at": "2026-10-12T12:05:58Z",
       "error": null,
       "etag": "\"1791805588-gzip\"",
       "last_modified": "Mon, 12 Oct 2026 11:46:28 GMT"
@@ -6159,12 +6162,13 @@
       "publisher": "Banque de France · Webstat",
       "label": "Historique CNO-TEC · export CSV",
       "url": "https://webstat.banque-france.fr/export/csv-columns/fr/selection/5385693",
-      "health": "UNAVAILABLE",
-      "digest": null,
-      "checked_at": "2026-10-12T11:55:56Z",
-      "error": "TimeoutError: The read operation timed out | Error: field larger than field limit (131072)",
+      "health": "CROSSCHECKED",
+      "digest": "1c3bb4310458ec2987c48f66beb9d9d89e2a4fa676f18d95187f71ccf5153ee6",
+      "checked_at": "2026-10-12T12:05:59Z",
+      "error": null,
       "etag": null,
-      "last_modified": null
+      "last_modified": "Mon, 12 Oct 2026 11:01:25 UTC",
+      "history_rows": 120
     },
     {
       "id": "AFT_RSS",
@@ -6190,7 +6194,7 @@
       "url": "https://data.economie.gouv.fr/api/explore/v2.1/catalog/datasets/situation-mensuelle-de-l-etat/exports/json",
       "health": "LIVE_VERIFIED",
       "digest": "4afd95ad1af3ad375cdfbf66c6553151da78d48d1e8fd0dbb863325468bde341",
-      "checked_at": "2026-10-12T11:55:28Z",
+      "checked_at": "2026-10-12T12:05:58Z",
       "error": null,
       "etag": null,
       "last_modified": null,
@@ -6203,7 +6207,7 @@
       "url": "https://www.aft.gouv.fr/fr",
       "health": "OFFICIAL_VINTAGE",
       "digest": "4e5bb942ec1b466f53d1eda4d5bff3e28c8e8848da2071d5d23a97ca4bc67127",
-      "checked_at": "2026-10-12T11:55:56Z",
+      "checked_at": "2026-10-12T12:05:59Z",
       "error": null,
       "etag": null,
       "last_modified": null,
@@ -6268,7 +6272,7 @@
       "url": "https://www.aft.gouv.fr/fr",
       "health": "RETAINED_LAST_GOOD",
       "digest": "9410017f63f2964a204534faec4e7ef4f3403cb822d423b239dff66d8a969318",
-      "checked_at": "2026-10-12T11:55:56Z",
+      "checked_at": "2026-10-12T12:05:59Z",
       "error": null,
       "etag": null,
       "last_modified": null,
@@ -6781,27 +6785,33 @@
       "source_id": "BDF_WEBSTAT",
       "at": "2026-10-12T11:55:56Z",
       "detail": "CROSSCHECKED → UNAVAILABLE"
+    },
+    {
+      "kind": "SOURCE_HEALTH_CHANGED",
+      "source_id": "BDF_WEBSTAT",
+      "at": "2026-10-12T12:05:59Z",
+      "detail": "UNAVAILABLE → CROSSCHECKED"
     }
   ],
   "material_changes": [
     {
       "kind": "SOURCE_HEALTH_CHANGED",
       "source_id": "BDF_WEBSTAT",
-      "at": "2026-10-12T11:55:56Z",
-      "detail": "CROSSCHECKED → UNAVAILABLE"
+      "at": "2026-10-12T12:05:59Z",
+      "detail": "UNAVAILABLE → CROSSCHECKED"
     }
   ],
   "summary": {
-    "healthy": 4,
+    "healthy": 5,
     "monitored": 9,
-    "warnings": 5,
+    "warnings": 4,
     "source_state_counts": {
       "LIVE_VERIFIED": 2,
-      "CROSSCHECKED": 0,
+      "CROSSCHECKED": 1,
       "OFFICIAL_VINTAGE": 1,
       "RETAINED_LAST_GOOD": 1,
       "DEGRADED": 0,
-      "UNAVAILABLE": 5,
+      "UNAVAILABLE": 4,
       "CONTRADICTED": 0
     },
     "changed_this_sequence": 1,
@@ -6839,7 +6849,7 @@
     "identity_note": "Existing schema + JSON pointer is the identity where no opaque ID existed. No second country object is allocated."
   },
   "freshness": {
-    "last_material_change_at": "2026-10-12T11:55:56Z",
+    "last_material_change_at": "2026-10-12T12:05:59Z",
     "last_market_observation_date": "2026-10-12",
     "runner_truth": "GitHub Actions workflow run status; independent from material state",
     "runner_api_unavailable": "UNKNOWN_KEEP_LAST_MATERIAL_STATE"

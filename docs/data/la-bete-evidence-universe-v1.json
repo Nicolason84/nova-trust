@@ -29,11 +29,11 @@
     "unpopulated_kinds_are_not_fabricated": true
   },
   "state": "READ_ONLY_PUBLIC_PROOFGRAPH_DERIVED_PROJECTION",
-  "projection_fingerprint": "ed4785a7d9f2f7ff8488a9e2d47f12ef24186d25ad969e8b4d4648b10def253e",
+  "projection_fingerprint": "99a0a4c9676141d80a28eb2cf3682c16e06feaa18e9815ee5c643e95ef9f4c5f",
   "generated_from": {
-    "live_snapshot_id": "OJO-5E78058A73F15FB9",
-    "live_sequence": 25,
-    "territory_discovery_fingerprint": "3f79c3051f1a78bcd885e0f1fe9e44c63baa4af0a3415d581d73678843985766",
+    "live_snapshot_id": "OJO-4B968101B217C9CF",
+    "live_sequence": 26,
+    "territory_discovery_fingerprint": "f14351e309a2e645bd3e8110d8ec16496c4b759ecfda1f3d89b781d576ebd2ae",
     "living_identity_fingerprint": "f6ae7f0a87933250c01a74439329e84af939745c1a023e75d79aa6bdfde5b8d4"
   },
   "contract": {
@@ -71,7 +71,7 @@
     "smca": {
       "status": "DEEP_SMCA_V0_1_BOUND",
       "deep_analysis": "EXECUTED",
-      "executed_media_count": 101
+      "executed_media_count": 102
     },
     "uscrc": {
       "status": "RECOVERED_READ_ONLY_SYSTEM_CONTEXT_NOT_OBJECT_CERTIFICATE",
@@ -224,7 +224,7 @@
     ]
   },
   "coverage": {
-    "objects_total": 1379,
+    "objects_total": 1380,
     "by_kind": {
       "ARCHIVE": 1,
       "CLAIM": 5,
@@ -238,7 +238,7 @@
       "SOURCE": 9,
       "TERRITORY_CANDIDATE": 833,
       "INITIATIVE": 303,
-      "TERRITORY_MEDIA_CANDIDATE": 98
+      "TERRITORY_MEDIA_CANDIDATE": 99
     },
     "supported_kind_counts": {
       "SOURCE": 9,
@@ -256,10 +256,10 @@
       "CONTRIBUTION": 0,
       "RELATION": 11,
       "TERRITORY_CANDIDATE": 833,
-      "TERRITORY_MEDIA_CANDIDATE": 98,
+      "TERRITORY_MEDIA_CANDIDATE": 99,
       "VERIFIED_LIVING_MEDIA": 3
     },
-    "deep_smca_executions": 101,
+    "deep_smca_executions": 102,
     "historical_text_engine_executions": 9,
     "departments_with_profiles": 101
   },
@@ -605,7 +605,7 @@
       "label": "TEC10 observé",
       "department_code": null,
       "lane": null,
-      "evidence_state": "LIVE_VERIFIED",
+      "evidence_state": "CROSSCHECKED",
       "proofgraph": {
         "spine_schema": "SUPRA_PROOFGRAPH_PUBLIC_PROJECTION_V1",
         "proof_refs": [
@@ -619,13 +619,13 @@
         ]
       },
       "trust": {
-        "index": 73,
-        "label": "SOLIDE",
+        "index": 96,
+        "label": "FORTE",
         "components": {
-          "source_quality": 78,
+          "source_quality": 96,
           "provenance": 100,
-          "coherence": 52,
-          "crosscheck": 55,
+          "coherence": 96,
+          "crosscheck": 92,
           "media_structure": null
         },
         "reasons": {
@@ -637,18 +637,18 @@
             "empreinte / référence de preuve"
           ],
           "coherence": [
-            "Cohérence contextuelle partielle ; preuve indépendante supplémentaire utile."
+            "Le claim est explicitement recoupé."
           ],
           "crosscheck": [
-            "Référence(s) liée(s), mais le claim n'est pas recoupé sur la même portée et le même millésime."
+            "2 références indépendantes ou complémentaires sont reliées."
           ],
           "media_structure": []
         }
       },
       "coherence": {
-        "score": 52,
+        "score": 96,
         "reasons": [
-          "Cohérence contextuelle partielle ; preuve indépendante supplémentaire utile."
+          "Le claim est explicitement recoupé."
         ],
         "contradictions": []
       },
@@ -662,7 +662,7 @@
       "uscrc": {
         "status": "COMPATIBILITY_PROFILE_NOT_CERTIFICATE",
         "engine_binding": "USCRC_PRE_EVENT_PATTERN_CORE_V1_READ_ONLY_CONTEXT",
-        "reliability_index": 73,
+        "reliability_index": 96,
         "certificate_issued": false
       },
       "patrimonial_analysis": {},
@@ -676,7 +676,7 @@
       "label": "Courbe TEC 1–30 ans",
       "department_code": null,
       "lane": null,
-      "evidence_state": "LIVE_VERIFIED",
+      "evidence_state": "CROSSCHECKED",
       "proofgraph": {
         "spine_schema": "SUPRA_PROOFGRAPH_PUBLIC_PROJECTION_V1",
         "proof_refs": [
@@ -690,13 +690,13 @@
         ]
       },
       "trust": {
-        "index": 73,
-        "label": "SOLIDE",
+        "index": 96,
+        "label": "FORTE",
         "components": {
-          "source_quality": 78,
+          "source_quality": 96,
           "provenance": 100,
-          "coherence": 52,
-          "crosscheck": 55,
+          "coherence": 96,
+          "crosscheck": 92,
           "media_structure": null
         },
         "reasons": {
@@ -708,18 +708,18 @@
             "empreinte / référence de preuve"
           ],
           "coherence": [
-            "Cohérence contextuelle partielle ; preuve indépendante supplémentaire utile."
+            "Le claim est explicitement recoupé."
           ],
           "crosscheck": [
-            "Référence(s) liée(s), mais le claim n'est pas recoupé sur la même portée et le même millésime."
+            "2 références indépendantes ou complémentaires sont reliées."
           ],
           "media_structure": []
         }
       },
       "coherence": {
-        "score": 52,
+        "score": 96,
         "reasons": [
-          "Cohérence contextuelle partielle ; preuve indépendante supplémentaire utile."
+          "Le claim est explicitement recoupé."
         ],
         "contradictions": []
       },
@@ -733,7 +733,7 @@
       "uscrc": {
         "status": "COMPATIBILITY_PROFILE_NOT_CERTIFICATE",
         "engine_binding": "USCRC_PRE_EVENT_PATTERN_CORE_V1_READ_ONLY_CONTEXT",
-        "reliability_index": 73,
+        "reliability_index": 96,
         "certificate_issued": false
       },
       "patrimonial_analysis": {},
@@ -752,7 +752,7 @@
         "spine_schema": "SUPRA_PROOFGRAPH_PUBLIC_PROJECTION_V1",
         "proof_refs": [
           "decision_delta",
-          "OJO-5E78058A73F15FB9"
+          "OJO-4B968101B217C9CF"
         ],
         "source_urls": [
           "data/france-debt-rate-live.json"
@@ -779,7 +779,7 @@
             "Cohérence contextuelle partielle ; preuve indépendante supplémentaire utile."
           ],
           "crosscheck": [
-            "2 références indépendantes ou complémentaires sont reliées."
+            "3 références indépendantes ou complémentaires sont reliées."
           ],
           "media_structure": []
         }
@@ -915,7 +915,7 @@
           "transmission_channel": "Yield curve → new issuance/refinancing → portfolio average cost → interest charge over time.",
           "possible_impact": "Directional exposure may change if the move persists and reaches maturities that must be financed; no automatic budget amount is inferred from TEC10 alone.",
           "curve_regime": "PARALLEL_UP",
-          "confidence": "LIVE_VERIFIED",
+          "confidence": "CROSSCHECKED",
           "what_requires_review": [
             "Persistence of the observed curve move.",
             "Maturity stock actually exposed after buybacks and indexation.",
@@ -1146,7 +1146,7 @@
       "proofgraph": {
         "spine_schema": "SUPRA_PROOFGRAPH_PUBLIC_PROJECTION_V1",
         "proof_refs": [
-          "286ea8896a6e99ebcf3c5702377dac3173bf3cab91e92c624c2d2ed69801fa39",
+          "e2204cfaa4f11adc8136de2add3aab36082959a9192765dc7cdc95e04a70c372",
           "OJO_FRANCE_DEBT_RATE_LIVE_V1"
         ],
         "source_urls": [
@@ -1202,20 +1202,20 @@
       "patrimonial_analysis": {
         "trust_deep": {
           "execution": "NOT_EXECUTED_NO_MATCHING_RECEIPT",
-          "document_sha256": "286ea8896a6e99ebcf3c5702377dac3173bf3cab91e92c624c2d2ed69801fa39",
+          "document_sha256": "e2204cfaa4f11adc8136de2add3aab36082959a9192765dc7cdc95e04a70c372",
           "truth_verdict": false
         },
         "coherence_historical": {
           "execution": "NOT_EXECUTED_NO_MATCHING_RECEIPT",
-          "document_sha256": "286ea8896a6e99ebcf3c5702377dac3173bf3cab91e92c624c2d2ed69801fa39",
+          "document_sha256": "e2204cfaa4f11adc8136de2add3aab36082959a9192765dc7cdc95e04a70c372",
           "truth_verdict": false
         }
       },
       "object_refs": [],
       "object_meta": {
         "public_path": "data/france-debt-rate-live.json",
-        "sha256": "286ea8896a6e99ebcf3c5702377dac3173bf3cab91e92c624c2d2ed69801fa39",
-        "bytes": 153442,
+        "sha256": "e2204cfaa4f11adc8136de2add3aab36082959a9192765dc7cdc95e04a70c372",
+        "bytes": 153731,
         "schema": "OJO_FRANCE_DEBT_RATE_LIVE_V1",
         "document_analysis_scope": "FULL_LOCAL_PUBLIC_DOCUMENT"
       },
@@ -1354,7 +1354,7 @@
       "proofgraph": {
         "spine_schema": "SUPRA_PROOFGRAPH_PUBLIC_PROJECTION_V1",
         "proof_refs": [
-          "42ca7efa9175b9af6858149e0b5d5d964421bacfc22410729e0b336a9c19a75c",
+          "1b7c27be256cfdb41e6190070a7996acca3e0c7bb9de75bc3735e3e86fc1260e",
           "OJO_LA_BETE_VIRTUOUS_EVOLUTION_V1"
         ],
         "source_urls": [
@@ -1410,20 +1410,20 @@
       "patrimonial_analysis": {
         "trust_deep": {
           "execution": "NOT_EXECUTED_NO_MATCHING_RECEIPT",
-          "document_sha256": "42ca7efa9175b9af6858149e0b5d5d964421bacfc22410729e0b336a9c19a75c",
+          "document_sha256": "1b7c27be256cfdb41e6190070a7996acca3e0c7bb9de75bc3735e3e86fc1260e",
           "truth_verdict": false
         },
         "coherence_historical": {
           "execution": "NOT_EXECUTED_NO_MATCHING_RECEIPT",
-          "document_sha256": "42ca7efa9175b9af6858149e0b5d5d964421bacfc22410729e0b336a9c19a75c",
+          "document_sha256": "1b7c27be256cfdb41e6190070a7996acca3e0c7bb9de75bc3735e3e86fc1260e",
           "truth_verdict": false
         }
       },
       "object_refs": [],
       "object_meta": {
         "public_path": "data/france-debt-rate-evolution.json",
-        "sha256": "42ca7efa9175b9af6858149e0b5d5d964421bacfc22410729e0b336a9c19a75c",
-        "bytes": 416437,
+        "sha256": "1b7c27be256cfdb41e6190070a7996acca3e0c7bb9de75bc3735e3e86fc1260e",
+        "bytes": 416883,
         "schema": "OJO_LA_BETE_VIRTUOUS_EVOLUTION_V1",
         "document_analysis_scope": "FULL_LOCAL_PUBLIC_DOCUMENT"
       },
@@ -2394,7 +2394,7 @@
       "proofgraph": {
         "spine_schema": "SUPRA_PROOFGRAPH_PUBLIC_PROJECTION_V1",
         "proof_refs": [
-          "be445b3e26d72433e4c2428d458833918beed8a61630e4a6abde3cd972106d43",
+          "b5bdf918bf77b02bf7daa7c85accfe0deadd325384c69568e26f55ee765c54df",
           "LA_BETE_TERRITORY_DISCOVERY_CANDIDATES_V1"
         ],
         "source_urls": [
@@ -2451,20 +2451,20 @@
       "patrimonial_analysis": {
         "trust_deep": {
           "execution": "NOT_EXECUTED_NO_MATCHING_RECEIPT",
-          "document_sha256": "be445b3e26d72433e4c2428d458833918beed8a61630e4a6abde3cd972106d43",
+          "document_sha256": "b5bdf918bf77b02bf7daa7c85accfe0deadd325384c69568e26f55ee765c54df",
           "truth_verdict": false
         },
         "coherence_historical": {
           "execution": "NOT_EXECUTED_NO_MATCHING_RECEIPT",
-          "document_sha256": "be445b3e26d72433e4c2428d458833918beed8a61630e4a6abde3cd972106d43",
+          "document_sha256": "b5bdf918bf77b02bf7daa7c85accfe0deadd325384c69568e26f55ee765c54df",
           "truth_verdict": false
         }
       },
       "object_refs": [],
       "object_meta": {
         "public_path": "data/la-bete-territory-discovery-candidates-v1.json",
-        "sha256": "be445b3e26d72433e4c2428d458833918beed8a61630e4a6abde3cd972106d43",
-        "bytes": 1860190,
+        "sha256": "b5bdf918bf77b02bf7daa7c85accfe0deadd325384c69568e26f55ee765c54df",
+        "bytes": 1861481,
         "schema": "LA_BETE_TERRITORY_DISCOVERY_CANDIDATES_V1",
         "document_analysis_scope": "FULL_LOCAL_PUBLIC_DOCUMENT"
       },
@@ -10097,20 +10097,22 @@
       "proofgraph": {
         "spine_schema": "SUPRA_PROOFGRAPH_PUBLIC_PROJECTION_V1",
         "proof_refs": [
-          "media:Q2464"
+          "media:Q2464",
+          "media:Q3207"
         ],
         "source_urls": [
-          "https://commons.wikimedia.org/wiki/File:Langeac_Vil1a.jpg"
+          "https://commons.wikimedia.org/wiki/File:Langeac_Vil1a.jpg",
+          "https://commons.wikimedia.org/wiki/File:Carcassonne_JPG01.jpg"
         ]
       },
       "trust": {
-        "index": 66,
-        "label": "PARTIELLE",
+        "index": 74,
+        "label": "SOLIDE",
         "components": {
           "source_quality": 72,
           "provenance": 80,
           "coherence": 52,
-          "crosscheck": 55,
+          "crosscheck": 92,
           "media_structure": null
         },
         "reasons": {
@@ -10124,7 +10126,7 @@
             "Cohérence contextuelle partielle ; preuve indépendante supplémentaire utile."
           ],
           "crosscheck": [
-            "Une seule référence principale est reliée."
+            "2 références indépendantes ou complémentaires sont reliées."
           ],
           "media_structure": []
         }
@@ -10146,18 +10148,20 @@
       "uscrc": {
         "status": "COMPATIBILITY_PROFILE_NOT_CERTIFICATE",
         "engine_binding": "USCRC_PRE_EVENT_PATTERN_CORE_V1_READ_ONLY_CONTEXT",
-        "reliability_index": 66,
+        "reliability_index": 74,
         "certificate_issued": false
       },
       "patrimonial_analysis": {},
       "object_refs": [
-        "media:Q2464"
+        "media:Q2464",
+        "media:Q3207"
       ],
       "object_meta": {
         "identity_claim": false,
         "attribution_label_only": true,
         "department_codes": [
-          "03"
+          "03",
+          "11"
         ]
       },
       "what_would_raise_confidence": []
@@ -14011,7 +14015,7 @@
       "label": "Historique CNO-TEC · export CSV",
       "department_code": null,
       "lane": null,
-      "evidence_state": "UNAVAILABLE",
+      "evidence_state": "CROSSCHECKED",
       "proofgraph": {
         "spine_schema": "SUPRA_PROOFGRAPH_PUBLIC_PROJECTION_V1",
         "proof_refs": [
@@ -14023,12 +14027,12 @@
         ]
       },
       "trust": {
-        "index": 58,
-        "label": "PARTIELLE",
+        "index": 93,
+        "label": "FORTE",
         "components": {
-          "source_quality": 20,
-          "provenance": 80,
-          "coherence": 52,
+          "source_quality": 96,
+          "provenance": 100,
+          "coherence": 82,
           "crosscheck": 92,
           "media_structure": null
         },
@@ -14037,10 +14041,11 @@
             "identifiant stable",
             "source ou URL",
             "producteur / éditeur",
-            "date / millésime"
+            "date / millésime",
+            "empreinte / référence de preuve"
           ],
           "coherence": [
-            "Cohérence contextuelle partielle ; preuve indépendante supplémentaire utile."
+            "Objet issu d'une source officielle mais représentativité à interpréter séparément."
           ],
           "crosscheck": [
             "2 références indépendantes ou complémentaires sont reliées."
@@ -14049,9 +14054,9 @@
         }
       },
       "coherence": {
-        "score": 52,
+        "score": 82,
         "reasons": [
-          "Cohérence contextuelle partielle ; preuve indépendante supplémentaire utile."
+          "Objet issu d'une source officielle mais représentativité à interpréter séparément."
         ],
         "contradictions": []
       },
@@ -14065,15 +14070,13 @@
       "uscrc": {
         "status": "COMPATIBILITY_PROFILE_NOT_CERTIFICATE",
         "engine_binding": "USCRC_PRE_EVENT_PATTERN_CORE_V1_READ_ONLY_CONTEXT",
-        "reliability_index": 58,
+        "reliability_index": 93,
         "certificate_issued": false
       },
       "patrimonial_analysis": {},
       "object_refs": [],
       "object_meta": {},
-      "what_would_raise_confidence": [
-        "Rafraîchir ou recouper la source avec une preuve de même portée."
-      ]
+      "what_would_raise_confidence": []
     },
     "source:DGFIP_EXECUTION": {
       "object_id": "source:DGFIP_EXECUTION",
@@ -18666,6 +18669,77 @@
       "object_meta": {},
       "what_would_raise_confidence": []
     },
+    "territory:05:nature:wikipedia:Q19760861": {
+      "object_id": "territory:05:nature:wikipedia:Q19760861",
+      "kind": "TERRITORY_CANDIDATE",
+      "label": "Réserve naturelle nationale du Versant Nord des Pics de Combeynot",
+      "department_code": "05",
+      "lane": "nature",
+      "evidence_state": "UNVERIFIED_AUTODISCOVERY_CANDIDATE",
+      "proofgraph": {
+        "spine_schema": "SUPRA_PROOFGRAPH_PUBLIC_PROJECTION_V1",
+        "proof_refs": [
+          "nature:wikipedia:Q19760861",
+          "Q19760861",
+          "P131_PATH_TO_DEPARTMENT"
+        ],
+        "source_urls": [
+          "https://fr.wikipedia.org/wiki/R%C3%A9serve_naturelle_nationale_du_Versant_Nord_des_Pics_de_Combeynot"
+        ]
+      },
+      "trust": {
+        "index": 75,
+        "label": "SOLIDE",
+        "components": {
+          "source_quality": 48,
+          "provenance": 80,
+          "coherence": 94,
+          "crosscheck": 92,
+          "media_structure": null
+        },
+        "reasons": {
+          "provenance": [
+            "identifiant stable",
+            "source ou URL",
+            "date / millésime",
+            "empreinte / référence de preuve"
+          ],
+          "coherence": [
+            "Rattachement administratif explicite P131 au département."
+          ],
+          "crosscheck": [
+            "2 références indépendantes ou complémentaires sont reliées."
+          ],
+          "media_structure": []
+        }
+      },
+      "coherence": {
+        "score": 94,
+        "reasons": [
+          "Rattachement administratif explicite P131 au département."
+        ],
+        "contradictions": []
+      },
+      "smca": {
+        "status": "NOT_APPLICABLE",
+        "score": null,
+        "deep_smca": "NOT_APPLICABLE",
+        "authenticity_verdict": false,
+        "reasons": []
+      },
+      "uscrc": {
+        "status": "COMPATIBILITY_PROFILE_NOT_CERTIFICATE",
+        "engine_binding": "USCRC_PRE_EVENT_PATTERN_CORE_V1_READ_ONLY_CONTEXT",
+        "reliability_index": 75,
+        "certificate_issued": false
+      },
+      "patrimonial_analysis": {},
+      "object_refs": [],
+      "object_meta": {},
+      "what_would_raise_confidence": [
+        "Obtenir une confirmation locale, humaine ou institutionnelle récente."
+      ]
+    },
     "territory:05:nature:wikipedia:Q2911447": {
       "object_id": "territory:05:nature:wikipedia:Q2911447",
       "kind": "TERRITORY_CANDIDATE",
@@ -19741,22 +19815,22 @@
         "Obtenir une confirmation locale, humaine ou institutionnelle récente."
       ]
     },
-    "territory:06:nature:wikipedia:Q3364630": {
-      "object_id": "territory:06:nature:wikipedia:Q3364630",
+    "territory:06:nature:wikipedia:Q3364232": {
+      "object_id": "territory:06:nature:wikipedia:Q3364232",
       "kind": "TERRITORY_CANDIDATE",
-      "label": "Parc naturel régional des Préalpes d'Azur",
+      "label": "Parc naturel départemental de la Valmasque",
       "department_code": "06",
       "lane": "nature",
       "evidence_state": "UNVERIFIED_AUTODISCOVERY_CANDIDATE",
       "proofgraph": {
         "spine_schema": "SUPRA_PROOFGRAPH_PUBLIC_PROJECTION_V1",
         "proof_refs": [
-          "nature:wikipedia:Q3364630",
-          "Q3364630",
+          "nature:wikipedia:Q3364232",
+          "Q3364232",
           "P131_PATH_TO_DEPARTMENT"
         ],
         "source_urls": [
-          "https://fr.wikipedia.org/wiki/Parc_naturel_r%C3%A9gional_des_Pr%C3%A9alpes_d%27Azur"
+          "https://fr.wikipedia.org/wiki/Parc_naturel_d%C3%A9partemental_de_la_Valmasque"
         ]
       },
       "trust": {
@@ -20603,22 +20677,22 @@
       "object_meta": {},
       "what_would_raise_confidence": []
     },
-    "territory:07:nature:wikipedia:Q20735981": {
-      "object_id": "territory:07:nature:wikipedia:Q20735981",
+    "territory:07:nature:wikipedia:Q3457506": {
+      "object_id": "territory:07:nature:wikipedia:Q3457506",
       "kind": "TERRITORY_CANDIDATE",
-      "label": "Forêt de Taillard",
+      "label": "Réserve naturelle nationale des gorges de l'Ardèche",
       "department_code": "07",
       "lane": "nature",
       "evidence_state": "UNVERIFIED_AUTODISCOVERY_CANDIDATE",
       "proofgraph": {
         "spine_schema": "SUPRA_PROOFGRAPH_PUBLIC_PROJECTION_V1",
         "proof_refs": [
-          "nature:wikipedia:Q20735981",
-          "Q20735981",
+          "nature:wikipedia:Q3457506",
+          "Q3457506",
           "P131_PATH_TO_DEPARTMENT"
         ],
         "source_urls": [
-          "https://fr.wikipedia.org/wiki/For%C3%AAt_de_Taillard"
+          "https://fr.wikipedia.org/wiki/R%C3%A9serve_naturelle_nationale_des_gorges_de_l%27Ard%C3%A8che"
         ]
       },
       "trust": {
@@ -20674,22 +20748,22 @@
         "Obtenir une confirmation locale, humaine ou institutionnelle récente."
       ]
     },
-    "territory:07:nature:wikipedia:Q3457506": {
-      "object_id": "territory:07:nature:wikipedia:Q3457506",
+    "territory:07:nature:wikipedia:Q3457527": {
+      "object_id": "territory:07:nature:wikipedia:Q3457527",
       "kind": "TERRITORY_CANDIDATE",
-      "label": "Réserve naturelle nationale des gorges de l'Ardèche",
+      "label": "Réserve naturelle régionale des Grads de Naves",
       "department_code": "07",
       "lane": "nature",
       "evidence_state": "UNVERIFIED_AUTODISCOVERY_CANDIDATE",
       "proofgraph": {
         "spine_schema": "SUPRA_PROOFGRAPH_PUBLIC_PROJECTION_V1",
         "proof_refs": [
-          "nature:wikipedia:Q3457506",
-          "Q3457506",
+          "nature:wikipedia:Q3457527",
+          "Q3457527",
           "P131_PATH_TO_DEPARTMENT"
         ],
         "source_urls": [
-          "https://fr.wikipedia.org/wiki/R%C3%A9serve_naturelle_nationale_des_gorges_de_l%27Ard%C3%A8che"
+          "https://fr.wikipedia.org/wiki/R%C3%A9serve_naturelle_r%C3%A9gionale_des_Grads_de_Naves"
         ]
       },
       "trust": {
@@ -22682,77 +22756,6 @@
         "Obtenir une confirmation locale, humaine ou institutionnelle récente."
       ]
     },
-    "territory:09:nature:wikipedia:Q3364755": {
-      "object_id": "territory:09:nature:wikipedia:Q3364755",
-      "kind": "TERRITORY_CANDIDATE",
-      "label": "Parc pyrénéen de l'art préhistorique",
-      "department_code": "09",
-      "lane": "nature",
-      "evidence_state": "UNVERIFIED_AUTODISCOVERY_CANDIDATE",
-      "proofgraph": {
-        "spine_schema": "SUPRA_PROOFGRAPH_PUBLIC_PROJECTION_V1",
-        "proof_refs": [
-          "nature:wikipedia:Q3364755",
-          "Q3364755",
-          "P131_PATH_TO_DEPARTMENT"
-        ],
-        "source_urls": [
-          "https://fr.wikipedia.org/wiki/Parc_pyr%C3%A9n%C3%A9en_de_l%27art_pr%C3%A9historique"
-        ]
-      },
-      "trust": {
-        "index": 75,
-        "label": "SOLIDE",
-        "components": {
-          "source_quality": 48,
-          "provenance": 80,
-          "coherence": 94,
-          "crosscheck": 92,
-          "media_structure": null
-        },
-        "reasons": {
-          "provenance": [
-            "identifiant stable",
-            "source ou URL",
-            "date / millésime",
-            "empreinte / référence de preuve"
-          ],
-          "coherence": [
-            "Rattachement administratif explicite P131 au département."
-          ],
-          "crosscheck": [
-            "2 références indépendantes ou complémentaires sont reliées."
-          ],
-          "media_structure": []
-        }
-      },
-      "coherence": {
-        "score": 94,
-        "reasons": [
-          "Rattachement administratif explicite P131 au département."
-        ],
-        "contradictions": []
-      },
-      "smca": {
-        "status": "NOT_APPLICABLE",
-        "score": null,
-        "deep_smca": "NOT_APPLICABLE",
-        "authenticity_verdict": false,
-        "reasons": []
-      },
-      "uscrc": {
-        "status": "COMPATIBILITY_PROFILE_NOT_CERTIFICATE",
-        "engine_binding": "USCRC_PRE_EVENT_PATTERN_CORE_V1_READ_ONLY_CONTEXT",
-        "reliability_index": 75,
-        "certificate_issued": false
-      },
-      "patrimonial_analysis": {},
-      "object_refs": [],
-      "object_meta": {},
-      "what_would_raise_confidence": [
-        "Obtenir une confirmation locale, humaine ou institutionnelle récente."
-      ]
-    },
     "territory:09:nature:wikipedia:Q49328682": {
       "object_id": "territory:09:nature:wikipedia:Q49328682",
       "kind": "TERRITORY_CANDIDATE",
@@ -24452,6 +24455,173 @@
         "Ajouter un recoupement indépendant."
       ]
     },
+    "territory:11:media:Q3207": {
+      "object_id": "territory:11:media:Q3207",
+      "kind": "TERRITORY_MEDIA_CANDIDATE",
+      "label": "Carcassonne JPG01.jpg",
+      "department_code": "11",
+      "lane": "media",
+      "evidence_state": "LICENSE_VERIFIED_LOCATION_CANDIDATE",
+      "proofgraph": {
+        "spine_schema": "SUPRA_PROOFGRAPH_PUBLIC_PROJECTION_V1",
+        "proof_refs": [
+          "media:Q3207",
+          "Q3207"
+        ],
+        "source_urls": [
+          "https://commons.wikimedia.org/wiki/File:Carcassonne_JPG01.jpg",
+          "https://creativecommons.org/licenses/by/3.0"
+        ]
+      },
+      "trust": {
+        "index": 82,
+        "label": "SOLIDE",
+        "components": {
+          "source_quality": 84,
+          "provenance": 100,
+          "coherence": 52,
+          "crosscheck": 92,
+          "media_structure": 60
+        },
+        "reasons": {
+          "provenance": [
+            "identifiant stable",
+            "source ou URL",
+            "producteur / éditeur",
+            "date / millésime",
+            "empreinte / référence de preuve"
+          ],
+          "coherence": [
+            "Cohérence contextuelle partielle ; preuve indépendante supplémentaire utile."
+          ],
+          "crosscheck": [
+            "2 références indépendantes ou complémentaires sont reliées."
+          ],
+          "media_structure": [
+            "Extension et signature binaire sont cohérentes.",
+            "Licence et page source sont présentes.",
+            "Deep SMCA v0.1 exécuté : cohérence structurelle 60/100."
+          ]
+        }
+      },
+      "coherence": {
+        "score": 52,
+        "reasons": [
+          "Cohérence contextuelle partielle ; preuve indépendante supplémentaire utile."
+        ],
+        "contradictions": []
+      },
+      "smca": {
+        "status": "DEEP_SMCA_V0_1_EXECUTED",
+        "score": 60,
+        "baseline_score": 100,
+        "deep_smca": "EXECUTED",
+        "deep_analysis": {
+          "adapter": {
+            "engine": "MEDIA_COHERENCE_CHECK_V0_1",
+            "method": "SMCA_STRUCTURAL_MEDIA_COHERENCE_ANALYSIS",
+            "mode": "PINNED_UPSTREAM_DIRECT_ANALYZER_CALL_NO_REPORT_WRITER",
+            "source_code_republished_here": false,
+            "source_tree_sha256": "020698f717ae9e5c1a104d1ddfe742b680bdeb5ffb99c345101f254d6bdcf82e",
+            "upstream_commit": "0c01bb99bdd32efa30814ee6fd430f322ed759e4"
+          },
+          "analysis_version": "0.1",
+          "flags": [
+            "mime_extension_mismatch",
+            "timestamp_missing",
+            "timestamp_mismatch",
+            "gps_missing"
+          ],
+          "hashes": {
+            "sha256": "a5dedf680ac1ce4adac08c0feedb38dc76c642ea9ea606e204ab122b12c26c13"
+          },
+          "input_file": {
+            "extension": "jpg",
+            "filename": "99aaa6f2dcd550d7.jpg",
+            "mime_type": "image/jpeg",
+            "path": "assets/territory-candidates/11/99aaa6f2dcd550d7.jpg",
+            "size_bytes": 159778
+          },
+          "media_type": "image",
+          "score": {
+            "band": "limited",
+            "penalties_applied": [
+              {
+                "flag": "mime_extension_mismatch",
+                "penalty": 20
+              },
+              {
+                "flag": "timestamp_missing",
+                "penalty": 10
+              },
+              {
+                "flag": "timestamp_mismatch",
+                "penalty": 15
+              },
+              {
+                "flag": "gps_missing",
+                "penalty": 3
+              }
+            ],
+            "value": 60
+          },
+          "structural_checks": {
+            "encoder_present": false,
+            "extension_mime_match": false,
+            "metadata_present": true,
+            "timestamp_consistent": false,
+            "timestamp_present": false
+          },
+          "technical_metadata": {
+            "camera_make": null,
+            "camera_model": null,
+            "color_profile": null,
+            "creation_date": null,
+            "format": "JPEG",
+            "gps": null,
+            "height": 540,
+            "modification_date": null,
+            "software": null,
+            "width": 960
+          },
+          "status": "DEEP_SMCA_V0_1_EXECUTED",
+          "executed": true,
+          "truth_verdict": false,
+          "authenticity_verdict": false,
+          "engine_source_sha256": "020698f717ae9e5c1a104d1ddfe742b680bdeb5ffb99c345101f254d6bdcf82e",
+          "known_limits": [
+            "V0.1 MIME matching is intentionally simple and may over-flag equivalent MIME/extension forms.",
+            "V0.1 image timestamp rules do not map cleanly to every video container.",
+            "Structural coherence score is not an authenticity or truth score.",
+            "The original report writer has second-level output naming; this adapter calls the analyzer directly and does not use that writer."
+          ]
+        },
+        "authenticity_verdict": false,
+        "smca_contract": "STRUCTURAL_COHERENCE_ONLY_NOT_TRUTH_OR_AUTHENTICITY",
+        "asset": "assets/territory-candidates/11/99aaa6f2dcd550d7.jpg",
+        "sha256": "a5dedf680ac1ce4adac08c0feedb38dc76c642ea9ea606e204ab122b12c26c13",
+        "bytes": 159778,
+        "extension": ".jpg",
+        "signature_matches_extension": true,
+        "license_present": true,
+        "source_page_present": true,
+        "reasons": [
+          "Extension et signature binaire sont cohérentes.",
+          "Licence et page source sont présentes.",
+          "Deep SMCA v0.1 exécuté : cohérence structurelle 60/100."
+        ]
+      },
+      "uscrc": {
+        "status": "COMPATIBILITY_PROFILE_NOT_CERTIFICATE",
+        "engine_binding": "USCRC_PRE_EVENT_PATTERN_CORE_V1_READ_ONLY_CONTEXT",
+        "reliability_index": 82,
+        "certificate_issued": false
+      },
+      "patrimonial_analysis": {},
+      "object_refs": [],
+      "object_meta": {},
+      "what_would_raise_confidence": []
+    },
     "territory:11:nature:wikipedia:Q108539989": {
       "object_id": "territory:11:nature:wikipedia:Q108539989",
       "kind": "TERRITORY_CANDIDATE",
@@ -24464,19 +24634,19 @@
         "proof_refs": [
           "nature:wikipedia:Q108539989",
           "Q108539989",
-          "TEXT_EXPLICIT_DEPARTMENT_WITH_FRANCE_P17"
+          "P131_PATH_TO_DEPARTMENT"
         ],
         "source_urls": [
           "https://fr.wikipedia.org/wiki/Parc_naturel_r%C3%A9gional_Corbi%C3%A8res-Fenouill%C3%A8des"
         ]
       },
       "trust": {
-        "index": 67,
-        "label": "PARTIELLE",
+        "index": 75,
+        "label": "SOLIDE",
         "components": {
           "source_quality": 48,
           "provenance": 80,
-          "coherence": 52,
+          "coherence": 94,
           "crosscheck": 92,
           "media_structure": null
         },
@@ -24488,7 +24658,7 @@
             "empreinte / référence de preuve"
           ],
           "coherence": [
-            "Cohérence contextuelle partielle ; preuve indépendante supplémentaire utile."
+            "Rattachement administratif explicite P131 au département."
           ],
           "crosscheck": [
             "2 références indépendantes ou complémentaires sont reliées."
@@ -24497,9 +24667,9 @@
         }
       },
       "coherence": {
-        "score": 52,
+        "score": 94,
         "reasons": [
-          "Cohérence contextuelle partielle ; preuve indépendante supplémentaire utile."
+          "Rattachement administratif explicite P131 au département."
         ],
         "contradictions": []
       },
@@ -24513,7 +24683,7 @@
       "uscrc": {
         "status": "COMPATIBILITY_PROFILE_NOT_CERTIFICATE",
         "engine_binding": "USCRC_PRE_EVENT_PATTERN_CORE_V1_READ_ONLY_CONTEXT",
-        "reliability_index": 67,
+        "reliability_index": 75,
         "certificate_issued": false
       },
       "patrimonial_analysis": {},
@@ -24535,19 +24705,19 @@
         "proof_refs": [
           "nature:wikipedia:Q15441336",
           "Q15441336",
-          "TEXT_EXPLICIT_DEPARTMENT_WITH_FRANCE_P17"
+          "P131_PATH_TO_DEPARTMENT"
         ],
         "source_urls": [
           "https://fr.wikipedia.org/wiki/R%C3%A9serve_naturelle_nationale_de_la_grotte_du_T.M._71"
         ]
       },
       "trust": {
-        "index": 67,
-        "label": "PARTIELLE",
+        "index": 75,
+        "label": "SOLIDE",
         "components": {
           "source_quality": 48,
           "provenance": 80,
-          "coherence": 52,
+          "coherence": 94,
           "crosscheck": 92,
           "media_structure": null
         },
@@ -24559,7 +24729,7 @@
             "empreinte / référence de preuve"
           ],
           "coherence": [
-            "Cohérence contextuelle partielle ; preuve indépendante supplémentaire utile."
+            "Rattachement administratif explicite P131 au département."
           ],
           "crosscheck": [
             "2 références indépendantes ou complémentaires sont reliées."
@@ -24568,9 +24738,9 @@
         }
       },
       "coherence": {
-        "score": 52,
+        "score": 94,
         "reasons": [
-          "Cohérence contextuelle partielle ; preuve indépendante supplémentaire utile."
+          "Rattachement administratif explicite P131 au département."
         ],
         "contradictions": []
       },
@@ -24584,7 +24754,7 @@
       "uscrc": {
         "status": "COMPATIBILITY_PROFILE_NOT_CERTIFICATE",
         "engine_binding": "USCRC_PRE_EVENT_PATTERN_CORE_V1_READ_ONLY_CONTEXT",
-        "reliability_index": 67,
+        "reliability_index": 75,
         "certificate_issued": false
       },
       "patrimonial_analysis": {},
@@ -24594,31 +24764,31 @@
         "Obtenir une confirmation locale, humaine ou institutionnelle récente."
       ]
     },
-    "territory:11:nature:wikipedia:Q2138337": {
-      "object_id": "territory:11:nature:wikipedia:Q2138337",
+    "territory:11:nature:wikipedia:Q3457550": {
+      "object_id": "territory:11:nature:wikipedia:Q3457550",
       "kind": "TERRITORY_CANDIDATE",
-      "label": "Parc naturel régional de la Narbonnaise en Méditerranée",
+      "label": "Réserve naturelle régionale de Sainte Lucie",
       "department_code": "11",
       "lane": "nature",
       "evidence_state": "UNVERIFIED_AUTODISCOVERY_CANDIDATE",
       "proofgraph": {
         "spine_schema": "SUPRA_PROOFGRAPH_PUBLIC_PROJECTION_V1",
         "proof_refs": [
-          "nature:wikipedia:Q2138337",
-          "Q2138337",
-          "TEXT_EXPLICIT_DEPARTMENT_WITH_FRANCE_P17"
+          "nature:wikipedia:Q3457550",
+          "Q3457550",
+          "P131_PATH_TO_DEPARTMENT"
         ],
         "source_urls": [
-          "https://fr.wikipedia.org/wiki/Parc_naturel_r%C3%A9gional_de_la_Narbonnaise_en_M%C3%A9diterran%C3%A9e"
+          "https://fr.wikipedia.org/wiki/R%C3%A9serve_naturelle_r%C3%A9gionale_de_Sainte_Lucie"
         ]
       },
       "trust": {
-        "index": 67,
-        "label": "PARTIELLE",
+        "index": 75,
+        "label": "SOLIDE",
         "components": {
           "source_quality": 48,
           "provenance": 80,
-          "coherence": 52,
+          "coherence": 94,
           "crosscheck": 92,
           "media_structure": null
         },
@@ -24630,7 +24800,7 @@
             "empreinte / référence de preuve"
           ],
           "coherence": [
-            "Cohérence contextuelle partielle ; preuve indépendante supplémentaire utile."
+            "Rattachement administratif explicite P131 au département."
           ],
           "crosscheck": [
             "2 références indépendantes ou complémentaires sont reliées."
@@ -24639,9 +24809,9 @@
         }
       },
       "coherence": {
-        "score": 52,
+        "score": 94,
         "reasons": [
-          "Cohérence contextuelle partielle ; preuve indépendante supplémentaire utile."
+          "Rattachement administratif explicite P131 au département."
         ],
         "contradictions": []
       },
@@ -24655,7 +24825,7 @@
       "uscrc": {
         "status": "COMPATIBILITY_PROFILE_NOT_CERTIFICATE",
         "engine_binding": "USCRC_PRE_EVENT_PATTERN_CORE_V1_READ_ONLY_CONTEXT",
-        "reliability_index": 67,
+        "reliability_index": 75,
         "certificate_issued": false
       },
       "patrimonial_analysis": {},
@@ -26389,22 +26559,22 @@
       "object_meta": {},
       "what_would_raise_confidence": []
     },
-    "territory:13:nature:wikipedia:Q15588741": {
-      "object_id": "territory:13:nature:wikipedia:Q15588741",
+    "territory:13:nature:wikipedia:Q3457334": {
+      "object_id": "territory:13:nature:wikipedia:Q3457334",
       "kind": "TERRITORY_CANDIDATE",
-      "label": "Réserve naturelle nationale de Sainte-Victoire",
+      "label": "Réserve naturelle nationale de Camargue",
       "department_code": "13",
       "lane": "nature",
       "evidence_state": "UNVERIFIED_AUTODISCOVERY_CANDIDATE",
       "proofgraph": {
         "spine_schema": "SUPRA_PROOFGRAPH_PUBLIC_PROJECTION_V1",
         "proof_refs": [
-          "nature:wikipedia:Q15588741",
-          "Q15588741",
+          "nature:wikipedia:Q3457334",
+          "Q3457334",
           "P131_PATH_TO_DEPARTMENT"
         ],
         "source_urls": [
-          "https://fr.wikipedia.org/wiki/R%C3%A9serve_naturelle_nationale_de_Sainte-Victoire"
+          "https://fr.wikipedia.org/wiki/R%C3%A9serve_naturelle_nationale_de_Camargue"
         ]
       },
       "trust": {
@@ -26460,22 +26630,22 @@
         "Obtenir une confirmation locale, humaine ou institutionnelle récente."
       ]
     },
-    "territory:13:nature:wikipedia:Q3457334": {
-      "object_id": "territory:13:nature:wikipedia:Q3457334",
+    "territory:13:nature:wikipedia:Q3457423": {
+      "object_id": "territory:13:nature:wikipedia:Q3457423",
       "kind": "TERRITORY_CANDIDATE",
-      "label": "Réserve naturelle nationale de Camargue",
+      "label": "Réserve naturelle nationale des marais du Vigueirat",
       "department_code": "13",
       "lane": "nature",
       "evidence_state": "UNVERIFIED_AUTODISCOVERY_CANDIDATE",
       "proofgraph": {
         "spine_schema": "SUPRA_PROOFGRAPH_PUBLIC_PROJECTION_V1",
         "proof_refs": [
-          "nature:wikipedia:Q3457334",
-          "Q3457334",
+          "nature:wikipedia:Q3457423",
+          "Q3457423",
           "P131_PATH_TO_DEPARTMENT"
         ],
         "source_urls": [
-          "https://fr.wikipedia.org/wiki/R%C3%A9serve_naturelle_nationale_de_Camargue"
+          "https://fr.wikipedia.org/wiki/R%C3%A9serve_naturelle_nationale_des_marais_du_Vigueirat"
         ]
       },
       "trust": {
@@ -27464,22 +27634,22 @@
         "Obtenir une confirmation locale, humaine ou institutionnelle récente."
       ]
     },
-    "territory:14:nature:wikipedia:Q17141189": {
-      "object_id": "territory:14:nature:wikipedia:Q17141189",
+    "territory:14:nature:wikipedia:Q19656834": {
+      "object_id": "territory:14:nature:wikipedia:Q19656834",
       "kind": "TERRITORY_CANDIDATE",
-      "label": "Réserve naturelle régionale des anciennes carrières d'Orival",
+      "label": "Réserve naturelle nationale de la forêt domaniale de Cerisy",
       "department_code": "14",
       "lane": "nature",
       "evidence_state": "UNVERIFIED_AUTODISCOVERY_CANDIDATE",
       "proofgraph": {
         "spine_schema": "SUPRA_PROOFGRAPH_PUBLIC_PROJECTION_V1",
         "proof_refs": [
-          "nature:wikipedia:Q17141189",
-          "Q17141189",
+          "nature:wikipedia:Q19656834",
+          "Q19656834",
           "P131_PATH_TO_DEPARTMENT"
         ],
         "source_urls": [
-          "https://fr.wikipedia.org/wiki/R%C3%A9serve_naturelle_r%C3%A9gionale_des_anciennes_carri%C3%A8res_d%27Orival"
+          "https://fr.wikipedia.org/wiki/R%C3%A9serve_naturelle_nationale_de_la_for%C3%AAt_domaniale_de_Cerisy"
         ]
       },
       "trust": {
