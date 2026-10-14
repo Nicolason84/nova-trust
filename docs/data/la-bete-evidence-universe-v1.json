@@ -29,10 +29,10 @@
     "unpopulated_kinds_are_not_fabricated": true
   },
   "state": "READ_ONLY_PUBLIC_PROOFGRAPH_DERIVED_PROJECTION",
-  "projection_fingerprint": "456e52693aac00c152a53b00d243868e7e87ca8cd82b3190eec08b9d4bd8fc7c",
+  "projection_fingerprint": "caa2985f87471da7a539983c3a77636727f8530b0993bbc9cfd1c2d706d4547c",
   "generated_from": {
-    "live_snapshot_id": "OJO-705A014390419B82",
-    "live_sequence": 27,
+    "live_snapshot_id": "OJO-93652D189A6DBB3A",
+    "live_sequence": 28,
     "territory_discovery_fingerprint": "4d8e8253541183d63d6a8a0638d2608a6e400fd3cd281156dc5fa2d201dedce9",
     "living_identity_fingerprint": "f6ae7f0a87933250c01a74439329e84af939745c1a023e75d79aa6bdfde5b8d4"
   },
@@ -400,7 +400,7 @@
           "BDF_WEBSTAT"
         ],
         "source_urls": [
-          "https://www.banque-france.fr/fr/statistiques/taux-et-cours/indices-obligataires-2026-10-13",
+          "https://www.banque-france.fr/fr/statistiques/taux-et-cours/indices-obligataires-2026-10-14",
           "https://webstat.banque-france.fr/export/csv-columns/fr/selection/5385693"
         ]
       },
@@ -614,7 +614,7 @@
           "BDF_WEBSTAT"
         ],
         "source_urls": [
-          "https://www.banque-france.fr/fr/statistiques/taux-et-cours/indices-obligataires-2026-10-13",
+          "https://www.banque-france.fr/fr/statistiques/taux-et-cours/indices-obligataires-2026-10-14",
           "https://webstat.banque-france.fr/export/csv-columns/fr/selection/5385693"
         ]
       },
@@ -685,7 +685,7 @@
           "BDF_WEBSTAT"
         ],
         "source_urls": [
-          "https://www.banque-france.fr/fr/statistiques/taux-et-cours/indices-obligataires-2026-10-13",
+          "https://www.banque-france.fr/fr/statistiques/taux-et-cours/indices-obligataires-2026-10-14",
           "https://webstat.banque-france.fr/export/csv-columns/fr/selection/5385693"
         ]
       },
@@ -752,7 +752,7 @@
         "spine_schema": "SUPRA_PROOFGRAPH_PUBLIC_PROJECTION_V1",
         "proof_refs": [
           "decision_delta",
-          "OJO-705A014390419B82"
+          "OJO-93652D189A6DBB3A"
         ],
         "source_urls": [
           "data/france-debt-rate-live.json"
@@ -811,51 +811,6 @@
         "signal": {
           "status": "MATERIAL_CHANGE",
           "previous_state": {
-            "date": "2026-10-12",
-            "curve": [
-              {
-                "tenor_years": 1,
-                "rate_pct": 3.278
-              },
-              {
-                "tenor_years": 2,
-                "rate_pct": 3.628
-              },
-              {
-                "tenor_years": 3,
-                "rate_pct": 3.823
-              },
-              {
-                "tenor_years": 5,
-                "rate_pct": 4.198
-              },
-              {
-                "tenor_years": 7,
-                "rate_pct": 4.509
-              },
-              {
-                "tenor_years": 10,
-                "rate_pct": 4.855
-              },
-              {
-                "tenor_years": 15,
-                "rate_pct": 5.177
-              },
-              {
-                "tenor_years": 20,
-                "rate_pct": 5.309
-              },
-              {
-                "tenor_years": 25,
-                "rate_pct": 5.267
-              },
-              {
-                "tenor_years": 30,
-                "rate_pct": 5.414
-              }
-            ]
-          },
-          "current_state": {
             "date": "2026-10-13",
             "curve": [
               {
@@ -900,17 +855,62 @@
               }
             ]
           },
+          "current_state": {
+            "date": "2026-10-14",
+            "curve": [
+              {
+                "tenor_years": 1,
+                "rate_pct": 3.284
+              },
+              {
+                "tenor_years": 2,
+                "rate_pct": 3.571
+              },
+              {
+                "tenor_years": 3,
+                "rate_pct": 3.786
+              },
+              {
+                "tenor_years": 5,
+                "rate_pct": 4.159
+              },
+              {
+                "tenor_years": 7,
+                "rate_pct": 4.467
+              },
+              {
+                "tenor_years": 10,
+                "rate_pct": 4.805
+              },
+              {
+                "tenor_years": 15,
+                "rate_pct": 5.136
+              },
+              {
+                "tenor_years": 20,
+                "rate_pct": 5.266
+              },
+              {
+                "tenor_years": 25,
+                "rate_pct": 5.233
+              },
+              {
+                "tenor_years": 30,
+                "rate_pct": 5.371
+              }
+            ]
+          },
           "delta_bps": {
             "1": 0.3,
-            "2": -1.4,
-            "3": -1.8,
-            "5": -3.1,
-            "7": -3.2,
-            "10": -3.2,
-            "15": -3.7,
-            "20": -3.8,
-            "25": -3.6,
-            "30": -4.1
+            "2": -4.3,
+            "3": -1.9,
+            "5": -0.8,
+            "7": -1.0,
+            "10": -1.8,
+            "15": -0.4,
+            "20": -0.5,
+            "25": 0.2,
+            "30": -0.2
           },
           "transmission_channel": "Yield curve → new issuance/refinancing → portfolio average cost → interest charge over time.",
           "possible_impact": "Directional exposure may change if the move persists and reaches maturities that must be financed; no automatic budget amount is inferred from TEC10 alone.",
@@ -1146,7 +1146,7 @@
       "proofgraph": {
         "spine_schema": "SUPRA_PROOFGRAPH_PUBLIC_PROJECTION_V1",
         "proof_refs": [
-          "8e27a077ce2a6df00af8d5e32b27f034049a6ddc1fd497fcdb3dfdcc83720b76",
+          "12d1a718c3d50578477bbab76d2e13818e6a5e04ed750d6bd54e88751e24ab6c",
           "OJO_FRANCE_DEBT_RATE_LIVE_V1"
         ],
         "source_urls": [
@@ -1202,20 +1202,20 @@
       "patrimonial_analysis": {
         "trust_deep": {
           "execution": "NOT_EXECUTED_NO_MATCHING_RECEIPT",
-          "document_sha256": "8e27a077ce2a6df00af8d5e32b27f034049a6ddc1fd497fcdb3dfdcc83720b76",
+          "document_sha256": "12d1a718c3d50578477bbab76d2e13818e6a5e04ed750d6bd54e88751e24ab6c",
           "truth_verdict": false
         },
         "coherence_historical": {
           "execution": "NOT_EXECUTED_NO_MATCHING_RECEIPT",
-          "document_sha256": "8e27a077ce2a6df00af8d5e32b27f034049a6ddc1fd497fcdb3dfdcc83720b76",
+          "document_sha256": "12d1a718c3d50578477bbab76d2e13818e6a5e04ed750d6bd54e88751e24ab6c",
           "truth_verdict": false
         }
       },
       "object_refs": [],
       "object_meta": {
         "public_path": "data/france-debt-rate-live.json",
-        "sha256": "8e27a077ce2a6df00af8d5e32b27f034049a6ddc1fd497fcdb3dfdcc83720b76",
-        "bytes": 157480,
+        "sha256": "12d1a718c3d50578477bbab76d2e13818e6a5e04ed750d6bd54e88751e24ab6c",
+        "bytes": 159106,
         "schema": "OJO_FRANCE_DEBT_RATE_LIVE_V1",
         "document_analysis_scope": "FULL_LOCAL_PUBLIC_DOCUMENT"
       },
@@ -1354,7 +1354,7 @@
       "proofgraph": {
         "spine_schema": "SUPRA_PROOFGRAPH_PUBLIC_PROJECTION_V1",
         "proof_refs": [
-          "471ee369bf87e5f5bc1155085af5b429bb4eafb27f6f65eb608d76b917ca08f9",
+          "11680f8cd2e8079f0c96b1ad8a5c0fd09190f6c2696f9d1895118bd1a59a17cb",
           "OJO_LA_BETE_VIRTUOUS_EVOLUTION_V1"
         ],
         "source_urls": [
@@ -1410,20 +1410,20 @@
       "patrimonial_analysis": {
         "trust_deep": {
           "execution": "NOT_EXECUTED_NO_MATCHING_RECEIPT",
-          "document_sha256": "471ee369bf87e5f5bc1155085af5b429bb4eafb27f6f65eb608d76b917ca08f9",
+          "document_sha256": "11680f8cd2e8079f0c96b1ad8a5c0fd09190f6c2696f9d1895118bd1a59a17cb",
           "truth_verdict": false
         },
         "coherence_historical": {
           "execution": "NOT_EXECUTED_NO_MATCHING_RECEIPT",
-          "document_sha256": "471ee369bf87e5f5bc1155085af5b429bb4eafb27f6f65eb608d76b917ca08f9",
+          "document_sha256": "11680f8cd2e8079f0c96b1ad8a5c0fd09190f6c2696f9d1895118bd1a59a17cb",
           "truth_verdict": false
         }
       },
       "object_refs": [],
       "object_meta": {
         "public_path": "data/france-debt-rate-evolution.json",
-        "sha256": "471ee369bf87e5f5bc1155085af5b429bb4eafb27f6f65eb608d76b917ca08f9",
-        "bytes": 415462,
+        "sha256": "11680f8cd2e8079f0c96b1ad8a5c0fd09190f6c2696f9d1895118bd1a59a17cb",
+        "bytes": 415461,
         "schema": "OJO_LA_BETE_VIRTUOUS_EVOLUTION_V1",
         "document_analysis_scope": "FULL_LOCAL_PUBLIC_DOCUMENT"
       },
@@ -3998,7 +3998,7 @@
           "source:BDF_TEC"
         ],
         "source_urls": [
-          "https://www.banque-france.fr/fr/statistiques/taux-et-cours/indices-obligataires-2026-10-13"
+          "https://www.banque-france.fr/fr/statistiques/taux-et-cours/indices-obligataires-2026-10-14"
         ]
       },
       "trust": {
@@ -13954,7 +13954,7 @@
           "TEC_CURVE"
         ],
         "source_urls": [
-          "https://www.banque-france.fr/fr/statistiques/taux-et-cours/indices-obligataires-2026-10-13"
+          "https://www.banque-france.fr/fr/statistiques/taux-et-cours/indices-obligataires-2026-10-14"
         ]
       },
       "trust": {
