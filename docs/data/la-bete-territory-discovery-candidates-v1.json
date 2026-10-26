@@ -1,7 +1,7 @@
 {
   "schema": "LA_BETE_TERRITORY_DISCOVERY_CANDIDATES_V1",
   "state": "AUTODISCOVERY_CANDIDATES_SEPARATE_FROM_CANON",
-  "generated_at": "2026-10-25T09:11:16.584396Z",
+  "generated_at": "2026-10-26T10:11:11.339148Z",
   "topology_snapshot": "FR-TOPO-43287a81359296e3b1ff8def",
   "culture_schema": "LA_BETE_TERRITORY_CULTURE_V1",
   "contract": {
@@ -34,20 +34,20 @@
   "coverage": {
     "departments_total": 101,
     "departments_with_scan_record": 101,
-    "candidate_items": 1244,
+    "candidate_items": 1245,
     "selected_this_run": [
-      "58",
-      "59",
-      "60",
-      "61",
-      "62",
-      "63",
-      "64",
-      "65",
-      "66",
-      "67",
-      "68",
-      "69"
+      "70",
+      "71",
+      "72",
+      "73",
+      "74",
+      "75",
+      "76",
+      "77",
+      "78",
+      "79",
+      "80",
+      "81"
     ]
   },
   "departments": {
@@ -460,7 +460,7 @@
     "80": {
       "code": "80",
       "name": "Somme",
-      "scanned_at": "2026-10-04T14:28:19.029861Z",
+      "scanned_at": "2026-10-26T10:10:57.239577Z",
       "state": "DISCOVERY_CANDIDATES_NOT_CANON",
       "promotion_authorized": false,
       "mints_phi": false,
@@ -787,25 +787,6 @@
           "gate": "Découverte encyclopédique seulement. Vérifier une source naturaliste ou institutionnelle avant promotion."
         },
         {
-          "candidate_id": "nature:wikipedia:Q1741383",
-          "state": "UNVERIFIED_AUTODISCOVERY_CANDIDATE",
-          "lane": "nature",
-          "label": "Baie de Somme",
-          "description": "Wikimedia : Baie de Somme , sur Wikimedia Commons Réserve naturelle nationale de la baie de Somme Parc du Marquenterre Le Hâble-d'Ault Parc naturel marin des estuaires",
-          "wikidata_id": "Q1741383",
-          "source": "https://fr.wikipedia.org/wiki/Baie_de_Somme",
-          "administrative_binding": "P131_PATH_TO_DEPARTMENT",
-          "administrative_path": [
-            "Q1741383",
-            "Q12770"
-          ],
-          "country_wikidata_ids": [
-            "Q142"
-          ],
-          "quest_id": "nature_risks",
-          "gate": "Découverte encyclopédique seulement. Vérifier une source naturaliste ou institutionnelle avant promotion."
-        },
-        {
           "candidate_id": "nature:wikipedia:Q2051974",
           "state": "UNVERIFIED_AUTODISCOVERY_CANDIDATE",
           "lane": "nature",
@@ -817,6 +798,26 @@
           "administrative_path": [
             "Q2051974",
             "Q758882",
+            "Q12770"
+          ],
+          "country_wikidata_ids": [
+            "Q142"
+          ],
+          "quest_id": "nature_risks",
+          "gate": "Découverte encyclopédique seulement. Vérifier une source naturaliste ou institutionnelle avant promotion."
+        },
+        {
+          "candidate_id": "nature:wikipedia:Q3457383",
+          "state": "UNVERIFIED_AUTODISCOVERY_CANDIDATE",
+          "lane": "nature",
+          "label": "Réserve naturelle nationale de l'étang Saint-Ladre",
+          "description": "d'Amiens, la réserve naturelle de l'étang Saint-Ladre se situe dans la vallée de l'Avre, non loin de sa confluence avec la Somme . La réserve naturelle s'étend",
+          "wikidata_id": "Q3457383",
+          "source": "https://fr.wikipedia.org/wiki/R%C3%A9serve_naturelle_nationale_de_l%27%C3%A9tang_Saint-Ladre",
+          "administrative_binding": "P131_PATH_TO_DEPARTMENT",
+          "administrative_path": [
+            "Q3457383",
+            "Q651369",
             "Q12770"
           ],
           "country_wikidata_ids": [
@@ -33827,7 +33828,7 @@
     "70": {
       "code": "70",
       "name": "Haute-Saône",
-      "scanned_at": "2026-10-17T08:34:37.532355Z",
+      "scanned_at": "2026-10-26T10:09:21.315977Z",
       "state": "DISCOVERY_CANDIDATES_NOT_CANON",
       "promotion_authorized": false,
       "mints_phi": false,
@@ -34090,13 +34091,13 @@
       ],
       "heritage": [
         {
-          "candidate_id": "heritage:merimee:PA00125416",
+          "candidate_id": "heritage:merimee:PA00102240",
           "state": "OFFICIAL_DATASET_CANDIDATE",
           "lane": "heritage",
-          "label": "Enceinte médiévale",
-          "commune": "Pesmes",
+          "label": "Fontaine-lavoir Sud",
+          "commune": "Oyrières",
           "description": null,
-          "source": "https://pop.culture.gouv.fr/notice/merimee/PA00125416",
+          "source": "https://pop.culture.gouv.fr/notice/merimee/PA00102240",
           "dataset": "https://www.data.gouv.fr/datasets/immeubles-proteges-au-titre-des-monuments-historiques-2",
           "producer": "Ministère de la Culture",
           "license": "Licence Ouverte / Open Licence 2.0",
@@ -34104,13 +34105,13 @@
           "gate": "La protection patrimoniale est sourcée officiellement. La sélection éditoriale et la représentation visuelle restent à valider avant promotion."
         },
         {
-          "candidate_id": "heritage:merimee:PA00132607",
+          "candidate_id": "heritage:merimee:PA00102329",
           "state": "OFFICIAL_DATASET_CANDIDATE",
           "lane": "heritage",
-          "label": "Château-Dessus",
-          "commune": "Chauvirey-le-Châtel",
-          "description": "Château construit au 13e siècle, à l'ouest d'un édifice plus ancien puis reconstruit au 17e siècle sur les plans de Jacques Gentillatre. Délaissé dès le 18e siècle.",
-          "source": "https://pop.culture.gouv.fr/notice/merimee/PA00132607",
+          "label": "Château de Montjustin",
+          "commune": "Montjustin-et-Velotte",
+          "description": null,
+          "source": "https://pop.culture.gouv.fr/notice/merimee/PA00102329",
           "dataset": "https://www.data.gouv.fr/datasets/immeubles-proteges-au-titre-des-monuments-historiques-2",
           "producer": "Ministère de la Culture",
           "license": "Licence Ouverte / Open Licence 2.0",
@@ -34118,13 +34119,13 @@
           "gate": "La protection patrimoniale est sourcée officiellement. La sélection éditoriale et la représentation visuelle restent à valider avant promotion."
         },
         {
-          "candidate_id": "heritage:merimee:PA00132759",
+          "candidate_id": "heritage:merimee:PA00102226",
           "state": "OFFICIAL_DATASET_CANDIDATE",
           "lane": "heritage",
-          "label": "Château",
-          "commune": "Fallon",
-          "description": "Corps de logis reconstruit fin 17e ou début 18e siècle, remployant les vestiges d'un bâtiment antérieur. Gros travaux à partir de 1748 par Jean-Baptiste de Raincourt sur les plans de l'architecte bisontin J. ; C. Colombot (communs, décor intérieur, aménagement du parc).",
-          "source": "https://pop.culture.gouv.fr/notice/merimee/PA00132759",
+          "label": "Fontaine-lavoir",
+          "commune": "Montagney",
+          "description": null,
+          "source": "https://pop.culture.gouv.fr/notice/merimee/PA00102226",
           "dataset": "https://www.data.gouv.fr/datasets/immeubles-proteges-au-titre-des-monuments-historiques-2",
           "producer": "Ministère de la Culture",
           "license": "Licence Ouverte / Open Licence 2.0",
@@ -34769,7 +34770,7 @@
     "72": {
       "code": "72",
       "name": "Sarthe",
-      "scanned_at": "2026-10-09T11:20:19.671287Z",
+      "scanned_at": "2026-10-26T10:09:34.887383Z",
       "state": "DISCOVERY_CANDIDATES_NOT_CANON",
       "promotion_authorized": false,
       "mints_phi": false,
@@ -35092,13 +35093,13 @@
           "gate": "Découverte encyclopédique seulement. Vérifier une source naturaliste ou institutionnelle avant promotion."
         },
         {
-          "candidate_id": "nature:wikipedia:Q17344638",
+          "candidate_id": "nature:wikipedia:Q3457573",
           "state": "UNVERIFIED_AUTODISCOVERY_CANDIDATE",
           "lane": "nature",
-          "label": "Réserve naturelle régionale du coteau et plateau de Tessé",
-          "description": "ensemble de pelouses calcaires. Le territoire de la réserve naturelle est dans le département de la Sarthe , sur la commune de Villaines-la-Carelle en bordure",
-          "wikidata_id": "Q17344638",
-          "source": "https://fr.wikipedia.org/wiki/R%C3%A9serve_naturelle_r%C3%A9gionale_du_coteau_et_plateau_de_Tess%C3%A9",
+          "label": "Réserve naturelle régionale des prairies et roselière des Dureaux",
+          "description": "Réserve naturelle régionale des prairies et roselière des Dureaux Localisation sur la carte de la Sarthe Localisation sur la carte des Pays de la Loire",
+          "wikidata_id": "Q3457573",
+          "source": "https://fr.wikipedia.org/wiki/R%C3%A9serve_naturelle_r%C3%A9gionale_des_prairies_et_roseli%C3%A8re_des_Dureaux",
           "administrative_binding": "TEXT_EXPLICIT_DEPARTMENT_WITH_FRANCE_P17",
           "administrative_path": null,
           "country_wikidata_ids": [
@@ -35108,13 +35109,13 @@
           "gate": "Découverte encyclopédique seulement. Vérifier une source naturaliste ou institutionnelle avant promotion."
         },
         {
-          "candidate_id": "nature:wikipedia:Q3457573",
+          "candidate_id": "nature:wikipedia:Q3457580",
           "state": "UNVERIFIED_AUTODISCOVERY_CANDIDATE",
           "lane": "nature",
-          "label": "Réserve naturelle régionale des prairies et roselière des Dureaux",
-          "description": "Réserve naturelle régionale des prairies et roselière des Dureaux Localisation sur la carte de la Sarthe Localisation sur la carte des Pays de la Loire",
-          "wikidata_id": "Q3457573",
-          "source": "https://fr.wikipedia.org/wiki/R%C3%A9serve_naturelle_r%C3%A9gionale_des_prairies_et_roseli%C3%A8re_des_Dureaux",
+          "label": "Réserve naturelle régionale du coteau et prairies des Caforts",
+          "description": "Réserve naturelle régionale du coteau et prairies des Caforts Localisation sur la carte de la Sarthe Localisation sur la carte des Pays de la Loire La",
+          "wikidata_id": "Q3457580",
+          "source": "https://fr.wikipedia.org/wiki/R%C3%A9serve_naturelle_r%C3%A9gionale_du_coteau_et_prairies_des_Caforts",
           "administrative_binding": "TEXT_EXPLICIT_DEPARTMENT_WITH_FRANCE_P17",
           "administrative_path": null,
           "country_wikidata_ids": [
@@ -35248,7 +35249,7 @@
     "73": {
       "code": "73",
       "name": "Savoie",
-      "scanned_at": "2026-10-17T08:34:55.366815Z",
+      "scanned_at": "2026-10-26T10:09:41.815701Z",
       "state": "DISCOVERY_CANDIDATES_NOT_CANON",
       "promotion_authorized": false,
       "mints_phi": false,
@@ -35575,25 +35576,6 @@
           "gate": "Découverte encyclopédique seulement. Vérifier une source naturaliste ou institutionnelle avant promotion."
         },
         {
-          "candidate_id": "nature:wikipedia:Q811362",
-          "state": "UNVERIFIED_AUTODISCOVERY_CANDIDATE",
-          "lane": "nature",
-          "label": "Massif des Bauges",
-          "description": "françaises du nord, se situant à cheval sur les départements de la Savoie et de la Haute- Savoie et culminant à plus de 2 200 mètres d'altitude. Il constitue",
-          "wikidata_id": "Q811362",
-          "source": "https://fr.wikipedia.org/wiki/Massif_des_Bauges",
-          "administrative_binding": "P131_PATH_TO_DEPARTMENT",
-          "administrative_path": [
-            "Q811362",
-            "Q12745"
-          ],
-          "country_wikidata_ids": [
-            "Q142"
-          ],
-          "quest_id": "nature_risks",
-          "gate": "Découverte encyclopédique seulement. Vérifier une source naturaliste ou institutionnelle avant promotion."
-        },
-        {
           "candidate_id": "nature:wikipedia:Q3123538",
           "state": "UNVERIFIED_AUTODISCOVERY_CANDIDATE",
           "lane": "nature",
@@ -35604,6 +35586,26 @@
           "administrative_binding": "P131_PATH_TO_DEPARTMENT",
           "administrative_path": [
             "Q3123538",
+            "Q12745"
+          ],
+          "country_wikidata_ids": [
+            "Q142"
+          ],
+          "quest_id": "nature_risks",
+          "gate": "Découverte encyclopédique seulement. Vérifier une source naturaliste ou institutionnelle avant promotion."
+        },
+        {
+          "candidate_id": "nature:wikipedia:Q18515612",
+          "state": "UNVERIFIED_AUTODISCOVERY_CANDIDATE",
+          "lane": "nature",
+          "label": "Réserve naturelle régionale de la tourbière des Saisies - Beaufortain - Val d'Arly",
+          "description": "Située au nord du département de la Savoie , à cheval entre le massif du Beaufortain et le val d'Arly, la réserve naturelle s'étend sur les communes de Cohennoz",
+          "wikidata_id": "Q18515612",
+          "source": "https://fr.wikipedia.org/wiki/R%C3%A9serve_naturelle_r%C3%A9gionale_de_la_tourbi%C3%A8re_des_Saisies_-_Beaufortain_-_Val_d%27Arly",
+          "administrative_binding": "P131_PATH_TO_DEPARTMENT",
+          "administrative_path": [
+            "Q18515612",
+            "Q1093011",
             "Q12745"
           ],
           "country_wikidata_ids": [
@@ -36910,7 +36912,7 @@
     "77": {
       "code": "77",
       "name": "Seine-et-Marne",
-      "scanned_at": "2026-10-18T08:51:55.383462Z",
+      "scanned_at": "2026-10-26T10:10:31.621549Z",
       "state": "DISCOVERY_CANDIDATES_NOT_CANON",
       "promotion_authorized": false,
       "mints_phi": false,
@@ -37251,6 +37253,26 @@
           ],
           "quest_id": "nature_risks",
           "gate": "Découverte encyclopédique seulement. Vérifier une source naturaliste ou institutionnelle avant promotion."
+        },
+        {
+          "candidate_id": "nature:wikipedia:Q639713",
+          "state": "UNVERIFIED_AUTODISCOVERY_CANDIDATE",
+          "lane": "nature",
+          "label": "Forêt de Sénart",
+          "description": "La forêt de Sénart est une forêt domaniale du sud-est de l'Île-de-France, à cheval sur les départements de Seine - et - Marne et de l'Essonne. La forêt de",
+          "wikidata_id": "Q639713",
+          "source": "https://fr.wikipedia.org/wiki/For%C3%AAt_de_S%C3%A9nart",
+          "administrative_binding": "P131_PATH_TO_DEPARTMENT",
+          "administrative_path": [
+            "Q639713",
+            "Q1441028",
+            "Q12753"
+          ],
+          "country_wikidata_ids": [
+            "Q142"
+          ],
+          "quest_id": "nature_risks",
+          "gate": "Découverte encyclopédique seulement. Vérifier une source naturaliste ou institutionnelle avant promotion."
         }
       ],
       "commons": [
@@ -37377,7 +37399,7 @@
     "78": {
       "code": "78",
       "name": "Yvelines",
-      "scanned_at": "2026-10-18T08:52:02.817245Z",
+      "scanned_at": "2026-10-26T10:10:40.419061Z",
       "state": "DISCOVERY_CANDIDATES_NOT_CANON",
       "promotion_authorized": false,
       "mints_phi": false,
@@ -37724,17 +37746,17 @@
           "gate": "Découverte encyclopédique seulement. Vérifier une source naturaliste ou institutionnelle avant promotion."
         },
         {
-          "candidate_id": "nature:wikipedia:Q106475111",
+          "candidate_id": "nature:wikipedia:Q16761606",
           "state": "UNVERIFIED_AUTODISCOVERY_CANDIDATE",
           "lane": "nature",
-          "label": "Réserve naturelle nationale des étangs et rigoles d'Yveline",
-          "description": "l'ancienne réserve naturelle nationale de Saint-Quentin-en- Yvelines . Le territoire de la réserve naturelle est dans le département des Yvelines , sur les",
-          "wikidata_id": "Q106475111",
-          "source": "https://fr.wikipedia.org/wiki/R%C3%A9serve_naturelle_nationale_des_%C3%A9tangs_et_rigoles_d%27Yveline",
+          "label": "Réserve naturelle régionale de la boucle de Moisson",
+          "description": "dans un méandre de la Seine. Le territoire de la réserve naturelle est dans le département des Yvelines , sur les communes de Moisson et Mousseaux-sur-Seine",
+          "wikidata_id": "Q16761606",
+          "source": "https://fr.wikipedia.org/wiki/R%C3%A9serve_naturelle_r%C3%A9gionale_de_la_boucle_de_Moisson",
           "administrative_binding": "P131_PATH_TO_DEPARTMENT",
           "administrative_path": [
-            "Q106475111",
-            "Q751639",
+            "Q16761606",
+            "Q1461413",
             "Q12820"
           ],
           "country_wikidata_ids": [
@@ -37868,7 +37890,7 @@
     "79": {
       "code": "79",
       "name": "Deux-Sèvres",
-      "scanned_at": "2026-10-18T08:52:08.251591Z",
+      "scanned_at": "2026-10-26T10:10:45.292259Z",
       "state": "DISCOVERY_CANDIDATES_NOT_CANON",
       "promotion_authorized": false,
       "mints_phi": false,
@@ -38214,17 +38236,17 @@
           "gate": "Découverte encyclopédique seulement. Vérifier une source naturaliste ou institutionnelle avant promotion."
         },
         {
-          "candidate_id": "nature:wikipedia:Q15464313",
+          "candidate_id": "nature:wikipedia:Q20669841",
           "state": "UNVERIFIED_AUTODISCOVERY_CANDIDATE",
           "lane": "nature",
-          "label": "Réserve naturelle nationale du Toarcien",
-          "description": "DE LA RESERVE NATURELLE DU TOARCIEN ( DEUX - SEVRES ) », sur Legifrance « Réserve naturelle nationale du Toarcien », sur RNF RNF, « Liste des réserves naturelles »",
-          "wikidata_id": "Q15464313",
-          "source": "https://fr.wikipedia.org/wiki/R%C3%A9serve_naturelle_nationale_du_Toarcien",
+          "label": "Réserve naturelle régionale du bocage des Antonins",
+          "description": "Réserve naturelle régionale du bocage des Antonins Localisation sur la carte des Deux - Sèvres Localisation sur la carte de France La réserve naturelle",
+          "wikidata_id": "Q20669841",
+          "source": "https://fr.wikipedia.org/wiki/R%C3%A9serve_naturelle_r%C3%A9gionale_du_bocage_des_Antonins",
           "administrative_binding": "P131_PATH_TO_DEPARTMENT",
           "administrative_path": [
-            "Q15464313",
-            "Q573012",
+            "Q20669841",
+            "Q1343918",
             "Q12765"
           ],
           "country_wikidata_ids": [
