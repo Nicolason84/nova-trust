@@ -1,6 +1,6 @@
 /* Application files only. This worker never opens or removes personal databases. */
-const CACHE='ojo-helene-static-6ab936a5f443b217';
-const ASSETS=["index.html", "ouvrir.html", "assets/app-FESEM6TW.js", "assets/style-29cf83f0e5ec7318.css", "icon.svg", "icon-192.png", "icon-512.png", "manifest.webmanifest"];
+const CACHE='ojo-helene-static-a951b6a2247ac7b6';
+const ASSETS=["index.html", "ouvrir.html", "assets/app-QAWAD4HM.js", "assets/style-29cf83f0e5ec7318.css", "icon.svg", "icon-192.png", "icon-512.png", "manifest.webmanifest"];
 const urls=ASSETS.map(path=>new URL(path,self.registration.scope).href);
 self.addEventListener('install',event=>event.waitUntil((async()=>{
  const cache=await caches.open(CACHE);

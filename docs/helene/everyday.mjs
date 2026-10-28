@@ -43,13 +43,20 @@ function wallTime(value){
   check(Number.isFinite(date.getTime())&&dayKey(date)+'T'+String(date.getHours()).padStart(2,'0')+':'+String(date.getMinutes()).padStart(2,'0')===value,'Cette date ou cette heure n’existe pas dans le fuseau de ton appareil.');
   return date;
 }
-export function makeAppointment({title,start,end,place='',note='',kind='personal',attendee='',reminder=30,id=crypto.randomUUID(),createdAt=new Date().toISOString()}){
+const localDateTime=iso=>{const d=new Date(iso);return dayKey(d)+'T'+String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0')};
+export function appointmentFormTimes(item){
+  validateAppointments([item]);
+  return {start:localDateTime(item.startUTC),end:localDateTime(item.endUTC)};
+}
+export function makeAppointment({title,start,end,place='',note='',kind='personal',attendee='',reminder=30,id=crypto.randomUUID(),createdAt=new Date().toISOString(),previous=null}){
   check(typeof title==='string'&&title.trim()&&title.length<=180,'Donne un titre de 180 caractères maximum.');
   check(['personal','together'].includes(kind),'Choisis personnel ou à deux.');
   check(typeof place==='string'&&place.length<=300&&typeof note==='string'&&note.length<=4000,'Le lieu ou les précisions sont trop longs.');
   check(typeof attendee==='string'&&attendee.length<=254&&(!attendee||/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(attendee)),'Vérifie l’adresse de la personne à inviter.');
   reminder=reminder===null?null:Number(reminder);check([null,0,10,30,60,1440].includes(reminder),'Choisis un délai de rappel proposé.');
-  const a=wallTime(start),b=wallTime(end);check(b>a&&b-a<=7*86400000,'La fin doit suivre le début, avec une durée de sept jours maximum.');
+  const prior=previous?appointmentFormTimes(previous):null;
+  // An unchanged clock field retains its exact instant, including the repeated DST hour.
+  const a=prior?.start===start?new Date(previous.startUTC):wallTime(start),b=prior?.end===end?new Date(previous.endUTC):wallTime(end);check(b>a&&b-a<=7*86400000,'La fin doit suivre le début, avec une durée de sept jours maximum.');
   return {id,title:title.trim(),start,end,startUTC:a.toISOString(),endUTC:b.toISOString(),timeZone:Intl.DateTimeFormat().resolvedOptions().timeZone||'Europe/Paris',place,note,kind,attendee:kind==='together'?attendee.trim():'',reminder,createdAt,updatedAt:new Date().toISOString(),delivery:'local_only'};
 }
 export function validateAppointments(items){
