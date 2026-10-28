@@ -1,3 +1,4 @@
+import {validateAppointments} from './everyday.mjs';
 /* Espace personnel ojO. Aucun registre canonique ni moteur d'assistance.
    sha256 : fonction reprise à l'identique de LEGAD_P0/dist/vault.mjs
    (source cce732042647344175f9630cb34b802f465af22acaf249ad1631220c963e1dea).
@@ -12,7 +13,7 @@ export const uid=()=>crypto.randomUUID();
 export function b64(bytes){let s='';const b=new Uint8Array(bytes);for(let i=0;i<b.length;i+=32768)s+=String.fromCharCode(...b.subarray(i,i+32768));return btoa(s)}
 export function un64(s){assert(typeof s==='string'&&s.length<=Math.ceil(MAX_FILE*4/3)+4&&s.length%4===0&&/^[A-Za-z0-9+/]*={0,2}$/.test(s),'Original encodé non valide.');return Uint8Array.from(atob(s),c=>c.charCodeAt(0))}
 export async function original(name,type,bytes){const b=new Uint8Array(bytes);assert(b.byteLength>0&&b.byteLength<=MAX_FILE,'Chaque fichier doit contenir de 1 octet à 8 Mo.');return Object.freeze({name:String(name).slice(0,240),type:String(type||'application/octet-stream').slice(0,120),size:b.length,sha256:await sha256(b),base64:b64(b)})}
-export function emptyState(){return {format:FORMAT,items:[],board:[],pinned:[],door:null}}
+export function emptyState(){return {format:FORMAT,items:[],board:[],pinned:[],door:null,agenda:[],comfort:true}}
 export async function makeItem({title='',text='',next='',files=[],links=[],demo=false}){
  assert(typeof text==='string'&&text.length<=20000,'La note est limitée à 20 000 caractères.');
  assert(text.trim()||files.length,'Ajoute quelques mots ou un fichier.');
@@ -26,6 +27,9 @@ export function pin(state,id){assert(state.items.some(i=>i.id===id),'Élément i
 export function addBoard(state,kind,text){assert(['question','objection','suggestion'].includes(kind),'Type de contribution non valide.');assert(typeof text==='string'&&text.trim()&&text.length<=4000,'Écris entre 1 et 4 000 caractères.');assert(state.board.length<100,'Ton espace peut garder 100 questions, objections ou suggestions dans cette version.');const b={id:uid(),kind,text,createdAt:new Date().toISOString(),producer:'account_visitor',delivery:'draft_only'};state.board.push(b);return b}
 function textField(x,max){return typeof x==='string'&&x.length<=max}
 export async function validateState(v){
+ assert(v&&typeof v==='object','Espace non valide.');
+ if(v.agenda===undefined)v.agenda=[];if(v.comfort===undefined)v.comfort=true;
+ assert(typeof v.comfort==='boolean','Préférence du jour non valide.');validateAppointments(v.agenda);
  assert(v&&v.format===FORMAT&&Array.isArray(v.items)&&v.items.length<=80&&Array.isArray(v.board)&&v.board.length<=100&&Array.isArray(v.pinned)&&v.pinned.length<=3,'Format ou taille de l’export non valide.');
  assert(v.door===null||['daily','documents','understand'].includes(v.door),'Choix d’accueil non valide.');
  const ids=new Set(),boardIds=new Set();let total=0;

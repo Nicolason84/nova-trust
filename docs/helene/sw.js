@@ -1,6 +1,6 @@
 /* Only the static app is cached. Personal elements remain in IndexedDB. */
-const CACHE='ojo-helene-static-d0f6c37a852ad64a';
-const ASSETS=["index.html", "styles.css", "app.mjs", "core.mjs", "device-client.mjs", "vendor/voice-capture.mjs", "icon.svg", "icon-192.png", "icon-512.png", "manifest.webmanifest"];
+const CACHE='ojo-helene-static-8f17d7a629242a47';
+const ASSETS=["app.mjs", "core.mjs", "device-client.mjs", "everyday-ui.mjs", "everyday.css", "everyday.mjs", "icon-192.png", "icon-512.png", "icon.svg", "index.html", "manifest.webmanifest", "services-ui.mjs", "services.mjs", "styles.css", "vault-ui.mjs", "vendor/legad-vault.mjs", "vendor/voice-capture.mjs"];
 const urls=ASSETS.map(path=>new URL(path,self.registration.scope).href);
 self.addEventListener('install',event=>event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(urls))));
 self.addEventListener('activate',event=>event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(key=>key.startsWith('ojo-helene-static-')&&key!==CACHE).map(key=>caches.delete(key))))));
