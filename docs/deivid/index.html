@@ -845,14 +845,21 @@ function renderChat(){
 }
 function prepareQuestion(message){if(state.chat.draft.trim()&&state.chat.draft!==message&&!confirm('¿Sustituir el mensaje que estás preparando? Puedes cancelar y guardarlo primero como borrador.'))return false;chatContextWorkspace?.clearPrepared();chatClient.draft(message);$('chat-message').focus();return true;}
 function restoreChatCopy(){if(!chatClient)return;const selection=state.chat?.selected||{};chatSelectionDraft={reference:selection.reference||'',referenceOptIn:!!selection.reference,note:selection.note||'',noteOptIn:!!selection.note};chatRestoring=true;try{chatRenderedMessages='';chatContextWorkspace?.clearPrepared();chatClient.restore(state.chat||Chat.empty());}finally{chatRestoring=false;}}
+async function recordLinkedReceipt(local,receipt){
+ try{const close=receipt.state&&receipt.state!=='succeeded',out=close?await evolutionWorkspace.recordConversationClosed(local,receipt):await evolutionWorkspace.recordConversationDelivery(local,receipt);
+  if(out.recorded){deferredConversationReceipts.delete(local);if(chatContextWorkspace?.pendingRequest()?.requestId===local)chatContextWorkspace.clearPrepared();}
+  else if(out.reason==='PROJECT_CHANGED'||out.reason==='PREPARED_REQUEST_NOT_FOUND')deferredConversationReceipts.set(local,receipt);
+ }catch(_){deferredConversationReceipts.set(local,receipt);notice('El servicio respondió. La copia de la solicitud se actualizará al volver a su proyecto.');}
+}
 async function observeConversationReceipt(r){
  if(!evolutionWorkspace)return;
  const known=transportLinks.get(r.request_id),local=known||evolutionWorkspace.getRequests().find(x=>x.conversationPending?.request_id===r.request_id)?.id;
  if(!local)return;
  if(r.state==='succeeded'&&r.native_execution_proven===true&&r.actor_mode==='DEIVID_PERSONAL'&&['reply','tool','orchestrator','prism'].every(k=>/^[a-f0-9]{64}$/.test(r.receipts?.[k]||''))){
-  const receipt={request_id:r.request_id,conversation_id:r.conversation_id,validatedNative:true};
-  try{const out=await evolutionWorkspace.recordConversationDelivery(local,receipt);if(out.recorded){deferredConversationReceipts.delete(local);if(chatContextWorkspace?.pendingRequest()?.requestId===local)chatContextWorkspace.clearPrepared();}else if(out.reason==='PROJECT_CHANGED'||out.reason==='PREPARED_REQUEST_NOT_FOUND')deferredConversationReceipts.set(local,receipt);}catch(_){deferredConversationReceipts.set(local,receipt);notice('Respuesta recibida. No se ha podido actualizar todavía la copia local de la solicitud.');}
- }else if(['failed','rejected','expired','blocked','resource_blocked','backend_blocked','unavailable'].includes(r.state)&&evolutionWorkspace.recordConversationClosed){await evolutionWorkspace.recordConversationClosed(local,{request_id:r.request_id,conversation_id:r.conversation_id,validatedNative:true,state:r.state}).catch(()=>{});}
+  await recordLinkedReceipt(local,{request_id:r.request_id,conversation_id:r.conversation_id,validatedNative:true,state:'succeeded'});
+ }else if(['failed','rejected','expired','blocked','resource_blocked','backend_blocked','unavailable'].includes(r.state)&&evolutionWorkspace.recordConversationClosed){
+  await recordLinkedReceipt(local,{request_id:r.request_id,conversation_id:r.conversation_id,validatedNative:true,state:r.state});
+ }
 }
 function privateChatAdapter(){
  if(!personalChat)return null;
@@ -862,7 +869,7 @@ function privateChatAdapter(){
   if(prepared&&evolutionWorkspace?.recordConversationPending){
    try{const result=await evolutionWorkspace.recordConversationPending(prepared.requestId,{request_id:p.request_id,conversation_id:p.conversation_id});if(!result.recorded)throw Error('La solicitud cambió. Vuelve a prepararla antes de enviar.');transportLinks.set(p.request_id,prepared.requestId);}catch(error){error.notAdmitted=true;throw error;}
   }
-  try{const r=await native.submit(p,options);await observeConversationReceipt(r);return r;}catch(error){if(error.notAdmitted&&prepared&&evolutionWorkspace?.recordConversationClosed)await evolutionWorkspace.recordConversationClosed(prepared.requestId,{request_id:p.request_id,conversation_id:p.conversation_id,validatedNative:true,state:'rejected',notAdmitted:true}).catch(()=>{});throw error;}
+  try{const r=await native.submit(p,options);await observeConversationReceipt(r);return r;}catch(error){if(error.notAdmitted&&prepared&&evolutionWorkspace?.recordConversationClosed)await recordLinkedReceipt(prepared.requestId,{request_id:p.request_id,conversation_id:p.conversation_id,validatedNative:true,state:'rejected',notAdmitted:true});throw error;}
  },async status(p,options){const r=await native.status(p,options);await observeConversationReceipt(r);return r;}});
 }
 chatClient=Chat.create({state:state.chat||Chat.empty(),adapter:privateChatAdapter,onChange:(copy,runtime)=>{state.chat=copy;chatRuntime=runtime;if(runtime.recovery_id&&runtime.recovery_id!==chatLastRecovery){chatLastRecovery=runtime.recovery_id;const selection=copy.selected||{};chatSelectionDraft={reference:selection.reference||'',referenceOptIn:!!selection.reference,note:selection.note||'',noteOptIn:!!selection.note};}if(!chatInitialising&&!chatRestoring)save();renderChat();}});
@@ -897,7 +904,7 @@ const growthWorkspace=window.DeividGrowth.mount($('growth-app'),{store:projectSt
 evolutionWorkspace=window.DeividEvolution.mount($('evolution-app'),{store:projectStore,onView:go,notify:notice,onPrepareChat:async proposal=>{if(state.chat.pending)throw Error('Comprueba primero la respuesta pendiente del chat. Tu solicitud sigue guardada.');if(!prepareQuestion(proposal.message))throw Error('Se conserva el mensaje anterior. La solicitud no se ha enviado.');chatContextWorkspace.prepare(proposal);go('chat');$('chat-share-details').open=true;$('chat-message').focus();}});
 chatContextWorkspace=window.DeividChatContext.mount($('chat-extra-context'),{store:projectStore,getModules:()=>evolutionWorkspace.getModuleContext(),onChange:renderChat});
 window.DeividWorkspaces=Object.freeze({quote:quoteWorkspace,led:ledWorkspace,inputs:inputsWorkspace,studio:studioWorkspace,growth:growthWorkspace,evolution:evolutionWorkspace,chatContext:chatContextWorkspace,store:projectStore});
-projectStore.subscribe(()=>{for(const [id,receipt] of deferredConversationReceipts){if(evolutionWorkspace.getRequests().some(r=>r.id===id)){deferredConversationReceipts.delete(id);evolutionWorkspace.recordConversationDelivery(id,receipt).catch(()=>deferredConversationReceipts.set(id,receipt));}}});
+projectStore.subscribe(()=>{for(const [id,receipt] of deferredConversationReceipts){if(evolutionWorkspace.getRequests().some(r=>r.id===id)){deferredConversationReceipts.delete(id);recordLinkedReceipt(id,receipt);}}});
 $('project-add').addEventListener('click',()=>{go('project');inputsWorkspace.open();});
 let projectReady=false,lastQuoteProjectId=null;
 function showProjectContext(){const p=projectStore.getProject();$('project-context-name').textContent=(p.client?p.client+' · ':'')+(p.name||'Nuevo proyecto');if(projectReady&&p.id!==lastQuoteProjectId){quoteWorkspace.switchProject(p.id);lastQuoteProjectId=p.id;}if(projectReady&&p.client)quoteWorkspace.setClientIfEmpty(p.client);}
