@@ -1,0 +1,22 @@
+.project-context{display:flex;align-items:center;justify-content:space-between;gap:14px;margin:0 0 24px;padding:12px 16px;background:var(--white);border:1px solid var(--line);border-radius:14px;font-size:12px}
+.project-context strong{display:block;font-size:14px;max-width:620px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.project-context .eyebrow{font-size:9px;margin-bottom:3px}
+.project-context button{flex-shrink:0}
+.project-context-copy{min-width:0}
+.project-add{position:fixed;z-index:35;right:max(24px,env(safe-area-inset-right));bottom:max(24px,env(safe-area-inset-bottom));display:flex;align-items:center;gap:10px;padding:13px 20px;border:1px solid #d9a582;border-radius:999px;background:var(--copper);color:white;font-size:13px;font-weight:700;box-shadow:0 8px 28px #17252230;min-height:52px}
+.project-add .plus{font-size:29px;line-height:24px;font-weight:300}
+.project-add small{font-size:9px;font-weight:500;display:block;letter-spacing:.03em;text-align:left}
+.work-focus-main .actions{margin-top:20px}
+.work-focus-main .btn.secondary{border-color:#728981;color:#fffdf8}
+.work-focus-side .work-secondary-action{margin-top:10px}
+.project-shortcuts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin:18px 0 35px}
+.project-shortcut{background:var(--white);border:1px solid var(--line);border-radius:17px;padding:21px;text-align:left;display:block;min-width:0}
+.project-shortcut .eyebrow{font-size:9px}
+.project-shortcut h3{font-family:var(--serif);font-size:24px;font-weight:400;margin:9px 0}
+.project-shortcut p{font-size:12px;line-height:1.55;color:var(--muted);margin:0}
+.project-shortcut:hover{border-color:var(--copper)}
+.nav{gap:24px;overflow-x:auto;scrollbar-width:thin}
+.nav button{white-space:nowrap;flex-shrink:0}
+.project-module-state{padding:20px;border:1px solid var(--line);border-radius:14px;background:var(--white);font-size:13px}
+@media(max-width:760px){.project-add{right:15px;bottom:calc(72px + env(safe-area-inset-bottom));padding:11px 16px;min-height:49px}.project-add small{display:none}.project-context{padding:10px 12px;margin-bottom:18px;gap:8px}.project-context strong{font-size:13px;max-width:210px}.project-context .btn{font-size:10px;min-height:40px;padding:9px}.project-shortcuts{grid-template-columns:1fr;gap:10px;margin-bottom:24px}.project-shortcut{padding:18px}.project-shortcut h3{font-size:23px}.nav{gap:24px}.page{padding-bottom:calc(152px + env(safe-area-inset-bottom))}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
