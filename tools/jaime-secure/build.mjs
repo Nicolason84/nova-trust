@@ -10,7 +10,7 @@ await mkdir(path.join(out,'pkg'),{recursive:true});
 const wasmPath=path.join(root,'node_modules/@matrix-org/matrix-sdk-crypto-wasm/pkg/matrix_sdk_crypto_wasm_bg.wasm');
 const wasmBytes=await readFile(wasmPath);
 const wasmName=`matrix-crypto-18.9.0-${createHash('sha256').update(wasmBytes).digest('hex').slice(0,16)}.wasm`;
-const result = await build({absWorkingDir:root,entryPoints:{messenger:'messenger-ui.mjs',universos:'universos-ui.mjs'},outdir:out,bundle:true,format:'esm',platform:'browser',target:['safari16.4'],minify:true,sourcemap:false,metafile:true,legalComments:'linked',define:{'process.env.NODE_ENV':'"production"'},plugins:[{name:'pinned-crypto-asset',setup(build){build.onLoad({filter:/matrix-sdk-crypto-wasm\/index\.mjs$/},async args=>({contents:(await readFile(args.path,'utf8')).replace('./pkg/matrix_sdk_crypto_wasm_bg.wasm','./pkg/'+wasmName),loader:'js',resolveDir:path.dirname(args.path)}));}}]});
+const result = await build({absWorkingDir:root,entryPoints:{messenger:'messenger-ui.mjs',universos:'universos-ui.mjs',taurino:'taurino-ui.mjs'},outdir:out,bundle:true,format:'esm',platform:'browser',target:['safari16.4'],minify:true,sourcemap:false,metafile:true,legalComments:'linked',define:{'process.env.NODE_ENV':'"production"'},plugins:[{name:'pinned-crypto-asset',setup(build){build.onLoad({filter:/matrix-sdk-crypto-wasm\/index\.mjs$/},async args=>({contents:(await readFile(args.path,'utf8')).replace('./pkg/matrix_sdk_crypto_wasm_bg.wasm','./pkg/'+wasmName),loader:'js',resolveDir:path.dirname(args.path)}));}}]});
 await copyFile(wasmPath,path.join(out,'pkg',wasmName));
 const names = ['matrix-js-sdk','@matrix-org/matrix-sdk-crypto-wasm'];
 const notices = [];
