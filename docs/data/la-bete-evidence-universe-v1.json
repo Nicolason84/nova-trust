@@ -29,10 +29,10 @@
     "unpopulated_kinds_are_not_fabricated": true
   },
   "state": "READ_ONLY_PUBLIC_PROOFGRAPH_DERIVED_PROJECTION",
-  "projection_fingerprint": "cf738c3ca0e1582090375ee5cce34fc98ae9343d3f66fb0585e6483552480538",
+  "projection_fingerprint": "7e60aed93569777f7aa2decc317ca0b1bc3621d69c8bb1181f47480cd08a2dd0",
   "generated_from": {
-    "live_snapshot_id": "OJO-B710EF72C0464A70",
-    "live_sequence": 67,
+    "live_snapshot_id": "OJO-BA6AC9D4F1EA733C",
+    "live_sequence": 68,
     "territory_discovery_fingerprint": "0882c234f9082716ece6eb5b9e8b847f419597b550632f6550aa87b9a61e036b",
     "living_identity_fingerprint": "f6ae7f0a87933250c01a74439329e84af939745c1a023e75d79aa6bdfde5b8d4"
   },
@@ -752,7 +752,7 @@
         "spine_schema": "SUPRA_PROOFGRAPH_PUBLIC_PROJECTION_V1",
         "proof_refs": [
           "decision_delta",
-          "OJO-B710EF72C0464A70"
+          "OJO-BA6AC9D4F1EA733C"
         ],
         "source_urls": [
           "data/france-debt-rate-live.json"
@@ -779,7 +779,7 @@
             "Cohérence contextuelle partielle ; preuve indépendante supplémentaire utile."
           ],
           "crosscheck": [
-            "2 références indépendantes ou complémentaires sont reliées."
+            "3 références indépendantes ou complémentaires sont reliées."
           ],
           "media_structure": []
         }
@@ -811,51 +811,6 @@
         "signal": {
           "status": "MATERIAL_CHANGE",
           "previous_state": {
-            "date": "2026-10-28",
-            "curve": [
-              {
-                "tenor_years": 1,
-                "rate_pct": 3.442
-              },
-              {
-                "tenor_years": 2,
-                "rate_pct": 3.753
-              },
-              {
-                "tenor_years": 3,
-                "rate_pct": 3.964
-              },
-              {
-                "tenor_years": 5,
-                "rate_pct": 4.342
-              },
-              {
-                "tenor_years": 7,
-                "rate_pct": 4.625
-              },
-              {
-                "tenor_years": 10,
-                "rate_pct": 4.936
-              },
-              {
-                "tenor_years": 15,
-                "rate_pct": 5.205
-              },
-              {
-                "tenor_years": 20,
-                "rate_pct": 5.313
-              },
-              {
-                "tenor_years": 25,
-                "rate_pct": 5.273
-              },
-              {
-                "tenor_years": 30,
-                "rate_pct": 5.411
-              }
-            ]
-          },
-          "current_state": {
             "date": "2026-10-29",
             "curve": [
               {
@@ -900,21 +855,61 @@
               }
             ]
           },
+          "current_state": {
+            "date": "2026-10-30",
+            "curve": [
+              {
+                "tenor_years": 2,
+                "rate_pct": 3.681
+              },
+              {
+                "tenor_years": 3,
+                "rate_pct": 3.91
+              },
+              {
+                "tenor_years": 5,
+                "rate_pct": 4.29
+              },
+              {
+                "tenor_years": 7,
+                "rate_pct": 4.601
+              },
+              {
+                "tenor_years": 10,
+                "rate_pct": 4.93
+              },
+              {
+                "tenor_years": 15,
+                "rate_pct": 5.21
+              },
+              {
+                "tenor_years": 20,
+                "rate_pct": 5.327
+              },
+              {
+                "tenor_years": 25,
+                "rate_pct": 5.283
+              },
+              {
+                "tenor_years": 30,
+                "rate_pct": 5.427
+              }
+            ]
+          },
           "delta_bps": {
-            "1": -5.9,
-            "2": -6.4,
-            "3": -6.0,
-            "5": -6.0,
-            "7": -4.5,
-            "10": -4.2,
-            "15": -3.2,
-            "20": -2.6,
-            "25": -3.4,
-            "30": -2.2
+            "2": -0.8,
+            "3": 0.6,
+            "5": 0.8,
+            "7": 2.1,
+            "10": 3.6,
+            "15": 3.7,
+            "20": 4.0,
+            "25": 4.4,
+            "30": 3.8
           },
           "transmission_channel": "Yield curve → new issuance/refinancing → portfolio average cost → interest charge over time.",
           "possible_impact": "Directional exposure may change if the move persists and reaches maturities that must be financed; no automatic budget amount is inferred from TEC10 alone.",
-          "curve_regime": "PARALLEL_DOWN",
+          "curve_regime": "STEEPENING",
           "confidence": "LIVE_VERIFIED",
           "what_requires_review": [
             "Persistence of the observed curve move.",
@@ -1146,7 +1141,7 @@
       "proofgraph": {
         "spine_schema": "SUPRA_PROOFGRAPH_PUBLIC_PROJECTION_V1",
         "proof_refs": [
-          "b698623ea70dd64f45b47f0950298fa748e1f796e5ef765e7725c03ef9ece49e",
+          "8c92a1eb76427be3fc4d00011bcd6eb9d55e43d37b3140b8a6f811da02ddff1c",
           "OJO_FRANCE_DEBT_RATE_LIVE_V1"
         ],
         "source_urls": [
@@ -1202,20 +1197,20 @@
       "patrimonial_analysis": {
         "trust_deep": {
           "execution": "NOT_EXECUTED_NO_MATCHING_RECEIPT",
-          "document_sha256": "b698623ea70dd64f45b47f0950298fa748e1f796e5ef765e7725c03ef9ece49e",
+          "document_sha256": "8c92a1eb76427be3fc4d00011bcd6eb9d55e43d37b3140b8a6f811da02ddff1c",
           "truth_verdict": false
         },
         "coherence_historical": {
           "execution": "NOT_EXECUTED_NO_MATCHING_RECEIPT",
-          "document_sha256": "b698623ea70dd64f45b47f0950298fa748e1f796e5ef765e7725c03ef9ece49e",
+          "document_sha256": "8c92a1eb76427be3fc4d00011bcd6eb9d55e43d37b3140b8a6f811da02ddff1c",
           "truth_verdict": false
         }
       },
       "object_refs": [],
       "object_meta": {
         "public_path": "data/france-debt-rate-live.json",
-        "sha256": "b698623ea70dd64f45b47f0950298fa748e1f796e5ef765e7725c03ef9ece49e",
-        "bytes": 166912,
+        "sha256": "8c92a1eb76427be3fc4d00011bcd6eb9d55e43d37b3140b8a6f811da02ddff1c",
+        "bytes": 166856,
         "schema": "OJO_FRANCE_DEBT_RATE_LIVE_V1",
         "document_analysis_scope": "FULL_LOCAL_PUBLIC_DOCUMENT"
       },
@@ -1354,7 +1349,7 @@
       "proofgraph": {
         "spine_schema": "SUPRA_PROOFGRAPH_PUBLIC_PROJECTION_V1",
         "proof_refs": [
-          "b815e61bc853368b916aebcbce994fba24399129447bc8b854e60c51984b9044",
+          "270ba4e3709708364f9eb8dbc259c6ff671d41aac3fea4dedd8efade4b555615",
           "OJO_LA_BETE_VIRTUOUS_EVOLUTION_V1"
         ],
         "source_urls": [
@@ -1410,20 +1405,20 @@
       "patrimonial_analysis": {
         "trust_deep": {
           "execution": "NOT_EXECUTED_NO_MATCHING_RECEIPT",
-          "document_sha256": "b815e61bc853368b916aebcbce994fba24399129447bc8b854e60c51984b9044",
+          "document_sha256": "270ba4e3709708364f9eb8dbc259c6ff671d41aac3fea4dedd8efade4b555615",
           "truth_verdict": false
         },
         "coherence_historical": {
           "execution": "NOT_EXECUTED_NO_MATCHING_RECEIPT",
-          "document_sha256": "b815e61bc853368b916aebcbce994fba24399129447bc8b854e60c51984b9044",
+          "document_sha256": "270ba4e3709708364f9eb8dbc259c6ff671d41aac3fea4dedd8efade4b555615",
           "truth_verdict": false
         }
       },
       "object_refs": [],
       "object_meta": {
         "public_path": "data/france-debt-rate-evolution.json",
-        "sha256": "b815e61bc853368b916aebcbce994fba24399129447bc8b854e60c51984b9044",
-        "bytes": 422617,
+        "sha256": "270ba4e3709708364f9eb8dbc259c6ff671d41aac3fea4dedd8efade4b555615",
+        "bytes": 423068,
         "schema": "OJO_LA_BETE_VIRTUOUS_EVOLUTION_V1",
         "document_analysis_scope": "FULL_LOCAL_PUBLIC_DOCUMENT"
       },
@@ -14015,7 +14010,7 @@
       "label": "Historique CNO-TEC · export CSV",
       "department_code": null,
       "lane": null,
-      "evidence_state": "UNAVAILABLE",
+      "evidence_state": "LIVE_VERIFIED",
       "proofgraph": {
         "spine_schema": "SUPRA_PROOFGRAPH_PUBLIC_PROJECTION_V1",
         "proof_refs": [
@@ -14027,12 +14022,12 @@
         ]
       },
       "trust": {
-        "index": 58,
-        "label": "PARTIELLE",
+        "index": 93,
+        "label": "FORTE",
         "components": {
-          "source_quality": 20,
-          "provenance": 80,
-          "coherence": 52,
+          "source_quality": 96,
+          "provenance": 100,
+          "coherence": 82,
           "crosscheck": 92,
           "media_structure": null
         },
@@ -14041,10 +14036,11 @@
             "identifiant stable",
             "source ou URL",
             "producteur / éditeur",
-            "date / millésime"
+            "date / millésime",
+            "empreinte / référence de preuve"
           ],
           "coherence": [
-            "Cohérence contextuelle partielle ; preuve indépendante supplémentaire utile."
+            "Objet issu d'une source officielle mais représentativité à interpréter séparément."
           ],
           "crosscheck": [
             "2 références indépendantes ou complémentaires sont reliées."
@@ -14053,9 +14049,9 @@
         }
       },
       "coherence": {
-        "score": 52,
+        "score": 82,
         "reasons": [
-          "Cohérence contextuelle partielle ; preuve indépendante supplémentaire utile."
+          "Objet issu d'une source officielle mais représentativité à interpréter séparément."
         ],
         "contradictions": []
       },
@@ -14069,15 +14065,13 @@
       "uscrc": {
         "status": "COMPATIBILITY_PROFILE_NOT_CERTIFICATE",
         "engine_binding": "USCRC_PRE_EVENT_PATTERN_CORE_V1_READ_ONLY_CONTEXT",
-        "reliability_index": 58,
+        "reliability_index": 93,
         "certificate_issued": false
       },
       "patrimonial_analysis": {},
       "object_refs": [],
       "object_meta": {},
-      "what_would_raise_confidence": [
-        "Rafraîchir ou recouper la source avec une preuve de même portée."
-      ]
+      "what_would_raise_confidence": []
     },
     "source:DGFIP_EXECUTION": {
       "object_id": "source:DGFIP_EXECUTION",
