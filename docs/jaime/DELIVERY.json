@@ -78,7 +78,7 @@
   "reused_core_sha256": "bb9f24ec84a98b9b3e60a33aba7085b1bc96dc8ed9cecdee2ee0da733c148da4",
   "assets": {
     "app.css": "353fd8de210fa0b8467311ca57cf03e790c5b406cae024b61ccb80d1fb923da1",
-    "app.js": "1b7e4abb365a29110f070302ca77336cb73eff1dcbab6cc63182853bfb4252b0",
+    "app.js": "c2f274a529068ca67c80e57b9f51e9010bdd042a4ca1796819ef30c2d1f1410b",
     "audio/taurino/episodio-01.mp3": "ba03345dd4c59bcc73bfa86a71e8975bd0ccb7cec54385fdf81f692af88254c5",
     "audio/taurino/episodio-02.mp3": "1fbe277e412868ac58630a50b73a649ebdadbd83ecbac35aad5cd97167d9e840",
     "communications.js": "957245e0f82c8825033b9a5441b598e24a6277ca8803bc8409e0fbee5796ccf1",
@@ -89,7 +89,7 @@
     "icon-192.png": "ae103a68daf9dbf518d51c15f6cef6c8982f4c9b3757f0d4a7dde2597bb5775b",
     "icon-512.png": "53da2fd398760f1cf24c3d22cf8f869024a2310cbb1256fec34a18b7409c02c6",
     "icon.svg": "efd7e471e1d5886dbe429afeced0a5a6b79642e098bfd4f021b8e72a6f188113",
-    "index.html": "5927626121f67b6f8340597d52ba2d5c12764dc6d4411d467bc4b7ddaf2dfbab",
+    "index.html": "0bd48c43f6f42d5c334f3368e8238f7e5a8ee030b6c9cfc1dbbbdb7aac76d932",
     "legacy.js": "2e89e8a8c4d992507badd08f32ced125d72167861253b472cd0aceed5ea4067b",
     "manifest.webmanifest": "6b8f5548445f3d51016b5e8a41efb1377340d7ff676480a900996877ce0728b7",
     "mensajes.html": "50fd471e10e91aa3c88d556f5ac0e989ff5e8dab84bbebb1dd978bfbdc6c80e8",
@@ -105,13 +105,16 @@
     "secure-page.css": "0c3e869afdd413e93843f5b40c9a0a67e9712fb23268f1c5c9b45d0471465c6d",
     "start.html": "571911c11cc3cc206342500c31a3d7a413764eac3ec6a3cbf9bca72d75e2d56f",
     "start.js": "c170a54aae9d78f30acc545044f3000417e38c50e14fe1e8bb6bc05ae6d5d7a0",
-    "sw.js": "83858ec13d9315a226d4349f472c833d9764362810d8995c951788b60f1b81a4",
+    "sw.js": "6c0cfced93f3ece00702ac4dfc87ce1d53780461d254e333e9c2252bb807c299",
     "taurino.css": "026caa41399cf17002d880c974c56355496af45c940bbd4e5d2111cbac88ca1d",
     "taurino.html": "8cedc25f2c777a191f8dfd8284d0f90dee4882a532aa85a5ef531ebb41c32a32",
     "universos.css": "30439b5ec62e998eec3173825a246ddacd8620829caba25d9a4baa6fc30d488b",
     "universos.html": "58e9c8cdf0b3cef9c7f6349e45ea4931aa0d600fe239de7a86c778d92d81c024",
     "workspace.css": "c09460cbba7bc72309fbb41bd825f2fd35b93556752181035492796c13111191",
-    "workspace.js": "95f0b544720f75711828e13143895e3cb4418520e60190610014d090cd42c4d9"
+    "workspace.js": "95f0b544720f75711828e13143895e3cb4418520e60190610014d090cd42c4d9",
+    "ojo-evolution.js": "b6668fa30d284c8b5be510a6eec707d5a755949db2a617ec1cbed04f1f25eefa",
+    "evolution-ui.js": "5457b83798e8f1efb49701736fb6e4ac9963ba383e947e7d9f976c67399fee66",
+    "EVOLUTION_PROVENANCE.json": "626ad2239db7ddf9e8251bb47be1fa34ccae680eea0f026f943ddbb9da3da2e2"
   },
   "taurino": {
     "edition_date": "2026-10-30",
@@ -153,5 +156,17 @@
       "initial_sha256": "db4e157186f3bfc268b253bc092a925fa7715edb701409c12fff8d5754faea73",
       "note": "Mutable index: source publication dates and failure states remain explicit. Not part of fixed asset hashes."
     }
+  },
+  "evolution_candidate": {
+    "state": "LOCAL_OPT_IN_CANDIDATE_TESTED_NOT_PUBLISHED",
+    "common_component": "nova.ojo-evolution",
+    "client_sha256": "b6668fa30d284c8b5be510a6eec707d5a755949db2a617ec1cbed04f1f25eefa",
+    "provenance": "EVOLUTION_PROVENANCE.json",
+    "receipt": "../../tests/jaime/EVOLUTION_CANDIDATE.json",
+    "user_consent_default": false,
+    "owner_connection": "CANDIDATE_NOT_CONNECTED",
+    "AI_connected": false,
+    "recipient_phone_use_verified": false,
+    "base_public_revision": "el-tendido-r5"
   }
 }

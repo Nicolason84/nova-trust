@@ -1,6 +1,6 @@
 # Jaime — reprise directe, messagerie et univers
 
-Frontend : `docs/jaime/`. Version R4 du 30 octobre 2026. Sources du coffre, de la caméra et du client Matrix : `tools/jaime-secure/`.
+Frontend : `docs/jaime/`. Version R5 du 30 octobre 2026 (El tendido ; voir TAURINO_R5.md). Sources du coffre, de la caméra et du client Matrix : `tools/jaime-secure/`.
 
 ## État livré
 
@@ -41,3 +41,11 @@ Le navigateur a servi à contrôler le rendu à 390 × 844, la navigation, la pr
 Voir [provenance et limites](../../tools/jaime-secure/REUSE_AND_LIMITS.md), [état technique](../../tools/jaime-secure/STATUS.md) et [fiche d’activation](../../tools/jaime-secure/DEPLOYMENT.md).
 
 `gateway.js` reste déconnecté. Aucun service d’IA, transcription, OCR, analyse de PDF/Office, notification ou chargement du dossier personnel n’est activé. Les choix de mémoire personnelle, d’accompagnement et de rappels appartiendront à Jaime. Aucune archive privée, donnée sensible ou valeur secrète n’est publiée avec le code.
+
+## Candidat d’amélioration avec accord personnel
+
+Le lot `R5-evolution-v1` ajoute « Mis mejoras » au carnet, avec observations de fonctionnement, propositions et choix séparés. Les consentements sont désactivés par défaut. Le module partagé exact `nova.ojo-evolution` et sa provenance figurent dans `docs/jaime/EVOLUTION_PROVENANCE.json`. Il ne lit pas les conversations, la foi, les humeurs, le courrier ou le coffre.
+
+La contribution technique est seulement un fichier local de codes fermés préparé après consentement et clic explicite ; elle n’est pas envoyée à SUPRA. Une proposition acceptée reste non exécutée. Le gateway IA reste déconnecté et l’origine publique partagée ne devient pas une isolation forte par ce changement.
+
+Le reçu `EVOLUTION_CANDIDATE.json` décrit les 51 tests existants et le contrôle mobile synthétique. Pour rejouer ce dernier avec le paquet Playwright déjà disponible dans l’environnement : `PLAYWRIGHT_MODULE=/chemin/vers/playwright node tests/jaime/evolution-ui.browser.cjs` (`CHROME_EXECUTABLE` est facultatif). Aucun consentement ni usage réel de Jaime n’est prétendu par ces fixtures.

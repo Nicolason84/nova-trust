@@ -22,6 +22,8 @@
   <script src="communications.js" defer></script>
   <script src="app.js" defer></script>
   <script src="workspace.js" defer></script>
+  <script src="ojo-evolution.js" defer></script>
+  <script src="evolution-ui.js" defer></script>
 </head>
 <body>
   <div class="app-shell">
@@ -57,7 +59,7 @@
             <button type="submit" id="sendButton" class="primary">Enviar<svg aria-hidden="true" viewBox="0 0 24 24"><path d="m5 12 14-7-5 14-3-6-6-1Zm6 1 8-8"/></svg></button>
           </div>
         </form>
-        <div class="composer-foot"><span>Libreta local · sin cifrar</span><button id="helpButton">Ayuda y privacidad</button></div>
+        <div class="composer-foot"><span>Libreta local · sin cifrar</span><button id="evolutionOpen">Mis mejoras</button><button id="helpButton">Ayuda y privacidad</button></div>
       </section>
     </main>
     <main id="dayView" class="app-view day-view" hidden aria-labelledby="dayTitle">
@@ -79,6 +81,27 @@
     <nav id="appNav" class="app-nav nav-four" aria-label="Navegación principal"><button class="nav-button active" data-view="chat" aria-current="page" aria-controls="mainContent"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11a8 8 0 0 1-8 8H5l-3 3v-10a9 9 0 0 1 18-1Z"/><path d="M8 10h8M8 14h5"/></svg>Conversar</button><button class="nav-button" data-view="day" aria-controls="dayView"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.4 1.4M17.6 17.6 19 19M5 19l1.4-1.4M17.6 6.4 19 5"/></svg>Mi día</button><a class="nav-button" href="mensajes.html"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="m4 7 8 6 8-6"/></svg>Mensajes</a><a class="nav-button" href="universos.html"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><ellipse cx="12" cy="12" rx="10" ry="5" transform="rotate(-30 12 12)"/><ellipse cx="12" cy="12" rx="10" ry="5" transform="rotate(45 12 12)"/></svg>Mi universo</a></nav>
   </div>
   <div id="toast" role="status" class="toast" hidden></div>
+  <dialog id="evolutionDialog" class="small-dialog" aria-labelledby="evolutionTitle">
+    <div class="dialog-header"><h2 id="evolutionTitle">A tu manera, poco a poco</h2><button data-close="evolutionDialog" class="icon-close" aria-label="Cerrar">×</button></div>
+    <div class="help-content">
+      <p>Elige si quieres recibir propuestas para mejorar el uso de esta app. Puedes cambiar de opinión en cualquier momento.</p>
+      <form id="evolutionConsentForm" class="preferences-form">
+        <label class="checkbox-label"><input id="evolutionMemory" type="checkbox"> Recordar estas opciones de uso en este navegador</label>
+        <label class="checkbox-label"><input id="evolutionObservations" type="checkbox"> Observar problemas de conexión y guardado</label>
+        <label class="checkbox-label"><input id="evolutionSuggestions" type="checkbox"> Mostrarme propuestas dentro de la app</label>
+        <label class="checkbox-label"><input id="evolutionTechnicalSharing" type="checkbox"> Permitir preparar una contribución técnica para revisar</label>
+        <div id="evolutionPreferenceControls" hidden><label for="evolutionDetail">Cómo prefieres las explicaciones</label><select id="evolutionDetail"><option value="short">Breves</option><option value="standard">Con más detalle</option></select>
+        <label for="evolutionCadence">Cuándo mostrar propuestas</label><select id="evolutionCadence"><option value="off">No mostrar propuestas</option><option value="on_open">Al abrir la app y Mis mejoras</option></select></div>
+        <p class="small-note">Estas opciones y señales de funcionamiento permanecen en este navegador. No se leen tus conversaciones, tu fe, tus notas personales, tu correo ni el contenido del cofre. No se envían avisos externos.</p>
+        <button class="secondary" type="submit">Guardar mis opciones</button>
+      </form>
+      <p id="evolutionStatus" role="status" class="small-note"></p>
+      <div id="evolutionProposals" aria-live="polite"></div>
+      <div class="dialog-actions"><button id="evolutionRefresh" class="secondary" type="button">Comprobar mejoras</button><button id="evolutionExport" class="secondary" type="button">Preparar contribución técnica</button></div>
+      <p class="small-note">La contribución es un archivo que puedes revisar. Esta app no lo envía a SUPRA ni cambia su código por sí sola. Las propuestas aceptadas tampoco activan cuentas ni envían mensajes.</p>
+      <button id="evolutionForget" class="danger" type="button">Olvidar estas opciones y mejoras</button>
+    </div>
+  </dialog>
   <input id="fileInput" type="file" multiple hidden>
   <input id="importInput" type="file" accept="application/json,.json" hidden>
 
