@@ -47,9 +47,9 @@
         s.schema !== 'NOVA_OJO_EVOLUTION_LOCAL_V1' || s.appId !== appId || s.scope !== scope ||
         !exact(s.consent, FLAGS) || FLAGS.some(k => typeof s.consent[k] !== 'boolean') || !integer(s.sequence)) return false;
     if (!plain(s.preferences) || Object.keys(s.preferences).some(k => !['language', 'detail', 'cadence'].includes(k))) return false;
-    if (s.preferences.language && !['fr', 'es'].includes(s.preferences.language)) return false;
-    if (s.preferences.detail && !['short', 'standard'].includes(s.preferences.detail)) return false;
-    if (s.preferences.cadence && !['on_open', 'off'].includes(s.preferences.cadence)) return false;
+    if ('language' in s.preferences && !['fr', 'es'].includes(s.preferences.language)) return false;
+    if ('detail' in s.preferences && !['short', 'standard'].includes(s.preferences.detail)) return false;
+    if ('cadence' in s.preferences && !['on_open', 'off'].includes(s.preferences.cadence)) return false;
     if (!Array.isArray(s.events) || s.events.length > 120 || new Set(s.events.map(e => e.id)).size !== s.events.length) return false;
     if (s.events.some(e => !exact(e, ['id', 'signal', 'at']) || !integer(e.id) || e.id > s.sequence ||
         !SIGNALS.includes(e.signal) || typeof e.at !== 'string' || !Number.isFinite(Date.parse(e.at)))) return false;

@@ -72,8 +72,25 @@ const mime = {'.html':'text/html','.js':'text/javascript','.css':'text/css','.sv
     assert.equal(retained.jaime.preferences.memoryText,'PRIVATE_SYNTHETIC_DO_NOT_EXPORT');
     assert.equal(retained.jaime.ideas[0].draft,'PRIVATE_SYNTHETIC_DRAFT_DO_NOT_EXPORT');
     assert.equal(retained.other,'OTHER_APP_SYNTHETIC');
+    const corrupt = await page.evaluate(() => {
+      const module = window.NovaEvolution.create({appId:'jaime',scope:'personal',storage:localStorage});
+      module.setConsent({memory:true,observations:true,suggestions:true,technicalSharing:true});
+      module.setPreferences({language:'es',detail:'short',cadence:'on_open'});
+      const key='nova:ojo:evolution:v1:jaime:personal';
+      const saved=JSON.parse(localStorage.getItem(key)); saved.preferences.language=null;
+      const raw=JSON.stringify(saved); localStorage.setItem(key,raw); return raw;
+    });
+    await page.reload(); await page.locator('#evolutionOpen').click();
+    for (const id of ['Memory','Observations','Suggestions','TechnicalSharing']) assert.equal(await page.locator('#evolution'+id).isChecked(),false);
+    assert.equal(await page.evaluate(() => localStorage.getItem('nova:ojo:evolution:v1:jaime:personal')),corrupt);
+    await page.locator('#evolutionMemory').check();
+    await page.locator('#evolutionConsentForm button[type=submit]').click();
+    assert.equal(await page.evaluate(() => localStorage.getItem('nova:ojo:evolution:v1:jaime:personal')),corrupt,'Corrupt preferences must survive until explicit forget');
+    await page.locator('#evolutionForget').click();
+    assert.equal(await page.evaluate(() => localStorage.getItem('nova:ojo:evolution:v1:jaime:personal')),null);
+    assert.equal(await page.evaluate(() => localStorage.getItem('helene-control-fixture')),'OTHER_APP_SYNTHETIC');
     assert.equal(errors.length,0,errors.join('\n'));
     assert.equal(external.length,0);
-    console.log(JSON.stringify({status:'PASS',viewport:'390x844',consent_default:'OFF',real_signal:'CHAT_UNAVAILABLE_FROM_EXISTING_GATEWAY',suggestions_deduplicated:true,preferences_restored:true,cross_tab_revocation_observed:true,contribution_private_payload_absent:true,external_requests:external.length,forget_preserves_notebook_and_other_app:true,conversation_activated:false}));
+    console.log(JSON.stringify({status:'PASS',viewport:'390x844',consent_default:'OFF',real_signal:'CHAT_UNAVAILABLE_FROM_EXISTING_GATEWAY',suggestions_deduplicated:true,preferences_restored:true,cross_tab_revocation_observed:true,corrupt_preferences_fail_closed_and_preserved_until_forget:true,contribution_private_payload_absent:true,external_requests:external.length,forget_preserves_notebook_and_other_app:true,conversation_activated:false}));
   } finally {await browser?.close(); await new Promise(resolve=>server.close(resolve));}
 })().catch(e=>{console.error(e);process.exitCode=1});
