@@ -33,11 +33,11 @@ test('les fichiers étrangers au périmètre et les écritures ne sont pas inter
 });
 test('le lien direct utilise des noms de ressources que le cache de la première version ne capture pas',async()=>{
  const html=await readFile(new URL('../docs/helene/ouvrir.html',import.meta.url),'utf8');
- assert.match(html,/src="assets\/app-[A-Z0-9]+\.js"/);assert.match(html,/href="assets\/style-[a-f0-9]+\.css"/);assert.match(html,/Version 30\.10\.1/);assert.equal(html.includes('src="app.mjs"'),false);assert.equal(html.includes('href="styles.css"'),false);
+ assert.match(html,/src="assets\/app-[A-Z0-9]+\.js"/);assert.match(html,/href="assets\/style-[a-f0-9]+\.css"/);assert.match(html,/Version 30\.10\.2/);assert.equal(html.includes('src="app.mjs"'),false);assert.equal(html.includes('href="styles.css"'),false);
  const app=await readFile(new URL('../docs/helene/app.mjs',import.meta.url),'utf8');
  const asset=html.match(/src="(assets\/app-[A-Z0-9]+\.js)"/)[1];
  const bundle=await readFile(new URL('../docs/helene/'+asset,import.meta.url),'utf8');
- assert.match(app,/VERSION 30\.10\.1/);assert.match(bundle,/VERSION 30\.10\.1/);
+ assert.match(app,/VERSION 30\.10\.2/);assert.match(bundle,/VERSION 30\.10\.2/);
  assert.equal([html,app,bundle].some(text=>text.includes('28.10.2')),false);
  assert.ok(source.includes(asset),'The worker must cache the bundle selected by the page.');
 });
