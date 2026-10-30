@@ -1,7 +1,7 @@
 {
   "date_utc": "2026-10-30",
   "application": "ojo-jaime",
-  "revision": "iphone-r6",
+  "revision": "iphone-r7-shared-evolution-ready",
   "entry": "start.html",
   "chatgpt_account_required": false,
   "pages": {
@@ -61,20 +61,19 @@
     "same_origin_isolation": "dedicated HTTPS origin remains a production requirement"
   },
   "verification": {
-    "release": "iphone-r6",
-    "ios_public_shell_cases": 5,
+    "release": "iphone-r7-shared-evolution-ready",
     "native_navigation_export_policy_cases": 31,
-    "cases_executed_and_passed_this_release": 36,
+    "shared_evolution_contract_cases": 6,
+    "cases_executed_and_passed_this_release": 37,
     "failed_cases": 0,
-    "browser": "Chrome, 390x844 layout: install guide, clipboard fallback, preserved entry and universes-to-tendido route; no horizontal overflow. This is not an iPhone hardware test.",
+    "prior_unchanged_public_shell_cases": 5,
+    "native_debug_build": "succeeded for version1.0 build2",
+    "native_release_archive": "succeeded for version1.0 build2; unsigned",
+    "browser": "Published install guide and clipboard success verified; merged Mis mejoras UI verified with four opt-ins off and export disabled; iPhone hardware not tested.",
     "physical_iphone": false,
     "ios_simulator_run": false,
-    "simulator_runtime_available": false,
-    "native_debug_build": "succeeded",
-    "native_release_archive": "succeeded; unsigned",
-    "financial_core_unchanged": true,
-    "matrix_bundle_unchanged": true,
-    "concurrent_shared_evolution_change_preserved": "fd45ee4c3a8889831922a4490c583c2e52d60d98; opt-in remains false by default; no native connection activated"
+    "shared_client_modified": false,
+    "owner_transport_modified": false
   },
   "reused_core_sha256": "bb9f24ec84a98b9b3e60a33aba7085b1bc96dc8ed9cecdee2ee0da733c148da4",
   "assets": {
@@ -171,15 +170,32 @@
     "debug_build_succeeded": true,
     "release_archive_succeeded": true,
     "architecture": "arm64",
-    "binary_sha256": "110b2d419328cf741b5bce2a4618796e62215b571b6957b45f3bf9ac1de5a320",
-    "archive_at_utc": "2026-10-30T04:29:47.902883+00:00",
+    "binary_sha256": "f12554eafb6a5f407aad87866230a308785cf433c9fdc5ce6096e4cc8d8d8f50",
+    "archive_at_utc": "2026-10-30T04:39:53.982777+00:00",
     "signed": false,
     "installable_binary_delivered": false,
     "physical_iphone_tested": false,
     "testflight_uploaded": false,
     "app_store_published": false,
     "personal_data_migration": "not automatic; WebKit native container and Safari/PWA have separate stores",
-    "additional_spending_eur": 0
+    "additional_spending_eur": 0,
+    "version": "1.0",
+    "build": "2",
+    "binary_bytes": 239648,
+    "shared_evolution": {
+      "component": "nova.ojo-evolution",
+      "version": "1.0.0",
+      "client_sha256": "b6668fa30d284c8b5be510a6eec707d5a755949db2a617ec1cbed04f1f25eefa",
+      "contract": "OJO_TECHNICAL_METHOD_CANDIDATE_V1",
+      "contract_unchanged": true,
+      "owner_connection": "CANDIDATE_NOT_CONNECTED",
+      "native_bridge": false,
+      "additional_scheduler": false,
+      "automatic_upload": false,
+      "automatic_code_changes": false,
+      "native_store_imports_safari_consent": false,
+      "handoff": "ios/jaime/EVOLUTION_IOS.md"
+    }
   },
   "web_app_installation": {
     "guide": "instalar.html",
@@ -206,7 +222,7 @@
     "automatic_cases_passed": 128
   },
   "evolution_candidate": {
-    "state": "LOCAL_OPT_IN_CANDIDATE_TESTED_NOT_PUBLISHED",
+    "state": "PUBLISHED_LOCAL_OPT_IN_CLIENT_OWNER_NOT_CONNECTED",
     "common_component": "nova.ojo-evolution",
     "client_sha256": "b6668fa30d284c8b5be510a6eec707d5a755949db2a617ec1cbed04f1f25eefa",
     "provenance": "EVOLUTION_PROVENANCE.json",
@@ -215,6 +231,26 @@
     "owner_connection": "CANDIDATE_NOT_CONNECTED",
     "AI_connected": false,
     "recipient_phone_use_verified": false,
-    "base_public_revision": "el-tendido-r5"
+    "base_public_revision": "el-tendido-r5",
+    "published": true,
+    "public_client_merge_commit": "fd45ee4c3a8889831922a4490c583c2e52d60d98",
+    "verified_public_delivery_commit": "4890991787ce457b87f2efc2c136a7ec0c0b4bd3",
+    "historical_candidate_receipt": "../../tests/jaime/EVOLUTION_CANDIDATE.json"
+  },
+  "prior_r6_validation": {
+    "release": "iphone-r6",
+    "ios_public_shell_cases": 5,
+    "native_navigation_export_policy_cases": 31,
+    "cases_executed_and_passed_this_release": 36,
+    "failed_cases": 0,
+    "browser": "Chrome, 390x844 layout: install guide, clipboard fallback, preserved entry and universes-to-tendido route; no horizontal overflow. This is not an iPhone hardware test.",
+    "physical_iphone": false,
+    "ios_simulator_run": false,
+    "simulator_runtime_available": false,
+    "native_debug_build": "succeeded",
+    "native_release_archive": "succeeded; unsigned",
+    "financial_core_unchanged": true,
+    "matrix_bundle_unchanged": true,
+    "concurrent_shared_evolution_change_preserved": "fd45ee4c3a8889831922a4490c583c2e52d60d98; opt-in remains false by default; no native connection activated"
   }
 }

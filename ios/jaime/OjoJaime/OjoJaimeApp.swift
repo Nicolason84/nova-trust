@@ -11,7 +11,30 @@ struct JaimeRootView: View {
     @StateObject private var browser = BrowserModel()
     @Environment(\.scenePhase) private var scenePhase
     @State private var showAbout = false
+    @State private var showNavigationConfirmation = false
+    @State private var pendingNavigation: PendingNavigation = .reload
     private let forest = Color(red: 23.0/255, green: 63.0/255, blue: 53.0/255)
+
+    private enum PendingNavigation {
+        case home, reload
+        var title: String {
+            switch self {
+            case .home: return "Ir al inicio"
+            case .reload: return "Recargar"
+            }
+        }
+    }
+
+    private var versionLabel: String {
+        let version = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "—"
+        let build = Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") as? String ?? "—"
+        return "Versión iOS \(version) · compilación \(build)"
+    }
+
+    private func requestNavigation(_ action: PendingNavigation) {
+        pendingNavigation = action
+        showNavigationConfirmation = true
+    }
 
     var body: some View {
         ZStack {
@@ -26,8 +49,8 @@ struct JaimeRootView: View {
                     Text("ojO · Jaime").font(.headline)
                     Spacer()
                     Menu {
-                        Button { browser.goHome() } label: { Label("Ir al inicio", systemImage: "house") }
-                        Button { browser.reload() } label: { Label("Recargar", systemImage: "arrow.clockwise") }
+                        Button { requestNavigation(.home) } label: { Label("Ir al inicio", systemImage: "house") }
+                        Button { requestNavigation(.reload) } label: { Label("Recargar", systemImage: "arrow.clockwise") }
                         Button { showAbout = true } label: { Label("Acerca de esta app", systemImage: "info.circle") }
                     } label: {
                         Image(systemName: "ellipsis.circle").frame(width: 44, height: 44)
@@ -48,7 +71,7 @@ struct JaimeRootView: View {
                             Image(systemName: "arrow.triangle.2.circlepath").font(.largeTitle).foregroundStyle(forest)
                             Text("Vamos a intentarlo de nuevo").font(.title2.bold()).multilineTextAlignment(.center)
                             Text(failure).foregroundStyle(.secondary).multilineTextAlignment(.center)
-                            Button("Volver a cargar") { browser.reload() }.buttonStyle(.borderedProminent).tint(forest)
+                            Button("Volver a cargar") { requestNavigation(.reload) }.buttonStyle(.borderedProminent).tint(forest)
                         }
                         .padding(30).frame(maxWidth: .infinity, maxHeight: .infinity)
                         .background(Color(uiColor: .systemBackground))
@@ -67,6 +90,17 @@ struct JaimeRootView: View {
         .onChange(of: scenePhase) { phase in
             if phase == .background { browser.stopCapture() }
         }
+        .alert("¿Has guardado lo importante?", isPresented: $showNavigationConfirmation) {
+            Button("Seguir aquí", role: .cancel) {}
+            Button(pendingNavigation.title) {
+                switch pendingNavigation {
+                case .home: browser.goHome()
+                case .reload: browser.reload()
+                }
+            }
+        } message: {
+            Text("Antes de salir de esta página, guarda tus borradores y termina las grabaciones. Lo que aún no hayas guardado puede perderse.")
+        }
         .sheet(isPresented: $showAbout) {
             NavigationStack {
                 ScrollView {
@@ -75,9 +109,10 @@ struct JaimeRootView: View {
                         Text("Abre el espacio de Jaime mediante una conexión segura. Su contenido se actualiza desde la versión publicada de ojO.")
                         Text("Tus datos en esta app están separados de Safari y de la app añadida a la pantalla de inicio. No se importan automáticamente. Conserva tus originales y las copias cifradas que hayas exportado.")
                         Text("El micrófono y la cámara solo se solicitan cuando utilizas esas funciones. Los archivos se eligen con el selector de iOS. El asistente y la mensajería conservan el estado de conexión que indica cada pantalla.")
+                        Text("Mis mejoras usa el componente compartido de ojO. Allí eliges si quieres recordar opciones, observar fallos y preparar propuestas. Consulta en esa pantalla el estado de conexión y de cada propuesta. Preparar un archivo técnico no lo envía; esta app no instala cambios por su cuenta.")
                         Text("Los enlaces externos se abren con el navegador o la app que hayas elegido en iOS. No hay notificaciones proactivas ni VPN activadas. La primera apertura y el contenido nuevo necesitan Internet; el audio no se descarga automáticamente.")
                         Text("Las notas habituales y borradores locales no son un archivo cifrado. Usa Mi archivo para los documentos que quieras guardar con una frase de protección.")
-                        Text("Versión iOS 1.0 · preparación para pruebas").font(.caption).foregroundStyle(.secondary)
+                        Text(versionLabel).font(.caption).foregroundStyle(.secondary)
                     }.padding(24)
                 }
                 .navigationTitle("Acerca de ojO")

@@ -2,6 +2,8 @@
 
 Projet iOS **SwiftUI + WKWebView**, cible iPhone iOS 16.4 ou ultérieur, sans paquet tiers natif. Ce dossier contient le projet Xcode, pas une application déjà installée ni une publication App Store. La validation de compilation et ses résultats doivent figurer dans le reçu de livraison du lot.
 
+La préparation des améliorations communes ojO est décrite dans [EVOLUTION_IOS.md](EVOLUTION_IOS.md). Le build 2 conserve le composant web partagé et son contrat, affiche la version réelle du bundle et demande une confirmation avant les actions natives Accueil / Recharger. Il n'ajoute aucun moteur d'autoamélioration ou connexion backend.
+
 ## Ouvrir et compiler
 
 Ouvrir `OjoJaime.xcodeproj` dans Xcode. Le scheme partagé est `OjoJaime`.
