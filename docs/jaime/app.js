@@ -19,7 +19,7 @@
   const sizeLabel = (n) => n >= 1048576 ? `${(n / 1048576).toFixed(1)} MB` : `${Math.ceil(n / 1024)} KB`;
 
   function toast(text) {clearTimeout(toastTimer); $('toast').textContent = text; $('toast').hidden = false; toastTimer = setTimeout(() => {$('toast').hidden = true;}, 5000);}
-  function persist() {try {localStorage.setItem(KEY, JSON.stringify(state)); return true;} catch {toast('No se ha podido guardar. Exporta una copia antes de cerrar.'); return false;}}
+  function persist() {try {localStorage.setItem(KEY, JSON.stringify(state)); return true;} catch {document.dispatchEvent(new CustomEvent('jaime:technical',{detail:{signal:'STORAGE_FAILURE'}})); toast('No se ha podido guardar. Exporta una copia antes de cerrar.'); return false;}}
   function touch(idea) {idea.updatedAt = date(); persist();}
   function load() {
     try {
