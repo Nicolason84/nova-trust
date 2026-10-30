@@ -25,10 +25,16 @@
     <h1>Hola, Jaime.</h1>
     <p class="entry-copy">Un lugar para tus ideas.<br>Y para tu día a día.</p>
     <p class="entry-detail">Habla, escribe, prepara una respuesta o elige tu siguiente paso. A tu ritmo.</p>
+    <section id="privateAccessChoice" class="entry-recovery" aria-labelledby="privateAccessTitle" hidden>
+      <h2 id="privateAccessTitle">Tu asistente, en tu espacio privado.</h2>
+      <p>El acceso privado te pedirá identificarte. Tu perfil guardado en este navegador no inicia esa sesión.</p>
+      <a id="privateAssistantEntry" class="primary full" href="https://jaime.nova-era.fr/ojo/jaime/" target="_blank" rel="noopener noreferrer">Abrir mi asistente privado</a>
+      <p class="small-note">Tus notas y grabaciones de esta libreta se conservan aquí. Abrir el enlace no las copia ni las envía y no autoriza a compartirlas.</p>
+    </section>
     <form id="entryForm">
       <label for="entryName">¿Cómo prefieres que te llame?</label>
       <input id="entryName" name="name" maxlength="40" autocomplete="given-name" value="Jaime">
-      <button type="submit" class="primary full">Entrar en mi espacio <span aria-hidden="true">→</span></button>
+      <button type="submit" class="primary full">Abrir mi libreta local <span aria-hidden="true">→</span></button>
     </form>
     <section id="oldProfileBox" class="entry-recovery" hidden>
       <p id="oldProfileText"></p>
@@ -36,8 +42,8 @@
     </section>
     <p id="entryError" role="alert" class="result-warning" hidden></p>
     <p class="small-note">Tu nombre se guarda en este navegador. Puedes cambiarlo cuando quieras. No necesitas una cuenta de ChatGPT.</p>
-    <details class="entry-install"><summary>¿Cómo lo pongo en la pantalla de inicio?</summary><p>En iPhone, abre esta página en Safari. Toca Compartir y después «Añadir a pantalla de inicio». <a href="instalar.html">Ver la guía paso a paso</a>.</p></details>
-    <p class="entry-service-note">El asistente aún está pendiente de conexión. Ya puedes guardar tus ideas y grabaciones.</p>
+    <details class="entry-install"><summary>¿Cómo lo pongo en la pantalla de inicio?</summary><p>En iPhone, abre primero tu asistente privado en Safari e identifícate. Desde ese espacio, toca Compartir y después «Añadir a pantalla de inicio». <a href="instalar.html">Ver la guía paso a paso</a>.</p></details>
+    <p class="entry-service-note">Esta página conserva tu libreta local. Para conversar con tu asistente, elige el acceso privado de arriba.</p>
   </main>
 </body>
 </html>

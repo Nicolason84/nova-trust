@@ -20,7 +20,7 @@
 
   function toast(text) {clearTimeout(toastTimer); $('toast').textContent = text; $('toast').hidden = false; toastTimer = setTimeout(() => {$('toast').hidden = true;}, 5000);}
   function persist() {try {localStorage.setItem(KEY, JSON.stringify(state)); return true;} catch {document.dispatchEvent(new CustomEvent('jaime:technical',{detail:{signal:'STORAGE_FAILURE'}})); toast('No se ha podido guardar. Exporta una copia antes de cerrar.'); return false;}}
-  function touch(idea) {idea.updatedAt = date(); persist();}
+  function touch(idea) {idea.updatedAt = date(); return persist();}
   function load() {
     try {
       const raw = localStorage.getItem(KEY);
@@ -28,8 +28,16 @@
       if (parsed?.version === 1 && Array.isArray(parsed.ideas) && parsed.ideas.length && parsed.ideas.every(i => typeof i.id === 'string' && Array.isArray(i.messages))) {
         state = parsed;
         state.preferences = {preferredName: typeof parsed.preferences?.preferredName === 'string' ? parsed.preferences.preferredName.slice(0,40) : '', faith: parsed.preferences?.faith === true, memoryText: typeof parsed.preferences?.memoryText === 'string' ? parsed.preferences.memoryText.slice(0,4000) : '', shareContext: parsed.preferences?.shareContext === true};
-        state.ideas.forEach(i => {i.pending = Array.isArray(i.pending) ? i.pending : []; i.scenarios = Array.isArray(i.scenarios) ? i.scenarios : []; i.draft = typeof i.draft === 'string' ? i.draft : '';});
+        let interrupted = false;
+        state.ideas.forEach(i => {i.pending = Array.isArray(i.pending) ? i.pending : []; i.scenarios = Array.isArray(i.scenarios) ? i.scenarios : []; i.draft = typeof i.draft === 'string' ? i.draft : '';
+          for (const message of i.messages.filter(m => m.role === 'user' && m.deliveryState === 'sending')) {
+            message.deliveryState = 'uncertain'; interrupted = true;
+            i.messages.filter(m => m.retryFor === message.id).forEach(m => {delete m.retryFor;});
+            i.messages.push({id:uid(),role:'system',text:'La aplicación se cerró durante un envío. El mensaje puede haber sido recibido; su respuesta debe verificarse antes de reenviarlo. No se ha repetido el envío.',createdAt:date(),attachments:[]});
+          }
+        });
         if (!getIdea(state.activeId)) state.activeId = state.ideas[0].id;
+        if (interrupted) persist();
         return;
       }
     } catch {setTimeout(() => toast('No se ha podido recuperar el espacio guardado. Comprueba tus copias antes de cerrar.'), 300);}
@@ -88,10 +96,17 @@
     active().messages.forEach(message => {
       const article = el('article', `message ${message.role}`);
       const label = message.role === 'user' ? 'Tú' : message.role === 'assistant' ? 'ojO' : message.role === 'calculation' ? 'Cálculo guardado' : 'Estado del servicio';
-      article.append(el('span', 'message-label', label)); article.append(el('p', 'message-text', message.text || ''));
+      article.append(el('span', 'message-label', label)); article.append(el('p', 'message-text', message.role === 'system' && message.recoveredDelivery === true ? 'La respuesta de este envío se ha recuperado y verificado. No se ha vuelto a enviar tu pregunta.' : message.text || ''));
       if (message.attachments?.length) {const files = el('div', 'message-files'); article.append(files); message.attachments.forEach(f => {const card = el('div', 'file-card'); files.append(card); populateFile(card, f, version);});}
       if (message.sources?.length) {const sources = el('div', 'message-sources'); for (const source of message.sources) {try {const url = new URL(source.url); if (url.protocol !== 'https:' && url.protocol !== 'http:') continue; const a = el('a', '', source.title || url.hostname); a.href = url.href; a.target = '_blank'; a.rel = 'noopener noreferrer'; sources.append(a, el('br'));} catch {}} article.append(sources);}
       if (message.retryFor) {const retry = el('button', 'secondary retry', 'Reintentar análisis'); retry.disabled = busy; retry.addEventListener('click', () => deliver(active().id, message.retryFor)); article.append(retry);}
+      if (message.role === 'user' && message.deliveryState === 'uncertain' && window.JaimeGateway?.recover) {
+        if (message.deliveryRequestId) {
+          const recover = el('button', 'secondary recover-response', 'Comprobar respuesta'); recover.type = 'button'; recover.disabled = busy;
+          const ideaId = active().id; recover.addEventListener('click', () => recoverResponse(ideaId, message.id)); article.append(recover);
+        } else article.append(el('p', 'file-meta', 'Este envío antiguo no conserva una referencia de recuperación. No se ha reenviado.'));
+        if (message.recoveryNotice) article.append(el('p', 'file-meta', message.recoveryNotice));
+      }
       const stamp = el('time', '', time(message.createdAt)); stamp.dateTime = message.createdAt; article.append(stamp); list.append(article);
     });
   }
@@ -103,35 +118,74 @@
   }
   function updateSend() {$('sendButton').disabled = busy || voice.getSnapshot().isBusy || (!active().draft.trim() && !active().pending.length); $('sendButton').firstChild.textContent = busy ? 'Enviando ' : 'Enviar';}
   function scrollToEnd() {requestAnimationFrame(() => {$('conversation').scrollTop = $('conversation').scrollHeight;});}
-  function addSystem(idea, text, retryFor) {idea.messages.push({id: uid(), role: 'system', text, retryFor, createdAt: date(), attachments: []}); touch(idea);}
+  function addSystem(idea, text, retryFor, deliveryFor) {idea.messages.push({id: uid(), role: 'system', text, retryFor, deliveryFor, createdAt: date(), attachments: []}); touch(idea);}
+  let connectionFailure = 'El análisis aún no está conectado. Tu mensaje y tus archivos están guardados en este dispositivo; todavía no los ha leído un asistente.';
   async function health() {
     let result;
     try {result = await window.JaimeGateway?.health?.();} catch {}
     const ready = result?.ok === true;
     $('connectionNotice').classList.toggle('connected', ready);
-    $('statusButton').textContent = ready ? (result.label || 'Asistente conectado') : 'Ideas guardadas · asistente pendiente de conexión';
-    $('healthExplanation').textContent = ready ? (result.description || 'Hay conexión con el asistente. Puedes enviar texto y material para las funciones que el servicio tenga disponibles. Cada pieza debe confirmar su lectura.') : 'La conexión con el asistente no está disponible. Puedes guardar ideas, adjuntar material y probar números. No se simulan respuestas de inteligencia artificial.';
+    $('statusButton').textContent = result?.label || (ready ? 'Asistente conectado' : 'Ideas guardadas · asistente pendiente de conexión');
+    $('healthExplanation').textContent = result?.description || (ready ? 'Hay conexión con el asistente. Puedes enviar texto y material para las funciones que el servicio tenga disponibles. Cada pieza debe confirmar su lectura.' : 'La conexión con el asistente no está disponible. Puedes guardar ideas, adjuntar material y probar números. No se simulan respuestas de inteligencia artificial.');
+    if (!ready) connectionFailure = result?.description || 'El análisis aún no está conectado. Tu mensaje y tus archivos están guardados en este dispositivo; todavía no los ha leído un asistente.';
+    window.JaimeIdentityUI?.refresh?.();
     return ready;
   }
   async function deliver(ideaId, messageId) {
     if (busy) return; const idea = getIdea(ideaId); if (!idea) return; const at = idea.messages.findIndex(m => m.id === messageId); if (at < 0) return;
+    if (idea.messages[at].deliveryState === 'uncertain') {toast('Este envío necesita una comprobación antes de repetirse. No se ha reenviado.'); return;}
     busy = true; updateSend();
     try {
-      if (!window.JaimeGateway?.send || !(await health())) throw new Error('El análisis aún no está conectado. Tu mensaje y tus archivos están guardados en este dispositivo; todavía no los ha leído un asistente.');
+      if (!window.JaimeGateway?.send || !(await health())) throw new Error(connectionFailure);
       const message = idea.messages[at]; const attachments = [];
       for (const file of message.attachments || []) {const blob = file.missing ? null : await readBlob(file.id); attachments.push({...file, blob: blob || null, missing: !blob});}
       const messages = idea.messages.slice(0, at + 1).filter(m => ['user', 'assistant'].includes(m.role)).map(m => ({id: m.id, role: m.role, text: m.text, attachments: (m.attachments || []).map(f => ({id: f.id, name: f.name, type: f.type, size: f.size})), createdAt: m.createdAt}));
       let personalContext;
       if (state.preferences.shareContext === true) {const pref = state.preferences; personalContext = {}; if (pref.preferredName) personalContext.preferredName = pref.preferredName; if (pref.faith === true) personalContext.faithRequested = true; if (pref.memoryText) personalContext.notes = pref.memoryText;}
-      const response = await window.JaimeGateway.send({ideaId, messageId, ...(personalContext ? {personalContext} : {}), topicType: idea.topicType || 'general', messages, attachments, scenario: idea.scenarios.at(-1) || null});
-      if (!response || response.ok === false || typeof response.text !== 'string' || !response.text.trim()) throw new Error(response?.message || response?.error || 'El asistente no ha devuelto una respuesta válida. Tu contenido sigue guardado.');
+      if (!message.deliveryRequestId) message.deliveryRequestId = globalThis.crypto.randomUUID();
+      message.deliveryState = 'sending';
+      if (!touch(idea)) throw new Error('No se ha enviado: no podemos guardar la referencia necesaria para recuperar la respuesta. Conserva o exporta tu texto y comprueba el almacenamiento de este navegador.');
+      const response = await window.JaimeGateway.send({ideaId, messageId, requestId: message.deliveryRequestId, ...(personalContext ? {personalContext} : {}), topicType: idea.topicType || 'general', messages, attachments, scenario: idea.scenarios.at(-1) || null});
+      if (!response || response.ok === false || typeof response.text !== 'string' || !response.text.trim()) throw Object.assign(new Error(response?.message || response?.error || 'El asistente no ha devuelto una respuesta válida. Tu contenido sigue guardado.'), {uncertain: true});
       if (!getIdea(ideaId)) return;
+      message.deliveryState = 'confirmed';
       const analyzed = new Set(Array.isArray(response.attachmentsAnalyzed) ? response.attachmentsAnalyzed.filter(id => typeof id === 'string') : []);
       (message.attachments || []).forEach(file => {if (analyzed.has(file.id)) file.analysisConfirmed = true;});
-      idea.messages.push({id: uid(), role: 'assistant', text: response.text, sources: Array.isArray(response.sources) ? response.sources : [], createdAt: date(), attachments: [], attachmentsAnalyzed: response.attachmentsAnalyzed || []});
+      idea.messages.push({id: uid(), role: 'assistant', replyTo: messageId, requestId: message.deliveryRequestId, text: response.text, sources: Array.isArray(response.sources) ? response.sources : [], createdAt: date(), attachments: [], attachmentsAnalyzed: response.attachmentsAnalyzed || []});
       idea.messages.filter(m => m.retryFor === messageId).forEach(m => {delete m.retryFor;}); touch(idea);
-    } catch (error) {if (getIdea(ideaId)) {idea.messages.filter(m => m.retryFor === messageId).forEach(m => {delete m.retryFor;}); addSystem(idea, typeof error?.message === 'string' ? error.message : 'No se ha podido conectar. Tu contenido sigue guardado y puedes reintentarlo.', messageId);}}
+    } catch (error) {if (getIdea(ideaId)) {
+      const uncertain = error?.uncertain === true;
+      idea.messages[at].deliveryState = uncertain ? 'uncertain' : 'not_confirmed';
+      idea.messages.filter(m => m.retryFor === messageId).forEach(m => {delete m.retryFor;});
+      const explanation = typeof error?.message === 'string' ? error.message : 'No se ha podido conectar. Tu contenido sigue guardado.';
+      addSystem(idea, explanation + (uncertain ? ' Este envío necesita una comprobación antes de repetirse.' : ''), uncertain ? undefined : messageId, messageId);
+    }}
     finally {busy = false; if (state.activeId === ideaId) {render(); scrollToEnd();} else updateSend(); health();}
+  }
+  async function recoverResponse(ideaId, messageId) {
+    if (busy || !window.JaimeGateway?.recover) return;
+    const idea = getIdea(ideaId), message = idea?.messages.find(m => m.id === messageId && m.role === 'user');
+    if (!message || message.deliveryState !== 'uncertain' || !message.deliveryRequestId) return;
+    busy = true; updateSend(); if (state.activeId === ideaId) render();
+    try {
+      const result = await window.JaimeGateway.recover({ideaId, messageId, requestId: message.deliveryRequestId, message: message.text});
+      if (getIdea(ideaId) !== idea || !idea.messages.includes(message)) return;
+      if (result?.confirmed === true && result.requestId === message.deliveryRequestId && typeof result.text === 'string' && result.text.trim()) {
+        if (!idea.messages.some(m => m.role === 'assistant' && m.replyTo === messageId && m.requestId === message.deliveryRequestId)) {
+          idea.messages.splice(idea.messages.indexOf(message) + 1, 0, {id: uid(), role: 'assistant', replyTo: messageId,
+            requestId: message.deliveryRequestId, text: result.text, sources: [], createdAt: date(), attachments: [], recovered: true});
+        }
+        message.deliveryState = 'confirmed'; delete message.recoveryNotice;
+        idea.messages.filter(m => m.retryFor === messageId).forEach(m => {delete m.retryFor;});
+        idea.messages.filter(m => m.role === 'system' && m.deliveryFor === messageId).forEach(m => {m.recoveredDelivery = true;});
+        toast('Respuesta recuperada del historial privado. No se ha vuelto a enviar tu pregunta.');
+      } else message.recoveryNotice = result?.state === 'ACCEPTED'
+        ? 'El servidor recibió este envío, pero todavía no hay una respuesta completa. Puedes comprobarlo más tarde.'
+        : 'No se ha encontrado una respuesta completa verificable para este envío. No se ha reenviado tu pregunta.';
+      touch(idea);
+    } catch (error) {
+      if (getIdea(ideaId) === idea) {message.recoveryNotice = error?.message || 'No se ha podido comprobar la respuesta. El envío sigue pendiente de verificar.'; touch(idea);}
+    } finally {busy = false; if (state.activeId === ideaId) {render(); scrollToEnd();} else updateSend(); health();}
   }
   $('composerForm').addEventListener('submit', e => {
     e.preventDefault(); if (busy || voice.getSnapshot().isBusy) return; const idea = active(); const text = $('messageInput').value.trim(); if (!text && !idea.pending.length) return;
@@ -143,7 +197,7 @@
   $('homeButton').addEventListener('click', () => {document.dispatchEvent(new CustomEvent('jaime:navigate',{detail:{view:'chat'}})); $('messageInput').focus();});
   $('helpButton').addEventListener('click', () => openDialog('helpDialog'));
   $('statusButton').addEventListener('click', () => openDialog('helpDialog'));
-  $('checkConnectionButton').addEventListener('click', async () => {const ok = await health(); toast(ok ? 'Conexión disponible.' : 'El análisis todavía no está conectado.');});
+  $('checkConnectionButton').addEventListener('click', async () => {const ok = await health(); toast(ok ? 'Conexión disponible.' : connectionFailure);});
 
   function renderIdeas() {
     const list = $('ideasList'); list.replaceChildren();

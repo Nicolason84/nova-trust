@@ -1,0 +1,104 @@
+{
+  "schema": "JAIME_TAURINE_WORD_AUDIT_V1",
+  "status": "PASS_CONTENT_ACCOUNTING_ONLY",
+  "method": "Se cuentan íntegros los párrafos sourced; término, definición y nota del glosario; pregunta, opciones y explicación del quiz; evidence de debates; datos de ganaderías; y título, autoría, editor, tipo y fecha bibliográficos. Si un texto cita dos fuentes se carga completo a ambas. URL y referencias técnicas no se cuentan como prosa. Los ejercicios, preguntas de observación, argumentos de debate y cautelas metodológicas originales quedan separados, sin cargarles hechos prestados.",
+  "tokenization": "Whitespace, slash and en/em dash separators; verified identical to all 25 preimage audit entries.",
+  "limitPerSource": 200,
+  "sourcesChecked": 29,
+  "maximumAttributedWords": 192,
+  "verbatimPassagesInBody": 0,
+  "note": "Existing learning-corpus audit recomputed with original convention. Events and supplemental glossary unchanged. No model reply has been graded.",
+  "changes": [
+    {
+      "sourceId": "S01",
+      "before": 164,
+      "after": 146,
+      "paths": [
+        {
+          "path": "sources.S01.bibliography",
+          "words": 19
+        },
+        {
+          "path": "lessons.L01.paragraphs.0",
+          "words": 33
+        },
+        {
+          "path": "glossary.T03",
+          "words": 19
+        },
+        {
+          "path": "glossary.T04",
+          "words": 20
+        },
+        {
+          "path": "glossary.T19",
+          "words": 16
+        },
+        {
+          "path": "quiz.Q01",
+          "words": 39
+        }
+      ]
+    },
+    {
+      "sourceId": "S33",
+      "before": null,
+      "after": 70,
+      "paths": [
+        {
+          "path": "sources.S33.bibliography",
+          "words": 16
+        },
+        {
+          "path": "glossary.T02",
+          "words": 54
+        }
+      ]
+    },
+    {
+      "sourceId": "S34",
+      "before": null,
+      "after": 43,
+      "paths": [
+        {
+          "path": "sources.S34.bibliography",
+          "words": 14
+        },
+        {
+          "path": "lessons.L13.paragraphs.0",
+          "words": 29
+        }
+      ]
+    },
+    {
+      "sourceId": "S35",
+      "before": null,
+      "after": 74,
+      "paths": [
+        {
+          "path": "sources.S35.bibliography",
+          "words": 17
+        },
+        {
+          "path": "ranches.R05.sourcedFields",
+          "words": 57
+        }
+      ]
+    },
+    {
+      "sourceId": "S36",
+      "before": null,
+      "after": 73,
+      "paths": [
+        {
+          "path": "sources.S36.bibliography",
+          "words": 16
+        },
+        {
+          "path": "ranches.R05.sourcedFields",
+          "words": 57
+        }
+      ]
+    }
+  ]
+}

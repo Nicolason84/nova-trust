@@ -1,0 +1,111 @@
+{
+  "schema": "JAIME_ACCESS_SESSION_BROWSER_FIXTURE_V1",
+  "at": "2026-10-30T21:38:03.979Z",
+  "producer": "CHATGPT_TEST_RUNNER",
+  "pass": true,
+  "cases": [
+    {
+      "name": "expiration and canonical reconnect 320",
+      "pass": true,
+      "viewport_width": 320,
+      "requests": 2,
+      "chat_posts": 0
+    },
+    {
+      "name": "expiration and canonical reconnect 390",
+      "pass": true,
+      "viewport_width": 390,
+      "requests": 2,
+      "chat_posts": 0
+    },
+    {
+      "name": "forbidden request is not an assistant reply",
+      "pass": true,
+      "viewport_width": 390,
+      "requests": 3,
+      "chat_posts": 0
+    },
+    {
+      "name": "accepted 403 cannot be replayed after reconnect",
+      "pass": true,
+      "viewport_width": 390,
+      "requests": 6,
+      "chat_posts": 1
+    },
+    {
+      "name": "interrupted send restored without replay",
+      "pass": true,
+      "viewport_width": 390,
+      "requests": 2,
+      "chat_posts": 0
+    },
+    {
+      "name": "offline and online preserve draft without POST",
+      "pass": true,
+      "viewport_width": 390,
+      "requests": 2,
+      "chat_posts": 0
+    },
+    {
+      "name": "HTML success cannot authenticate",
+      "pass": true,
+      "viewport_width": 390,
+      "requests": 1,
+      "chat_posts": 0
+    },
+    {
+      "name": "model outage does not demand new login",
+      "pass": true,
+      "viewport_width": 390,
+      "requests": 1,
+      "chat_posts": 0
+    },
+    {
+      "name": "synthetic response and local reload preserve transcript",
+      "pass": true,
+      "viewport_width": 390,
+      "requests": 6,
+      "chat_posts": 1
+    },
+    {
+      "name": "lost completed reply is recovered after reload without another chat POST",
+      "pass": true,
+      "viewport_width": 390,
+      "requests": 10,
+      "chat_posts": 1
+    },
+    {
+      "name": "unconfirmed recovery states never enable replay or invent a reply",
+      "pass": true,
+      "viewport_width": 390,
+      "requests": 11,
+      "chat_posts": 1
+    },
+    {
+      "name": "altered recovery proof preserves uncertainty",
+      "pass": true,
+      "viewport_width": 390,
+      "requests": 7,
+      "chat_posts": 1
+    },
+    {
+      "name": "unavailable local persistence prevents a chat with an unrecorded recovery ID",
+      "pass": true,
+      "viewport_width": 390,
+      "requests": 3,
+      "chat_posts": 0
+    },
+    {
+      "name": "follow-up after reload keeps topic and server turn sequence",
+      "pass": true,
+      "viewport_width": 390,
+      "requests": 10,
+      "chat_posts": 2
+    }
+  ],
+  "all_network_intercepted": true,
+  "real_authentication": false,
+  "real_model": false,
+  "physical_device": false,
+  "service_worker_tested": false
+}

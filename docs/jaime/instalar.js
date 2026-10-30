@@ -4,13 +4,19 @@
   const displayMode = window.matchMedia('(display-mode: standalone)');
   const standalone = navigator.standalone === true || displayMode.matches;
   const onIPhone = /iPhone|iPod/.test(navigator.userAgent);
+  const publicNotebook = window.location.origin === 'https://nicolason84.github.io' &&
+    window.location.pathname === '/nova-trust/jaime/instalar.html';
 
-  if (standalone) {
+  if (standalone && !publicNotebook) {
     byId('install-steps').hidden = true;
     byId('instructions-link').hidden = true;
     byId('open-link').hidden = true;
     byId('install-link-card').hidden = true;
     byId('installed-card').hidden = false;
+  } else if (standalone && publicNotebook) {
+    const note = byId('device-note');
+    note.textContent = 'Este icono abre tu libreta local. Para abrir el asistente desde otro icono, entra en el espacio privado de abajo e instálalo desde Safari.';
+    note.hidden = false;
   } else if (onIPhone) {
     const note = byId('device-note');
     note.textContent = 'Si has llegado desde otra aplicación, copia el enlace de abajo y ábrelo en Safari para añadir el icono.';
