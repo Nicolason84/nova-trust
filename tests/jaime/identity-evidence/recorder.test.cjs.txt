@@ -1,0 +1,37 @@
+✔ completed audio contains final chunk, belongs to original topic, releases microphone before delivery (2.09125ms)
+✔ refused permission is actionable and clears the pending request for retry (0.165791ms)
+✔ canceling pending permission prevents a late grant from recording; no second prompt is opened (0.131583ms)
+✔ unanswered permission has a finite UI wait and still closes a late stream (0.08325ms)
+▶ constructor and start failures always close the acquired stream
+  ✔ {"constructError":"UnknownError"} (0.088125ms)
+  ✔ {"startError":true} (0.064417ms)
+✔ constructor and start failures always close the acquired stream (0.292375ms)
+▶ format support is detected at runtime, with browser-default fallback
+  ✔ {"noTypeDetection":true} (0.146292ms)
+  ✔ {"supported":["audio/webm;codecs=opus"]} (0.105042ms)
+  ✔ {"rejectExplicitType":true} (0.111375ms)
+✔ format support is detected at runtime, with browser-default fallback (0.486833ms)
+▶ empty audio and missing final stop cannot become successful attachments
+  ✔ EMPTY_RECORDING (0.093875ms)
+  ✔ FINALIZATION_TIMEOUT (0.060208ms)
+  ✔ FINALIZATION_FAILED (0.084209ms)
+✔ empty audio and missing final stop cannot become successful attachments (0.6915ms)
+▶ microphone interruption preserves a completed container and marks it for review
+  ✔ mute (0.104834ms)
+  ✔ ended (0.072458ms)
+✔ microphone interruption preserves a completed container and marks it for review (0.253416ms)
+✔ changing topic finishes into the original topic; a pending request is canceled (0.099792ms)
+✔ hiding the page stops recording without claiming an analysis; disposal removes lifecycle hooks (0.083125ms)
+✔ dispose during a permission prompt closes the late stream without any later callback (0.036166ms)
+✔ duration and size limits finalize whole containers; oversized final audio is rejected (0.14425ms)
+✔ recorder errors can yield reviewable partial audio, but revoked access is discarded (0.079792ms)
+✔ unavailable or insecure environments never ask for microphone permission (0.042666ms)
+✔ a failed asynchronous attachment handoff is explicit and cannot retain the microphone (0.073917ms)
+ℹ tests 25
+ℹ suites 0
+ℹ pass 25
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 7.701834

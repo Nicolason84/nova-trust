@@ -1,0 +1,20 @@
+✔ plain EML keeps source identity unverified and respects the stated timezone (6.554875ms)
+✔ folded RFC 2047 headers and quoted-printable body decode without treating text as markup (0.394208ms)
+✔ multipart alternative prefers text and reports attachments without importing their bytes (1.18ms)
+✔ base64 Latin-1 text decodes; malformed base64 is kept with a notice (0.80075ms)
+✔ HTML-only and mixed HTML content remain literal text; no part disappears silently (0.142083ms)
+✔ unreadable dates and encrypted messages are explicit rather than fabricated (0.214ms)
+✔ an invalid or ambiguous From never becomes a guessed partial recipient (0.171042ms)
+✔ Reply-To and malformed MIME are flagged, not silently substituted (0.0655ms)
+✔ invalid, oversized or binary EML is rejected (0.193209ms)
+✔ normalization validates dates and emails without mutating the source object (0.198041ms)
+✔ draft helpers are labelled templates, keep placeholders and invent no price or meeting date (0.176709ms)
+✔ mailto only prepares one validated recipient, safely encodes subject/body and rejects placeholders (0.664083ms)
+ℹ tests 12
+ℹ suites 0
+ℹ pass 12
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 14.562334

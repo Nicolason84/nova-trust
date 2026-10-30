@@ -49,3 +49,29 @@ Le lot `R5-evolution-v1` ajoute « Mis mejoras » au carnet, avec observations d
 La contribution technique est seulement un fichier local de codes fermés préparé après consentement et clic explicite ; elle n’est pas envoyée à SUPRA. Une proposition acceptée reste non exécutée. Le gateway IA reste déconnecté et l’origine publique partagée ne devient pas une isolation forte par ce changement.
 
 Le reçu `EVOLUTION_CANDIDATE.json` décrit les 51 tests existants et le contrôle mobile synthétique. Pour rejouer ce dernier avec le paquet Playwright déjà disponible dans l’environnement : `PLAYWRIGHT_MODULE=/chemin/vers/playwright node tests/jaime/evolution-ui.browser.cjs` (`CHROME_EXECUTABLE` est facultatif). Aucun consentement ni usage réel de Jaime n’est prétendu par ces fixtures.
+
+## TUV5 access-session candidate — 2026-10-30
+
+The existing PR35 private-entry and iPhone candidate is preserved. This extension
+uses the canonical `nova.access-session` component from private source commit
+0199b894ec8df350c9029feb2bcbb587714047fe, pinned in `docs/jaime/IDENTITY_PROVENANCE.json`.
+The public gateway remains disconnected; the private native owner requires a
+fresh admission before loading the changed assets and its corrected adapter.
+
+65 public unit cases pass. `identity.browser.cjs` adds9 browser fixture cases;
+the original9 private-entry cases pass again. Viewports include320,375,390,430px.
+See `identity-evidence/qualification.json` and the two browser-result receipts.
+Every browser request is intercepted. Synthetic replies do not prove a real
+Cloudflare session or model exchange. No physical iPhone is claimed.
+
+The bounded identity recipe covers401/403, HTML masquerading as success,
+offline return, a model outage, preserved local transcript and an uncertain
+accepted POST across reload. Interrupted `sending` messages become `uncertain`
+without automatic or button-driven replay. Missing responses are not yet recovered
+from the owner history. Notes remain local and unencrypted.
+
+Run the browser fixture with the existing Playwright and Chrome installations:
+`TUV5_PRIVATE_GATEWAY=/absolute/path/to/candidate/integrations/jaime/frontend/gateway.js node tests/jaime/identity.browser.cjs`.
+Use the existing JAIME_PLAYWRIGHT_MODULE and JAIME_BROWSER_EXECUTABLE environment
+variables when Playwright or Chrome are not on their default discovery paths.
+The fixture never provisions identity, bypasses Access, enables passkeys or deploys.

@@ -15,3 +15,10 @@ body.entry-page{padding-left:max(20px,env(safe-area-inset-left));padding-right:m
 @media(hover:none) and (pointer:coarse){
   input:not([type=checkbox]):not([type=radio]):not([type=range]),textarea,select{font-size:16px!important}
 }
+
+/* Personal access controls reuse the existing help dialog. */
+.personal-access-controls{padding-bottom:14px;border-bottom:1px solid var(--line,rgba(255,255,255,.14));margin-bottom:14px}
+.personal-access-controls a:not([hidden]){display:inline-flex;align-items:center;min-height:44px;padding:8px 12px;max-width:100%;overflow-wrap:anywhere}
+.personal-access-controls [hidden]{display:none!important}
+
+#privateAssistantDelivery[hidden]{display:none!important}
