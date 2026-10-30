@@ -6,6 +6,9 @@ body.entry-page{padding-left:max(20px,env(safe-area-inset-left));padding-right:m
 .taurino-shell{padding-left:max(40px,env(safe-area-inset-left));padding-right:max(40px,env(safe-area-inset-right))}
 .universe-top{padding-top:calc(24px + env(safe-area-inset-top))}
 .taurino-header{padding-top:calc(23px + env(safe-area-inset-top))}
+.private-access-notice{flex:none;margin:6px 16px;padding:8px 12px;border:1px solid var(--line);border-radius:14px;background:var(--white)}
+.private-access-notice .primary{min-height:44px;text-decoration:none}
+.private-access-notice p{margin:5px 0 0;font-size:11px;line-height:1.45;color:var(--muted)}
 @media(max-width:600px){
   .universe-shell,.taurino-shell{padding-left:max(20px,env(safe-area-inset-left));padding-right:max(20px,env(safe-area-inset-right))}
 }
