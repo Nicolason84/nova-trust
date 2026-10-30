@@ -2,7 +2,7 @@
 
 Frontend : `docs/jaime/`. Version R5 du 30 octobre 2026 (El tendido ; voir TAURINO_R5.md). Sources du coffre, de la caméra et du client Matrix : `tools/jaime-secure/`.
 
-## État livré
+## Fonctions existantes
 
 L’entrée `start.html` enregistre un prénom local puis ouvre l’app, sans compte ChatGPT. La reprise de l’ancien profil `nova_client_account_local` et des exports `JAIME_APP_LOCAL_EXPORT` reste disponible avec aperçu, conservation des sources et détection des doublons. L’enregistrement utilise réellement MediaRecorder ; le moteur financier FreightCore est inchangé.
 
@@ -75,3 +75,13 @@ Run the browser fixture with the existing Playwright and Chrome installations:
 Use the existing JAIME_PLAYWRIGHT_MODULE and JAIME_BROWSER_EXECUTABLE environment
 variables when Playwright or Chrome are not on their default discovery paths.
 The fixture never provisions identity, bypasses Access, enables passkeys or deploys.
+
+## Candidate P0 : connexion et récupération d'une réponse (30 octobre 2026)
+
+La PR35 conserve l'interface et ajoute une référence durable à chaque nouvel envoi privé. Si une réponse complète a été enregistrée mais perdue par le navigateur, « Comprobar respuesta » permet une consultation explicite après consentement. Le texte n'est pas renvoyé au modèle ; la preuve du résultat est vérifiée, et une réponse déjà affichée n'est pas dupliquée. Un stockage local indisponible empêche l'envoi dont la référence ne pourrait pas être conservée.
+
+Les messages anciens sans référence ou les réponses non confirmées restent signalés comme incertains. La récupération nécessite le propriétaire privé compatible et sa propre admission. Le carnet local reste non chiffré. Le gateway de GitHub Pages reste déconnecté ; le paquet privé remplace uniquement cet adaptateur après admission.
+
+La recette de cette révision comprend les 65 régressions locales de l'application, 14 scénarios d'identité/reprise et 9 scénarios d'entrée privée. Tous les échanges des scénarios Chrome sont interceptés. Les preuves R2 sont dans recovery-evidence/, recovery-entry-evidence/ et RECOVERY_CANDIDATE.json ; les anciens reçus sont conservés. L'ensemble des deux dépôts totalise 155 cas automatisés, dont les contrôles du propriétaire et du transport partagé.
+
+Une authentification Cloudflare réelle, un échange Ollama reçu dans le navigateur et l'essai sur l'iPhone de Jaime ne sont pas encore validés. Aucun Face ID actif, nouveau chiffrement, déploiement ou livraison finale n'est annoncé.
