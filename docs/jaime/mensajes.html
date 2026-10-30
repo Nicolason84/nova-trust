@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'wasm-unsafe-eval'; style-src 'self'; img-src 'self'; connect-src 'self' https:; font-src 'self'; media-src blob:; worker-src 'self' blob:; object-src 'none'; base-uri 'none'; form-action 'none'">
+  <meta name="referrer" content="no-referrer">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#173f35">
+  <meta name="description" content="Mensajería privada de ojO Jaime. Conexión Matrix, verificación de contactos y protección de las claves del dispositivo.">
+  <title>Mensajes · ojO Jaime</title>
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="icon-192.png">
+  <link rel="stylesheet" href="app.css">
+  <link rel="stylesheet" href="redesign.css">
+  <link rel="stylesheet" href="secure-messaging.css">
+  <link rel="stylesheet" href="secure-page.css">
+  <script type="module" src="secure/messenger.js"></script>
+</head>
+<body class="secure-page">
+  <div class="app-shell">
+    <header class="topbar">
+      <a class="brand" href="start.html" aria-label="Volver a mi espacio"><span class="brand-mark">ojO</span><span class="brand-name">Jaime<small>Mensajes privados</small></span></a>
+      <button id="securityHelpButton" class="secondary ideas-button" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 4 6v6c0 5 8 9 8 9s8-4 8-9V6Z"/><path d="m8 12 3 3 5-6"/></svg>Mi seguridad</button>
+    </header>
+    <main id="secureView" class="app-view secure-view" aria-label="Mensajería privada">
+      <section id="secureWelcome" class="secure-hero">
+        <div class="secure-hero-top"><p class="eyebrow">PERSONAS QUE IMPORTAN</p><span id="securityStatus" class="security-status" data-status="offline" role="status">Sin conectar</span></div>
+        <h1>Hablar con calma.<br>Y en privado.</h1>
+        <p>Un lugar para conversar con tu gente, con el control de quién puede leer tus mensajes.</p>
+        <div class="secure-hero-foot"><span>Tu cuenta · tus contactos · tus claves</span><span aria-hidden="true">↗</span></div>
+      </section>
+
+      <section id="connectionCard" class="secure-starter-card" aria-labelledby="connectionTitle">
+        <p class="eyebrow">TU ACCESO PERSONAL</p>
+        <h2 id="connectionTitle">Preparamos tu espacio.</h2>
+        <p id="connectionDescription">Tu acceso todavía no está configurado en este dispositivo. Cuando tengas tu cuenta privada, podrás conectarla aquí. No necesitas ChatGPT.</p>
+        <div class="secure-benefits"><span><b>01</b> Verifica a tu contacto</span><span><b>02</b> Protege tus claves</span><span><b>03</b> Conversa con tranquilidad</span></div>
+        <button id="showConnectionButton" class="primary" type="button">Ya tengo mi acceso</button>
+        <form id="unlockForm" class="secure-setup-form" hidden>
+          <label for="unlockPhrase">Tu frase para abrir este dispositivo</label>
+          <input id="unlockPhrase" type="password" autocomplete="off" minlength="14" maxlength="512" required spellcheck="false">
+          <p class="small-note">La sesión está guardada cifrada. Esta frase se utiliza solo en tu dispositivo.</p>
+          <button id="unlockButton" class="primary" type="submit">Abrir mis mensajes</button>
+        </form>
+        <form id="connectForm" class="secure-setup-form" hidden>
+          <label for="homeserverInput">Dirección de tu servicio</label>
+          <input id="homeserverInput" type="url" inputmode="url" autocomplete="off" autocapitalize="none" spellcheck="false" placeholder="https://tu-servidor" maxlength="2048" required>
+          <p class="small-note">Usa la dirección que te facilite la persona que prepara tu cuenta.</p>
+          <label for="matrixUserInput">Tu identificador</label>
+          <input id="matrixUserInput" type="text" autocomplete="username" autocapitalize="none" spellcheck="false" placeholder="@tu-nombre:tu-servidor" maxlength="255" required>
+          <label for="matrixPasswordInput">Contraseña de tu cuenta</label>
+          <input id="matrixPasswordInput" type="password" autocomplete="current-password" maxlength="1024" required>
+          <label for="devicePhraseInput">Una frase para proteger este dispositivo</label>
+          <input id="devicePhraseInput" type="password" autocomplete="new-password" minlength="14" maxlength="512" required spellcheck="false" placeholder="Por ejemplo, cuatro palabras distintas">
+          <label for="devicePhraseConfirm">Repítela para comprobarla</label>
+          <input id="devicePhraseConfirm" type="password" autocomplete="new-password" minlength="14" maxlength="512" required spellcheck="false">
+          <p class="small-note">Elige una frase larga y única, diferente de tu contraseña. Cifra tu acceso y tus claves en este navegador. No se envía al servidor. Consérvala: no podemos recuperarla.</p>
+          <p class="small-note">El acceso se guardará cifrado. Para abrirlo de nuevo utilizarás esta frase. «Cerrar mi cuenta aquí» permite revocar este dispositivo.</p>
+          <button id="connectButton" class="primary" type="submit">Conectar mi cuenta</button>
+        </form>
+        <button id="resetAccessButton" class="subtle-link" type="button" hidden>Necesito reconfigurar este acceso</button>
+        <p id="connectionError" class="secure-error" role="alert" hidden></p>
+        <p id="connectionProgress" class="small-note" role="status"></p>
+      </section>
+
+      <section id="sessionArea" hidden>
+        <div class="secure-session-heading"><div><p class="eyebrow">TU CUENTA</p><strong id="sessionUser"></strong><p id="sessionDevice" class="small-note"></p></div><button id="lockButton" class="secondary" type="button">Bloquear</button></div>
+        <div id="identityNotice" class="secure-warning"><strong>Verifica este dispositivo.</strong><p id="identityDescription">Antes de enviar, confirma que este dispositivo pertenece a tu cuenta.</p><div class="button-row"><button id="verifyOwnButton" class="secondary" type="button">Verificar con otro dispositivo</button><button id="restoreIdentityButton" class="secondary" type="button">Usar mi clave de recuperación</button><button id="setupIdentityButton" class="subtle-link" type="button">Es mi primera cuenta</button></div></div>
+        <section id="roomsPanel" aria-labelledby="roomsTitle"><div class="card-heading"><h2 id="roomsTitle">Tus conversaciones</h2><button id="newRoomButton" class="secondary" type="button">+ Conversación</button></div><p id="roomListNotice" class="small-note"></p><div id="secureRoomsList" class="secure-rooms-list"></div></section>
+        <section id="threadPanel" class="secure-conversation-panel" hidden aria-labelledby="threadTitle">
+          <div class="secure-thread-heading"><button id="backToRooms" class="subtle-link" type="button">← Conversaciones</button><h2 id="threadTitle">Conversación</h2><span id="roomSecurityState" class="security-status" data-status="locked">Por verificar</span></div>
+          <div id="roomWarning" class="secure-warning" hidden></div>
+          <div class="button-row secure-thread-actions"><button id="verifyContactButton" class="secondary" type="button">Verificar contacto</button><button id="inspectDevicesButton" class="subtle-link" type="button">Ver dispositivos</button></div>
+          <div id="secureThread" class="secure-thread" role="log" aria-label="Mensajes de la conversación" aria-relevant="additions"></div>
+          <form id="secureComposeForm" class="secure-compose"><label for="secureMessageInput" class="sr-only">Mensaje privado</label><textarea id="secureMessageInput" rows="2" maxlength="10000" placeholder="Tu mensaje…" disabled></textarea><button id="secureSendButton" class="primary" type="submit" disabled>Enviar</button></form>
+          <p id="sendStatus" class="small-note" role="status">El envío se habilita cuando la conversación y los dispositivos están verificados.</p>
+        </section>
+        <p id="sessionError" class="secure-error" role="alert" hidden></p>
+      </section>
+
+      <section id="vpnCard" class="secure-vpn-card"><div class="secure-vpn-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a17 17 0 0 1 0 18 17 17 0 0 1 0-18Z"/></svg></div><div><p class="eyebrow">UNA CAPA MÁS PARA TU CONEXIÓN</p><h2>También, tu VPN.</h2><p>Un VPN puede proteger la conexión del iPhone. Necesita su propia app y una configuración real.</p><button id="vpnGuideButton" class="subtle-link" type="button">Ver cómo prepararlo <span aria-hidden="true">↗</span></button><p class="small-note">Esta web no puede activar ni comprobar el VPN de tu iPhone.</p></div></section>
+      <details class="secure-details"><summary>Qué está protegido y qué falta</summary><p>Este cliente utiliza Matrix y su motor de cifrado Rust. Antes de enviar se comprueban el cifrado de la conversación, tu identidad y los dispositivos de los participantes. Un estado sin verificar bloquea el envío.</p><p>Los mensajes privados no pasan al asistente ojO. Los servidores siguen viendo algunos datos, como las cuentas participantes, los horarios y la pertenencia a una conversación. No pongas datos sensibles en su título.</p><p>Una captura, un teléfono desbloqueado o comprometido y un destinatario que comparte el mensaje siguen siendo riesgos. No se promete seguridad absoluta ni mensajes imposibles de copiar.</p><p>Esta primera versión permite texto. Los archivos cifrados, las llamadas, los mensajes temporales y los avisos fuera de la app aún no están habilitados. La libreta «Mi espacio» guarda sus notas por separado y sin cifrar.</p><p>Antes del uso personal faltan el servidor y las cuentas de Jaime, comprobar la recuperación en otro dispositivo y validar el funcionamiento en su iPhone.</p></details>
+    </main>
+    <nav class="app-nav secure-nav" aria-label="Navegación principal"><a class="nav-button" href="start.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3 11 9-8 9 8M5 9v12h14V9M9 21v-7h6v7"/></svg>Mi espacio</a><a class="nav-button active" href="mensajes.html" aria-current="page"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11a8 8 0 0 1-8 8H5l-3 3V11a9 9 0 0 1 18 0Z"/><path d="M8 10h8M8 14h5"/></svg>Mensajes</a></nav>
+  </div>
+  <div id="privacyCurtain" class="privacy-curtain" hidden><span class="brand-mark" aria-hidden="true">ojO</span><h2>Tu conversación, en privado.</h2><p id="privacyCurtainText">Vuelve a la app para continuar.</p></div>
+  <div id="secureToast" class="toast" role="status" hidden></div>
+
+  <dialog id="securityHelpDialog" class="small-dialog" aria-labelledby="securityHelpTitle"><div class="dialog-header"><h2 id="securityHelpTitle">Tu seguridad, a mano.</h2><button class="icon-close" data-secure-close="securityHelpDialog" aria-label="Cerrar">×</button></div><div class="help-content"><h3>Al salir de la pantalla</h3><label for="lockDelayInput">Cuándo bloquear este acceso</label><select id="lockDelayInput"><option value="0">En cuanto salga</option><option value="60" selected>Después de 1 minuto</option><option value="300">Después de 5 minutos</option></select><p>El contenido se oculta al salir. Al bloquearse, la sesión deja de funcionar en memoria; tu acceso guardado permanece cifrado. El sistema puede conservar imágenes de la app: usa también el bloqueo del iPhone.</p><h3>Mensajes y notificaciones</h3><p>No se envían avisos con el texto de tus mensajes. Los avisos push todavía no están habilitados. Los borradores de esta mensajería no se guardan en claro.</p><h3>Verificar a una persona</h3><p>Compara los siete símbolos con esa persona, en persona o por un canal que ya conozcas. No confirmes si no coinciden. Un nombre o una foto no prueban una identidad.</p><h3>Recuperación</h3><p>Conserva tu clave de recuperación en un lugar privado fuera del teléfono. No la envíes por un chat. Si pierdes las claves y todos tus dispositivos, podrías perder los mensajes anteriores.</p><h3>Salir de este dispositivo</h3><p>Cerrar la cuenta revoca este acceso en el servidor cuando hay conexión. Bloquear solo cierra la sesión local.</p><button id="logoutButton" class="danger full" type="button" disabled>Cerrar mi cuenta aquí</button><p id="logoutStatus" class="small-note" role="status"></p></div></dialog>
+  <dialog id="vpnDialog" class="small-dialog" aria-labelledby="vpnTitle"><div class="dialog-header"><h2 id="vpnTitle">Preparar tu VPN</h2><button class="icon-close" data-secure-close="vpnDialog" aria-label="Cerrar">×</button></div><p>La opción prevista es WireGuard, un cliente VPN disponible para iPhone. Aún no hay un servidor ni un perfil preparado para Jaime.</p><ol class="secure-steps"><li>Disponer de un servidor VPN de confianza y de un perfil creado para tu iPhone.</li><li>Instalar la app WireGuard desde su enlace oficial.</li><li>Importar el perfil de forma privada y aceptar el permiso VPN de iOS.</li><li>Activar el túnel y comprobar su conexión en WireGuard y en Ajustes del iPhone.</li></ol><a class="primary full secure-external-link" href="https://www.wireguard.com/install/" target="_blank" rel="noopener noreferrer">Abrir la instalación oficial</a><p class="small-note">Este botón abre instrucciones oficiales. No instala una app ni activa un VPN. Un VPN no impide que un destinatario copie un mensaje y no sustituye el cifrado de extremo a extremo.</p></dialog>
+  <dialog id="newRoomDialog" class="small-dialog" aria-labelledby="newRoomTitle"><form id="newRoomForm" class="secure-setup-form"><div class="dialog-header"><h2 id="newRoomTitle">Una nueva conversación</h2><button class="icon-close" type="button" data-secure-close="newRoomDialog" aria-label="Cerrar">×</button></div><label for="peerIdInput">Identificador de la otra persona</label><input id="peerIdInput" placeholder="@persona:servidor" autocapitalize="none" autocomplete="off" spellcheck="false" maxlength="255" required><p>La conversación se crea privada, con cifrado y una invitación. La otra persona tiene que aceptar. Después verificaréis vuestras identidades.</p><button id="createRoomButton" class="primary full" type="submit">Crear e invitar</button><p id="newRoomError" class="secure-error" role="alert" hidden></p></form></dialog>
+  <dialog id="verificationDialog" class="small-dialog" aria-labelledby="verificationTitle"><div class="dialog-header"><h2 id="verificationTitle">Comprobad que sois vosotros</h2><button id="cancelVerificationButton" class="icon-close" aria-label="Cancelar verificación">×</button></div><p id="verificationPeer" class="secure-identity"></p><p id="verificationInstructions">Espera a que la otra persona acepte.</p><div id="verificationEmojis" class="secure-verification-grid"></div><p id="verificationNumbers" class="secure-decimal-code" hidden></p><div class="button-row"><button id="acceptVerificationButton" class="secondary" type="button" hidden>Aceptar solicitud</button><button id="startSasButton" class="secondary" type="button" hidden>Comparar símbolos</button><button id="confirmSasButton" class="primary" type="button" hidden>Son iguales en los dos dispositivos</button><button id="rejectSasButton" class="danger" type="button" hidden>No coinciden</button></div><p id="verificationStatus" class="small-note" role="status"></p></dialog>
+  <dialog id="identitySetupDialog" class="small-dialog" aria-labelledby="identitySetupTitle"><form id="identitySetupForm" class="secure-setup-form"><div class="dialog-header"><h2 id="identitySetupTitle">Tu clave de recuperación</h2><button id="cancelIdentitySetup" class="icon-close" type="button" aria-label="Cancelar">×</button></div><p>Guárdala fuera de este teléfono, en un lugar privado. Sirve para recuperar tus claves. No la compartas con nadie.</p><pre id="recoveryKeyDisplay" class="secure-recovery-key"></pre><label for="recoveryKeyConfirm">Vuelve a escribirla para confirmar que la has guardado</label><textarea id="recoveryKeyConfirm" rows="3" autocomplete="off" spellcheck="false" autocapitalize="none" required></textarea><label for="identityPasswordInput">Contraseña de tu cuenta</label><input id="identityPasswordInput" type="password" autocomplete="current-password" maxlength="1024" required><p class="small-note">El servicio puede pedir tu contraseña para registrar estas claves. No se cambiará una identidad que ya exista.</p><button id="confirmIdentityButton" class="primary full" type="submit">He guardado la clave · proteger mi cuenta</button><p id="identitySetupError" class="secure-error" role="alert" hidden></p></form></dialog>
+  <dialog id="identityRestoreDialog" class="small-dialog" aria-labelledby="identityRestoreTitle"><form id="identityRestoreForm" class="secure-setup-form"><div class="dialog-header"><h2 id="identityRestoreTitle">Recuperar tus claves</h2><button class="icon-close" type="button" data-secure-close="identityRestoreDialog" aria-label="Cerrar">×</button></div><label for="identityRecoveryInput">Tu clave de recuperación</label><textarea id="identityRecoveryInput" rows="3" autocomplete="off" spellcheck="false" autocapitalize="none" required maxlength="256"></textarea><p>Se comprueba en tu dispositivo para abrir el respaldo cifrado. No se enviará la clave como texto al servidor.</p><button id="restoreIdentitySubmit" class="primary full" type="submit">Comprobar y recuperar</button><p id="identityRestoreError" class="secure-error" role="alert" hidden></p></form></dialog>
+  <dialog id="devicesDialog" class="small-dialog" aria-labelledby="devicesTitle"><div class="dialog-header"><h2 id="devicesTitle">Dispositivos de esta conversación</h2><button class="icon-close" data-secure-close="devicesDialog" aria-label="Cerrar">×</button></div><div id="devicesList"></div><p>Si aparece un dispositivo desconocido, verifica con la persona de quién es antes de volver a enviar. Este cliente no marca un dispositivo como fiable por su nombre.</p></dialog>
+  <noscript>Activa JavaScript para usar este cliente. No se ha conectado ninguna cuenta.</noscript>
+</body>
+</html>

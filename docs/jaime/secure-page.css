@@ -1,0 +1,45 @@
+.secure-page .brand {text-decoration:none;color:inherit}
+.secure-page .brand-mark {display:grid;place-items:center}
+.secure-page .secure-nav svg {width:21px;height:21px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.secure-page .secure-hero-top,.secure-page .secure-hero-foot {display:flex;justify-content:space-between;align-items:center;gap:16px}
+.secure-page .secure-hero-top .eyebrow {margin:0}
+.secure-page .secure-hero-foot {border-top:1px solid #ffffff29;padding-top:18px;margin-top:24px;font-size:11px;color:#d1ddca}
+.secure-page .secure-benefits {display:grid;gap:14px;margin:24px 0}
+.secure-page .secure-benefits span {display:flex;align-items:center;gap:12px;font-size:14px}
+.secure-page .secure-benefits b {width:28px;height:28px;border-radius:50%;background:#e8eee2;display:grid;place-items:center;font-size:10px;color:#49664d}
+.secure-page .secure-session-heading {display:flex;justify-content:space-between;gap:15px;align-items:center;margin-bottom:16px}
+.secure-page .secure-session-heading strong {overflow-wrap:anywhere;font-size:14px}
+.secure-page .secure-session-heading .small-note {margin:4px 0}
+.secure-page .secure-warning .button-row {margin-top:12px}
+.secure-page .secure-thread-heading {display:grid;gap:10px;grid-template-columns:1fr auto;align-items:center}
+.secure-page .secure-thread-heading > button {grid-column:1/-1;justify-self:start}
+.secure-page .secure-thread-heading h2 {font-size:23px;margin:0;overflow-wrap:anywhere}
+.secure-page .secure-thread-actions {padding:8px 0}
+.secure-page .secure-vpn-icon svg {width:28px;height:28px;stroke:currentColor;fill:none;stroke-width:1.4}
+.secure-page .secure-external-link {display:flex;text-decoration:none;align-items:center;justify-content:center;color:#fffefa}
+.secure-page .secure-steps {padding-left:24px;font-size:14px;line-height:1.65}
+.secure-page .secure-steps li {padding-left:4px;margin-bottom:12px}
+.secure-page .secure-recovery-key {white-space:pre-wrap;overflow-wrap:anywhere;background:#eaf0e4;border:1px solid #ccd8c3;padding:16px;border-radius:12px;font-size:17px;line-height:1.6;user-select:text}
+.secure-page .secure-decimal-code {font-family:ui-monospace,monospace;text-align:center;font-size:23px}
+.secure-page .secure-identity {overflow-wrap:anywhere;font-size:14px;font-weight:650}
+.secure-page .privacy-curtain {position:fixed;inset:0;background:#173f35;z-index:10000;display:flex;align-items:center;justify-content:center;flex-direction:column;padding:30px;text-align:center;color:#fffefa}
+.secure-page .privacy-curtain h2 {font-family:var(--serif);font-size:30px;margin-top:24px}
+.secure-page .privacy-curtain p {color:#d1ddca;font-size:14px}
+.secure-page.screen-private .app-shell,.secure-page.screen-private dialog {visibility:hidden}
+.secure-page .app-shell {height:var(--workspace-height,100dvh)}
+.secure-page .secure-error:empty {display:none}
+.secure-page #secureComposeForm textarea {font-size:16px}
+.secure-page .secure-message-time {display:block;font-size:10px;margin-top:7px;opacity:.8}
+.secure-page .secure-message-body {white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.6;margin:0;font-size:15px}
+.secure-page .secure-rooms-list button {text-align:left}
+.secure-page .secure-room-row strong {display:block;overflow-wrap:anywhere}
+.secure-page .secure-room-row small {display:block;font-weight:400;margin-top:5px}
+.secure-page .secure-room-row {width:100%}
+.secure-page .secure-benefits {grid-template-columns:1fr}
+.secure-page .secure-message-trust {font-size:11px;color:#8c532f;padding:7px 0;margin:0}
+.secure-page #sessionArea {min-height:0}
+.secure-page .button-row {display:flex;gap:9px;flex-wrap:wrap}
+.secure-page dialog .secure-error {font-size:13px;padding:12px}
+.secure-page .secure-setup-form[hidden],.secure-page [hidden] {display:none!important}
+.secure-page select,.secure-page input,.secure-page textarea {max-width:100%}
+@media(max-width:520px){.secure-page .secure-hero-top{align-items:flex-start;flex-direction:column;gap:12px}.secure-page .secure-thread-heading{grid-template-columns:1fr}.secure-page .secure-benefits{gap:10px}.secure-page .secure-session-heading{align-items:flex-start}.secure-page .secure-session-heading button{padding:10px 13px}}

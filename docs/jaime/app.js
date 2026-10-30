@@ -140,7 +140,7 @@
   });
   $('messageInput').addEventListener('input', e => {active().draft = e.target.value; touch(active()); e.target.style.height = 'auto'; e.target.style.height = `${Math.min(150, e.target.scrollHeight)}px`; updateSend();});
   document.querySelectorAll('[data-example]').forEach(b => b.addEventListener('click', () => {active().draft = b.dataset.example; touch(active()); $('messageInput').value = active().draft; updateSend(); $('messageInput').focus();}));
-  $('homeButton').addEventListener('click', () => {$('messageInput').focus();});
+  $('homeButton').addEventListener('click', () => {document.dispatchEvent(new CustomEvent('jaime:navigate',{detail:{view:'chat'}})); $('messageInput').focus();});
   $('helpButton').addEventListener('click', () => openDialog('helpDialog'));
   $('statusButton').addEventListener('click', () => openDialog('helpDialog'));
   $('checkConnectionButton').addEventListener('click', async () => {const ok = await health(); toast(ok ? 'Conexión disponible.' : 'El análisis todavía no está conectado.');});
@@ -340,9 +340,27 @@
     idea.messages.push({id:uid(),role:'calculation',createdAt:date(),text:summary.join('\n'),attachments:[]}); touch(idea); renderSavedScenarios(); render(); $('saveScenarioButton').disabled = true; calculations = null; toast('Hipótesis guardada en este tema.');
   });
 
-  $('preferencesForm').addEventListener('submit', event => {event.preventDefault(); state.preferences = {preferredName: $('preferredName').value.trim().slice(0,40), faith: $('faithPreference').checked, memoryText: $('personalMemory').value.slice(0,4000), shareContext: $('shareContextPreference').checked}; if (persist()) {try {window.JaimeLegacy.saveProfile(localStorage, state.preferences.preferredName);} catch {} refreshProfile(); toast('Preferencias guardadas en este dispositivo.');}});
+  $('preferencesForm').addEventListener('submit', event => {event.preventDefault(); state.preferences = {preferredName: $('preferredName').value.trim().slice(0,40), faith: $('faithPreference').checked, memoryText: $('personalMemory').value.slice(0,4000), shareContext: $('shareContextPreference').checked}; if (persist()) {try {window.JaimeLegacy.saveProfile(localStorage, state.preferences.preferredName);} catch {} refreshProfile(); document.dispatchEvent(new CustomEvent('jaime:preferences')); toast('Preferencias guardadas en este dispositivo.');}});
   window.addEventListener('online', health); window.addEventListener('offline', () => {health(); toast('Sin conexión. Tus borradores permanecen en este dispositivo.');});
   window.addEventListener('pagehide', () => {persist();});
+  window.JaimeApp = Object.freeze({
+    name: () => state.preferences.preferredName || 'Jaime',
+    faithEnabled: () => state.preferences.faith === true,
+    notify: toast,
+    openDialog,
+    startTopic(input) {
+      const idea = makeIdea(String(input?.title || 'Un nuevo tema').slice(0,90));
+      idea.topicType = ['personal','business'].includes(input?.topicType) ? input.topicType : 'general';
+      idea.draft = String(input?.draft || '').slice(0,12000);
+      if (typeof input?.communicationId === 'string') idea.communicationId = input.communicationId.slice(0,160);
+      const previousActive = state.activeId;
+      state.ideas.push(idea); state.activeId = idea.id;
+      if (!persist()) {state.ideas = state.ideas.filter(i => i !== idea); state.activeId = previousActive; return false;}
+      document.dispatchEvent(new CustomEvent('jaime:navigate',{detail:{view:'chat'}}));
+      render(); scrollToEnd(); toast('Tema preparado. Puedes escribir antes de enviar.'); return true;
+    }
+  });
+  document.addEventListener('jaime:viewchange', event => {if (event.detail?.view !== 'chat') voice.interrupt('view-changed');});
   if ('serviceWorker' in navigator && window.isSecureContext) navigator.serviceWorker.register('./sw.js').catch(() => {});
   load(); let entryProfile = null; try {entryProfile = window.JaimeLegacy.loadProfile(localStorage);} catch {} if (entryProfile) state.preferences.preferredName = entryProfile.name; refreshProfile(); $('faithPreference').checked = state.preferences.faith; $('personalMemory').value = state.preferences.memoryText; $('shareContextPreference').checked = state.preferences.shareContext; createScenarioForms(); updateModel(); render(); health();
 })();

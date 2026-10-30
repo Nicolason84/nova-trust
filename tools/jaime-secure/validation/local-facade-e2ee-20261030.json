@@ -1,0 +1,63 @@
+{
+  "startedAt": "2026-10-30T02:48:04.653Z",
+  "kind": "real_facade_synapse_integration",
+  "sdk": "45.0.0",
+  "synapse": "1.164.1",
+  "node": "v24.22.1",
+  "indexedDB": "fake-indexeddb 6.2.6, test-only in-memory implementation",
+  "locks": "Native Node navigator.locks; no lock mock",
+  "localOnly": true,
+  "steps": [
+    "Facade connected two real SDK clients with encrypted IndexedDB stores and native locks.",
+    "Facade identity setup creates real 4S, cross-signing and trusted backups; wrong confirmation is rejected.",
+    "Actual facade rejects an unverified recipient before any message HTTP send.",
+    "Facade send/receive/history pass; server retains ciphertext and recipient displays authenticated plaintext.",
+    "Lock and reopen preserve real device keys and trust in the IndexedDB test store.",
+    "Fresh-device recovery passes: wrong key rejected, same identity preserved, backup and earlier message recovered.",
+    "Logout revokes and retires the device; reuse is blocked. No external request or plaintext message send."
+  ],
+  "sourceSha256": "4933beff7e454f1f8bc4e3b608fb8e3e5051a0ab5ea26eff380462ed5f23caf2",
+  "parallelStoreBlocked": true,
+  "identitySetup": {
+    "wrongConfirmationRejected": true,
+    "secretStorage": true,
+    "trustedKeyBackup": true,
+    "existingIdentityResetBlocked": true
+  },
+  "preSasSendBlocked": true,
+  "actualSasCompared": true,
+  "messageRoundTrip": {
+    "ciphertextAtServer": true,
+    "plaintextAtRecipient": true,
+    "senderVerified": true,
+    "historyRead": true
+  },
+  "roomId": "!GCBSoJFUDrMOvZBr4PS2h6IUY9kOwNdLeLfSS3yiz-E",
+  "eventId": "$jrHbOyMibRpNySWUluzQugiEBemyn4XMmWMYmb8klCA",
+  "lockAndResumeSameDevice": true,
+  "recovery": {
+    "newDeviceBlockedBeforeRestore": true,
+    "wrongRecoveryKeyRejected": true,
+    "identityRestored": true,
+    "publicMasterKeyUnchanged": true,
+    "backupRestored": true,
+    "previousMessageDecrypted": true,
+    "newDeviceVerifiedAfterRestore": true
+  },
+  "revokedDeviceCannotReopen": true,
+  "wire": {
+    "encryptedMessageSends": 1,
+    "plaintextMessageSends": 0,
+    "externalRequests": 0
+  },
+  "success": true,
+  "finishedAt": "2026-10-30T02:48:09.266Z",
+  "sourceSha256After": "4933beff7e454f1f8bc4e3b608fb8e3e5051a0ab5ea26eff380462ed5f23caf2",
+  "sourceChangedDuringTest": false,
+  "databaseCiphertextConfirmed": true,
+  "plaintextAbsentFromDatabaseFiles": true,
+  "actualListenerLoopbackOnly": true,
+  "federationDisabled": true,
+  "telemetryDisabled": true,
+  "testHarnessSha256": "cf625ce2e7cf1a9e29a7ce795feb516e2f1c7408fe8e24b03e25887d5706a800"
+}
