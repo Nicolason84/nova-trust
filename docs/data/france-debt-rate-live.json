@@ -1,9 +1,9 @@
 {
   "schema": "OJO_FRANCE_DEBT_RATE_LIVE_V1",
   "version": "2026-10-02.7",
-  "snapshot_id": "OJO-BA6AC9D4F1EA733C",
-  "sequence": 68,
-  "updated_at": "2026-10-30T12:19:13Z",
+  "snapshot_id": "OJO-EBD469C7D2D439A7",
+  "sequence": 69,
+  "updated_at": "2026-10-30T12:41:39Z",
   "policy": {
     "political_recommendation": "NONE",
     "market_yield_is_not_whole_debt_cost": true,
@@ -29,50 +29,50 @@
     "plf2026_end_2026_10y_assumption_pct": 3.8,
     "debt_charge_2027_bne": 72.9,
     "debt_charge_2026_bne": 62.6,
-    "tec10_pct": 4.894,
-    "tec10_date": "2026-10-29",
-    "tec10_vs_plf_assumption_bps": 109.4,
-    "yield_curve_date": "2026-10-29",
+    "tec10_pct": 4.93,
+    "tec10_date": "2026-10-30",
+    "tec10_vs_plf_assumption_bps": 113.0,
+    "yield_curve_date": "2026-10-30",
     "yield_curve": [
       {
         "tenor_years": 1,
-        "rate_pct": 3.383
+        "rate_pct": 3.364
       },
       {
         "tenor_years": 2,
-        "rate_pct": 3.689
+        "rate_pct": 3.681
       },
       {
         "tenor_years": 3,
-        "rate_pct": 3.904
+        "rate_pct": 3.91
       },
       {
         "tenor_years": 5,
-        "rate_pct": 4.282
+        "rate_pct": 4.29
       },
       {
         "tenor_years": 7,
-        "rate_pct": 4.58
+        "rate_pct": 4.601
       },
       {
         "tenor_years": 10,
-        "rate_pct": 4.894
+        "rate_pct": 4.93
       },
       {
         "tenor_years": 15,
-        "rate_pct": 5.173
+        "rate_pct": 5.21
       },
       {
         "tenor_years": 20,
-        "rate_pct": 5.287
+        "rate_pct": 5.327
       },
       {
         "tenor_years": 25,
-        "rate_pct": 5.239
+        "rate_pct": 5.283
       },
       {
         "tenor_years": 30,
-        "rate_pct": 5.389
+        "rate_pct": 5.427
       }
     ]
   },
@@ -5365,8 +5365,12 @@
     },
     {
       "date": "2026-10-30",
-      "captured_at": "2026-10-30T12:19:13Z",
+      "captured_at": "2026-10-30T12:41:39Z",
       "curve": [
+        {
+          "tenor_years": 1,
+          "rate_pct": 3.364
+        },
         {
           "tenor_years": 2,
           "rate_pct": 3.681
@@ -5409,9 +5413,9 @@
   "curve_regime_memory": {
     "as_of": "2026-10-30",
     "regime": "STEEPENING",
-    "daily_mean_move_bps": 2.5,
-    "daily_dispersion_bps": 1.8,
-    "short_vs_long_bps": 4.0,
+    "daily_mean_move_bps": 2.0,
+    "daily_dispersion_bps": 2.1,
+    "short_vs_long_bps": 4.6,
     "horizon_changes_bps": {
       "1d": {
         "days_requested": 1,
@@ -5420,6 +5424,7 @@
         "to_date": "2026-10-30",
         "actual_days": 1,
         "changes_bps": {
+          "1": -1.9,
           "2": -0.8,
           "3": 0.6,
           "5": 0.8,
@@ -5438,6 +5443,7 @@
         "to_date": "2026-10-30",
         "actual_days": 7,
         "changes_bps": {
+          "1": -10.6,
           "2": -11.7,
           "3": -13.2,
           "5": -14.1,
@@ -5489,23 +5495,23 @@
     "similar_historical_configurations": [
       {
         "date": "2026-10-23",
-        "shape_rmse_bps": 1.7
-      },
-      {
-        "date": "2026-10-29",
-        "shape_rmse_bps": 2.1
+        "shape_rmse_bps": 1.6
       },
       {
         "date": "2026-10-21",
         "shape_rmse_bps": 2.6
       },
       {
-        "date": "2026-10-22",
-        "shape_rmse_bps": 2.7
+        "date": "2026-10-29",
+        "shape_rmse_bps": 2.6
       },
       {
-        "date": "2026-10-05",
-        "shape_rmse_bps": 3.1
+        "date": "2026-10-22",
+        "shape_rmse_bps": 2.9
+      },
+      {
+        "date": "2026-10-07",
+        "shape_rmse_bps": 3.0
       }
     ],
     "method": "Descriptive curve-shape comparison; no causal attribution and no forecast.",
@@ -5562,6 +5568,10 @@
       "date": "2026-10-30",
       "curve": [
         {
+          "tenor_years": 1,
+          "rate_pct": 3.364
+        },
+        {
           "tenor_years": 2,
           "rate_pct": 3.681
         },
@@ -5600,6 +5610,7 @@
       ]
     },
     "delta_bps": {
+      "1": -1.9,
       "2": -0.8,
       "3": 0.6,
       "5": 0.8,
@@ -5613,7 +5624,7 @@
     "transmission_channel": "Yield curve → new issuance/refinancing → portfolio average cost → interest charge over time.",
     "possible_impact": "Directional exposure may change if the move persists and reaches maturities that must be financed; no automatic budget amount is inferred from TEC10 alone.",
     "curve_regime": "STEEPENING",
-    "confidence": "LIVE_VERIFIED",
+    "confidence": "CROSSCHECKED",
     "what_requires_review": [
       "Persistence of the observed curve move.",
       "Maturity stock actually exposed after buybacks and indexation.",
@@ -5669,11 +5680,11 @@
       "claim_id": "TEC10",
       "label": "TEC10 observé",
       "type": "OBSERVED",
-      "value": 4.894,
+      "value": 4.93,
       "unit": "pct",
-      "date": "2026-10-29",
-      "state": "LIVE_VERIFIED",
-      "confidence": "MEDIUM",
+      "date": "2026-10-30",
+      "state": "CROSSCHECKED",
+      "confidence": "HIGH",
       "source_ids": [
         "BDF_TEC",
         "BDF_WEBSTAT"
@@ -5683,7 +5694,7 @@
       "organ_id": "OJO_FRANCE_DEBT_RATE_LIVE_V1",
       "output_id": "EXECUTIVE_OUTPUT",
       "metric_id": "TEC10",
-      "observation_id": "TEC10:bc5ac165dba0964ea974",
+      "observation_id": "TEC10:3764467ff26e90e288ad",
       "transformation_id": "SOURCE_OBSERVATION_IDENTITY",
       "scenario_id": null,
       "source_id": "BDF_TEC",
@@ -5693,28 +5704,28 @@
           "id": "BDF_TEC",
           "publisher": "Banque de France",
           "label": "Courbe TEC quotidienne · page officielle",
-          "url": "https://www.banque-france.fr/fr/statistiques/taux-et-cours/indices-obligataires-2026-10-29",
+          "url": "https://www.banque-france.fr/fr/statistiques/taux-et-cours/indices-obligataires-2026-10-30",
           "health": "LIVE_VERIFIED",
-          "digest": "ada6e4b9fb0c68f24fae46e2b56d5aa5b74428cb870dd744fe425755c2042ef8",
-          "checked_at": "2026-10-30T12:19:13Z",
+          "digest": "baeb1d330a45c662b8197bd9b8344ae2f15bcf69a4aacc922c231eeb994bfa74",
+          "checked_at": "2026-10-30T12:41:38Z",
           "error": null,
-          "etag": "\"1793360750-gzip\"",
-          "last_modified": "Fri, 30 Oct 2026 11:45:50 GMT",
-          "observation_date": "2026-10-29"
+          "etag": "\"1793363411-gzip\"",
+          "last_modified": "Fri, 30 Oct 2026 12:30:11 GMT",
+          "observation_date": "2026-10-30"
         },
         {
           "id": "BDF_WEBSTAT",
           "publisher": "Banque de France · Webstat",
           "label": "Historique CNO-TEC · export CSV",
           "url": "https://webstat.banque-france.fr/export/csv-columns/fr/selection/5385693",
-          "health": "LIVE_VERIFIED",
+          "health": "CROSSCHECKED",
           "digest": "d7785dab51ef1cd10b20381e646865462f60f2c068a79dbd7d0207cec9839c64",
-          "checked_at": "2026-10-30T12:19:13Z",
+          "checked_at": "2026-10-30T12:41:39Z",
           "error": null,
           "etag": null,
           "last_modified": "Fri, 30 Oct 2026 12:01:22 UTC",
           "history_rows": 120,
-          "observation_date": "2026-10-29"
+          "observation_date": "2026-10-30"
         }
       ]
     },
@@ -5725,48 +5736,48 @@
       "value": [
         {
           "tenor_years": 1,
-          "rate_pct": 3.383
+          "rate_pct": 3.364
         },
         {
           "tenor_years": 2,
-          "rate_pct": 3.689
+          "rate_pct": 3.681
         },
         {
           "tenor_years": 3,
-          "rate_pct": 3.904
+          "rate_pct": 3.91
         },
         {
           "tenor_years": 5,
-          "rate_pct": 4.282
+          "rate_pct": 4.29
         },
         {
           "tenor_years": 7,
-          "rate_pct": 4.58
+          "rate_pct": 4.601
         },
         {
           "tenor_years": 10,
-          "rate_pct": 4.894
+          "rate_pct": 4.93
         },
         {
           "tenor_years": 15,
-          "rate_pct": 5.173
+          "rate_pct": 5.21
         },
         {
           "tenor_years": 20,
-          "rate_pct": 5.287
+          "rate_pct": 5.327
         },
         {
           "tenor_years": 25,
-          "rate_pct": 5.239
+          "rate_pct": 5.283
         },
         {
           "tenor_years": 30,
-          "rate_pct": 5.389
+          "rate_pct": 5.427
         }
       ],
-      "date": "2026-10-29",
-      "state": "LIVE_VERIFIED",
-      "confidence": "MEDIUM",
+      "date": "2026-10-30",
+      "state": "CROSSCHECKED",
+      "confidence": "HIGH",
       "source_ids": [
         "BDF_TEC",
         "BDF_WEBSTAT"
@@ -5776,7 +5787,7 @@
       "organ_id": "OJO_FRANCE_DEBT_RATE_LIVE_V1",
       "output_id": "EXECUTIVE_OUTPUT",
       "metric_id": "TEC_CURVE",
-      "observation_id": "TEC_CURVE:76886baaa1531f9a4d1a",
+      "observation_id": "TEC_CURVE:b6a029aff90a4301cb50",
       "transformation_id": "SOURCE_OBSERVATION_IDENTITY",
       "scenario_id": null,
       "source_id": "BDF_TEC",
@@ -5786,28 +5797,28 @@
           "id": "BDF_TEC",
           "publisher": "Banque de France",
           "label": "Courbe TEC quotidienne · page officielle",
-          "url": "https://www.banque-france.fr/fr/statistiques/taux-et-cours/indices-obligataires-2026-10-29",
+          "url": "https://www.banque-france.fr/fr/statistiques/taux-et-cours/indices-obligataires-2026-10-30",
           "health": "LIVE_VERIFIED",
-          "digest": "ada6e4b9fb0c68f24fae46e2b56d5aa5b74428cb870dd744fe425755c2042ef8",
-          "checked_at": "2026-10-30T12:19:13Z",
+          "digest": "baeb1d330a45c662b8197bd9b8344ae2f15bcf69a4aacc922c231eeb994bfa74",
+          "checked_at": "2026-10-30T12:41:38Z",
           "error": null,
-          "etag": "\"1793360750-gzip\"",
-          "last_modified": "Fri, 30 Oct 2026 11:45:50 GMT",
-          "observation_date": "2026-10-29"
+          "etag": "\"1793363411-gzip\"",
+          "last_modified": "Fri, 30 Oct 2026 12:30:11 GMT",
+          "observation_date": "2026-10-30"
         },
         {
           "id": "BDF_WEBSTAT",
           "publisher": "Banque de France · Webstat",
           "label": "Historique CNO-TEC · export CSV",
           "url": "https://webstat.banque-france.fr/export/csv-columns/fr/selection/5385693",
-          "health": "LIVE_VERIFIED",
+          "health": "CROSSCHECKED",
           "digest": "d7785dab51ef1cd10b20381e646865462f60f2c068a79dbd7d0207cec9839c64",
-          "checked_at": "2026-10-30T12:19:13Z",
+          "checked_at": "2026-10-30T12:41:39Z",
           "error": null,
           "etag": null,
           "last_modified": "Fri, 30 Oct 2026 12:01:22 UTC",
           "history_rows": 120,
-          "observation_date": "2026-10-29"
+          "observation_date": "2026-10-30"
         }
       ]
     },
@@ -5838,13 +5849,13 @@
           "id": "BDF_TEC",
           "publisher": "Banque de France",
           "label": "Courbe TEC quotidienne · page officielle",
-          "url": "https://www.banque-france.fr/fr/statistiques/taux-et-cours/indices-obligataires-2026-10-29",
+          "url": "https://www.banque-france.fr/fr/statistiques/taux-et-cours/indices-obligataires-2026-10-30",
           "health": "LIVE_VERIFIED",
-          "digest": "ada6e4b9fb0c68f24fae46e2b56d5aa5b74428cb870dd744fe425755c2042ef8",
-          "checked_at": "2026-10-30T12:19:13Z",
+          "digest": "baeb1d330a45c662b8197bd9b8344ae2f15bcf69a4aacc922c231eeb994bfa74",
+          "checked_at": "2026-10-30T12:41:38Z",
           "error": null,
-          "etag": "\"1793360750-gzip\"",
-          "last_modified": "Fri, 30 Oct 2026 11:45:50 GMT",
+          "etag": "\"1793363411-gzip\"",
+          "last_modified": "Fri, 30 Oct 2026 12:30:11 GMT",
           "observation_date": "2026-10-30"
         },
         {
@@ -5852,9 +5863,9 @@
           "publisher": "Banque de France · Webstat",
           "label": "Historique CNO-TEC · export CSV",
           "url": "https://webstat.banque-france.fr/export/csv-columns/fr/selection/5385693",
-          "health": "LIVE_VERIFIED",
+          "health": "CROSSCHECKED",
           "digest": "d7785dab51ef1cd10b20381e646865462f60f2c068a79dbd7d0207cec9839c64",
-          "checked_at": "2026-10-30T12:19:13Z",
+          "checked_at": "2026-10-30T12:41:39Z",
           "error": null,
           "etag": null,
           "last_modified": "Fri, 30 Oct 2026 12:01:22 UTC",
@@ -5911,7 +5922,7 @@
           "url": "https://www.aft.gouv.fr/fr",
           "health": "RETAINED_LAST_GOOD",
           "digest": "9410017f63f2964a204534faec4e7ef4f3403cb822d423b239dff66d8a969318",
-          "checked_at": "2026-10-30T12:19:13Z",
+          "checked_at": "2026-10-30T12:41:39Z",
           "error": null,
           "etag": null,
           "last_modified": null,
@@ -6087,10 +6098,11 @@
     "output_id": "EXECUTIVE_OUTPUT"
   },
   "derived": {
-    "slope_2s10s_bps": 120.5,
-    "slope_10s30s_bps": 49.5,
-    "slope_1s30s_bps": 200.6,
+    "slope_2s10s_bps": 124.9,
+    "slope_10s30s_bps": 49.7,
+    "slope_1s30s_bps": 206.3,
     "curve_delta_vs_previous_bps": {
+      "1": -1.9,
       "2": -0.8,
       "3": 0.6,
       "5": 0.8,
@@ -6105,7 +6117,7 @@
     "model_divergence_5y_bne": 5.1,
     "maturity_mode": "RETAINED_LAST_GOOD",
     "latest_budget_execution_period": "2026-08",
-    "webstat_crosscheck_bps": null
+    "webstat_crosscheck_bps": 0.0
   },
   "supra_bindings": {
     "mode": "READ_ONLY_PUBLIC_PROJECTION",
@@ -6190,22 +6202,22 @@
       "id": "BDF_TEC",
       "publisher": "Banque de France",
       "label": "Courbe TEC quotidienne · page officielle",
-      "url": "https://www.banque-france.fr/fr/statistiques/taux-et-cours/indices-obligataires-2026-10-29",
+      "url": "https://www.banque-france.fr/fr/statistiques/taux-et-cours/indices-obligataires-2026-10-30",
       "health": "LIVE_VERIFIED",
-      "digest": "ada6e4b9fb0c68f24fae46e2b56d5aa5b74428cb870dd744fe425755c2042ef8",
-      "checked_at": "2026-10-30T12:19:13Z",
+      "digest": "baeb1d330a45c662b8197bd9b8344ae2f15bcf69a4aacc922c231eeb994bfa74",
+      "checked_at": "2026-10-30T12:41:38Z",
       "error": null,
-      "etag": "\"1793360750-gzip\"",
-      "last_modified": "Fri, 30 Oct 2026 11:45:50 GMT"
+      "etag": "\"1793363411-gzip\"",
+      "last_modified": "Fri, 30 Oct 2026 12:30:11 GMT"
     },
     {
       "id": "BDF_WEBSTAT",
       "publisher": "Banque de France · Webstat",
       "label": "Historique CNO-TEC · export CSV",
       "url": "https://webstat.banque-france.fr/export/csv-columns/fr/selection/5385693",
-      "health": "LIVE_VERIFIED",
+      "health": "CROSSCHECKED",
       "digest": "d7785dab51ef1cd10b20381e646865462f60f2c068a79dbd7d0207cec9839c64",
-      "checked_at": "2026-10-30T12:19:13Z",
+      "checked_at": "2026-10-30T12:41:39Z",
       "error": null,
       "etag": null,
       "last_modified": "Fri, 30 Oct 2026 12:01:22 UTC",
@@ -6235,7 +6247,7 @@
       "url": "https://data.economie.gouv.fr/api/explore/v2.1/catalog/datasets/situation-mensuelle-de-l-etat/exports/json",
       "health": "LIVE_VERIFIED",
       "digest": "4afd95ad1af3ad375cdfbf66c6553151da78d48d1e8fd0dbb863325468bde341",
-      "checked_at": "2026-10-30T12:19:10Z",
+      "checked_at": "2026-10-30T12:41:38Z",
       "error": null,
       "etag": null,
       "last_modified": null,
@@ -6248,7 +6260,7 @@
       "url": "https://www.aft.gouv.fr/fr",
       "health": "OFFICIAL_VINTAGE",
       "digest": "4e5bb942ec1b466f53d1eda4d5bff3e28c8e8848da2071d5d23a97ca4bc67127",
-      "checked_at": "2026-10-30T12:19:13Z",
+      "checked_at": "2026-10-30T12:41:39Z",
       "error": null,
       "etag": null,
       "last_modified": null,
@@ -6313,7 +6325,7 @@
       "url": "https://www.aft.gouv.fr/fr",
       "health": "RETAINED_LAST_GOOD",
       "digest": "9410017f63f2964a204534faec4e7ef4f3403cb822d423b239dff66d8a969318",
-      "checked_at": "2026-10-30T12:19:13Z",
+      "checked_at": "2026-10-30T12:41:39Z",
       "error": null,
       "etag": null,
       "last_modified": null,
@@ -6324,48 +6336,6 @@
     }
   ],
   "events": [
-    {
-      "kind": "METRIC_CHANGED",
-      "metric": "tec10_pct",
-      "at": "2026-10-14T18:46:07Z",
-      "detail": "4.823 → 4.805"
-    },
-    {
-      "kind": "METRIC_CHANGED",
-      "metric": "tec10_date",
-      "at": "2026-10-14T18:46:07Z",
-      "detail": "2026-10-13 → 2026-10-14"
-    },
-    {
-      "kind": "METRIC_CHANGED",
-      "metric": "tec10_vs_plf_assumption_bps",
-      "at": "2026-10-14T18:46:07Z",
-      "detail": "102.3 → 100.5"
-    },
-    {
-      "kind": "METRIC_CHANGED",
-      "metric": "yield_curve_date",
-      "at": "2026-10-14T18:46:07Z",
-      "detail": "2026-10-13 → 2026-10-14"
-    },
-    {
-      "kind": "METRIC_CHANGED",
-      "metric": "yield_curve",
-      "at": "2026-10-14T18:46:07Z",
-      "detail": "[{'tenor_years': 1, 'rate_pct': 3.281}, {'tenor_years': 2, 'rate_pct': 3.614}, {'tenor_years': 3, 'rate_pct': 3.805}, {'tenor_years': 5, 'rate_pct': 4.167}, {'tenor_years': 7, 'rate_pct': 4.477}, {'tenor_years': 10, 'rate_pct': 4.823}, {'tenor_years': 15, 'rate_pct': 5.14}, {'tenor_years': 20, 'rate_pct': 5.271}, {'tenor_years': 25, 'rate_pct': 5.231}, {'tenor_years': 30, 'rate_pct': 5.373}] → [{'tenor_years': 1, 'rate_pct': 3.284}, {'tenor_years': 2, 'rate_pct': 3.571}, {'tenor_years': 3, 'rate_pct': 3.786}, {'tenor_years': 5, 'rate_pct': 4.159}, {'tenor_years': 7, 'rate_pct': 4.467}, {'tenor_years': 10, 'rate_pct': 4.805}, {'tenor_years': 15, 'rate_pct': 5.136}, {'tenor_years': 20, 'rate_pct': 5.266}, {'tenor_years': 25, 'rate_pct': 5.233}, {'tenor_years': 30, 'rate_pct': 5.371}]"
-    },
-    {
-      "kind": "SOURCE_HEALTH_CHANGED",
-      "source_id": "BDF_WEBSTAT",
-      "at": "2026-10-15T11:19:12Z",
-      "detail": "CROSSCHECKED → LIVE_VERIFIED"
-    },
-    {
-      "kind": "SOURCE_CHANGED",
-      "source_id": "BDF_TEC",
-      "at": "2026-10-15T11:40:02Z",
-      "detail": "Public source fingerprint changed."
-    },
     {
       "kind": "SOURCE_HEALTH_CHANGED",
       "source_id": "BDF_WEBSTAT",
@@ -7043,14 +7013,92 @@
       "source_id": "BDF_WEBSTAT",
       "at": "2026-10-30T12:19:13Z",
       "detail": "UNAVAILABLE → LIVE_VERIFIED"
+    },
+    {
+      "kind": "SOURCE_CHANGED",
+      "source_id": "BDF_TEC",
+      "at": "2026-10-30T12:41:38Z",
+      "detail": "Public source fingerprint changed."
+    },
+    {
+      "kind": "SOURCE_HEALTH_CHANGED",
+      "source_id": "BDF_WEBSTAT",
+      "at": "2026-10-30T12:41:39Z",
+      "detail": "LIVE_VERIFIED → CROSSCHECKED"
+    },
+    {
+      "kind": "METRIC_CHANGED",
+      "metric": "tec10_pct",
+      "at": "2026-10-30T12:41:39Z",
+      "detail": "4.894 → 4.93"
+    },
+    {
+      "kind": "METRIC_CHANGED",
+      "metric": "tec10_date",
+      "at": "2026-10-30T12:41:39Z",
+      "detail": "2026-10-29 → 2026-10-30"
+    },
+    {
+      "kind": "METRIC_CHANGED",
+      "metric": "tec10_vs_plf_assumption_bps",
+      "at": "2026-10-30T12:41:39Z",
+      "detail": "109.4 → 113.0"
+    },
+    {
+      "kind": "METRIC_CHANGED",
+      "metric": "yield_curve_date",
+      "at": "2026-10-30T12:41:39Z",
+      "detail": "2026-10-29 → 2026-10-30"
+    },
+    {
+      "kind": "METRIC_CHANGED",
+      "metric": "yield_curve",
+      "at": "2026-10-30T12:41:39Z",
+      "detail": "[{'tenor_years': 1, 'rate_pct': 3.383}, {'tenor_years': 2, 'rate_pct': 3.689}, {'tenor_years': 3, 'rate_pct': 3.904}, {'tenor_years': 5, 'rate_pct': 4.282}, {'tenor_years': 7, 'rate_pct': 4.58}, {'tenor_years': 10, 'rate_pct': 4.894}, {'tenor_years': 15, 'rate_pct': 5.173}, {'tenor_years': 20, 'rate_pct': 5.287}, {'tenor_years': 25, 'rate_pct': 5.239}, {'tenor_years': 30, 'rate_pct': 5.389}] → [{'tenor_years': 1, 'rate_pct': 3.364}, {'tenor_years': 2, 'rate_pct': 3.681}, {'tenor_years': 3, 'rate_pct': 3.91}, {'tenor_years': 5, 'rate_pct': 4.29}, {'tenor_years': 7, 'rate_pct': 4.601}, {'tenor_years': 10, 'rate_pct': 4.93}, {'tenor_years': 15, 'rate_pct': 5.21}, {'tenor_years': 20, 'rate_pct': 5.327}, {'tenor_years': 25, 'rate_pct': 5.283}, {'tenor_years': 30, 'rate_pct': 5.427}]"
     }
   ],
   "material_changes": [
     {
+      "kind": "SOURCE_CHANGED",
+      "source_id": "BDF_TEC",
+      "at": "2026-10-30T12:41:38Z",
+      "detail": "Public source fingerprint changed."
+    },
+    {
       "kind": "SOURCE_HEALTH_CHANGED",
       "source_id": "BDF_WEBSTAT",
-      "at": "2026-10-30T12:19:13Z",
-      "detail": "UNAVAILABLE → LIVE_VERIFIED"
+      "at": "2026-10-30T12:41:39Z",
+      "detail": "LIVE_VERIFIED → CROSSCHECKED"
+    },
+    {
+      "kind": "METRIC_CHANGED",
+      "metric": "tec10_pct",
+      "at": "2026-10-30T12:41:39Z",
+      "detail": "4.894 → 4.93"
+    },
+    {
+      "kind": "METRIC_CHANGED",
+      "metric": "tec10_date",
+      "at": "2026-10-30T12:41:39Z",
+      "detail": "2026-10-29 → 2026-10-30"
+    },
+    {
+      "kind": "METRIC_CHANGED",
+      "metric": "tec10_vs_plf_assumption_bps",
+      "at": "2026-10-30T12:41:39Z",
+      "detail": "109.4 → 113.0"
+    },
+    {
+      "kind": "METRIC_CHANGED",
+      "metric": "yield_curve_date",
+      "at": "2026-10-30T12:41:39Z",
+      "detail": "2026-10-29 → 2026-10-30"
+    },
+    {
+      "kind": "METRIC_CHANGED",
+      "metric": "yield_curve",
+      "at": "2026-10-30T12:41:39Z",
+      "detail": "[{'tenor_years': 1, 'rate_pct': 3.383}, {'tenor_years': 2, 'rate_pct': 3.689}, {'tenor_years': 3, 'rate_pct': 3.904}, {'tenor_years': 5, 'rate_pct': 4.282}, {'tenor_years': 7, 'rate_pct': 4.58}, {'tenor_years': 10, 'rate_pct': 4.894}, {'tenor_years': 15, 'rate_pct': 5.173}, {'tenor_years': 20, 'rate_pct': 5.287}, {'tenor_years': 25, 'rate_pct': 5.239}, {'tenor_years': 30, 'rate_pct': 5.389}] → [{'tenor_years': 1, 'rate_pct': 3.364}, {'tenor_years': 2, 'rate_pct': 3.681}, {'tenor_years': 3, 'rate_pct': 3.91}, {'tenor_years': 5, 'rate_pct': 4.29}, {'tenor_years': 7, 'rate_pct': 4.601}, {'tenor_years': 10, 'rate_pct': 4.93}, {'tenor_years': 15, 'rate_pct': 5.21}, {'tenor_years': 20, 'rate_pct': 5.327}, {'tenor_years': 25, 'rate_pct': 5.283}, {'tenor_years': 30, 'rate_pct': 5.427}]"
     }
   ],
   "summary": {
@@ -7058,15 +7106,15 @@
     "monitored": 9,
     "warnings": 4,
     "source_state_counts": {
-      "LIVE_VERIFIED": 3,
-      "CROSSCHECKED": 0,
+      "LIVE_VERIFIED": 2,
+      "CROSSCHECKED": 1,
       "OFFICIAL_VINTAGE": 1,
       "RETAINED_LAST_GOOD": 1,
       "DEGRADED": 0,
       "UNAVAILABLE": 4,
       "CONTRADICTED": 0
     },
-    "changed_this_sequence": 1,
+    "changed_this_sequence": 7,
     "curve_history_points": 120,
     "maturity_mode": "RETAINED_LAST_GOOD",
     "decision_delta_status": "MATERIAL_CHANGE"
@@ -7101,8 +7149,8 @@
     "identity_note": "Existing schema + JSON pointer is the identity where no opaque ID existed. No second country object is allocated."
   },
   "freshness": {
-    "last_material_change_at": "2026-10-30T12:19:13Z",
-    "last_market_observation_date": "2026-10-29",
+    "last_material_change_at": "2026-10-30T12:41:39Z",
+    "last_market_observation_date": "2026-10-30",
     "runner_truth": "GitHub Actions workflow run status; independent from material state",
     "runner_api_unavailable": "UNKNOWN_KEEP_LAST_MATERIAL_STATE"
   }
