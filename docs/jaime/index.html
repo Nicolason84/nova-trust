@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#173f35">
+  <meta name="description" content="Un espacio sencillo para hablar, ordenar lo que tienes en mente y explorar tus ideas a tu ritmo.">
+  <title>ojO · Jaime</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="icon-192.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="ojO Jaime">
+  <link rel="stylesheet" href="app.css">
+  <script src="core.js" defer></script>
+  <script src="economics.js" defer></script>
+  <script src="gateway.js" defer></script>
+  <script src="legacy.js" defer></script>
+  <script src="recorder.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <button class="brand" id="homeButton" aria-label="Volver a la conversación"><span class="brand-mark">ojO</span><span class="brand-name"><span id="appProfileName">Jaime</span><small>A tu lado, paso a paso</small></span></button>
+      <button class="secondary ideas-button" id="ideasButton"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h10"/></svg>Mis temas</button>
+    </header>
+    <main id="mainContent">
+      <div class="context-bar"><div class="idea-context"><span class="eyebrow" id="topicModeLabel">CONVERSACIÓN LIBRE</span><button id="renameTop" class="idea-name" aria-label="Cambiar nombre del tema">Mi primera conversación</button></div><button class="numbers-button" id="numbersButton"><svg aria-hidden="true" viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M8 7h8M8 11h1m3 0h1m3 0h.01M8 15h1m3 0h1m3 0h.01M8 18h1m3 0h1m3 0h.01"/></svg><span>Probar números</span></button></div>
+      <section class="conversation" id="conversation" aria-label="Conversación">
+        <div id="welcome" class="welcome">
+          <div class="welcome-symbol" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M32 50V27M32 36C16 36 12 25 15 15c13-2 21 7 17 21ZM32 29C33 16 43 11 53 13c1 12-7 22-21 22"/><path d="M20 52h24"/></svg></div>
+          <p class="eyebrow">UN LUGAR PARA EMPEZAR</p>
+          <h1>Hola, <span id="welcomeName">Jaime</span>.<br>¿Qué tienes en mente?</h1>
+          <p class="welcome-copy">Puedes contármelo o enseñármelo.<br>Una idea, una duda o cómo te sientes.</p>
+          <div class="examples" aria-label="Ejemplos opcionales">
+            <button data-example="Quiero hablar de cómo me siento. No sé bien por dónde empezar.">Quiero hablar de cómo me siento <span aria-hidden="true">↗</span></button>
+            <button data-example="Tengo una idea y quiero pensar cómo podría hacerla posible.">Tengo una idea nueva <span aria-hidden="true">↗</span></button>
+            <button data-example="Quiero ordenar unos números y entender qué posibilidades tengo.">Quiero ordenar mis números <span aria-hidden="true">↗</span></button>
+          </div>
+        </div>
+        <div id="messageList" class="message-list" aria-live="polite" aria-relevant="additions"></div>
+      </section>
+      <section class="composer-area" aria-label="Escribir o añadir material">
+        <div id="connectionNotice" class="connection-notice"><span class="status-dot"></span><button id="statusButton">Ideas guardadas · asistente pendiente de conexión</button></div>
+        <div id="pendingFiles" class="pending-files" aria-label="Archivos preparados"></div>
+        <div id="recorderPanel" class="recorder-panel" hidden><span class="record-dot" aria-hidden="true"></span><span id="recordingClock">Grabando 0:00</span><button id="stopRecording" class="primary compact">Terminar</button><button id="cancelRecording" class="quiet compact">Cancelar</button></div>
+        <form id="composerForm" class="composer">
+          <label for="messageInput" class="sr-only">Mensaje</label>
+          <textarea id="messageInput" rows="2" maxlength="12000" placeholder="Escribe aquí…"></textarea>
+          <div class="composer-controls">
+            <div class="input-actions"><button type="button" id="attachButton" class="quiet"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>Añadir</button><button type="button" id="recordButton" class="quiet"><svg aria-hidden="true" viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="12" rx="3"/><path d="M6 11v1a6 6 0 0 0 12 0v-1M12 18v3M9 21h6"/></svg>Grabar</button></div>
+            <button type="submit" id="sendButton" class="primary">Enviar<svg aria-hidden="true" viewBox="0 0 24 24"><path d="m5 12 14-7-5 14-3-6-6-1Zm6 1 8-8"/></svg></button>
+          </div>
+        </form>
+        <div class="composer-foot"><span>Guardado en este dispositivo</span><button id="helpButton">Ayuda y privacidad</button></div>
+      </section>
+    </main>
+  </div>
+  <div id="toast" role="status" class="toast" hidden></div>
+  <input id="fileInput" type="file" multiple hidden>
+  <input id="importInput" type="file" accept="application/json,.json" hidden>
+
+  <dialog id="ideasDialog" class="drawer" aria-labelledby="ideasTitle"><div class="dialog-header"><div><p class="eyebrow">A TU RITMO</p><h2 id="ideasTitle">Mis temas</h2></div><button data-close="ideasDialog" class="icon-close" aria-label="Cerrar">×</button></div><button id="newIdeaButton" class="primary full">Nuevo tema</button><div id="ideasList" class="ideas-list"></div><div class="drawer-tools"><button id="exportJsonButton" class="secondary">Guardar copia JSON</button><button id="importJsonButton" class="secondary">Recuperar copia</button><button id="recoverLegacyButton" class="secondary">Recuperar la app anterior</button><button id="exportMarkdownButton" class="secondary">Exportar esta conversación</button></div><p class="small-note">Las copias incluyen textos y metadatos. Los archivos adjuntos se guardan aparte en este dispositivo y no viajan en la copia JSON.</p></dialog>
+
+  <dialog id="attachDialog" class="small-dialog" aria-labelledby="attachTitle"><div class="dialog-header"><h2 id="attachTitle">¿Qué quieres añadir?</h2><button data-close="attachDialog" class="icon-close" aria-label="Cerrar">×</button></div><div class="attachment-options"><button data-attach="image/*">Foto o cámara<small>Un producto, un lugar, una tarifa</small></button><button data-attach="video/*">Vídeo<small>Enséñame lo que has visto</small></button><button data-attach=".pdf,.doc,.docx,.xls,.xlsx,.csv,.txt,.md,.json,.ppt,.pptx">Documento<small>Un presupuesto, una ficha, unas notas</small></button><button data-attach="audio/*">Audio guardado<small>Una grabación que ya tienes</small></button></div><p class="small-note">Hasta 3 archivos por mensaje y 25 MB por archivo. Recibirlos aquí no significa que ya se hayan analizado.</p></dialog>
+
+  <dialog id="nameDialog" class="small-dialog" aria-labelledby="nameTitle"><form id="nameForm"><div class="dialog-header"><h2 id="nameTitle">Ponle un nombre</h2><button type="button" data-close="nameDialog" class="icon-close" aria-label="Cerrar">×</button></div><label for="ideaTitleInput">Nombre del tema</label><input id="ideaTitleInput" maxlength="90" required placeholder="Por ejemplo: alquilar herramientas"><label for="topicTypeInput" class="topic-type-label">Qué tipo de tema es</label><select id="topicTypeInput"><option value="general">Conversación libre</option><option value="personal">Personal</option><option value="business">Una idea o negocio</option></select><p class="small-note">Es solo un nombre para encontrarla después. Puedes cambiarlo cuando quieras.</p><button class="primary full" type="submit">Guardar</button></form></dialog>
+
+  <dialog id="confirmDialog" class="small-dialog" aria-labelledby="confirmTitle"><div class="dialog-header"><h2 id="confirmTitle">Eliminar este tema</h2><button data-close="confirmDialog" class="icon-close" aria-label="Cerrar">×</button></div><p id="confirmText"></p><div class="dialog-actions"><button data-close="confirmDialog" class="secondary">Conservar</button><button id="confirmDeleteButton" class="danger">Eliminar del dispositivo</button></div></dialog>
+
+  <dialog id="helpDialog" class="small-dialog" aria-labelledby="helpTitle"><div class="dialog-header"><h2 id="helpTitle">Tu espacio, con claridad</h2><button data-close="helpDialog" class="icon-close" aria-label="Cerrar">×</button></div><div class="help-content"><h3>Tu acceso</h3><p>Entras directamente en esta app. No necesitas una cuenta de ChatGPT. Tu perfil es local: todavía no es una cuenta con copia en un servidor.</p><button id="installGuideButton" class="secondary">Poner la app en mi pantalla de inicio</button><p id="installGuide" hidden>En iPhone, abre esta app en Safari. Toca Compartir y después «Añadir a pantalla de inicio». Si usas otro navegador, busca su opción para instalar o añadir a la pantalla de inicio.</p><h3>Conversación</h3><p id="healthExplanation">La conexión con el asistente no está disponible. Puedes guardar ideas, adjuntar material y probar números. No se simulan respuestas de inteligencia artificial.</p><button id="checkConnectionButton" class="secondary">Comprobar conexión</button><h3>Tus archivos</h3><p>Los textos y las piezas se guardan en este navegador. Detén la grabación y comprueba que el audio aparece antes de salir de la aplicación. Una foto recibida o un audio grabado no están analizados por ese hecho. Cuando exista conexión, el envío al asistente se realiza al pulsar Enviar o Reintentar.</p><h3>Cómo quieres que te acompañe</h3><form id="preferencesForm" class="preferences-form"><label for="preferredName">Cómo prefieres que te llame (opcional)</label><input id="preferredName" maxlength="40" autocomplete="off" placeholder="Tu nombre o como prefieras"><label class="checkbox-label" for="faithPreference"><input id="faithPreference" type="checkbox"> Quiero dejar espacio para mi fe</label><label for="personalMemory" class="topic-type-label">Lo que quiero que recuerdes sobre mí</label><textarea id="personalMemory" maxlength="4000" rows="4" placeholder="Solo lo que tú quieras guardar aquí…"></textarea><label class="checkbox-label" for="shareContextPreference"><input id="shareContextPreference" type="checkbox"> Permitir que este contexto acompañe mis próximos mensajes</label><p class="small-note">Tú eliges qué guardar y puedes modificarlo o borrarlo. El nombre, tu preferencia sobre la fe y estas notas permanecen en este dispositivo. Solo acompañarán un mensaje que envíes si activas este permiso y existe conexión con el asistente. Guardar no envía nada.</p><button type="submit" class="secondary">Guardar preferencias</button></form><h3>Recordatorios</h3><p>Aún no enviamos avisos ni WhatsApp. Antes de activarlos, elegirás canal, frecuencia y horario. Ninguna notificación futura debería mostrar detalles privados de tus conversaciones.</p><h3>Conserva una copia</h3><p>Si borras los datos del navegador, cambias de dispositivo o utilizas navegación privada, podrías perder este contenido. En Mis temas puedes exportar los textos; guarda los originales de los archivos por separado.</p><h3>Si necesitas ayuda urgente</h3><p>No es un servicio de urgencias ni puede avisar a nadie por ti. Si estás en peligro inmediato, llama al 112 (España/UE).</p><h3>Probar números</h3><p>Los cálculos usan los datos que escribes. Un ejemplo o una hipótesis no es un precio confirmado ni una promesa de ingresos.</p></div></dialog>
+
+  <dialog id="numbersDialog" class="numbers-dialog" aria-labelledby="numbersTitle"><div class="dialog-header"><div><p class="eyebrow">CAMBIA UNA COSA Y COMPARA</p><h2 id="numbersTitle">Probar números</h2></div><button data-close="numbersDialog" class="icon-close" aria-label="Cerrar">×</button></div><p class="intro-note">Importes sin IVA, por unidad u operación. Añade como coste el IVA que no puedas recuperar. Deja vacío lo que no sabes. Escribe 0 cuando confirmes que un coste es cero.</p><label for="businessMode">¿Cómo ganas dinero?</label><select id="businessMode"><option value="resale">Vendo un producto o servicio</option><option value="commission">Cobro una comisión por una venta</option></select><div class="scenario-grid" id="scenarioForms"></div><div class="dialog-actions"><button id="calculateButton" class="primary">Calcular</button><button id="loadExampleButton" class="secondary">Probar un ejemplo</button></div><div id="calculationResults" class="calculation-results" aria-live="polite"></div><button id="saveScenarioButton" class="primary full" disabled>Guardar en este tema</button><div id="savedScenarios" class="saved-scenarios"></div></dialog>
+  <dialog id="legacyDialog" class="small-dialog" aria-labelledby="legacyTitle"><div class="dialog-header"><h2 id="legacyTitle">Recuperar lo que ya tenías</h2><button data-close="legacyDialog" class="icon-close" aria-label="Cerrar">×</button></div><p id="legacySummary"></p><div id="legacyPreview" class="legacy-preview"></div><p class="small-note">Se añadirá a este dispositivo cuando pulses Recuperar. Tus datos originales se conservan. No se envía nada al asistente.</p><div class="dialog-actions"><button data-close="legacyDialog" class="secondary">Ahora no</button><button id="confirmLegacyButton" class="primary">Recuperar</button></div></dialog>
+</body>
+</html>

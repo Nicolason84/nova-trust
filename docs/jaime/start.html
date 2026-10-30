@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#173f35">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="ojO Jaime">
+  <meta name="description" content="Tu espacio para hablar, guardar ideas y dar el siguiente paso.">
+  <title>Bienvenido · ojO Jaime</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="icon-192.png">
+  <link rel="stylesheet" href="app.css">
+  <script src="legacy.js" defer></script>
+  <script src="start.js" defer></script>
+</head>
+<body class="entry-page">
+  <main class="entry-card">
+    <div class="brand-mark" aria-hidden="true">ojO</div>
+    <p class="eyebrow">TU ESPACIO · A TU RITMO</p>
+    <h1>Hola, Jaime.</h1>
+    <p class="entry-copy">Habla, escribe o enséñame lo que tienes en mente.</p>
+    <p class="entry-detail">Puedes guardar una idea, grabar un audio o probar unos números desde aquí.</p>
+    <form id="entryForm">
+      <label for="entryName">¿Cómo prefieres que te llame?</label>
+      <input id="entryName" name="name" maxlength="40" autocomplete="given-name" value="Jaime">
+      <button type="submit" class="primary full">Entrar en mi espacio <span aria-hidden="true">→</span></button>
+    </form>
+    <section id="oldProfileBox" class="entry-recovery" hidden>
+      <p id="oldProfileText"></p>
+      <button id="useOldProfile" class="secondary full">Usar ese nombre</button>
+    </section>
+    <p id="entryError" role="alert" class="result-warning" hidden></p>
+    <p class="small-note">Tu nombre se guarda en este navegador. Puedes cambiarlo cuando quieras. No necesitas una cuenta de ChatGPT.</p>
+    <details class="entry-install"><summary>¿Cómo lo pongo en la pantalla de inicio?</summary><p>En iPhone, abre esta página en Safari. Toca Compartir y después «Añadir a pantalla de inicio».</p></details>
+    <p class="entry-service-note">El asistente aún está pendiente de conexión. Ya puedes guardar tus ideas y grabaciones.</p>
+  </main>
+</body>
+</html>
