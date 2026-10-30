@@ -1,7 +1,7 @@
 {
   "schema": "NOVA_JAIME_EVOLUTION_OPT_IN_CANDIDATE_V1",
-  "at": "2026-10-30T03:58:51.311154+00:00",
-  "version": "R4-evolution-v1",
+  "at": "2026-10-30T04:05:12.227173+00:00",
+  "version": "R5-evolution-v1",
   "state": "LOCAL_OPT_IN_CANDIDATE_TESTED_NOT_PUBLISHED",
   "deployed": false,
   "canonical_component": "nova.ojo-evolution",
@@ -26,7 +26,18 @@
     "forget_preserved_private_notebook_and_other_app_fixture": true,
     "external_network_requests": 0,
     "cross_tab_consent_revocation_reflected_in_first_tab": true,
-    "corrupt_preferences_fail_closed_and_preserved_until_explicit_forget": true
+    "corrupt_preferences_fail_closed_and_preserved_until_explicit_forget": true,
+    "upstream_r5_taurino_cases": {
+      "pass": 11,
+      "fail": 0
+    },
+    "upstream_r5_feed_offline_cases": {
+      "pass": 8,
+      "fail": 0
+    },
+    "unchanged_concurrent_r5_paths_git_blob_verified": 26,
+    "upstream_service_worker_preserved_with_two_shared_scripts_added": true,
+    "upstream_delivery_fields_preserved": true
   },
   "sources_native_modified": false,
   "new_scheduler": false,
@@ -42,5 +53,40 @@
     "No private notebook, faith, mood, messages, files or vault content is read by the evolution adapter.",
     "Existing GitHub Pages origin is shared; this change does not qualify strong browser-origin isolation or encrypt the existing notebook.",
     "Only synthetic browser fixtures were used; Jaime has not granted these choices or used this candidate."
+  ],
+  "base_public_revision": "el-tendido-r5",
+  "merged_public_source_commit": "9e17bf81e9249b708b9fc14475a9ec3a982a9f66",
+  "concurrent_r5_preserved": [
+    "Taurino frontend, learning, feed, audio and workflow",
+    "Matrix/vault/camera/business components",
+    "Existing gateway remains explicitly disconnected"
+  ],
+  "concurrent_r5_preserved_paths": [
+    ".github/workflows/jaime-taurino-refresh.yml",
+    "docs/jaime/audio/taurino/episodio-01.mp3",
+    "docs/jaime/audio/taurino/episodio-02.mp3",
+    "docs/jaime/data/taurino-content.json",
+    "docs/jaime/data/taurino-feed.json",
+    "docs/jaime/secure/taurino.js",
+    "docs/jaime/taurino.css",
+    "docs/jaime/taurino.html",
+    "docs/jaime/universos.html",
+    "tests/jaime/QA_R5.json",
+    "tests/jaime/TAURINO_R5.md",
+    "tools/jaime-secure/TAURINO_REFRESH.md",
+    "tools/jaime-secure/build-metadata.json",
+    "tools/jaime-secure/build.mjs",
+    "tools/jaime-secure/taurino-content/build-content.py",
+    "tools/jaime-secure/taurino-content/episode-01.txt",
+    "tools/jaime-secure/taurino-content/episode-02.txt",
+    "tools/jaime-secure/taurino-content/glossary-supplement.json",
+    "tools/jaime-secure/taurino-content/research-events.json",
+    "tools/jaime-secure/taurino-content/research-learning.json",
+    "tools/jaime-secure/taurino-core.mjs",
+    "tools/jaime-secure/taurino-dom.md",
+    "tools/jaime-secure/taurino-ui.mjs",
+    "tools/jaime-secure/taurino_refresh.py",
+    "tools/jaime-secure/tests/taurino-core.test.mjs",
+    "tools/jaime-secure/tests/test_taurino_refresh.py"
   ]
 }

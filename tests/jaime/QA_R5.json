@@ -1,0 +1,42 @@
+{
+  "date_utc": "2026-10-30T03:57:55.424988+00:00",
+  "producer": "ChatGPT Work",
+  "revision": "el-tendido-r5",
+  "native_result_claimed": false,
+  "automated": {
+    "javascript_cases_passed": 120,
+    "python_feed_cases_passed": 8,
+    "failed": 0,
+    "javascript_command": "node --test --test-isolation=none app/tests/*.test.cjs secure-messaging/tests/*.test.mjs",
+    "source_core_unchanged": true,
+    "matrix_adapter_unchanged": true,
+    "unchanged_r4_asset_hashes_matched": 27
+  },
+  "browser": {
+    "surface": "Chrome; 390x844 CSS iframe",
+    "physical_iphone": false,
+    "audio_1_actual_playback": true,
+    "audio_2_playback_event_observed": true,
+    "filter_roman_matches_madrid_20261011": true,
+    "source_outcomes_visible": true,
+    "lesson_marked_understood": true,
+    "quiz_correct_answer_explained": true,
+    "progress_and_favorite_survive_reload": true,
+    "private_unsaved_forms_clear_on_reload": true,
+    "search_links_exclude_free_question": true,
+    "invalid_search_reports_not_prepared": true,
+    "debate_dialog_and_favorite_view_no_horizontal_overflow": true,
+    "official_feed_local_snapshot_renders": true
+  },
+  "manual_review_fixes": [
+    "Do not erase other unfinished forms on a successful note save.",
+    "Cancelled old async save cannot lock a newer vault session.",
+    "Unavailable/invalid searches have an explicit state.",
+    "Restore keyboard focus after favorite removal and next quiz question."
+  ],
+  "limits": [
+    "No production AI request or universal automatic corrida summary.",
+    "No physical iPhone device session.",
+    "No new production Matrix/VPN/reminder activation."
+  ]
+}

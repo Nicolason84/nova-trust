@@ -1,6 +1,6 @@
 # Jaime — reprise directe, messagerie et univers
 
-Frontend : `docs/jaime/`. Version R4 du 30 octobre 2026. Sources du coffre, de la caméra et du client Matrix : `tools/jaime-secure/`.
+Frontend : `docs/jaime/`. Version R5 du 30 octobre 2026 (El tendido ; voir TAURINO_R5.md). Sources du coffre, de la caméra et du client Matrix : `tools/jaime-secure/`.
 
 ## État livré
 
@@ -44,7 +44,7 @@ Voir [provenance et limites](../../tools/jaime-secure/REUSE_AND_LIMITS.md), [ét
 
 ## Candidat d’amélioration avec accord personnel
 
-Le lot `R4-evolution-v1` ajoute « Mis mejoras » au carnet, avec observations de fonctionnement, propositions et choix séparés. Les consentements sont désactivés par défaut. Le module partagé exact `nova.ojo-evolution` et sa provenance figurent dans `docs/jaime/EVOLUTION_PROVENANCE.json`. Il ne lit pas les conversations, la foi, les humeurs, le courrier ou le coffre.
+Le lot `R5-evolution-v1` ajoute « Mis mejoras » au carnet, avec observations de fonctionnement, propositions et choix séparés. Les consentements sont désactivés par défaut. Le module partagé exact `nova.ojo-evolution` et sa provenance figurent dans `docs/jaime/EVOLUTION_PROVENANCE.json`. Il ne lit pas les conversations, la foi, les humeurs, le courrier ou le coffre.
 
 La contribution technique est seulement un fichier local de codes fermés préparé après consentement et clic explicite ; elle n’est pas envoyée à SUPRA. Une proposition acceptée reste non exécutée. Le gateway IA reste déconnecté et l’origine publique partagée ne devient pas une isolation forte par ce changement.
 

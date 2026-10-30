@@ -1,0 +1,97 @@
+name: Jaime · public taurino links
+
+on:
+  schedule:
+    - cron: '17 7 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: jaime-taurino-refresh
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    if: >-
+      (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch') &&
+      github.ref == format('refs/heads/{0}', github.event.repository.default_branch)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+    steps:
+      - name: Check out the default branch
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7, official tag verified 2026-10-30
+        with:
+          ref: ${{ github.event.repository.default_branch }}
+          fetch-depth: 0
+          persist-credentials: true
+
+      - name: Set up maintained Python
+        uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7, official tag verified 2026-10-30
+        with:
+          python-version: '3.13'
+
+      - name: Check feed safety and retention contracts offline
+        run: python -m unittest discover -s tools/jaime-secure/tests -p test_taurino_refresh.py -v
+
+      - name: Refresh the three fixed public RSS feeds
+        run: python tools/jaime-secure/taurino_refresh.py --output docs/jaime/data/taurino-feed.json
+
+      - name: Commit and push only the public JSON
+        env:
+          JAIME_TARGET_BRANCH: ${{ github.event.repository.default_branch }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          target='docs/jaime/data/taurino-feed.json'
+          base_commit=$(git rev-parse HEAD)
+          git add -- "$target"
+          if git diff --cached --quiet; then
+            exit 0
+          fi
+          if [[ "$(git diff --cached --name-only)" != "$target" ]]; then
+            echo '::error::Refusing to commit anything except the public feed JSON.'
+            exit 1
+          fi
+          if ! git diff --quiet; then
+            echo '::error::Unexpected unstaged changes; nothing will be pushed.'
+            exit 1
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git commit -m 'chore(jaime): refresh public taurino links'
+          for attempt in 1 2 3; do
+            git fetch --no-tags origin "$JAIME_TARGET_BRANCH"
+            if git merge-base --is-ancestor HEAD FETCH_HEAD; then
+              exit 0
+            fi
+            if ! git diff --quiet "$base_commit" FETCH_HEAD -- "$target"; then
+              echo '::error::The feed JSON changed concurrently. Keep the newer repository version; retry a fresh run.'
+              exit 1
+            fi
+            if ! git rebase FETCH_HEAD; then
+              git rebase --abort
+              echo '::error::Concurrent changes could not be rebased cleanly; nothing was pushed.'
+              exit 1
+            fi
+            changed_paths=$(git diff --name-only FETCH_HEAD..HEAD)
+            if [[ -z "$changed_paths" ]]; then
+              exit 0
+            fi
+            if [[ "$changed_paths" != "$target" ]]; then
+              echo '::error::The rebased commit touches an unexpected path; nothing was pushed.'
+              exit 1
+            fi
+            if git push origin "HEAD:refs/heads/$JAIME_TARGET_BRANCH"; then
+              exit 0
+            fi
+          done
+          echo '::error::The branch kept moving or refused the push. No force push was attempted.'
+          exit 1
+
+      # GITHUB_TOKEN commits do not trigger a Pages branch build. This workflow
+      # updates the repository JSON only; see TAURINO_REFRESH.md before claiming
+      # that a deployed Pages page refreshes automatically.
