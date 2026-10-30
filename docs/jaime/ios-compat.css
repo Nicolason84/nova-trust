@@ -1,0 +1,14 @@
+/* Shared iPhone presentation. No permission, storage or data changes. */
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+.app-shell{padding-left:env(safe-area-inset-left);padding-right:env(safe-area-inset-right)}
+body.entry-page{padding-left:max(20px,env(safe-area-inset-left));padding-right:max(20px,env(safe-area-inset-right))}
+.universe-shell{padding-left:max(36px,env(safe-area-inset-left));padding-right:max(36px,env(safe-area-inset-right))}
+.taurino-shell{padding-left:max(40px,env(safe-area-inset-left));padding-right:max(40px,env(safe-area-inset-right))}
+.universe-top{padding-top:calc(24px + env(safe-area-inset-top))}
+.taurino-header{padding-top:calc(23px + env(safe-area-inset-top))}
+@media(max-width:600px){
+  .universe-shell,.taurino-shell{padding-left:max(20px,env(safe-area-inset-left));padding-right:max(20px,env(safe-area-inset-right))}
+}
+@media(hover:none) and (pointer:coarse){
+  input:not([type=checkbox]):not([type=radio]):not([type=range]),textarea,select{font-size:16px!important}
+}

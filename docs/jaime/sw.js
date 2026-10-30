@@ -1,6 +1,6 @@
 'use strict';
-const CACHE = 'ojo-jaime-shell-20261030-r5-evolution-v1';
-const FILES = ['index.html','start.html','mensajes.html','universos.html','app.css','redesign.css','workspace.css','universos.css','secure-messaging.css','secure-page.css','communications.js','workspace.js','ojo-evolution.js','evolution-ui.js','app.js','start.js','core.js','economics.js','gateway.js','legacy.js','recorder.js','manifest.webmanifest','icon.svg','icon-192.png','icon-512.png','secure/universos.js','taurino.html','taurino.css','secure/taurino.js','data/taurino-content.json','data/taurino-feed.json'];
+const CACHE = 'ojo-jaime-shell-20261030-r6-evolution-v1';
+const FILES = ['instalar.html','instalar.css','instalar.js','ios-compat.css','apple-touch-icon.png','index.html','start.html','mensajes.html','universos.html','app.css','redesign.css','workspace.css','universos.css','secure-messaging.css','secure-page.css','communications.js','workspace.js','ojo-evolution.js','evolution-ui.js','app.js','start.js','core.js','economics.js','gateway.js','legacy.js','recorder.js','manifest.webmanifest','icon.svg','icon-192.png','icon-512.png','secure/universos.js','taurino.html','taurino.css','secure/taurino.js','data/taurino-content.json','data/taurino-feed.json'];
 // The large Matrix client and content-pinned WASM are cached only after use.
 // This list never includes API requests, messages, tokens, uploads or user files.
 const LAZY = ['secure/messenger.js','secure/pkg/matrix-crypto-18.9.0-e6fc166a85fc6aef.wasm'];
