@@ -1,11 +1,11 @@
 {
   "schema": "OJO_ORGANISM_STATE_V1",
   "version": "2026-09-21",
-  "updated_at": "2026-10-31T17:19:01Z",
+  "updated_at": "2026-10-31T20:33:54Z",
   "source_sequences": {
-    "budget": 232,
-    "environment": 230,
-    "combined": "232:230"
+    "budget": 233,
+    "environment": 231,
+    "combined": "233:231"
   },
   "animal": {
     "species": "BIOMIMETIC_CEPHALOPOD",
@@ -13,34 +13,34 @@
     "metaphor": "Distributed nervous system; eight domain arms; mantle = whole-system state; skin = confidence/stress."
   },
   "state": {
-    "ts": "2026-10-31T17:19:01Z",
-    "strain": 0.1743,
-    "vigilance": 0.55,
-    "asymmetry": 0.1846,
+    "ts": "2026-10-31T20:33:54Z",
+    "strain": 0.1446,
+    "vigilance": 0.3667,
+    "asymmetry": 0.137,
     "arms": {
       "macro": 0.32,
-      "budget": 0.55,
-      "energy": 0.0182,
+      "budget": 0.3667,
+      "energy": 0.0282,
       "finance": 0.0038,
       "logistics": 0.148,
       "climate": 0.0,
       "health": 0.0408,
       "geopolitics": 0.0436
     },
-    "regime": "VIGILANT",
+    "regime": "CALM",
     "top_arm": "budget",
-    "heart_rate_visual": 68,
-    "respiration_visual": 13.2,
-    "contraction": 0.246,
-    "luminance": 0.816,
+    "heart_rate_visual": 63,
+    "respiration_visual": 11.4,
+    "contraction": 0.224,
+    "luminance": 0.831,
     "sensor_health": 1.0,
     "blindness": 0.0,
     "active_arms": 1,
-    "source_seq": "232:230"
+    "source_seq": "233:231"
   },
   "learning": {
     "stage": "LEARNING",
-    "samples": 227,
+    "samples": 228,
     "max_memory": 672,
     "motifs": [
       {
@@ -55,19 +55,19 @@
     ],
     "early_warning": {
       "status": "NO_GENERIC_WARNING",
-      "samples": 227,
-      "variance_recent": 4e-06,
-      "variance_previous": 0.000201,
-      "lag1_autocorr_recent": 0.3995,
-      "slope_recent": -0.000629,
+      "samples": 228,
+      "variance_recent": 0.000105,
+      "variance_previous": 0.000198,
+      "lag1_autocorr_recent": 0.2273,
+      "slope_recent": -0.003008,
       "note": "Signal générique exploratoire seulement; variance/autocorrélation ne suffisent pas à prédire une transition."
     },
     "prediction": {
       "status": "EXPLORATORY",
-      "samples": 227,
-      "next": 0.1733,
-      "horizon_4": 0.1711,
-      "band": 0.0221,
+      "samples": 228,
+      "next": 0.1622,
+      "horizon_4": 0.1576,
+      "band": 0.0249,
       "note": "Projection de dynamique du score visuel, pas une prévision économique."
     },
     "regime_transitions": [
@@ -84,7 +84,7 @@
       {
         "from": "VIGILANT",
         "to": "CALM",
-        "count": 31
+        "count": 32
       },
       {
         "from": "CALM",
@@ -6016,6 +6016,32 @@
       "blindness": 0.0,
       "active_arms": 1,
       "source_seq": "232:230"
+    },
+    {
+      "ts": "2026-10-31T20:33:54Z",
+      "strain": 0.1446,
+      "vigilance": 0.3667,
+      "asymmetry": 0.137,
+      "arms": {
+        "macro": 0.32,
+        "budget": 0.3667,
+        "energy": 0.0282,
+        "finance": 0.0038,
+        "logistics": 0.148,
+        "climate": 0.0,
+        "health": 0.0408,
+        "geopolitics": 0.0436
+      },
+      "regime": "CALM",
+      "top_arm": "budget",
+      "heart_rate_visual": 63,
+      "respiration_visual": 11.4,
+      "contraction": 0.224,
+      "luminance": 0.831,
+      "sensor_health": 1.0,
+      "blindness": 0.0,
+      "active_arms": 1,
+      "source_seq": "233:231"
     }
   ]
 }
