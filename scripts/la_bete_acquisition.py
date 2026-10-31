@@ -5,7 +5,8 @@ The private executor must supply its authenticated Authority and MissionStore ad
 from __future__ import annotations
 import hashlib
 import json
-from datetime import datetime, timezone
+import re
+from datetime import date, datetime, timezone
 from urllib.parse import urlparse
 
 SCHEMA = "LA_BETE_INFORMATION_ACQUISITION_V1"
@@ -765,20 +766,69 @@ def build_hybrid_model(live, acquisition):
         ],
     }
 
+AFT_REQUEST = "LA_BETE_AFT_PUBLIC_DATA_ACCESS_V1"
+AFT_SUBJECT = "Accès aux publications et aux encours détaillés de la dette négociable"
+
+
+def previous_answered_aft_request(previous):
+    """Read only the previous published evolution, never a private candidate or a user draft."""
+    if not isinstance(previous, dict) or previous.get("schema") != SCHEMA:
+        return None
+    prior = [r for r in previous.get("requests", []) if r.get("id") == AFT_REQUEST]
+    if len(prior) > 1:
+        raise ValueError("AMBIGUOUS_AFT_REQUEST")
+    if not prior or prior[0].get("state") != "OFFICIAL_REPLY_RECEIVED":
+        return None
+    old = prior[0]
+    reply = old.get("public_reply")
+    if (old.get("subject") != AFT_SUBJECT or old.get("organization") != "Agence France Trésor"
+            or not isinstance(reply, dict)
+            or set(reply) != {"received_on", "receipt_sha256", "resource_ids", "additional_export"}):
+        raise ValueError("INVALID_PUBLIC_AFT_REPLY")
+    if date.fromisoformat(reply["received_on"]).isoformat() != reply["received_on"]:
+        raise ValueError("INVALID_PUBLIC_AFT_REPLY_DATE")
+    resources = reply["resource_ids"]
+    if (not re.fullmatch(r"[a-f0-9]{64}", reply["receipt_sha256"])
+            or not isinstance(resources, list) or not resources
+            or len(set(resources)) != len(resources) or not set(resources) <= PILOT_IDS
+            or type(reply["additional_export"]) is not bool):
+        raise ValueError("INVALID_PUBLIC_AFT_REPLY")
+    inventory = old.get("public_inventory")
+    if inventory is not None:
+        if (not isinstance(inventory, dict) or set(inventory) != {"observed_on", "as_of", "source_sha256", "rows"}
+                or not isinstance(inventory["rows"], list)
+                or not re.fullmatch(r"[a-f0-9]{64}", inventory["source_sha256"])):
+            raise ValueError("INVALID_PUBLIC_AFT_INVENTORY")
+        date.fromisoformat(inventory["observed_on"])
+        if inventory["as_of"] is not None:
+            date.fromisoformat(inventory["as_of"])
+        seen = set()
+        for row in inventory["rows"]:
+            if (set(row) != {"isin", "maturity", "outstanding_eur", "source_id"}
+                    or not re.fullmatch(r"FR[A-Z0-9]{9}[0-9]", row["isin"])
+                    or row["isin"] in seen or row["source_id"] not in PILOT_IDS - {"AFT_RSS"}
+                    or type(row["outstanding_eur"]) is not int or row["outstanding_eur"] < 0):
+                raise ValueError("INVALID_PUBLIC_AFT_INVENTORY_ROW")
+            date.fromisoformat(row["maturity"])
+            seen.add(row["isin"])
+    return old
+
+
 def build_acquisition(live, previous=None):
     if live.get("schema") != "OJO_FRANCE_DEBT_RATE_LIVE_V1" or live.get("policy", {}).get("political_recommendation") != "NONE":
         raise ValueError("CANONICAL_POLICY_MISMATCH")
     sources = sorted((s for s in live.get("sources", []) if s.get("id") in PILOT_IDS and s.get("health") in BAD_STATES), key=lambda s: s["id"])
+    old = previous_answered_aft_request(previous)
     records = []
-    if sources:
+    if sources or old:
         for s in sources:
             u = urlparse(s.get("url", ""))
             if u.scheme != "https" or u.hostname != "www.aft.gouv.fr" or u.username or u.password:
                 raise ValueError("OFFICIAL_SOURCE_ORIGIN_MISMATCH")
         source_ids = [s["id"] for s in sources]
         # Stable across pulse timestamps, different failing subsets and page refreshes.
-        request_id = "LA_BETE_AFT_PUBLIC_DATA_ACCESS_V1"
-        subject = "Accès aux publications et aux encours détaillés de la dette négociable"
+        request_id = AFT_REQUEST
+        subject = AFT_SUBJECT
         lines = ["Madame, Monsieur,", "", "Je souhaite identifier un accès officiel et autorisé aux publications suivantes de l’Agence France Trésor :", ""]
         lines += ["- " + s["label"] + " : " + s["url"] for s in sources]
         lines += ["", "Les vérifications enregistrées par notre outil signalent un accès indisponible sur ces ressources. Il ne s’agit pas d’affirmer que ces documents sont indisponibles pour tous les visiteurs.", "", "Pourriez-vous indiquer les liens ou modalités d’accès actuellement recommandés et, s’ils existent déjà, les exports structurés disponibles (CSV, XLSX, XML ou équivalent) ? Pour les encours, nous recherchons les identifiants des titres, leur échéance, l’encours et la date de situation ; pour les publications, le flux ou catalogue officiel.", "", "L’objectif est de documenter correctement la dette et les horizons de refinancement, en conservant les dates, périmètres, sources et limites, sans en déduire de recommandation politique.", "", "Nous ne demandons ni création d’un nouveau document, ni accès à des données non publiques. Merci de préciser les conditions de réutilisation ou les éventuels frais avant toute démarche payante. À défaut de compétence de votre service, pourriez-vous indiquer le service compétent ?", "", "Cordialement,", "[Identité et qualité de l’expéditeur à valider dans l’espace privé]"]
@@ -801,6 +851,22 @@ def build_acquisition(live, previous=None):
                 {"name": "Suivre la réponse et vérifier les pièces", "state": "WAITING"},
                 {"name": "Intégrer après validation", "state": "WAITING"}],
         })
+    if old:
+        record = records[0]
+        # Copy only public case data from the previous release. Recompute source
+        # health and permissions from today's inputs, including after recovery.
+        if digest({"subject": AFT_SUBJECT, "body": old["draft"]}) != old["draft_sha256"]:
+            raise ValueError("ARCHIVED_AFT_DRAFT_MISMATCH")
+        for field in ("draft", "draft_sha256", "public_reply"):
+            record[field] = old[field]
+        if old.get("public_inventory") is not None:
+            record["public_inventory"] = old["public_inventory"]
+        record["state"] = "OFFICIAL_REPLY_RECEIVED"
+        record["next_action"] = "Qualifier la date de situation des encours par ISIN, le flux RSS et les conditions de collecte."
+        record["steps"] = record["steps"][:2] + [
+            {"name": "Recevoir la réponse de l’AFT", "state": "DONE"},
+            {"name": "Qualifier les données et le mode de collecte", "state": "WAITING"},
+            {"name": "Intégrer après validation", "state": "WAITING"}]
     return {"schema": SCHEMA, "source_snapshot_id": live.get("snapshot_id"), "requests": records, "initiatives": build_initiatives(live), "civic_mission": civic_mission(),
             "execution": "PREPARATION_ACTIVE_DISPATCH_NOT_CONNECTED", "private_dispatch_required": True,
             "public_users_may_authorize": False, "automatic_truth_change": False,

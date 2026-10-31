@@ -26,6 +26,20 @@ async function main() {
   for (const q of ['Quel candidat devrait gagner ?', 'Je propose une réforme des impôts', 'Que penses-tu de Lecornu ?', 'Faut-il voter pour ce parti ?', 'Qui est le meilleur ministre ?', 'Je propose de baisser les taxes']) {
     test('political factual only: ' + q, () => { const r = analyze(q, 'IDEA'); assert.equal(r.status, 'FACTUAL_REVIEW_ONLY'); assert.equal(r.political_recommendation, 'NONE'); assert.equal(r.adoption, 'NOT_ADOPTED'); assert.equal(r.score, undefined); });
   }
+  test('administrative reply uses the matching snapshot and current case', () => {
+    const state = structuredClone(evolution);
+    const row = state.self_model.acquisition.requests.find(r=>r.id==='LA_BETE_AFT_PUBLIC_DATA_ACCESS_V1');
+    // Synthetic public projection, without a mailbox or a native write.
+    const fixture = {id:'LA_BETE_AFT_PUBLIC_DATA_ACCESS_V1', state:'OFFICIAL_REPLY_RECEIVED',
+      public_reply:{received_on:'2001-01-01', receipt_sha256:'a'.repeat(64), resource_ids:['AFT_RSS'], additional_export:false}};
+    if (row) Object.assign(row,fixture); else state.self_model.acquisition.requests.push(fixture);
+    const c={live,evolution:state,object:{id:fixture.id,snapshot_id:live.snapshot_id},kind:'QUESTION'};
+    assert.match(D.analyze('Quand ?',c).summary,/01\/01\/2001/);
+    assert.match(D.analyze('Avons-nous obtenu un export ?',c).summary,/aucun format/);
+    assert.equal(D.analyze('Quelles ressources ?',c).references[0].url,'https://www.aft.gouv.fr/fr/rss.xml');
+    assert.doesNotMatch(D.analyze('Quand ?',{...c,object:null}).summary,/2001/);
+    state.source_snapshot_id='different';assert.doesNotMatch(D.analyze('Quand ?',c).summary,/2001/);
+  });
   test('unknown political topic explicit mode', () => assert.equal(analyze('Comparer des mesures inconnues', 'POLICY').status, 'FACTUAL_REVIEW_ONLY'));
   test('all questions never execute actions', () => { for (const q of ['Envoyer un mail', 'Ajouter un bouton', 'Remplacer les chiffres', 'Partager un fichier']) assert.equal(analyze(q, 'IDEA').external_action, 'NONE'); });
   test('consent required', () => assert.throws(() => D.sharePayload('Une idée', 'IDEA', false), /CONSENT/));

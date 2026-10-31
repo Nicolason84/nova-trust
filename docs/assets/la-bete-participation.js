@@ -212,14 +212,14 @@
     }
     const acquisition = evolution.self_model?.acquisition;
     const records = acquisition?.requests || [];
-    byId('beastAcquisitionStatus').textContent = records.length + ' dossier(s) préparé(s) · aucun envoi attesté';
+    byId('beastAcquisitionStatus').textContent = records.length + ' dossier(s) suivi(s)';
     if (!records.length) host.append(element('p', 'Aucun dossier actif dans cette projection. Cela ne prouve pas l’absence de tout besoin.'));
     records.forEach(record => {
       const card = element('article', undefined, 'beastAcquisitionCard');
       card.append(element('span', record.state + ' · ' + record.id, 'beastStatus'));
       card.append(element('h3', record.organization));
       card.append(element('p', record.purpose));
-      card.append(element('p', record.source_ids.length + ' accès regroupés ; une seule demande préparée.'));
+      card.append(element('p', record.source_ids.length + ' accès de collecte à qualifier.'));
       const list = element('ol', undefined, 'beastSteps');
       (record.steps || []).forEach(s => list.append(element('li', s.name + ' — ' + s.state)));
       card.append(list);
@@ -233,9 +233,9 @@
       });
       const download = element('button', 'Exporter le dossier public'); download.type = 'button';
       download.addEventListener('click', () => exportJSON(record, record.id + '.json'));
-      actions.append(copy, download); card.append(actions);
+      if (!record.public_reply) actions.append(copy); actions.append(download); card.append(actions);
       const officialContact = D.safeURL(record.contact?.url);
-      if (officialContact) { const a = element('a', 'Ouvrir le formulaire officiel AFT · validation humaine'); a.href = officialContact; a.target = '_blank'; a.rel = 'noopener noreferrer'; card.append(a); }
+      if (officialContact && !record.public_reply) { const a = element('a', 'Ouvrir le formulaire officiel AFT · validation humaine'); a.href = officialContact; a.target = '_blank'; a.rel = 'noopener noreferrer'; card.append(a); }
       card.append(element('p', 'À débloquer dans l’espace privé : ' + record.next_action, 'beastGate'));
       host.append(card);
     });

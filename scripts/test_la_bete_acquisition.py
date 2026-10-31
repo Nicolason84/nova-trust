@@ -58,6 +58,30 @@ class AcquisitionTests(unittest.TestCase):
         other = copy.deepcopy(LIVE)
         for s in other['sources']: s['health'] = 'LIVE_VERIFIED'
         self.assertEqual(build_acquisition(other)['requests'], [])
+    def test_published_reply_survives_recovery_and_a_second_pulse(self):
+        prior = build_acquisition(LIVE)
+        record = prior["requests"][0]
+        record.update(state="OFFICIAL_REPLY_RECEIVED", public_reply={
+            "received_on": "2001-01-01", "receipt_sha256": "a" * 64,
+            "resource_ids": ["AFT_RSS"], "additional_export": False})
+        recovered = copy.deepcopy(LIVE)
+        for source in recovered["sources"]:
+            source["health"] = "LIVE_VERIFIED"
+        result = build_acquisition(recovered, prior)
+        self.assertEqual(result["requests"][0]["source_ids"], [])
+        self.assertEqual(result["requests"][0]["public_reply"], record["public_reply"])
+        self.assertEqual(result["requests"][0]["external_action"], "NOT_EXECUTED")
+        self.assertEqual(build_acquisition(recovered, result), result)
+        # A private provider candidate is never a previously published case.
+        record["state"] = "VERIFIED_CANDIDATE"
+        self.assertEqual(build_acquisition(recovered, prior)["requests"], [])
+
+    def test_private_metadata_is_not_carried_into_the_public_projection(self):
+        prev = build_acquisition(LIVE)
+        prev["requests"][0].update(state="OFFICIAL_REPLY_RECEIVED", public_reply={"provider_message_id":"fixture"})
+        with self.assertRaisesRegex(ValueError, "INVALID_PUBLIC_AFT_REPLY"):
+            build_acquisition(LIVE, prev)
+
     def test_untrusted_source_origin_blocks(self):
         other = copy.deepcopy(LIVE)
         next(s for s in other['sources'] if s['id'] == 'AFT_RSS')['url'] = 'https://attacker.example/collect'

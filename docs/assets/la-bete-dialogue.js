@@ -34,6 +34,61 @@
     {id: 'usability', re: /interface|mobile|bouton|navigation|chat|dialogue|idee|propos|compren/, title: 'Compréhension et participation', keep: 'Rendre la question, la réponse, les limites et le devenir de la proposition compréhensibles.', test: 'Décrire un utilisateur, une tâche et un résultat observable ; ne pas confondre une préférence exprimée avec une preuve.', evolve: 'Formuler un petit changement réversible, le comparer à l’existant et consigner les retours sans vote de popularité automatique.'},
     {id: 'alerts', re: /alert|notifi|relance|suivi/, title: 'Suivi sous autorisation', keep: 'Ne déclencher une notification que sur un événement défini et pertinent.', test: 'Préciser le destinataire, la condition, la fréquence maximale et l’arrêt ; vérifier les doublons.', evolve: 'Réutiliser la boucle existante avec un événement dédupliqué, une limite de relances et une preuve de livraison.'}
   ];
+  const aftRequest = 'LA_BETE_AFT_PUBLIC_DATA_ACCESS_V1';
+  const namesAft = /\baft\b|agence france tresor/;
+  function aftTopic(question) {
+    if (/\bfr[a-z0-9]{9}[0-9]\b/.test(question)) return 'holding';
+    if (/restent? a|a collecter|manqu|qualifier/.test(question)) return 'remaining';
+    if (/export|format/.test(question)) return 'export';
+    if (/ressource|liens?|adresse|communique/.test(question)) return 'resources';
+    if (/quand|quelle date/.test(question)) return 'date';
+    if (/repond|reponse|recu/.test(question)) return 'receipt';
+    return null;
+  }
+  function aftAnswer(question, c) {
+    const topic = aftTopic(question), live = c.live, evolution = c.evolution;
+    if (!topic || !live?.snapshot_id || live.schema !== 'OJO_FRANCE_DEBT_RATE_LIVE_V1'
+        || live.policy?.political_recommendation !== 'NONE' || evolution?.status !== 'ACTIVE'
+        || evolution.source_snapshot_id !== live.snapshot_id) return null;
+    if (c.object && (c.object.id !== aftRequest || c.object.snapshot_id !== live.snapshot_id)) return null;
+    if (!c.object && !namesAft.test(question)) {
+      let linked = false;
+      for (const row of [...(c.history || [])].reverse()) {
+        if (row.kind !== 'QUESTION' || row.result?.snapshot_id !== live.snapshot_id
+            || row.object_context?.id || !aftTopic(normalize(row.text))) break;
+        if (namesAft.test(normalize(row.text))) { linked = true; break; }
+      }
+      if (!linked) return null;
+    }
+    const record = evolution.self_model?.acquisition?.requests?.find(item => item.id === aftRequest);
+    const reply = record?.public_reply;
+    if (record?.state !== 'OFFICIAL_REPLY_RECEIVED' || !reply
+        || !/^\d{4}-\d{2}-\d{2}$/.test(reply.received_on) || !/^[a-f0-9]{64}$/.test(reply.receipt_sha256)
+        || typeof reply.additional_export !== 'boolean' || !Array.isArray(reply.resource_ids)) return null;
+    const refs = references(live, s => reply.resource_ids.includes(s.id) && /^https:\/\/www\.aft\.gouv\.fr\//.test(s.url));
+    const inventory = record.public_inventory, rows = inventory?.rows || [];
+    if (topic === 'resources' && (!refs.length || refs.length !== reply.resource_ids.length))
+      return {status:'NO_VERIFIED_CONTEXT', summary:'Le catalogue chargé ne permet pas de restituer toutes les ressources du courrier.', references:refs};
+    const received = reply.received_on.split('-').reverse().join('/');
+    let summary;
+    if (topic === 'holding') {
+      const isin = question.match(/\bfr[a-z0-9]{9}[0-9]\b/)[0].toUpperCase();
+      const line = rows.find(row => row.isin === isin);
+      summary = line ? isin + ' · échéance ' + line.maturity + ' · encours relevé ' + line.outstanding_eur.toLocaleString('fr-FR') + ' €.' : 'Ce titre ne figure pas dans le relevé chargé.';
+    } else if (topic === 'remaining') {
+      summary = record.next_action;
+    } else if (topic === 'resources') {
+      summary = 'Ressources communiquées par l’AFT : ' + refs.map(s => s.label).join(', ') + '.';
+    } else if (topic === 'export') {
+      summary = reply.additional_export ? 'L’AFT a indiqué une modalité d’export supplémentaire.' : 'L’AFT n’a communiqué aucun format d’export supplémentaire.';
+    } else {
+      summary = 'L’Agence France Trésor a répondu le ' + received + '.';
+    }
+    return {status:'OBJECT_CONTEXT', summary, references:refs,
+      retained:inventory ? [rows.length + ' titres relevés le ' + inventory.observed_on + '.'] : [],
+      limits:[inventory?.as_of ? 'Date de situation du relevé : ' + inventory.as_of + '.' : 'Date de situation commune des encours non qualifiée.'],
+      next:record.next_action};
+  }
   function analyze(input, context) {
     const c = context || {}, live = c.live || {}, evolution = c.evolution || {};
     const raw = text(input), norm = normalize(raw);
@@ -68,6 +123,8 @@
       r.references = references(live, s => /AFT|DGFIP|BDF/.test(s.id || ''));
       return r;
     }
+    const replyAnswer = aftAnswer(norm, c);
+    if (replyAnswer) return Object.assign(r, replyAnswer);
     if (c.object && typeof c.object.id === 'string' && c.object.snapshot_id === live.snapshot_id && Array.isArray(c.object.facts)) {
       const object = c.object;
       const allowed = object.references || [];
@@ -99,7 +156,7 @@
       const bound = evolution.source_snapshot_id === live.snapshot_id;
       const a = bound ? evolution.self_model?.acquisition : null;
       const requests = a?.requests || [];
-      return Object.assign(r, {status: 'CANONICAL_CONTEXT', summary: requests.length ? `${requests.length} démarche(s) préparée(s) dans l’état affiché ; aucun envoi n’est attesté par cette projection.` : 'Aucune démarche préparée n’est disponible dans le contexte chargé.', retained: requests.map(x => x.organization + ' : ' + x.source_ids.length + ' accès regroupés.'), limits: ['Brouillon ≠ envoi. Envoi ≠ réponse. Réponse ≠ information vérifiée.', ...(bound ? [] : ['L’évolution ne correspond pas au même instantané ; elle n’est pas utilisée.'])], next: requests[0]?.next_action || 'Consulter les sources et leurs dernières vérifications.', references: references(live, s => ['UNAVAILABLE','RETAINED_LAST_GOOD','DEGRADED'].includes(s.health))});
+      return Object.assign(r, {status: 'CANONICAL_CONTEXT', summary: requests.length ? `${requests.length} démarche(s) suivie(s) dans l’état affiché.` : 'Aucune démarche préparée n’est disponible dans le contexte chargé.', retained: requests.map(x => x.organization + ' · ' + x.state + ' · ' + x.source_ids.length + ' accès à qualifier.'), limits: ['Brouillon ≠ envoi. Envoi ≠ réponse. Réponse ≠ information vérifiée.', ...(bound ? [] : ['L’évolution ne correspond pas au même instantané ; elle n’est pas utilisée.'])], next: requests[0]?.next_action || 'Consulter les sources et leurs dernières vérifications.', references: references(live, s => ['UNAVAILABLE','RETAINED_LAST_GOOD','DEGRADED'].includes(s.health))});
     }
     if (/taux|tec|dette|encours|refinanc|echeanc|source|preuve|sais|observe|combien/.test(norm)) {
       const o = live.observed || {};
