@@ -89,9 +89,9 @@ jobs:
           rustup default 1.86.0
           rustc --version
           cargo --version
-      - name: Resolve Rust dependency lock candidate
+      - name: Fetch locked Rust dependencies
         working-directory: privacy/ohttp_runtime
-        run: cargo generate-lockfile
+        run: cargo fetch --locked
       - name: Build pinned OHTTP runtime
         working-directory: privacy/ohttp_runtime
         run: cargo build --locked --release
@@ -104,7 +104,7 @@ jobs:
         run: SCIC_OHTTP_RUNTIME_BIN="$GITHUB_WORKSPACE/privacy/ohttp_runtime/target/release/scic_ohttp_runtime" PYTHONPATH=. python3 scripts/test_scic_ohttp_https_harness.py
       - name: Prove persistent OHTTP batching pipeline
         run: SCIC_OHTTP_RUNTIME_BIN="$GITHUB_WORKSPACE/privacy/ohttp_runtime/target/release/scic_ohttp_runtime" PYTHONPATH=. python3 scripts/test_scic_ohttp_batch_pipeline.py
-      - name: Record candidate OHTTP dependency lock
+      - name: Record verified OHTTP dependency lock
         working-directory: privacy/ohttp_runtime
         run: |
           cargo metadata --locked --format-version 1 --no-deps > /tmp/ohttp-metadata.json
