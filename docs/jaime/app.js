@@ -304,10 +304,14 @@
   ];
   function createScenarioForms() {
     const wrap = $('scenarioForms'); wrap.replaceChildren();
-    ['A','B'].forEach((which, index) => {const section = el('section','scenario-form'); section.append(el('h3','',index ? 'B · Otra posibilidad' : 'A · Punto de partida')); fields.forEach(([key, label]) => {const field = el('div','field'); field.dataset.field = key; const name = `${which}-${key}`; const lbl = el('label','',label); lbl.htmlFor = name; const input = el('input'); input.id = name; input.inputMode = key === 'units' ? 'numeric' : 'decimal'; input.autocomplete = 'off'; input.placeholder = 'Por confirmar'; input.maxLength = 30; input.addEventListener('input', () => {calculations = null; $('saveScenarioButton').disabled = true; saveCalculatorDraft();}); field.append(lbl,input); section.append(field);}); wrap.append(section);});
+    ['A','B'].forEach((which, index) => {const section = el('section','scenario-form'); section.append(el('h3','',index ? 'B · Otra posibilidad' : 'A · Punto de partida')); fields.forEach(([key, label]) => {const field = el('div','field'); field.dataset.field = key; const name = `${which}-${key}`; const lbl = el('label','',label); lbl.htmlFor = name; const input = el('input'); input.id = name; input.inputMode = key === 'units' ? 'numeric' : 'decimal'; input.autocomplete = 'off'; input.placeholder = 'Por confirmar'; input.maxLength = 30; input.addEventListener('input', onScenarioInput); field.append(lbl,input); section.append(field);}); wrap.append(section);});
   }
   function updateModel() {const commission = $('businessMode').value === 'commission'; ['A','B'].forEach(which => {$(which+'-purchase').closest('.field').hidden = commission; document.querySelector(`label[for="${which}-price"]`).textContent = commission ? 'Venta comisionable por operación (€)' : 'Precio de venta por unidad (€)'; document.querySelector(`label[for="${which}-commissionRate"]`).textContent = commission ? 'Comisión que recibes (%)' : 'Comisión pagada sobre la venta (%)';}); calculations = null; $('saveScenarioButton').disabled = true; $('calculationResults').replaceChildren();}
   function saveCalculatorDraft() {active().calculator = {mode: $('businessMode').value, A: scenarioInput('A'), B: scenarioInput('B')}; touch(active());}
+  function onScenarioInput() {
+    saveCalculatorDraft();
+    if ($('calculationResults').hasChildNodes()) renderResults();
+  }
   function restoreCalculator() {const saved = active().calculator; $('businessMode').value = saved?.mode === 'commission' ? 'commission' : 'resale'; for (const which of ['A','B']) fields.forEach(([key]) => {$(which+'-'+key).value = typeof saved?.[which]?.[key] === 'string' ? saved[which][key] : '';}); updateModel();}
   function scenarioInput(which) {const input = {mode: $('businessMode').value}; fields.forEach(([key]) => {input[key] = $(which+'-'+key).value.trim();}); return input;}
   function money(cents) {if (cents === null || cents === undefined) return 'Por confirmar'; return window.JaimeEconomics?.formatCents ? window.JaimeEconomics.formatCents(cents) : (cents / 100).toLocaleString('es-ES',{style:'currency',currency:'EUR'});}
