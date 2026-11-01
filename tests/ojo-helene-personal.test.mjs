@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {createVault,unlockVault,addMemory,readMedia,exportVault,parseBackup,changePassword,sha256} from '../docs/helene/vendor/legad-vault.mjs';
-import {makeAppointment,validateAppointments,calendarFile,phraseForDay,appointmentShareText,upcoming} from '../docs/helene/everyday.mjs';
+import {makeAppointment,validateAppointments,calendarFile,calendarDownloadURL,phraseForDay,appointmentShareText,upcoming} from '../docs/helene/everyday.mjs';
 import {emptyState,makeItem,exportState,importState} from '../docs/helene/core.mjs';
 import {universalRequest,chooseService,mailDraftURL,monthlyBudget,shoppingURL} from '../docs/helene/services.mjs';
 
@@ -60,7 +60,21 @@ test('agenda : ICS avec rappel demandé, texte échappé, lignes UTF-8 bornées 
  const i=makeAppointment({...appointment(),title:'Été à deux, '+ 'é'.repeat(100)+'\nATTENDEE:injection',note:'ligne 1\nligne 2; virgule, et \\'}),ics=calendarFile([i]);
  assert.match(ics,/BEGIN:VALARM\r\nACTION:DISPLAY/);assert.match(ics,/TRIGGER:-PT30M/);assert.equal(/\r\nATTENDEE:/.test(ics),false);
  for(const line of ics.split('\r\n'))assert.ok(new TextEncoder().encode(line).length<=75);
- assert.match(ics,/CLASS:PRIVATE/);assert.match(ics,/METHOD:PUBLISH/);
+ assert.match(ics,/CLASS:PRIVATE/);assert.doesNotMatch(ics,/^METHOD:/m);
+});
+test('export Android : les octets du lien sont un ICS UTF-8 stable et le rendez-vous reste intact',()=>{
+ const item=makeAppointment({...appointment(),title:'Été à Nîmes + été',place:'',note:'Étage 2, salle A; B\nEntrée côté cour'});
+ const before=structuredClone(item);
+ const url=calendarDownloadURL(item);
+ assert.match(url,/^data:text\/calendar;charset=utf-8;base64,/);
+ const ics=Buffer.from(url.split(',')[1],'base64').toString('utf8');
+ assert.equal(ics,calendarFile([item]));
+ assert.equal(calendarDownloadURL(item),url);
+ assert.deepEqual(item,before);
+ assert.match(ics,/^UID:synthetic-appointment@ojo-helene.local\r$/m);
+ assert.equal(ics.split('BEGIN:VEVENT').length,2);
+ assert.match(ics,/LOCATION:\r\n/);
+ assert.ok(ics.endsWith('END:VCALENDAR\r\n'));
 });
 test('ancien espace : notes, originaux et objections conservés, agenda vide ajouté sans effacement',async()=>{
  const s=emptyState();s.items=[await makeItem({title:'Note existante',text:'Mes mots exacts, déjà présents.'})];delete s.agenda;delete s.comfort;
