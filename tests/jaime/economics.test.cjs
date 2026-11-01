@@ -74,3 +74,19 @@ test('scénario de comparaison indépendant: aucune mutation des hypothèses', (
   assert.equal(b.inputs.price, '12.00');
   assert.equal(a.perUnitCents, 310);
 });
+
+test('montants copiés : espaces de milliers et suffixe euro, en vente et en commission', () => {
+  for (const space of [' ', '\u00a0', '\u202f']) {
+    const result = calculate(resale({ price: '1'+space+'250,50 €', purchase: '1'+space+'000,25€', transport: '0', fixed: '0', commissionRate: '0', units: '2' }));
+    assert.equal(result.resultCents, 50050);
+    assert.equal(result.inputs.price, '1250.50');
+    assert.equal(result.inputs.purchase, '1000.25');
+    assert.equal(calculate(intermediary({price:'1'+space+'000'+space+'000.00 €',transport:'0'})).resultCents, 8000000);
+  }
+  assert.equal(calculate(resale({fixed:'1 000 000 000,00 €'})).fixedCents, 100000000000);
+  for (const price of ['12 50,50 €','1  250,50','1 234\u00a0567,00','1.001','1,000.50','1 250,500','€','1 000 000 000,01 €','1\n €']) {
+    assert.throws(() => calculate(resale({price})), /Precio/);
+  }
+  assert.throws(() => calculate(resale({commissionRate:'5 €'})), /Comisión/);
+  assert.throws(() => calculate(resale({units:'1 000'})), /Unidades/);
+});

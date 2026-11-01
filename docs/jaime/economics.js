@@ -23,6 +23,13 @@
     if (value < -MAX_SAFE || value > MAX_SAFE) throw new Error(label + ': el resultado supera el límite de cálculo exacto.');
     return Number(value);
   }
+  function euroCents(text) {
+    const amount = text.replace(/(\d)[ \u00a0\u202f]*€$/, '$1');
+    // Accept grouped thousands only when every group uses the same space.
+    const grouped = /^\d{1,3}([ \u00a0\u202f])\d{3}(?:\1\d{3})*(?:[.,]\d{1,2})?$/;
+    if (grouped.test(amount)) return core.money(amount.replace(/[ \u00a0\u202f]/g, ''));
+    return core.money(amount);
+  }
   function canonicalMoney(cents) {
     return String(Math.floor(cents / 100)) + '.' + String(cents % 100).padStart(2, '0');
   }
@@ -48,8 +55,11 @@
         }
         values[field] = Number(text); inputs[field] = String(values[field]);
       } else {
-        try { values[field] = core.money(text); }
-        catch (error) { throw new Error(label + ': utiliza una cantidad de 0 a 1.000.000.000,00, con hasta dos decimales y sin separador de miles.'); }
+        try { values[field] = field === 'commissionRate' ? core.money(text) : euroCents(text); }
+        catch {
+          if (field === 'commissionRate') throw new Error(label + ': introduce un porcentaje con hasta dos decimales.');
+          throw new Error(label + ': introduce un importe entre 0 y 1 000 000 000,00 €. Puedes usar espacios para separar grupos de tres cifras, por ejemplo 1 250,50 €.');
+        }
         if (field === 'commissionRate' && values[field] > 10000) throw new Error('Comisión (%): introduce un valor de 0 a 100, con hasta dos decimales.');
         inputs[field] = canonicalMoney(values[field]);
       }
