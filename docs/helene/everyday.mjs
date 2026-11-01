@@ -80,13 +80,20 @@ const escapeText=x=>String(x).replace(/\\/g,'\\\\').replace(/\r\n|\r|\n/g,'\\n')
 function fold(line){let out='',bytes=0;for(const c of line){const size=new TextEncoder().encode(c).length;if(bytes+size>75){out+='\r\n ';bytes=1}out+=c;bytes+=size}return out}
 export function calendarFile(items){
   validateAppointments(items);
-  const lines=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//ojO//Helene local agenda//FR','CALSCALE:GREGORIAN','METHOD:PUBLISH'];
+  const lines=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//ojO//Helene local agenda//FR','CALSCALE:GREGORIAN'];
   for(const i of items){
     lines.push('BEGIN:VEVENT','UID:'+i.id+'@ojo-helene.local','DTSTAMP:'+stamp(i.updatedAt),'DTSTART:'+stamp(i.startUTC),'DTEND:'+stamp(i.endUTC),'SUMMARY:'+escapeText(i.title),'LOCATION:'+escapeText(i.place),'DESCRIPTION:'+escapeText(i.note),'CLASS:PRIVATE');
     if(i.reminder!==null)lines.push('BEGIN:VALARM','ACTION:DISPLAY','DESCRIPTION:Rappel de rendez-vous','TRIGGER:'+(i.reminder===0?'PT0S':'-PT'+i.reminder+'M'),'END:VALARM');
     lines.push('END:VEVENT');
   }
   lines.push('END:VCALENDAR');return lines.map(fold).join('\r\n')+'\r\n';
+}
+// A saved appointment is bounded in size. Its UTF-8 bytes travel with the link,
+// so Android download handlers never have to fetch a page-owned blob URL.
+export function calendarDownloadURL(item){
+  const bytes = new TextEncoder().encode(calendarFile([item]));
+  const binary = Array.from(bytes, byte => String.fromCharCode(byte)).join('');
+  return 'data:text/calendar;charset=utf-8;base64,' + btoa(binary);
 }
 export function appointmentShareText(i){
   validateAppointments([i]);
