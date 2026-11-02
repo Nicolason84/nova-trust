@@ -315,6 +315,7 @@
   function restoreCalculator() {const saved = active().calculator; $('businessMode').value = saved?.mode === 'commission' ? 'commission' : 'resale'; for (const which of ['A','B']) fields.forEach(([key]) => {$(which+'-'+key).value = typeof saved?.[which]?.[key] === 'string' ? saved[which][key] : '';}); updateModel();}
   function scenarioInput(which) {const input = {mode: $('businessMode').value}; fields.forEach(([key]) => {input[key] = $(which+'-'+key).value.trim();}); return input;}
   function money(cents) {if (cents === null || cents === undefined) return 'Por confirmar'; return window.JaimeEconomics?.formatCents ? window.JaimeEconomics.formatCents(cents) : (cents / 100).toLocaleString('es-ES',{style:'currency',currency:'EUR'});}
+  const paidCommissionLabel = 'Comisión pagada por unidad';
   function renderResults() {
     const root = $('calculationResults'); root.replaceChildren(); const values = {};
     for (const which of ['A','B']) {
@@ -324,7 +325,16 @@
         if (!window.JaimeEconomics?.calculate) throw new Error('El cálculo no está disponible en esta versión.');
         const result = window.JaimeEconomics.calculate(input); values[which] = {input,result};
         if (result.status !== 'complete') {card.append(el('p','result-warning','Falta confirmar: '+result.missing.join(', ')+'. Los campos vacíos no se consideran cero.')); continue;}
-        const grid = el('div','result-grid'); [['Contribución por unidad',money(result.perUnitCents)],['Resultado del periodo',money(result.resultCents)],['Ingreso por unidad',money(result.revenueCents)],['Unidades para cubrir costes',result.breakEvenUnits === null ? 'No se alcanza' : String(result.breakEvenUnits)]].forEach(([label,value]) => {const box = el('div','',label); box.append(el('strong','',value)); grid.append(box);}); card.append(grid);
+        const grid = el('div','result-grid');
+        const metrics = [
+          ['Contribución por unidad', money(result.perUnitCents)],
+          ['Resultado del periodo', money(result.resultCents)],
+          ['Ingreso por unidad', money(result.revenueCents)]
+        ];
+        if (result.mode === 'resale') metrics.push([paidCommissionLabel, money(result.commissionCents)]);
+        metrics.push(['Unidades para cubrir costes', result.breakEvenUnits === null ? 'No se alcanza' : String(result.breakEvenUnits)]);
+        metrics.forEach(([label,value]) => {const box = el('div','',label); box.append(el('strong','',value)); grid.append(box);});
+        card.append(grid);
         card.append(el('p','result-formula',typeof result.formula === 'string' ? result.formula : JSON.stringify(result.formula)));
         if (result.breakEvenReason) card.append(el('p','result-warning',result.breakEvenReason));
         (result.warnings || []).forEach(w => card.append(el('p','result-warning',String(w))));
@@ -333,14 +343,41 @@
     if (values.A?.result.status === 'complete' && values.B?.result.status === 'complete') {const difference = values.B.result.resultCents - values.A.result.resultCents; root.append(el('div','comparison', Number.isSafeInteger(difference) ? `B frente a A: ${money(difference)} de diferencia en el resultado del periodo.` : 'La diferencia supera el límite de cálculo exacto. Reduce la escala para comparar.'));}
     calculations = values; $('saveScenarioButton').disabled = values.A?.result.status !== 'complete';
   }
-  function renderSavedScenarios() {const wrap = $('savedScenarios'); wrap.replaceChildren(); if (!active().scenarios.length) return; wrap.append(el('h3','','Guardado en este tema')); active().scenarios.slice(-5).reverse().forEach(s => {const n = el('div','saved-scenario'); n.append(el('strong','',`${shortDate(s.createdAt)} · ${s.mode === 'commission' ? 'Comisión' : 'Venta propia'}`)); for (const which of ['A','B']) if (s.values?.[which]?.result?.status === 'complete') n.append(el('div','',`${which}: ${money(s.values[which].result.resultCents)} de resultado del periodo`)); wrap.append(n);});}
+  function renderSavedScenarios() {
+    const wrap = $('savedScenarios');
+    wrap.replaceChildren();
+    if (!active().scenarios.length) return;
+    wrap.append(el('h3','','Guardado en este tema'));
+    active().scenarios.slice(-5).reverse().forEach(s => {
+      const n = el('div','saved-scenario');
+      n.append(el('strong','',`${shortDate(s.createdAt)} · ${s.mode === 'commission' ? 'Comisión' : 'Venta propia'}`));
+      for (const which of ['A','B']) {
+        const result = s.values?.[which]?.result;
+        if (result?.status !== 'complete') continue;
+        let line = `${which}: ${money(result.resultCents)} de resultado del periodo`;
+        if (s.mode === 'resale') {
+          const amount = Number.isSafeInteger(result.commissionCents) ? money(result.commissionCents) : 'Por confirmar';
+          line += ` · ${paidCommissionLabel}: ${amount}`;
+        }
+        n.append(el('div','',line));
+      }
+      wrap.append(n);
+    });
+  }
   $('numbersButton').addEventListener('click', () => {restoreCalculator(); renderSavedScenarios(); openDialog('numbersDialog');});
   $('businessMode').addEventListener('change', () => {updateModel(); saveCalculatorDraft();});
   $('calculateButton').addEventListener('click', renderResults);
   $('loadExampleButton').addEventListener('click', () => {$('businessMode').value = 'resale'; updateModel(); const base = {price:'14',purchase:'9',transport:'1,20',variableOther:'0',commissionRate:'5',fixed:'310',units:'100'}; for (const which of ['A','B']) fields.forEach(([key]) => {$(which+'-'+key).value = which === 'B' && key === 'price' ? '12' : base[key];}); saveCalculatorDraft(); renderResults(); toast('Ejemplo hipotético cargado. No son tus precios ni una oferta.');});
   $('saveScenarioButton').addEventListener('click', () => {
     if (!calculations || calculations.A?.result.status !== 'complete') return; const idea = active(); const saved = {id:uid(),createdAt:date(),mode:$('businessMode').value,values:calculations}; idea.scenarios.push(saved);
-    const summary = ['Hipótesis guardada. Importes sin IVA; incluye como coste el IVA no recuperable. No es una previsión de ingresos.']; for (const which of ['A','B']) if (calculations[which]?.result.status === 'complete') {const r = calculations[which].result; summary.push(`${which}: contribución ${money(r.perUnitCents)} por unidad; resultado del periodo ${money(r.resultCents)}; equilibrio ${r.breakEvenUnits === null ? 'no alcanzable con estos datos' : r.breakEvenUnits+' unidades'}.`);}
+    const summary = ['Hipótesis guardada. Importes sin IVA; incluye como coste el IVA no recuperable. No es una previsión de ingresos.'];
+    for (const which of ['A','B']) {
+      const r = calculations[which]?.result;
+      if (r?.status !== 'complete') continue;
+      let line = `${which}: contribución ${money(r.perUnitCents)} por unidad; resultado del periodo ${money(r.resultCents)}; equilibrio ${r.breakEvenUnits === null ? 'no alcanzable con estos datos' : r.breakEvenUnits+' unidades'}.`;
+      if (r.mode === 'resale') line += ` ${paidCommissionLabel}: ${money(r.commissionCents)}.`;
+      summary.push(line);
+    }
     idea.messages.push({id:uid(),role:'calculation',createdAt:date(),text:summary.join('\n'),attachments:[]}); touch(idea); renderSavedScenarios(); render(); $('saveScenarioButton').disabled = true; calculations = null; toast('Hipótesis guardada en este tema.');
   });
 
