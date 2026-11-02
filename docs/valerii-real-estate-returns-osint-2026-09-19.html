@@ -503,8 +503,15 @@ function renderMarkets(){
   selectMarket(0);drawMarket()
 }
 function selectMarket(i){
-  state.market=state.data.markets[i];
+  state.market=state.data.markets[i]||null;
+  $('seedBtn').disabled=$('copyMarketBtn').disabled=!state.market;
   document.querySelectorAll('.marketbtn').forEach(function(b,j){b.classList.toggle('active',j===i)});
+  if(!state.market){
+    $('marketDetail').textContent='This shared scenario has no matching market in the snapshot. Select a market to view its source data.';
+    $('marketConflict').textContent='';
+    drawMarket();
+    return;
+  }
   var m=state.market,ten=m.price_10y_nominal_snapshots||[];
   var spread=ten.length>1?Math.max.apply(null,ten)-Math.min.apply(null,ten):0;
   var vals=[
@@ -564,6 +571,9 @@ function loadHash(){
     var p=JSON.parse(decodeURIComponent(escape(atob(location.hash.slice(10)))));
     var map={purchase:'purchase',yield:'yield',growth:'growth',hold:'hold',ltv:'ltv',mortgage:'mortgage',term:'term',vacancy:'vacancy',opex:'opex',capex:'capex',rentGrowth:'rentGrowth',acq:'acq',exit:'exit',rentTax:'rentTax',cgTax:'cgTax',fx:'fx',inflation:'inflation'};
     Object.keys(map).forEach(function(k){if(p[k]!==undefined){var v=p[k],percent=['yield','growth','ltv','mortgage','vacancy','opex','capex','rentGrowth','acq','exit','rentTax','cgTax','fx','inflation'].indexOf(k)>=0;$(map[k]).value=percent?(v*100):v}});
+    var marketIndex=state.data.markets.findIndex(function(m){return m.name===p.market});
+    selectMarket(marketIndex);
+    $('scenarioTitle').textContent=state.market?'Restored scenario · '+state.market.name:'Restored scenario';
     setMode('full');toast('Scenario restored from URL')
   }catch(e){}
 }
@@ -600,7 +610,8 @@ function wire(){
   window.addEventListener('resize',function(){drawMarket();if(state.last)drawCash(state.last.series);if(state.monte)drawDist(state.monte)})
 }
 fetch(DATA_URL,{cache:'no-store'}).then(function(r){if(!r.ok)throw new Error('snapshot');return r.json()}).then(function(d){
-  state.data=d;renderMarkets();renderConflicts();renderSources();wire();setMode('core');loadHash();updateUnknownMeter()
+  state.data=d;renderMarkets();renderConflicts();renderSources();wire();setMode('core');loadHash();updateUnknownMeter();
+  window.addEventListener('hashchange',loadHash)
 }).catch(function(){
   document.body.insertAdjacentHTML('afterbegin','<div style="padding:12px;background:#381d1d;color:#ffd4d4;text-align:center">Evidence snapshot failed to load. The methodology remains visible, but market data is unavailable.</div>')
 })
