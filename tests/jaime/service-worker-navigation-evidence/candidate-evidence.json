@@ -1,0 +1,31 @@
+{
+  "schema": "JAIME_PRIVATE_NAVIGATION_CANDIDATE_EVIDENCE_V1",
+  "status": "TESTED_ISOLATED_NOT_ADMITTED_NOT_DEPLOYED",
+  "changes": [
+    "docs/jaime/sw.js",
+    "tests/jaime/service-worker-navigation.test.cjs",
+    "tests/jaime/service-worker-navigation-evidence/"
+  ],
+  "worker_preimage_sha256": "6971fcd29a4b293401c4e41147d7d46675aed3d832fee5e19cbfe4505c499274",
+  "worker_candidate_sha256": "5a676091902c63d89f05d8b3b43506984075f42ed18294b050939ffb7ca94106",
+  "automated_candidate_tests": {
+    "passed": 9,
+    "failed": 0,
+    "mode": "Node VM source and exact owner predicate; synthetic headers"
+  },
+  "public_wpt_browser_tests": {
+    "passed": 83,
+    "failed": 0,
+    "url": "https://wpt.live/service-workers/service-worker/navigation-headers.https.html",
+    "browser": "Chrome cloud",
+    "scope": "Browser metadata mechanism; not Jaime application acceptance"
+  },
+  "historical_first_cloudflare_request_headers_captured": false,
+  "exact_local_reload_browser_harness_executed": false,
+  "physical_iphone_tested": false,
+  "source_guard_modified": false,
+  "mac_modified": false,
+  "production_modified": false,
+  "session_duration_modified": false,
+  "rollback": "Restore sw.preimage.js using the admitted deployment procedure; allow normal worker lifecycle; no forced takeover"
+}

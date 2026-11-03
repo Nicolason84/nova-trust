@@ -1,0 +1,110 @@
+{
+  "schema": "JAIME_TAURINE_CONTENT_VALIDATION_V1",
+  "recordedAtUtc": "2026-10-30T23:25:55.352258+00:00",
+  "producer": "GPT delegated source/content work; not attributed to SUPRA",
+  "status": "PASS_STATIC_CONTENT_CHECKS_ONLY",
+  "scope": "Isolated scratch candidate; no admitted or deployed-runtime modification",
+  "files": [
+    {
+      "path": "tools/jaime-secure/taurino-content/research-learning.json",
+      "sha256": "3c6e295be919d151ee201aa604e578f1ddc5860c7e2484c61853b0be68ef1fb2",
+      "bytes": 84460
+    },
+    {
+      "path": "docs/jaime/data/taurino-content.json",
+      "sha256": "7952522af57a00d77cc183e8f8701c4eaa9c18237db15cdda6ad8a1cbc1adf86",
+      "bytes": 100816
+    },
+    {
+      "path": "tools/jaime-secure/tests/taurino-core.test.mjs",
+      "sha256": "eae5a48ed84eb3c9592b81a15b6cb23edd8d5b47338ec3c50c9e02bd33527c9b",
+      "bytes": 12514
+    },
+    {
+      "path": "tools/jaime-secure/tests/taurino-grounding-corpus.test.mjs",
+      "sha256": "6ba7e53040856ad80d84d26a0960a9791191338ab435896fb5811227f90c23fb",
+      "bytes": 7984
+    },
+    {
+      "path": "tests/jaime/taurine-p0/recipe.json",
+      "sha256": "c01358d1e3fa38988abf3a6aff483dd4b3344e6d361e9fff1929ca6361f29806",
+      "bytes": 13791
+    },
+    {
+      "path": "tests/jaime/taurine-p0/response-contract-es.txt",
+      "sha256": "bda4a1d22d834e3d25209c3a1617383aa607d4745fc1bae96f4a74c330a67d21",
+      "bytes": 1272
+    },
+    {
+      "path": "tests/jaime/taurine-p0/source-word-audit.json",
+      "sha256": "825fc809715ed71d64bf6c4025fb4f2e4b5b3fa90da23ea1e21cce55878ce4bf",
+      "bytes": 2706
+    },
+    {
+      "path": "tests/jaime/taurine-p0/source-verification.json",
+      "sha256": "74d62fe47e2c8e4969a9466dc1b6dfb103e261b56e8009280596f6c6cf2b75b8",
+      "bytes": 7274
+    },
+    {
+      "path": "tests/jaime/taurine-p0/audit_source_words.py",
+      "sha256": "8a8a6ea599d25d274edad3244cffe4adb76e5bd5810ff793a4d4ef210ca68212",
+      "bytes": 3955
+    },
+    {
+      "path": "tests/jaime/taurine-p0/preimages.json",
+      "sha256": "52e4342702d84b4bed909967a44314936b35c815220f6273f2c081ef702c61c6",
+      "bytes": 1781
+    }
+  ],
+  "runs": [
+    {
+      "command": "python3 tools/jaime-secure/taurino-content/build-content.py",
+      "exitCode": 0,
+      "outputBytes": 100816
+    },
+    {
+      "command": "node tools/jaime-secure/tests/taurino-core.test.mjs",
+      "exitCode": 0,
+      "tests": 11,
+      "pass": 11,
+      "fail": 0
+    },
+    {
+      "command": "node tools/jaime-secure/tests/taurino-grounding-corpus.test.mjs",
+      "exitCode": 0,
+      "tests": 8,
+      "pass": 8,
+      "fail": 0,
+      "includes": "validateContent, preservation, reviewed factual anchors, word attribution for preimage and candidate, offline deterministic build"
+    }
+  ],
+  "counts": {
+    "sources": 51,
+    "lessons": 13,
+    "glossary": 48,
+    "ranches": 5,
+    "events": 8,
+    "existingEpisodeMetadata": 2
+  },
+  "learningSourceWordAudit": {
+    "sources": 29,
+    "maximum": 192,
+    "limit": 200
+  },
+  "modelRecipe": {
+    "cases": 18,
+    "executed": 0,
+    "status": "NOT_RUN"
+  },
+  "limitations": {
+    "actualModelTested": false,
+    "realBrowserTested": false,
+    "physicalIphoneTested": false,
+    "audioPlaybackTested": false,
+    "humanGateAdmission": false,
+    "deployed": false,
+    "nativePreimageIdentityAttested": false,
+    "liveResearchEnabled": false
+  },
+  "initialTestFailureResolved": "One new static-test pattern used no se define where the reviewed text says ni se define; corrected the test, no factual data change."
+}

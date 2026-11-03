@@ -1,0 +1,12 @@
+{
+  "schema": "JAIME_PUBLIC_WPT_BROWSER_EVIDENCE_V1",
+  "source_url": "https://wpt.live/service-workers/service-worker/navigation-headers.https.html",
+  "browser": "Chrome cloud",
+  "harness_observed": "OK",
+  "test_count_observed": 83,
+  "pass_count_observed": 83,
+  "important_row_observed": "Pass\tGET Navigation, cross-site with passthrough service worker sets correct sec-fetch headers.\t\nAsserts run\nPass\t\nassert_equals(\"cross-site\", \"cross-site\", \"sec-fetch-site header\")\n    at Test.<anonymous> ( /service-workers/service-worker/navigation-headers.https.html:607:3)\n\nPass\t\nassert_equals(\"navigate\", \"navigate\", \"sec-fetch-mode header\")\n    at Test.<anonymous> ( /service-workers/service-worker/navigation-headers.https.html:608:3)\n\nPass\t\nassert_equals(\"empty\", \"empty\", \"sec-fetch-dest header\")\n    at Test.<anonymous> ( /service-workers/service-worker/navigation-headers.https.html:609:3)",
+  "original_jaime_headers_captured": false,
+  "physical_iphone_test": false,
+  "screenshot": "wpt-jaime-navigation-assertions-1793402424108.jpg"
+}

@@ -91,7 +91,7 @@ test('Real assembled content preserves source caveats, discrepancies and local e
   const data = builtContent();
   assert.strictEqual(validateContent(data), data);
   assert.equal(data.events.length, 8);
-  assert.equal(data.lessons.length, 12);
+  assert.equal(data.lessons.length, 13);
   assert.equal(data.episodes[0].durationSeconds, 186.502676);
   assert.equal(data.episodes[1].durationSeconds, 205.078639);
   assert.deepEqual(data.episodes[1].sourceIds, ['ventas-20261011']);

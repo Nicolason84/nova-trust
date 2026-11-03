@@ -1,0 +1,9 @@
+{
+  "kind": "JAIME_REVIEWED_AUTHORITY_PREDICATE_FIXTURE_V1",
+  "source": "integrations/jaime/web-owner/jaime-owner-profile.cjs",
+  "source_sha256": "2c82764b9b5d86983d87333c566d9602dc7db57e015d0a82d0e171b34d306956",
+  "predicate_sha256": "8c45374eb5320cd784263e43b9a4b649c67c1d65c520b972e411e0ed865b6c60",
+  "entry": "const entry=req.method==='GET'&&req.headers['sec-fetch-mode']==='navigate'&&req.headers['sec-fetch-dest']==='document'&&req.headers.origin===undefined;",
+  "rejection": "if(count(req,'origin')>1||req.headers.origin!==undefined&&req.headers.origin!==c.publicOrigin||count(req,'sec-fetch-site')>1||req.headers['sec-fetch-site']!==undefined&&!['same-origin','none'].includes(req.headers['sec-fetch-site'])&&!entry||count(req,'x-ojo-live-token')||/(?:^|;\\s*)SUPRA_OJO_CONTINUOUS=/i.test(req.headers.cookie||''))return deny(403,'JAIME_BROWSER_AUTHORITY_REJECTED');",
+  "scope": "Exact reviewed source predicate, isolated from authentication; no live request captured"
+}

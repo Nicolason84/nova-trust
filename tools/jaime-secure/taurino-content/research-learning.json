@@ -425,6 +425,31 @@
         "S15"
       ],
       "wordCount": 122
+    },
+    {
+      "id": "L13",
+      "title": "Casta, encaste y ganadería: tres niveles distintos",
+      "level": "Inicio",
+      "minutes": 8,
+      "objective": "Distinguir procedencia histórica, población reproductora y explotación, y comprobar cuándo se usa casta como valoración de comportamiento.",
+      "paragraphs": [
+        {
+          "kind": "sourced",
+          "text": "El MAPA sitúa entre las castas fundacionales Morucha Castellana, Jijona-Toros de la Tierra, Navarra, Cabrera, Gallardo, Vistahermosa y Vazqueña. Son referencias históricas de procedencia, no nombres de toros individuales.",
+          "sourceIds": [
+            "S34"
+          ]
+        },
+        {
+          "kind": "editorial",
+          "text": "Antes de comparar, aclara el sentido de cada palabra. Una explotación puede cambiar de propietario o ganado; una etiqueta de procedencia no decide cómo se comportará un individuo. Si alguien dice que un toro tiene casta, pregunta qué conducta observó: puede estar valorando comportamiento, no citando una genealogía.",
+          "sourceIds": []
+        }
+      ],
+      "exercise": "Explica la diferencia entre cambiar el propietario de una finca y cambiar la procedencia de sus reproductores; señala qué registros necesitarías.",
+      "sourceIds": [
+        "S34"
+      ]
     }
   ],
   "glossary": [
@@ -439,9 +464,10 @@
     {
       "id": "T02",
       "term": "Encaste",
-      "definition": "Población de procedencia común desarrollada por selección, a veces mediante cruzamientos, dentro de la raza de lidia.",
+      "definition": "Subpoblación de una raza, formada mediante reproducción y selección dentro de un grupo de procedencia común. El MAPA precisa estabilidad genética y aislamiento reproductivo durante al menos cinco generaciones.",
+      "editorialNote": "No equivale a una explotación ganadera ni se define como descendencia de un único toro. Para la formación histórica, consulta la ficha de procedencias.",
       "sourceIds": [
-        "S01"
+        "S33"
       ]
     },
     {
@@ -1108,6 +1134,22 @@
         "S25"
       ],
       "url": "https://ganaderosdebravo.es/es/ganaderia/ugv/"
+    },
+    {
+      "id": "R05",
+      "name": "Miura",
+      "region": "Andalucía, provincia de Sevilla",
+      "locations": [
+        "Zahariche, Lora del Río"
+      ],
+      "declaredLineage": "Miura",
+      "attributedFact": "La RUCTL fecha su formación por Juan Miura en 1842; registra aportaciones iniciales de origen Gallardo y posteriores de Cabrera y Vistahermosa. Su antigüedad es el 30 de abril de 1849, fecha de la corrida completa presentada en Madrid según Cultura. Fundación y antigüedad son datos distintos.",
+      "observationQuestion": "¿Qué documentos permiten separar la formación de la ganadería, sus incorporaciones de ganado y su antigüedad en Madrid?",
+      "sourceIds": [
+        "S35",
+        "S36"
+      ],
+      "url": "https://ganaderosdebravo.es/es/ganaderia/uft/"
     }
   ],
   "sources": [
@@ -1341,6 +1383,46 @@
       "type": "ficha primaria de asociación ganadera",
       "date": null,
       "caveat": "Procedencia e implantación declaradas en el directorio consultado; no certificación genética independiente ni garantía del comportamiento individual."
+    },
+    {
+      "id": "S33",
+      "title": "Información de razas: encaste, estirpe o variedad",
+      "publisher": "Ministerio de Agricultura, Pesca y Alimentación",
+      "url": "https://www.mapa.gob.es/es/ganaderia/temas/zootecnia/razas-ganaderas/razas",
+      "type": "definición zootécnica oficial",
+      "date": null,
+      "retrievedOn": "2026-10-31",
+      "caveat": "Define una población reproductora; no identifica un único toro fundador ni garantiza conductas individuales."
+    },
+    {
+      "id": "S34",
+      "title": "Lidia: origen y desarrollo",
+      "publisher": "Ministerio de Agricultura, Pesca y Alimentación",
+      "url": "https://www.mapa.gob.es/es/ganaderia/temas/zootecnia/razas-ganaderas/razas/catalogo-razas/bovino/lidia",
+      "type": "ficha oficial de raza",
+      "date": null,
+      "retrievedOn": "2026-10-31",
+      "caveat": "Síntesis histórica oficial; distinguir procedencia de valoración de comportamiento."
+    },
+    {
+      "id": "S35",
+      "title": "Miura: ficha de ganadería",
+      "publisher": "Real Unión de Criadores de Toros de Lidia",
+      "url": "https://ganaderosdebravo.es/es/ganaderia/uft/",
+      "type": "ficha primaria de asociación ganadera",
+      "date": null,
+      "retrievedOn": "2026-10-31",
+      "caveat": "Historia atribuida al directorio; no predice la conducta de cada animal. Se omiten contactos y fechas históricas discutidas."
+    },
+    {
+      "id": "S36",
+      "title": "Medalla de Oro al Mérito en las Bellas Artes 2022: Miura",
+      "publisher": "Ministerio de Cultura",
+      "url": "https://www.cultura.gob.es/cultura/tauromaquia/noticias/2023/medalla-bbaa-miura.html",
+      "type": "noticia institucional",
+      "date": null,
+      "retrievedOn": "2026-10-31",
+      "caveat": "Confirma antigüedad y localización; el elogio institucional no es una valoración técnica de todos los ejemplares."
     }
   ],
   "researchRefs": [
@@ -1564,6 +1646,39 @@
       ],
       "consultedAt": "2026-10-30",
       "access": "ficha oficial consultada"
+    },
+    {
+      "sourceId": "S33",
+      "referenceIds": [
+        "turn20search0"
+      ],
+      "consultedAt": "2026-10-31",
+      "access": "contenido oficial recuperado por búsqueda; no apertura directa verificada"
+    },
+    {
+      "sourceId": "S34",
+      "referenceIds": [
+        "turn24search4"
+      ],
+      "consultedAt": "2026-10-31",
+      "access": "contenido oficial recuperado por búsqueda; no apertura directa verificada"
+    },
+    {
+      "sourceId": "S35",
+      "referenceIds": [
+        "turn27view0",
+        "turn24search0"
+      ],
+      "consultedAt": "2026-10-31",
+      "access": "texto primario consultado"
+    },
+    {
+      "sourceId": "S36",
+      "referenceIds": [
+        "turn20search3"
+      ],
+      "consultedAt": "2026-10-31",
+      "access": "contenido oficial recuperado por búsqueda; no apertura directa verificada"
     }
   ],
   "sourceWordAudit": {
@@ -1574,7 +1689,7 @@
     "entries": [
       {
         "sourceId": "S01",
-        "attributedWords": 164,
+        "attributedWords": 146,
         "bibliographyWords": 19,
         "paths": [
           {
@@ -1584,10 +1699,6 @@
           {
             "path": "lessons.L01.paragraphs.0",
             "words": 33
-          },
-          {
-            "path": "glossary.T02",
-            "words": 18
           },
           {
             "path": "glossary.T03",
@@ -2180,6 +2291,66 @@
           {
             "path": "ranches.R04.sourcedFields",
             "words": 45
+          }
+        ]
+      },
+      {
+        "sourceId": "S33",
+        "attributedWords": 70,
+        "bibliographyWords": 16,
+        "paths": [
+          {
+            "path": "sources.S33.bibliography",
+            "words": 16
+          },
+          {
+            "path": "glossary.T02",
+            "words": 54
+          }
+        ]
+      },
+      {
+        "sourceId": "S34",
+        "attributedWords": 43,
+        "bibliographyWords": 14,
+        "paths": [
+          {
+            "path": "sources.S34.bibliography",
+            "words": 14
+          },
+          {
+            "path": "lessons.L13.paragraphs.0",
+            "words": 29
+          }
+        ]
+      },
+      {
+        "sourceId": "S35",
+        "attributedWords": 74,
+        "bibliographyWords": 17,
+        "paths": [
+          {
+            "path": "sources.S35.bibliography",
+            "words": 17
+          },
+          {
+            "path": "ranches.R05.sourcedFields",
+            "words": 57
+          }
+        ]
+      },
+      {
+        "sourceId": "S36",
+        "attributedWords": 73,
+        "bibliographyWords": 16,
+        "paths": [
+          {
+            "path": "sources.S36.bibliography",
+            "words": 16
+          },
+          {
+            "path": "ranches.R05.sourcedFields",
+            "words": 57
           }
         ]
       }

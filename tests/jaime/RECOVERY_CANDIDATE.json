@@ -1,0 +1,59 @@
+{
+  "schema": "JAIME_RECOVERY_CANDIDATE_ACCEPTANCE_V1",
+  "at": "2026-10-30T21:43:30.676240+00:00",
+  "producer": "CHATGPT",
+  "status": "CANDIDATE_TESTED_NOT_ADMITTED_NOT_DEPLOYED",
+  "prior_public_head": "f671c80eb867e43762a5acf8e6c61324160ac376",
+  "private_source_repository": "Nicolason84/nova-era",
+  "private_source_commit": "6ee81386dc53c0439ce519663c7d3b9d51fc6b03",
+  "private_evidence_path": "integrations/tuv5-identity-20261030/evidence/recovery-test-summary.json",
+  "unit_cases": 155,
+  "public_unit_cases": 65,
+  "private_unit_cases": 90,
+  "browser_cases": 23,
+  "browser_suites": [
+    {
+      "path": "tests/jaime/recovery-evidence/browser-result.json",
+      "repository": "Nicolason84/nova-trust",
+      "cases": 14,
+      "sha256": "87a34ce14f6cf1d73fdadbbbe26257aafef26b903b049b3d4b6b175beb53ecb8",
+      "all_network_intercepted": true
+    },
+    {
+      "path": "tests/jaime/recovery-entry-evidence/browser-result.json",
+      "repository": "Nicolason84/nova-trust",
+      "cases": 9,
+      "sha256": "2a639852fe65ed6f5ec98d4b5f1656f4a5c0b0da958edcce9d6c1cf5411edd8e",
+      "all_network_intercepted": true
+    }
+  ],
+  "public_source_fingerprints": [
+    {
+      "path": "docs/jaime/app.js",
+      "sha256": "422027c04300d3a2ed03cafaf3aaf5022a269fbef9d989d8bf45588cce33415b"
+    },
+    {
+      "path": "docs/jaime/ios-compat.css",
+      "sha256": "2e3fa1b64f84da06ac27350f2359035ea0a78d26ddc1721d04519ad6ce3f4a06"
+    },
+    {
+      "path": "docs/jaime/sw.js",
+      "sha256": "6971fcd29a4b293401c4e41147d7d46675aed3d832fee5e19cbfe4505c499274"
+    },
+    {
+      "path": "tests/jaime/identity.browser.cjs",
+      "sha256": "e7dfdf56bb60f1d74a7052ac9a83349742755cee121e65fec90fd65cb9a53574"
+    }
+  ],
+  "all_browser_network_intercepted": true,
+  "real_authentication": false,
+  "real_conversation": false,
+  "physical_iphone": false,
+  "native_review_ready_to_sign": false,
+  "native_signature_created": false,
+  "public_gateway_connected": false,
+  "notes_encrypted_by_change": false,
+  "personal_data_included": false,
+  "deployed": false,
+  "additional_spend_eur": 0
+}

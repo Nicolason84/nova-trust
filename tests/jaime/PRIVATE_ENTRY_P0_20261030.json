@@ -1,0 +1,42 @@
+{
+  "schema": "JAIME_PRIVATE_ENTRY_P0_CANDIDATE_V1",
+  "status": "TESTED_CANDIDATE_NOT_PUBLISHED",
+  "at": "2026-10-30T20:01:29.775093+00:00",
+  "base_commit": "5db28617637f5d17b3a936403c709260457a94b4",
+  "branch": "candidate/jaime-private-delivery-20261030",
+  "private_destination": "https://jaime.nova-era.fr/ojo/jaime/",
+  "source_sha256": {
+    "docs/jaime/index.html": "d99dfaa15e74c7e7e80e8dd6245b656878da5cd75944d9b0d611a879332f43ba",
+    "docs/jaime/start.html": "cb833e40d412cde2cb16a82ea6b8d0b6ae7f8f9f4ce88bad368fce8fd4a77e8c",
+    "docs/jaime/start.js": "59af8cc00617198577407f3043bd46299c4829c084149633d0ba96c8130c609e",
+    "docs/jaime/ios-compat.css": "05a9da9514367c3843589c3ba5fe91e69e12905be8717ec0503bae6ef926a4d8",
+    "docs/jaime/instalar.html": "e98c19fa03cf487f3ef925d5dc5440cd64cd0c2f40a0890295ca774c48bba515",
+    "docs/jaime/instalar.js": "57a78bcfdcc5d4822cd35eb524d55f823ca767db0b6783bc5c54b39f64e6af55",
+    "docs/jaime/sw.js": "c302878b17ea166a5c286480718f9678765d557b4b062bde71903cc2ee73fb22"
+  },
+  "tests": {
+    "unit_pass": 65,
+    "unit_fail": 0,
+    "browser_fixture_cases_pass": 9,
+    "network_intercepted": true,
+    "private_service_contacted": false,
+    "authenticated_end_to_end_this_turn": false,
+    "physical_iphone": false
+  },
+  "privacy": {
+    "automatic_notebook_transfer": false,
+    "personal_consent_inferred": false,
+    "new_notifications": false,
+    "private_runtime_sources_modified": false
+  },
+  "publication": {
+    "pages_branch": "main",
+    "pages_path": "/docs",
+    "replaced_public_version": false,
+    "authenticated_browser_retest_required": true,
+    "automatic_origin_approval_blocked": true
+  },
+  "rollback_reverse_check": "PASS_DRY_RUN_NO_PRODUCTION_ROLLBACK",
+  "additional_spend_eur": 0,
+  "orchestration_95_5_measured": false
+}

@@ -1,0 +1,65 @@
+{
+  "schema": "JAIME_AUTHORITY_PREDICATE_SYNTHETIC_PROOF_V1",
+  "at": "2026-10-30T23:21:03.005Z",
+  "executed_by": "GPT_isolated_scratch",
+  "original_private_incident_headers_captured": false,
+  "real_authentication_tested": false,
+  "owner_source_sha256": "2c82764b9b5d86983d87333c566d9602dc7db57e015d0a82d0e171b34d306956",
+  "cases": [
+    {
+      "name": "original_navigation",
+      "headers": {
+        "sec-fetch-site": "cross-site",
+        "sec-fetch-mode": "navigate",
+        "sec-fetch-dest": "document"
+      },
+      "authority_rejected": false,
+      "expected": false,
+      "pass": true
+    },
+    {
+      "name": "service_worker_passthrough",
+      "headers": {
+        "sec-fetch-site": "cross-site",
+        "sec-fetch-mode": "navigate",
+        "sec-fetch-dest": "empty"
+      },
+      "authority_rejected": true,
+      "expected": true,
+      "pass": true
+    },
+    {
+      "name": "fresh_address_bar_tab",
+      "headers": {
+        "sec-fetch-site": "none",
+        "sec-fetch-mode": "navigate",
+        "sec-fetch-dest": "empty"
+      },
+      "authority_rejected": false,
+      "expected": false,
+      "pass": true
+    },
+    {
+      "name": "direct_tab_reload_same_origin",
+      "headers": {
+        "sec-fetch-site": "same-origin",
+        "sec-fetch-mode": "navigate",
+        "sec-fetch-dest": "empty"
+      },
+      "authority_rejected": false,
+      "expected": false,
+      "pass": true
+    },
+    {
+      "name": "cross_site_fetch_still_denied",
+      "headers": {
+        "sec-fetch-site": "cross-site",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-dest": "empty"
+      },
+      "authority_rejected": true,
+      "expected": true,
+      "pass": true
+    }
+  ]
+}
