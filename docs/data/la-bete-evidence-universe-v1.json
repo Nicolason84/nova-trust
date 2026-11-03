@@ -29,10 +29,10 @@
     "unpopulated_kinds_are_not_fabricated": true
   },
   "state": "READ_ONLY_PUBLIC_PROOFGRAPH_DERIVED_PROJECTION",
-  "projection_fingerprint": "50d75a77a53ef28fd53049987e463dac73b79ec9203fdbdd3f6b9d8a112e6be6",
+  "projection_fingerprint": "bdc08ca395628ce103223641824eb8404031b5ec5a15ee5d949c664ef3011fc3",
   "generated_from": {
-    "live_snapshot_id": "OJO-F4C78888BB4579C4",
-    "live_sequence": 76,
+    "live_snapshot_id": "OJO-2270D6A2883F81DC",
+    "live_sequence": 77,
     "territory_discovery_fingerprint": "489dbab4e1692710a23538d07d8be80e0a579cc8462ff55bcd4dbf75f633844c",
     "living_identity_fingerprint": "f6ae7f0a87933250c01a74439329e84af939745c1a023e75d79aa6bdfde5b8d4"
   },
@@ -752,7 +752,7 @@
         "spine_schema": "SUPRA_PROOFGRAPH_PUBLIC_PROJECTION_V1",
         "proof_refs": [
           "decision_delta",
-          "OJO-F4C78888BB4579C4"
+          "OJO-2270D6A2883F81DC"
         ],
         "source_urls": [
           "data/france-debt-rate-live.json"
@@ -811,51 +811,6 @@
         "signal": {
           "status": "MATERIAL_CHANGE",
           "previous_state": {
-            "date": "2026-10-30",
-            "curve": [
-              {
-                "tenor_years": 1,
-                "rate_pct": 3.364
-              },
-              {
-                "tenor_years": 2,
-                "rate_pct": 3.681
-              },
-              {
-                "tenor_years": 3,
-                "rate_pct": 3.91
-              },
-              {
-                "tenor_years": 5,
-                "rate_pct": 4.29
-              },
-              {
-                "tenor_years": 7,
-                "rate_pct": 4.601
-              },
-              {
-                "tenor_years": 10,
-                "rate_pct": 4.93
-              },
-              {
-                "tenor_years": 15,
-                "rate_pct": 5.21
-              },
-              {
-                "tenor_years": 20,
-                "rate_pct": 5.327
-              },
-              {
-                "tenor_years": 25,
-                "rate_pct": 5.283
-              },
-              {
-                "tenor_years": 30,
-                "rate_pct": 5.427
-              }
-            ]
-          },
-          "current_state": {
             "date": "2026-11-02",
             "curve": [
               {
@@ -896,16 +851,57 @@
               }
             ]
           },
+          "current_state": {
+            "date": "2026-11-03",
+            "curve": [
+              {
+                "tenor_years": 2,
+                "rate_pct": 3.663
+              },
+              {
+                "tenor_years": 3,
+                "rate_pct": 3.905
+              },
+              {
+                "tenor_years": 5,
+                "rate_pct": 4.293
+              },
+              {
+                "tenor_years": 7,
+                "rate_pct": 4.595
+              },
+              {
+                "tenor_years": 10,
+                "rate_pct": 4.928
+              },
+              {
+                "tenor_years": 15,
+                "rate_pct": 5.215
+              },
+              {
+                "tenor_years": 20,
+                "rate_pct": 5.335
+              },
+              {
+                "tenor_years": 25,
+                "rate_pct": 5.288
+              },
+              {
+                "tenor_years": 30,
+                "rate_pct": 5.441
+              }
+            ]
+          },
           "delta_bps": {
-            "2": -1.5,
-            "3": -1.7,
-            "5": -1.5,
-            "7": -2.5,
-            "10": -2.1,
-            "15": -2.1,
-            "20": -2.1,
-            "25": -3.9,
-            "30": -2.0
+            "2": -0.3,
+            "3": 1.2,
+            "5": 1.8,
+            "7": 1.9,
+            "10": 1.9,
+            "15": 2.6,
+            "20": 2.9,
+            "25": 4.4,
+            "30": 3.4
           },
           "transmission_channel": "Yield curve → new issuance/refinancing → portfolio average cost → interest charge over time.",
           "possible_impact": "Directional exposure may change if the move persists and reaches maturities that must be financed; no automatic budget amount is inferred from TEC10 alone.",
@@ -1141,7 +1137,7 @@
       "proofgraph": {
         "spine_schema": "SUPRA_PROOFGRAPH_PUBLIC_PROJECTION_V1",
         "proof_refs": [
-          "01803575678f40d35fc1ed2934dcd09c248be57e7a3b4c4e38ec12799eb5624b",
+          "50a23c93b75281977e3a2c75db6117643bf79047166dc4ab5ccd25d6f16873a4",
           "OJO_FRANCE_DEBT_RATE_LIVE_V1"
         ],
         "source_urls": [
@@ -1197,20 +1193,20 @@
       "patrimonial_analysis": {
         "trust_deep": {
           "execution": "NOT_EXECUTED_NO_MATCHING_RECEIPT",
-          "document_sha256": "01803575678f40d35fc1ed2934dcd09c248be57e7a3b4c4e38ec12799eb5624b",
+          "document_sha256": "50a23c93b75281977e3a2c75db6117643bf79047166dc4ab5ccd25d6f16873a4",
           "truth_verdict": false
         },
         "coherence_historical": {
           "execution": "NOT_EXECUTED_NO_MATCHING_RECEIPT",
-          "document_sha256": "01803575678f40d35fc1ed2934dcd09c248be57e7a3b4c4e38ec12799eb5624b",
+          "document_sha256": "50a23c93b75281977e3a2c75db6117643bf79047166dc4ab5ccd25d6f16873a4",
           "truth_verdict": false
         }
       },
       "object_refs": [],
       "object_meta": {
         "public_path": "data/france-debt-rate-live.json",
-        "sha256": "01803575678f40d35fc1ed2934dcd09c248be57e7a3b4c4e38ec12799eb5624b",
-        "bytes": 166275,
+        "sha256": "50a23c93b75281977e3a2c75db6117643bf79047166dc4ab5ccd25d6f16873a4",
+        "bytes": 166188,
         "schema": "OJO_FRANCE_DEBT_RATE_LIVE_V1",
         "document_analysis_scope": "FULL_LOCAL_PUBLIC_DOCUMENT"
       },
@@ -1349,7 +1345,7 @@
       "proofgraph": {
         "spine_schema": "SUPRA_PROOFGRAPH_PUBLIC_PROJECTION_V1",
         "proof_refs": [
-          "f8f620c406bdd288bad5c03286b83b78fe60547f7c4ef69e047eeed535de59d6",
+          "55552ce430a6abc882fb76f4165a6ba47da697d5169995556f59889209375abf",
           "OJO_LA_BETE_VIRTUOUS_EVOLUTION_V1"
         ],
         "source_urls": [
@@ -1405,19 +1401,19 @@
       "patrimonial_analysis": {
         "trust_deep": {
           "execution": "NOT_EXECUTED_NO_MATCHING_RECEIPT",
-          "document_sha256": "f8f620c406bdd288bad5c03286b83b78fe60547f7c4ef69e047eeed535de59d6",
+          "document_sha256": "55552ce430a6abc882fb76f4165a6ba47da697d5169995556f59889209375abf",
           "truth_verdict": false
         },
         "coherence_historical": {
           "execution": "NOT_EXECUTED_NO_MATCHING_RECEIPT",
-          "document_sha256": "f8f620c406bdd288bad5c03286b83b78fe60547f7c4ef69e047eeed535de59d6",
+          "document_sha256": "55552ce430a6abc882fb76f4165a6ba47da697d5169995556f59889209375abf",
           "truth_verdict": false
         }
       },
       "object_refs": [],
       "object_meta": {
         "public_path": "data/france-debt-rate-evolution.json",
-        "sha256": "f8f620c406bdd288bad5c03286b83b78fe60547f7c4ef69e047eeed535de59d6",
+        "sha256": "55552ce430a6abc882fb76f4165a6ba47da697d5169995556f59889209375abf",
         "bytes": 427329,
         "schema": "OJO_LA_BETE_VIRTUOUS_EVOLUTION_V1",
         "document_analysis_scope": "FULL_LOCAL_PUBLIC_DOCUMENT"
