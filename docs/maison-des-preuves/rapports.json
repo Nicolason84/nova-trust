@@ -1,0 +1,117 @@
+{
+  "schema": "NOVA_ERA_PUBLIC_REPORT_CATALOG_V1",
+  "default": "episode-2",
+  "reports": [
+    {
+      "id": "episode-2",
+      "title": "Dette française : que change une hausse des taux ?",
+      "eyebrow": "LA BÊTE · Épisode 2",
+      "summary": "Distinguer stock de dette, besoin de financement et charge annuelle. Examiner les hypothèses de taux, retrouver leurs sources et garder visible le écart historique AFT.",
+      "date": "4 novembre 2026",
+      "href": "../rapports/episode-2-dette-taux/",
+      "pdf": "../rapports/episode-2-dette-taux/la-bete-episode-2.pdf",
+      "context": "Dossier scientifique arrêté le 3 novembre 2026 ; corrections documentaires vérifiées le 4 novembre.",
+      "facts": [
+        {
+          "value": "339,7",
+          "unit": "Md€",
+          "label": "Besoin de financement 2027",
+          "status": "Prévision · PLF 2027",
+          "note": "Besoin annuel de financement de l’État. Ce chiffre ne décrit pas le stock de dette.",
+          "source": "AFT · financement 2027",
+          "url": "https://www.aft.gouv.fr/fr/publications/communiques-presse/29092026-besoins-et-ressources-financement-letat-en-2027-et-point"
+        },
+        {
+          "value": "72,9",
+          "unit": "Md€",
+          "label": "Charge de la dette 2027",
+          "status": "Prévision · PLF 2027",
+          "note": "Charge de la dette prévue au budget. Une prévision ne constitue pas une observation de dépense réalisée.",
+          "source": "AFT · financement 2027",
+          "url": "https://www.aft.gouv.fr/fr/publications/communiques-presse/29092026-besoins-et-ressources-financement-letat-en-2027-et-point"
+        },
+        {
+          "value": "340",
+          "unit": "Md€",
+          "label": "Émissions moyen et long terme 2027",
+          "status": "Prévision · PLF 2027",
+          "note": "Programme net des rachats, distinct du besoin de financement et de l’encours brut.",
+          "source": "AFT · programme 2027",
+          "url": "https://www.aft.gouv.fr/fr/publications/communiques-presse/29092026-besoins-et-ressources-financement-letat-en-2027-et-point"
+        }
+      ],
+      "methods": [
+        "Identifier la date, l’unité et le périmètre de chaque indicateur.",
+        "Distinguer une observation, une prévision budgétaire et un stress test.",
+        "Appliquer un choc de taux aux financements effectivement exposés et préciser son horizon ; aucun choc instantané sur tout le stock.",
+        "Garder les écarts de source ouverts tant qu’un rapprochement de même périmètre n’est pas démontré."
+      ],
+      "conflicts": [
+        {
+          "title": "Échéances 2027 : 187,379 ou 178,741 Md€ ?",
+          "status": "Conflit non résolu",
+          "detail": "L’écart de 8,638 Md€ est localisé dans le nominal OAT. Ce rapprochement partiel n’explique pas encore le périmètre ni ne réconcilie les deux montants. Ne pas fusionner ces références.",
+          "effect": "Aucun des deux totaux n’est utilisé ici comme besoin de financement 2027."
+        }
+      ],
+      "sources": [
+        {
+          "title": "AFT — besoins et ressources de financement 2027",
+          "note": "Communiqué du 29 septembre 2026 : besoin 339,7 Md€, programme net 340 Md€, charge 72,9 Md€.",
+          "url": "https://www.aft.gouv.fr/fr/publications/communiques-presse/29092026-besoins-et-ressources-financement-letat-en-2027-et-point"
+        },
+        {
+          "title": "Assemblée nationale — article 57 du PLF 2027",
+          "note": "Tableau de financement : 189,2 + 0,6 + 156,4 − 6,5 = 339,7 Md€.",
+          "url": "https://www.assemblee-nationale.fr/dyn/docs/PRJLANR5L17B3210.raw"
+        },
+        {
+          "title": "AFT — encours de la dette négociable",
+          "note": "Source de contrôle des titres par échéance ; l’écart historique est conservé.",
+          "url": "https://www.aft.gouv.fr/fr/encours-detaille-oat"
+        }
+      ],
+      "limits": [
+        "Ce rapport ne transforme pas une sensibilité de taux en prévision économique.",
+        "Il ne démontre aucune économie budgétaire, recommandation politique ou solution financée.",
+        "Les données privées et conversations ojO ne sont pas publiées dans cette Maison."
+      ]
+    },
+    {
+      "id": "dette-taux-live",
+      "title": "Dette française et risques de taux — rapport vivant",
+      "eyebrow": "LA BÊTE · Rapport public existant",
+      "summary": "Ouvrir la projection publique existante : observations datées, courbes de taux, preuves, hypothèses de sensibilité et limites des sources.",
+      "date": "Rapport vivant · dates propres aux données",
+      "href": "../france-debt-rate-risk-live-2026-10-02.html?house=20261005-v11&lecture=explain&lang=fr",
+      "pdf": null,
+      "context": "Le rapport original affiche ses propres horloges. L’ouverture de cette Maison ne rajeunit aucune donnée.",
+      "facts": [],
+      "methods": [
+        "Consulter les dates de donnée matérielle, de marché et de présentation dans le rapport.",
+        "Suivre les preuves et sources du rapport original pour tout chiffre.",
+        "Conserver les derniers bons états explicitement datés lorsque les sources sont indisponibles."
+      ],
+      "conflicts": [
+        {
+          "title": "Couverture et cohérence AFT",
+          "status": "À vérifier dans le rapport original",
+          "detail": "La Maison conserve l’existence du conflit AFT ; la lecture du rapport vivant est nécessaire pour connaître son état courant.",
+          "effect": "Aucune résolution n’est déduite de la seule présence du rapport."
+        }
+      ],
+      "sources": [
+        {
+          "title": "Rapport public original — preuves et horloges",
+          "note": "Navigation vers les sources, méthodes, incertitudes et séries du rapport vivant.",
+          "url": "../france-debt-rate-risk-live-2026-10-02.html?lecture=explain&lang=fr#/objet/source-domain%3Awww.aft.gouv.fr"
+        }
+      ],
+      "limits": [
+        "Les chiffres du rapport vivant ne sont pas copiés automatiquement dans cette page.",
+        "La scène spatiale existante représente un premier périmètre Bureau et Décision ; les dix espaces documentaires restent accessibles dans la Maison.",
+        "Aucune donnée personnelle ni conversation privée n’est nécessaire à la lecture publique."
+      ]
+    }
+  ]
+}
