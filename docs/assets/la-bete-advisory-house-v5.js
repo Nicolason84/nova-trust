@@ -237,7 +237,8 @@ document.addEventListener('la-bete-dialogue-result',event=>{
  state.questionScope=result.status==='CANONICAL_CONTEXT'?'public':'clarify';
  state.missionStatus=safe?'À QUALIFIER':'À PRÉCISER';
  house.dataset.questionScope=state.questionScope;
- const o=['LOCAL_METHOD_CONTEXT','LOCAL_METHOD_RESULT'].includes(result.status)?{room:'desk',label:'Simulation synthétique rattachée au brouillon · reçu dans le laboratoire, aucune mission native.'}:result.status==='METHOD_RECHECK_REQUIRED'?{room:'desk',label:'Calcul à réexaminer · aucun chiffre ancien présenté comme courant.'}:state.questionScope==='public'?orientationFor(text):{room:'desk',label:'Besoin à préciser · aucune méthode exécutée pour cette question.'};
+ const hasExistingReport=result.references?.some(ref=>ref.status==='PUBLIC_REPORT_EXISTING');
+ const o=hasExistingReport?{room:'desk',label:'Question confirmée · lecture des prévisions 2027 et rapport public existant dans le dialogue.'}:['LOCAL_METHOD_CONTEXT','LOCAL_METHOD_RESULT'].includes(result.status)?{room:'desk',label:'Simulation synthétique rattachée au brouillon · reçu dans le laboratoire, aucune mission native.'}:result.status==='METHOD_RECHECK_REQUIRED'?{room:'desk',label:'Calcul à réexaminer · aucun chiffre ancien présenté comme courant.'}:state.questionScope==='public'?orientationFor(text):{room:'desk',label:'Besoin à préciser · aucune méthode exécutée pour cette question.'};
  state.orientation=o.label;const hint=byId('houseRouteHint');hint.hidden=false;hint.textContent=o.label;
  updateMissionBrief(state.lastQuestion,o);friendlyCase();
  setRoom(o.room,{historyMode:'push'});

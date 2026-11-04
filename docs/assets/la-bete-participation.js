@@ -6,13 +6,51 @@
   if (!D || !form) return;
   const byId = id => document.getElementById(id);
   const history = [];
-  let last = null, current = {live: {}, evolution: {}};
+  let last = null, current = {live: {}, evolution: {}}, pendingQuestion = null;
   function element(tag, value, cls) {
     const e = document.createElement(tag);
     if (value !== undefined) e.textContent = String(value);
     if (cls) e.className = cls;
     return e;
   }
+  // Review the question before invoking the existing analyser. Pending text stays in memory.
+  const scopeNote=element('p','Question → reformulation → confirmation → lecture locale → rapport public existant, lorsque le sujet est couvert. Données publiques ou synthétiques uniquement ; aucun texte de question n’est transmis.','beastQuestionScope');
+  form.before(scopeNote);
+  const reviewPanel=element('section',undefined,'beastQuestionReview');reviewPanel.id='beastQuestionReview';reviewPanel.hidden=true;reviewPanel.setAttribute('aria-labelledby','beastQuestionReviewTitle');
+  const reviewTitle=element('h3','Votre question, reformulée');reviewTitle.id='beastQuestionReviewTitle';
+  const reviewText=element('p');reviewText.id='beastQuestionReformulation';
+  const reviewScope=element('p',undefined,'beastQuestionScope');reviewScope.id='beastQuestionScope';
+  const reviewActions=element('div',undefined,'beastActionRow');
+  const confirmQuestion=element('button','Confirmer et lancer la lecture locale');confirmQuestion.id='beastConfirmQuestion';confirmQuestion.type='button';confirmQuestion.disabled=true;
+  const editQuestion=element('button','Modifier ma question');editQuestion.id='beastEditQuestion';editQuestion.type='button';
+  reviewActions.append(confirmQuestion,editQuestion);reviewPanel.append(reviewTitle,reviewText,reviewScope,reviewActions);form.after(reviewPanel);
+  function contextKey(c){return JSON.stringify({snapshot:c.live?.snapshot_id||null,at:c.live?.updated_at||null,object:c.object?.id||null,objectVersion:c.object?.version||null,draft:draft?draft.id+':'+draft.version:null,cash:cashContext()?.receipt.receipt_sha256||null});}
+  function invalidateQuestion(notice=''){
+    pendingQuestion=null;reviewPanel.hidden=true;confirmQuestion.disabled=true;reviewText.textContent='';reviewScope.textContent='';
+    last=null;byId('beastPublicConsent').checked=false;updateShare();
+    if(notice)byId('beastDialogueNotice').textContent=notice;
+  }
+  function prepareQuestion(){
+    if(ioBusy){byId('beastDialogueNotice').textContent='Terminez la reprise ou l’export du brouillon avant de préparer une question.';return;}
+    const value=byId('beastDialogueInput').value.trim(),kind=byId('beastDialogueKind').value,c=context();
+    invalidateQuestion();const prepared=D.reformulate(value,{...c,kind});
+    if(prepared.status!=='READY'){byId('beastDialogueNotice').textContent=prepared.summary;return;}
+    pendingQuestion=Object.freeze({text:value,kind,contextKey:contextKey(c)});
+    reviewText.textContent=prepared.summary;reviewScope.textContent=prepared.scope;reviewPanel.hidden=false;confirmQuestion.disabled=false;
+    byId('beastDialogueNotice').textContent='Relisez la reformulation. Aucune analyse n’a encore été effectuée pour cette question.';
+    reviewPanel.scrollIntoView({block:'nearest',behavior:'instant'});confirmQuestion.focus({preventScroll:true});
+  }
+  byId('beastDialogueInput').addEventListener('input',()=>invalidateQuestion('Question modifiée : reformulez-la puis confirmez à nouveau.'));
+  byId('beastDialogueKind').addEventListener('change',()=>invalidateQuestion('Nature du message modifiée : une nouvelle confirmation est nécessaire.'));
+  editQuestion.addEventListener('click',()=>{invalidateQuestion('Modifiez votre question puis demandez une nouvelle reformulation.');byId('beastDialogueInput').focus();});
+  confirmQuestion.addEventListener('click',()=>{
+    const approved=pendingQuestion;
+    if(!approved||approved.text!==byId('beastDialogueInput').value.trim()||approved.kind!==byId('beastDialogueKind').value||approved.contextKey!==contextKey(context())){
+      invalidateQuestion('La question ou son contexte a changé. Reformulez puis confirmez à nouveau.');return;
+    }
+    pendingQuestion=null;confirmQuestion.disabled=true;reviewPanel.hidden=true;
+    if(submit(approved.text,approved.kind)){byId('beastDialogueInput').value='';reviewText.textContent='';reviewScope.textContent='';}
+  });
   // One active draft augments this module's existing history; no browser storage.
   let draft=null, restored=false, ioBusy=false;
   const draftPanel=element('details',undefined,'beastDraftPanel');draftPanel.id='beastDraftPanel';
@@ -44,7 +82,7 @@
     byId('beastExportDialogue').disabled=!draft;byId('beastExportDialogue').textContent='Exporter le brouillon';
   }
   function resetDraft(){
-    history.splice(0);last=null;draft=null;restored=false;byId('beastDialogueLog').replaceChildren();byId('beastDialogueInput').value='';byId('beastPublicConsent').checked=false;scopeCheck.checked=false;updateShare();renderDraft();announceDraft('reset');
+    invalidateQuestion();history.splice(0);last=null;draft=null;restored=false;byId('beastDialogueLog').replaceChildren();byId('beastDialogueInput').value='';byId('beastPublicConsent').checked=false;scopeCheck.checked=false;updateShare();renderDraft();announceDraft('reset');
   }
   function confirmReplace(){return !draft||window.confirm('Le brouillon actif sera retiré de cette page. Conservez d’abord son export ; le téléchargement ne garantit pas que vous l’avez enregistré. Continuer ?');}
   newDraft.addEventListener('click',()=>{if(ioBusy)return;if(!confirmReplace())return;resetDraft();byId('beastDialogueNotice').textContent='Nouveau contexte vide. Les fichiers déjà exportés ne sont pas supprimés.';byId('beastDialogueInput').focus();});
@@ -130,6 +168,19 @@
     }
     return current;
   }
+  function reportURL(href){
+    const url=new URL(href),incoming=new URLSearchParams(location.search);
+    const allowed={
+      origine:['linkedin','partage','email','whatsapp','direct','autre'],
+      campagne:['episode01','episode02','ojofrance','decouverte'],
+      utm_source:['linkedin','partage','email','whatsapp','direct','autre'],
+      utm_medium:['document','social','email','referral','partage','link'],
+      utm_campaign:['la_bete_ep02','episode01','episode02','ojofrance','decouverte'],
+      utm_content:['page_1','page_2','page_3','page_4','page_5','page_6','page_7','page_8','linkedin_post','post','carrousel','publication']
+    };
+    for(const[key,values]of Object.entries(allowed)){const v=incoming.get(key);if(values.includes(v))url.searchParams.set(key,v);}
+    return url.href;
+  }
   function message(role, value) {
     const card = element('article', undefined, 'beastMessage beastMessage-' + role);
     card.append(element('strong', role === 'user' ? 'Vous' : 'La Bête'));
@@ -155,7 +206,8 @@
           const href = D.safeURL(ref.url);
           if (!href) return;
           const a = element('a', ref.label + ' · ' + ref.status);
-          a.href = href; a.target = '_blank'; a.rel = 'noopener noreferrer';
+          a.href = ref.status==='PUBLIC_REPORT_EXISTING'?reportURL(href):href; a.target = '_blank'; a.rel = 'noopener noreferrer';
+          if(ref.status==='PUBLIC_REPORT_EXISTING'){a.className='beastExistingReport';a.dataset.publicReport='existing';a.append(element('small','Rapport gratuit déjà publié · ouverture dans une autre page ; le dialogue reste ici.'));}
           list.append(a);
           if (ref.checked_at) list.append(element('small', 'Vérification enregistrée : ' + ref.checked_at));
         });
@@ -177,7 +229,8 @@
     const localHistory = history.filter(x => (x.object_context?.id || null) === (c.object?.id || null) && (x.object_context?.snapshot_id || null) === (c.object?.snapshot_id || c.live?.snapshot_id || null) && (x.object_context?.version || null) === (c.object?.version || null));
     const result = D.analyze(value, {...c, kind, history: localHistory,draftMeta:draft,cashEvidence:cashContext()});
     const methodAnswer=['LOCAL_METHOD_CONTEXT','METHOD_RECHECK_REQUIRED'].includes(result.status);
-    const objectContext = methodAnswer?{id:null,label:'Trésorerie · hypothèses synthétiques',snapshot_id:null}:c.object ? {id:c.object.id,label:c.object.label,snapshot_id:c.object.snapshot_id,version:c.object.version} : {id:null,label:c.context_label || "Flux général",snapshot_id:c.live?.snapshot_id || null};
+    const reportAnswer=result.references?.some(ref=>ref.status==='PUBLIC_REPORT_EXISTING');
+    const objectContext = reportAnswer?{id:null,label:'Prévisions PLF 2027 de l’État français · Épisode 2',snapshot_id:c.live?.snapshot_id||null}:methodAnswer?{id:null,label:'Trésorerie · hypothèses synthétiques',snapshot_id:null}:c.object ? {id:c.object.id,label:c.object.label,snapshot_id:c.object.snapshot_id,version:c.object.version} : {id:null,label:c.context_label || "Flux général",snapshot_id:c.live?.snapshot_id || null};
     result.object_context = objectContext;
     if (['INVALID_INPUT','PRIVATE_DATA_REVIEW','OUTSIDE_AUTHORITY'].includes(result.status)) { last=null;byId('beastPublicConsent').checked=false;updateShare();byId('beastDialogueNotice').textContent=result.summary+' Le texte n’est pas ajouté au brouillon.';return false; }
     let nextDraft,row;
@@ -191,7 +244,7 @@
     history.push(row);
     renderDraft();renderCash();
     byId('beastPublicConsent').checked = false;
-    byId('beastDialogueNotice').textContent = 'Réponse locale. Rien n’a été envoyé ni ajouté au système partagé.';
+    byId('beastDialogueNotice').textContent = 'Lecture de votre question confirmée. Réponse locale ; aucun texte envoyé ni ajouté au système partagé.';
     byId('beastExportDialogue').disabled = false;
     updateShare();
     document.dispatchEvent(new CustomEvent('la-bete-dialogue-result',{detail:{text:value,result,context:c}}));
@@ -242,10 +295,10 @@
   }
   form.addEventListener('submit', event => {
     event.preventDefault();
-    const value = byId('beastDialogueInput').value.trim();
-    if(submit(value, byId('beastDialogueKind').value))byId('beastDialogueInput').value = '';
+    prepareQuestion();
   });
   document.querySelectorAll('[data-beast-question]').forEach(button => button.addEventListener('click', () => {
+    invalidateQuestion('Question proposée : demandez sa reformulation avant de confirmer.');
     byId('beastDialogueInput').value = button.dataset.beastQuestion;
     byId('beastDialogueKind').value = button.dataset.beastKind || 'QUESTION';
     byId('beastDialogueInput').focus();
@@ -265,6 +318,7 @@
   byId('beastClearDialogue').addEventListener('click', () => {
     if(ioBusy)return;resetDraft();byId('beastDialogueNotice').textContent='Brouillon retiré de cette page. Les fichiers exportés et les contributions déjà publiées ne sont pas supprimés.';
   });
+  byId('beastDialogueSubmit').textContent='Reformuler ma question';
   byId('beastDialogueSubmit').disabled = false;
   window.LaBeteParticipation = Object.freeze({update,draftState,cashState:()=>JSON.parse(JSON.stringify(cashContext()))});
   renderDraft();

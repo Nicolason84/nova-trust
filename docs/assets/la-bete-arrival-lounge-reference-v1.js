@@ -38,7 +38,7 @@ house.classList.add('arrivalReferenceV1');
 if(title)title.innerHTML='Réparer<em>le chaos.</em>';
 if(headerCopy)headerCopy.innerHTML='Entrez dans la Maison.<br>Prenez le temps de regarder.';
 house.querySelector('.houseHeader .houseEyebrow').textContent='LA BÊTE · UN UNIVERS À EXPLORER';
-submit.textContent='Explorer ma question →';
+submit.textContent='Reformuler ma question →';
 input.setAttribute('placeholder','Quelle question souhaitez-vous éclaircir sur ce dossier public ?');
 
 /* Discovery first. Reuse the current rooms, question node and original 3D entry. */

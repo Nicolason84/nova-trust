@@ -10,7 +10,7 @@
   const REPO = 'Nicolason84/nova-trust';
   const normalize = x => String(x || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
   const text = x => String(x || '').replace(/[\u0000-\u0008\u000b\u000c\u000e-\u001f]/g, '').trim();
-  const political = /politique|presiden|candidat|election|electoral|parti\b|voter|vote\b|gouvernement|ministre|parlement|depute|senateur|referendum|reforme|fiscal|impot|taxe|retraite|immigration|nationalis|privatis|service public|budget public|loi\b|legislation|macron|lecornu|le pen|melenchon|bardella|trump|democrat|republican|socialiste|communiste|liberalisme|gauche|droite|gagner.*election/;
+  const political = /politique|presiden|candidat|\belections?\b|\belectoral(?:e|es)?\b|\belectoraux\b|parti\b|voter|vote\b|gouvernement|ministre|parlement|depute|senateur|referendum|reforme|fiscal|impot|taxe|retraite|immigration|nationalis|privatis|service public|budget public|loi\b|legislation|macron|lecornu|le pen|melenchon|bardella|trump|democrat|republican|socialiste|communiste|liberalisme|gauche|droite|gagner.*election/;
   const unsafe = /ignore.{0,35}(instruction|regle)|system prompt|revele.{0,30}(cle|secret)|mot de passe|password|contourn.{0,30}(securite|authent|restriction)|desactive.{0,30}(garde|securite)|fabriqu.{0,30}(preuve|source)|falsifi/;
   function sensitive(x) {
     const s = text(x);
@@ -34,6 +34,85 @@
     {id: 'usability', re: /interface|mobile|bouton|navigation|chat|dialogue|idee|propos|compren/, title: 'Compréhension et participation', keep: 'Rendre la question, la réponse, les limites et le devenir de la proposition compréhensibles.', test: 'Décrire un utilisateur, une tâche et un résultat observable ; ne pas confondre une préférence exprimée avec une preuve.', evolve: 'Formuler un petit changement réversible, le comparer à l’existant et consigner les retours sans vote de popularité automatique.'},
     {id: 'alerts', re: /alert|notifi|relance|suivi/, title: 'Suivi sous autorisation', keep: 'Ne déclencher une notification que sur un événement défini et pertinent.', test: 'Préciser le destinataire, la condition, la fréquence maximale et l’arrêt ; vérifier les doublons.', evolve: 'Réutiliser la boucle existante avec un événement dédupliqué, une limite de relances et une preuve de livraison.'}
   ];
+  // Bounded reading of the existing PLF 2027 report, inside this same dialogue owner.
+  const REPORT_2027='https://nicolason84.github.io/nova-trust/rapports/episode-2-dette-taux/';
+  const BUDGET_2027=Object.freeze({
+    financing:{field:'financing_need_2027_bne',label:'Besoin de financement de l’État en 2027',request:'Comprendre le besoin prévisionnel de financement de l’État en 2027, son périmètre et ce qui le distingue du stock de dette.',explanation:'Il rassemble notamment les amortissements, le déficit à financer et les autres besoins de trésorerie. Il ne représente pas le stock de dette.'},
+    charge:{field:'debt_charge_2027_bne',label:'Charge budgétaire de la dette en 2027',request:'Consulter la charge budgétaire prévue pour la dette de l’État en 2027, avec son périmètre et son statut de prévision.',explanation:'La charge budgétaire du rapport inclut la dette SNCF reprise. Elle ne mesure pas les seuls intérêts décaissés pendant l’année.'},
+    issuance:{field:'issuance_mlt_2027_bne',label:'Émissions à moyen et long terme en 2027',request:'Consulter le programme prévisionnel 2027 d’émissions à moyen et long terme, nettes de rachats.',explanation:'Le programme est net des rachats. Il est distinct du besoin annuel de financement et du stock de dette.'}
+  });
+  const businessQuestion=norm=>/entreprise|machine|transport|tresorerie|acquisition|ma banque|mon pret|mon credit|mes clients|mon activite|mon projet|notre projet|ma societe|mon association|mon foyer|ma commune|ma ville|ma region|mon logement/.test(norm);
+  // Closed question grammar: the requested subject must be the French State itself.
+  // Incidental mentions of France, a source, a company or a place never establish that scope.
+  const questionWords=input=>normalize(input).replace(/[’]/g,"'").replace(/\s+/g,' ').trim().replace(/[?!.]+$/,'').trim();
+  function budgetTopic(input,kind='QUESTION'){
+    if(kind!=='QUESTION')return null;
+    const q=questionWords(input);
+    const lead="(?:quel(?:le|s|les)?(?: est| sont| sera| seront)?|que represente|a quoi correspond|a combien s'eleve|explique(?:-moi)?|presente(?:-moi)?) ";
+    const year="(?:(?:en|pour) )?2027";
+    const state="(?:(?:de|pour) l'etat(?: francais)?|de la france)";
+    const financeState="(?:"+state+"|de la dette de l'etat(?: francais)?)";
+    const nouns={
+      financing:"(?:le |les )?besoins? (?:(?:previsionnel|previsionnels|annuel|annuels) )?de financement",
+      charge:"(?:la )?charge (?:budgetaire )?de la dette",
+      issuance:"(?:(?:le )?programme (?:previsionnel )?d'emissions?|(?:les )?emissions?)(?: a)? (?:moyen et long terme|long terme)"
+    };
+    for(const[id,noun]of Object.entries(nouns)){
+      const subject=id==='financing'?financeState:state;
+      const frame="(?: "+year+" "+subject+"| "+subject+" "+year+"| "+subject+" dans le projet de loi de finances 2027)";
+      if(new RegExp('^'+lead+noun+frame+'$').test(q))return id;
+    }
+    return null;
+  }
+  function cashQuestion(input,kind='QUESTION'){
+    if(kind!=='QUESTION')return false;
+    const q=questionWords(input);
+    const lead="(?:explique(?:-moi)?|decris(?:-moi)?|detaille(?:-moi)?|presente(?:-moi)?|compare|quel est|quelle est|quels sont|comment interpreter) ";
+    const metric="(?:le besoin(?: brut)? de financement|le besoin hors ligne|la tresorerie|le creux(?: de tresorerie)?|les interets|le cout de financement|les hypotheses|le resultat|le calcul|le solde|l'ecart|les variantes)";
+    const subject="(?:de ce brouillon|de cette simulation|de ce scenario|de ce calcul)";
+    return new RegExp('^'+lead+metric+' '+subject+'$').test(q)||
+      /^(?:explique(?:-moi)?|decris(?:-moi)?|detaille(?:-moi)?) (?:ce creux|ce resultat|ce calcul|ces interets|ces hypotheses)$/.test(q);
+  }
+  function objectQuestion(input){
+    const q=questionWords(input);
+    return /^(?:explique(?:-moi)?|decris(?:-moi)?|presente(?:-moi)?) (?:cet objet|l'objet)(?: selectionne)?$/.test(q)||
+      /^que sais-tu (?:de|sur) (?:cet objet|cette commune|cette region|ce departement)(?: selectionne|selectionnee)?$/.test(q)||
+      /^quelles sont les (?:sources|donnees|preuves) de (?:cet objet|l'objet)(?: selectionne)?$/.test(q)||
+      /^pourquoi cet acces (?:manque|est indisponible)$/.test(q)||
+      /^quel taux dans cette region$/.test(q);
+  }
+  function publicDebtQuestion(input){
+    const q=questionWords(input);
+    return /^quel est le (?:tec ?10|taux)(?: de la france| francais)?(?: dans le flux charge)?$/.test(q)||
+      /^que sais-tu des taux et de la dette$/.test(q)||
+      /^que sais-tu sur la dette et les taux(?: dans le flux charge)?$/.test(q)||
+      /^que sais-tu sur la dette (?:de l'etat francais|de la france)$/.test(q);
+  }
+  function publicOperationTopic(input){
+    const q=questionWords(input);
+    if(/^quelles informations te manquent et quelles demarches as-tu preparees$/.test(q)||
+       /^quelles (?:informations te manquent|demarches as-tu preparees)$/.test(q))return 'acquisition';
+    if(/^quelles sont les sources (?:du rapport|du flux charge|de ce dossier public)$/.test(q)||
+       /^quelles sources sont chargees$/.test(q))return 'sources';
+    return null;
+  }
+  const financialQuestion=input=>/financement|dette|\btaux\b|tec ?10|\boat\b|budget|emissions?/.test(questionWords(input));
+  function scopeClarification(result){return Object.assign(result,{status:'NEEDS_CLARIFICATION',summary:'Cette formulation ne permet pas de rattacher votre question au périmètre disponible.',retained:[],limits:['Les chiffres français ne répondent pas à une question sur un autre État, une entreprise, une collectivité ou un sujet non identifié.','La présence d’un objet sélectionné ou du mot France ne suffit pas à établir le sujet demandé.'],next:'Précisez le sujet et l’indicateur. Exemple couvert : « Quel est le besoin de financement de l’État français en 2027 ? ».',references:[]});}
+  function reformulate(input,context){
+    const c=context||{},raw=text(input),kind=c.kind||'QUESTION';
+    if(!raw||raw.length>MAX_INPUT)return{status:'INVALID_INPUT',summary:`Écrivez une question ou une idée de 1 à ${MAX_INPUT} caractères.`};
+    if(sensitive(raw))return{status:'PRIVATE_DATA_REVIEW',summary:'Retirez les coordonnées, identifiants et informations privées avant de poursuivre.'};
+    if(unsafe.test(normalize(raw)))return{status:'OUTSIDE_AUTHORITY',summary:'Reformulez un besoin légitime sans demander de secret, de contournement ni de falsification.'};
+    const topic=budgetTopic(raw,kind);
+    if(topic)return{status:'READY',summary:BUDGET_2027[topic].request,scope:'Lecture des prévisions du PLF 2027 dans les données chargées. Le rapport existant de l’épisode 2 conserve les sources et limites ; aucun nouveau rapport n’est généré.',report_url:REPORT_2027};
+    if(cashQuestion(raw,kind))return{status:'READY',summary:'Lire le calcul de trésorerie déjà rattaché à ce brouillon, ses hypothèses et ses limites.',scope:'Simulation synthétique sur 180 jours uniquement. Une archive importée ou des hypothèses modifiées doivent être réexaminées. Sans calcul rattaché, aucun résultat n’est inventé ; aucun rapport national n’est attribué.'};
+    if(kind==='IDEA')return{status:'READY',summary:'Examiner votre proposition « '+raw+' » : préciser le besoin, les éléments manquants et une expérience vérifiable, sans adopter cette proposition.',scope:'Structuration locale d’une proposition, sans nouvelle recherche, action extérieure ni rapport spécifique.'};
+    if(kind!=='POLICY'&&financialQuestion(raw)&&!publicDebtQuestion(raw)&&!objectQuestion(raw)&&!publicOperationTopic(raw))return{status:'READY',summary:'Préciser le sujet de votre question « '+raw+' » sans lui attribuer les chiffres d’un autre dossier.',scope:'Cette formulation financière n’est pas couverte. Aucun chiffre français, fait d’un objet sélectionné ou rapport spécifique ne sera présenté comme sa réponse.'};
+    if(objectQuestion(raw))return{status:'READY',summary:'Examiner les faits, sources et limites de l’objet explicitement sélectionné, sans les transformer en réponse à un autre sujet.',scope:'Lecture de cet objet et de son instantané uniquement ; aucun rapport national ni effet territorial n’en est déduit.'};
+    if(kind==='POLICY'||political.test(normalize(raw)))return{status:'READY',summary:'Examiner votre question « '+raw+' » en distinguant faits documentés, hypothèses et arbitrages humains.',scope:'Lecture factuelle limitée au contexte chargé, sans recommandation politique ni rapport spécifique.'};
+    if(publicDebtQuestion(raw)||publicOperationTopic(raw))return{status:'READY',summary:'Consulter ce que le flux chargé établit sur votre question « '+raw+' », avec ses dates, ses sources et ses limites.',scope:'Lecture bornée du flux de dette et de taux de l’État français ; aucune recherche nouvelle ni nouveau rapport.'};
+    return{status:'READY',summary:'Préciser votre demande « '+raw+' » : sa formulation n’est pas rattachée à une méthode disponible.',scope:'Après confirmation, l’outil indiquera cette limite. Aucun chiffre national, fait d’un objet sélectionné ou rapport spécifique ne sera attribué à cette question.'};
+  }
   function analyze(input, context) {
     const c = context || {}, live = c.live || {}, evolution = c.evolution || {};
     const raw = text(input), norm = normalize(raw);
@@ -47,9 +126,24 @@
     if (unsafe.test(norm)) {
       return Object.assign(r, {status: 'OUTSIDE_AUTHORITY', summary: 'Cette demande touche aux permissions, aux secrets ou à l’intégrité des preuves.', retained: ['Le besoin peut être reformulé comme une vérification de sécurité ou de qualité.'], limits: ['Une contribution ne peut accorder aucun droit, faire exécuter une instruction ni changer un fait.'], next: 'Décrire le résultat légitime attendu, sans demander de contournement ni de divulgation.'});
     }
-    if(c.kind!=='POLICY'&&!political.test(norm)){const cashAnswer=Cash.explanation(raw,c);if(cashAnswer)return Object.assign(r,cashAnswer,{snapshot_id:null,snapshot_at:null});}
+    const budget=budgetTopic(raw,c.kind||'QUESTION');
+    if(budget){
+      if(live.schema!=='OJO_FRANCE_DEBT_RATE_LIVE_V1'||live.policy?.political_recommendation!=='NONE')return Object.assign(r,{status:'NO_VERIFIED_CONTEXT',summary:'Le contexte canonique vérifiable n’est pas chargé.',next:'Charger les données du rapport avant de retenir une prévision.'});
+      const spec=BUDGET_2027[budget],value=live.observed?.[spec.field];
+      if(!Number.isFinite(value))return Object.assign(r,{status:'NO_VERIFIED_CONTEXT',summary:'La prévision 2027 demandée n’est pas disponible dans les données chargées.',next:'Ouvrir le rapport public existant et vérifier ses sources avant de retenir un montant.'});
+      const figure=value.toLocaleString('fr-FR',{minimumFractionDigits:1,maximumFractionDigits:1})+' Md€';
+      return Object.assign(r,{status:'CANONICAL_CONTEXT',summary:spec.label+' : '+figure+' prévus au PLF 2027.',retained:[spec.explanation,'Périmètre : État français ; prévision budgétaire 2027, pas une dépense ou un financement réalisé.'],limits:['Le montant provient du champ 2027 du flux chargé et conserve son statut de prévision.','Les besoins de financement, le programme net d’émission et la charge budgétaire ne s’additionnent pas.','L’écart historique des échéances AFT reste non résolu. Aucun coût national d’un choc de taux ni économie n’est déduit ici.'],next:'Consulter le rapport public existant « Dette française en 2027 » et ses sources. Cette lecture locale ne génère pas un nouveau rapport.',references:[{label:'Ouvrir le rapport public existant · Épisode 2 — Dette française en 2027',url:REPORT_2027,status:'PUBLIC_REPORT_EXISTING',checked_at:null},{label:'AFT · communiqué du 29 septembre 2026 · prévisions 2027',url:'https://www.aft.gouv.fr/fr/publications/communiques-presse/29092026-besoins-et-ressources-financement-letat-en-2027-et-point',status:'PREVISION_PLF_2027',checked_at:null},{label:'Assemblée nationale · PLF 2027 · article 57',url:'https://www.assemblee-nationale.fr/dyn/docs/PRJLANR5L17B3210.raw',status:'PREVISION_PLF_2027',checked_at:null}]});
+    }
+    if(cashQuestion(raw,c.kind||'QUESTION')){
+      const cashAnswer=Cash.explanation(raw,{...c,object:null});
+      if(cashAnswer)return Object.assign(r,cashAnswer,{snapshot_id:null,snapshot_at:null});
+      return Object.assign(r,{status:'NEEDS_CLARIFICATION',summary:'Aucun calcul de trésorerie vérifiable n’est rattaché à ce brouillon dans le contexte fourni.',retained:[],limits:['Cette lecture nécessite le reçu du calcul synthétique et le même brouillon. Aucun chiffre national ni fait d’un autre objet n’est utilisé.'],next:'Ouvrir le laboratoire existant et vérifier le calcul rattaché au brouillon.',references:[]});
+    }
+    const asksObject=objectQuestion(raw),asksDebt=publicDebtQuestion(raw),operation=publicOperationTopic(raw);
+    const explicitIdea=c.kind==='IDEA'||/je propose|mon idee|pourquoi ne pas|on pourrait|ajout|amelior|il faudrait/.test(norm);
+    if(c.kind!=='POLICY'&&!explicitIdea&&financialQuestion(raw)&&!asksObject&&!asksDebt&&!operation){const answer=scopeClarification(r);if(businessQuestion(norm))answer.status='OUT_OF_SCOPE';return answer;}
     const prior = Array.isArray(c.history) ? [...c.history].reverse().find(x => x.kind === 'IDEA' && typeof x.text === 'string' && !sensitive(x.text)) : null;
-    const follow = /^(pourquoi|comment|ameliore|developpe|precise|que retiens|qu.est.ce que|et ensuite|oui)/.test(norm) && prior;
+    const follow = /^(?:pourquoi(?: pas encore)?|comment|(?:ameliore|developpe|precise)(?: cette idee| la proposition)?|que retiens-tu|qu.est-ce que tu retiens|et ensuite|oui)\s*[?.!]*$/.test(norm) && prior;
     const idea = follow ? prior.text : raw;
     const politicalInput = c.kind === 'POLICY' || political.test(normalize(idea + ' ' + raw));
     if (politicalInput) {
@@ -68,7 +162,7 @@
       r.references = references(live, s => /AFT|DGFIP|BDF/.test(s.id || ''));
       return r;
     }
-    if (c.object && typeof c.object.id === 'string' && c.object.snapshot_id === live.snapshot_id && Array.isArray(c.object.facts)) {
+    if (asksObject && c.object && typeof c.object.id === 'string' && c.object.snapshot_id === live.snapshot_id && Array.isArray(c.object.facts)) {
       const object = c.object;
       const allowed = object.references || [];
       return Object.assign(r, {
@@ -84,9 +178,9 @@
     if (live.schema !== 'OJO_FRANCE_DEBT_RATE_LIVE_V1' || live.policy?.political_recommendation !== 'NONE') {
       return Object.assign(r, {status: 'NO_VERIFIED_CONTEXT', summary: 'Le contexte canonique vérifiable n’est pas chargé.', next: 'Réessayer le chargement du flux. Aucun chiffre de remplacement n’est inventé.'});
     }
-    const business = /entreprise|machine|transport|tresorerie|acquisition|ma banque|mon pret|mon credit|mes clients|mon activite/.test(norm);
-    const publicDebt = /tec10|tec 10|oat|taux et de la dette|dette (publique|nationale|de l.etat|francaise)|france.*(emprunt|taux|dette)|taux.*france|refinancement.*etat/.test(norm);
-    const publicOperation = /source|preuve|donnee|flux|sante|demarche|courrier|acces|la bete/.test(norm);
+    if(asksObject)return scopeClarification(r);
+    const business = businessQuestion(norm);
+    const publicDebt=asksDebt,publicOperation=!!operation;
     if (business || (!publicDebt && !publicOperation)) {
       return Object.assign(r, {status:business?'OUT_OF_SCOPE':'NEEDS_CLARIFICATION', summary:'Votre question : « '+raw+' ». Cette demande ne dispose pas encore de méthode reliée à la Maison.',
         retained:['Le besoin exprimé, à qualifier avant toute analyse.'],
@@ -95,13 +189,14 @@
           ?'Le laboratoire « Qui finance le plein ? » permet un essai séparé sur données synthétiques : ventes, coûts de carburant, délais clients, trésorerie initiale et crédit disponible. Il peut être rattaché au brouillon local via « Tester le laboratoire de trésorerie ». Le dossier natif reste séparé.'
           :'Préciser l’objectif, l’horizon et les données disponibles, sans transmettre de pièce privée ici. Aucune mission n’est lancée.'});
     }
-    if (/manque|besoin|bloc|demarch|sante|obtenir|courrier|contact/.test(norm)) {
+    if (operation==='acquisition') {
       const bound = evolution.source_snapshot_id === live.snapshot_id;
       const a = bound ? evolution.self_model?.acquisition : null;
       const requests = a?.requests || [];
       return Object.assign(r, {status: 'CANONICAL_CONTEXT', summary: requests.length ? `${requests.length} démarche(s) préparée(s) dans l’état affiché ; aucun envoi n’est attesté par cette projection.` : 'Aucune démarche préparée n’est disponible dans le contexte chargé.', retained: requests.map(x => x.organization + ' : ' + x.source_ids.length + ' accès regroupés.'), limits: ['Brouillon ≠ envoi. Envoi ≠ réponse. Réponse ≠ information vérifiée.', ...(bound ? [] : ['L’évolution ne correspond pas au même instantané ; elle n’est pas utilisée.'])], next: requests[0]?.next_action || 'Consulter les sources et leurs dernières vérifications.', references: references(live, s => ['UNAVAILABLE','RETAINED_LAST_GOOD','DEGRADED'].includes(s.health))});
     }
-    if (/taux|tec|dette|encours|refinanc|echeanc|source|preuve|sais|observe|combien/.test(norm)) {
+    if(operation==='sources')return Object.assign(r,{status:'CANONICAL_CONTEXT',summary:'Voici les sources du flux public chargé, avec leurs dates et limites.',references:references(live),next:'Ouvrir une source et vérifier son périmètre ; aucun chiffre relatif à un autre sujet n’est déduit.'});
+    if (publicDebt) {
       const o = live.observed || {};
       const facts = [];
       if (Number.isFinite(o.tec10_pct)) facts.push('TEC 10 indiqué dans cet instantané : ' + o.tec10_pct.toLocaleString('fr-FR') + ' %.');
@@ -170,6 +265,7 @@
     function changes(a,b){if(!a||!b)return[];return Object.keys(fields).filter(k=>a.inputs[k]!==b.inputs[k]);}
     function summarize(r){const f=v=>v.toLocaleString('fr-FR',{maximumFractionDigits:2});return 'Simulation synthétique sur 180 jours : minimum '+f(r.outputs.stress.min)+' EUR à J'+r.outputs.stress.minDay+', besoin brut '+f(r.outputs.stress.need)+' EUR, besoin hors ligne supposée '+f(r.outputs.stress.unfunded)+' EUR. Sans choc, minimum '+f(r.outputs.base.min)+' EUR.';}
     function explanation(input,c){
+      if(!cashQuestion(input,c.kind||'QUESTION'))return null;
       const evidence=c.cashEvidence,r=evidence?.receipt,meta=c.draftMeta;if(!r||!meta||c.object||r.draft_id!==meta.id)return null;
       const q=normalize(input);if(!/creux|tresorerie|carburant|financement|interet|scenario|calcul|parametre|variante|solde|pic|cash|credit|tv[a]?\b/.test(q))return null;
       if(/france|tec.?10|dette publique|mon entreprise reelle|garanti|sante|medical/.test(q))return null;
@@ -267,5 +363,5 @@
     }
     return Object.freeze({SCHEMA,PACKAGE,MAX_BYTES,MAX_TURNS,create,revise,qualification,validate,payload,seal,open});
   })();
-  return Object.freeze({VERSION, MAX_INPUT, REPO, analyze, sensitive, safeURL, sharePayload, issueURL, Draft, Cash});
+  return Object.freeze({VERSION, MAX_INPUT, REPO, analyze, reformulate, sensitive, safeURL, sharePayload, issueURL, Draft, Cash});
 });

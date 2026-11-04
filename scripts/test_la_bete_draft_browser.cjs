@@ -20,7 +20,7 @@ async function click(sel,enter=false){
  await sleep(100);
 }
 async function desk(){await h.evaluate("LaBeteAdvisoryHouseV5.setRoom('desk')");await sleep(120);}
-async function ask(q,enter=false){await desk();await h.evaluate("document.getElementById('beastDialogueInput').focus()");await h.send('Input.insertText',{text:q});await click('#beastDialogueSubmit',enter);await sleep(100);return h.evaluate('LaBeteParticipation.draftState()');}
+async function ask(q,enter=false){await desk();await h.evaluate("document.getElementById('beastDialogueInput').focus()");await h.send('Input.insertText',{text:q});await click('#beastDialogueSubmit',enter);await click('#beastConfirmQuestion',enter);await sleep(100);return h.evaluate('LaBeteParticipation.draftState()');}
 async function openPanel(){await desk();if(!await h.evaluate("document.getElementById('beastDraftPanel').open"))await click('#beastDraftPanel summary');}
 async function consent(){await openPanel();if(!await h.evaluate("document.getElementById('beastDraftScopeConsent').checked"))await click('#beastDraftScopeConsent');}
 async function exportFile(){await consent();const prev=new Map(fs.readdirSync(downloads).map(x=>[x,fs.statSync(path.join(downloads,x)).mtimeMs]));await click('#beastExportDialogue');for(let i=0;i<80;i++){const f=fs.readdirSync(downloads).find(x=>x.endsWith('.json')&&(!prev.has(x)||fs.statSync(path.join(downloads,x)).mtimeMs!==prev.get(x)));if(f)return path.join(downloads,f);await sleep(100);}throw Error('No downloaded export: '+await h.evaluate("document.getElementById('beastDialogueNotice').textContent"));}

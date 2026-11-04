@@ -13,6 +13,97 @@ async function main() {
   test('input size bound', () => assert.equal(analyze('a'.repeat(1501)).status, 'INVALID_INPUT'));
   test('no invented answer', () => assert.equal(analyze('Explique le fonctionnement des quasars').status, 'NEEDS_CLARIFICATION'));
   test('canonical sources', () => assert.equal(analyze('Que sais-tu des taux et de la dette ?').status, 'CANONICAL_CONTEXT'));
+  test('2027 financing question uses its actual financial field', () => {
+    const r=analyze('Quel est le besoin de financement 2027 de la dette de l’État ?');
+    assert.equal(r.status,'CANONICAL_CONTEXT');assert.match(r.summary,/339,7 Md€/);assert.doesNotMatch(r.summary,/démarche/);
+    assert.ok(r.references.some(x=>x.status==='PUBLIC_REPORT_EXISTING'));
+  });
+  test('2027 budget charge and issuance keep their own forecast scope', () => {
+    for(const[q,value]of [['Quelle est la charge de la dette de l’État en 2027 ?','72,9'],['Quel programme d’émissions à long terme pour l’État en 2027 ?','340,0']]){
+      const r=analyze(q);assert.match(r.summary,new RegExp(value));assert.match(r.summary,/PLF 2027/);assert.match(r.retained.join(' '),/prévision/);
+    }
+  });
+  test('unknown budget vintage never receives the 2027 report', () => {
+    const r=analyze('Quel est le besoin de financement de l’État en 2028 ?');assert.equal(r.status,'NEEDS_CLARIFICATION');assert.equal(r.references.length,0);
+  });
+  test('company and foreign budgets never receive the national report', () => {
+    for(const q of ['Quel est le besoin de financement de mon entreprise en 2027 ?','Quel est le besoin de financement de l’État belge en 2027 ?'])assert.ok(!analyze(q).references.some(x=>x.status==='PUBLIC_REPORT_EXISTING'));
+  });
+  test('preparation describes the contract without running analysis', () => {
+    const r=D.reformulate('Quel est le besoin de financement de l’État en 2027 ?',{kind:'QUESTION'});
+    assert.equal(r.status,'READY');assert.match(r.summary,/prévisionnel/);assert.equal(r.retained,undefined);assert.doesNotMatch(r.summary,/339|72,9/);
+  });
+  test('preparation rejects private input without echoing it', () => {
+    const r=D.reformulate('Mon adresse fixture@example.test',{kind:'QUESTION'});assert.equal(r.status,'PRIVATE_DATA_REVIEW');assert.ok(!JSON.stringify(r).includes('fixture@example.test'));
+  });
+  test('unlisted foreign states cannot receive French budget figures', () => {
+    for(const q of ['Quel est le besoin de financement de l’État suisse en 2027 ?','Quelle est la charge de dette de l’État portugais en 2027 ?'])assert.ok(!analyze(q).references.some(x=>x.status==='PUBLIC_REPORT_EXISTING'));
+  });
+  test('explicit budget scope wins over an old selected object', () => {
+    const r=analyze('Quel est le besoin de financement 2027 de l’État français ?', 'QUESTION', {object:{id:'old-object',label:'Ancien objet',snapshot_id:live.snapshot_id,facts:[['Autre valeur','inapplicable']],references:[]}});
+    assert.match(r.summary,/339,7 Md€/);assert.ok(r.references.some(x=>x.status==='PUBLIC_REPORT_EXISTING'));assert.doesNotMatch(r.summary,/Ancien objet/);
+  });
+  test('factual project-of-law wording keeps the confirmed financial scope', () => {
+    const q='Quel est le besoin de financement de l’État français dans le projet de loi de finances 2027 ?';
+    assert.match(D.reformulate(q,{kind:'QUESTION'}).summary,/prévisionnel/);assert.match(analyze(q).summary,/339,7 Md€/);
+  });
+  // Exact user counterexamples: closed subject grammar with and without an existing object.
+  const selectedScopeObject={id:'fixture:selected-object',label:'Objet précédent',kind:'COMMUNE',snapshot_id:live.snapshot_id,facts:[['Fait précédent','OBJET_INAPPLICABLE']],references:[]};
+  const invalid=[
+   'Depuis la France, quel est le besoin de financement 2027 de l’Espagne ?',
+   'En Allemagne, quel est le besoin de financement de l’État en 2027 ?',
+   'Quel est le besoin de financement 2027 de l’Espagne selon le PLF ?',
+   'Quel est le besoin de financement 2027 d’Air France ?',
+   'Quel est le besoin de financement de la ville de Paris en France en 2027 ?',
+   'Quelle est la charge de la dette de l’Espagne en 2027 selon la Banque de France ?',
+   'Quelle est la dette publique espagnole en 2027 ?',
+   'Pourquoi les quasars brillent-ils ?',
+   'Quel est le coût de ma machine en 2027 ?',
+   'Quel est le besoin de financement de l’État suisse en 2027 ?',
+   'Quelle est la charge de la dette de l’État portugais en 2027 ?'
+  ];
+  const positives=[
+   ['Quel est le besoin de financement de l’État français en 2027 ?','339,7'],
+   ['Quel est le besoin de financement 2027 de la France ?','339,7'],
+   ['Quel est le besoin de financement 2027 de la dette de l’État ?','339,7'],
+   ['Quel est le besoin de financement de l’État français dans le projet de loi de finances 2027 ?','339,7'],
+   ['Quelle est la charge budgétaire de la dette de l’État français en 2027 ?','72,9'],
+   ['Quelle est la charge de la dette de la France en 2027 ?','72,9'],
+   ['Quel programme d’émissions à long terme pour l’État en 2027 ?','340,0']
+  ];
+  for(const withObject of [false,true]){
+    const c={live,evolution,kind:'QUESTION',...(withObject?{object:selectedScopeObject}:{})};
+    for(const q of invalid)test('Subject boundary '+(withObject?'with object: ':'without object: ')+q,()=>{
+      const p=D.reformulate(q,c),r=D.analyze(q,c);
+      assert.ok(['NEEDS_CLARIFICATION','OUT_OF_SCOPE'].includes(r.status));assert.equal(p.report_url,undefined);assert.equal(r.references.length,0);
+      assert.ok(!r.retained.some(x=>String(x).includes('OBJET_INAPPLICABLE')));assert.ok(!/339,7|72,9|TEC 10|4,928/.test(JSON.stringify(r)));
+    });
+    for(const[q,value]of positives)test('Positive subject '+(withObject?'with object: ':'without object: ')+q,()=>{
+      const p=D.reformulate(q,c),r=D.analyze(q,c);assert.equal(p.report_url,'https://nicolason84.github.io/nova-trust/rapports/episode-2-dette-taux/');
+      assert.equal(r.status,'CANONICAL_CONTEXT');assert.ok(r.summary.includes(value));assert.ok(r.references.some(x=>x.status==='PUBLIC_REPORT_EXISTING'));
+    });
+  }
+  for(const q of ['Explique cet objet sélectionné','Que sais-tu de cette commune ?','Pourquoi cet accès manque ?','Quel taux dans cette région ?'])test('Explicit object scope: '+q,()=>{
+    const r=D.analyze(q,{live,evolution,kind:'QUESTION',object:selectedScopeObject});assert.equal(r.status,'OBJECT_CONTEXT');assert.ok(r.retained.some(x=>String(x).includes('OBJET_INAPPLICABLE')));assert.ok(!r.references.some(x=>x.status==='PUBLIC_REPORT_EXISTING'));
+  });
+  test('Explicit new subject never inherits an old idea or object',()=>{
+    const r=D.analyze('Pourquoi les quasars brillent-ils ?',{history:[{kind:'IDEA',text:'Je propose de montrer la source de chaque chiffre.'}],live,evolution,kind:'QUESTION',object:selectedScopeObject});assert.equal(r.status,'NEEDS_CLARIFICATION');assert.equal(r.references.length,0);
+  });
+  // Keep the existing Cash method reachable only through an explicit reference to its draft.
+  const cashEngine=require('../docs/assets/gazole-cash-model.js');
+  const cashMeta=D.Draft.revise(D.Draft.create('Lecture d’une simulation synthétique'),{expected_outcome:'Lire le besoin calculé',horizon:'180 jours',constraints:'Données synthétiques uniquement'});
+  const cashReceipt=await D.Cash.run(cashEngine,{...cashEngine.DEFAULTS},cashMeta);
+  const cashQuestions=['Explique le besoin de financement de ce brouillon','Explique la trésorerie de ce brouillon'];
+  const cashForeign=[...invalid,'Explique le besoin de financement de l’Espagne dans ce brouillon','Explique la trésorerie de l’Espagne dans ce brouillon','Explique le besoin de financement de ce brouillon en Espagne'];
+  for(const state of ['EXECUTED_CURRENT','IMPORTED_ARCHIVE'])for(const withObject of [false,true]){
+    const c={live,evolution,kind:'QUESTION',cashEvidence:{receipt:cashReceipt,state},draftMeta:cashMeta,...(withObject?{object:selectedScopeObject}:{})};
+    for(const q of cashQuestions)test('Explicit Cash '+state+' '+withObject+': '+q,()=>{
+      const p=D.reformulate(q,c),r=D.analyze(q,c);assert.equal(r.status,state==='EXECUTED_CURRENT'?'LOCAL_METHOD_CONTEXT':'METHOD_RECHECK_REQUIRED');assert.match(p.scope,/180 jours/);assert.equal(p.report_url,undefined);assert.doesNotMatch(p.scope,/financière n’est pas couverte/);assert.equal(r.references.length,0);assert.equal(r.cash_ref,cashReceipt.receipt_sha256);assert.equal(r.snapshot_id,null);
+    });
+    for(const q of cashForeign)test('No Cash inheritance '+state+' '+withObject+': '+q,()=>{
+      const r=D.analyze(q,c);assert.ok(['NEEDS_CLARIFICATION','OUT_OF_SCOPE'].includes(r.status));assert.equal(r.references.length,0);assert.equal(r.cash_ref,undefined);assert.ok(!r.retained.some(x=>String(x).includes('OBJET_INAPPLICABLE')));
+    });
+  }
   test('missing context fails closed', () => assert.equal(D.analyze('Quel est le taux ?', {live: {}}).status, 'NO_VERIFIED_CONTEXT'));
   test('no new private origin reference', () => assert.equal(D.safeURL('https://attacker.example/secret'), null));
   test('script URL rejected', () => assert.equal(D.safeURL('javascript:alert(1)'), null));
