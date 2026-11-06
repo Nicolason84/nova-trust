@@ -1,0 +1,2257 @@
+<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="dark"><meta name="robots" content="noindex"><title>Maison des Preuves · LA BÊTE 03</title>
+<style>
+:root{--bg:#0b1011;--panel:#11191b;--panel-2:#151e20;--line:rgba(223,210,190,.12);--text:#eeeae1;--muted:#9ba5a3;--dim:#687573;--copper:#c89261;--copper-2:#e0b68d;--blue:#83a7b3;--green:#8ab4a0;--red:#d68b80;--serif:ui-serif,Georgia,"Times New Roman",serif;--sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Helvetica,Arial,sans-serif;--shadow:0 28px 90px rgba(0,0,0,.32)}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(ellipse at 55% 9%,rgba(54,74,76,.16),transparent 38%),var(--bg);color:var(--text);font-family:var(--sans);font-size:14px;line-height:1.55}button,a{font:inherit}button{color:inherit}.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}.skip{position:fixed;top:10px;left:10px;z-index:1000;padding:10px 14px;background:var(--text);color:var(--bg);transform:translateY(-150%)}.skip:focus{transform:none}
+.shell{min-height:100vh;display:grid;grid-template-columns:248px 1fr;grid-template-rows:68px 1fr}.rail{grid-row:1/3;position:sticky;top:0;height:100vh;border-right:1px solid var(--line);padding:24px 14px 18px 20px;display:flex;flex-direction:column;background:linear-gradient(180deg,rgba(15,22,23,.96),rgba(10,15,16,.93));z-index:10}.brand{display:flex;align-items:center;gap:11px;padding:1px 8px 24px}.brand-mark{width:30px;height:30px;border:1px solid rgba(200,146,97,.54);border-radius:50%;display:grid;place-items:center;color:var(--copper-2);font-family:var(--serif);font-size:18px;box-shadow:0 0 28px rgba(200,146,97,.09)}.brand-name{font-size:11px;letter-spacing:.2em;font-weight:650}.brand-sub{font-size:9px;color:var(--muted);letter-spacing:.08em;margin-top:2px}.rail-label{padding:0 10px 10px;color:#7f8b89;font-size:9px;letter-spacing:.18em;text-transform:uppercase}.nav{display:grid;gap:3px;overflow:auto;scrollbar-width:thin;scrollbar-color:#344241 transparent}.nav button{width:100%;display:flex;align-items:center;gap:10px;padding:8px 10px;border:1px solid transparent;border-radius:8px;background:transparent;color:#a5afad;text-align:left;cursor:pointer;transition:background .22s,border-color .22s,color .22s}.nav button:hover{background:rgba(255,255,255,.035);color:#f1ece4}.nav button[aria-current="page"]{color:#f0d3b5;border-color:rgba(200,146,97,.20);background:linear-gradient(90deg,rgba(200,146,97,.11),rgba(200,146,97,.025))}.nav-no{font-size:9px;color:#788481;letter-spacing:.08em;width:19px}.nav button[aria-current="page"] .nav-no{color:var(--copper-2)}.nav-title{font-size:11px;letter-spacing:.01em}.rail-bottom{margin-top:auto;padding:13px 9px 0;border-top:1px solid var(--line)}.truth-note{display:flex;gap:8px;align-items:flex-start;color:#899492;font-size:9px;line-height:1.5}.dot{width:6px;height:6px;border-radius:50%;background:var(--green);box-shadow:0 0 9px rgba(138,180,160,.35);margin-top:4px;flex:none}.rail-foot{margin-top:12px;color:#586563;font-size:9px;letter-spacing:.05em}
+.topbar{grid-column:2;position:sticky;top:0;z-index:8;height:68px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 clamp(22px,4vw,54px);background:rgba(11,16,17,.82);backdrop-filter:blur(18px)}.crumb{display:flex;gap:10px;align-items:center;color:#9ca7a5;font-size:10px;letter-spacing:.07em}.crumb-sep{color:#556260}.top-actions{display:flex;align-items:center;gap:9px}.tag{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--line);border-radius:99px;padding:6px 10px;color:#aab4b1;font-size:9px;letter-spacing:.06em}.tag .dot{width:5px;height:5px}.tag.demo{border-color:rgba(200,146,97,.27);color:#d4b08e}.tag.demo .dot{background:var(--copper);box-shadow:0 0 9px rgba(200,146,97,.25)}.icon-btn{width:34px;height:34px;border:1px solid var(--line);border-radius:50%;display:grid;place-items:center;background:rgba(255,255,255,.02);cursor:pointer;color:#9eaaa7}.icon-btn:hover{color:var(--text);border-color:rgba(200,146,97,.45)}
+.main{grid-column:2;min-width:0;padding:28px clamp(22px,4vw,54px) 48px}.progress-row{display:flex;justify-content:space-between;align-items:center;margin:0 0 18px;color:#73807d;font-size:9px;letter-spacing:.1em;text-transform:uppercase}.progress{height:1px;background:rgba(255,255,255,.08);flex:1;margin:0 14px;position:relative}.progress i{display:block;height:1px;background:linear-gradient(90deg,#9b704c,#d5ad86);transition:width .4s;width:10%}.room{display:none;animation:arrive .44s cubic-bezier(.2,.72,.2,1)}.room.active{display:block}@keyframes arrive{from{opacity:0;transform:translateY(9px)}to{opacity:1;transform:translateY(0)}}
+.eyebrow{color:#b48b68;font-size:9px;letter-spacing:.2em;text-transform:uppercase}.display{font:400 clamp(42px,6vw,78px)/.95 var(--serif);letter-spacing:-.055em;margin:15px 0 16px;max-width:840px}.display em{color:var(--copper-2);font-style:normal}.lead{max-width:550px;color:#a9b3b0;font-size:13px;line-height:1.8}.subhead{font:400 clamp(31px,4vw,48px)/1.05 var(--serif);letter-spacing:-.035em;margin:10px 0 10px}.section-copy{color:#98a4a1;max-width:650px;font-size:12px;line-height:1.75;margin:0 0 24px}.row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}.btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;border:1px solid rgba(200,146,97,.46);border-radius:4px;padding:11px 15px;background:linear-gradient(180deg,rgba(200,146,97,.14),rgba(200,146,97,.04));color:#f1d1ad;text-decoration:none;font-size:10px;letter-spacing:.055em;cursor:pointer;transition:transform .2s,border-color .2s,background .2s}.btn:hover{transform:translateY(-1px);border-color:var(--copper-2);background:rgba(200,146,97,.16)}.btn.secondary{border-color:var(--line);background:rgba(255,255,255,.025);color:#c0c9c6}.btn.text{border:0;background:transparent;padding:8px 2px;color:#c6a17c}.btn:focus-visible,.nav button:focus-visible,.icon-btn:focus-visible,.chip:focus-visible,summary:focus-visible{outline:2px solid var(--copper-2);outline-offset:3px}.tiny{font-size:9px;color:#7d8986}.caps{font-size:8px;text-transform:uppercase;letter-spacing:.14em;color:#8e9a97}.rule{height:1px;background:var(--line);margin:19px 0}
+.hero{position:relative;isolation:isolate;min-height:min(620px,68vh);border:1px solid rgba(219,197,170,.14);overflow:hidden;background:linear-gradient(105deg,#0a0e0f 0%,#10191a 50%,#0b1112 100%);box-shadow:var(--shadow)}.hero-art{position:absolute;inset:0;z-index:-1;overflow:hidden;pointer-events:none}.horizon{position:absolute;top:5%;right:3%;width:58%;height:72%;border:1px solid rgba(220,197,167,.12);background:linear-gradient(90deg,transparent 32.9%,rgba(221,202,176,.08) 33%,transparent 33.15%,transparent 65.9%,rgba(221,202,176,.06) 66%,transparent 66.16%),linear-gradient(180deg,rgba(38,56,58,.12),rgba(8,12,13,.42)),radial-gradient(ellipse at 68% 35%,rgba(120,79,55,.19),transparent 28%);box-shadow:inset 0 0 120px rgba(0,0,0,.35);transform:perspective(1200px) rotateY(-7deg)}.horizon:after{content:"";position:absolute;bottom:0;left:0;right:0;height:27%;background:linear-gradient(180deg,transparent,rgba(0,0,0,.45)),linear-gradient(90deg,transparent 10%,rgba(170,190,183,.09) 10.1%,transparent 10.3%,transparent 28%,rgba(170,190,183,.07) 28.1%,transparent 28.3%,transparent 72%,rgba(170,190,183,.06) 72.1%,transparent 72.3%);clip-path:polygon(0 82%,12% 62%,20% 70%,29% 44%,39% 66%,48% 34%,58% 58%,66% 38%,74% 62%,82% 30%,91% 57%,100% 42%,100% 100%,0 100%)}.wall{position:absolute;left:-3%;top:0;width:36%;height:100%;background:linear-gradient(95deg,rgba(255,255,255,.025),transparent 75%);clip-path:polygon(0 0,100% 0,76% 100%,0 100%);border-right:1px solid rgba(214,184,150,.06)}.ceiling{position:absolute;left:12%;right:9%;top:-7%;height:21%;border-bottom:1px solid rgba(218,190,159,.14);background:linear-gradient(180deg,rgba(255,255,255,.022),transparent 80%);clip-path:polygon(0 0,100% 0,82% 100%,9% 100%)}.floor{position:absolute;left:-8%;right:-5%;bottom:-32%;height:64%;transform:perspective(800px) rotateX(63deg);transform-origin:top center;background:repeating-linear-gradient(90deg,transparent 0 9.6%,rgba(205,184,157,.06) 9.8% 9.95%,transparent 10.1% 20%),linear-gradient(180deg,rgba(52,59,55,.3),rgba(3,6,7,.95));border-top:1px solid rgba(212,181,147,.2)}.light-beam{position:absolute;top:2%;right:21%;width:1px;height:70%;background:linear-gradient(180deg,rgba(218,182,143,.6),rgba(218,182,143,0));filter:drop-shadow(0 0 30px rgba(218,182,143,.15))}.door{position:absolute;right:15%;top:18%;width:14%;height:52%;border:1px solid rgba(212,181,147,.23);border-bottom:0;background:linear-gradient(90deg,rgba(230,204,166,.035),rgba(0,0,0,.28));box-shadow:inset 0 0 26px rgba(205,160,111,.035),0 0 60px rgba(0,0,0,.13)}.door:after{content:"";position:absolute;left:9%;right:9%;top:6%;bottom:0;border:1px solid rgba(212,181,147,.08);border-bottom:0}.plinth{position:absolute;right:28%;bottom:15%;width:17%;height:7%;transform:perspective(400px) rotateX(52deg);border:1px solid rgba(216,185,149,.2);background:linear-gradient(145deg,#1b2322,#080b0c);box-shadow:0 20px 44px rgba(0,0,0,.45)}.plinth:before{content:"NOVA ERA";position:absolute;left:12%;top:26%;color:rgba(207,170,132,.48);font-size:7px;letter-spacing:.24em}.hero-copy{position:relative;z-index:1;display:flex;flex-direction:column;justify-content:space-between;min-height:inherit;padding:clamp(26px,4.7vw,56px)}.hero-copy .display{font-size:clamp(50px,7vw,92px);max-width:670px;margin-top:23px}.hero-bottom{display:flex;align-items:flex-end;justify-content:space-between;gap:24px}.hero-blurb{max-width:380px;color:#a9b2af;font-size:12px;line-height:1.8}.arrival-index{font:italic 16px var(--serif);color:#c5a27f;white-space:nowrap}.hero .arrival-tag{display:inline-flex;align-items:center;gap:9px;border:1px solid rgba(218,193,164,.16);border-radius:99px;padding:8px 11px;color:#aeb7b4;font-size:8px;letter-spacing:.11em;text-transform:uppercase;background:rgba(10,14,15,.48);backdrop-filter:blur(8px)}.arrival-tag span{width:5px;height:5px;border-radius:50%;background:var(--copper)}
+.section-head{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;margin-bottom:22px}.section-head .display{font-size:clamp(42px,5.5vw,68px);margin-bottom:0}.status-line{color:#7d8986;font-size:9px;letter-spacing:.05em}.grid{display:grid;gap:12px}.grid.two{grid-template-columns:repeat(2,minmax(0,1fr))}.grid.three{grid-template-columns:repeat(3,minmax(0,1fr))}.card{border:1px solid var(--line);border-radius:7px;padding:17px;background:linear-gradient(145deg,rgba(24,34,35,.88),rgba(15,22,23,.78));box-shadow:0 12px 36px rgba(0,0,0,.1)}.card h3{font-size:13px;font-weight:550;letter-spacing:-.01em;margin:6px 0 7px}.card p{font-size:10px;color:#96a29f;line-height:1.7;margin:0}.metric{font:400 clamp(23px,3vw,33px)/1 var(--serif);letter-spacing:-.035em;margin:11px 0 7px;color:#eee8de}.metric small{font:500 11px var(--sans);color:#9ba5a3;letter-spacing:0}.metric-label{font-size:8px;letter-spacing:.14em;text-transform:uppercase;color:#83908d}.source-line{display:flex;gap:6px;align-items:center;margin-top:13px;color:#778582;font-size:8px}.source-mark{width:5px;height:5px;border-radius:50%;background:var(--blue)}.badge{display:inline-flex;align-items:center;gap:6px;padding:4px 7px;border:1px solid rgba(131,167,179,.25);border-radius:99px;color:#a8c0c5;font-size:8px;letter-spacing:.06em;text-transform:uppercase}.badge.hypothesis{border-color:rgba(200,146,97,.3);color:#d5af88}.badge.unknown{border-color:rgba(145,156,153,.24);color:#a4ada9}.badge.derived{border-color:rgba(138,180,160,.25);color:#abd0ba}.fineprint{color:#75817e;font-size:9px;line-height:1.7}.chart-card{padding:17px 18px 12px}.chart-head{display:flex;align-items:flex-start;justify-content:space-between;gap:14px}.chart-title{font-size:11px;color:#d4d8d2}.chart-note{font-size:8px;color:#75817e;margin-top:3px}.chart{width:100%;height:auto;display:block;margin-top:15px}.chart text{font-family:var(--sans);font-size:8px;fill:#83908e}.chart .gridline{stroke:rgba(219,210,194,.1);stroke-width:1}.chart .curve{fill:none;stroke:#cda37c;stroke-width:2}.chart .area{fill:url(#areaFill)}.chart .point{fill:#e1ba90;stroke:#101617;stroke-width:2}.chart .axis{stroke:rgba(219,210,194,.18);stroke-width:1}.chart-legend{display:flex;gap:15px;flex-wrap:wrap;margin-top:5px;color:#889491;font-size:8px}.legend-dot{width:6px;height:6px;border-radius:50%;display:inline-block;background:var(--copper);margin-right:6px}.legend-square{width:6px;height:6px;display:inline-block;background:var(--blue);margin:0 6px 0 0}
+.source-list{display:grid;gap:0}.source-item{display:grid;grid-template-columns:22px minmax(0,1fr) auto;gap:10px;align-items:center;padding:11px 0;border-bottom:1px solid rgba(223,210,190,.08)}.source-item:last-child{border-bottom:0}.source-index{font:italic 12px var(--serif);color:#bb946f}.source-item b{display:block;font-size:10px;font-weight:520}.source-item span{display:block;color:#818d8a;font-size:8px;margin-top:2px}.source-link{color:#c5a07d;text-decoration:none;font-size:8px;white-space:nowrap}.source-link:hover{text-decoration:underline}
+.quote-box{border-left:1px solid rgba(200,146,97,.55);padding:4px 0 4px 17px;font:italic 20px/1.45 var(--serif);color:#e3d5c4}.split{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(260px,.85fr);gap:16px;align-items:start}.avatar-placeholder{min-height:300px;position:relative;overflow:hidden;display:grid;place-items:center;background:radial-gradient(ellipse at 50% 37%,rgba(200,146,97,.1),transparent 33%),linear-gradient(180deg,rgba(30,44,45,.35),rgba(11,16,17,.3));border:1px solid var(--line);border-radius:7px}.avatar-silhouette{width:125px;height:184px;position:relative;opacity:.62;filter:drop-shadow(0 20px 30px rgba(0,0,0,.4))}.avatar-silhouette:before{content:"";position:absolute;width:62px;height:72px;left:32px;top:0;border-radius:48% 48% 42% 42%;background:linear-gradient(145deg,#768382,#1e292a);border:1px solid rgba(217,191,158,.22)}.avatar-silhouette:after{content:"";position:absolute;left:0;right:0;bottom:0;height:119px;clip-path:polygon(29% 0,71% 0,100% 100%,0 100%);background:linear-gradient(110deg,#526061,#182122 48%,#090e0f);border-top:1px solid rgba(217,191,158,.18)}.placeholder-label{position:absolute;bottom:17px;left:16px;right:16px;text-align:center;color:#9eaaa6;font-size:8px;letter-spacing:.08em}.speech-controls{display:flex;gap:8px;margin-top:15px;align-items:center}.round-control{width:36px;height:36px;border-radius:50%;border:1px solid rgba(200,146,97,.38);background:rgba(200,146,97,.1);display:grid;place-items:center;color:#d5b18b}.round-control[disabled]{opacity:.45;cursor:not-allowed}.transcript{padding:13px 14px;background:rgba(255,255,255,.025);border:1px solid var(--line);border-radius:5px;color:#a3ada9;font-size:10px;line-height:1.7}.transcript strong{display:block;color:#d4d1c8;font-size:8px;letter-spacing:.13em;text-transform:uppercase;margin-bottom:5px}
+.dialogue{display:grid;grid-template-columns:1fr;gap:12px;max-width:780px}.chat{display:grid;gap:10px}.bubble{max-width:82%;padding:12px 15px;border:1px solid var(--line);border-radius:4px;background:#131b1d;color:#c5cfcb;font-size:11px;line-height:1.7}.bubble.user{justify-self:end;background:rgba(200,146,97,.09);border-color:rgba(200,146,97,.2);color:#e2d1bc}.composer{display:grid;grid-template-columns:1fr auto;align-items:end;gap:12px;padding:12px;border:1px solid rgba(210,190,163,.21);background:rgba(13,19,20,.85);border-radius:6px}.composer textarea{width:100%;min-height:70px;resize:vertical;border:0;background:transparent;color:var(--text);font:inherit;font-size:11px;outline:0}.composer textarea::placeholder{color:#687572}.suggestions{display:flex;gap:7px;flex-wrap:wrap}.chip{border:1px solid var(--line);border-radius:99px;padding:7px 10px;background:transparent;color:#a8b2ae;font-size:9px;cursor:pointer}.chip:hover{border-color:rgba(200,146,97,.4);color:#e1c19e}.disclaimer{padding:10px 12px;border:1px solid rgba(200,146,97,.18);background:rgba(200,146,97,.045);color:#b99e7f;font-size:9px;line-height:1.6}
+.room-kicker{font:italic 15px var(--serif);color:#b99876}.list-check{display:grid;gap:10px;margin:0;padding:0;list-style:none}.list-check li{display:grid;grid-template-columns:17px 1fr;gap:8px;color:#9da9a5;font-size:10px;line-height:1.65}.list-check li:before{content:"";width:6px;height:6px;margin:5px 0 0 3px;border:1px solid #b68e6b;border-radius:50%}.scenario-card{position:relative;min-height:164px;cursor:pointer;transition:border-color .2s,transform .2s}.scenario-card:hover{transform:translateY(-2px)}.scenario-card.selected{border-color:rgba(200,146,97,.5);box-shadow:0 0 0 1px rgba(200,146,97,.1) inset,0 14px 40px rgba(0,0,0,.2)}.scenario-card .select-indicator{position:absolute;right:15px;top:15px;width:12px;height:12px;border:1px solid #66726f;border-radius:50%}.scenario-card.selected .select-indicator{border-color:var(--copper);background:radial-gradient(circle,var(--copper) 0 3px,transparent 4px)}.range-row{display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center;color:#aeb8b4;font-size:10px}.range-row input{grid-column:1/-1;width:100%;accent-color:var(--copper)}.locked-result{min-height:136px;display:grid;place-items:center;text-align:center;border:1px dashed rgba(200,146,97,.3);background:rgba(200,146,97,.025);padding:20px}.locked-result strong{display:block;font:400 24px var(--serif);color:#e3d6c6}.locked-result small{display:block;max-width:340px;color:#9a8a78;font-size:9px;line-height:1.65;margin-top:6px}.solution-card{display:flex;flex-direction:column;min-height:236px}.solution-card .card-foot{margin-top:auto;padding-top:15px;display:flex;justify-content:space-between;align-items:center;color:#7d8986;font-size:8px}.solution-card .card-foot b{font-size:8px;font-weight:500;color:#c8ad8e}.solution-number{font:italic 14px var(--serif);color:#b6906f}.solution-details{display:grid;gap:0;margin-top:14px;border-top:1px solid rgba(223,210,190,.08)}.solution-details div{display:flex;justify-content:space-between;gap:10px;padding:8px 0;border-bottom:1px solid rgba(223,210,190,.06);font-size:8px}.solution-details span{color:#788480}.solution-details b{font-weight:500;color:#c3cbc6;text-align:right}.execution-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.exec-step{display:grid;grid-template-columns:34px 1fr;gap:11px;padding:15px;border:1px solid var(--line);border-radius:6px;background:rgba(19,27,28,.78)}.exec-step .step-no{width:29px;height:29px;border:1px solid rgba(200,146,97,.25);border-radius:50%;display:grid;place-items:center;color:#c9a27c;font:italic 12px var(--serif)}.exec-step h3{font-size:10px;font-weight:540;margin:1px 0 4px}.exec-step p{margin:0;color:#8c9995;font-size:9px;line-height:1.6}.compare-strip{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;border:1px solid var(--line);border-radius:6px;overflow:hidden}.compare-item{padding:13px 15px;background:rgba(18,26,27,.75);border-right:1px solid var(--line)}.compare-item:last-child{border:0}.compare-item b{display:block;font:400 20px var(--serif);color:#e9ddcf}.compare-item span{display:block;color:#899591;font-size:8px;line-height:1.5;margin-top:4px}.room-footer{display:flex;justify-content:space-between;align-items:center;gap:14px;margin:28px 0 4px;padding-top:14px;border-top:1px solid var(--line)}.room-footer .btn{font-size:9px}.room-footer-note{font-size:8px;color:#72807c}
+.overlay{position:fixed;inset:0;z-index:30;display:none;place-items:center;padding:20px;background:rgba(0,0,0,.66);backdrop-filter:blur(7px)}.overlay.open{display:grid}.modal{width:min(690px,100%);max-height:min(84vh,800px);overflow:auto;border:1px solid rgba(220,192,160,.2);border-radius:8px;padding:24px;background:linear-gradient(145deg,#182122,#0d1314);box-shadow:0 32px 100px rgba(0,0,0,.6)}.modal-top{display:flex;justify-content:space-between;align-items:flex-start}.modal h2{font:400 30px var(--serif);margin:5px 0 8px}.modal p{color:#a2ada8;font-size:10px;line-height:1.75}.inventory-row{padding:13px 0;border-bottom:1px solid var(--line)}.inventory-row b{display:block;font-size:10px;font-weight:550}.inventory-row span{display:block;color:#8d9995;font-size:9px;line-height:1.6;margin-top:4px}.inventory-row a{color:#d4ac82;text-decoration:none}.toast{position:fixed;left:50%;bottom:24px;z-index:25;transform:translate(-50%,16px);opacity:0;pointer-events:none;transition:opacity .25s,transform .25s;padding:10px 14px;border:1px solid rgba(200,146,97,.3);background:#182121;color:#dfc5a7;border-radius:4px;font-size:9px}.toast.show{opacity:1;transform:translate(-50%,0)}
+@media(max-width:980px){.shell{grid-template-columns:210px 1fr}.rail{padding-left:13px;padding-right:10px}.main{padding-left:28px;padding-right:28px}.grid.three{grid-template-columns:repeat(2,minmax(0,1fr))}.hero-copy .display{font-size:68px}}
+@media(max-width:700px){.shell{display:block;padding-bottom:64px}.rail{position:fixed;top:auto;bottom:0;left:0;right:0;width:100%;height:62px;border:0;border-top:1px solid var(--line);padding:5px 9px 0;background:rgba(10,15,16,.96);backdrop-filter:blur(20px)}.brand,.rail-label,.rail-bottom{display:none}.nav{display:flex;overflow-x:auto;overflow-y:hidden;gap:4px;scrollbar-width:none}.nav::-webkit-scrollbar{display:none}.nav button{width:auto;min-width:72px;flex-direction:column;justify-content:center;gap:1px;padding:5px 7px;border-radius:5px}.nav-no{width:auto;font-size:8px}.nav-title{font-size:8px;white-space:nowrap}.topbar{height:55px;padding:0 15px}.crumb{font-size:9px}.top-actions .tag:not(.demo){display:none}.main{padding:18px 15px 32px}.progress-row{font-size:8px}.hero{min-height:640px;min-height:min(720px,78svh)}.hero-copy{padding:23px}.hero-copy .display{font-size:clamp(51px,15vw,75px);max-width:100%}.hero-bottom{display:block}.hero-blurb{font-size:11px}.arrival-index{display:block;margin-top:16px}.horizon{right:-19%;width:87%;height:54%;top:13%}.door{right:11%;top:18%;width:22%;height:42%}.plinth{right:18%;bottom:23%;width:28%}.grid.two,.grid.three,.split{grid-template-columns:1fr}.section-head{display:block}.section-head .status-line{margin-top:10px}.compare-strip{grid-template-columns:1fr}.compare-item{border-right:0;border-bottom:1px solid var(--line)}.compare-item:last-child{border-bottom:0}.execution-grid{grid-template-columns:1fr}.room-footer{margin-top:22px}.room-footer-note{display:none}.avatar-placeholder{min-height:235px}.bubble{max-width:95%}.composer{grid-template-columns:1fr}.composer .btn{justify-self:end}.room-footer .btn{padding:10px}.room-footer .btn:first-child{display:none}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
+
+/* Continuation V3 — retains the received V2 visual foundation. */
+:root{color-scheme:dark}body{margin:0}a{color:var(--copper-2)}button,input,select{font:inherit}button:focus-visible,a:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid #e4b88a;outline-offset:5px}.brand{text-decoration:none;color:inherit}.report-picker{width:100%;background:#131e20;color:#e8e0d3;border:1px solid #53615c;padding:9px;border-radius:5px;margin:8px 0 14px}.room[hidden]{display:none}.proof-figure{font:400 clamp(34px,5vw,65px)/1.1 var(--serif);color:var(--paper);margin:18px 0}.proof-figure small{font:13px var(--sans)}.card .badge{margin-bottom:8px}.source-link{display:block;margin-top:14px;line-height:1.6;font-size:11px}.room-label{font:10px var(--sans);letter-spacing:.13em;text-transform:uppercase;color:var(--copper-2);margin:0 0 12px}.source-list li{margin:12px 0;font-size:12px;line-height:1.8}.route{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin:22px 0}.route div{padding:18px 12px;border:1px solid var(--line);border-radius:6px;font-size:12px;line-height:1.7}.route small{display:block;color:var(--copper-2);margin-bottom:14px}.scene-shell{border:1px solid var(--line);border-radius:8px;overflow:hidden;background:#071019;margin:20px 0}.scene-shell iframe{width:100%;height:580px;border:0;display:block}.scene-welcome{padding:42px;min-height:270px;display:grid;align-content:center;background:radial-gradient(ellipse at 75% 20%,#3b3c35,transparent 70%),linear-gradient(130deg,#0e181b,#101416)}.scene-welcome h2{font:400 42px/1.15 var(--serif);max-width:500px;margin:10px 0 20px}.scene-status{padding:14px 20px;color:var(--muted);font-size:11px;line-height:1.7}.section-copy{max-width:760px}.source-item{align-items:start}.catalog-item{display:block;padding:24px;text-decoration:none;color:var(--paper);border:1px solid var(--line);border-radius:6px}.catalog-item:hover{border-color:var(--copper)}.catalog-item h3{font:400 28px/1.2 var(--serif);margin:8px 0 12px}.small-note{font-size:11px;color:var(--muted);line-height:1.8}.source-badge{display:inline-block;font-size:9px;padding:5px 8px;border:1px solid var(--line);border-radius:3px;color:var(--copper-2)}.topbar{gap:15px}.top-actions a{font-size:11px;text-decoration:none}.formula{font:400 28px/1.4 var(--serif);color:var(--copper-2);padding:20px 0}.range-layout{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin:25px 0}.range-layout label{display:block;font-size:12px;color:var(--muted)}.range-layout input{width:100%;accent-color:var(--copper);margin-top:15px}.range-output{display:block;font-size:17px;color:var(--paper);margin-top:8px}.hero-copy{padding:40px}.hero{min-height:470px}.hero-copy .display{max-width:740px;font-size:clamp(53px,6.6vw,88px)}.horizon{opacity:.5}.hero-bottom{align-items:end}.hero .btn{margin-right:8px}.rail-bottom .small-note{font-size:9px}.room-footer .btn{margin-left:auto}.breadcrumb{color:var(--muted);font-size:11px}.report-title{color:var(--copper-2)}.section-copy strong{color:var(--paper)}.page-error{padding:35px;background:#2c1c17;border:1px solid #a46e47;margin-bottom:25px}.public-state{display:flex;gap:10px;align-items:center}.public-state:before{content:'';width:6px;height:6px;border-radius:50%;background:#9ab7a3}.hidden{display:none!important}@media(max-width:700px){.route{grid-template-columns:1fr}.route div{display:flex;gap:20px}.route small{margin:0}.scene-shell iframe{height:480px}.scene-welcome{padding:24px}.scene-welcome h2{font-size:34px}.range-layout{grid-template-columns:1fr}.hero-copy{padding:25px}.hero{min-height:520px}.topbar .crumb{max-width:170px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.rail .report-picker,.rail .report-label{display:none}.top-actions a{font-size:10px}.room-footer-note{display:none}}
+.scene-shell iframe[hidden],[data-pdf-link][hidden],.room[hidden]{display:none}.scene-welcome[hidden]{display:none}.progress-track{height:2px;background:var(--line);margin:12px 0 18px}.progress-track>div{height:100%;background:var(--copper);transition:width .3s}.card h2{font:400 28px/1.25 var(--serif);margin:15px 0}.exec-step h2{font-size:20px;margin:2px 0 12px}.badge{line-height:1.5}#conflicts .disclaimer{margin-top:18px}.metric-label{line-height:1.6}
+
+/* Keep the close control hidden after the scene has been released. */
+#stopScene[hidden]{display:none}
+</style><style>
+:root{--deep:#071019;--card3:#121f2a;--line3:#3b5260;--ink3:#f2f7f7;--muted3:#b9cad2;--mint3:#9ae8d3;--warm3:#ffd294}
+body.ep3{display:block;margin:0;background:radial-gradient(ellipse at 80% 0,#203642 0%,var(--deep) 50%);color:var(--ink3);font:16px/1.55 system-ui,sans-serif}
+.ep3 a{color:var(--mint3);text-underline-offset:.25em}.ep3 button,.ep3 input,.ep3 select{font:inherit}.ep3 button,.ep3 select,.ep3 input{color:var(--ink3);background:#142633;border:1px solid #607987;border-radius:.45rem;padding:.55rem .75rem}.ep3 button{cursor:pointer}.ep3 button:hover{background:#203944}.ep3 :focus-visible{outline:3px solid var(--warm3);outline-offset:3px}.ep3 [aria-pressed=true]{color:var(--deep);background:var(--mint3);border-color:var(--mint3)}.ep3 [aria-pressed=true]:hover{background:#baf6e6}
+.ep3 .shell{display:block;min-height:0;max-width:1120px;margin:auto;padding:0 1.25rem}.ep3 .mast{border-bottom:1px solid var(--line3);padding:1rem 0}.ep3 .mast .shell{display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap}.ep3 .kicker{font-size:.75rem;letter-spacing:.19em;text-transform:uppercase;font-weight:700;color:var(--mint3)}.ep3 .hero3{padding:4rem 0 2.2rem}.ep3 .hero3 h1{font:clamp(2.6rem,7.5vw,5.5rem)/.99 Georgia,serif;margin:.7rem 0 1rem;max-width:18ch}.ep3 .intro3{color:var(--muted3);max-width:66ch;font-size:1.12rem}.ep3 .panel3{margin:1.1rem 0 2rem;padding:clamp(1rem,3vw,1.8rem);border:1px solid var(--line3);border-radius:.75rem;background:rgba(12,25,35,.94)}.ep3 h2{font:clamp(1.6rem,4vw,2.6rem)/1.12 Georgia,serif;margin:.35rem 0 1rem}.ep3 h3{font-size:1.1rem;margin:.8rem 0 .25rem}.ep3 p{margin:.5rem 0 .75rem}.ep3 .actions3{display:flex;gap:.55rem;flex-wrap:wrap;align-items:center}.ep3 .jump3{padding:0 0 1rem}.ep3 .jump3 a,.ep3 .chip3{padding:.3rem .65rem;border:1px solid var(--line3);border-radius:1rem}.ep3 .chip3{display:inline-block;color:var(--warm3);font-size:.82rem}.ep3 .layout3{display:grid;grid-template-columns:minmax(200px,.62fr) minmax(0,1.38fr);gap:1rem;margin-top:1rem}.ep3 .list3{display:grid;gap:.5rem;align-content:start}.ep3 .list3 button{text-align:left}.ep3 .flow3{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.45rem;padding:0;list-style:none}.ep3 .flow3 li,.ep3 .fact3{background:var(--card3);border:1px solid var(--line3);padding:.65rem .75rem;border-radius:.45rem}.ep3 .flow3 strong,.ep3 .fact3 strong{display:block;color:var(--mint3)}.ep3 .note3{color:var(--muted3);font-size:.91rem}.ep3 details{padding:.5rem 0;border-bottom:1px solid var(--line3)}.ep3 summary{cursor:pointer;color:var(--mint3);font-weight:600}.ep3 .grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(155px,1fr));gap:.75rem}.ep3 label{display:flex;flex-direction:column;gap:.3rem}.ep3 input,.ep3 select{width:100%;min-width:0;box-sizing:border-box}.ep3 .metrics3{margin-top:1rem}.ep3 .metrics3 strong{font:1.65rem Georgia,serif}.ep3 .table3{overflow:auto;margin-top:.75rem}.ep3 table{width:100%;border-collapse:collapse;font-size:.92rem}.ep3 td,.ep3 th{padding:.5rem .55rem;border-bottom:1px solid var(--line3);text-align:left;vertical-align:top}.ep3 .bars3{display:grid;gap:.4rem}.ep3 .bar3{display:grid;grid-template-columns:1fr 2fr 5ch;gap:.4rem;align-items:center;font-size:.9rem}.ep3 progress{width:100%;height:.8rem;accent-color:var(--mint3)}.ep3 footer{padding:1rem 0 3rem}.ep3 #ask{flex:1;min-width:min(260px,100%)}.ep3 #answer a{display:block}.ep3 #historyItems{padding-left:1.25rem}.ep3 .error3{color:var(--warm3)}
+@media(max-width:660px){.ep3 .layout3{grid-template-columns:1fr}.ep3 .hero3{padding:2.6rem 0 1.1rem}.ep3 .flow3{grid-template-columns:1fr}.ep3 .shell{padding:0 .85rem}.ep3 .bar3{grid-template-columns:1.2fr 1fr 5ch}}
+
+.ep3 [hidden]{display:none!important}.ep3 .panel3,.ep3 .table3{min-width:0}.ep3 .grid3>*{min-width:0}.ep3 a,.ep3 .note3{overflow-wrap:anywhere}.ep3 #historyItems li{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:.5rem}.ep3 :is(input,select,button,summary){scroll-margin-block:2rem}
+</style></head>
+<body class="ep3"><header class="mast"><div class="shell"><strong>LA BÊTE <span class="kicker">/ 03</span> · NOVA ERA</strong><a href="./index.html">Retour à la Maison des Preuves</a></div></header>
+<main class="shell"><div class="hero3"><div class="kicker">LA BÊTE FRANCE · Maison des Preuves</div><h1>Qui peut prendre le relais&nbsp;?</h1><p class="intro3">La France est-elle encore maîtresse de son destin économique&nbsp;? Suivez une dépendance jusqu’à sa preuve, puis testez la continuité d’un corridor de fret.</p><span class="chip3">Édition du 6 novembre 2026 · Parcours local</span></div>
+<nav class="jump3 actions3" aria-label="Étapes"><a href="#atlas">1 · Dépendance</a><a href="#sim">2 · Scénario</a><a href="#decision">3 · Décision</a><a href="#questions">Questions documentaires</a></nav>
+<section class="panel3" id="atlas"><div class="kicker">01 / Explorer</div><h2>Atlas des dépendances</h2><p class="note3">Les maillons à documenter indiquent où chercher la preuve. Seuls les liens qualifiés portent une source.</p><div class="actions3"><label>Territoire de départ<select id="territory" aria-describedby="territoryNote"></select></label><a id="existingAtlas" href="../france-debt-rate-risk-live-2026-10-02.html#/univers/territoires">Ouvrir l’Atlas territorial</a></div><p class="note3" id="territoryNote"></p><div class="actions3" id="sectors" aria-label="Filtrer par secteur"></div><div class="layout3"><div id="chains" class="list3" aria-label="Dépendances"></div><article id="proof" aria-live="polite"></article></div></section>
+<section class="panel3" id="sim"><div class="kicker">02 / Mettre à l’épreuve</div><div id="freightLab"><h2>Si un corridor de fret se coupe</h2><p class="note3">Les entrées du modèle sont hypothétiques. Les chiffres de trafic annuels de HAROPA contextualisent le lieu et ne déterminent aucune capacité de secours.</p>
+<form id="simForm" novalidate><div class="grid3"><label>Volume critique (EVP/semaine)<input id="volume" type="number" min="1" max="1000000" step="1" required></label><label>Durée (semaines)<input id="weeks" type="number" min="1" max="52" step="1" required></label><label>Flux interrompu (%)<input id="shock" type="number" min="0" max="100" step="1" required></label><label>Scénario détaillé<select id="scenario"></select></label></div><p class="error3" id="error" role="alert"></p></form>
+<div id="metrics" class="grid3 metrics3" aria-live="polite"></div><p id="detail" class="note3"></p><div id="bars" class="bars3" aria-label="Service estimé, de 0 à 100 pour cent"></div>
+<div class="table3" tabindex="0" role="region" aria-label="Comparaison du fret, défilement horizontal"><table><thead><tr><th>Scénario</th><th>EVP non servis</th><th>Fourchette de sensibilité</th><th>Investissement</th><th>Coût annuel</th><th>Surcoût de report</th></tr></thead><tbody id="compare"></tbody></table></div>
+<details><summary>Calendrier et formule</summary><p>Chaque semaine, le report s’applique au flux interrompu dans la limite de la capacité de l’itinéraire. Le stock couvre le reliquat jusqu’à épuisement. Le service est la part de la demande totale livrée sur la période.</p><p id="sensitivity" class="note3"></p><div id="timeline" class="table3" tabindex="0" role="region" aria-label="Calendrier du fret"></div></details>
+</div><div id="industryLab" hidden><h2>Crolles · Scénarios de continuité</h2><p id="industryScope" class="note3"></p><label>Hypothèse industrielle<select id="industryScenario"></select></label><p id="industryDetail" aria-live="polite"></p><div id="industryCompare" class="grid3"></div><p id="industryLimits" class="note3"></p></div></section>
+<section class="panel3" id="decision"><div class="kicker">03 / Décider et conserver</div><h2>Ce qu’il faudrait prouver</h2><p id="decisionText">Obtenir les volumes critiques et les créneaux auprès des opérateurs. Exécuter un exercice de report avant de valider la capacité.</p><label>Votre décision ou hypothèse<input id="decisionNote" maxlength="280" placeholder="Ex. vérifier un créneau de secours avant engagement"></label><div class="actions3"><button type="button" id="save">Enregistrer cette décision</button><button type="button" id="export">Exporter le dossier JSON</button></div><p class="note3" id="historyStatus" role="status"></p><details><summary>Historique de cet appareil</summary><ol id="historyItems"></ol><button type="button" id="clear">Effacer l’historique local</button></details></section>
+<section class="panel3" id="questions"><div class="kicker">Lecture du corpus</div><h2>Poser une question</h2><p class="note3">Recherche locale par thème dans le corpus de l’épisode. Les réponses suivent des règles documentaires et renvoient aux preuves. L’assistant privé ojO requiert son raccord et sa recette.</p><p><a href="../france-debt-rate-risk-live-2026-10-02.html?lecture=explain&amp;lang=fr#dialogue-public">Ouvrir le dialogue public existant (dette et taux)</a></p><form class="actions3" id="askForm"><input id="ask" maxlength="300" aria-label="Question en français" placeholder="Que sait-on des stocks d’uranium ?" required><button>Interroger le corpus</button></form><div id="answer" aria-live="polite"></div></section></main>
+<noscript><p class="shell">JavaScript est nécessaire pour explorer les preuves et calculer les scénarios. Consultez le dossier scientifique pour une lecture sans script.</p></noscript><footer class="shell"><span class="kicker">LA BÊTE 03 · NOVA ERA</span><p class="note3">Calculs exécutés sur cet appareil. Export possible sans compte. Sources externes ouvertes sur demande.</p></footer>
+<script type="application/json" id="evidence">{
+  "schema": "nova-era.la-bete.ep03.evidence.v1",
+  "date": "2026-11-06",
+  "sectors": {
+    "energie": "Énergie",
+    "industrie": "Industrie",
+    "agriculture": "Agriculture",
+    "numerique": "Numérique",
+    "finance": "Finance",
+    "logistique": "Logistique"
+  },
+  "sources": [
+    {
+      "id": "RTE25",
+      "owner": "RTE",
+      "title": "Bilan électrique 2025, synthèse",
+      "published": "2026-02-25, principaux résultats",
+      "period": "2025",
+      "scope": "France métropolitaine et échanges aux frontières RTE",
+      "url": "https://analysesetdonnees.rte-france.com/bilan-electrique-2025/synthese",
+      "limits": "Production, échanges et valorisation annuelle. Les flux aux frontières ne révèlent pas toutes les destinations finales.",
+      "consulted": "2026-11-06"
+    },
+    {
+      "id": "RTE22",
+      "owner": "RTE",
+      "title": "Bilan électrique 2022",
+      "published": "2023-02-16",
+      "period": "2022",
+      "scope": "France métropolitaine et échanges aux frontières RTE",
+      "url": "https://www.rte-france.com/actualites/bilan-electrique-2022",
+      "limits": "Le cas 2022 est historique. La production et la consommation n'ont pas le même profil en 2025.",
+      "consulted": "2026-11-06"
+    },
+    {
+      "id": "SDES25",
+      "owner": "SDES",
+      "title": "Chiffres clés de l’énergie, édition 2026, bilan énergétique",
+      "published": "2026, édition",
+      "period": "2025",
+      "scope": "France métropolitaine et cinq DROM",
+      "url": "https://www.statistiques.developpement-durable.gouv.fr/edition-numerique/chiffres-cles-energie/6-bilan-energetique-de-la-france",
+      "limits": "Valeurs 2025 provisoires. Chaleur nucléaire comptée comme production intérieure.",
+      "consulted": "2026-11-06"
+    },
+    {
+      "id": "SDES24",
+      "owner": "SDES",
+      "title": "Bilan énergétique de la France pour 2024, rapport",
+      "published": "2026-03",
+      "period": "2024",
+      "scope": "France métropolitaine et cinq DROM",
+      "url": "https://portail.documentation.developpement-durable.gouv.fr/pub/MPDOUV00268844-bilan-energetique-france-pour-2024.html",
+      "limits": "Le commerce d’uranium comprend des volumes destinés à des clients étrangers. Les contrats, stocks et quantités destinées au seul parc ne sont pas ventilés.",
+      "consulted": "2026-11-06"
+    },
+    {
+      "id": "DOU25",
+      "owner": "Douanes françaises",
+      "title": "Résultats du commerce extérieur pour l’année 2025",
+      "published": "2026-02-06",
+      "period": "2025",
+      "scope": "Commerce extérieur français de biens, FAB/FAB pour le solde global",
+      "url": "https://www.douane.gouv.fr/actualites/resultats-du-commerce-exterieur-de-la-france-pour-le-mois-de-decembre-et-pour-lannee",
+      "limits": "Des valeurs commerciales ne mesurent ni le stock ni l’irremplaçabilité des intrants.",
+      "consulted": "2026-11-06"
+    },
+    {
+      "id": "DGT25",
+      "owner": "DG Trésor",
+      "title": "Rapport 2026 sur le commerce extérieur de la France",
+      "published": "2026-02-09",
+      "period": "2025",
+      "scope": "France, comptes du commerce extérieur",
+      "url": "https://www.tresor.economie.gouv.fr/Articles/2026/02/06/rapport-2026-sur-le-commerce-exterieur-de-la-france",
+      "limits": "Les catégories agrégées mêlent des produits de criticités différentes.",
+      "consulted": "2026-11-06"
+    },
+    {
+      "id": "CRMA",
+      "owner": "Union européenne",
+      "title": "Règlement (UE) 2024/1252, article 5",
+      "published": "2024-05-03",
+      "period": "Objectifs 2030",
+      "scope": "Union européenne, matières premières stratégiques",
+      "url": "https://eur-lex.europa.eu/eli/reg/2024/1252/oj",
+      "limits": "Cibles de capacité et de diversification de l’UE. Le seuil de 65 % s’apprécie par matière et étape pertinente, à l’échelle de l’Union.",
+      "consulted": "2026-11-06"
+    },
+    {
+      "id": "CROL",
+      "owner": "DGE",
+      "title": "La méga-usine de semi-conducteurs a officiellement commencé sa production",
+      "published": "2023-06-05",
+      "period": "2023",
+      "scope": "Crolles, projet STMicroelectronics et GlobalFoundries",
+      "url": "https://www.entreprises.gouv.fr/la-dge/actualites/la-mega-usine-de-semi-conducteurs-officiellement-commence-sa-production",
+      "limits": "Annonce officielle du démarrage. Les volumes produits, le taux d’utilisation et les intrants 2026 restent à documenter.",
+      "consulted": "2026-11-06"
+    },
+    {
+      "id": "AGR25",
+      "owner": "Agreste, SSP",
+      "title": "Commerce extérieur agroalimentaire, Infos rapides 2026-17",
+      "published": "2026-02-12",
+      "period": "2025",
+      "scope": "France, produits agricoles bruts et agroalimentaires transformés",
+      "url": "https://agreste.agriculture.gouv.fr/agreste-web/disaron/IraCex2617/detail/",
+      "limits": "Solde en valeur. Un solde net ne renseigne pas la couverture alimentaire par produit.",
+      "consulted": "2026-11-06"
+    },
+    {
+      "id": "ENG24",
+      "owner": "Gouvernement, données Douanes, UNIFA et estimations DGE",
+      "title": "Engrais azotés, diagnostic des flux",
+      "published": "2026, publication indexée",
+      "period": "2024",
+      "scope": "France, azote élémentaire N selon les séries de la fiche",
+      "url": "https://www.info.gouv.fr/upload/media/mixed/0001/16/8bb7da1c32acf24d5658bbf776b39bd1065c4ce7.pdf",
+      "limits": "Consommation issue des livraisons. Production d’ammonitrates estimée, sans assimilation à toute la production azotée.",
+      "consulted": "2026-11-06"
+    },
+    {
+      "id": "ENG26",
+      "owner": "Ministère de l’Agriculture",
+      "title": "Plan d’urgence et stratégie de souveraineté en engrais",
+      "published": "2026-07-09, communiqué",
+      "period": "Annonce et objectifs 2030",
+      "scope": "France, filière engrais et pratiques agricoles",
+      "url": "https://agriculture.gouv.fr/le-gouvernement-annonce-un-plan-durgence-engrais-pour-les-agriculteurs-et-une-strategie-durable",
+      "limits": "Objectifs publics, réalisation à vérifier. Contrôler les mises à jour des dispositifs.",
+      "consulted": "2026-11-06"
+    },
+    {
+      "id": "CLOUD",
+      "owner": "Autorité de la concurrence",
+      "title": "Avis 23-A-08 du 29 juin 2023 portant sur le fonctionnement du secteur du cloud",
+      "published": "2023-06-29",
+      "period": "2021 pour la mesure",
+      "scope": "France, croissance des dépenses en infrastructures et applications de cloud public",
+      "url": "https://www.autoritedelaconcurrence.fr/sites/default/files/integral_texts/2023-06/23a08.pdf",
+      "limits": "Estimation historique de croissance captée. Ni part de marché en niveau ni mesure actuelle.",
+      "consulted": "2026-11-06"
+    },
+    {
+      "id": "ANSSI",
+      "owner": "ANSSI",
+      "title": "SecNumCloud, référentiel d’exigences 3.2",
+      "published": "2022-03-08",
+      "period": "Version 3.2",
+      "scope": "Périmètre de l’offre qualifiée",
+      "url": "https://cyber.gouv.fr/sites/default/files/2022-08/secnumcloud-referentiel-exigences-v3.2%5B1%5D.pdf",
+      "limits": "Vérifier la qualification de l’offre et le champ contractuel. La sécurité de la charge applicative dépend aussi du client.",
+      "consulted": "2026-11-06"
+    },
+    {
+      "id": "DATAACT",
+      "owner": "Union européenne",
+      "title": "Règlement (UE) 2023/2854, chapitre VI et article 29",
+      "published": "2023-12-22",
+      "period": "Application générale 2025-09-12 et jalon 2027-01-12",
+      "scope": "Services de traitement de données, champ du règlement",
+      "url": "https://eur-lex.europa.eu/eli/reg/2023/2854/oj?locale=fr",
+      "limits": "Droits et obligations de changement de fournisseur. Vérifier le champ et les exceptions du chapitre VI.",
+      "consulted": "2026-11-06"
+    },
+    {
+      "id": "AFT27",
+      "owner": "Agence France Trésor",
+      "title": "Besoins et ressources de financement de l’État en 2027 et point sur l’année 2026",
+      "published": "2026-09-29, annonce",
+      "period": "PLF 2027",
+      "scope": "État, tableau prévisionnel de financement",
+      "url": "https://www.aft.gouv.fr/fr/publications/communiques-presse/29092026-besoins-et-ressources-financement-letat-en-2027-et-point",
+      "limits": "Instantané de projet. Les émissions à moyen et long terme sont nettes de rachats.",
+      "consulted": "2026-11-06"
+    },
+    {
+      "id": "INSEE26",
+      "owner": "Insee",
+      "title": "Dette trimestrielle de Maastricht, T2 2026, n° 239",
+      "published": "2026-09-29",
+      "period": "2026-T2",
+      "scope": "France, administrations publiques consolidées",
+      "url": "https://www.insee.fr/fr/statistiques/9053525",
+      "limits": "Dette brute au sens de Maastricht, données révisables. La variation d’encours ne mesure pas le déficit.",
+      "consulted": "2026-11-06"
+    },
+    {
+      "id": "AFTDET",
+      "owner": "Agence France Trésor et Banque de France",
+      "title": "Principaux chiffres, groupes de porteurs",
+      "published": "Page actualisée",
+      "period": "2026-T2 dans la page consultée",
+      "scope": "Titres de dette négociable de l’État, valeur de marché pour les groupes de porteurs",
+      "url": "https://www.aft.gouv.fr/fr/principaux-chiffres-dette",
+      "limits": "Détention statistique par résidence et catégorie, sans attribution du contrôle ultime.",
+      "consulted": "2026-11-06"
+    },
+    {
+      "id": "BDF26",
+      "owner": "Banque de France",
+      "title": "Comptes financiers des agents non financiers, T2 2026",
+      "published": "2026-10, bulletin",
+      "period": "2026-T2",
+      "scope": "France, ménages et sociétés non financières",
+      "url": "https://www.banque-france.fr/fr/statistiques/comptes-nationaux-financiers/comptes-financiers-des-agents-non-financiers-2026-q2",
+      "limits": "Les placements financiers des ménages ne constituent pas une enveloppe budgétaire mobilisable.",
+      "consulted": "2026-11-06"
+    },
+    {
+      "id": "TER24",
+      "owner": "SDES",
+      "title": "Chiffres clés des transports 2026, transport terrestre de marchandises",
+      "published": "2026-04, édition",
+      "period": "2024",
+      "scope": "Transport intérieur terrestre de marchandises, hors oléoducs",
+      "url": "https://www.statistiques.developpement-durable.gouv.fr/edition-numerique/chiffres-cles-transports/fr/21-transport-terrestre-de-marchandises-",
+      "limits": "Parts arrondies en tonnes-kilomètres. Aucune ventilation de capacité de report par corridor.",
+      "consulted": "2026-11-06"
+    },
+    {
+      "id": "PORT25",
+      "owner": "SDES",
+      "title": "Rebond du trafic maritime de fret en France en 2025",
+      "published": "2026-07-24",
+      "period": "2025",
+      "scope": "38 ports de commerce de France hors Mayotte, fret avec tare",
+      "url": "https://www.statistiques.developpement-durable.gouv.fr/rebond-du-trafic-maritime-de-fret-en-france-en-2025",
+      "limits": "Certaines données provisoires. Les chiffres d’opérateur peuvent couvrir un périmètre différent.",
+      "consulted": "2026-11-06"
+    },
+    {
+      "id": "HAR25",
+      "owner": "HAROPA PORT",
+      "title": "Trafics records et report modal en croissance en 2025 sur l’axe Seine",
+      "published": "2026-01-21, mise à jour 2026-03-25",
+      "period": "2025",
+      "scope": "Périmètre de l’opérateur HAROPA PORT",
+      "url": "https://rapport-annuel.haropaport.com/fr/actualites/trafics-records-et-report-modal-en-croissance-en-2025-sur-laxe-seine",
+      "limits": "EVP et tonnes sont deux mesures distinctes. Aucune capacité disponible en situation de crise déduite du total annuel.",
+      "consulted": "2026-11-06"
+    },
+    {
+      "id": "PET",
+      "owner": "Union européenne",
+      "title": "Directive 2009/119/CE, article 3",
+      "published": "2009-10-09, JO",
+      "period": "Règle de dimensionnement",
+      "scope": "États membres, stocks de pétrole brut ou produits pétroliers",
+      "url": "https://eur-lex.europa.eu/legal-content/FR/TXT/?uri=CELEX%3A32009L0119",
+      "limits": "Le plancher réglementaire national ne démontre aucun délai de mise à disposition locale.",
+      "consulted": "2026-11-06"
+    },
+    {
+      "id": "TEN",
+      "owner": "Union européenne",
+      "title": "Règlement (UE) 2024/1679, réseau transeuropéen de transport",
+      "published": "2024-06-28",
+      "period": "Cadre en vigueur",
+      "scope": "Réseau européen de transport",
+      "url": "https://eur-lex.europa.eu/eli/reg/2024/1679/oj?locale=fr",
+      "limits": "Un statut d’infrastructure ne prouve pas l’existence de créneaux de report réservés.",
+      "consulted": "2026-11-06"
+    }
+  ],
+  "facts": [
+    {
+      "id": "F01",
+      "sector": "energie",
+      "label": "Production électrique",
+      "value": 547.5,
+      "unit": "TWh",
+      "status": "observé",
+      "source": "RTE25",
+      "location": "Principaux résultats, production totale",
+      "method": "Lecture directe du bilan."
+    },
+    {
+      "id": "F02",
+      "sector": "energie",
+      "label": "Solde net électrique 2025",
+      "value": 92.3,
+      "unit": "TWh",
+      "status": "observé",
+      "source": "RTE25",
+      "location": "Échanges, paragraphe sur le solde net",
+      "method": "Positif = export net."
+    },
+    {
+      "id": "F03",
+      "sector": "energie",
+      "label": "Solde net électrique 2022",
+      "value": -16.5,
+      "unit": "TWh",
+      "status": "observé",
+      "source": "RTE22",
+      "location": "Section solde des échanges",
+      "method": "Négatif = import net, même convention que F02."
+    },
+    {
+      "id": "F04",
+      "sector": "energie",
+      "label": "Taux d’indépendance énergétique",
+      "value": 62.7,
+      "unit": "%",
+      "status": "provisoire",
+      "source": "SDES25",
+      "location": "Section taux d’indépendance énergétique",
+      "method": "Production d’énergie primaire sur le territoire divisée par consommation primaire."
+    },
+    {
+      "id": "F05",
+      "sector": "energie",
+      "label": "Part du pétrole et du gaz dans l’énergie primaire",
+      "value": 38.0,
+      "unit": "%",
+      "status": "calculé sur provisoire",
+      "source": "SDES25",
+      "location": "Bouquet énergétique primaire réel 2025",
+      "method": "26 % de pétrole + 12 % de gaz, valeurs arrondies."
+    },
+    {
+      "id": "F06",
+      "sector": "industrie",
+      "label": "Solde des biens",
+      "value": -69.2,
+      "unit": "Md€",
+      "status": "observé",
+      "source": "DOU25",
+      "location": "Bilan annuel, solde FAB/FAB",
+      "method": "Exportations moins importations de biens selon la convention FAB/FAB."
+    },
+    {
+      "id": "F07",
+      "sector": "industrie",
+      "label": "Solde aéronautique et spatial",
+      "value": 32.6,
+      "unit": "Md€",
+      "status": "observé",
+      "source": "DGT25",
+      "location": "Secteurs en croissance",
+      "method": "Solde sectoriel 2025, distinct du solde global."
+    },
+    {
+      "id": "F08",
+      "sector": "industrie",
+      "label": "Concentration visée par l’UE auprès d’un seul pays tiers",
+      "value": 65.0,
+      "unit": "% maximum",
+      "status": "objectif",
+      "source": "CRMA",
+      "location": "Article 5 §1 b",
+      "method": "Part maximale visée de la consommation annuelle de l’UE pour chaque matière et étape pertinente."
+    },
+    {
+      "id": "F09",
+      "sector": "agriculture",
+      "label": "Solde agroalimentaire",
+      "value": 181.0,
+      "unit": "M€",
+      "status": "observé",
+      "source": "AGR25",
+      "location": "Bilan de l’année 2025",
+      "method": "554 M€ de transformés moins 373 M€ de produits bruts."
+    },
+    {
+      "id": "F10",
+      "sector": "agriculture",
+      "label": "Consommation française d’azote dans les engrais, ordre de grandeur",
+      "value": 1.8,
+      "unit": "Mt de N",
+      "status": "estimation de source",
+      "source": "ENG24",
+      "location": "Comparaison consommation / production",
+      "method": "Estimation de la consommation sur la base des statistiques de livraisons d’engrais de l’UNIFA."
+    },
+    {
+      "id": "F11",
+      "sector": "agriculture",
+      "label": "Production française d’ammonitrates, ordre de grandeur",
+      "value": 0.6,
+      "unit": "Mt de N",
+      "status": "estimation de source",
+      "source": "ENG24",
+      "location": "Comparaison consommation / production",
+      "method": "Estimation DGE, sous-ensemble de la production d’engrais azotés."
+    },
+    {
+      "id": "F12",
+      "sector": "numerique",
+      "label": "Part de la croissance des dépenses de cloud public captée par trois groupes en 2021",
+      "value": 80.0,
+      "unit": "%",
+      "status": "estimation historique",
+      "source": "CLOUD",
+      "location": "Avis 23-A-08, synthèse et développement sur la concentration",
+      "method": "AWS, Google Cloud et Microsoft Azure. Dépenses en infrastructures et applications. Variation, non part du total."
+    },
+    {
+      "id": "F13",
+      "sector": "finance",
+      "label": "Dette publique brute, Maastricht",
+      "value": 3595.5,
+      "unit": "Md€",
+      "status": "observé révisable",
+      "source": "INSEE26",
+      "location": "Résultats T2 2026",
+      "method": "Stock APU consolidé en fin de trimestre, soit 119,0 % du PIB."
+    },
+    {
+      "id": "F14",
+      "sector": "finance",
+      "label": "Besoin de financement de l’État",
+      "value": 339.7,
+      "unit": "Md€",
+      "status": "projet",
+      "source": "AFT27",
+      "location": "Point 2, PLF 2027",
+      "method": "Flux prévisionnel annuel."
+    },
+    {
+      "id": "F15",
+      "sector": "finance",
+      "label": "Émissions à moyen et long terme nettes des rachats",
+      "value": 340.0,
+      "unit": "Md€",
+      "status": "projet",
+      "source": "AFT27",
+      "location": "Point 4, PLF 2027",
+      "method": "Ressource de financement prévue, titres de l’État."
+    },
+    {
+      "id": "F16",
+      "sector": "finance",
+      "label": "Charge budgétaire de la dette",
+      "value": 72.9,
+      "unit": "Md€",
+      "status": "projet",
+      "source": "AFT27",
+      "location": "Point 5, PLF 2027",
+      "method": "Charge budgétaire prévue, distincte du besoin et de la dette Maastricht."
+    },
+    {
+      "id": "F17",
+      "sector": "logistique",
+      "label": "Transport intérieur terrestre de marchandises",
+      "value": 344.0,
+      "unit": "milliards t-km",
+      "status": "observé arrondi",
+      "source": "TER24",
+      "location": "Transport terrestre",
+      "method": "France, hors oléoducs."
+    },
+    {
+      "id": "F18",
+      "sector": "logistique",
+      "label": "Part routière du fret terrestre",
+      "value": 89.0,
+      "unit": "% des t-km",
+      "status": "observé arrondi",
+      "source": "TER24",
+      "location": "Parts modales",
+      "method": "Rail 9 %, fluvial 2 %. Ni part des tonnes ni marge de report."
+    },
+    {
+      "id": "F19",
+      "sector": "logistique",
+      "label": "Conteneurs maritimes chez HAROPA PORT",
+      "value": 3.2,
+      "unit": "millions EVP",
+      "status": "observé arrondi",
+      "source": "HAR25",
+      "location": "Trafic conteneurisé",
+      "method": "Équivalents vingt pieds manutentionnés sur l’année. Ce total ne renseigne pas le volume d’un flux critique."
+    },
+    {
+      "id": "F20",
+      "sector": "logistique",
+      "label": "Trafic maritime HAROPA dans le bilan SDES",
+      "value": 84.4,
+      "unit": "Mt",
+      "status": "provisoire selon la source",
+      "source": "PORT25",
+      "location": "Principaux ports, Haropa",
+      "method": "Fret avec tare, cadre statistique SDES."
+    },
+    {
+      "id": "F21",
+      "sector": "logistique",
+      "label": "Trafic maritime dans le bilan opérateur HAROPA",
+      "value": 84.7,
+      "unit": "Mt",
+      "status": "observé arrondi",
+      "source": "HAR25",
+      "location": "Trafic maritime",
+      "method": "Cadre opérateur. Écart de 0,3 Mt avec F20, réconciliation non démontrée."
+    },
+    {
+      "id": "F22",
+      "sector": "energie",
+      "label": "Uranium naturel importé",
+      "value": 15100.0,
+      "unit": "tonnes",
+      "status": "observé arrondi",
+      "source": "SDES24",
+      "location": "Partie 2, § 2.1.4, p. 47",
+      "method": "Flux 2024, y compris transformation pour clients étrangers."
+    },
+    {
+      "id": "F23",
+      "sector": "energie",
+      "label": "Uranium transformé en assemblages en France",
+      "value": 641.0,
+      "unit": "tonnes",
+      "status": "observé",
+      "source": "SDES24",
+      "location": "Partie 2, § 2.1.4, p. 47",
+      "method": "Transformations en 2024 chez Framatome à Romans-sur-Isère."
+    },
+    {
+      "id": "F24",
+      "sector": "industrie",
+      "label": "Investissement annoncé pour le projet de Crolles",
+      "value": 7.5,
+      "unit": "Md€ environ",
+      "status": "annonce 2023",
+      "source": "CROL",
+      "location": "Début de la production",
+      "method": "Montant annoncé pour le projet, distinct des décaissements."
+    },
+    {
+      "id": "F25",
+      "sector": "industrie",
+      "label": "Soutien public maximal annoncé pour Crolles",
+      "value": 2.9,
+      "unit": "Md€ maximum",
+      "status": "annonce 2023",
+      "source": "CROL",
+      "location": "Début de la production",
+      "method": "Plafond annoncé, à distinguer d’une dépense constatée."
+    }
+  ],
+  "chains": [
+    {
+      "id": "EN1",
+      "sector": "energie",
+      "title": "Uranium et fabrication du combustible",
+      "resource": "Uranium naturel et services du cycle",
+      "suppliers": "Kazakhstan, Niger, Canada, Namibie, Ouzbékistan à titre d’origines citées pour 2024 selon la source",
+      "industry": "Cycle du combustible nucléaire",
+      "infrastructure": "Site d’Orano à Pierrelatte et usine Framatome de Romans-sur-Isère",
+      "businesses": "Orano, Framatome et exploitants du parc",
+      "territories": "Drôme et territoires des réacteurs",
+      "citizens": "Usages électriques",
+      "response": "Diversifier par origine et par étape, recycler si techniquement possible",
+      "sources": [
+        "SDES24",
+        "RTE25"
+      ],
+      "evidence": "Importations et assemblages documentés. L’usage effectif par réacteur reste à instruire contrat par contrat.",
+      "gaps": "Parts massiques par origine, stocks utilisables, temps de conversion et qualification par réacteur.",
+      "edge_ids": [
+        "EN1.E1",
+        "EN1.E2",
+        "EN1.E3",
+        "EN1.E4",
+        "EN1.E5",
+        "EN1.E6"
+      ]
+    },
+    {
+      "id": "EN2",
+      "sector": "energie",
+      "title": "Électricité et pointe hivernale",
+      "resource": "Puissance disponible à la pointe",
+      "suppliers": "Parc français et systèmes voisins",
+      "industry": "Production pilotable et variable",
+      "infrastructure": "Réseau, interconnexions, stockage",
+      "businesses": "RTE et opérateurs européens",
+      "territories": "Métropole et régions voisines",
+      "citizens": "Services vitaux et ménages",
+      "response": "Coordination européenne, effacement vérifié, stockage à durée adaptée",
+      "sources": [
+        "RTE22",
+        "RTE25"
+      ],
+      "evidence": "Import net en 2022, export net en 2025. Capacité horaire sous choc corrélé inconnue.",
+      "gaps": "Disponibilité horaire conjointe, stocks hydro, puissance d’effacement mobilisable.",
+      "edge_ids": [
+        "EN2.E1",
+        "EN2.E2",
+        "EN2.E3",
+        "EN2.E4",
+        "EN2.E5",
+        "EN2.E6"
+      ]
+    },
+    {
+      "id": "EN3",
+      "sector": "energie",
+      "title": "Hydrocarbures et usages industriels",
+      "resource": "Pétrole, gaz naturel",
+      "suppliers": "Origines et contrats par vecteur à extraire",
+      "industry": "Raffinage, chimie et mobilité",
+      "infrastructure": "Terminaux, oléoducs, gazoducs et stockage",
+      "businesses": "Importateurs, logisticiens et consommateurs industriels",
+      "territories": "France et corridors européens",
+      "citizens": "Mobilité, chauffage et emploi industriel",
+      "response": "Électrification des usages, diversification et flexibilité",
+      "sources": [
+        "SDES25",
+        "SDES24",
+        "PET"
+      ],
+      "evidence": "Pétrole et gaz représentent ensemble environ 38 % de la consommation primaire 2025.",
+      "gaps": "Concentrations par route, disponibilité physique et substitution par usage et territoire.",
+      "edge_ids": [
+        "EN3.E1",
+        "EN3.E2",
+        "EN3.E3",
+        "EN3.E4",
+        "EN3.E5",
+        "EN3.E6"
+      ]
+    },
+    {
+      "id": "IN1",
+      "sector": "industrie",
+      "title": "Puces et équipements",
+      "resource": "Puces de procédé et composants spécifiques",
+      "suppliers": "STMicroelectronics et GlobalFoundries pour le cas de Crolles",
+      "industry": "Fabrication et intégration électronique",
+      "infrastructure": "Fab et chaînes d’assemblage/test",
+      "businesses": "Fabricants et acheteurs industriels",
+      "territories": "Isère et chaînes internationales",
+      "citizens": "Mobilité, équipements et services",
+      "response": "Qualifier deux composants et mesurer le rendement de fabrication",
+      "sources": [
+        "CROL",
+        "DOU25"
+      ],
+      "evidence": "Démarrage public annoncé à Crolles. La chaîne aval par référence reste à établir.",
+      "gaps": "Codes produits, volumes, machines/outils amont, yield, production effectivement livrée.",
+      "edge_ids": [
+        "IN1.E1",
+        "IN1.E2",
+        "IN1.E3",
+        "IN1.E4",
+        "IN1.E5",
+        "IN1.E6"
+      ]
+    },
+    {
+      "id": "IN2",
+      "sector": "industrie",
+      "title": "Matières stratégiques et transformation",
+      "resource": "Matières de l’annexe I du règlement UE",
+      "suppliers": "Origines par matière et étape à documenter",
+      "industry": "Raffinage, métallurgie et équipements",
+      "infrastructure": "Sites de transformation, recyclage, transport",
+      "businesses": "Industriels, recycleurs et acheteurs",
+      "territories": "France et UE, sites à qualifier",
+      "citizens": "Usages énergétiques, industriels et numériques",
+      "response": "Contrats multi-origines, raffinage et recyclage mutualisés",
+      "sources": [
+        "CRMA",
+        "DGT25"
+      ],
+      "evidence": "Cadre européen et contexte commercial. Affectation à une référence française à documenter.",
+      "gaps": "HHI par étape, origine réelle du raffinat, rendement de recyclage, délais d’autorisation.",
+      "edge_ids": [
+        "IN2.E1",
+        "IN2.E2",
+        "IN2.E3",
+        "IN2.E4",
+        "IN2.E5",
+        "IN2.E6"
+      ]
+    },
+    {
+      "id": "IN3",
+      "sector": "industrie",
+      "title": "Médicaments et principes actifs",
+      "resource": "Référence, principe actif et consommables",
+      "suppliers": "Producteurs par référence non cartographiés ici",
+      "industry": "Fabrication et conditionnement pharmaceutiques",
+      "infrastructure": "Sites certifiés, grossistes et chaîne du froid",
+      "businesses": "Laboratoires, ANSM et distributeurs",
+      "territories": "Bassin d’approvisionnement à identifier",
+      "citizens": "Patients et hôpitaux",
+      "response": "Substituts validés, stock tournant et qualification de fournisseurs",
+      "sources": [
+        "DOU25",
+        "DGT25"
+      ],
+      "evidence": "Soldes commerciaux sectoriels agrégés uniquement. Relation clinique posée pour collecte.",
+      "gaps": "Liste de références, sites qualifiés, alternatives, stocks et délais. Aucune concentration publiée ici.",
+      "edge_ids": [
+        "IN3.E1",
+        "IN3.E2",
+        "IN3.E3",
+        "IN3.E4",
+        "IN3.E5",
+        "IN3.E6"
+      ]
+    },
+    {
+      "id": "AG1",
+      "sector": "agriculture",
+      "title": "Azote minéral et campagne agricole",
+      "resource": "Gaz/ammoniac, engrais azotés",
+      "suppliers": "Pays et fournisseurs par forme d’engrais à extraire",
+      "industry": "Production d’engrais et grandes cultures",
+      "infrastructure": "Sites d’ammoniac, dépôts, coopératives",
+      "businesses": "Exploitants agricoles et fournisseurs",
+      "territories": "Bassins céréaliers et territoires d’élevage",
+      "citizens": "Approvisionnement alimentaire et prix",
+      "response": "Ajustement de doses, légumineuses, diversification, stocks tournants",
+      "sources": [
+        "ENG24",
+        "ENG26"
+      ],
+      "evidence": "Flux et ordres de grandeur documentés. Chaîne causale à chiffrer par culture.",
+      "gaps": "Origines et stocks par forme, coût rendu exploitation et fenêtres de livraison.",
+      "edge_ids": [
+        "AG1.E1",
+        "AG1.E2",
+        "AG1.E3",
+        "AG1.E4",
+        "AG1.E5",
+        "AG1.E6"
+      ]
+    },
+    {
+      "id": "AG2",
+      "sector": "agriculture",
+      "title": "Aliments frais, eau et chaîne du froid",
+      "resource": "Eau, produits frais, énergie",
+      "suppliers": "Producteurs et régions par produit à identifier",
+      "industry": "Transformation, conditionnement",
+      "infrastructure": "Entrepôts et véhicules à température contrôlée",
+      "businesses": "Coopératives, grossistes et distributeurs",
+      "territories": "France, granularité départementale manquante",
+      "citizens": "Accès aux aliments périssables",
+      "response": "Mesure des pertes, redondance du froid, adaptation hydrique",
+      "sources": [
+        "AGR25",
+        "TER24"
+      ],
+      "evidence": "Soldes agroalimentaires et modes de transport au niveau agrégé. Le trajet précis reste une hypothèse.",
+      "gaps": "Volumes par produit, autonomie énergétique et stocks par site, dépendance à l’eau et aux semences.",
+      "edge_ids": [
+        "AG2.E1",
+        "AG2.E2",
+        "AG2.E3",
+        "AG2.E4",
+        "AG2.E5",
+        "AG2.E6"
+      ]
+    },
+    {
+      "id": "NU1",
+      "sector": "numerique",
+      "title": "Cloud, logiciels et réversibilité",
+      "resource": "Calcul, données, identités et services managés",
+      "suppliers": "AWS, Google Cloud, Microsoft Azure pour l’observation 2021",
+      "industry": "Logiciels et services numériques",
+      "infrastructure": "Centres de données, réseau, contrôle des identités",
+      "businesses": "Opérateurs et clients",
+      "territories": "Hébergement et droit applicable à distinguer",
+      "citizens": "Usagers des services essentiels",
+      "response": "Restauration hors fournisseur et exercice de sortie",
+      "sources": [
+        "CLOUD",
+        "ANSSI",
+        "DATAACT"
+      ],
+      "evidence": "Dépenses historiques et conditions de qualification documentées. Portabilité à tester par charge.",
+      "gaps": "Parts actuelles, inventaire API, débit d’export, RTO et RPO observés par service.",
+      "edge_ids": [
+        "NU1.E1",
+        "NU1.E2",
+        "NU1.E3",
+        "NU1.E4",
+        "NU1.E5",
+        "NU1.E6"
+      ]
+    },
+    {
+      "id": "NU2",
+      "sector": "numerique",
+      "title": "Calcul IA et infrastructure",
+      "resource": "Accélérateurs, électricité, données et réseau",
+      "suppliers": "Origine et sous-traitance à qualifier",
+      "industry": "Calcul haute performance et IA",
+      "infrastructure": "Centres de données et raccordements",
+      "businesses": "Opérateurs cloud et intégrateurs",
+      "territories": "Sites français ou européens à qualifier",
+      "citizens": "Accès aux services et continuité",
+      "response": "Portabilité des modèles, allocation UE, efficacité du calcul",
+      "sources": [
+        "CROL",
+        "CLOUD",
+        "DATAACT"
+      ],
+      "evidence": "Cadres adjacents documentés. Aucun flux réel d’accélérateurs ni MW par site imputé.",
+      "gaps": "Parc d’accélérateurs, disponibilité contractuelle, débit réseau et puissance électrique réservée.",
+      "edge_ids": [
+        "NU2.E1",
+        "NU2.E2",
+        "NU2.E3",
+        "NU2.E4",
+        "NU2.E5",
+        "NU2.E6"
+      ]
+    },
+    {
+      "id": "FI1",
+      "sector": "finance",
+      "title": "Refinancement de l’État et coût du capital",
+      "resource": "Titres, liquidité et épargne",
+      "suppliers": "Marché primaire, investisseurs résidents et non-résidents",
+      "industry": "Intermédiation financière",
+      "infrastructure": "Adjudication, règlement, marchés de capitaux",
+      "businesses": "AFT, teneurs de marché et investisseurs",
+      "territories": "France et zone euro",
+      "citizens": "Services publics, entreprises et épargnants",
+      "response": "Gérer le calendrier, comparer maturités et options de financement",
+      "sources": [
+        "AFT27",
+        "INSEE26",
+        "AFTDET",
+        "BDF26"
+      ],
+      "evidence": "Agrégats État/APU et catégories observables. Les conséquences budgétaires demandent une trajectoire d’émissions.",
+      "gaps": "Courbe et duration du volume exposé, sensibilité et rétroaction vers le crédit d’entreprise.",
+      "edge_ids": [
+        "FI1.E1",
+        "FI1.E2",
+        "FI1.E3",
+        "FI1.E4",
+        "FI1.E5",
+        "FI1.E6"
+      ]
+    },
+    {
+      "id": "LO1",
+      "sector": "logistique",
+      "title": "Axe Seine, ports et corridors de fret",
+      "resource": "Conteneurs, capacités de quai et de traction",
+      "suppliers": "HAROPA pour le flux observé, routes alternatives à contractualiser",
+      "industry": "Transport et entreposage",
+      "infrastructure": "Quais, sillons ferroviaires, voies d’eau et routes",
+      "businesses": "Opérateurs de fret, commissionnaires et chargeurs",
+      "territories": "Normandie et Île-de-France",
+      "citizens": "Approvisionnement et continuité industrielle",
+      "response": "Réserver des itinéraires indépendants, des stocks et des équipes",
+      "sources": [
+        "HAR25",
+        "PORT25",
+        "TER24",
+        "TEN"
+      ],
+      "evidence": "Trafic agrégé documenté. Le corridor et le report du pilote sont stylisés.",
+      "gaps": "EVP critiques par client, créneaux confirmés, temps de transit et capacité à quai.",
+      "edge_ids": [
+        "LO1.E1",
+        "LO1.E2",
+        "LO1.E3",
+        "LO1.E4",
+        "LO1.E5",
+        "LO1.E6"
+      ]
+    },
+    {
+      "id": "LO2",
+      "sector": "logistique",
+      "title": "Froid, carburant et dernier kilomètre",
+      "resource": "Énergie, groupes froid et carburants",
+      "suppliers": "Sites, fournisseurs et stocks à identifier",
+      "industry": "Fret sous température dirigée",
+      "infrastructure": "Entrepôts, véhicules et réseau électrique",
+      "businesses": "Distributeurs, hôpitaux et prestataires",
+      "territories": "Bassins de desserte à délimiter",
+      "citizens": "Patients et ménages",
+      "response": "Stock tampon, points froid secourus et tournée d’urgence",
+      "sources": [
+        "TER24",
+        "SDES25"
+      ],
+      "evidence": "Périmètre de risque à auditer. Les volumes agrégés ne décrivent aucune tournée.",
+      "gaps": "Autonomie électrique, capacité froid de secours et temps de réapprovisionnement.",
+      "edge_ids": [
+        "LO2.E1",
+        "LO2.E2",
+        "LO2.E3",
+        "LO2.E4",
+        "LO2.E5",
+        "LO2.E6"
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "id": "EN1.E1",
+      "chain": "EN1",
+      "from": "resource",
+      "to": "suppliers",
+      "status": "flux agrégé observé",
+      "sources": [
+        "SDES24"
+      ],
+      "note": "Le SDES identifie des origines d’uranium naturel et un volume total. Les contrats par réacteur ne sont pas ventilés."
+    },
+    {
+      "id": "EN1.E2",
+      "chain": "EN1",
+      "from": "suppliers",
+      "to": "industry",
+      "status": "à documenter",
+      "sources": [],
+      "note": "Maillon à instruire. Aucun flux ni lien fournisseur-client attribué."
+    },
+    {
+      "id": "EN1.E3",
+      "chain": "EN1",
+      "from": "industry",
+      "to": "infrastructure",
+      "status": "mécanisme documenté",
+      "sources": [
+        "SDES24"
+      ],
+      "note": "Le SDES décrit le lien entre enrichissement à Pierrelatte et assemblage à Romans-sur-Isère."
+    },
+    {
+      "id": "EN1.E4",
+      "chain": "EN1",
+      "from": "infrastructure",
+      "to": "businesses",
+      "status": "mécanisme documenté",
+      "sources": [
+        "SDES24"
+      ],
+      "note": "Orano et Framatome sont associés aux sites décrits, sans ventilation de stocks."
+    },
+    {
+      "id": "EN1.E5",
+      "chain": "EN1",
+      "from": "businesses",
+      "to": "territories",
+      "status": "à documenter",
+      "sources": [],
+      "note": "Maillon à instruire. Aucun flux ni lien fournisseur-client attribué."
+    },
+    {
+      "id": "EN1.E6",
+      "chain": "EN1",
+      "from": "territories",
+      "to": "citizens",
+      "status": "à documenter",
+      "sources": [],
+      "note": "Maillon à instruire. Aucun flux ni lien fournisseur-client attribué."
+    },
+    {
+      "id": "EN2.E1",
+      "chain": "EN2",
+      "from": "resource",
+      "to": "suppliers",
+      "status": "à documenter",
+      "sources": [],
+      "note": "Maillon à instruire. Aucun flux ni lien fournisseur-client attribué."
+    },
+    {
+      "id": "EN2.E2",
+      "chain": "EN2",
+      "from": "suppliers",
+      "to": "industry",
+      "status": "à documenter",
+      "sources": [],
+      "note": "Maillon à instruire. Aucun flux ni lien fournisseur-client attribué."
+    },
+    {
+      "id": "EN2.E3",
+      "chain": "EN2",
+      "from": "industry",
+      "to": "infrastructure",
+      "status": "mécanisme documenté",
+      "sources": [
+        "RTE22",
+        "RTE25"
+      ],
+      "note": "Production et réseau interconnecté, échanges nationaux annuels. Aucun effet local ou causal quantifié."
+    },
+    {
+      "id": "EN2.E4",
+      "chain": "EN2",
+      "from": "infrastructure",
+      "to": "businesses",
+      "status": "mécanisme documenté",
+      "sources": [
+        "RTE22",
+        "RTE25"
+      ],
+      "note": "Exploitation du système électrique par RTE. Pas de capacité de secours attribuée."
+    },
+    {
+      "id": "EN2.E5",
+      "chain": "EN2",
+      "from": "businesses",
+      "to": "territories",
+      "status": "à documenter",
+      "sources": [],
+      "note": "Maillon à instruire. Aucun flux ni lien fournisseur-client attribué."
+    },
+    {
+      "id": "EN2.E6",
+      "chain": "EN2",
+      "from": "territories",
+      "to": "citizens",
+      "status": "à documenter",
+      "sources": [],
+      "note": "Maillon à instruire. Aucun flux ni lien fournisseur-client attribué."
+    },
+    {
+      "id": "EN3.E1",
+      "chain": "EN3",
+      "from": "resource",
+      "to": "suppliers",
+      "status": "à documenter",
+      "sources": [],
+      "note": "Maillon à instruire. Aucun flux ni lien fournisseur-client attribué."
+    },
+    {
+      "id": "EN3.E2",
+      "chain": "EN3",
+      "from": "suppliers",
+      "to": "industry",
+      "status": "à documenter",
+      "sources": [],
+      "note": "Maillon à instruire. Aucun flux ni lien fournisseur-client attribué."
+    },
+    {
+      "id": "EN3.E3",
+      "chain": "EN3",
+      "from": "industry",
+      "to": "infrastructure",
+      "status": "à documenter",
+      "sources": [],
+      "note": "Maillon à instruire. Aucun flux ni lien fournisseur-client attribué."
+    },
+    {
+      "id": "EN3.E4",
+      "chain": "EN3",
+      "from": "infrastructure",
+      "to": "businesses",
+      "status": "à documenter",
+      "sources": [],
+      "note": "Maillon à instruire. Aucun flux ni lien fournisseur-client attribué."
+    },
+    {
+      "id": "EN3.E5",
+      "chain": "EN3",
+      "from": "businesses",
+      "to": "territories",
+      "status": "à documenter",
+      "sources": [],
+      "note": "Maillon à instruire. Aucun flux ni lien fournisseur-client attribué."
+    },
+    {
+      "id": "EN3.E6",
+      "chain": "EN3",
+      "from": "territories",
+      "to": "citizens",
+      "status": "à documenter",
+      "sources": [],
+      "note": "Maillon à instruire. Aucun flux ni lien fournisseur-client attribué."
+    },
+    {
+      "id": "IN1.E1",
+      "chain": "IN1",
+      "from": "resource",
+      "to": "suppliers",
+      "status": "à documenter",
+      "sources": [],
+      "note": "Maillon à instruire. Aucun flux ni lien fournisseur-client attribué."
+    },
+    {
+      "id": "IN1.E2",
+      "chain": "IN1",
+      "from": "suppliers",
+      "to": "industry",
+      "status": "mécanisme documenté",
+      "sources": [
+        "CROL"
+      ],
+      "note": "Exploitants associés au projet de fabrication à Crolles. Pas d’affectation d’un intrant précis."
+    },
+    {
+      "id": "IN1.E3",
+      "chain": "IN1",
+      "from": "industry",
+      "to": "infrastructure",
+      "status": "à documenter",
+      "sources": [],
+      "note": "Maillon à instruire. Aucun flux ni lien fournisseur-client attribué."
+    },
+    {
+      "id": "IN1.E4",
+      "chain": "IN1",
+      "from": "infrastructure",
+      "to": "businesses",
+      "status": "à documenter",
+      "sources": [],
+      "note": "Maillon à instruire. Aucun flux ni lien fournisseur-client attribué."
+    },
+    {
+      "id": "IN1.E5",
+      "chain": "IN1",
+      "from": "businesses",
+      "to": "territories",
+      "status": "à documenter",
+      "sources": [],
+      "note": "Maillon à instruire. Aucun flux ni lien fournisseur-client attribué."
+    },
+    {
+      "id": "IN1.E6",
+      "chain": "IN1",
+      "from": "territories",
+      "to": "citizens",
+      "status": "à documenter",
+      "sources": [],
+      "note": "Maillon à instruire. Aucun flux ni lien fournisseur-client attribué."
+    },
+    {
+      "id": "IN2.E1",
+      "chain": "IN2",
+      "from": "resource",
+      "to": "suppliers",
+      "status": "à documenter",
+      "sources": [],
+      "note": "Maillon à instruire. Aucun flux ni lien fournisseur-client attribué."
+    },
+    {
+      "id": "IN2.E2",
+      "chain": "IN2",
+      "from": "suppliers",
+      "to": "industry",
+      "status": "à documenter",
+      "sources": [],
+      "note": "Maillon à instruire. Aucun flux ni lien fournisseur-client attribué."
+    },
+    {
+      "id": "IN2.E3",
+      "chain": "IN2",
+      "from": "industry",
+      "to": "infrastructure",
+      "status": "à documenter",
+      "sources": [],
+      "note": "Maillon à instruire. Aucun flux ni lien fournisseur-client attribué."
+    },
+    {
+      "id": "IN2.E4",
+      "chain": "IN2",
+      "from": "infrastructure",
+      "to": "businesses",
+      "status": "à documenter",
+      "sources": [],
+      "note": "Maillon à instruire. Aucun flux ni lien fournisseur-client attribué."
+    },
+    {
+      "id": "IN2.E5",
+      "chain": "IN2",
+      "from": "businesses",
+      "to": "territories",
+      "status": "à documenter",
+      "sources": [],
+      "note": "Maillon à instruire. Aucun flux ni lien fournisseur-client attribué."
+    },
+    {
+      "id": "IN2.E6",
+      "chain": "IN2",
+      "from": "territories",
+      "to": "citizens",
+      "status": "à documenter",
+      "sources": [],
+      "note": "Maillon à instruire. Aucun flux ni lien fournisseur-client attribué."
+    },
+    {
+      "id": "IN3.E1",
+      "chain": "IN3",
+      "from": "resource",
+      "to": "suppliers",
+      "status": "à documenter",
+      "sources": [],
+      "note": "Maillon à instruire. Aucun flux ni lien fournisseur-client attribué."
+    },
+    {
+      "id": "IN3.E2",
+      "chain": "IN3",
+      "from": "suppliers",
+      "to": "industry",
+      "status": "à documenter",
+      "sources": [],
+      "note": "Maillon à instruire. Aucun flux ni lien fournisseur-client attribué."
+    },
+    {
+      "id": "IN3.E3",
+      "chain": "IN3",
+      "from": "industry",
+      "to": "infrastructure",
+      "status": "à documenter",
+      "sources": [],
+      "note": "Maillon à instruire. Aucun flux ni lien fournisseur-client attribué."
+    },
+    {
+      "id": "IN3.E4",
+      "chain": "IN3",
+      "from": "infrastructure",
+      "to": "businesses",
+      "status": "à documenter",
+      "sources": [],
+      "note": "Maillon à instruire. Aucun flux ni lien fournisseur-client attribué."
+    },
+    {
+      "id": "IN3.E5",
+      "chain": "IN3",
+      "from": "businesses",
+      "to": "territories",
+      "status": "à documenter",
+      "sources": [],
+      "note": "Maillon à instruire. Aucun flux ni lien fournisseur-client attribué."
+    },
+    {
+      "id": "IN3.E6",
+      "chain": "IN3",
+      "from": "territories",
+      "to": "citizens",
+      "status": "à documenter",
+      "sources": [],
+      "note": "Maillon à instruire. Aucun flux ni lien fournisseur-client attribué."
+    },
+    {
+      "id": "AG1.E1",
+      "chain": "AG1",
+      "from": "resource",
+      "to": "suppliers",
+      "status": "mécanisme documenté",
+      "sources": [
+        "ENG24"
+      ],
+      "note": "Le diagnostic recense gaz et ammoniac comme matières premières. Les fournisseurs ne sont pas attribués."
+    },
+    {
+      "id": "AG1.E2",
+      "chain": "AG1",
+      "from": "suppliers",
+      "to": "industry",
+      "status": "à documenter",
+      "sources": [],
+      "note": "Maillon à instruire. Aucun flux ni lien fournisseur-client attribué."
+    },
+    {
+      "id": "AG1.E3",
+      "chain": "AG1",
+      "from": "industry",
+      "to": "infrastructure",
+      "status": "à documenter",
+      "sources": [],
+      "note": "Maillon à instruire. Aucun flux ni lien fournisseur-client attribué."
+    },
+    {
+      "id": "AG1.E4",
+      "chain": "AG1",
+      "from": "infrastructure",
+      "to": "businesses",
+      "status": "à documenter",
+      "sources": [],
+      "note": "Maillon à instruire. Aucun flux ni lien fournisseur-client attribué."
+    },
+    {
+      "id": "AG1.E5",
+      "chain": "AG1",
+      "from": "businesses",
+      "to": "territories",
+      "status": "à documenter",
+      "sources": [],
+      "note": "Maillon à instruire. Aucun flux ni lien fournisseur-client attribué."
+    },
+    {
+      "id": "AG1.E6",
+      "chain": "AG1",
+      "from": "territories",
+      "to": "citizens",
+      "status": "à documenter",
+      "sources": [],
+      "note": "Maillon à instruire. Aucun flux ni lien fournisseur-client attribué."
+    },
+    {
+      "id": "AG2.E1",
+      "chain": "AG2",
+      "from": "resource",
+      "to": "suppliers",
+      "status": "à documenter",
+      "sources": [],
+      "note": "Maillon à instruire. Aucun flux ni lien fournisseur-client attribué."
+    },
+    {
+      "id": "AG2.E2",
+      "chain": "AG2",
+      "from": "suppliers",
+      "to": "industry",
+      "status": "à documenter",
+      "sources": [],
+      "note": "Maillon à instruire. Aucun flux ni lien fournisseur-client attribué."
+    },
+    {
+      "id": "AG2.E3",
+      "chain": "AG2",
+      "from": "industry",
+      "to": "infrastructure",
+      "status": "à documenter",
+      "sources": [],
+      "note": "Maillon à instruire. Aucun flux ni lien fournisseur-client attribué."
+    },
+    {
+      "id": "AG2.E4",
+      "chain": "AG2",
+      "from": "infrastructure",
+      "to": "businesses",
+      "status": "à documenter",
+      "sources": [],
+      "note": "Maillon à instruire. Aucun flux ni lien fournisseur-client attribué."
+    },
+    {
+      "id": "AG2.E5",
+      "chain": "AG2",
+      "from": "businesses",
+      "to": "territories",
+      "status": "à documenter",
+      "sources": [],
+      "note": "Maillon à instruire. Aucun flux ni lien fournisseur-client attribué."
+    },
+    {
+      "id": "AG2.E6",
+      "chain": "AG2",
+      "from": "territories",
+      "to": "citizens",
+      "status": "à documenter",
+      "sources": [],
+      "note": "Maillon à instruire. Aucun flux ni lien fournisseur-client attribué."
+    },
+    {
+      "id": "NU1.E1",
+      "chain": "NU1",
+      "from": "resource",
+      "to": "suppliers",
+      "status": "à documenter",
+      "sources": [],
+      "note": "Maillon à instruire. Aucun flux ni lien fournisseur-client attribué."
+    },
+    {
+      "id": "NU1.E2",
+      "chain": "NU1",
+      "from": "suppliers",
+      "to": "industry",
+      "status": "à documenter",
+      "sources": [],
+      "note": "Maillon à instruire. Aucun flux ni lien fournisseur-client attribué."
+    },
+    {
+      "id": "NU1.E3",
+      "chain": "NU1",
+      "from": "industry",
+      "to": "infrastructure",
+      "status": "à documenter",
+      "sources": [],
+      "note": "Maillon à instruire. Aucun flux ni lien fournisseur-client attribué."
+    },
+    {
+      "id": "NU1.E4",
+      "chain": "NU1",
+      "from": "infrastructure",
+      "to": "businesses",
+      "status": "à documenter",
+      "sources": [],
+      "note": "Maillon à instruire. Aucun flux ni lien fournisseur-client attribué."
+    },
+    {
+      "id": "NU1.E5",
+      "chain": "NU1",
+      "from": "businesses",
+      "to": "territories",
+      "status": "à documenter",
+      "sources": [],
+      "note": "Maillon à instruire. Aucun flux ni lien fournisseur-client attribué."
+    },
+    {
+      "id": "NU1.E6",
+      "chain": "NU1",
+      "from": "territories",
+      "to": "citizens",
+      "status": "à documenter",
+      "sources": [],
+      "note": "Maillon à instruire. Aucun flux ni lien fournisseur-client attribué."
+    },
+    {
+      "id": "NU2.E1",
+      "chain": "NU2",
+      "from": "resource",
+      "to": "suppliers",
+      "status": "à documenter",
+      "sources": [],
+      "note": "Maillon à instruire. Aucun flux ni lien fournisseur-client attribué."
+    },
+    {
+      "id": "NU2.E2",
+      "chain": "NU2",
+      "from": "suppliers",
+      "to": "industry",
+      "status": "à documenter",
+      "sources": [],
+      "note": "Maillon à instruire. Aucun flux ni lien fournisseur-client attribué."
+    },
+    {
+      "id": "NU2.E3",
+      "chain": "NU2",
+      "from": "industry",
+      "to": "infrastructure",
+      "status": "à documenter",
+      "sources": [],
+      "note": "Maillon à instruire. Aucun flux ni lien fournisseur-client attribué."
+    },
+    {
+      "id": "NU2.E4",
+      "chain": "NU2",
+      "from": "infrastructure",
+      "to": "businesses",
+      "status": "à documenter",
+      "sources": [],
+      "note": "Maillon à instruire. Aucun flux ni lien fournisseur-client attribué."
+    },
+    {
+      "id": "NU2.E5",
+      "chain": "NU2",
+      "from": "businesses",
+      "to": "territories",
+      "status": "à documenter",
+      "sources": [],
+      "note": "Maillon à instruire. Aucun flux ni lien fournisseur-client attribué."
+    },
+    {
+      "id": "NU2.E6",
+      "chain": "NU2",
+      "from": "territories",
+      "to": "citizens",
+      "status": "à documenter",
+      "sources": [],
+      "note": "Maillon à instruire. Aucun flux ni lien fournisseur-client attribué."
+    },
+    {
+      "id": "FI1.E1",
+      "chain": "FI1",
+      "from": "resource",
+      "to": "suppliers",
+      "status": "à documenter",
+      "sources": [],
+      "note": "Maillon à instruire. Aucun flux ni lien fournisseur-client attribué."
+    },
+    {
+      "id": "FI1.E2",
+      "chain": "FI1",
+      "from": "suppliers",
+      "to": "industry",
+      "status": "à documenter",
+      "sources": [],
+      "note": "Maillon à instruire. Aucun flux ni lien fournisseur-client attribué."
+    },
+    {
+      "id": "FI1.E3",
+      "chain": "FI1",
+      "from": "industry",
+      "to": "infrastructure",
+      "status": "mécanisme documenté",
+      "sources": [
+        "AFT27"
+      ],
+      "note": "Programme d’émissions et appel au marché selon le projet de loi de finances."
+    },
+    {
+      "id": "FI1.E4",
+      "chain": "FI1",
+      "from": "infrastructure",
+      "to": "businesses",
+      "status": "à documenter",
+      "sources": [],
+      "note": "Maillon à instruire. Aucun flux ni lien fournisseur-client attribué."
+    },
+    {
+      "id": "FI1.E5",
+      "chain": "FI1",
+      "from": "businesses",
+      "to": "territories",
+      "status": "à documenter",
+      "sources": [],
+      "note": "Maillon à instruire. Aucun flux ni lien fournisseur-client attribué."
+    },
+    {
+      "id": "FI1.E6",
+      "chain": "FI1",
+      "from": "territories",
+      "to": "citizens",
+      "status": "à documenter",
+      "sources": [],
+      "note": "Maillon à instruire. Aucun flux ni lien fournisseur-client attribué."
+    },
+    {
+      "id": "LO1.E1",
+      "chain": "LO1",
+      "from": "resource",
+      "to": "suppliers",
+      "status": "flux agrégé observé",
+      "sources": [
+        "HAR25",
+        "PORT25"
+      ],
+      "note": "Trafic conteneurisé documenté sur le périmètre portuaire. Les flux critiques du pilote demeurent hypothétiques."
+    },
+    {
+      "id": "LO1.E2",
+      "chain": "LO1",
+      "from": "suppliers",
+      "to": "industry",
+      "status": "à documenter",
+      "sources": [],
+      "note": "Maillon à instruire. Aucun flux ni lien fournisseur-client attribué."
+    },
+    {
+      "id": "LO1.E3",
+      "chain": "LO1",
+      "from": "industry",
+      "to": "infrastructure",
+      "status": "mécanisme documenté",
+      "sources": [
+        "HAR25"
+      ],
+      "note": "Le bilan documente plusieurs modes sur l’axe Seine. La capacité de report réservée n’est pas publiée."
+    },
+    {
+      "id": "LO1.E4",
+      "chain": "LO1",
+      "from": "infrastructure",
+      "to": "businesses",
+      "status": "à documenter",
+      "sources": [],
+      "note": "Maillon à instruire. Aucun flux ni lien fournisseur-client attribué."
+    },
+    {
+      "id": "LO1.E5",
+      "chain": "LO1",
+      "from": "businesses",
+      "to": "territories",
+      "status": "à documenter",
+      "sources": [],
+      "note": "Maillon à instruire. Aucun flux ni lien fournisseur-client attribué."
+    },
+    {
+      "id": "LO1.E6",
+      "chain": "LO1",
+      "from": "territories",
+      "to": "citizens",
+      "status": "à documenter",
+      "sources": [],
+      "note": "Maillon à instruire. Aucun flux ni lien fournisseur-client attribué."
+    },
+    {
+      "id": "LO2.E1",
+      "chain": "LO2",
+      "from": "resource",
+      "to": "suppliers",
+      "status": "à documenter",
+      "sources": [],
+      "note": "Maillon à instruire. Aucun flux ni lien fournisseur-client attribué."
+    },
+    {
+      "id": "LO2.E2",
+      "chain": "LO2",
+      "from": "suppliers",
+      "to": "industry",
+      "status": "à documenter",
+      "sources": [],
+      "note": "Maillon à instruire. Aucun flux ni lien fournisseur-client attribué."
+    },
+    {
+      "id": "LO2.E3",
+      "chain": "LO2",
+      "from": "industry",
+      "to": "infrastructure",
+      "status": "à documenter",
+      "sources": [],
+      "note": "Maillon à instruire. Aucun flux ni lien fournisseur-client attribué."
+    },
+    {
+      "id": "LO2.E4",
+      "chain": "LO2",
+      "from": "infrastructure",
+      "to": "businesses",
+      "status": "à documenter",
+      "sources": [],
+      "note": "Maillon à instruire. Aucun flux ni lien fournisseur-client attribué."
+    },
+    {
+      "id": "LO2.E5",
+      "chain": "LO2",
+      "from": "businesses",
+      "to": "territories",
+      "status": "à documenter",
+      "sources": [],
+      "note": "Maillon à instruire. Aucun flux ni lien fournisseur-client attribué."
+    },
+    {
+      "id": "LO2.E6",
+      "chain": "LO2",
+      "from": "territories",
+      "to": "citizens",
+      "status": "à documenter",
+      "sources": [],
+      "note": "Maillon à instruire. Aucun flux ni lien fournisseur-client attribué."
+    }
+  ],
+  "contradictions": [
+    {
+      "id": "C01",
+      "sector": "energie",
+      "title": "Solde électrique et taux d’indépendance",
+      "facts": [
+        "F02",
+        "F03",
+        "F04"
+      ],
+      "status": "périmètres distingués",
+      "note": "Le solde RTE est électrique, métropolitain et annuel. Le taux SDES couvre toutes les énergies primaires et inclut les DROM. La chaleur nucléaire compte comme production domestique selon la convention statistique, même avec de l’uranium importé."
+    },
+    {
+      "id": "C02",
+      "sector": "agriculture",
+      "title": "Excédent alimentaire et déficit d’intrants",
+      "facts": [
+        "F09",
+        "F10",
+        "F11"
+      ],
+      "status": "périmètres distingués",
+      "note": "Le solde alimentaire est en euros. Les données d’intrants sont en masse d’azote. Les deux informations coexistent. Le rapport 0,6 / 1,8 compare un seul produit à un total, donc ne mesure pas la part importée de l’azote."
+    },
+    {
+      "id": "C03",
+      "sector": "logistique",
+      "title": "HAROPA 84,4 contre 84,7 Mt",
+      "facts": [
+        "F20",
+        "F21"
+      ],
+      "status": "ouvert",
+      "note": "L’écart brut est de 0,3 Mt. Champ SDES, tare, période d’arrêté, corrections de déclaration et périmètre opérateur sont à rapprocher auprès des producteurs. Aucune explication précise n’est retenue sans tableau de passage."
+    },
+    {
+      "id": "C04",
+      "sector": "finance",
+      "title": "Dette publique, besoin de financement, émissions et charge",
+      "facts": [
+        "F13",
+        "F14",
+        "F15",
+        "F16"
+      ],
+      "status": "périmètres distingués",
+      "note": "L’Insee mesure un stock APU en 2026. L’AFT publie trois flux distincts dans le PLF de l’État pour 2027. Aucun de ces flux ne s’ajoute à un autre pour mesurer un coût total."
+    },
+    {
+      "id": "C05",
+      "sector": "numerique",
+      "title": "Dynamique des achats et contrôle d’un service",
+      "facts": [
+        "F12"
+      ],
+      "status": "périmètres distingués",
+      "note": "Les 80 % portent sur la croissance des dépenses en 2021. La part du parc actuel, la localisation, la loi applicable et le temps de sortie demandent chacun une preuve différente."
+    }
+  ],
+  "decisions": [
+    {
+      "id": "D01",
+      "state": "proposition",
+      "subject": "Tester le report de fret sur l’axe Seine",
+      "proofs_required": [
+        "volumes critiques par chargeur",
+        "créneaux multi-opérateurs confirmés",
+        "exercice et reçus horodatés"
+      ]
+    },
+    {
+      "id": "D02",
+      "state": "attente validation fondateur",
+      "subject": "Publication LinkedIn et mise en ligne du parcours"
+    }
+  ],
+  "results": [
+    {
+      "id": "R01",
+      "state": "calcul conditionnel reproductible",
+      "artifact": "laboratoire.json",
+      "effect_measured": false
+    }
+  ],
+  "runtime": {
+    "ojo_admission": "non demandée",
+    "memory_v5_consumption": "non observée"
+  }
+}
+</script><script type="application/json" id="territoryData">{
+  "catalogue": "docs/data/france-topology.json",
+  "sha256": "47bbb3fcaa6511c43f1efd788fa01e2fcc85b89338fde434767c5d7d4ee34776",
+  "generated_at": "2026-11-06T01:01:35Z",
+  "entries": [
+    {
+      "code": "38",
+      "name": "Isère",
+      "chain": "IN1",
+      "ref": "OJO_FRANCE_TOPOLOGY_V2#/departments/38",
+      "source": "CROL",
+      "fragment": "#/objet/OJO_FRANCE_TOPOLOGY_V2%23%2Fdepartments%2F38"
+    },
+    {
+      "code": "76",
+      "name": "Seine-Maritime",
+      "chain": "LO1",
+      "ref": "OJO_FRANCE_TOPOLOGY_V2#/departments/76",
+      "source": "HAR25",
+      "fragment": "#/objet/OJO_FRANCE_TOPOLOGY_V2%23%2Fdepartments%2F76"
+    }
+  ]
+}
+</script><script type="application/json" id="modelData">{
+  "schema": "nova-era.la-bete.ep03.model.v1",
+  "scope": "Portefeuille fictif de fret critique sur un corridor stylisé de l’axe Seine. Les chiffres portuaires observés sont un contexte distinct. Aucune relation contractuelle réelle n’est imputée.",
+  "inputs": {
+    "volume": 1000,
+    "weeks": 4,
+    "shock": 45
+  },
+  "units": {
+    "volume": "EVP/semaine",
+    "shock": "% du volume hebdomadaire",
+    "weeks": "semaines entières",
+    "cost": "EUR HT, hypothèses illustratives"
+  },
+  "scenarios": [
+    {
+      "id": "A",
+      "name": "Continuité",
+      "shockMultiplier": 1,
+      "stockWeeks": 0.2,
+      "earlyShare": 0.03,
+      "routeShare": 0.08,
+      "setupWeeks": 1,
+      "unitCost": [
+        150,
+        350
+      ],
+      "initial": [
+        0,
+        0
+      ],
+      "annual": [
+        0,
+        0
+      ],
+      "lead": "Structure courante supposée",
+      "financing": "Charges courantes du chargeur",
+      "meaning": "Capacité de report limitée, sans investissement incrémental.",
+      "risk": "Un réseau nominal fonctionne en régime normal, mais le report spontané peut saturer."
+    },
+    {
+      "id": "B",
+      "name": "Diversification",
+      "shockMultiplier": 1,
+      "stockWeeks": 0.3,
+      "earlyShare": 0.1,
+      "routeShare": 0.24,
+      "setupWeeks": 1,
+      "unitCost": [
+        120,
+        300
+      ],
+      "initial": [
+        100000,
+        250000
+      ],
+      "annual": [
+        60000,
+        150000
+      ],
+      "lead": "2 à 6 mois, hypothèse",
+      "financing": "Chargeurs et prestataires, contrats de disponibilité",
+      "meaning": "Deux itinéraires et prestataires préqualifiés, réservations distribuées.",
+      "risk": "Deux contrats peuvent dépendre du même terminal ou du même réseau."
+    },
+    {
+      "id": "C",
+      "name": "Capacités renforcées",
+      "shockMultiplier": 1,
+      "stockWeeks": 0.6,
+      "earlyShare": 0.16,
+      "routeShare": 0.32,
+      "setupWeeks": 1,
+      "unitCost": [
+        90,
+        260
+      ],
+      "initial": [
+        800000,
+        2500000
+      ],
+      "annual": [
+        120000,
+        350000
+      ],
+      "lead": "9 à 24 mois, hypothèse",
+      "financing": "Exploitants et financeurs privés. Aides éventuelles à justifier séparément.",
+      "meaning": "Stock tampon et équipements d’interface, hors travaux portuaires lourds.",
+      "risk": "Immobilisation, pertes et coûts fixes si le taux d’usage réel est faible."
+    },
+    {
+      "id": "D",
+      "name": "Coopération européenne",
+      "shockMultiplier": 1,
+      "stockWeeks": 0.35,
+      "earlyShare": 0.12,
+      "routeShare": 0.3,
+      "setupWeeks": 2,
+      "unitCost": [
+        170,
+        380
+      ],
+      "initial": [
+        200000,
+        700000
+      ],
+      "annual": [
+        90000,
+        240000
+      ],
+      "lead": "4 à 12 mois, hypothèse",
+      "financing": "Contrat mutualisé entre partenaires européens, financement public à instruire s’il y a lieu",
+      "meaning": "Accord de capacité et d’accès avec un autre corridor européen.",
+      "risk": "Une crise corrélée ou un retard documentaire réduit les capacités effectivement disponibles."
+    },
+    {
+      "id": "E",
+      "name": "Rupture majeure",
+      "shockMultiplier": 1.6,
+      "stockWeeks": 0.2,
+      "earlyShare": 0.01,
+      "routeShare": 0.04,
+      "setupWeeks": 2,
+      "unitCost": [
+        200,
+        500
+      ],
+      "initial": null,
+      "annual": null,
+      "lead": "Choc appliqué au même horizon",
+      "financing": "Charges d’urgence, pertes aval non évaluées",
+      "meaning": "Choc sévère et report dégradé. C’est un stress, distinct des stratégies A à D.",
+      "risk": "Défaillance concomitante du port, d’une liaison ou d’un opérateur."
+    }
+  ],
+  "sensitivity": "Fourchette mécanique, non probabiliste. Débit de report à 75 % ou 125 % de l’hypothèse, délai d’activation prolongé ou réduit d’une semaine. Les valeurs supérieures sont plafonnées à 100 %.",
+  "outside_model": [
+    "Emplois et valeur ajoutée, faute de données d’entreprise",
+    "Importations en douane, la route d’entrée pouvant changer sans variation du contenu importé",
+    "Pertes aval, prix et émissions de CO₂, faute de coefficients locaux observés",
+    "Dépenses publiques, aides et recettes, hors financement effectivement attribué",
+    "Congestion et corrélation hors chocs paramétrés",
+    "Péremption, réapprovisionnement et consommation différenciée du stock"
+  ],
+  "finance": {
+    "volumeBn": 100,
+    "shockBp": 100,
+    "scope": "Surcoût annuel équivalent sur la seule tranche modélisée, hors maturité, calendrier, indexation et effets de second tour."
+  },
+  "power": {
+    "demandGW": 90,
+    "availableGW": 82,
+    "importsGW": 4,
+    "flexibilityGW": 2,
+    "hours": 6,
+    "scope": "Pointe stylisée, calcul de puissance et d’énergie. Les valeurs ne sont ni une observation ni une estimation RTE."
+  },
+  "qualitative": {
+    "id": "CROLLES_QUAL_V1",
+    "status": "hypothèses qualitatives à instruire",
+    "sourceIds": [
+      "CROL",
+      "CRMA"
+    ],
+    "scope": "Crolles, Isère. Cas stylisé de rupture sur un intrant ou une référence. Le site, ses volumes disponibles et ses fournisseurs ne sont pas modélisés.",
+    "missing": "Délais de qualification, stocks utilisables, capacité effectivement réservée, coûts et pertes de production restent inconnus.",
+    "scenarios": [
+      {
+        "id": "I1",
+        "name": "Stock tampon ciblé",
+        "effect": "Le stock peut absorber une rupture courte s’il est compatible et immédiatement accessible.",
+        "limit": "La protection s’arrête à épuisement. Le stock requis et son coût restent à chiffrer.",
+        "proof": "Inventaire par référence, consommation, durée de conservation et test de mobilisation."
+      },
+      {
+        "id": "I2",
+        "name": "Seconde source qualifiée",
+        "effect": "Le volume peut basculer vers une seconde source après qualification technique et accord de capacité.",
+        "limit": "Des sous-traitants communs peuvent exposer les deux fournisseurs au même choc.",
+        "proof": "Essais de conformité, indépendance réelle en amont, capacité réservée et délai de bascule."
+      },
+      {
+        "id": "I3",
+        "name": "Capacité européenne mutualisée",
+        "effect": "Une réservation entre partenaires peut élargir les options de repli pour les procédés compatibles.",
+        "limit": "La simultanéité du choc, les équipements et les étapes aval peuvent réduire l’option.",
+        "proof": "Accords, compatibilité des procédés, priorités, contraintes aval et exercice commun."
+      }
+    ]
+  }
+}
+</script><script>(function (root) {
+  'use strict';
+  function bounded(value, label, min, max) {
+    if (!Number.isFinite(value) || value < min || value > max) throw new RangeError(label);
+    return value;
+  }
+  const min = Math.min;
+  const max = Math.max;
+  const round = n => Math.round(n * 1e8) / 1e8;
+  function logistics(config, input) {
+    const volume = bounded(input.volume, 'Volume hebdomadaire', 1, 1000000);
+    const weeks = bounded(input.weeks, 'Durée de rupture', 1, 52);
+    const shock = bounded(input.shock, 'Part du flux interrompue', 0, 100);
+    if (!Number.isInteger(weeks)) throw new RangeError('Semaines entières');
+    const severity = min(100, shock * config.shockMultiplier);
+    const interrupted = volume * severity / 100;
+    let stock = volume * config.stockWeeks;
+    let rerouted = 0, released = 0, residual = 0, firstResidualWeek = null;
+    const timeline = [];
+    for (let week = 1; week <= weeks; week++) {
+      const share = week > config.setupWeeks ? config.routeShare : config.earlyShare;
+      const divert = min(interrupted, volume * share);
+      const draw = min(stock, interrupted - divert);
+      stock -= draw;
+      const unmet = interrupted - divert - draw;
+      if (unmet > 1e-8 && firstResidualWeek === null) firstResidualWeek = week;
+      rerouted += divert;
+      released += draw;
+      residual += unmet;
+      timeline.push({week, interrupted:round(interrupted), rerouted:round(divert), released:round(draw), residual:round(unmet), stockRemaining:round(stock)});
+    }
+    const exposure = volume * weeks;
+    return {
+      severity: round(severity), total: round(exposure), interrupted: round(interrupted * weeks),
+      rerouted: round(rerouted), released: round(released), residual: round(residual),
+      service: round(100 * (1 - residual / exposure)), firstResidualWeek, timeline,
+      variableCost: [round(rerouted * config.unitCost[0]), round(rerouted * config.unitCost[1])]
+    };
+  }
+  function range(config, input) {
+    const weak = {...config, routeShare: config.routeShare * 0.75, earlyShare: config.earlyShare * 0.75, setupWeeks: config.setupWeeks + 1};
+    const strong = {...config, routeShare: min(1, config.routeShare * 1.25), earlyShare: min(1, config.earlyShare * 1.25), setupWeeks: max(0, config.setupWeeks - 1)};
+    return [logistics(strong,input).residual, logistics(weak,input).residual];
+  }
+  function finance(volumeBn, shockBp) {
+    return round(bounded(volumeBn,'Volume émis',0,1000) * bounded(shockBp,'Choc de taux',-500,1000) / 10000);
+  }
+  function power(demandGW, availableGW, importsGW, flexibilityGW, hours) {
+    const gap = max(0, bounded(demandGW,'Pointe',0,200) - bounded(availableGW,'Capacité nationale',0,200)
+      - bounded(importsGW,'Import mobilisable',0,50) - bounded(flexibilityGW,'Flexibilité',0,50));
+    return {gapGW:round(gap), energyGWh:round(gap * bounded(hours,'Durée',0,168))};
+  }
+  const api={logistics,range,finance,power};
+  if (typeof module !== 'undefined' && module.exports) module.exports=api;
+  else root.EP03Model=api;
+})(globalThis);
+</script><script>(() => {
+  'use strict';
+  const $ = id => document.getElementById(id);
+  const proof = JSON.parse($('evidence').textContent);
+  const lab = JSON.parse($('modelData').textContent);
+  const places = JSON.parse($('territoryData').textContent);
+  const atlasBase = $('existingAtlas').href.split('#')[0];
+  const model = globalThis.EP03Model;
+  const sources = Object.fromEntries(proof.sources.map(item => [item.id,item]));
+  const fmt = new Intl.NumberFormat('fr-FR',{maximumFractionDigits:2});
+  const euro = new Intl.NumberFormat('fr-FR',{style:'currency',currency:'EUR',maximumFractionDigits:0});
+  const keys = ['resource','suppliers','industry','infrastructure','businesses','territories','citizens'];
+  const steps = ['Ressource','Fournisseurs','Industries','Infrastructures','Entreprises','Territoires','Citoyens'];
+  const storageKey = 'nova-era.la-bete.ep03.history.v1';
+  let sector = 'logistique', chain = proof.chains.find(x => x.id === 'LO1');
+  let current = null;
+  let place = '';
+  const industry = lab.qualitative;
+  let history = [];
+  try {
+    const previous = JSON.parse(localStorage.getItem(storageKey) || '[]');
+    if (Array.isArray(previous)) history = previous.filter(x => x && x.time && typeof x.scenario === 'string' && (x.input || x.mode === 'industry')).slice(0,20);
+  } catch { $('historyStatus').textContent = 'Stockage du navigateur indisponible.'; }
+  function el(tag,text,cls) {
+    const node = document.createElement(tag);
+    if (text !== undefined) node.textContent=text;
+    if (cls) node.className=cls;
+    return node;
+  }
+  function link(id) {
+    const ref=sources[id];
+    const a=el('a',ref.owner+' · '+ref.title);
+    a.href=ref.url;a.target='_blank';a.rel='noopener noreferrer';return a;
+  }
+  function action(text,pressed,handler) {
+    const b=el('button',text);b.type='button';b.setAttribute('aria-pressed',String(pressed));
+    b.addEventListener('click',handler);return b;
+  }
+  function details(title,...items) {
+    const box=el('details');box.append(el('summary',title),...items);return box;
+  }
+  function section(title,text) {
+    const box=el('div');box.append(el('h3',title),el('p',text));return box;
+  }
+  function renderAtlas(focus) {
+    $('sectors').replaceChildren(...Object.entries(proof.sectors).map(([id,label]) =>
+      action(label,id===sector,()=>{sector=id;chain=proof.chains.find(x=>x.sector===id);renderAtlas('sector');})));
+    const list=proof.chains.filter(x=>x.sector===sector);
+    $('chains').replaceChildren(...list.map(x=>action(x.title,x.id===chain.id,()=>{chain=x;renderAtlas('chain');})));
+    const flow=el('ol',undefined,'flow3');
+    keys.forEach((key,i)=>{const li=el('li');li.append(el('strong',steps[i]),el('span',chain[key]));flow.append(li);});
+    const edges=proof.edges.filter(x=>x.chain===chain.id).map((x,i)=>{
+      const line=el('p',steps[i]+' → '+steps[i+1]+' · '+x.status+' · '+x.note,'note3');
+      for (const id of x.sources) line.append(document.createTextNode(' '),link(id));
+      return line;
+    });
+    const facts=proof.facts.filter(x=>x.sector===sector).map(x=>{
+      const item=el('div',undefined,'fact3');
+      item.append(el('strong',fmt.format(x.value)+' '+x.unit+' · '+x.label),el('p',x.status+' · '+x.method+' '+x.location,'note3'),link(x.source));return item;
+    });
+    const contradictions=proof.contradictions.filter(x=>x.sector===sector).map(x=>section(x.title+' · '+x.status,x.note));
+    const citations=chain.sources.map(id=>{const box=el('p');box.append(link(id),el('small',' — '+sources[id].period+'. '+sources[id].limits));return box;});
+    $('proof').replaceChildren(el('span',chain.id,'chip3'),el('h3',chain.title),el('p',chain.evidence),flow,
+      details('Statut de chaque maillon',...edges),section('Données encore nécessaires',chain.gaps),
+      section('Réponse à évaluer',chain.response),details('Données et documents d’origine',...facts,...citations),
+      ...contradictions.map(x=>details('Points de comparaison des sources',x)));
+    if (focus) $(focus==='sector'?'sectors':'chains').querySelector('[aria-pressed=true]').focus();
+  }
+  function interval(values,format=fmt) {
+    if (!values) return 'Non estimé';
+    if (values[0]===values[1]) return format.format(values[0]);
+    return format.format(values[0])+' à '+format.format(values[1]);
+  }
+  function row(values,tag='td') {
+    const tr=el('tr');tr.append(...values.map(v=>el(tag,String(v))));return tr;
+  }
+  function selectPlace(code,openCase=true) {
+    const item=places.entries.find(x=>x.code===code);
+    place=item?.code||'';
+    $('territory').value=place;
+    $('existingAtlas').href=atlasBase+(item?.fragment||'#/univers/territoires');
+    $('existingAtlas').textContent=item?'Retrouver '+item.name+' dans l’Atlas':'Ouvrir l’Atlas territorial';
+    $('territoryNote').textContent=item?'Cas rattaché à l’objet territorial '+item.ref+'. Les autres données sectorielles gardent leur périmètre d’origine.':'Deux territoires sont reliés à des cas documentés. L’Atlas d’origine conserve le reste du catalogue.';
+    if (item&&openCase) {chain=proof.chains.find(x=>x.id===item.chain);sector=chain.sector;renderAtlas();}
+    $('freightLab').hidden=place==='38';
+    $('industryLab').hidden=place!=='38';
+    $('decisionText').textContent=place==='38'
+      ? 'Consigner le maillon à instruire et la preuve requise avant de retenir une option.'
+      : 'Obtenir les volumes critiques et les créneaux auprès des opérateurs. Exécuter un exercice de report avant de valider la capacité.';
+    renderCase();
+  }
+  function renderCase() {
+    if (place!=='38') { renderLab(); return; }
+    const selected=industry.scenarios.find(x=>x.id===$('industryScenario').value)||industry.scenarios[0];
+    current={mode:'industry',scenario:selected.id};
+    $('industryDetail').textContent=selected.name+' · '+selected.effect;
+    $('save').disabled=false;
+    $('export').disabled=false;
+  }
+  function readInput() { return Object.fromEntries(['volume','weeks','shock'].map(id=>[id,$(id).valueAsNumber])); }
+  function renderLab() {
+    const input=readInput();
+    try {
+      if (!$('simForm').checkValidity()) throw new RangeError('Entrer un volume, un pourcentage et un nombre de semaines entières dans les limites des champs.');
+      const results=lab.scenarios.map(s=>({config:s,result:model.logistics(s,input),sensitivity:model.range(s,input)}));
+      const selected=results.find(x=>x.config.id===$('scenario').value);
+      const {config:s,result:r}=selected;
+      current={mode:'freight',input,results,scenario:s.id};
+      $('error').textContent='';
+      $('metrics').replaceChildren(...[[fmt.format(r.service)+' %','Service sur la période'],[fmt.format(r.residual)+' EVP','Demande non servie'],[fmt.format(r.released)+' EVP','Prélèvement du stock']].map(([v,t])=>{const p=el('div',undefined,'fact3');p.append(el('strong',v),el('span',t));return p;}));
+      $('detail').textContent=s.meaning+' '+s.lead+'. '+s.financing+'. '+s.risk;
+      $('bars').replaceChildren(...results.map(({config,result})=>{
+        const box=el('div',undefined,'bar3'), meter=el('progress');
+        meter.value=result.service;meter.max=100;meter.setAttribute('aria-label',config.name);
+        box.append(el('span',config.id+' · '+config.name),meter,el('span',fmt.format(result.service)+' %'));return box;
+      }));
+      $('compare').replaceChildren(...results.map(({config,result,sensitivity})=>row([config.id+' · '+config.name,fmt.format(result.residual),interval(sensitivity),interval(config.initial,euro),interval(config.annual,euro),interval(result.variableCost,euro)])));
+      const t=el('table'),head=el('thead'),body=el('tbody');
+      head.append(row(['Semaine','EVP interrompus','Reportés','Stock prélevé','Non servis','Stock restant'],'th'));
+      body.append(...r.timeline.map(x=>row([x.week,x.interrupted,x.rerouted,x.released,x.residual,x.stockRemaining].map(v=>fmt.format(v)))));
+      t.append(head,body);$('timeline').replaceChildren(t);
+      $('save').disabled=false;$('export').disabled=false;
+    } catch (error) {
+      current=null;$('error').textContent=error.message;
+      for (const id of ['metrics','bars','compare','timeline','detail']) $(id).replaceChildren();
+      $('save').disabled=true;$('export').disabled=true;
+    }
+  }
+  function renderHistory() {
+    const items=$('historyItems');
+    items.replaceChildren(...history.map((item,index)=>{
+      const li=el('li');
+      const label=new Date(item.time).toLocaleString('fr-FR')+' · '+item.scenario+' · '+(item.mode==='industry'?'Crolles':item.input.volume+' EVP/semaine');
+      const b=el('button',label);
+      b.type='button';
+      b.onclick=()=>{
+        selectPlace(item.place,false);
+        const previousChain=proof.chains.find(x=>x.id===item.chain);
+        if(previousChain){chain=previousChain;sector=chain.sector;renderAtlas();}
+        if (item.mode==='industry') $('industryScenario').value=item.scenario;
+        else {
+          for (const k of ['volume','weeks','shock']) $(k).value=item.input[k];
+          $('scenario').value=item.scenario;
+        }
+        $('decisionNote').value=item.decision||'';
+        renderCase();
+        (place==='38'?$('industryScenario'):$('scenario')).focus();
+      };
+      const remove=el('button','Supprimer');
+      remove.type='button';
+      remove.setAttribute('aria-label','Supprimer la décision '+label);
+      remove.onclick=()=>{
+        history.splice(index,1);
+        persist('Décision supprimée de cet appareil.');
+        (items.children[index]?.firstElementChild||items.lastElementChild?.firstElementChild||$('clear')).focus();
+      };
+      li.append(b,remove);return li;
+    }));
+    $('clear').disabled=history.length===0;
+  }
+  function persist(success) {
+    renderHistory();
+    try {localStorage.setItem(storageKey,JSON.stringify(history));$('historyStatus').textContent=success;}
+    catch {$('historyStatus').textContent='Historique disponible pour cette ouverture seulement.';}
+  }
+  $('save').addEventListener('click',()=>{if(!current)return;history.unshift({time:new Date().toISOString(),mode:current.mode,input:current.input,scenario:current.scenario,chain:chain.id,place,decision:$('decisionNote').value.trim()});history=history.slice(0,20);persist('Décision enregistrée sur cet appareil.');});
+  $('clear').addEventListener('click',()=>{history=[];persist('Historique local effacé.');});
+  $('export').addEventListener('click',()=>{
+    if(!current)return;
+    const result={schema:'nova-era.la-bete.ep03.export.v1',created_at:new Date().toISOString(),chain,territory:places.entries.find(x=>x.code===place)||null,decision:$('decisionNote').value.trim(),atlas:proof,lab,simulation:current.mode==='freight'?current:null,comparison:current.mode==='industry'?{scenario:current.scenario,...industry}:null,interpretation:current.mode==='industry'?'Comparaison qualitative. Coûts, volumes et délais indisponibles.':'Simulation conditionnelle. Les coûts sont des hypothèses. Les conséquences empiriques restent à mesurer.'};
+    const url=URL.createObjectURL(new Blob([JSON.stringify(result,null,2)+'\n'],{type:'application/json'}));
+    const a=el('a');a.href=url;a.download='LA_BETE_EP03_simulation.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
+  });
+  const answers=[
+    [/uranium|combustible|nucleaire/,'Le SDES recense des importations et des origines. Le document ne ventile pas les achats destinés au seul parc français et ne chiffre pas les stocks utilisables par réacteur.','EN1'],
+    [/elec|interconnexion|pointe|reseau/,'RTE indique un solde importateur de 16,5 TWh en 2022 et exportateur de 92,3 TWh en 2025. Le solde annuel ne mesure pas la marge disponible à la pointe.','EN2'],
+    [/engrais|azote|fertili|intrant/,'La fiche gouvernementale indique environ 1,8 Mt de N de consommation et environ 0,6 Mt de N d’ammonitrates produits en 2024. Le second chiffre couvre un seul produit.','AG1'],
+    [/cloud|donnee|reversibilite|heberg|aws/,'Le repère de 80 % porte sur la croissance des dépenses de cloud public en France en 2021. Une réversibilité se prouve par un export et une restauration hors fournisseur.','NU1'],
+    [/dette|taux|financ|epargne/,'Pour le PLF 2027, l’AFT distingue 339,7 Md€ de besoin, 340 Md€ d’émissions nettes de rachats à moyen et long terme, et 72,9 Md€ de charge budgétaire de la dette.','FI1'],
+    [/port|fret|seine|haropa|train|camion/,'HAROPA publie un trafic d’environ 3,2 millions d’EVP en 2025. Le rapport de l’opérateur ne donne pas la capacité de report d’un portefeuille critique. Modifiez les hypothèses du simulateur pour explorer ce délai.','LO1'],
+    [/puce|semi|crolles|electron/,'La DGE documente le démarrage du projet de fabrication à Crolles en 2023. Les volumes livrés, les intrants et la disponibilité par référence restent à instruire.','IN1'],
+    [/medicament|pharma/,'Les données douanières sont sectorielles. Une rupture se vérifie par référence, site, stock et substitut approuvé. Le corpus ne mesure pas ces volumes.','IN3']
+  ];
+  $('askForm').addEventListener('submit',event=>{
+    event.preventDefault();
+    const q=$('ask').value.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+    const matches=answers.filter(([re])=>re.test(q));
+    if(matches.length!==1) {
+      $('answer').replaceChildren(el('p',matches.length?'Plusieurs thèmes correspondent. Posez une question centrée sur un seul maillon.':'Aucune fiche ne répond avec ce vocabulaire. Essayez uranium, engrais, cloud, dette ou fret.'));
+      return;
+    }
+    const [,reply,id]=matches[0];const item=proof.chains.find(x=>x.id===id);
+    const open=el('a','Ouvrir la fiche '+id);open.href='#atlas';
+    open.onclick=()=>{chain=item;sector=item.sector;renderAtlas();};
+    $('answer').replaceChildren(el('p',reply),open,...item.sources.map(link));
+  });
+  for (const [k,v] of Object.entries(lab.inputs)) $(k).value=v;
+  $('scenario').replaceChildren(...lab.scenarios.map(s=>{const option=el('option',s.id+' · '+s.name);option.value=s.id;return option;}));
+  $('scenario').value='A';
+  $('sensitivity').textContent=lab.sensitivity;
+  $('simForm').addEventListener('submit',event=>event.preventDefault());
+  $('simForm').addEventListener('input',renderCase);
+  $('industryScenario').replaceChildren(...industry.scenarios.map(x=>{
+    const option=el('option',x.name);option.value=x.id;return option;
+  }));
+  $('industryScenario').addEventListener('change',renderCase);
+  $('industryScope').textContent=industry.scope;
+  $('industryLimits').append(document.createTextNode(industry.missing+' Sources de contexte. '),...industry.sourceIds.map(id=>{
+    const a=link(id);a.style.display='block';return a;
+  }));
+  $('industryCompare').replaceChildren(...industry.scenarios.map(x=>{
+    const card=el('article',undefined,'fact3');
+    card.append(el('h3',x.name),el('p',x.effect),el('p',x.limit),el('p','À obtenir. '+x.proof,'note3'));
+    return card;
+  }));
+  $('territory').replaceChildren(...[{code:'',name:'Vue nationale'},...places.entries].map(x=>{const option=el('option',x.name);option.value=x.code;return option;}));
+  $('territory').addEventListener('change',()=>selectPlace($('territory').value));
+  renderAtlas();selectPlace(new URLSearchParams(location.search).get('territoire'));renderHistory();
+})();
+</script></body></html>

@@ -696,6 +696,7 @@ function objectView(node,g){
  const evidencePanel=evidenceProfileForNode(node);if(evidencePanel)main.append(evidenceProfilePanel(evidencePanel));
  const actions=el('div',undefined,'muActions');append(actions,button('Interroger cet objet',()=>openChat(),'muPrimary'),button('Voir la pièce / provenance',()=>openProof(node,g)));
  if(node.url)actions.append(link('Ouvrir la source officielle ↗',node.url));
+ if(isDepartment&&['38','76'].includes(node.data?.code))actions.append(link('Explorer les dépendances · Épisode 03','maison-des-preuves/episode-03.html?territoire='+encodeURIComponent(node.data.code)));
  if(node.id===M.DEBT)append(actions,link('Courbes & stress','#/analyse'),link('Horizons','#/horizons'),link('Explorer les dates','#/chronologie'));
  main.append(actions);
  if(node.kind==='REQUEST'){
