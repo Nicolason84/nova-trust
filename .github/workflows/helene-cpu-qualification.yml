@@ -15,7 +15,7 @@ on:
         type: choice
         required: true
         default: baseline
-        options: [baseline, mobile-live, mobile-source]
+        options: [baseline, mobile-live, mobile-source, unified-source, unified-live]
 
 permissions:
   contents: read
@@ -41,6 +41,8 @@ jobs:
             baseline) node "integrations/helene-personal/on-device-cpu-r3/variants/$HELENE_VARIANT/ci-qualify-cpu.cjs" "integrations/helene-personal/on-device-cpu-r3/variants/$HELENE_VARIANT/public" ;;
             mobile-live) test "$HELENE_VARIANT" = qwen3; node integrations/helene-personal/on-device-cpu-r3/variants/qwen3/ci-qualify-mobile.cjs 'https://nicolason84.github.io/nova-trust/helene/conversation-locale/index.html?v=cpu-1f590ee7' ;;
             mobile-source) test "$HELENE_VARIANT" = qwen3; node integrations/helene-personal/on-device-cpu-r3/variants/qwen3/ci-qualify-mobile.cjs integrations/helene-personal/on-device-cpu-r3/variants/qwen3/public ;;
+            unified-source) test "$HELENE_VARIANT" = qwen3; node integrations/helene-personal/unified-final/ci-qualify-unified.cjs --source ;;
+            unified-live) test "$HELENE_VARIANT" = qwen3; node integrations/helene-personal/unified-final/ci-qualify-unified.cjs --live ;;
             *) exit 2 ;;
           esac
 

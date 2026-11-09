@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="color-scheme" content="light dark"><meta name="referrer" content="no-referrer">
+  <meta name="theme-color" content="#315c49">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'wasm-unsafe-eval' blob: https://cdn.jsdelivr.net/npm/@huggingface/transformers@4.3.2/dist/ https://cdn.jsdelivr.net/npm/onnxruntime-web@1.31.0-dev.20260914-8d85527a0/dist/; connect-src 'self' blob: https://cdn.jsdelivr.net https://huggingface.co https://*.huggingface.co https://*.hf.co; style-src 'self'; img-src 'self' data:; worker-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
+  <title>Mon assistant · Hélène</title>
+  <link rel="manifest" href="../manifest.webmanifest">
+  <link rel="stylesheet" href="./chat.css">
+  <script type="module" src="./chat-ui-cpu-f339ea99f34d.mjs"></script>
+  <script type="module" src="./phone-check-cpu-ce9ff82c5a50.mjs"></script>
+</head>
+<body>
+  <a class="skip" href="#message">Aller à mon message</a>
+  <header><a class="brand" href="../ouvrir.html">ojO <span>Hélène</span></a><span id="connection" role="status">Sur ce téléphone</span></header>
+  <main>
+    <section class="intro"><p class="eyebrow">À TON RYTHME</p><h1>On en parle.</h1><p>Une question, une idée, un message à préparer.<br>Commence avec tes propres mots.</p></section>
+    <section class="access" aria-labelledby="local-title">
+      <h2 id="local-title">Ton assistant personnel.</h2>
+      <p>Il répond directement sur ton téléphone. Tes messages y restent, sans compte Cloudflare ni MacBook.</p>
+      <p>La première préparation télécharge environ <strong>618 Mo en Wi-Fi</strong>. Elle peut prendre plusieurs minutes. Garde cette page ouverte ; ensuite le modèle sera réutilisé tant que Chrome le conserve.</p>
+      <label><input type="checkbox" id="local-consent"> Je suis en Wi-Fi et j’accepte de télécharger ce modèle sur mon téléphone.</label>
+      <p id="consent-note"></p><p id="download" role="status"></p>
+      <p id="storage-status">Ton historique reste dans ce navigateur. N’efface pas les données Chrome ; garde aussi un export de tes conversations.</p>
+    </section>
+    <section id="access" class="access"><h2>À toi la parole.</h2><p>Ce petit modèle peut t’aider à réfléchir et à rédiger. Les réponses prennent parfois plusieurs dizaines de secondes ; il peut se tromper. Tes notes, ton coffre et ton agenda ne sont jamais ouverts automatiquement.</p><button id="connect" class="primary">Préparer mon assistant</button></section>
+    <section id="conversation" class="conversation" hidden>
+      <div class="conversation-tools"><p id="session-state" role="status"></p><div><button id="refresh" type="button">Actualiser</button><button id="resume" type="button" hidden>Reprendre ma session</button><button id="pause" type="button">Mettre en pause</button></div></div>
+      <div id="messages" class="messages" role="log" aria-live="polite" aria-relevant="additions text"></div>
+      <p id="activity" role="status" aria-live="polite"></p>
+      <form id="composer"><label for="message">Mon message</label><textarea id="message" name="message" rows="4" maxlength="1200" placeholder="Ce que j’aimerais…" required></textarea><div class="composer-footer"><span id="count">0 / 1 200</span><button id="send" class="primary">Envoyer</button></div></form>
+      <p class="privacy">Seul le texte saisi ici est confié au modèle sur ton téléphone. Il reprend les trois derniers échanges qui tiennent dans son contexte ; l’historique complet reste conservé. Il ne remplace pas un avis professionnel et n’effectue aucun achat, envoi ou rendez-vous à ta place.</p>
+    </section>
+    <p id="error" class="error" role="alert"></p>
+    <p id="reconcile" hidden>Ton message n’est pas renvoyé automatiquement. Actualise la conversation pour retrouver la réponse ou vérifier l’état de la demande.</p>
+    <section class="access"><h2>Garder une copie.</h2><button id="export-chat" type="button">Exporter ma conversation</button><p>Un effacement des données Chrome, une désinstallation ou la perte du téléphone peut retirer les données. L’export conserve ton historique enregistré ; le brouillon non envoyé reste seulement dans Chrome.</p>
+      <details><summary>Aide et vérification</summary><p>Le modèle utilise le processeur, sans WebGPU, avec au moins 1 Gio de marge de stockage. Sa consommation mémoire peut être importante. La compatibilité du Samsung réel reste à confirmer ; les tests Chrome automatisés ne la remplacent pas.</p><button id="phone-test" type="button">Vérifier avec des phrases fictives</button><p id="phone-test-status" role="status" aria-live="polite">Aucune génération sur ton téléphone n’a encore été vérifiée.</p><button id="export-proof" type="button">Exporter le reçu technique</button></details>
+    </section>
+  </main>
+  <footer><a href="../ouvrir.html">Retour à mon espace</a><a href="../ouvrir.html#agenda">Mon agenda</a><a href="../ouvrir.html#elements">Mes notes</a></footer>
+</body>
+</html>
