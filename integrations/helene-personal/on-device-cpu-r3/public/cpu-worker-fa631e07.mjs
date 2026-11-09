@@ -10,6 +10,10 @@ const emit=(id,type,payload)=>self.postMessage({id,type,payload,engine_fingerpri
 async function initialize(id){
   const tf=await import(LIB_URL);
   tf.env.allowLocalModels=false;tf.env.allowRemoteModels=true;
+  // TF4.3.2's tokenizer metadata probe omits options.revision. Bind even
+  // that probe to the same admitted immutable revision, never to main.
+  tf.env.remoteHost='https://huggingface.co/';
+  tf.env.remotePathTemplate='{model}/resolve/'+MODEL_REVISION+'/';
   tf.env.useBrowserCache=true;tf.env.useWasmCache=true;tf.env.cacheKey='helene-cpu-'+ENGINE_FINGERPRINT;
   tf.env.fetch=globalThis.fetch;
   tf.env.backends.onnx.wasm.numThreads=1;
