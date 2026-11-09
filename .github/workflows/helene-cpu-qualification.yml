@@ -7,8 +7,15 @@ on:
         description: CPU model to qualify with synthetic data only
         type: choice
         required: true
-        default: lfm
+        default: qwen3
         options: [lfm, qwen3]
+
+      scenario:
+        description: Existing source baseline or mobile profile qualification
+        type: choice
+        required: true
+        default: baseline
+        options: [baseline, mobile-live, mobile-source]
 
 permissions:
   contents: read
@@ -27,6 +34,14 @@ jobs:
       - name: Qualify real CPU generation with WebGPU disabled
         env:
           HELENE_VARIANT: ${{ inputs.variant }}
+          HELENE_SCENARIO: ${{ inputs.scenario }}
         run: |
           case "$HELENE_VARIANT" in lfm|qwen3) ;; *) exit 2 ;; esac
-          node "integrations/helene-personal/on-device-cpu-r3/variants/$HELENE_VARIANT/ci-qualify-cpu.cjs" "integrations/helene-personal/on-device-cpu-r3/variants/$HELENE_VARIANT/public"
+          case "$HELENE_SCENARIO" in
+            baseline) node "integrations/helene-personal/on-device-cpu-r3/variants/$HELENE_VARIANT/ci-qualify-cpu.cjs" "integrations/helene-personal/on-device-cpu-r3/variants/$HELENE_VARIANT/public" ;;
+            mobile-live) test "$HELENE_VARIANT" = qwen3; node integrations/helene-personal/on-device-cpu-r3/variants/qwen3/ci-qualify-mobile.cjs 'https://nicolason84.github.io/nova-trust/helene/conversation-locale/index.html?v=cpu-1f590ee7' ;;
+            mobile-source) test "$HELENE_VARIANT" = qwen3; node integrations/helene-personal/on-device-cpu-r3/variants/qwen3/ci-qualify-mobile.cjs integrations/helene-personal/on-device-cpu-r3/variants/qwen3/public ;;
+            *) exit 2 ;;
+          esac
+
+
