@@ -2,10 +2,10 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
-import {LocalChatClient,KEY,contextFor,reserveConversation,digest} from './public/local-chat-client-cpu-fa631e07.mjs';
+import {LocalChatClient,KEY,contextFor,reserveConversation,digest} from './public/local-chat-client-cpu-0a6809de2682.mjs';
 import {allowedAsset,MODEL_URL,ORT_BASE,LIB_URL,ownEngine,workerEngine,loadModel,ENGINE_FINGERPRINT,ENGINE_DESCRIPTOR,MODEL_ID,MODEL_REVISION,MODEL_BYTES,MODEL_SHA256,CONSENT,CONSENT_VALUE,HISTORICAL_MODELS} from './public/model-cpu-fa631e07.mjs';
 const store=()=>{const m=new Map();return {getItem:k=>m.get(k)??null,setItem:(k,v)=>m.set(k,v)}};
-const locks=()=>{let held=false;return {async request(k,o,f){if(held)return f(null);held=true;try{return await f({name:k})}finally{held=false}}}};
+const locks=()=>{const entries=new Map();return {async request(k,o,f){let e=entries.get(k);if(!e){e={count:0,tail:Promise.resolve()};entries.set(k,e)}if(o.ifAvailable&&e.count)return f(null);const previous=e.tail;let release;e.tail=new Promise(r=>release=r);e.count++;await previous;try{return await f({name:k})}finally{e.count--;release();}}}};
 function setup({storage=store(),mutex=locks(),reply=()=>({choices:[{finish_reason:'stop',message:{content:'SYNTHETIC_REPLY_FOR_PROTOCOL_TEST_ONLY'}}]})}={}){
   const calls=[],engine={chat:{completions:{async create(q){calls.push(q);return reply(q)}}},async unload(){},interruptGenerate(){}};
   return {storage,calls,client:new LocalChatClient({storage,locks:mutex,loader:async()=>engine,autoOpen:false}),mutex,engine};
@@ -142,4 +142,66 @@ test('cached consent for Qwen2.5 cannot authorize a Qwen3 model allocation',asyn
   if(priorDocument)Object.defineProperty(globalThis,'document',priorDocument);else delete globalThis.document;
   if(priorStorage)Object.defineProperty(globalThis,'localStorage',priorStorage);else delete globalThis.localStorage;
  }
+});
+
+test('draft survives a fresh client without changing confirmed history or invoking a model',async()=>{
+ const a=setup();await a.client.connect();await a.client.send('CONFIRMED_HISTORY');
+ const history=a.storage.getItem(KEY);await a.client.saveDraft('Mon brouillon à reprendre.');
+ assert.equal(a.storage.getItem(KEY),history);
+ const b=setup({storage:a.storage});assert.equal(await b.client.loadDraft(),'Mon brouillon à reprendre.');
+ assert.equal(b.calls.length,0);assert.equal(b.storage.getItem(KEY),history);
+});
+
+test('draft can persist during a completion without altering its pending lineage',async()=>{
+ let release;const a=setup({reply:()=>new Promise(r=>release=r)});await a.client.connect();
+ const running=a.client.send('IN_FLIGHT_QUESTION');while(a.calls.length===0)await new Promise(r=>setTimeout(r,1));
+ const history=a.storage.getItem(KEY);await a.client.saveDraft('Un autre texte, encore non envoyé.');
+ assert.equal(a.storage.getItem(KEY),history);assert.equal(await a.client.loadDraft(),'Un autre texte, encore non envoyé.');
+ release({choices:[{finish_reason:'stop',message:{content:'SYNTHETIC_REPLY'}}]});await running;
+ assert.equal(await a.client.clearDraftIfMatches('IN_FLIGHT_QUESTION'),false);
+ assert.equal(await a.client.loadDraft(),'Un autre texte, encore non envoyé.');
+});
+
+test('interrupted attempts are exposed after restart and manual draft recovery performs no replay',async()=>{
+ let release;const a=setup({reply:()=>new Promise(r=>release=r)});await a.client.connect();
+ const running=a.client.send('RECOVER_THIS_QUESTION');while(a.calls.length===0)await new Promise(r=>setTimeout(r,1));
+ const priorID=JSON.parse(a.storage.getItem(KEY)).data.pending.request_id;a.client.dispose();
+ release({choices:[{finish_reason:'stop',message:{content:'LATE_SYNTHETIC_REPLY'}}]});await assert.rejects(running,/fermée/);
+ const b=setup({storage:a.storage});await b.client.connect();
+ assert.equal(b.client.attempts.length,1);assert.equal(b.client.attempts[0].state,'INTERRUPTED');
+ assert.equal(b.client.attempts[0].message,'RECOVER_THIS_QUESTION');assert.equal(b.calls.length,0);
+ await b.client.saveDraft(b.client.attempts[0].message);assert.equal(b.calls.length,0);
+ assert.equal(await b.client.loadDraft(),'RECOVER_THIS_QUESTION');
+ await b.client.send(await b.client.loadDraft());assert.equal(b.calls.length,1);
+ assert.notEqual(b.client.rows[0].request_id,priorID);assert.equal(b.client.attempts[0].request_id,priorID);
+});
+
+test('draft from another tab is not overwritten by a stale client',async()=>{
+ const storage=store(),mutex=locks(),a=setup({storage,mutex}),b=setup({storage,mutex});
+ await a.client.saveDraft('DRAFT_FROM_FIRST_TAB');const before=storage.getItem(a.client.draftKey);
+ await assert.rejects(b.client.saveDraft('STALE_SECOND_TAB'),/autre onglet/);
+ assert.equal(storage.getItem(a.client.draftKey),before);assert.equal(b.calls.length,0);
+ assert.equal(await b.client.loadDraft(),'DRAFT_FROM_FIRST_TAB');
+ await b.client.saveDraft('EXPLICITLY_CONTINUED_DRAFT');assert.equal(await b.client.loadDraft(),'EXPLICITLY_CONTINUED_DRAFT');
+});
+
+test('draft clears only the submitted text and preserves later edits',async()=>{
+ const a=setup();await a.client.saveDraft('SUBMITTED');await a.client.saveDraft('NEW_EDIT');
+ assert.equal(await a.client.clearDraftIfMatches('SUBMITTED'),false);assert.equal(await a.client.loadDraft(),'NEW_EDIT');
+ assert.equal(await a.client.clearDraftIfMatches('NEW_EDIT'),true);assert.equal(await a.client.loadDraft(),'');
+ assert.equal(a.storage.getItem(KEY),null);assert.equal(a.calls.length,0);
+});
+
+test('corrupt draft bytes are retained and cannot replace confirmed history',async()=>{
+ const a=setup();await a.client.connect();await a.client.send('ORIGINAL');const history=a.storage.getItem(KEY);
+ a.storage.setItem(a.client.draftKey,'{"corrupt":true}');const before=a.storage.getItem(a.client.draftKey);
+ await assert.rejects(a.client.loadDraft(),/brouillon/);await assert.rejects(a.client.saveDraft('REPLACEMENT'),/brouillon/);
+ assert.equal(a.storage.getItem(a.client.draftKey),before);assert.equal(a.storage.getItem(KEY),history);assert.equal(a.calls.length,1);
+});
+
+test('draft quota failure preserves its prior text and all confirmed history',async()=>{
+ const a=setup();await a.client.connect();await a.client.send('ORIGINAL');await a.client.saveDraft('SAVED_DRAFT');
+ const history=a.storage.getItem(KEY),draft=a.storage.getItem(a.client.draftKey);a.storage.setItem=()=>{throw Error('DRAFT_QUOTA')};
+ await assert.rejects(a.client.saveDraft('UNSAVED_EDIT'),/DRAFT_QUOTA/);
+ assert.equal(a.storage.getItem(a.client.draftKey),draft);assert.equal(a.storage.getItem(KEY),history);
 });
