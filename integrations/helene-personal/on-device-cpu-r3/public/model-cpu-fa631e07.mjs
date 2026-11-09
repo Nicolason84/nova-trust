@@ -4,7 +4,7 @@ export const ENGINE_FINGERPRINT='fa631e0762d75ac6a0d873b2073ced3ad1f5ded1b009835
 export const CONSENT='helene.on-device.cpu-consent.v1';
 export const CONSENT_VALUE=ENGINE_FINGERPRINT;
 export const HISTORICAL_MODELS=['Llama-3.2-1B-Instruct-q4f16_1-MLC',MODEL_ID];
-export const LIB_URL='https://cdn.jsdelivr.net/npm/@huggingface/transformers@4.3.2/dist/transformers.web.js';
+export const LIB_URL='https://cdn.jsdelivr.net/npm/@huggingface/transformers@4.3.2/dist/transformers.min.js';
 export const ORT_BASE='https://cdn.jsdelivr.net/npm/onnxruntime-web@1.31.0-dev.20260914-8d85527a0/dist/';
 export const MODEL_URL='https://huggingface.co/'+MODEL_ID+'/resolve/'+MODEL_REVISION+'/';
 export const MODEL_BYTES=512096557;
@@ -35,11 +35,11 @@ export async function forgetModel(engine){
 }
 
 const status=s=>{const e=globalThis.document?.getElementById('download');if(e)e.textContent=s};
-function workerEngine(){
- const worker=new Worker(new URL('./cpu-worker-fa631e07.mjs',import.meta.url),{type:'module',name:'helene-local-cpu'});
+export function workerEngine({WorkerClass=globalThis.Worker}={}){
+ const worker=new WorkerClass(new URL('./cpu-worker-fa631e07.mjs',import.meta.url),{type:'module',name:'helene-local-cpu'});
  const pending=new Map();let dead=false;
  const failAll=error=>{for(const p of pending.values()){clearTimeout(p.timer);p.reject(error)}pending.clear()};
- const terminate=()=>{if(dead)return;dead=true;worker.terminate();failAll(Error('Le calcul local a été interrompu. Ton message reste conservé.'))};
+ const terminate=()=>{if(dead)return;worker.terminate();dead=true;failAll(Error('Le calcul local a été interrompu. Ton message reste conservé.'))};
  worker.onerror=event=>{terminate();status('Erreur du moteur CPU : '+event.message)};
  worker.onmessage=event=>{
   const m=event.data;if(m?.engine_fingerprint!==ENGINE_FINGERPRINT)return;
@@ -53,7 +53,7 @@ function workerEngine(){
   return new Promise((resolve,reject)=>{const id=crypto.randomUUID(),timer=setTimeout(()=>{terminate();reject(Error('Le calcul CPU dépasse cinq minutes. Ton texte est conservé ; aucune réponse n’est inventée.'))},300000);pending.set(id,{resolve,reject,timer});worker.postMessage({id,operation,request,engine_fingerprint:ENGINE_FINGERPRINT})});
  }
  const ready=call('init').catch(error=>{terminate();throw error});
- return {ready,chat:{completions:{create:request=>call('complete',request)}},async unload(){if(dead)return;await call('dispose');terminate()},interruptGenerate:terminate};
+ return {ready,chat:{completions:{create:request=>call('complete',request)}},async unload(){if(dead)return;try{await call('dispose')}catch(error){status('Fermeture du calcul local : arrêt du thread ; historique conservé.')}finally{terminate()}},interruptGenerate:terminate};
 }
 export async function loadModel(){
  if(loaded)return loaded;

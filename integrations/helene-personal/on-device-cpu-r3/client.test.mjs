@@ -2,7 +2,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {LocalChatClient,KEY,contextFor,reserveConversation,digest} from './public/local-chat-client-cpu-fa631e07.mjs';
-import {allowedAsset,MODEL_URL,ORT_BASE,LIB_URL,ownEngine} from './public/model-cpu-fa631e07.mjs';
+import {allowedAsset,MODEL_URL,ORT_BASE,LIB_URL,ownEngine,workerEngine,ENGINE_FINGERPRINT} from './public/model-cpu-fa631e07.mjs';
 const store=()=>{const m=new Map();return {getItem:k=>m.get(k)??null,setItem:(k,v)=>m.set(k,v)}};
 const locks=()=>{let held=false;return {async request(k,o,f){if(held)return f(null);held=true;try{return await f({name:k})}finally{held=false}}}};
 function setup({storage=store(),mutex=locks(),reply=()=>({choices:[{finish_reason:'stop',message:{content:'SYNTHETIC_REPLY_FOR_PROTOCOL_TEST_ONLY'}}]})}={}){
@@ -95,4 +95,11 @@ test('historical Llama records remain readable byte-exact while new responses ca
  const raw=JSON.stringify({data,sha256:await digest(JSON.stringify(data))});x.storage.setItem(KEY,raw);
  await x.client.connect();assert.equal(x.storage.getItem(KEY),raw);assert.deepEqual(x.client.rows[0],row);
  await x.client.send('NEW_CPU_TURN');assert.deepEqual(x.client.rows[0],row);assert.equal(x.client.rows[1].model,'onnx-community/Qwen2.5-0.5B-Instruct');assert.match(x.client.rows[1].engine_fingerprint,/^[a-f0-9]{64}$/);
+});
+test('CPU dispose failure still terminates the owned thread and releases exclusive ownership',async()=>{
+ let terminated=0;
+ class SyntheticWorker{terminate(){terminated++}postMessage(m){queueMicrotask(()=>this.onmessage({data:{id:m.id,engine_fingerprint:ENGINE_FINGERPRINT,type:m.operation==='dispose'?'error':'result',payload:m.operation==='dispose'?{message:'INJECTED_DISPOSE_ERROR'}:{backend:'wasm'}}}))}}
+ const mutex=locks(),a=await ownEngine(async()=>{const e=workerEngine({WorkerClass:SyntheticWorker});await e.ready;return e},mutex);
+ await a.release();assert.equal(terminated,1);await new Promise(r=>setTimeout(r,0));
+ const b=await ownEngine(async()=>({async unload(){}}),mutex);await b.release();
 });
