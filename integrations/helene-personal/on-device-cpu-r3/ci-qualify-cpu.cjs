@@ -24,7 +24,7 @@ async function main(){
   if(m.method==='Network.requestWillBeSent'){const r=m.params.request;network.push({method:r.method,url:r.url.split('?')[0]});if(!['GET','HEAD'].includes(r.method))writes.push({method:r.method,url:r.url.split('?')[0]});}
  }} });
  const browser=await send('Browser.getVersion'),a=await tab(url),s=a.session;
- const gpu=await evaluate(s,'!!navigator.gpu');check('no_webgpu_api_in_browser',!gpu);
+ const gpu=await evaluate(s,'!!navigator.gpu'),adapter=await evaluate(s,'(async()=>!!(await navigator.gpu?.requestAdapter()))()');check('no_webgpu_adapter_available',!adapter);
  check('cross_origin_isolation_not_required',await evaluate(s,'!crossOriginIsolated'));
  check('mobile_no_horizontal_overflow',await evaluate(s,'document.documentElement.scrollWidth<=innerWidth+1'));
  await evaluate(s,"document.getElementById('local-consent').checked=true;document.getElementById('connect').click();true");
@@ -46,7 +46,7 @@ async function main(){
  check('all_rows_actual_cpu_provenance',record.data.rows.length===3&&record.data.rows.every(r=>r.provider_backend==='wasm'&&r.usage.completion_tokens>0&&r.engine_fingerprint==='fa631e0762d75ac6a0d873b2073ced3ad1f5ded1b009835cbce2c2b0146503ec'));
  check('no_network_writes',writes.length===0);check('no_javascript_exception',errors.length===0);
  check('no_cloudflare_or_mac_endpoint',!network.some(r=>/tony\.nova-era|localhost:11434|127\.0\.0\.1:11434|cloudflareaccess/.test(r.url)));
- const result={schema:'HELENE_REAL_CPU_BROWSER_ACCEPTANCE_R3',status:'PASS',browser:browser.product,gpu_available:gpu,cross_origin_isolated:false,real_generation_calls:3,backend:'wasm',threads:1,physical_android_tested:false,all_data_synthetic:true,history_before_reopen_sha256:hash,synthetic_replies:[first,second,third],timings,checks,network_methods:[...new Set(network.map(r=>r.method))],worker_errors:errors};
+ const result={schema:'HELENE_REAL_CPU_BROWSER_ACCEPTANCE_R3',status:'PASS',browser:browser.product,gpu_api_exposed:gpu,gpu_adapter_available:adapter,cross_origin_isolated:false,real_generation_calls:3,backend:'wasm',threads:1,physical_android_tested:false,all_data_synthetic:true,history_before_reopen_sha256:hash,synthetic_replies:[first,second,third],timings,checks,network_methods:[...new Set(network.map(r=>r.method))],worker_errors:errors};
  console.log('BEGIN_HELENE_REAL_CPU_RESULT\n'+JSON.stringify(result,null,2)+'\nEND_HELENE_REAL_CPU_RESULT');
  if(process.env.GITHUB_STEP_SUMMARY)fs.appendFileSync(process.env.GITHUB_STEP_SUMMARY,'## Hélène — vraie génération CPU sans WebGPU\n\n```json\n'+JSON.stringify(result,null,2)+'\n```\n');
 }
