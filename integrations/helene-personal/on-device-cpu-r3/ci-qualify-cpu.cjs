@@ -31,9 +31,9 @@ async function main(){
  const init=Date.now();await wait(s,"document.getElementById('connection').textContent==='Assistant sur ce téléphone'");timings.initial_load_ms=Date.now()-init;
  const marker='TILLEUL-'+crypto.randomBytes(3).toString('hex').toUpperCase();
  const first=await submit(s,'Mon code est '+marker+' et ma promenade est dimanche. Réponds en une courte phrase en français.',1);
- check('first_true_cpu_response_nonempty',first.trim().length>2);
+ console.log('SYNTHETIC_CPU_FIRST '+JSON.stringify(first));check('first_true_cpu_response_nonempty',first.trim().length>2);
  const second=await submit(s,'Rappelle uniquement mon code et le jour de ma promenade.',2);
- check('second_true_cpu_response_recalls_context',second.includes(marker)&&second.toLowerCase().includes('dimanche'));
+ console.log('SYNTHETIC_CPU_SECOND '+JSON.stringify(second));checks.push({name:'second_true_cpu_response_recalls_context',pass:second.includes(marker)&&second.toLowerCase().includes('dimanche')});
  const raw=await evaluate(s,"localStorage.getItem('helene.on-device.conversation.v1')"),hash=crypto.createHash('sha256').update(raw).digest('hex');
  await send('Target.closeTarget',{targetId:a.id});await delay(1000);
  const b=await tab(url),t=b.session;
@@ -41,13 +41,14 @@ async function main(){
  check('history_after_actual_tab_close',await evaluate(t,"localStorage.getItem('helene.on-device.conversation.v1')")==raw);
  await wait(t,"document.getElementById('connection').textContent==='Assistant sur ce téléphone'");
  const third=await submit(t,'Quel était mon code et quel jour avions-nous choisi ?',3);
- check('third_true_cpu_response_after_reopen',third.includes(marker)&&third.toLowerCase().includes('dimanche'));
+ console.log('SYNTHETIC_CPU_THIRD '+JSON.stringify(third));checks.push({name:'third_true_cpu_response_after_reopen',pass:third.includes(marker)&&third.toLowerCase().includes('dimanche')});
  const record=JSON.parse(await evaluate(t,"localStorage.getItem('helene.on-device.conversation.v1')"));
  check('all_rows_actual_cpu_provenance',record.data.rows.length===3&&record.data.rows.every(r=>r.provider_backend==='wasm'&&r.usage.completion_tokens>0&&r.engine_fingerprint==='fa631e0762d75ac6a0d873b2073ced3ad1f5ded1b009835cbce2c2b0146503ec'));
  check('no_network_writes',writes.length===0);check('no_javascript_exception',errors.length===0);
  check('no_cloudflare_or_mac_endpoint',!network.some(r=>/tony\.nova-era|localhost:11434|127\.0\.0\.1:11434|cloudflareaccess/.test(r.url)));
- const result={schema:'HELENE_REAL_CPU_BROWSER_ACCEPTANCE_R3',status:'PASS',browser:browser.product,gpu_api_exposed:gpu,gpu_adapter_available:adapter,cross_origin_isolated:false,real_generation_calls:3,backend:'wasm',threads:1,physical_android_tested:false,all_data_synthetic:true,history_before_reopen_sha256:hash,synthetic_replies:[first,second,third],timings,checks,network_methods:[...new Set(network.map(r=>r.method))],worker_errors:errors};
+ const result={schema:'HELENE_REAL_CPU_BROWSER_ACCEPTANCE_R3',status:checks.every(x=>x.pass)?'PASS':'FAIL',browser:browser.product,gpu_api_exposed:gpu,gpu_adapter_available:adapter,cross_origin_isolated:false,real_generation_calls:3,backend:'wasm',threads:1,physical_android_tested:false,all_data_synthetic:true,history_before_reopen_sha256:hash,synthetic_replies:[first,second,third],timings,checks,network_methods:[...new Set(network.map(r=>r.method))],worker_errors:errors};
  console.log('BEGIN_HELENE_REAL_CPU_RESULT\n'+JSON.stringify(result,null,2)+'\nEND_HELENE_REAL_CPU_RESULT');
+ if(!checks.every(x=>x.pass))process.exitCode=1;
  if(process.env.GITHUB_STEP_SUMMARY)fs.appendFileSync(process.env.GITHUB_STEP_SUMMARY,'## Hélène — vraie génération CPU sans WebGPU\n\n```json\n'+JSON.stringify(result,null,2)+'\n```\n');
 }
 main().catch(error=>{console.error('HELENE_REAL_CPU_FAILED '+error.stack);console.error('BROWSER_ERRORS '+JSON.stringify(errors));console.error('BROWSER_LOG '+JSON.stringify(logs.slice(-12)));if(fs.existsSync(out+'/chrome.log'))console.error(fs.readFileSync(out+'/chrome.log','utf8').slice(-3000));process.exitCode=1}).finally(async()=>{if(chrome){try{await send('Browser.close')}catch{}chrome.kill('SIGTERM')}server.close();for(const p of pending.values())clearTimeout(p.timer)});
