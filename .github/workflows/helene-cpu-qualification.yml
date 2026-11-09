@@ -2,6 +2,13 @@ name: Helene CPU browser qualification
 
 on:
   workflow_dispatch:
+    inputs:
+      variant:
+        description: CPU model to qualify with synthetic data only
+        type: choice
+        required: true
+        default: lfm
+        options: [lfm, qwen3]
 
 permissions:
   contents: read
@@ -18,4 +25,8 @@ jobs:
         with:
           node-version: '24'
       - name: Qualify real CPU generation with WebGPU disabled
-        run: node integrations/helene-personal/on-device-cpu-r3/ci-qualify-cpu.cjs integrations/helene-personal/on-device-cpu-r3/public
+        env:
+          HELENE_VARIANT: ${{ inputs.variant }}
+        run: |
+          case "$HELENE_VARIANT" in lfm|qwen3) ;; *) exit 2 ;; esac
+          node "integrations/helene-personal/on-device-cpu-r3/variants/$HELENE_VARIANT/ci-qualify-cpu.cjs" "integrations/helene-personal/on-device-cpu-r3/variants/$HELENE_VARIANT/public"
