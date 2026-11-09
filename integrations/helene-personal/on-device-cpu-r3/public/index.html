@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="color-scheme" content="light dark"><meta name="referrer" content="no-referrer">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'wasm-unsafe-eval' blob: https://cdn.jsdelivr.net/npm/@huggingface/transformers@4.3.2/dist/ https://cdn.jsdelivr.net/npm/onnxruntime-web@1.31.0-dev.20260914-8d85527a0/dist/; connect-src 'self' blob: https://cdn.jsdelivr.net https://huggingface.co https://*.huggingface.co https://*.hf.co; style-src 'self'; img-src 'self' data:; worker-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
+  <title>Mon assistant sur ce téléphone · ojO Hélène</title>
+  <link rel="stylesheet" href="./chat.css">
+  <script type="module" src="./chat-ui-cpu-fa631e07.mjs"></script>
+  <script type="module" src="./phone-check-cpu-fa631e07.mjs"></script>
+</head>
+<body>
+  <a class="skip" href="#message">Aller à mon message</a>
+  <header><a class="brand" href="https://nicolason84.github.io/nova-trust/helene/ouvrir.html">ojO <span>Hélène</span></a><span id="connection" role="status">Sur ce téléphone</span></header>
+  <main>
+    <section class="intro"><p class="eyebrow">À TON RYTHME</p><h1>On en parle.</h1><p>Une question, une idée, un message à préparer.<br>Commence avec tes propres mots.</p></section>
+<section class="access" aria-labelledby="local-title"><h2 id="local-title">Assistant local · compatibilité CPU.</h2><p>Le calcul utilise maintenant le processeur en WebAssembly, sans WebGPU ni shader-f16. Cette correction reste à confirmer sur ton téléphone. Elle ne modifie pas tes notes, ton agenda ni l’accès Cloudflare existant.</p><p>Le premier chargement télécharge environ 512 Mo de modèle, puis utilise le processeur et la mémoire du téléphone. Les réponses courtes peuvent prendre un moment. Prévois au moins 1 Gio de marge dans Chrome. Aucun abonnement, aucune API payante, aucun envoi de conversation à un serveur.</p><label><input type="checkbox" id="local-consent"> Je suis en Wi-Fi et j’accepte de télécharger ce modèle sur mon téléphone.</label><p id="consent-note"></p><p id="download" role="status"></p><p id="storage-status">L’historique reste dans ce navigateur, protégé par le verrouillage de ton téléphone. Il n’est pas publié avec la page. N’efface pas les données Chrome.</p><button id="phone-test" type="button">Vérifier mon assistant avec des phrases fictives</button><p id="phone-test-status" role="status" aria-live="polite">Aucune génération sur ton téléphone n’a encore été vérifiée.</p><button id="export-proof" type="button">Exporter le reçu technique du test</button><button id="export-chat" type="button">Exporter ma conversation personnelle</button><p>Une sauvegarde exportée reste nécessaire : même si Chrome accorde le stockage persistant, une désinstallation, un effacement volontaire ou une perte du téléphone peut retirer les données.</p></section>
+    <section id="access" class="access"><h2>Ton espace de conversation.</h2><p>Un petit modèle Qwen 2.5 répond sur ce téléphone. Tes messages restent dans Chrome : aucun compte Cloudflare ni MacBook nécessaire. Ton coffre, tes documents et ton agenda ne sont jamais ouverts automatiquement. Il peut se tromper ; ses réponses ne remplacent pas un avis professionnel.</p><button id="connect" class="primary">Préparer mon assistant</button></section>
+    <section id="conversation" class="conversation" hidden>
+      <div class="conversation-tools"><p id="session-state" role="status"></p><div><button id="refresh" type="button">Actualiser</button><button id="resume" type="button" hidden>Reprendre ma session</button><button id="pause" type="button">Mettre en pause</button></div></div>
+      <div id="messages" class="messages" role="log" aria-live="polite" aria-relevant="additions text"></div>
+      <p id="activity" role="status" aria-live="polite"></p>
+      <form id="composer"><label for="message">Mon message</label><textarea id="message" name="message" rows="4" maxlength="1200" placeholder="Ce que j’aimerais…" required></textarea><div class="composer-footer"><span id="count">0 / 1 200</span><button id="send" class="primary">Envoyer</button></div></form>
+      <p class="privacy">Seul le texte saisi ici est confié au modèle exécuté sur ton téléphone. Le contexte de travail reprend les trois derniers échanges qui tiennent dans sa limite ; l’historique complet reste conservé. Il peut t’aider à réfléchir et à rédiger ; aucun message, achat ou rendez-vous n’est envoyé ou exécuté à ta place.</p>
+    </section>
+    <p id="error" class="error" role="alert"></p>
+    <p id="reconcile" hidden>Ton message n’est pas renvoyé automatiquement. Actualise la conversation pour retrouver la réponse ou vérifier l’état de la demande.</p>
+  </main>
+  <footer><a href="https://nicolason84.github.io/nova-trust/helene/ouvrir.html">Retour à mon espace</a><span>Ton rythme. Tes choix.</span></footer>
+</body>
+</html>

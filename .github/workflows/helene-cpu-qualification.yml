@@ -1,0 +1,21 @@
+name: Helene CPU browser qualification
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  cpu-browser:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '24'
+      - name: Qualify real CPU generation with WebGPU disabled
+        run: node integrations/helene-personal/on-device-cpu-r3/ci-qualify-cpu.cjs integrations/helene-personal/on-device-cpu-r3/public
