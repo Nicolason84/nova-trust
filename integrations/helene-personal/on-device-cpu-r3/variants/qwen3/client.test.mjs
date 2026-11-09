@@ -2,8 +2,8 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
-import {LocalChatClient,KEY,contextFor,reserveConversation,digest} from './public/local-chat-client-cpu-0a6809de2682.mjs';
-import {allowedAsset,MODEL_URL,ORT_BASE,LIB_URL,ownEngine,workerEngine,loadModel,ENGINE_FINGERPRINT,ENGINE_DESCRIPTOR,MODEL_ID,MODEL_REVISION,MODEL_BYTES,MODEL_SHA256,CONSENT,CONSENT_VALUE,HISTORICAL_MODELS} from './public/model-cpu-fa631e07.mjs';
+import {LocalChatClient,KEY,contextFor,reserveConversation,digest} from './public/local-chat-client-cpu-5ce3d95c1118.mjs';
+import {allowedAsset,MODEL_URL,ORT_BASE,LIB_URL,ownEngine,workerEngine,loadModel,ENGINE_FINGERPRINT,ENGINE_DESCRIPTOR,MODEL_ID,MODEL_REVISION,MODEL_BYTES,MODEL_SHA256,OPERATION_TIMEOUT_MS,CONSENT,CONSENT_VALUE,HISTORICAL_MODELS} from './public/model-cpu-r4-timeouts.mjs';
 const store=()=>{const m=new Map();return {getItem:k=>m.get(k)??null,setItem:(k,v)=>m.set(k,v)}};
 const locks=()=>{const entries=new Map();return {async request(k,o,f){let e=entries.get(k);if(!e){e={count:0,tail:Promise.resolve()};entries.set(k,e)}if(o.ifAvailable&&e.count)return f(null);const previous=e.tail;let release;e.tail=new Promise(r=>release=r);e.count++;await previous;try{return await f({name:k})}finally{e.count--;release();}}}};
 function setup({storage=store(),mutex=locks(),reply=()=>({choices:[{finish_reason:'stop',message:{content:'SYNTHETIC_REPLY_FOR_PROTOCOL_TEST_ONLY'}}]})}={}){
@@ -123,7 +123,7 @@ test('Qwen3 metadata fingerprint binds consent, revision, assets and CPU policy'
  assert.equal(allowedAsset(MODEL_URL.replace(MODEL_REVISION,'main')+'tokenizer.json'),false);
 });
 test('Qwen3 hard thinking switch is on the template and CI expects this exact engine',async()=>{
- const worker=await readFile(new URL('./public/cpu-worker-fa631e07.mjs',import.meta.url),'utf8');
+ const worker=await readFile(new URL('./public/cpu-worker-r4-timeouts.mjs',import.meta.url),'utf8');
  assert.match(worker,/tokenizer\.apply_chat_template\(messages,\{[^}]*enable_thinking:false\}/);
  assert.match(worker,/device:ENGINE_DESCRIPTOR\.backend,dtype:ENGINE_DESCRIPTOR\.dtype/);
  const ci=await readFile(new URL('./ci-qualify-cpu.cjs',import.meta.url),'utf8');
@@ -204,4 +204,44 @@ test('draft quota failure preserves its prior text and all confirmed history',as
  const history=a.storage.getItem(KEY),draft=a.storage.getItem(a.client.draftKey);a.storage.setItem=()=>{throw Error('DRAFT_QUOTA')};
  await assert.rejects(a.client.saveDraft('UNSAVED_EDIT'),/DRAFT_QUOTA/);
  assert.equal(a.storage.getItem(a.client.draftKey),draft);assert.equal(a.storage.getItem(KEY),history);
+});
+
+function timedSyntheticEngine(){
+ let clock=0,next=0;const timers=new Map(),scheduled=[],statuses=[],instances=[];
+ const setTimer=(callback,delay)=>{const id=++next;timers.set(id,{callback,at:clock+delay});scheduled.push(delay);return id};
+ const clearTimer=id=>timers.delete(id);
+ const advance=milliseconds=>{clock+=milliseconds;for(const [id,timer] of [...timers]){if(timer.at<=clock){timers.delete(id);timer.callback();}}};
+ class SyntheticWorker{
+  constructor(url){this.url=url;this.requests=[];this.terminated=0;instances.push(this)}
+  postMessage(request){this.requests.push(request)}
+  terminate(){this.terminated++}
+  respond(operation,payload={backend:'wasm'}){const request=this.requests.findLast(r=>r.operation===operation);assert.ok(request);this.onmessage({data:{id:request.id,engine_fingerprint:ENGINE_FINGERPRINT,type:'result',payload}})}
+ }
+ const engine=workerEngine({WorkerClass:SyntheticWorker,setTimer,clearTimer,onStatus:s=>statuses.push(s)});
+ return {engine,worker:instances[0],timers,scheduled,statuses,advance};
+}
+
+test('R4 initialization allows twenty minutes and reports download timeout without loading a model',async()=>{
+ assert.deepEqual(OPERATION_TIMEOUT_MS,{init:1200000,complete:300000,dispose:30000});
+ const t=timedSyntheticEngine(),failure=assert.rejects(t.engine.ready,/téléchargement.*vingt minutes/);
+ assert.ok(t.worker.url.pathname.endsWith('/cpu-worker-r4-timeouts.mjs'));
+ assert.deepEqual(t.scheduled,[1200000]);t.advance(300000);assert.equal(t.worker.terminated,0);assert.equal(t.timers.size,1);
+ t.advance(899999);assert.equal(t.worker.terminated,0);t.advance(1);await failure;
+ assert.equal(t.worker.terminated,1);assert.equal(t.timers.size,0);
+});
+
+test('R4 completion retains five minutes and reports preserved text on timeout',async()=>{
+ const t=timedSyntheticEngine();t.worker.respond('init');await t.engine.ready;
+ const completion=t.engine.chat.completions.create({messages:[{role:'user',content:'SYNTHETIC_ONLY'}]});
+ const failure=assert.rejects(completion,/réponse.*cinq minutes.*texte est conservé/);
+ assert.deepEqual(t.scheduled,[1200000,300000]);t.advance(299999);assert.equal(t.worker.terminated,0);
+ t.advance(1);await failure;assert.equal(t.worker.terminated,1);assert.equal(t.timers.size,0);
+});
+
+test('R4 dispose allows thirty seconds then terminates the thread with an explicit closure message',async()=>{
+ const t=timedSyntheticEngine();t.worker.respond('init');await t.engine.ready;
+ const closing=t.engine.unload();assert.deepEqual(t.scheduled,[1200000,30000]);
+ t.advance(29999);assert.equal(t.worker.terminated,0);t.advance(1);await closing;
+ assert.equal(t.worker.terminated,1);assert.equal(t.timers.size,0);
+ assert.ok(t.statuses.some(s=>/fermeture.*trente secondes.*thread est arrêté/.test(s)));
 });
