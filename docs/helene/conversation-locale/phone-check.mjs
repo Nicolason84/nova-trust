@@ -6,6 +6,10 @@ function download(name,body){const u=URL.createObjectURL(new Blob([body],{type:'
 function show(s){$('phone-test-status').textContent=s}
 const phase=JSON.parse(localStorage.getItem(STEP)||'null');
 if(phase?.state==='RELOAD_REQUIRED'){$('phone-test').textContent='Vérifier la reprise après rechargement';show('Deux échanges de test ont été conservés. Termine le contrôle de reprise.');}
+if(phase?.state==='PASS'){
+  const proof=JSON.parse(localStorage.getItem(PROOF)||'null');
+  if(proof?.status==='PASS_REAL_INFERENCE_AND_RELOAD'&&proof.model===MODEL_ID){$('phone-test').hidden=true;show('Le test local enregistré a réussi : trois réponses réelles et reprise après rechargement. La fermeture puis réouverture réelle se confirme sur ce téléphone.');$('local-title').textContent='Ton assistant sur ce téléphone.';}
+}
 if(localStorage.getItem(CONSENT)===MODEL_ID)$('consent-note').textContent='Le modèle a déjà été autorisé sur cet appareil. Si Chrome l’a évincé, un nouveau téléchargement restera à confirmer.';
 $('export-chat').addEventListener('click',()=>{
   const raw=localStorage.getItem(KEY);if(raw===null){show('Aucune conversation personnelle enregistrée à exporter.');return;}

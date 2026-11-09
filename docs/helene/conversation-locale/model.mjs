@@ -14,7 +14,7 @@ export async function ownEngine(create,locks=globalThis.navigator?.locks){
       if(!lock){reject(Error('L\u2019assistant est déjà chargé dans une autre fenêtre. Reviens à cette fenêtre ou mets-y l\u2019assistant en pause.'));return;}
       try{
         const engine=await create();let released=false;
-        resolve({engine,release:async()=>{if(released)return;released=true;try{await engine.unload()}finally{unlock()}}});
+        resolve({engine,release:async()=>{if(released)return;released=true;await engine.unload();unlock();}});
         await held;
       }catch(error){reject(error);}
     }).catch(reject);
