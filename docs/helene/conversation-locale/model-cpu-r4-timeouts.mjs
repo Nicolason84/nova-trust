@@ -1,0 +1,86 @@
+// Fingerprint is SHA-256(JSON.stringify(ENGINE_DESCRIPTOR)); no weight download
+// or inference result is represented by this metadata identity.
+export const ENGINE_DESCRIPTOR=Object.freeze({schema:'HELENE_CPU_ENGINE_DESCRIPTOR_V1',model_id:'onnx-community/Qwen3-0.6B-ONNX',model_revision:'558750086ed49d78cb701ed6fa85af33fd16453f',model_file:'onnx/model_quantized.onnx',model_bytes:617687575,model_sha256:'ccf8734e59fdf7475b2dc0c117005e267a3a08342c1d951e0a79f0bce57bf62a',transformers_js:'4.3.2',onnxruntime_web:'1.31.0-dev.20260914-8d85527a0',backend:'wasm',dtype:'q8',threads:1,enable_thinking:false,input_token_limit:1536,max_new_tokens:128,do_sample:false});
+export const MODEL_ID=ENGINE_DESCRIPTOR.model_id;
+export const MODEL_REVISION=ENGINE_DESCRIPTOR.model_revision;
+export const ENGINE_FINGERPRINT='1f590ee789ea89ea613f3f03d8769f4a0627d2625d2cd1c8b3aa9079e1747093';
+export const CONSENT='helene.on-device.cpu-consent.v1';
+export const CONSENT_VALUE=ENGINE_FINGERPRINT;
+export const HISTORICAL_MODELS=['Llama-3.2-1B-Instruct-q4f16_1-MLC','onnx-community/Qwen2.5-0.5B-Instruct',MODEL_ID];
+export const LIB_URL='https://cdn.jsdelivr.net/npm/@huggingface/transformers@4.3.2/dist/transformers.min.js';
+export const ORT_BASE='https://cdn.jsdelivr.net/npm/onnxruntime-web@1.31.0-dev.20260914-8d85527a0/dist/';
+export const MODEL_URL='https://huggingface.co/'+MODEL_ID+'/resolve/'+MODEL_REVISION+'/';
+export const MODEL_BYTES=ENGINE_DESCRIPTOR.model_bytes;
+export const MODEL_SHA256=ENGINE_DESCRIPTOR.model_sha256;
+export function allowedAsset(input,init={}){
+ const u=new URL(input instanceof URL?input.href:typeof input==='string'?input:input.url);
+ const method=String(init.method||input?.method||'GET').toUpperCase();
+ return ['GET','HEAD'].includes(method)&&!init.body&&!u.search&&!u.hash&&(u.href===LIB_URL||u.href===ORT_BASE+'ort-wasm-simd-threaded.asyncify.mjs'||u.href===ORT_BASE+'ort-wasm-simd-threaded.asyncify.wasm'||u.href.startsWith(MODEL_URL)&&!u.pathname.split('/').includes('..'));
+}
+let loaded=null,activeEngine=null;
+const leases=new WeakMap();
+export async function ownEngine(create,locks=globalThis.navigator?.locks){
+  if(!locks?.request)throw Error('La propriété du moteur ne peut pas être protégée dans ce navigateur.');
+  let unlock;const held=new Promise(resolve=>unlock=resolve);
+  return new Promise((resolve,reject)=>{
+    locks.request('helene.on-device.model-owner.v1',{mode:'exclusive',ifAvailable:true},async lock=>{
+      if(!lock){reject(Error('L\u2019assistant est déjà chargé dans une autre fenêtre. Reviens à cette fenêtre ou mets-y l\u2019assistant en pause.'));return;}
+      try{
+        const engine=await create();let released=false;
+        resolve({engine,release:async()=>{if(released)return;released=true;await engine.unload();unlock();}});
+        await held;
+      }catch(error){reject(error);}
+    }).catch(reject);
+  });
+}
+export async function forgetModel(engine){
+  const lease=engine&&leases.get(engine);if(!lease)return;
+  leases.delete(engine);if(activeEngine===engine){loaded=null;activeEngine=null;}await lease.release();
+}
+
+const status=s=>{const e=globalThis.document?.getElementById('download');if(e)e.textContent=s};
+export const OPERATION_TIMEOUT_MS=Object.freeze({init:1200000,complete:300000,dispose:30000});
+function timeoutError(operation){
+ if(operation==='init')return Error('Le téléchargement ou la préparation du modèle dépasse vingt minutes. Vérifie le Wi-Fi puis reprends la préparation ; tes données locales sont conservées.');
+ if(operation==='dispose')return Error('La fermeture du calcul local dépasse trente secondes. Le thread est arrêté ; l’historique est conservé.');
+ return Error('La réponse du modèle dépasse cinq minutes. Ton texte est conservé ; aucune réponse n’est inventée.');
+}
+export function workerEngine({WorkerClass=globalThis.Worker,setTimer=globalThis.setTimeout,clearTimer=globalThis.clearTimeout,onStatus=status}={}){
+ const worker=new WorkerClass(new URL('./cpu-worker-r4-timeouts.mjs',import.meta.url),{type:'module',name:'helene-local-cpu'});
+ const pending=new Map();let dead=false;
+ const failAll=error=>{for(const p of pending.values()){clearTimer(p.timer);p.reject(error)}pending.clear()};
+ const terminate=(error=Error('Le calcul local a été interrompu. Ton message reste conservé.'))=>{if(dead)return;worker.terminate();dead=true;failAll(error)};
+ worker.onerror=event=>{terminate();onStatus('Erreur du moteur CPU : '+event.message)};
+ worker.onmessage=event=>{
+  const m=event.data;if(m?.engine_fingerprint!==ENGINE_FINGERPRINT)return;
+  const p=pending.get(m.id);if(!p)return;
+  if(m.type==='progress'){onStatus(m.payload.stage==='generation'?'Réponse en cours sur le processeur du téléphone…':m.payload.percent!==undefined?'Téléchargement du modèle CPU : '+m.payload.percent+' %. Garde cette page ouverte.':'Préparation du modèle CPU…');return;}
+  clearTimer(p.timer);pending.delete(m.id);
+  if(m.type==='result')p.resolve(m.payload);else p.reject(Error(m.payload?.message||m.payload?.code||'CPU_RUNTIME_ERROR'));
+ };
+ function call(operation,request){
+  if(dead)return Promise.reject(Error('Le moteur local est arrêté. Reprends ta conversation.'));
+  return new Promise((resolve,reject)=>{const id=crypto.randomUUID(),timer=setTimer(()=>terminate(timeoutError(operation)),OPERATION_TIMEOUT_MS[operation]);pending.set(id,{resolve,reject,timer});worker.postMessage({id,operation,request,engine_fingerprint:ENGINE_FINGERPRINT})});
+ }
+ const ready=call('init').catch(error=>{terminate();throw error});
+ return {ready,chat:{completions:{create:request=>call('complete',request)}},async unload(){if(dead)return;try{await call('dispose')}catch(error){onStatus(error.message||'Fermeture du calcul local : arrêt du thread ; historique conservé.')}finally{terminate()}},interruptGenerate:()=>terminate()};
+}
+export async function loadModel(){
+ if(loaded)return loaded;
+ const consent=globalThis.document?.getElementById('local-consent');
+ if(!consent?.checked&&localStorage.getItem(CONSENT)!==CONSENT_VALUE)throw Error('Cette variante utilise Qwen 3 sur le processeur : coche ton accord pour son téléchargement en Wi-Fi (environ 618 Mo).');
+ if(!globalThis.isSecureContext||!globalThis.WebAssembly||!globalThis.Worker)throw Error('Ce navigateur ne fournit pas WebAssembly et les calculs locaux nécessaires. Aucun modèle téléchargé.');
+ loaded=ownEngine(async()=>{
+  const persisted=await navigator.storage?.persist?.();
+  const el=document.getElementById('storage-status');if(el)el.textContent=persisted?'Stockage persistant accordé par Chrome. Conserve aussi un export de tes conversations.':'Chrome ne garantit pas le stockage persistant. Conserve régulièrement un export ; n’efface pas les données du navigateur.';
+  const estimate=await navigator.storage?.estimate?.();
+  const cached=await globalThis.caches?.match(MODEL_URL+'onnx/model_quantized.onnx',{cacheName:'helene-cpu-'+ENGINE_FINGERPRINT});
+  if(!cached&&estimate?.quota&&estimate.quota-(estimate.usage||0)<1024**3)throw Error('Chrome ne dispose pas d’une marge de 1 Gio. Aucune donnée supprimée.');
+  if(!cached&&!consent?.checked)throw Error('Le modèle CPU n’est plus en cache. Coche le téléchargement Wi-Fi pour le restaurer ; ton historique est conservé.');
+  localStorage.setItem(CONSENT,CONSENT_VALUE);
+  status('Préparation du moteur CPU, sans WebGPU…');
+  const engine=workerEngine();await engine.ready;
+  status('Modèle CPU chargé. Les messages sont traités sur ce téléphone.');return engine;
+ }).then(lease=>{leases.set(lease.engine,lease);activeEngine=lease.engine;return lease.engine}).catch(error=>{loaded=null;status('Assistant CPU non chargé : '+error.message);throw error});
+ return loaded;
+}
