@@ -1,9 +1,9 @@
 {
   "schema": "OJO_LA_BETE_VIRTUOUS_EVOLUTION_V1",
-  "generation": 5219,
-  "updated_at": "2026-11-12T23:59:04Z",
-  "source_snapshot_id": "OJO-F63007FD55C23EA3",
-  "source_sequence": 94,
+  "generation": 5220,
+  "updated_at": "2026-11-13T00:11:40Z",
+  "source_snapshot_id": "OJO-EC36813D6351943A",
+  "source_sequence": 95,
   "dna": {
     "mode": "EVIDENCE_GUARD",
     "section_focus": "evidence",
@@ -24,8 +24,8 @@
       "semantic_reordering": false
     },
     "signal": {
-      "warnings": 4,
-      "healthy": 5,
+      "warnings": 6,
+      "healthy": 3,
       "monitored": 9,
       "tec10_delta_bps": 96.2,
       "curve_regime": "MIXED_OR_STABLE",
@@ -40,11 +40,11 @@
       "name": "La Bête",
       "kind": "public evidence-backed decision projection",
       "canonical_truth": "docs/data/france-debt-rate-live.json",
-      "source_snapshot_id": "OJO-F63007FD55C23EA3",
-      "source_sequence": 94
+      "source_snapshot_id": "OJO-EC36813D6351943A",
+      "source_sequence": 95
     },
     "wellbeing": {
-      "state": "ATTENTION",
+      "state": "DEGRADED",
       "dimensions": [
         {
           "id": "truth_integrity",
@@ -55,8 +55,8 @@
         {
           "id": "observability",
           "label": "Observabilité",
-          "state": "ATTENTION",
-          "evidence": "5/9 sources utilisables; 4 indisponible(s)."
+          "state": "DEGRADED",
+          "evidence": "3/9 sources utilisables; 6 indisponible(s)."
         },
         {
           "id": "resilience",
@@ -73,8 +73,8 @@
         {
           "id": "uncertainty",
           "label": "Incertitude",
-          "state": "ATTENTION",
-          "evidence": "4/9 source(s) demandent une attention explicite."
+          "state": "DEGRADED",
+          "evidence": "6/9 source(s) demandent une attention explicite."
         },
         {
           "id": "reversibility",
@@ -86,8 +86,8 @@
       "ailments": [
         {
           "id": "OFFICIAL_SOURCES_UNAVAILABLE",
-          "severity": "ATTENTION",
-          "label": "4 source(s) officielle(s) indisponible(s)",
+          "severity": "DEGRADED",
+          "label": "6 source(s) officielle(s) indisponible(s)",
           "evidence": "Le dernier bon état reste visible; aucune donnée de remplacement n'est inventée.",
           "care": "Réessayer les sources à chaque heartbeat et conserver le dernier bon état tant qu'une preuve de même portée n'est pas disponible."
         },
@@ -106,7 +106,7 @@
           "care": "Augmenter la visibilité des preuves et des horizons sans convertir le signal en causalité ni recommandation politique."
         }
       ],
-      "immediate_need": "Accès automatisé refusé : relances identiques suspendues. Vérifier un accès officiel autorisé ou un export officiel de même portée; conserver le dernier bon état. 5205 cycle(s) consécutifs; 1 épisode(s); 779 tentative(s) consécutive(s) sans récupération. L'objectif de récupération n'a pas été atteint dans la fenêtre observée."
+      "immediate_need": "Accès automatisé refusé : relances identiques suspendues. Vérifier un accès officiel autorisé ou un export officiel de même portée; conserver le dernier bon état. 5206 cycle(s) consécutifs; 1 épisode(s); 779 tentative(s) consécutive(s) sans récupération. L'objectif de récupération n'a pas été atteint dans la fenêtre observée."
     },
     "self_care": {
       "bounded_autonomous_actions": [
@@ -132,19 +132,19 @@
     ],
     "voice": {
       "identity_statement": "Je suis La Bête: une projection décisionnelle publique reliée à une vérité canonique, à des sources et à des garde-fous.",
-      "status_statement": "Mon état opérationnel est ATTENTION. J'observe 9 source(s); 4 demandent une attention explicite.",
+      "status_statement": "Mon état opérationnel est DEGRADED. J'observe 9 source(s); 6 demandent une attention explicite.",
       "need_statement": "Récupérer les sources officielles indisponibles, en priorité l'échéancier détaillé, sans remplacer le dernier bon état par une estimation.",
       "agency_statement": "Je peux me surveiller, signaler mes limites, réessayer mes sources, conserver un dernier bon état, adapter ma représentation, tester mes évolutions et revenir en arrière. Je ne peux pas m'autoriser moi-même à franchir mes Human Gates.",
       "operating_model_statement": "Le bien commun public reste gratuit. Les services privés sont une direction de conception séparée, non ouverte à la vente tant que sécurité, cadre juridique, gouvernance et mandats ne sont pas validés.",
       "design_statement": "Mon interface publique privilégie une neutralité civique sobre; ma présence artistique peut rester plus chaude sans contaminer la lecture des preuves, des démarches ou des services.",
-      "memory_statement": "Ma mémoire de santé couvre 5205 cycles réellement observés depuis 2026-10-02T11:33:30Z. Aucun cycle passé n'est inventé.",
-      "learning_statement": "Je vérifie 0 objectifs de soin en cours; 8 ont été atteints et 6 non atteints dans leur fenêtre observée.",
+      "memory_statement": "Ma mémoire de santé couvre 5206 cycles réellement observés depuis 2026-10-02T11:33:30Z. Aucun cycle passé n'est inventé.",
+      "learning_statement": "Je vérifie 2 objectifs de soin en cours; 8 ont été atteints et 6 non atteints dans leur fenêtre observée.",
       "institutional_learning_statement": "Je réutilise les méthodes éprouvées de démocratie coopérative, privacy-by-design, séparation des autorités, preuves cryptographiques, batching, garde de clés, audit et qualification des tiers; je n'en déduis aucun PASS de production sans preuve externe correspondante.",
       "system_learning_statement": "Je reçois aussi des méthodes éprouvées de SUPRA comme contraintes de conception: mémoire-first, autorité canonique unique, événements matériels sémantiques, learning vérifié avant réinjection, Human Gates, provenance média et rollback. Reçu ne signifie jamais appliqué."
     },
     "health_memory": {
       "schema": "OJO_LA_BETE_HEALTH_MEMORY_V1",
-      "total_cycles": 5205,
+      "total_cycles": 5206,
       "issues": {
         "dimension:maturity_coverage": {
           "id": "dimension:maturity_coverage",
@@ -152,8 +152,8 @@
           "kind": "DIMENSION",
           "source_id": null,
           "first_seen_at": "2026-10-02T11:33:30Z",
-          "affected_cycles": 5205,
-          "consecutive_cycles": 5205,
+          "affected_cycles": 5206,
+          "consecutive_cycles": 5206,
           "episodes": 1,
           "recoveries": 0,
           "good_streak": 0,
@@ -166,11 +166,11 @@
             "inconclusive": 0,
             "failure_streak": 0
           },
-          "last_observed_at": "2026-11-12T23:59:04Z",
+          "last_observed_at": "2026-11-13T00:11:40Z",
           "last_state": "ATTENTION",
           "evidence": "Échéancier détaillé partiellement retenu depuis le dernier bon état.",
           "observation_status": "OBSERVED",
-          "last_bad_at": "2026-11-12T23:59:04Z",
+          "last_bad_at": "2026-11-13T00:11:40Z",
           "care_learning": {
             "schema": "OJO_LA_BETE_CARE_EVALUATION_V1",
             "trials": [],
@@ -189,8 +189,8 @@
           "kind": "SOURCE",
           "source_id": "AFT_MATURITY_OAT",
           "first_seen_at": "2026-10-02T11:33:30Z",
-          "affected_cycles": 5205,
-          "consecutive_cycles": 5205,
+          "affected_cycles": 5206,
+          "consecutive_cycles": 5206,
           "episodes": 1,
           "recoveries": 0,
           "good_streak": 0,
@@ -207,11 +207,11 @@
             "last_checked_at": "2026-10-09T13:18:00Z",
             "last_attempt_at": "2026-10-09T13:18:02Z"
           },
-          "last_observed_at": "2026-11-12T23:59:04Z",
+          "last_observed_at": "2026-11-13T00:11:40Z",
           "last_state": "UNAVAILABLE",
           "evidence": "UNAVAILABLE",
           "observation_status": "OBSERVED",
-          "last_bad_at": "2026-11-12T23:59:04Z",
+          "last_bad_at": "2026-11-13T00:11:40Z",
           "care_learning": {
             "schema": "OJO_LA_BETE_CARE_EVALUATION_V1",
             "trials": [
@@ -251,8 +251,8 @@
           "kind": "SOURCE",
           "source_id": "AFT_MATURITY_OATEI",
           "first_seen_at": "2026-10-02T11:33:30Z",
-          "affected_cycles": 5205,
-          "consecutive_cycles": 5205,
+          "affected_cycles": 5206,
+          "consecutive_cycles": 5206,
           "episodes": 1,
           "recoveries": 0,
           "good_streak": 0,
@@ -269,11 +269,11 @@
             "last_checked_at": "2026-10-09T13:18:02Z",
             "last_attempt_at": "2026-10-09T13:18:02Z"
           },
-          "last_observed_at": "2026-11-12T23:59:04Z",
+          "last_observed_at": "2026-11-13T00:11:40Z",
           "last_state": "UNAVAILABLE",
           "evidence": "UNAVAILABLE",
           "observation_status": "OBSERVED",
-          "last_bad_at": "2026-11-12T23:59:04Z",
+          "last_bad_at": "2026-11-13T00:11:40Z",
           "care_learning": {
             "schema": "OJO_LA_BETE_CARE_EVALUATION_V1",
             "trials": [
@@ -313,8 +313,8 @@
           "kind": "SOURCE",
           "source_id": "AFT_MATURITY_OATI",
           "first_seen_at": "2026-10-02T11:33:30Z",
-          "affected_cycles": 5205,
-          "consecutive_cycles": 5205,
+          "affected_cycles": 5206,
+          "consecutive_cycles": 5206,
           "episodes": 1,
           "recoveries": 0,
           "good_streak": 0,
@@ -331,11 +331,11 @@
             "last_checked_at": "2026-10-09T13:18:01Z",
             "last_attempt_at": "2026-10-09T13:18:02Z"
           },
-          "last_observed_at": "2026-11-12T23:59:04Z",
+          "last_observed_at": "2026-11-13T00:11:40Z",
           "last_state": "UNAVAILABLE",
           "evidence": "UNAVAILABLE",
           "observation_status": "OBSERVED",
-          "last_bad_at": "2026-11-12T23:59:04Z",
+          "last_bad_at": "2026-11-13T00:11:40Z",
           "care_learning": {
             "schema": "OJO_LA_BETE_CARE_EVALUATION_V1",
             "trials": [
@@ -375,8 +375,8 @@
           "kind": "SOURCE",
           "source_id": "AFT_RSS",
           "first_seen_at": "2026-10-02T11:33:30Z",
-          "affected_cycles": 5205,
-          "consecutive_cycles": 5205,
+          "affected_cycles": 5206,
+          "consecutive_cycles": 5206,
           "episodes": 1,
           "recoveries": 0,
           "good_streak": 0,
@@ -393,11 +393,11 @@
             "last_checked_at": "2026-10-09T13:18:00Z",
             "last_attempt_at": "2026-10-09T13:18:02Z"
           },
-          "last_observed_at": "2026-11-12T23:59:04Z",
+          "last_observed_at": "2026-11-13T00:11:40Z",
           "last_state": "UNAVAILABLE",
           "evidence": "UNAVAILABLE",
           "observation_status": "OBSERVED",
-          "last_bad_at": "2026-11-12T23:59:04Z",
+          "last_bad_at": "2026-11-13T00:11:40Z",
           "care_learning": {
             "schema": "OJO_LA_BETE_CARE_EVALUATION_V1",
             "trials": [
@@ -437,54 +437,34 @@
           "kind": "SOURCE",
           "source_id": "BDF_WEBSTAT",
           "first_seen_at": "2026-10-12T11:55:56Z",
-          "affected_cycles": 30,
-          "consecutive_cycles": 0,
-          "episodes": 8,
+          "affected_cycles": 31,
+          "consecutive_cycles": 1,
+          "episodes": 9,
           "recoveries": 8,
-          "good_streak": 970,
-          "status": "RECOVERED",
+          "good_streak": 0,
+          "status": "CHRONIC",
           "treatment": {
             "id": "SOURCE_REFRESH",
-            "attempts": 38,
-            "no_recovery": 30,
+            "attempts": 39,
+            "no_recovery": 31,
             "recovery_observed": 8,
             "inconclusive": 0,
-            "failure_streak": 0,
-            "last_outcome": "RECOVERY_OBSERVED",
-            "last_cycle_id": "github-run:41986248775",
-            "last_checked_at": "2026-11-05T07:18:41Z",
-            "last_attempt_at": "2026-11-05T07:18:44Z"
+            "failure_streak": 1,
+            "last_outcome": "NO_RECOVERY",
+            "last_cycle_id": "github-run:43334780963",
+            "last_checked_at": "2026-11-13T00:11:40Z",
+            "last_attempt_at": "2026-11-13T00:11:40Z"
           },
-          "last_observed_at": "2026-11-12T23:59:04Z",
-          "last_state": "CROSSCHECKED",
-          "evidence": "CROSSCHECKED",
+          "last_observed_at": "2026-11-13T00:11:40Z",
+          "last_state": "UNAVAILABLE",
+          "evidence": "UNAVAILABLE",
           "observation_status": "OBSERVED",
           "access_review_required": false,
           "http_status": null,
-          "last_bad_at": "2026-11-05T07:08:51Z",
+          "last_bad_at": "2026-11-13T00:11:40Z",
           "care_learning": {
             "schema": "OJO_LA_BETE_CARE_EVALUATION_V1",
             "trials": [
-              {
-                "id": "source:BDF_WEBSTAT:care:1192",
-                "action": "SOURCE_REFRESH",
-                "episode": 1,
-                "opened_cycle": 1192,
-                "opened_at": "2026-10-12T11:55:56Z",
-                "baseline_attempts": 1,
-                "last_checked_at": "2026-10-12T12:16:22Z",
-                "expected_result": "Deux observations saines consécutives parmi les trois prochaines observations fraîches de cette source.",
-                "window_observations": 3,
-                "observed_cycles": 2,
-                "unobserved_cycles": 0,
-                "healthy_streak": 2,
-                "result": "GOAL_MET",
-                "observed_result": "CROSSCHECKED",
-                "causal_effect_proven": false,
-                "attempts_since_goal_opened": 1,
-                "last_evaluated_cycle": 1194,
-                "closed_cycle": 1194
-              },
               {
                 "id": "source:BDF_WEBSTAT:care:2190",
                 "action": "SOURCE_REFRESH",
@@ -625,13 +605,31 @@
                 "attempts_since_goal_opened": 1,
                 "last_evaluated_cycle": 4237,
                 "closed_cycle": 4237
+              },
+              {
+                "id": "source:BDF_WEBSTAT:care:5206",
+                "action": "SOURCE_REFRESH",
+                "episode": 9,
+                "opened_cycle": 5206,
+                "opened_at": "2026-11-13T00:11:40Z",
+                "baseline_attempts": 39,
+                "last_checked_at": "2026-11-13T00:11:40Z",
+                "expected_result": "Deux observations saines consécutives parmi les trois prochaines observations fraîches de cette source.",
+                "window_observations": 3,
+                "observed_cycles": 0,
+                "unobserved_cycles": 0,
+                "healthy_streak": 0,
+                "result": "PENDING",
+                "observed_result": "UNAVAILABLE",
+                "causal_effect_proven": false,
+                "attempts_since_goal_opened": 0
               }
             ],
             "counts": {
               "GOAL_MET": 7,
               "NOT_MET": 1
             },
-            "strategy": "MAINTAIN_OBSERVATION"
+            "strategy": "EVALUATING"
           },
           "recovered_at": "2026-11-05T07:29:25Z"
         },
@@ -645,7 +643,7 @@
           "consecutive_cycles": 0,
           "episodes": 1,
           "recoveries": 1,
-          "good_streak": 2702,
+          "good_streak": 2703,
           "status": "RECOVERED",
           "treatment": {
             "id": "SOURCE_REFRESH",
@@ -659,7 +657,7 @@
             "last_checked_at": "2026-10-22T14:38:00Z",
             "last_attempt_at": "2026-10-22T14:38:00Z"
           },
-          "last_observed_at": "2026-11-12T23:59:04Z",
+          "last_observed_at": "2026-11-13T00:11:40Z",
           "last_state": "LIVE_VERIFIED",
           "evidence": "LIVE_VERIFIED",
           "observation_status": "OBSERVED",
@@ -705,31 +703,31 @@
           "kind": "SOURCE",
           "source_id": "DGFIP_EXECUTION",
           "first_seen_at": "2026-11-01T00:27:08Z",
-          "affected_cycles": 1,
-          "consecutive_cycles": 0,
-          "episodes": 1,
+          "affected_cycles": 2,
+          "consecutive_cycles": 1,
+          "episodes": 2,
           "recoveries": 1,
-          "good_streak": 1533,
-          "status": "RECOVERED",
+          "good_streak": 0,
+          "status": "ACTIVE",
           "treatment": {
             "id": "SOURCE_REFRESH",
-            "attempts": 2,
-            "no_recovery": 1,
+            "attempts": 3,
+            "no_recovery": 2,
             "recovery_observed": 1,
             "inconclusive": 0,
-            "failure_streak": 0,
-            "last_outcome": "RECOVERY_OBSERVED",
-            "last_cycle_id": "github-run:41257439375",
-            "last_checked_at": "2026-11-01T00:36:26Z",
-            "last_attempt_at": "2026-11-01T00:36:31Z"
+            "failure_streak": 1,
+            "last_outcome": "NO_RECOVERY",
+            "last_cycle_id": "github-run:43334780963",
+            "last_checked_at": "2026-11-13T00:10:50Z",
+            "last_attempt_at": "2026-11-13T00:11:40Z"
           },
-          "last_observed_at": "2026-11-12T23:59:04Z",
-          "last_state": "LIVE_VERIFIED",
-          "evidence": "LIVE_VERIFIED",
+          "last_observed_at": "2026-11-13T00:11:40Z",
+          "last_state": "UNAVAILABLE",
+          "evidence": "UNAVAILABLE",
           "observation_status": "OBSERVED",
           "access_review_required": false,
           "http_status": null,
-          "last_bad_at": "2026-11-01T00:27:08Z",
+          "last_bad_at": "2026-11-13T00:11:40Z",
           "care_learning": {
             "schema": "OJO_LA_BETE_CARE_EVALUATION_V1",
             "trials": [
@@ -752,94 +750,36 @@
                 "attempts_since_goal_opened": 1,
                 "last_evaluated_cycle": 3674,
                 "closed_cycle": 3674
+              },
+              {
+                "id": "source:DGFIP_EXECUTION:care:5206",
+                "action": "SOURCE_REFRESH",
+                "episode": 2,
+                "opened_cycle": 5206,
+                "opened_at": "2026-11-13T00:11:40Z",
+                "baseline_attempts": 3,
+                "last_checked_at": "2026-11-13T00:10:50Z",
+                "expected_result": "Deux observations saines consécutives parmi les trois prochaines observations fraîches de cette source.",
+                "window_observations": 3,
+                "observed_cycles": 0,
+                "unobserved_cycles": 0,
+                "healthy_streak": 0,
+                "result": "PENDING",
+                "observed_result": "UNAVAILABLE",
+                "causal_effect_proven": false,
+                "attempts_since_goal_opened": 0
               }
             ],
             "counts": {
               "GOAL_MET": 1,
               "NOT_MET": 0
             },
-            "strategy": "MAINTAIN_OBSERVATION"
+            "strategy": "EVALUATING"
           },
           "recovered_at": "2026-11-01T00:47:53Z"
         }
       },
       "history": [
-        {
-          "cycle": 5086,
-          "cycle_id": "github-run:43143849823",
-          "at": "2026-11-12T02:48:23Z",
-          "source_snapshot_id": "OJO-D3E955D3ECB14DCC",
-          "health": "ATTENTION",
-          "transitions": [],
-          "source_checks": [
-            {
-              "id": "BDF_TEC",
-              "state": "LIVE_VERIFIED",
-              "checked_at": "2026-11-12T02:48:23Z",
-              "executed": true
-            },
-            {
-              "id": "BDF_WEBSTAT",
-              "state": "CROSSCHECKED",
-              "checked_at": "2026-11-12T02:48:18Z",
-              "executed": true
-            },
-            {
-              "id": "AFT_RSS",
-              "state": "UNAVAILABLE",
-              "checked_at": "2026-10-09T11:34:53Z",
-              "executed": false
-            },
-            {
-              "id": "DGFIP_EXECUTION",
-              "state": "LIVE_VERIFIED",
-              "checked_at": "2026-11-12T02:48:17Z",
-              "executed": true
-            },
-            {
-              "id": "AFT_SNAPSHOT",
-              "state": "OFFICIAL_VINTAGE",
-              "checked_at": "2026-11-12T02:48:23Z",
-              "executed": false
-            },
-            {
-              "id": "AFT_MATURITY_OAT",
-              "state": "UNAVAILABLE",
-              "checked_at": "2026-10-09T11:34:53Z",
-              "executed": false
-            },
-            {
-              "id": "AFT_MATURITY_OATI",
-              "state": "UNAVAILABLE",
-              "checked_at": "2026-10-09T11:34:53Z",
-              "executed": false
-            },
-            {
-              "id": "AFT_MATURITY_OATEI",
-              "state": "UNAVAILABLE",
-              "checked_at": "2026-10-09T11:34:54Z",
-              "executed": false
-            },
-            {
-              "id": "AFT_MATURITY_RETAINED",
-              "state": "RETAINED_LAST_GOOD",
-              "checked_at": "2026-11-12T02:48:23Z",
-              "executed": false
-            }
-          ],
-          "active_issues": [
-            "dimension:maturity_coverage",
-            "source:AFT_MATURITY_OAT",
-            "source:AFT_MATURITY_OATEI",
-            "source:AFT_MATURITY_OATI",
-            "source:AFT_RSS"
-          ],
-          "observation_kind": "EXECUTED_PULSE",
-          "performance": {
-            "collection_ms": 7330.0,
-            "parallel_source_groups": 5
-          }
-        },
         {
           "cycle": 5087,
           "cycle_id": "github-run:43145026180",
@@ -9883,12 +9823,123 @@
             "collection_ms": 1522.6,
             "parallel_source_groups": 5
           }
+        },
+        {
+          "cycle": 5206,
+          "cycle_id": "github-run:43334780963",
+          "at": "2026-11-13T00:11:40Z",
+          "source_snapshot_id": "OJO-EC36813D6351943A",
+          "health": "DEGRADED",
+          "transitions": [
+            {
+              "issue_id": "source:BDF_WEBSTAT",
+              "action": "SOURCE_REFRESH",
+              "outcome": "NO_RECOVERY",
+              "causal_effect_proven": false
+            },
+            {
+              "issue_id": "source:BDF_WEBSTAT",
+              "from": "RECOVERED",
+              "to": "CHRONIC"
+            },
+            {
+              "issue_id": "source:DGFIP_EXECUTION",
+              "action": "SOURCE_REFRESH",
+              "outcome": "NO_RECOVERY",
+              "causal_effect_proven": false
+            },
+            {
+              "issue_id": "source:DGFIP_EXECUTION",
+              "from": "RECOVERED",
+              "to": "ACTIVE"
+            },
+            {
+              "issue_id": "source:BDF_WEBSTAT",
+              "care_goal": "OPENED_PROSPECTIVELY",
+              "causal_effect_proven": false
+            },
+            {
+              "issue_id": "source:DGFIP_EXECUTION",
+              "care_goal": "OPENED_PROSPECTIVELY",
+              "causal_effect_proven": false
+            }
+          ],
+          "source_checks": [
+            {
+              "id": "BDF_TEC",
+              "state": "LIVE_VERIFIED",
+              "checked_at": "2026-11-13T00:10:07Z",
+              "executed": true
+            },
+            {
+              "id": "BDF_WEBSTAT",
+              "state": "UNAVAILABLE",
+              "checked_at": "2026-11-13T00:11:40Z",
+              "executed": true
+            },
+            {
+              "id": "AFT_RSS",
+              "state": "UNAVAILABLE",
+              "checked_at": "2026-10-09T11:34:53Z",
+              "executed": false
+            },
+            {
+              "id": "DGFIP_EXECUTION",
+              "state": "UNAVAILABLE",
+              "checked_at": "2026-11-13T00:10:50Z",
+              "executed": true
+            },
+            {
+              "id": "AFT_SNAPSHOT",
+              "state": "OFFICIAL_VINTAGE",
+              "checked_at": "2026-11-13T00:11:40Z",
+              "executed": false
+            },
+            {
+              "id": "AFT_MATURITY_OAT",
+              "state": "UNAVAILABLE",
+              "checked_at": "2026-10-09T11:34:53Z",
+              "executed": false
+            },
+            {
+              "id": "AFT_MATURITY_OATI",
+              "state": "UNAVAILABLE",
+              "checked_at": "2026-10-09T11:34:53Z",
+              "executed": false
+            },
+            {
+              "id": "AFT_MATURITY_OATEI",
+              "state": "UNAVAILABLE",
+              "checked_at": "2026-10-09T11:34:54Z",
+              "executed": false
+            },
+            {
+              "id": "AFT_MATURITY_RETAINED",
+              "state": "RETAINED_LAST_GOOD",
+              "checked_at": "2026-11-13T00:11:40Z",
+              "executed": false
+            }
+          ],
+          "active_issues": [
+            "dimension:maturity_coverage",
+            "source:AFT_MATURITY_OAT",
+            "source:AFT_MATURITY_OATEI",
+            "source:AFT_MATURITY_OATI",
+            "source:AFT_RSS",
+            "source:BDF_WEBSTAT",
+            "source:DGFIP_EXECUTION"
+          ],
+          "observation_kind": "EXECUTED_PULSE",
+          "performance": {
+            "collection_ms": 100244.7,
+            "parallel_source_groups": 5
+          }
         }
       ],
       "origin": "NEW_OBSERVATIONS_ONLY_NO_BACKFILL",
       "started_at": "2026-10-02T11:33:30Z",
-      "last_cycle_id": "github-run:43333265822",
-      "last_observed_at": "2026-11-12T23:59:04Z",
+      "last_cycle_id": "github-run:43334780963",
+      "last_observed_at": "2026-11-13T00:11:40Z",
       "care_plan": [
         {
           "issue_id": "source:AFT_MATURITY_OAT",
@@ -9897,7 +9948,7 @@
           "action": "RECONCILE_SOURCE_ACCESS",
           "status": "BLOCKED_SOURCE_ACCESS",
           "human_gate": true,
-          "reason": "5205 cycle(s) consécutifs; 1 épisode(s); 779 tentative(s) consécutive(s) sans récupération. L'objectif de récupération n'a pas été atteint dans la fenêtre observée.",
+          "reason": "5206 cycle(s) consécutifs; 1 épisode(s); 779 tentative(s) consécutive(s) sans récupération. L'objectif de récupération n'a pas été atteint dans la fenêtre observée.",
           "care": "Accès automatisé refusé : relances identiques suspendues. Vérifier un accès officiel autorisé ou un export officiel de même portée; conserver le dernier bon état.",
           "expected_result": "Deux observations saines consécutives de même portée; aucune estimation substituée.",
           "previous_recovery_observed": 0,
@@ -9912,7 +9963,7 @@
           "action": "RECONCILE_SOURCE_ACCESS",
           "status": "BLOCKED_SOURCE_ACCESS",
           "human_gate": true,
-          "reason": "5205 cycle(s) consécutifs; 1 épisode(s); 779 tentative(s) consécutive(s) sans récupération. L'objectif de récupération n'a pas été atteint dans la fenêtre observée.",
+          "reason": "5206 cycle(s) consécutifs; 1 épisode(s); 779 tentative(s) consécutive(s) sans récupération. L'objectif de récupération n'a pas été atteint dans la fenêtre observée.",
           "care": "Accès automatisé refusé : relances identiques suspendues. Vérifier un accès officiel autorisé ou un export officiel de même portée; conserver le dernier bon état.",
           "expected_result": "Deux observations saines consécutives de même portée; aucune estimation substituée.",
           "previous_recovery_observed": 0,
@@ -9927,7 +9978,7 @@
           "action": "RECONCILE_SOURCE_ACCESS",
           "status": "BLOCKED_SOURCE_ACCESS",
           "human_gate": true,
-          "reason": "5205 cycle(s) consécutifs; 1 épisode(s); 779 tentative(s) consécutive(s) sans récupération. L'objectif de récupération n'a pas été atteint dans la fenêtre observée.",
+          "reason": "5206 cycle(s) consécutifs; 1 épisode(s); 779 tentative(s) consécutive(s) sans récupération. L'objectif de récupération n'a pas été atteint dans la fenêtre observée.",
           "care": "Accès automatisé refusé : relances identiques suspendues. Vérifier un accès officiel autorisé ou un export officiel de même portée; conserver le dernier bon état.",
           "expected_result": "Deux observations saines consécutives de même portée; aucune estimation substituée.",
           "previous_recovery_observed": 0,
@@ -9942,7 +9993,7 @@
           "action": "RECONCILE_SOURCE_ACCESS",
           "status": "BLOCKED_SOURCE_ACCESS",
           "human_gate": true,
-          "reason": "5205 cycle(s) consécutifs; 1 épisode(s); 779 tentative(s) consécutive(s) sans récupération. L'objectif de récupération n'a pas été atteint dans la fenêtre observée.",
+          "reason": "5206 cycle(s) consécutifs; 1 épisode(s); 779 tentative(s) consécutive(s) sans récupération. L'objectif de récupération n'a pas été atteint dans la fenêtre observée.",
           "care": "Accès automatisé refusé : relances identiques suspendues. Vérifier un accès officiel autorisé ou un export officiel de même portée; conserver le dernier bon état.",
           "expected_result": "Deux observations saines consécutives de même portée; aucune estimation substituée.",
           "previous_recovery_observed": 0,
@@ -9951,13 +10002,39 @@
           "http_status": 403
         },
         {
+          "issue_id": "source:BDF_WEBSTAT",
+          "label": "Historique CNO-TEC · export CSV",
+          "priority": 75,
+          "action": "RECONCILE_SOURCE_ACCESS",
+          "status": "PROPOSED",
+          "human_gate": true,
+          "reason": "1 cycle(s) consécutifs; 9 épisode(s); 1 tentative(s) consécutive(s) sans récupération.",
+          "care": "Examiner l'accès et réconcilier une preuve officielle; conserver le dernier bon état et le heartbeat.",
+          "expected_result": "Deux observations saines consécutives de même portée; aucune estimation substituée.",
+          "previous_recovery_observed": 8,
+          "causal_effect_proven": false
+        },
+        {
+          "issue_id": "source:DGFIP_EXECUTION",
+          "label": "Situation mensuelle de l'État · dernier document",
+          "priority": 55,
+          "action": "CONTINUE_BOUNDED_OBSERVATION",
+          "status": "PROPOSED",
+          "human_gate": false,
+          "reason": "1 cycle(s) consécutifs; 2 épisode(s); 1 tentative(s) consécutive(s) sans récupération.",
+          "care": "Continuer le heartbeat existant; confirmer la récupération par deux observations saines consécutives.",
+          "expected_result": "Deux observations saines consécutives de même portée; aucune estimation substituée.",
+          "previous_recovery_observed": 1,
+          "causal_effect_proven": false
+        },
+        {
           "issue_id": "dimension:maturity_coverage",
           "label": "Couverture échéancier",
           "priority": 50,
           "action": "RECONCILE_SOURCE_ACCESS",
           "status": "PROPOSED",
           "human_gate": true,
-          "reason": "5205 cycle(s) consécutifs; 1 épisode(s); 0 tentative(s) consécutive(s) sans récupération.",
+          "reason": "5206 cycle(s) consécutifs; 1 épisode(s); 0 tentative(s) consécutive(s) sans récupération.",
           "care": "Examiner l'accès et réconcilier une preuve officielle; conserver le dernier bon état et le heartbeat.",
           "expected_result": "Deux observations saines consécutives de même portée; aucune estimation substituée.",
           "previous_recovery_observed": 0,
@@ -9978,14 +10055,14 @@
       "care_learning_summary": {
         "goals_met": 8,
         "goals_not_met": 6,
-        "pending": 0,
+        "pending": 2,
         "origin": "PROSPECTIVE_GOALS_ONLY",
         "causal_effect_proven": false
       }
     },
     "acquisition": {
       "schema": "LA_BETE_INFORMATION_ACQUISITION_V1",
-      "source_snapshot_id": "OJO-F63007FD55C23EA3",
+      "source_snapshot_id": "OJO-EC36813D6351943A",
       "requests": [
         {
           "id": "LA_BETE_AFT_PUBLIC_DATA_ACCESS_V1",
@@ -10048,7 +10125,7 @@
             "Complétude et cohérence",
             "Validation dans le circuit canonique existant"
           ],
-          "source_snapshot_id": "OJO-F63007FD55C23EA3",
+          "source_snapshot_id": "OJO-EC36813D6351943A",
           "steps": [
             {
               "name": "Repérer et regrouper le manque",
@@ -10086,7 +10163,7 @@
           "no_public_auto_adoption": true,
           "political_recommendation": "NONE",
           "cost_eur": 0,
-          "source_snapshot_id": "OJO-F63007FD55C23EA3",
+          "source_snapshot_id": "OJO-EC36813D6351943A",
           "automatic_publication": false,
           "id": "LA_BETE_MUNICIPAL_DIALOGUE_60463_V1",
           "kind": "OUTREACH",
@@ -10127,7 +10204,7 @@
           "no_public_auto_adoption": true,
           "political_recommendation": "NONE",
           "cost_eur": 0,
-          "source_snapshot_id": "OJO-F63007FD55C23EA3",
+          "source_snapshot_id": "OJO-EC36813D6351943A",
           "automatic_publication": false,
           "id": "LA_BETE_EDITORIAL_COMMUNE_AUDIO_V1",
           "kind": "EDITORIAL",
@@ -10174,7 +10251,7 @@
           "no_public_auto_adoption": true,
           "political_recommendation": "NONE",
           "cost_eur": 0,
-          "source_snapshot_id": "OJO-F63007FD55C23EA3",
+          "source_snapshot_id": "OJO-EC36813D6351943A",
           "automatic_publication": false,
           "id": "LA_BETE_EDITORIAL_EXPLORER_VIDEO_V1",
           "kind": "EDITORIAL",
@@ -10289,7 +10366,7 @@
     },
     "hybrid_model": {
       "schema": "LA_BETE_HYBRID_COMMON_GOOD_SERVICE_MODEL_V1",
-      "source_snapshot_id": "OJO-F63007FD55C23EA3",
+      "source_snapshot_id": "OJO-EC36813D6351943A",
       "mode": "PUBLIC_COMMON_GOOD_PLUS_OPTIONAL_PRIVATE_SERVICES",
       "public_common_good": {
         "access": "FREE",
@@ -11109,7 +11186,7 @@
         "signals": {
           "documented_public_requests": 1,
           "prepared_civic_initiatives": 3,
-          "source_warnings": 4,
+          "source_warnings": 6,
           "private_service_demand": "UNPROVEN_UNTIL_EXPLICIT_PRIVATE_OPT_IN"
         },
         "next_best_move": {
@@ -11155,7 +11232,7 @@
     },
     "civic_design_knowhow": {
       "schema": "LA_BETE_CIVIC_DESIGN_KNOWHOW_V1",
-      "source_snapshot_id": "OJO-F63007FD55C23EA3",
+      "source_snapshot_id": "OJO-EC36813D6351943A",
       "intent": "INDEPENDENT_CIVIC_INSTITUTION_NOT_STATE_BRANDING",
       "design_language": "SOBER_CIVIC_INSTITUTIONAL_WITH_DISTINCT_ARTISTIC_PRESENCE",
       "palette": {
@@ -11249,7 +11326,7 @@
     },
     "scic_privacy_knowhow": {
       "schema": "LA_BETE_SCIC_PRIVACY_KNOWHOW_V1",
-      "source_snapshot_id": "OJO-F63007FD55C23EA3",
+      "source_snapshot_id": "OJO-EC36813D6351943A",
       "intent": "REUSE_PROVEN_GOVERNANCE_PRIVACY_AND_EXTERNAL_EVIDENCE_METHODS_WITHOUT_CREATING_NEW_AUTHORITY",
       "scope": [
         "cooperative democracy",
@@ -11434,7 +11511,7 @@
     },
     "supra_system_knowhow": {
       "schema": "LA_BETE_SUPRA_SYSTEM_KNOWHOW_V1",
-      "source_snapshot_id": "OJO-F63007FD55C23EA3",
+      "source_snapshot_id": "OJO-EC36813D6351943A",
       "source_system": "SUPRA",
       "target_system": "LA_BETE",
       "knowledge_id": "SUPRA_TO_LA_BETE_METHODS_981ea8a6a0d829e90f974e32",
@@ -11531,7 +11608,7 @@
       }
     }
   },
-  "change_summary": "EVIDENCE_GUARD · focus evidence · motion calm · self-health ATTENTION",
+  "change_summary": "EVIDENCE_GUARD · focus evidence · motion calm · self-health DEGRADED",
   "policy": {
     "single_canonical_truth": "docs/data/france-debt-rate-live.json",
     "truth_mutation": false,
@@ -11592,19 +11669,6 @@
     }
   },
   "receipts": [
-    {
-      "generation": 5180,
-      "at": "2026-11-12T17:07:50Z",
-      "from_mode": "EVIDENCE_GUARD",
-      "to_mode": "EVIDENCE_GUARD",
-      "reason": [
-        "4 source(s) require explicit attention.",
-        "TEC10 delta versus the published budget assumption: +96.2 bp.",
-        "Decision Delta status: MATERIAL_CHANGE.",
-        "Self-health: ATTENTION."
-      ],
-      "verdict": "PROMOTED_AFTER_NON_REGRESSION"
-    },
     {
       "generation": 5181,
       "at": "2026-11-12T17:19:17Z",
@@ -12111,12 +12175,25 @@
         "Self-health: ATTENTION."
       ],
       "verdict": "PROMOTED_AFTER_NON_REGRESSION"
+    },
+    {
+      "generation": 5220,
+      "at": "2026-11-13T00:11:40Z",
+      "from_mode": "EVIDENCE_GUARD",
+      "to_mode": "EVIDENCE_GUARD",
+      "reason": [
+        "6 source(s) require explicit attention.",
+        "TEC10 delta versus the published budget assumption: +96.2 bp.",
+        "Decision Delta status: MATERIAL_CHANGE.",
+        "Self-health: DEGRADED."
+      ],
+      "verdict": "PROMOTED_AFTER_NON_REGRESSION"
     }
   ],
   "status": "ACTIVE",
   "verification": {
-    "generation": 5219,
-    "at": "2026-11-12T23:59:27Z",
+    "generation": 5220,
+    "at": "2026-11-13T00:12:11Z",
     "verdict": "NON_REGRESSION_PASS",
     "checks": [
       "truth",
