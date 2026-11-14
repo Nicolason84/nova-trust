@@ -1,8 +1,8 @@
 {
   "schema": "OJO_BUDGET_2027_LIVE_FEED_V1",
   "version": "2026-09-21",
-  "sequence": 288,
-  "updated_at": "2026-11-14T16:07:17Z",
+  "sequence": 289,
+  "updated_at": "2026-11-14T20:41:26Z",
   "policy": {
     "canonical_mutation": "NEVER_FROM_FINGERPRINT_ALONE",
     "source_change": "EMIT_DELTA_THEN_RECONCILE",
@@ -21,10 +21,10 @@
       "url": "https://www.banque-france.fr/fr/actualites/projections-macroeconomiques-intermediaires-septembre-2026",
       "health": "OK",
       "http_status": 200,
-      "etag": "\"1794672429-gzip\"",
-      "last_modified": "Sat, 14 Nov 2026 16:07:09 GMT",
+      "etag": "\"1794688878-gzip\"",
+      "last_modified": "Sat, 14 Nov 2026 20:41:18 GMT",
       "digest": "dabf630e4cf0f52cb9978ef81390ba3c28f906a1a239dab2719161e0bf98bcb5",
-      "checked_at": "2026-11-14T16:07:08Z",
+      "checked_at": "2026-11-14T20:41:18Z",
       "candidate_observations": [
         {
           "needle": "0,9 %",
@@ -56,7 +56,7 @@
       "etag": null,
       "last_modified": null,
       "digest": "7c77f86710f20c4b4b02e66be2dc8cea3e2ff28f0423518e7a12885b9558d92a",
-      "checked_at": "2026-11-14T16:07:10Z",
+      "checked_at": "2026-11-14T20:41:20Z",
       "candidate_observations": [],
       "error": null
     },
@@ -76,8 +76,8 @@
       "http_status": 200,
       "etag": null,
       "last_modified": null,
-      "digest": "4fac3e50b90012c3dcf26ec8d5efaead15746cea8908c35398b5bbd4af6ef599",
-      "checked_at": "2026-11-14T16:07:12Z",
+      "digest": "53da2384a5e138e839e1382ec43538ad3d6c6a54f2d0d7c01c0e7b8c207dc027",
+      "checked_at": "2026-11-14T20:41:20Z",
       "candidate_observations": [],
       "error": null
     },
@@ -95,7 +95,7 @@
       "etag": null,
       "last_modified": null,
       "digest": "ddafd61c97838ccd6147ad36589055829d0493f24e51a0e35134ec65cc5d436d",
-      "checked_at": "2026-11-14T16:07:13Z",
+      "checked_at": "2026-11-14T20:41:21Z",
       "candidate_observations": [],
       "error": null
     },
@@ -111,7 +111,7 @@
       "etag": "\"1794591729\"",
       "last_modified": "Fri, 13 Nov 2026 17:42:09 GMT",
       "digest": "60ced727ef56302c469b97602a7eeaa5bc5dd2fa02ccddbe492460cc5cd10fd9",
-      "checked_at": "2026-11-14T16:07:14Z",
+      "checked_at": "2026-11-14T20:41:22Z",
       "candidate_observations": [
         {
           "needle": "151",
@@ -134,11 +134,11 @@
       ],
       "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=COM%3A2026%3A210%3AFIN",
       "health": "OK",
-      "http_status": 202,
-      "etag": null,
-      "last_modified": null,
-      "digest": "0402a2a736b375e887b27cdb82f4d8b07c514218c87e45e86413b8e5b75fbf59",
-      "checked_at": "2026-11-14T16:07:15Z",
+      "http_status": 200,
+      "etag": "\"24416283d8cbf11e57d90b4f0e73cea2\"",
+      "last_modified": "Sat, 14 Nov 2026 20:39:18 GMT",
+      "digest": "d845ecadc13fce6e2e60ec243a41768fcc7ac765a5972d8a5fc54430d3cc1f47",
+      "checked_at": "2026-11-14T20:41:23Z",
       "candidate_observations": [],
       "error": null
     },
@@ -158,9 +158,9 @@
       "health": "OK",
       "http_status": 200,
       "etag": null,
-      "last_modified": "Sat, 14 Nov 2026 16:07:17 GMT",
+      "last_modified": "Sat, 14 Nov 2026 20:41:25 GMT",
       "digest": "7b99cdc403be608892f1d999e868336de0a217d0c62d9cf5f526ce6a77609df8",
-      "checked_at": "2026-11-14T16:07:15Z",
+      "checked_at": "2026-11-14T20:41:23Z",
       "candidate_observations": [
         {
           "needle": "54 milliards",
@@ -189,7 +189,7 @@
         "F10",
         "F11"
       ],
-      "at": "2026-11-14T16:07:12Z",
+      "at": "2026-11-14T20:41:20Z",
       "detail": "Public source fingerprint changed; canonical claims require reconciliation before mutation."
     },
     {
@@ -199,51 +199,11 @@
       "claims": [
         "F12"
       ],
-      "at": "2026-11-14T16:07:15Z",
-      "detail": "Public source fingerprint changed; canonical claims require reconciliation before mutation."
-    },
-    {
-      "source_id": "PUBLIC_SENAT_54",
-      "kind": "SOURCE_CHANGED",
-      "organ": "ANNOUNCEMENTS",
-      "claims": [
-        "F1",
-        "F2",
-        "F3",
-        "F4",
-        "F5"
-      ],
-      "at": "2026-11-14T16:07:15Z",
+      "at": "2026-11-14T20:41:23Z",
       "detail": "Public source fingerprint changed; canonical claims require reconciliation before mutation."
     }
   ],
   "events": [
-    {
-      "source_id": "INSEE_BDM_RSS",
-      "kind": "SOURCE_CHANGED",
-      "organ": "MACRO",
-      "claims": [
-        "F8",
-        "F9",
-        "F10",
-        "F11"
-      ],
-      "at": "2026-11-08T19:08:43Z",
-      "detail": "Public source fingerprint changed; canonical claims require reconciliation before mutation."
-    },
-    {
-      "source_id": "INSEE_BDM_RSS",
-      "kind": "SOURCE_CHANGED",
-      "organ": "MACRO",
-      "claims": [
-        "F8",
-        "F9",
-        "F10",
-        "F11"
-      ],
-      "at": "2026-11-08T22:51:34Z",
-      "detail": "Public source fingerprint changed; canonical claims require reconciliation before mutation."
-    },
     {
       "source_id": "BDF_SEPT_2026",
       "kind": "SOURCE_CHANGED",
@@ -1168,12 +1128,35 @@
       ],
       "at": "2026-11-14T16:07:15Z",
       "detail": "Public source fingerprint changed; canonical claims require reconciliation before mutation."
+    },
+    {
+      "source_id": "INSEE_BDM_RSS",
+      "kind": "SOURCE_CHANGED",
+      "organ": "MACRO",
+      "claims": [
+        "F8",
+        "F9",
+        "F10",
+        "F11"
+      ],
+      "at": "2026-11-14T20:41:20Z",
+      "detail": "Public source fingerprint changed; canonical claims require reconciliation before mutation."
+    },
+    {
+      "source_id": "EURLEX_EDP",
+      "kind": "SOURCE_CHANGED",
+      "organ": "RULES",
+      "claims": [
+        "F12"
+      ],
+      "at": "2026-11-14T20:41:23Z",
+      "detail": "Public source fingerprint changed; canonical claims require reconciliation before mutation."
     }
   ],
   "summary": {
     "monitored": 7,
     "healthy": 7,
     "errors": 0,
-    "changed_this_sequence": 3
+    "changed_this_sequence": 2
   }
 }
