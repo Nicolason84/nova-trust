@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAtUtc": "2026-11-14T14:14:32Z",
+  "generatedAtUtc": "2026-11-15T14:49:39Z",
   "coverage": {
     "type": "source_links",
     "isLive": false,
@@ -13,7 +13,7 @@
       "name": "Clarín · RTVE",
       "url": "https://api.rtve.es/api/programas/1907/audios.rss",
       "status": "ok",
-      "lastSuccessAt": "2026-11-14T14:14:32Z",
+      "lastSuccessAt": "2026-11-15T14:49:39Z",
       "errorCode": null
     },
     {
@@ -21,19 +21,30 @@
       "name": "Real Maestranza de Sevilla",
       "url": "https://www.realmaestranza.com/feed/",
       "status": "ok",
-      "lastSuccessAt": "2026-11-14T14:14:32Z",
+      "lastSuccessAt": "2026-11-15T14:49:39Z",
       "errorCode": null
     },
     {
       "id": "zafra",
       "name": "Ayuntamiento de Zafra",
       "url": "https://zafra.es/feed/",
-      "status": "ok",
+      "status": "failed",
       "lastSuccessAt": "2026-11-14T14:14:32Z",
-      "errorCode": null
+      "errorCode": "HTTP_202"
     }
   ],
   "items": [
+    {
+      "id": "fcb31981d9ed9b187db280498b7eda4978e95584c67378b671221a7ab1bc5277",
+      "sourceId": "rtve-clarin",
+      "kind": "podcast",
+      "date": "2026-11-14T22:59:00Z",
+      "url": "https://www.rtve.es/play/audios/clarin/clarin-entrevista-cesar-jimenez-entrevista-jonathan-blazquez-varea-entrevista-eduardo-rosa/17314574/",
+      "label": "Clarín · 14 noviembre",
+      "topics": [
+        "Entrevistas"
+      ]
+    },
     {
       "id": "91809d08a478f8244b3e461435bc803e8bd115cbf14dc40deddf90dd77326ca7",
       "sourceId": "real-maestranza",
@@ -415,20 +426,6 @@
       "label": "Clarín · 6 septiembre",
       "topics": [
         "Actualidad taurina"
-      ]
-    },
-    {
-      "id": "91dafd753f956fc548c755a8a1251f8f0e88e5952cb9ae258269d0c1b31c071d",
-      "sourceId": "rtve-clarin",
-      "kind": "podcast",
-      "date": "2026-09-05T21:59:00Z",
-      "url": "https://www.rtve.es/play/audios/clarin/goyesca-regresa-ronda-despues-dos-anos-alfarero-oro-villaseca-sagra-jueces-autorizan-feria-zacatecas-entrevista-ganadero-lagunajanda-salvador-puerta-sobre-triunfador-toro-indultado-tarifa/17214083/",
-      "label": "Clarín · 5 septiembre",
-      "topics": [
-        "Ganaderías",
-        "Ferias",
-        "Indultos",
-        "Entrevistas"
       ]
     }
   ]
