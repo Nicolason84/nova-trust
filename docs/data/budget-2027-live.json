@@ -1,8 +1,8 @@
 {
   "schema": "OJO_BUDGET_2027_LIVE_FEED_V1",
   "version": "2026-09-21",
-  "sequence": 318,
-  "updated_at": "2026-11-15T20:47:34Z",
+  "sequence": 319,
+  "updated_at": "2026-11-15T21:03:36Z",
   "policy": {
     "canonical_mutation": "NEVER_FROM_FINGERPRINT_ALONE",
     "source_change": "EMIT_DELTA_THEN_RECONCILE",
@@ -24,7 +24,7 @@
       "etag": "\"1794752827-gzip\"",
       "last_modified": "Sun, 15 Nov 2026 14:27:07 GMT",
       "digest": "dabf630e4cf0f52cb9978ef81390ba3c28f906a1a239dab2719161e0bf98bcb5",
-      "checked_at": "2026-11-15T20:47:26Z",
+      "checked_at": "2026-11-15T21:03:28Z",
       "candidate_observations": [
         {
           "needle": "0,9 %",
@@ -56,7 +56,7 @@
       "etag": null,
       "last_modified": null,
       "digest": "1b66e123b73c6ab89d9d32ac1930d82ef1fb5b5311a962c6ba7d12d970aa3372",
-      "checked_at": "2026-11-15T20:47:27Z",
+      "checked_at": "2026-11-15T21:03:29Z",
       "candidate_observations": [],
       "error": null
     },
@@ -76,8 +76,8 @@
       "http_status": 200,
       "etag": null,
       "last_modified": null,
-      "digest": "9ab2da30ecc721cd09552dedb4a5b2c915a349f518677e6d2c754be468f2233d",
-      "checked_at": "2026-11-15T20:47:28Z",
+      "digest": "d12a45c22b3144eafdbec8acb156a968c14a963a2b41a9b7e757e026cc6224db",
+      "checked_at": "2026-11-15T21:03:30Z",
       "candidate_observations": [],
       "error": null
     },
@@ -95,7 +95,7 @@
       "etag": null,
       "last_modified": null,
       "digest": "e0b0fda2d07d9b73bd681fbade3886141b9239e4f1a4b04f91b963f4b8f90e50",
-      "checked_at": "2026-11-15T20:47:29Z",
+      "checked_at": "2026-11-15T21:03:31Z",
       "candidate_observations": [],
       "error": null
     },
@@ -111,7 +111,7 @@
       "etag": "\"1794591729\"",
       "last_modified": "Fri, 13 Nov 2026 17:42:09 GMT",
       "digest": "60ced727ef56302c469b97602a7eeaa5bc5dd2fa02ccddbe492460cc5cd10fd9",
-      "checked_at": "2026-11-15T20:47:29Z",
+      "checked_at": "2026-11-15T21:03:31Z",
       "candidate_observations": [
         {
           "needle": "151",
@@ -138,7 +138,7 @@
       "etag": null,
       "last_modified": null,
       "digest": "79a4639ec6cbf583cc19391c7c242e500d975648366639977ea00d399cbce562",
-      "checked_at": "2026-11-15T20:47:31Z",
+      "checked_at": "2026-11-15T21:03:32Z",
       "candidate_observations": [
         {
           "needle": "France",
@@ -171,9 +171,9 @@
       "health": "OK",
       "http_status": 200,
       "etag": null,
-      "last_modified": "Sun, 15 Nov 2026 20:47:33 GMT",
+      "last_modified": "Sun, 15 Nov 2026 21:03:35 GMT",
       "digest": "f41adbf60c001b009a453d1e1d3fc900f3a270ae84501eb1e9af382c4ac73423",
-      "checked_at": "2026-11-15T20:47:32Z",
+      "checked_at": "2026-11-15T21:03:33Z",
       "candidate_observations": [
         {
           "needle": "54 milliards",
@@ -202,21 +202,11 @@
         "F10",
         "F11"
       ],
-      "at": "2026-11-15T20:47:28Z",
+      "at": "2026-11-15T21:03:30Z",
       "detail": "Public source fingerprint changed; canonical claims require reconciliation before mutation."
     }
   ],
   "events": [
-    {
-      "source_id": "DGFIP_SMB",
-      "kind": "SOURCE_CHANGED",
-      "organ": "EXECUTION",
-      "claims": [
-        "F8"
-      ],
-      "at": "2026-11-12T07:43:17Z",
-      "detail": "Public source fingerprint changed; canonical claims require reconciliation before mutation."
-    },
     {
       "source_id": "EURLEX_EDP",
       "kind": "SOURCE_CHANGED",
@@ -1169,6 +1159,19 @@
         "F11"
       ],
       "at": "2026-11-15T20:47:28Z",
+      "detail": "Public source fingerprint changed; canonical claims require reconciliation before mutation."
+    },
+    {
+      "source_id": "INSEE_BDM_RSS",
+      "kind": "SOURCE_CHANGED",
+      "organ": "MACRO",
+      "claims": [
+        "F8",
+        "F9",
+        "F10",
+        "F11"
+      ],
+      "at": "2026-11-15T21:03:30Z",
       "detail": "Public source fingerprint changed; canonical claims require reconciliation before mutation."
     }
   ],
