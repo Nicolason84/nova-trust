@@ -1,8 +1,8 @@
 {
   "schema": "OJO_BUDGET_2027_LIVE_FEED_V1",
   "version": "2026-09-21",
-  "sequence": 324,
-  "updated_at": "2026-11-15T22:17:35Z",
+  "sequence": 325,
+  "updated_at": "2026-11-15T22:33:03Z",
   "policy": {
     "canonical_mutation": "NEVER_FROM_FINGERPRINT_ALONE",
     "source_change": "EMIT_DELTA_THEN_RECONCILE",
@@ -24,7 +24,7 @@
       "etag": "\"1794780233-gzip\"",
       "last_modified": "Sun, 15 Nov 2026 22:03:53 GMT",
       "digest": "dabf630e4cf0f52cb9978ef81390ba3c28f906a1a239dab2719161e0bf98bcb5",
-      "checked_at": "2026-11-15T22:16:52Z",
+      "checked_at": "2026-11-15T22:32:54Z",
       "candidate_observations": [
         {
           "needle": "0,9 %",
@@ -56,7 +56,7 @@
       "etag": null,
       "last_modified": null,
       "digest": "1b66e123b73c6ab89d9d32ac1930d82ef1fb5b5311a962c6ba7d12d970aa3372",
-      "checked_at": "2026-11-15T22:16:52Z",
+      "checked_at": "2026-11-15T22:32:56Z",
       "candidate_observations": [],
       "error": null
     },
@@ -76,8 +76,8 @@
       "http_status": 200,
       "etag": null,
       "last_modified": null,
-      "digest": "597c263386dc5cd089237ad4853d1f1ca684b937dfabe87bd877f06fa09ae1ac",
-      "checked_at": "2026-11-15T22:17:00Z",
+      "digest": "9dbf08eab6ae4881479bcbb6fbdf6c48f8282432b1fd05aea4189696f79cfd53",
+      "checked_at": "2026-11-15T22:32:57Z",
       "candidate_observations": [],
       "error": null
     },
@@ -90,14 +90,14 @@
         "F8"
       ],
       "url": "https://www.data.gouv.fr/api/1/datasets/dgfip-situation-mensuelle-de-letat/",
-      "health": "ERROR",
-      "http_status": null,
+      "health": "OK",
+      "http_status": 200,
       "etag": null,
       "last_modified": null,
-      "digest": null,
-      "checked_at": "2026-11-15T22:17:01Z",
+      "digest": "e0b0fda2d07d9b73bd681fbade3886141b9239e4f1a4b04f91b963f4b8f90e50",
+      "checked_at": "2026-11-15T22:32:58Z",
       "candidate_observations": [],
-      "error": "TimeoutError: The read operation timed out"
+      "error": null
     },
     {
       "id": "IGF_REVUES",
@@ -111,7 +111,7 @@
       "etag": "\"1794591729\"",
       "last_modified": "Fri, 13 Nov 2026 17:42:09 GMT",
       "digest": "60ced727ef56302c469b97602a7eeaa5bc5dd2fa02ccddbe492460cc5cd10fd9",
-      "checked_at": "2026-11-15T22:17:31Z",
+      "checked_at": "2026-11-15T22:32:59Z",
       "candidate_observations": [
         {
           "needle": "151",
@@ -138,7 +138,7 @@
       "etag": null,
       "last_modified": null,
       "digest": "79a4639ec6cbf583cc19391c7c242e500d975648366639977ea00d399cbce562",
-      "checked_at": "2026-11-15T22:17:32Z",
+      "checked_at": "2026-11-15T22:33:00Z",
       "candidate_observations": [
         {
           "needle": "France",
@@ -171,9 +171,9 @@
       "health": "OK",
       "http_status": 200,
       "etag": null,
-      "last_modified": "Sun, 15 Nov 2026 22:17:34 GMT",
+      "last_modified": "Sun, 15 Nov 2026 22:33:02 GMT",
       "digest": "f41adbf60c001b009a453d1e1d3fc900f3a270ae84501eb1e9af382c4ac73423",
-      "checked_at": "2026-11-15T22:17:32Z",
+      "checked_at": "2026-11-15T22:33:01Z",
       "candidate_observations": [
         {
           "needle": "54 milliards",
@@ -202,7 +202,7 @@
         "F10",
         "F11"
       ],
-      "at": "2026-11-15T22:17:00Z",
+      "at": "2026-11-15T22:32:57Z",
       "detail": "Public source fingerprint changed; canonical claims require reconciliation before mutation."
     },
     {
@@ -212,38 +212,11 @@
       "claims": [
         "F8"
       ],
-      "at": "2026-11-15T22:17:01Z",
-      "detail": "OK → ERROR"
+      "at": "2026-11-15T22:32:58Z",
+      "detail": "ERROR → OK"
     }
   ],
   "events": [
-    {
-      "source_id": "INSEE_BDM_RSS",
-      "kind": "SOURCE_CHANGED",
-      "organ": "MACRO",
-      "claims": [
-        "F8",
-        "F9",
-        "F10",
-        "F11"
-      ],
-      "at": "2026-11-13T02:44:02Z",
-      "detail": "Public source fingerprint changed; canonical claims require reconciliation before mutation."
-    },
-    {
-      "source_id": "PUBLIC_SENAT_54",
-      "kind": "SOURCE_CHANGED",
-      "organ": "ANNOUNCEMENTS",
-      "claims": [
-        "F1",
-        "F2",
-        "F3",
-        "F4",
-        "F5"
-      ],
-      "at": "2026-11-13T02:44:06Z",
-      "detail": "Public source fingerprint changed; canonical claims require reconciliation before mutation."
-    },
     {
       "source_id": "BDF_SEPT_2026",
       "kind": "SOURCE_CHANGED",
@@ -1185,12 +1158,35 @@
       ],
       "at": "2026-11-15T22:17:01Z",
       "detail": "OK → ERROR"
+    },
+    {
+      "source_id": "INSEE_BDM_RSS",
+      "kind": "SOURCE_CHANGED",
+      "organ": "MACRO",
+      "claims": [
+        "F8",
+        "F9",
+        "F10",
+        "F11"
+      ],
+      "at": "2026-11-15T22:32:57Z",
+      "detail": "Public source fingerprint changed; canonical claims require reconciliation before mutation."
+    },
+    {
+      "source_id": "DGFIP_SMB",
+      "kind": "SOURCE_HEALTH_CHANGED",
+      "organ": "EXECUTION",
+      "claims": [
+        "F8"
+      ],
+      "at": "2026-11-15T22:32:58Z",
+      "detail": "ERROR → OK"
     }
   ],
   "summary": {
     "monitored": 7,
-    "healthy": 6,
-    "errors": 1,
+    "healthy": 7,
+    "errors": 0,
     "changed_this_sequence": 2
   }
 }
