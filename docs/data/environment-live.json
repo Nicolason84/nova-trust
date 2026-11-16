@@ -1,8 +1,8 @@
 {
   "schema": "OJO_ENVIRONMENT_LIVE_V1",
   "version": "2026-09-21",
-  "sequence": 372,
-  "updated_at": "2026-11-16T12:36:19Z",
+  "sequence": 373,
+  "updated_at": "2026-11-16T13:01:36Z",
   "policy": {
     "event_is_not_impact": "An event is a signal. Impact requires an explicit transmission channel and evidence.",
     "canonical_mutation": "NEVER_FROM_EVENT_ALONE",
@@ -14,7 +14,7 @@
     "healthy": 7,
     "errors": 1,
     "current_events": 130,
-    "new_events": 41
+    "new_events": 16
   },
   "sources": [
     {
@@ -26,11 +26,11 @@
       "health": "OK",
       "http_status": 200,
       "error": null,
-      "checked_at": "2026-11-16T12:34:55Z",
+      "checked_at": "2026-11-16T13:00:13Z",
       "metrics": {
         "event_count": 0
       },
-      "digest": "121ab67d3d19dbd57bac6297b41cfde452e120d7508154b3faa1855203879857",
+      "digest": "2ee1c3ecf7da4285177712e976a9a919bc228f0d3cc90ad24c5b40b960654390",
       "cadence": "1m",
       "access": "OPEN"
     },
@@ -43,11 +43,11 @@
       "health": "OK",
       "http_status": 200,
       "error": null,
-      "checked_at": "2026-11-16T12:34:55Z",
+      "checked_at": "2026-11-16T13:00:13Z",
       "metrics": {
         "event_count": 50
       },
-      "digest": "5105888657b4f6b4e4d511167c15aa814da19981b91f5b4fb5433394e60494bd",
+      "digest": "e92d029c9d9e716bfc35b05477df5397de3541dc2c1dd68226e1c5f3f7ad1df0",
       "cadence": "6m",
       "access": "OPEN"
     },
@@ -60,7 +60,7 @@
       "health": "OK",
       "http_status": 200,
       "error": null,
-      "checked_at": "2026-11-16T12:34:58Z",
+      "checked_at": "2026-11-16T13:00:15Z",
       "metrics": {
         "active_non_green": 1,
         "levels": {
@@ -83,7 +83,7 @@
       "health": "ERROR",
       "http_status": null,
       "error": "<urlopen error timed out>",
-      "checked_at": "2026-11-16T12:35:00Z",
+      "checked_at": "2026-11-16T13:00:17Z",
       "metrics": {},
       "digest": null,
       "cadence": "real-time/hourly aggregate",
@@ -98,7 +98,7 @@
       "health": "OK",
       "http_status": 200,
       "error": null,
-      "checked_at": "2026-11-16T12:36:16Z",
+      "checked_at": "2026-11-16T13:01:32Z",
       "metrics": {
         "relevant_items": 68
       },
@@ -115,7 +115,7 @@
       "health": "OK",
       "http_status": 200,
       "error": null,
-      "checked_at": "2026-11-16T12:36:16Z",
+      "checked_at": "2026-11-16T13:01:32Z",
       "metrics": {
         "relevant_items": 11
       },
@@ -132,16 +132,16 @@
       "health": "OK",
       "http_status": 200,
       "error": null,
-      "checked_at": "2026-11-16T12:36:16Z",
+      "checked_at": "2026-11-16T13:01:33Z",
       "metrics": {
-        "date_heure": "2026-11-16T12:15:00+00:00",
-        "consommation": 60531,
-        "prevision_j": 61000,
-        "prevision_j1": 61100,
+        "date_heure": "2026-11-16T12:45:00+00:00",
+        "consommation": 59789,
+        "prevision_j": 59800,
+        "prevision_j1": 59900,
         "taux_co2": 36,
-        "ech_physiques": -7446
+        "ech_physiques": -7326
       },
-      "digest": "f8975f5fb0f50b3769b0fba2acfd533bd06b3576528740dd6dee463f09d93810",
+      "digest": "11174e1cafd26215f0b67d05ab1db326a376ce40ef3a56f2e5d5adca70fcaea8",
       "cadence": "15m",
       "access": "OPEN"
     },
@@ -154,7 +154,7 @@
       "health": "OK",
       "http_status": 200,
       "error": null,
-      "checked_at": "2026-11-16T12:36:17Z",
+      "checked_at": "2026-11-16T13:01:33Z",
       "metrics": {
         "rows": 2
       },
@@ -1771,7 +1771,7 @@
       "source_id": "VIGICRUES",
       "title": "Vigicrues Vistre — niveau yellow",
       "occurred_at": null,
-      "updated_at": "2026-11-16T12:34:58Z",
+      "updated_at": "2026-11-16T13:00:15Z",
       "severity": "WATCH",
       "scope": "FR_LOCAL",
       "domains": [
@@ -3808,11 +3808,11 @@
   ],
   "new_events": [
     {
-      "id": "GDACS:c1689b6a68df46d6",
+      "id": "GDACS:9d08942260a4012f",
       "source_id": "GDACS",
-      "title": "Green earthquake (Magnitude 5.5M, Depth:9.971km) in Philippines 15/11/2026 13:41 UTC, 30 thousand in MMI VI.",
-      "occurred_at": "2026-11-15T13:55:51Z",
-      "updated_at": "2026-11-15T13:41:35Z",
+      "title": "Green earthquake (Magnitude 5.5M, Depth:469.881km) in Fiji 15/11/2026 05:15 UTC, Few people affected in 100km.",
+      "occurred_at": "2026-11-15T05:31:38Z",
+      "updated_at": "2026-11-15T05:15:02Z",
       "severity": "WATCH",
       "scope": "GLOBAL",
       "domains": [
@@ -3827,11 +3827,11 @@
         "INFRASTRUCTURE"
       ],
       "location": {
-        "name": "Philippines",
-        "lat": 9.7595,
-        "lon": 126.2
+        "name": "Fiji",
+        "lat": -19.5554,
+        "lon": -177.8215
       },
-      "url": "http://www.gdacs.org/report.aspx?eventtype=EQ&eventid=1577487",
+      "url": "http://www.gdacs.org/report.aspx?eventtype=EQ&eventid=1577445",
       "evidence_type": "SOURCE_EVENT",
       "details": {
         "alert_level": "green",
@@ -3839,135 +3839,11 @@
       }
     },
     {
-      "id": "GDACS:1bef2ceeae83e605",
+      "id": "GDACS:74aeef11da411bcb",
       "source_id": "GDACS",
-      "title": "Green forest fire notification in Niger, Burkina Faso",
-      "occurred_at": "2026-11-15T20:01:45Z",
-      "updated_at": "2026-11-16T00:00:00Z",
-      "severity": "WATCH",
-      "scope": "GLOBAL",
-      "domains": [
-        "DISASTER",
-        "WF"
-      ],
-      "impact_channels": [
-        "TRADE",
-        "SUPPLY_CHAIN",
-        "ENERGY",
-        "INSURANCE",
-        "INFRASTRUCTURE"
-      ],
-      "location": {
-        "name": "Niger, Burkina Faso",
-        "lat": 14.006713598264945,
-        "lon": 0.3765539620098941
-      },
-      "url": "http://www.gdacs.org/report.aspx?eventtype=WF&eventid=1033869",
-      "evidence_type": "SOURCE_EVENT",
-      "details": {
-        "alert_level": "green",
-        "event_type": "WF"
-      }
-    },
-    {
-      "id": "GDACS:a2bfbd2741bfbf97",
-      "source_id": "GDACS",
-      "title": "Green forest fire notification in Australia",
-      "occurred_at": "2026-11-15T12:01:03Z",
-      "updated_at": "2026-11-15T00:00:00Z",
-      "severity": "WATCH",
-      "scope": "GLOBAL",
-      "domains": [
-        "DISASTER",
-        "WF"
-      ],
-      "impact_channels": [
-        "TRADE",
-        "SUPPLY_CHAIN",
-        "ENERGY",
-        "INSURANCE",
-        "INFRASTRUCTURE"
-      ],
-      "location": {
-        "name": "Australia",
-        "lat": -23.9846771189414,
-        "lon": 138.5492687700955
-      },
-      "url": "http://www.gdacs.org/report.aspx?eventtype=WF&eventid=1033858",
-      "evidence_type": "SOURCE_EVENT",
-      "details": {
-        "alert_level": "green",
-        "event_type": "WF"
-      }
-    },
-    {
-      "id": "GDACS:5b2e688f946f6ed2",
-      "source_id": "GDACS",
-      "title": "Green forest fire notification in Burkina Faso",
-      "occurred_at": "2026-11-15T08:00:29Z",
-      "updated_at": "2026-11-16T00:00:00Z",
-      "severity": "WATCH",
-      "scope": "GLOBAL",
-      "domains": [
-        "DISASTER",
-        "WF"
-      ],
-      "impact_channels": [
-        "TRADE",
-        "SUPPLY_CHAIN",
-        "ENERGY",
-        "INSURANCE",
-        "INFRASTRUCTURE"
-      ],
-      "location": {
-        "name": "Burkina Faso",
-        "lat": 13.566114742134943,
-        "lon": -1.4750774544800338
-      },
-      "url": "http://www.gdacs.org/report.aspx?eventtype=WF&eventid=1033853",
-      "evidence_type": "SOURCE_EVENT",
-      "details": {
-        "alert_level": "green",
-        "event_type": "WF"
-      }
-    },
-    {
-      "id": "GDACS:06054e5abad2f5f8",
-      "source_id": "GDACS",
-      "title": "Green forest fire notification in Australia",
-      "occurred_at": "2026-11-15T12:01:19Z",
-      "updated_at": "2026-11-16T00:00:00Z",
-      "severity": "WATCH",
-      "scope": "GLOBAL",
-      "domains": [
-        "DISASTER",
-        "WF"
-      ],
-      "impact_channels": [
-        "TRADE",
-        "SUPPLY_CHAIN",
-        "ENERGY",
-        "INSURANCE",
-        "INFRASTRUCTURE"
-      ],
-      "location": {
-        "name": "Australia",
-        "lat": -19.088977198369488,
-        "lon": 122.26268023639402
-      },
-      "url": "http://www.gdacs.org/report.aspx?eventtype=WF&eventid=1033859",
-      "evidence_type": "SOURCE_EVENT",
-      "details": {
-        "alert_level": "green",
-        "event_type": "WF"
-      }
-    },
-    {
-      "id": "GDACS:59646785a7335774",
-      "source_id": "GDACS",
-      "title": "Green earthquake (Magnitude 5.8M, Depth:10km) in Peru 13/11/2026 16:43 UTC, 100 thousand in MMI IV.",
-      "occurred_at": "2026-11-13T17:03:43Z",
-      "updated_at": "2026-11-13T16:43:02Z",
+      "title": "Green earthquake (Magnitude 5.5M, Depth:10km) in Northern Mid-Atlantic Ridge 14/11/2026 09:26 UTC, [unknown].",
+      "occurred_at": "2026-11-14T09:43:12Z",
+      "updated_at": "2026-11-14T09:26:13Z",
       "severity": "WATCH",
       "scope": "GLOBAL",
       "domains": [
@@ -3982,11 +3858,11 @@
         "INFRASTRUCTURE"
       ],
       "location": {
-        "name": "Peru",
-        "lat": -14.9934,
-        "lon": -75.8807
+        "name": "Northern Mid-Atlantic Ridge",
+        "lat": 30.122,
+        "lon": -42.6346
       },
-      "url": "http://www.gdacs.org/report.aspx?eventtype=EQ&eventid=1577195",
+      "url": "http://www.gdacs.org/report.aspx?eventtype=EQ&eventid=1577321",
       "evidence_type": "SOURCE_EVENT",
       "details": {
         "alert_level": "green",
@@ -3994,1000 +3870,10 @@
       }
     },
     {
-      "id": "GDACS:f2d2f7841361d444",
-      "source_id": "GDACS",
-      "title": "Green forest fire notification in Chad",
-      "occurred_at": "2026-11-16T04:08:46Z",
-      "updated_at": "2026-11-15T00:00:00Z",
-      "severity": "WATCH",
-      "scope": "GLOBAL",
-      "domains": [
-        "DISASTER",
-        "WF"
-      ],
-      "impact_channels": [
-        "TRADE",
-        "SUPPLY_CHAIN",
-        "ENERGY",
-        "INSURANCE",
-        "INFRASTRUCTURE"
-      ],
-      "location": {
-        "name": "Chad",
-        "lat": 12.014815343508506,
-        "lon": 20.289227369232183
-      },
-      "url": "http://www.gdacs.org/report.aspx?eventtype=WF&eventid=1033871",
-      "evidence_type": "SOURCE_EVENT",
-      "details": {
-        "alert_level": "green",
-        "event_type": "WF"
-      }
-    },
-    {
-      "id": "GDACS:142852d3ffcf59be",
-      "source_id": "GDACS",
-      "title": "Green forest fire notification in Nigeria",
-      "occurred_at": "2026-11-16T08:04:51Z",
-      "updated_at": "2026-11-16T00:00:00Z",
-      "severity": "WATCH",
-      "scope": "GLOBAL",
-      "domains": [
-        "DISASTER",
-        "WF"
-      ],
-      "impact_channels": [
-        "TRADE",
-        "SUPPLY_CHAIN",
-        "ENERGY",
-        "INSURANCE",
-        "INFRASTRUCTURE"
-      ],
-      "location": {
-        "name": "Nigeria",
-        "lat": 11.761569140183724,
-        "lon": 5.104530665882561
-      },
-      "url": "http://www.gdacs.org/report.aspx?eventtype=WF&eventid=1033883",
-      "evidence_type": "SOURCE_EVENT",
-      "details": {
-        "alert_level": "green",
-        "event_type": "WF"
-      }
-    },
-    {
-      "id": "GDACS:cd61c5aadcab889b",
-      "source_id": "GDACS",
-      "title": "Green forest fire notification in Burkina Faso",
-      "occurred_at": "2026-11-15T16:01:42Z",
-      "updated_at": "2026-11-16T00:00:00Z",
-      "severity": "WATCH",
-      "scope": "GLOBAL",
-      "domains": [
-        "DISASTER",
-        "WF"
-      ],
-      "impact_channels": [
-        "TRADE",
-        "SUPPLY_CHAIN",
-        "ENERGY",
-        "INSURANCE",
-        "INFRASTRUCTURE"
-      ],
-      "location": {
-        "name": "Burkina Faso",
-        "lat": 14.69447268035408,
-        "lon": -0.4801466625232466
-      },
-      "url": "http://www.gdacs.org/report.aspx?eventtype=WF&eventid=1033854",
-      "evidence_type": "SOURCE_EVENT",
-      "details": {
-        "alert_level": "green",
-        "event_type": "WF"
-      }
-    },
-    {
-      "id": "GDACS:64be05a0761a6bac",
-      "source_id": "GDACS",
-      "title": "Green forest fire notification in Nigeria",
-      "occurred_at": "2026-11-15T16:02:20Z",
-      "updated_at": "2026-11-16T00:00:00Z",
-      "severity": "WATCH",
-      "scope": "GLOBAL",
-      "domains": [
-        "DISASTER",
-        "WF"
-      ],
-      "impact_channels": [
-        "TRADE",
-        "SUPPLY_CHAIN",
-        "ENERGY",
-        "INSURANCE",
-        "INFRASTRUCTURE"
-      ],
-      "location": {
-        "name": "Nigeria",
-        "lat": 10.815680337806826,
-        "lon": 5.9705178709015465
-      },
-      "url": "http://www.gdacs.org/report.aspx?eventtype=WF&eventid=1033856",
-      "evidence_type": "SOURCE_EVENT",
-      "details": {
-        "alert_level": "green",
-        "event_type": "WF"
-      }
-    },
-    {
-      "id": "GDACS:8d7692f6cef1cab0",
-      "source_id": "GDACS",
-      "title": "Green forest fire notification in Mali",
-      "occurred_at": "2026-11-16T12:06:50Z",
-      "updated_at": "2026-11-12T00:00:00Z",
-      "severity": "WATCH",
-      "scope": "GLOBAL",
-      "domains": [
-        "DISASTER",
-        "WF"
-      ],
-      "impact_channels": [
-        "TRADE",
-        "SUPPLY_CHAIN",
-        "ENERGY",
-        "INSURANCE",
-        "INFRASTRUCTURE"
-      ],
-      "location": {
-        "name": "Mali",
-        "lat": 15.499359471521085,
-        "lon": -0.00927771156893669
-      },
-      "url": "http://www.gdacs.org/report.aspx?eventtype=WF&eventid=1033770",
-      "evidence_type": "SOURCE_EVENT",
-      "details": {
-        "alert_level": "green",
-        "event_type": "WF"
-      }
-    },
-    {
-      "id": "GDACS:9be92e03520fd890",
+      "id": "GDACS:84f0744ccf8af067",
       "source_id": "GDACS",
       "title": "Green forest fire notification in Australia",
-      "occurred_at": "2026-11-16T12:06:24Z",
-      "updated_at": "2026-11-12T00:00:00Z",
-      "severity": "WATCH",
-      "scope": "GLOBAL",
-      "domains": [
-        "DISASTER",
-        "WF"
-      ],
-      "impact_channels": [
-        "TRADE",
-        "SUPPLY_CHAIN",
-        "ENERGY",
-        "INSURANCE",
-        "INFRASTRUCTURE"
-      ],
-      "location": {
-        "name": "Australia",
-        "lat": -19.661529798144386,
-        "lon": 123.82106286055887
-      },
-      "url": "http://www.gdacs.org/report.aspx?eventtype=WF&eventid=1033774",
-      "evidence_type": "SOURCE_EVENT",
-      "details": {
-        "alert_level": "green",
-        "event_type": "WF"
-      }
-    },
-    {
-      "id": "WHO_HEALTH_RSS:10fa4f7487342c3c",
-      "source_id": "WHO_HEALTH_RSS",
-      "title": "COVID-19 Emergency Committee highlights need for response efforts over long term",
-      "occurred_at": null,
-      "updated_at": null,
-      "severity": "WATCH",
-      "scope": "GLOBAL",
-      "domains": [
-        "HEALTH"
-      ],
-      "impact_channels": [
-        "HEALTH_SPENDING",
-        "TRAVEL",
-        "TRADE",
-        "SUPPLY_CHAIN"
-      ],
-      "location": null,
-      "url": "https://www.who.int/news/item/01-08-2020-covid-19-emergency-committee-highlights-need-for-response-efforts-over-long-term",
-      "evidence_type": "SOURCE_EVENT",
-      "details": {
-        "description": " The Emergency Committee on COVID-19, convened by the WHO Director-General under the International Health Regulations (2005) (IHR), held its fourth meeting on 31 July. In its statement following the meeting, published today, it expressed &ldquo;appreciation for WHO and partners&rsquo; COVID-19 pandemic response efforts, and highlighted the anticipated lengthy duration of this COVID-19 pandemic, noting the importance of sustained community, national, regional, and global response efforts.&rdquo;&",
-        "note": "WHO news signal; verify Disease Outbreak News for event-specific conclusions."
-      }
-    },
-    {
-      "id": "WHO_HEALTH_RSS:e76a91f002f6f94e",
-      "source_id": "WHO_HEALTH_RSS",
-      "title": "New COVID-19 Law Lab to provide vital legal information and support for the global COVID-19 response",
-      "occurred_at": null,
-      "updated_at": null,
-      "severity": "WATCH",
-      "scope": "GLOBAL",
-      "domains": [
-        "HEALTH"
-      ],
-      "impact_channels": [
-        "HEALTH_SPENDING",
-        "TRAVEL",
-        "TRADE",
-        "SUPPLY_CHAIN"
-      ],
-      "location": null,
-      "url": "https://www.who.int/news/item/22-07-2020-new-covid-19-law-lab-to-provide-vital-legal-information-and-support-for-the-global-covid-19-response",
-      "evidence_type": "SOURCE_EVENT",
-      "details": {
-        "description": " Launching today, the COVID-19 Law Lab initiative gathers and shares legal documents from over 190 countries across the world to help states establish and implement strong legal frameworks to manage the pandemic. The goal is to ensure that laws protect the health and wellbeing of individuals and communities and that they adhere to international human rights standards.     The new Lab (at  www.COVIDLawLab.org ) is a joint project of United Nations Development Programme (UNDP), the World Health Or",
-        "note": "WHO news signal; verify Disease Outbreak News for event-specific conclusions."
-      }
-    },
-    {
-      "id": "WHO_HEALTH_RSS:4f67f85ac7baf14f",
-      "source_id": "WHO_HEALTH_RSS",
-      "title": "WHO Director-General pays tribute to Spain’s sacrifices and leadership to confront COVID-19",
-      "occurred_at": null,
-      "updated_at": null,
-      "severity": "WATCH",
-      "scope": "GLOBAL",
-      "domains": [
-        "HEALTH"
-      ],
-      "impact_channels": [
-        "HEALTH_SPENDING",
-        "TRAVEL",
-        "TRADE",
-        "SUPPLY_CHAIN"
-      ],
-      "location": null,
-      "url": "https://www.who.int/news/item/16-07-2020-who-director-general-pays-tribute-to-spain-s-sacrifices-and-leadership-to-confront-covid-19",
-      "evidence_type": "SOURCE_EVENT",
-      "details": {
-        "description": " &nbsp;  World Health Organization Director-General Dr Tedros Adhanom Ghebreyesus today joined the leadership of Spain, paying homage to those who have lost their lives in the country due to COVID-19, saluting the heroic efforts of heath workers and praising the\n    government&rsquo;s resolute and robust response to reverse the virus&rsquo;s transmission.   &ldquo;It is with great respect that I join the King of Spain, the Prime Minister and the entire government of the country to pay tribute to",
-        "note": "WHO news signal; verify Disease Outbreak News for event-specific conclusions."
-      }
-    },
-    {
-      "id": "WHO_HEALTH_RSS:1fae62e9b265a542",
-      "source_id": "WHO_HEALTH_RSS",
-      "title": "More than 150 countries engaged in COVID-19 vaccine global access facility",
-      "occurred_at": null,
-      "updated_at": null,
-      "severity": "WATCH",
-      "scope": "GLOBAL",
-      "domains": [
-        "HEALTH"
-      ],
-      "impact_channels": [
-        "HEALTH_SPENDING",
-        "TRAVEL",
-        "TRADE",
-        "SUPPLY_CHAIN"
-      ],
-      "location": null,
-      "url": "https://www.who.int/news/item/15-07-2020-more-than-150-countries-engaged-in-covid-19-vaccine-global-access-facility",
-      "evidence_type": "SOURCE_EVENT",
-      "details": {
-        "description": "   Seventy-five countries submit expressions of interest to COVAX Facility, joining up to 90 further countries which could be supported by the COVAX Advance Market Commitment (AMC)    The COVAX Facility, and the AMC within it, is designed to guarantee rapid, fair and equitable access to COVID-19 vaccines for every country in the world, rich and poor, to make rapid progress towards slowing the pandemic&nbsp;      Interest from governments representing more than 60% of the world&rsquo;s population",
-        "note": "WHO news signal; verify Disease Outbreak News for event-specific conclusions."
-      }
-    },
-    {
-      "id": "WHO_HEALTH_RSS:0389dc755daf5a3d",
-      "source_id": "WHO_HEALTH_RSS",
-      "title": "WHO and UNICEF warn of a decline in vaccinations during COVID-19",
-      "occurred_at": null,
-      "updated_at": null,
-      "severity": "WATCH",
-      "scope": "GLOBAL",
-      "domains": [
-        "HEALTH"
-      ],
-      "impact_channels": [
-        "HEALTH_SPENDING",
-        "TRAVEL",
-        "TRADE",
-        "SUPPLY_CHAIN"
-      ],
-      "location": null,
-      "url": "https://www.who.int/news/item/15-07-2020-who-and-unicef-warn-of-a-decline-in-vaccinations-during-covid-19",
-      "evidence_type": "SOURCE_EVENT",
-      "details": {
-        "description": "WHO and UNICEF call for immediate efforts to vaccinate all children as new data shows that, before the COVID-19 pandemic, vaccine coverage stalled at 85 per cent for nearly a decade, with 14 million unvaccinated infants yearly",
-        "note": "WHO news signal; verify Disease Outbreak News for event-specific conclusions."
-      }
-    },
-    {
-      "id": "WHO_HEALTH_RSS:7c2874de25502058",
-      "source_id": "WHO_HEALTH_RSS",
-      "title": "As more go hungry and malnutrition persists, achieving Zero Hunger by 2030 in doubt, UN report warns",
-      "occurred_at": null,
-      "updated_at": null,
-      "severity": "WATCH",
-      "scope": "GLOBAL",
-      "domains": [
-        "HEALTH"
-      ],
-      "impact_channels": [
-        "HEALTH_SPENDING",
-        "TRAVEL",
-        "TRADE",
-        "SUPPLY_CHAIN"
-      ],
-      "location": null,
-      "url": "https://www.who.int/news/item/13-07-2020-as-more-go-hungry-and-malnutrition-persists-achieving-zero-hunger-by-2030-in-doubt-un-report-warns",
-      "evidence_type": "SOURCE_EVENT",
-      "details": {
-        "description": "  Rome &ndash; More people are going hungry, an annual study by the United Nations has found. Tens of millions have joined the ranks of the chronically undernourished over the past five years, and countries around the world continue to struggle with multiple forms of malnutrition.      The latest edition of the State of Food Security and Nutrition in the World, published today, estimates that almost 690 million people went hungry in 2019 &ndash; up by 10 million from 2018, and by nearly 60 milli",
-        "note": "WHO news signal; verify Disease Outbreak News for event-specific conclusions."
-      }
-    },
-    {
-      "id": "WHO_HEALTH_RSS:c4c64b6063262f19",
-      "source_id": "WHO_HEALTH_RSS",
-      "title": "Independent evaluation of global COVID-19 response announced",
-      "occurred_at": null,
-      "updated_at": null,
-      "severity": "WATCH",
-      "scope": "GLOBAL",
-      "domains": [
-        "HEALTH"
-      ],
-      "impact_channels": [
-        "HEALTH_SPENDING",
-        "TRAVEL",
-        "TRADE",
-        "SUPPLY_CHAIN"
-      ],
-      "location": null,
-      "url": "https://www.who.int/news/item/09-07-2020-independent-evaluation-of-global-covid-19-response-announced",
-      "evidence_type": "SOURCE_EVENT",
-      "details": {
-        "description": " PWHO Director-General today announced the initiation of the Independent Panel for Pandemic Preparedness and Response (IPPPR) to evaluate the world&rsquo;s response to the COVID-19 pandemic.  In  remarks  to WHO Member States, Director-General Tedros Adhanom Ghebreyesus said the Panel will be co-chaired by former Prime Minister of New Zealand Helen Clark and former President of Liberia Ellen Johnson Sirleaf. Prime Minister Clark\n    went to on lead the United Nations Development Programme and Pr",
-        "note": "WHO news signal; verify Disease Outbreak News for event-specific conclusions."
-      }
-    },
-    {
-      "id": "WHO_HEALTH_RSS:05c7acf15596db53",
-      "source_id": "WHO_HEALTH_RSS",
-      "title": "UN Public Service Day",
-      "occurred_at": null,
-      "updated_at": null,
-      "severity": "WATCH",
-      "scope": "GLOBAL",
-      "domains": [
-        "HEALTH"
-      ],
-      "impact_channels": [
-        "HEALTH_SPENDING",
-        "TRAVEL",
-        "TRADE",
-        "SUPPLY_CHAIN"
-      ],
-      "location": null,
-      "url": "https://www.who.int/news/item/23-06-2020-un-public-service-day",
-      "evidence_type": "SOURCE_EVENT",
-      "details": {
-        "description": "      Honouring the public servants who have been working on the frontlines of the COVID-19 pandemic.       Whether working in healthcare or delivering essential services in the areas of sanitation, social welfare, education, postal delivery, transport, law enforcement, and more, public servants globally have continued to work in the community as many people shelter at home, risking their lives to ensure ours can continue.      WHO Director-General joined a virtual high-level panel at the United",
-        "note": "WHO news signal; verify Disease Outbreak News for event-specific conclusions."
-      }
-    },
-    {
-      "id": "WHO_HEALTH_RSS:88b6cbed34732ad1",
-      "source_id": "WHO_HEALTH_RSS",
-      "title": "WHO experts to travel to China",
-      "occurred_at": null,
-      "updated_at": null,
-      "severity": "WATCH",
-      "scope": "GLOBAL",
-      "domains": [
-        "HEALTH"
-      ],
-      "impact_channels": [
-        "HEALTH_SPENDING",
-        "TRAVEL",
-        "TRADE",
-        "SUPPLY_CHAIN"
-      ],
-      "location": null,
-      "url": "https://www.who.int/news/item/07-07-2020-who-experts-to-travel-to-china",
-      "evidence_type": "SOURCE_EVENT",
-      "details": {
-        "description": "  WHO experts will travel to China to work together with their Chinese counterparts to prepare scientific plans for identifying the zoonotic source of the SARS-COV-2 virus. The experts will develop the scope and TOR for a WHO-led international mission. &nbsp;     Identifying the origin of emerging viral disease has proven complex in past epidemics in different countries. A well planned series of scientific researches will advance the understanding of animal reservoirs and the route of transmissi",
-        "note": "WHO news signal; verify Disease Outbreak News for event-specific conclusions."
-      }
-    },
-    {
-      "id": "WHO_HEALTH_RSS:fda1c3756465a68b",
-      "source_id": "WHO_HEALTH_RSS",
-      "title": "WHO: access to HIV medicines severely impacted by COVID-19 as AIDS response stalls",
-      "occurred_at": null,
-      "updated_at": null,
-      "severity": "WATCH",
-      "scope": "GLOBAL",
-      "domains": [
-        "HEALTH"
-      ],
-      "impact_channels": [
-        "HEALTH_SPENDING",
-        "TRAVEL",
-        "TRADE",
-        "SUPPLY_CHAIN"
-      ],
-      "location": null,
-      "url": "https://www.who.int/news/item/06-07-2020-who-access-to-hiv-medicines-severely-impacted-by-covid-19-as-aids-response-stalls",
-      "evidence_type": "SOURCE_EVENT",
-      "details": {
-        "description": " Seventy-three countries have warned that they are at risk of stock-outs of antiretroviral (ARV) medicines as a result of the COVID-19 pandemic, according to a new WHO survey conducted ahead of the International AIDS Society&rsquo;s biannual conference. Twenty-four countries reported having either a critically low stock of ARVs or disruptions in the supply of these life-saving medicines.&nbsp;\n  The survey follows a  modelling exercise \n convened by WHO and UNAIDS in May which forecasted that a ",
-        "note": "WHO news signal; verify Disease Outbreak News for event-specific conclusions."
-      }
-    },
-    {
-      "id": "WHO_HEALTH_RSS:3741edcce1c504d2",
-      "source_id": "WHO_HEALTH_RSS",
-      "title": "Listings of WHO’s response to COVID-19",
-      "occurred_at": null,
-      "updated_at": null,
-      "severity": "WATCH",
-      "scope": "GLOBAL",
-      "domains": [
-        "HEALTH"
-      ],
-      "impact_channels": [
-        "HEALTH_SPENDING",
-        "TRAVEL",
-        "TRADE",
-        "SUPPLY_CHAIN"
-      ],
-      "location": null,
-      "url": "https://www.who.int/news/item/29-06-2020-covidtimeline",
-      "evidence_type": "SOURCE_EVENT",
-      "details": {
-        "description": "WHO provides this timeline of the organization’s COVID-19 response activities for general information. WHO will update the timeline on a regular basis and in light of evolving events and new information. Unless noted otherwise, country-specific information and data are as reported to WHO by its Member States. \nThis timeline continues in the spirit of, and supersedes, the WHO Rolling Updates and the WHO Timeline statement published in April 2020. It is not intended to be exhaustive and does not c",
-        "note": "WHO news signal; verify Disease Outbreak News for event-specific conclusions."
-      }
-    },
-    {
-      "id": "WHO_HEALTH_RSS:0c10b45de39a5e0e",
-      "source_id": "WHO_HEALTH_RSS",
-      "title": "ACT-Accelerator update",
-      "occurred_at": null,
-      "updated_at": null,
-      "severity": "WATCH",
-      "scope": "GLOBAL",
-      "domains": [
-        "HEALTH"
-      ],
-      "impact_channels": [
-        "HEALTH_SPENDING",
-        "TRAVEL",
-        "TRADE",
-        "SUPPLY_CHAIN"
-      ],
-      "location": null,
-      "url": "https://www.who.int/news/item/26-06-2020-act-accelerator-update",
-      "evidence_type": "SOURCE_EVENT",
-      "details": {
-        "description": "     The tools developed will benefit the whole world, and by saving lives and reducing severe COVID-19 disease, contribute to the goal of protecting health systems and restoring full societal and economic activity globally in the near term, and facilitating\n        high-level control of COVID-19 disease in the medium term.   The consolidated investment case calls for US$31.3 billion over the next 12 months [1] . US$3.4 billion has been contributed to date, resulting in a funding gap of US$27.9 ",
-        "note": "WHO news signal; verify Disease Outbreak News for event-specific conclusions."
-      }
-    },
-    {
-      "id": "WHO_HEALTH_RSS:e6d88d26a75d5947",
-      "source_id": "WHO_HEALTH_RSS",
-      "title": "Countries failing to prevent violence against children, agencies warn",
-      "occurred_at": null,
-      "updated_at": null,
-      "severity": "WATCH",
-      "scope": "GLOBAL",
-      "domains": [
-        "HEALTH"
-      ],
-      "impact_channels": [
-        "HEALTH_SPENDING",
-        "TRAVEL",
-        "TRADE",
-        "SUPPLY_CHAIN"
-      ],
-      "location": null,
-      "url": "https://www.who.int/news/item/18-06-2020-countries-failing-to-prevent-violence-against-children-agencies-warn",
-      "evidence_type": "SOURCE_EVENT",
-      "details": {
-        "description": " Half of the world&rsquo;s children, or approximately 1 billion children each year are affected by physical, sexual or psychological violence, suffering injuries, disabilities and death, because countries have failed to follow established strategies to protect them.    This is according to a new report published today by the World Health Organization (WHO), UNICEF, UNESCO, the Special Representative of the United Nations Secretary-General on Violence against Children and the End Violence Partner",
-        "note": "WHO news signal; verify Disease Outbreak News for event-specific conclusions."
-      }
-    },
-    {
-      "id": "WHO_HEALTH_RSS:e3b7d9a4ce89bb2a",
-      "source_id": "WHO_HEALTH_RSS",
-      "title": "WHO welcomes preliminary results about dexamethasone use in treating critically ill COVID-19 patients",
-      "occurred_at": null,
-      "updated_at": null,
-      "severity": "WATCH",
-      "scope": "GLOBAL",
-      "domains": [
-        "HEALTH"
-      ],
-      "impact_channels": [
-        "HEALTH_SPENDING",
-        "TRAVEL",
-        "TRADE",
-        "SUPPLY_CHAIN"
-      ],
-      "location": null,
-      "url": "https://www.who.int/news/item/16-06-2020-who-welcomes-preliminary-results-about-dexamethasone-use-in-treating-critically-ill-covid-19-patients",
-      "evidence_type": "SOURCE_EVENT",
-      "details": {
-        "description": " The World Health Organization (WHO) welcomes the initial clinical trial results from the United Kingdom (UK) that show dexamethasone, a corticosteroid, can be lifesaving for patients who are critically ill with COVID-19. For patients on ventilators, the treatment was shown to reduce mortality by about one third, and for patients requiring only oxygen, mortality was cut by about one fifth, according to preliminary findings shared with WHO.   The benefit was only seen in patients seriously ill wi",
-        "note": "WHO news signal; verify Disease Outbreak News for event-specific conclusions."
-      }
-    },
-    {
-      "id": "WHO_HEALTH_RSS:6b9f71ecdeba49e2",
-      "source_id": "WHO_HEALTH_RSS",
-      "title": "World Food Safety Day 2020: UN experts in Facebook live event on 5 June 2020",
-      "occurred_at": null,
-      "updated_at": null,
-      "severity": "WATCH",
-      "scope": "GLOBAL",
-      "domains": [
-        "HEALTH"
-      ],
-      "impact_channels": [
-        "HEALTH_SPENDING",
-        "TRAVEL",
-        "TRADE",
-        "SUPPLY_CHAIN"
-      ],
-      "location": null,
-      "url": "https://www.who.int/news/item/03-06-2020-world-food-safety-day-2020-un-experts-in-facebook-live-event-on-5-june-2020",
-      "evidence_type": "SOURCE_EVENT",
-      "details": {
-        "description": " On 7 June 2020, the United Nations will mark the second global World Food Safety Day, led by two of its specialized agencies, the Food and Agriculture Organization of the United Nations (FAO) and the World Health Organization (WHO).  Food safety is a shared responsibility, and everyone has a role to play including governments, industry, producers, business operators and consumers. This is reflected in the theme of the day  &lsquo;Food safety: everyone&rsquo;s business!&rsquo;    FAO  and  WHO  ",
-        "note": "WHO news signal; verify Disease Outbreak News for event-specific conclusions."
-      }
-    },
-    {
-      "id": "WHO_HEALTH_RSS:8f96b3010bf47325",
-      "source_id": "WHO_HEALTH_RSS",
-      "title": "Statement from Dr Mike Ryan, Executive Director, WHO Health Emergencies Programme at the Yemen High-level Pledging Conference",
-      "occurred_at": null,
-      "updated_at": null,
-      "severity": "WATCH",
-      "scope": "GLOBAL",
-      "domains": [
-        "HEALTH"
-      ],
-      "impact_channels": [
-        "HEALTH_SPENDING",
-        "TRAVEL",
-        "TRADE",
-        "SUPPLY_CHAIN"
-      ],
-      "location": null,
-      "url": "https://www.who.int/news/item/02-06-2020-statement-from-dr-mike-ryan-executive-director-who-health-emergencies-programme-at-the-yemen-high-level-pledging-conference",
-      "evidence_type": "SOURCE_EVENT",
-      "details": {
-        "description": " (Thank you Mark, Shukran Dr. Al Rabeeah)   I am speaking today on behalf of WHO Director-General Dr Tedros, and of Dr Ahmed Al-Mandhari, WHO Regional Director for the Eastern Mediterranean Region&nbsp;  Excellencies, distinguished delegates, ladies and gentlemen, salam aleikum,&nbsp;  As we all know, Yemen is the most complex humanitarian operation in the world. &nbsp;   Indeed, when Dr Al-Mandhari&nbsp; - who is also participating in this event - visited Yemen last year, he saw parents who wer",
-        "note": "WHO news signal; verify Disease Outbreak News for event-specific conclusions."
-      }
-    },
-    {
-      "id": "WHO_HEALTH_RSS:7fc84c6801fb2ef8",
-      "source_id": "WHO_HEALTH_RSS",
-      "title": "Stop tobacco industry exploitation of children and young people",
-      "occurred_at": null,
-      "updated_at": null,
-      "severity": "WATCH",
-      "scope": "GLOBAL",
-      "domains": [
-        "HEALTH"
-      ],
-      "impact_channels": [
-        "HEALTH_SPENDING",
-        "TRAVEL",
-        "TRADE",
-        "SUPPLY_CHAIN"
-      ],
-      "location": null,
-      "url": "https://www.who.int/news/item/29-05-2020-stop-tobacco-industry-exploitation-of-children-and-young-people",
-      "evidence_type": "SOURCE_EVENT",
-      "details": {
-        "description": " The World Health Organization is today launching a new kit for school students aged 13-17 to alert them to the tobacco industry tactics used to hook them to addictive products. Every year the tobacco industry invests more than USD 9 billion to advertise its products. Increasingly, it is targeting young people with nicotine and tobacco products in a bid to replace the 8 million people that its products kill every year.  \n This year&rsquo;s WHO&rsquo;s World No Tobacco Day campaign focuses on pro",
-        "note": "WHO news signal; verify Disease Outbreak News for event-specific conclusions."
-      }
-    },
-    {
-      "id": "WHO_HEALTH_RSS:7fdcf380878d58ed",
-      "source_id": "WHO_HEALTH_RSS",
-      "title": "At least 80 million children under one at risk of diseases such as diphtheria, measles and polio as COVID-19 disrupts routine vaccination efforts, warn Gavi, WHO and UNICEF",
-      "occurred_at": null,
-      "updated_at": null,
-      "severity": "WATCH",
-      "scope": "GLOBAL",
-      "domains": [
-        "HEALTH"
-      ],
-      "impact_channels": [
-        "HEALTH_SPENDING",
-        "TRAVEL",
-        "TRADE",
-        "SUPPLY_CHAIN"
-      ],
-      "location": null,
-      "url": "https://www.who.int/news/item/22-05-2020-at-least-80-million-children-under-one-at-risk-of-diseases-such-as-diphtheria-measles-and-polio-as-covid-19-disrupts-routine-vaccination-efforts-warn-gavi-who-and-unicef",
-      "evidence_type": "SOURCE_EVENT",
-      "details": {
-        "description": " COVID 19 is disrupting life-saving immunization services around the world, putting millions of children &ndash; in rich and poor countries alike &ndash; at risk of diseases like diphtheria, measles and polio. This stark warning comes from the World Health\n    Organization, UNICEF and Gavi, the Vaccine Alliance ahead of the Global Vaccine Summit on 4 June, at which world leaders will come together to help maintain immunization programmes and mitigate the impact of the pandemic in lower-income co",
-        "note": "WHO news signal; verify Disease Outbreak News for event-specific conclusions."
-      }
-    },
-    {
-      "id": "WHO_HEALTH_RSS:aafab25ab72e0814",
-      "source_id": "WHO_HEALTH_RSS",
-      "title": "Smithsonian Science Education Center With Support of the World Health Organization Launches New COVID-19 Guide for Youth",
-      "occurred_at": null,
-      "updated_at": null,
-      "severity": "WATCH",
-      "scope": "GLOBAL",
-      "domains": [
-        "HEALTH"
-      ],
-      "impact_channels": [
-        "HEALTH_SPENDING",
-        "TRAVEL",
-        "TRADE",
-        "SUPPLY_CHAIN"
-      ],
-      "location": null,
-      "url": "https://www.who.int/news/item/21-05-2020-smithsonian-science-education-center-with-support-of-the-world-health-organization-launches-new-covid-19-guide-for-youth",
-      "evidence_type": "SOURCE_EVENT",
-      "details": {
-        "description": " The Smithsonian Science Education Center, in collaboration with the World Health Organization&nbsp;(WHO) and the InterAcademy Partnership (IAP)&mdash;a partnership of 140 national academies of science, engineering and medicine&mdash;has developed &ldquo;COVID-19!\n    How can I protect myself and others?,&rdquo; a new rapid-response guide for youth ages 8&ndash;17. The guide, which is based on the UN Sustainable Development Goals, aims to help young people understand the science and social scien",
-        "note": "WHO news signal; verify Disease Outbreak News for event-specific conclusions."
-      }
-    },
-    {
-      "id": "WHO_HEALTH_RSS:67216fe964022bea",
-      "source_id": "WHO_HEALTH_RSS",
-      "title": "WHO and UNHCR join forces to improve health services for refugees, displaced and stateless people",
-      "occurred_at": null,
-      "updated_at": null,
-      "severity": "WATCH",
-      "scope": "GLOBAL",
-      "domains": [
-        "HEALTH"
-      ],
-      "impact_channels": [
-        "HEALTH_SPENDING",
-        "TRAVEL",
-        "TRADE",
-        "SUPPLY_CHAIN"
-      ],
-      "location": null,
-      "url": "https://www.who.int/news/item/21-05-2020-who-and-unhcr-join-forces-to-improve-health-services-for-refugees-displaced-and-stateless-people",
-      "evidence_type": "SOURCE_EVENT",
-      "details": {
-        "description": " The World Health Organization (WHO) and UNHCR, the UN Refugee Agency today signed a new agreement to strengthen and advance public health services for the millions of forcibly displaced people around the world.  The agreement updates and expands an existing 1997 agreement between the two organizations. A key aim this year will be to support ongoing efforts to protect some 70 million forcibly displaced people from COVID-19. Around 26 million of these are refugees, 80 per cent of whom are shelter",
-        "note": "WHO news signal; verify Disease Outbreak News for event-specific conclusions."
-      }
-    },
-    {
-      "id": "WHO_HEALTH_RSS:6a96b95763286907",
-      "source_id": "WHO_HEALTH_RSS",
-      "title": "WHO and Costa Rica preview technology pooling initiative to ensure access to COVID-19 health products for all",
-      "occurred_at": null,
-      "updated_at": null,
-      "severity": "WATCH",
-      "scope": "GLOBAL",
-      "domains": [
-        "HEALTH"
-      ],
-      "impact_channels": [
-        "HEALTH_SPENDING",
-        "TRAVEL",
-        "TRADE",
-        "SUPPLY_CHAIN"
-      ],
-      "location": null,
-      "url": "https://www.who.int/news/item/15-05-2020-who-and-costa-rica-preview-technology-pooling-initiative-to-ensure-access-to-covid-19-health-products-for-all",
-      "evidence_type": "SOURCE_EVENT",
-      "details": {
-        "description": " Geneva, 15 May 2020 &ndash; Presidents Carlos Alvarado Quesada of Costa Rica and Sebasti&aacute;n Pi&ntilde;era of Chile joined WHO Director-General Dr Tedros Adhanom Ghebreyesus today to announce progress on a technology platform that aims to lift access barriers to effective vaccines, medicines and other health products against COVID-19. Costa Rica proposed the idea at the beginning of the COVID-19 outbreak and several countries are now backing the proposal. \n &ldquo;Our proposal relies on so",
-        "note": "WHO news signal; verify Disease Outbreak News for event-specific conclusions."
-      }
-    },
-    {
-      "id": "WHO_HEALTH_RSS:45e47e0e5bd3168a",
-      "source_id": "WHO_HEALTH_RSS",
-      "title": "WHO: People living longer and healthier lives but COVID-19 threatens to throw progress off track",
-      "occurred_at": null,
-      "updated_at": null,
-      "severity": "WATCH",
-      "scope": "GLOBAL",
-      "domains": [
-        "HEALTH"
-      ],
-      "impact_channels": [
-        "HEALTH_SPENDING",
-        "TRAVEL",
-        "TRADE",
-        "SUPPLY_CHAIN"
-      ],
-      "location": null,
-      "url": "https://www.who.int/news/item/13-05-2020-people-living-longer-and-healthier-lives-but-covid-19-threatens-to-throw-progress-off-track",
-      "evidence_type": "SOURCE_EVENT",
-      "details": {
-        "description": " All over the world, the COVID-19 pandemic is causing significant loss of life, disrupting livelihoods, and threatening the recent advances in health and progress towards global development goals highlighted in the 2020 World Health Statistics published by the World Health Organization (WHO) today. \n &ldquo;The good news is that people around the world are living longer and healthier lives. The bad news is the rate of progress is too slow to meet the Sustainable Development Goals and will be fur",
-        "note": "WHO news signal; verify Disease Outbreak News for event-specific conclusions."
-      }
-    },
-    {
-      "id": "WHO_HEALTH_RSS:ec164ad991fd68d2",
-      "source_id": "WHO_HEALTH_RSS",
-      "title": "WHO statement: Tobacco use and COVID-19",
-      "occurred_at": null,
-      "updated_at": null,
-      "severity": "WATCH",
-      "scope": "GLOBAL",
-      "domains": [
-        "HEALTH"
-      ],
-      "impact_channels": [
-        "HEALTH_SPENDING",
-        "TRAVEL",
-        "TRADE",
-        "SUPPLY_CHAIN"
-      ],
-      "location": null,
-      "url": "https://www.who.int/news/item/11-05-2020-who-statement-tobacco-use-and-covid-19",
-      "evidence_type": "SOURCE_EVENT",
-      "details": {
-        "description": " Tobacco kills more than 8 million people globally every year. More than 7 million of these deaths are from direct tobacco use and around 1.2 million are due to non-smokers being exposed to second-hand smoke.   Tobacco smoking is a known risk factor for many respiratory infections and increases the severity of respiratory diseases. A review of studies by public health experts convened by WHO on 29 April 2020 found that smokers are more likely to develop severe disease with COVID-19, compared to ",
-        "note": "WHO news signal; verify Disease Outbreak News for event-specific conclusions."
-      }
-    },
-    {
-      "id": "WHO_HEALTH_RSS:b41a1bc00512e8c3",
-      "source_id": "WHO_HEALTH_RSS",
-      "title": "WHO launches new report on the global tobacco epidemic",
-      "occurred_at": null,
-      "updated_at": null,
-      "severity": "WATCH",
-      "scope": "GLOBAL",
-      "domains": [
-        "HEALTH"
-      ],
-      "impact_channels": [
-        "HEALTH_SPENDING",
-        "TRAVEL",
-        "TRADE",
-        "SUPPLY_CHAIN"
-      ],
-      "location": null,
-      "url": "https://www.who.int/news/item/26-07-2019-who-launches-new-report-on-the-global-tobacco-epidemic",
-      "evidence_type": "SOURCE_EVENT",
-      "details": {
-        "description": " Many governments are making progress in the fight against tobacco, with 5 billion people today living in countries that have introduced smoking bans, graphic warnings on packaging and other effective tobacco control measures - four times more people than a decade ago. But a new WHO report shows many countries are still not adequately implementing policies, including helping people quit tobacco, that can save lives from tobacco.  \n The seventh WHO Report on the global tobacco epidemic analyses n",
-        "note": "WHO news signal; verify Disease Outbreak News for event-specific conclusions."
-      }
-    },
-    {
-      "id": "EU_COUNCIL_RSS:0b89855fbbe0c653",
-      "source_id": "EU_COUNCIL_RSS",
-      "title": "Russia’s FIMI and malicious cyber activities: Council imposes sanctions on 30 individuals and two entities",
-      "occurred_at": null,
-      "updated_at": null,
-      "severity": "WATCH",
-      "scope": "EU",
-      "domains": [
-        "EU_INSTITUTIONAL",
-        "GEOPOLITICS"
-      ],
-      "impact_channels": [
-        "TRADE",
-        "ENERGY",
-        "FINANCE",
-        "DEFENCE",
-        "REGULATION"
-      ],
-      "location": {
-        "name": "European Union"
-      },
-      "url": "https://www.consilium.europa.eu/en/press/press-releases/2026/11/16/russia-s-fimi-and-malicious-cyber-activities-council-imposes-sanctions-on-30-individuals-and-two-entities/",
-      "evidence_type": "SOURCE_EVENT",
-      "details": {
-        "description": "The Council adopted restrictive measures against 30 individuals and one entity responsible for actions on behalf of the Russian Federation undermining and threatening democracy, stability or security in the EU and some its Member States or in third countries. It also listed one entity responsible for cyber-attacks on Ukrainian, US, and EU government bodies, critical infrastructure, and private companies."
-      }
-    },
-    {
-      "id": "EU_COUNCIL_RSS:a04ee126c1694002",
-      "source_id": "EU_COUNCIL_RSS",
-      "title": "European Peace Facility: Council increases support for maritime security in the Gulf of Guinea to €31 million",
-      "occurred_at": null,
-      "updated_at": null,
-      "severity": "WATCH",
-      "scope": "EU",
-      "domains": [
-        "EU_INSTITUTIONAL",
-        "GEOPOLITICS"
-      ],
-      "impact_channels": [
-        "TRADE",
-        "ENERGY",
-        "FINANCE",
-        "DEFENCE",
-        "REGULATION"
-      ],
-      "location": {
-        "name": "European Union"
-      },
-      "url": "https://www.consilium.europa.eu/en/press/press-releases/2026/11/16/european-peace-facility-council-increases-support-for-maritime-security-in-the-gulf-of-guinea-to-31-million/",
-      "evidence_type": "SOURCE_EVENT",
-      "details": {
-        "description": "The Council increased financial support through the European Peace Facility (EPF) from €21 million to €31 million, benefitting military actors and navies of coastal states involved in maritime security operations in the Gulf of Guinea."
-      }
-    },
-    {
-      "id": "EU_COUNCIL_RSS:abe0ff415905703b",
-      "source_id": "EU_COUNCIL_RSS",
-      "title": "Statement after the Leaders Meeting of the Core Group of Support to Armenia",
-      "occurred_at": null,
-      "updated_at": null,
-      "severity": "WATCH",
-      "scope": "EU",
-      "domains": [
-        "EU_INSTITUTIONAL",
-        "GEOPOLITICS"
-      ],
-      "impact_channels": [
-        "TRADE",
-        "ENERGY",
-        "FINANCE",
-        "DEFENCE",
-        "REGULATION"
-      ],
-      "location": {
-        "name": "European Union"
-      },
-      "url": "https://www.consilium.europa.eu/en/press/press-releases/2026/11/12/statement-after-the-leaders-meeting-of-the-core-group-of-support-to-armenia/",
-      "evidence_type": "SOURCE_EVENT",
-      "details": {
-        "description": "Leaders and representatives of Estonia, France, Latvia, Lithuania, the United Kingdom and the High Representative of the Union for Foreign Affairs and Security Policy, met on 12 November 2026 with Armenian Prime Minister Nikol Pashinyan on the margins of the European Political Community summit in Dublin. Joined by Germany, the Netherlands, Norway, Poland, Sweden, the President of the European Council and the President of the European Commission, they issued a statement."
-      }
-    },
-    {
-      "id": "EU_COUNCIL_RSS:8d99f2fd38a468e1",
-      "source_id": "EU_COUNCIL_RSS",
-      "title": "Joint statement by President Costa and President von der Leyen following their meeting with President Zelenskyy in Dublin",
-      "occurred_at": null,
-      "updated_at": null,
-      "severity": "WATCH",
-      "scope": "EU",
-      "domains": [
-        "EU_INSTITUTIONAL",
-        "GEOPOLITICS"
-      ],
-      "impact_channels": [
-        "TRADE",
-        "ENERGY",
-        "FINANCE",
-        "DEFENCE",
-        "REGULATION"
-      ],
-      "location": {
-        "name": "European Union"
-      },
-      "url": "https://www.consilium.europa.eu/en/press/press-releases/2026/11/12/joint-statement-by-president-costa-and-president-von-der-leyen-following-their-meeting-with-president-zelenskyy-in-dublin/",
-      "evidence_type": "SOURCE_EVENT",
-      "details": {
-        "description": "President Costa and President von der Leyen issued a joint statement following their meeting with President of Ukraine, Volodymyr Zelenskyy in Dublin, on 12 November 2026."
-      }
-    },
-    {
-      "id": "EU_COUNCIL_RSS:2219aacc0b29c5ad",
-      "source_id": "EU_COUNCIL_RSS",
-      "title": "Press briefing ahead of the Foreign Affairs Council and the Foreign Affairs (Defence) Councils of 16 and 17 November 2026",
-      "occurred_at": null,
-      "updated_at": null,
-      "severity": "WATCH",
-      "scope": "EU",
-      "domains": [
-        "EU_INSTITUTIONAL",
-        "GEOPOLITICS"
-      ],
-      "impact_channels": [
-        "TRADE",
-        "ENERGY",
-        "FINANCE",
-        "DEFENCE",
-        "REGULATION"
-      ],
-      "location": {
-        "name": "European Union"
-      },
-      "url": "https://www.consilium.europa.eu/en/press/press-releases/2026/11/11/press-briefing-ahead-of-the-foreign-affairs-council-and-the-foreign-affairs-defence-councils-of-16-and-17-november-2026/",
-      "evidence_type": "SOURCE_EVENT",
-      "details": {
-        "description": "Press briefing ahead of the upcoming Foreign Affairs Council and the Foreign Affairs Council (Defence) will take place on 13 November at 16.00."
-      }
-    }
-  ],
-  "events": [
-    {
-      "id": "GDACS:d16581f4141dbcde",
-      "source_id": "GDACS",
-      "title": "Green forest fire notification in Australia",
-      "occurred_at": "2026-11-15T08:01:23Z",
-      "updated_at": "2026-11-15T00:00:00Z",
-      "severity": "WATCH",
-      "scope": "GLOBAL",
-      "domains": [
-        "DISASTER",
-        "WF"
-      ],
-      "impact_channels": [
-        "TRADE",
-        "SUPPLY_CHAIN",
-        "ENERGY",
-        "INSURANCE",
-        "INFRASTRUCTURE"
-      ],
-      "location": {
-        "name": "Australia",
-        "lat": -12.80367844379245,
-        "lon": 135.95187953839476
-      },
-      "url": "http://www.gdacs.org/report.aspx?eventtype=WF&eventid=1033833",
-      "evidence_type": "SOURCE_EVENT",
-      "details": {
-        "alert_level": "green",
-        "event_type": "WF"
-      }
-    },
-    {
-      "id": "GDACS:da76cf4c7e251b82",
-      "source_id": "GDACS",
-      "title": "Green forest fire notification in Nigeria, Niger",
-      "occurred_at": "2026-11-16T04:17:50Z",
-      "updated_at": "2026-11-16T00:00:00Z",
-      "severity": "WATCH",
-      "scope": "GLOBAL",
-      "domains": [
-        "DISASTER",
-        "WF"
-      ],
-      "impact_channels": [
-        "TRADE",
-        "SUPPLY_CHAIN",
-        "ENERGY",
-        "INSURANCE",
-        "INFRASTRUCTURE"
-      ],
-      "location": {
-        "name": "Nigeria, Niger",
-        "lat": 12.85725542927838,
-        "lon": 7.024219985339937
-      },
-      "url": "http://www.gdacs.org/report.aspx?eventtype=WF&eventid=1033880",
-      "evidence_type": "SOURCE_EVENT",
-      "details": {
-        "alert_level": "green",
-        "event_type": "WF"
-      }
-    },
-    {
-      "id": "GDACS:9ca78eab607689ec",
-      "source_id": "GDACS",
-      "title": "Green forest fire notification in Australia",
-      "occurred_at": "2026-11-16T00:04:10Z",
+      "occurred_at": "2026-11-16T00:02:35Z",
       "updated_at": "2026-11-16T00:00:00Z",
       "severity": "WATCH",
       "scope": "GLOBAL",
@@ -5004,10 +3890,10 @@
       ],
       "location": {
         "name": "Australia",
-        "lat": -17.301329175010572,
-        "lon": 125.04153407793723
+        "lat": -16.970546034292227,
+        "lon": 124.25886368658773
       },
-      "url": "http://www.gdacs.org/report.aspx?eventtype=WF&eventid=1033881",
+      "url": "http://www.gdacs.org/report.aspx?eventtype=WF&eventid=1033860",
       "evidence_type": "SOURCE_EVENT",
       "details": {
         "alert_level": "green",
@@ -5015,10 +3901,72 @@
       }
     },
     {
-      "id": "GDACS:a6bb5ae60c5ff788",
+      "id": "GDACS:65371ac2573784df",
+      "source_id": "GDACS",
+      "title": "Green forest fire notification in Australia",
+      "occurred_at": "2026-11-14T08:02:15Z",
+      "updated_at": "2026-11-16T00:00:00Z",
+      "severity": "WATCH",
+      "scope": "GLOBAL",
+      "domains": [
+        "DISASTER",
+        "WF"
+      ],
+      "impact_channels": [
+        "TRADE",
+        "SUPPLY_CHAIN",
+        "ENERGY",
+        "INSURANCE",
+        "INFRASTRUCTURE"
+      ],
+      "location": {
+        "name": "Australia",
+        "lat": -17.232436720444202,
+        "lon": 124.19326354044748
+      },
+      "url": "http://www.gdacs.org/report.aspx?eventtype=WF&eventid=1033825",
+      "evidence_type": "SOURCE_EVENT",
+      "details": {
+        "alert_level": "green",
+        "event_type": "WF"
+      }
+    },
+    {
+      "id": "GDACS:9db2f5971182ecee",
+      "source_id": "GDACS",
+      "title": "Green forest fire notification in South Sudan",
+      "occurred_at": "2026-11-16T04:03:43Z",
+      "updated_at": "2026-11-16T00:00:00Z",
+      "severity": "WATCH",
+      "scope": "GLOBAL",
+      "domains": [
+        "DISASTER",
+        "WF"
+      ],
+      "impact_channels": [
+        "TRADE",
+        "SUPPLY_CHAIN",
+        "ENERGY",
+        "INSURANCE",
+        "INFRASTRUCTURE"
+      ],
+      "location": {
+        "name": "South Sudan",
+        "lat": 8.190390065278656,
+        "lon": 25.642736340740278
+      },
+      "url": "http://www.gdacs.org/report.aspx?eventtype=WF&eventid=1033870",
+      "evidence_type": "SOURCE_EVENT",
+      "details": {
+        "alert_level": "green",
+        "event_type": "WF"
+      }
+    },
+    {
+      "id": "GDACS:1b561aebd248c7ad",
       "source_id": "GDACS",
       "title": "Green forest fire notification in Sudan, South Sudan",
-      "occurred_at": "2026-11-15T20:04:24Z",
+      "occurred_at": "2026-11-15T20:02:17Z",
       "updated_at": "2026-11-16T00:00:00Z",
       "severity": "WATCH",
       "scope": "GLOBAL",
@@ -5035,10 +3983,10 @@
       ],
       "location": {
         "name": "Sudan, South Sudan",
-        "lat": 9.879987922303894,
-        "lon": 31.148648449716376
+        "lat": 9.804382747267512,
+        "lon": 31.42052185709992
       },
-      "url": "http://www.gdacs.org/report.aspx?eventtype=WF&eventid=1033864",
+      "url": "http://www.gdacs.org/report.aspx?eventtype=WF&eventid=1033863",
       "evidence_type": "SOURCE_EVENT",
       "details": {
         "alert_level": "green",
@@ -5046,10 +3994,103 @@
       }
     },
     {
-      "id": "GDACS:ac9d839fd6328695",
+      "id": "GDACS:bd32befa39973cc2",
+      "source_id": "GDACS",
+      "title": "Green earthquake (Magnitude 5.8M, Depth:10km) in Papua New Guinea 12/11/2026 22:04 UTC, Few people affected (in MMI>=VII).",
+      "occurred_at": "2026-11-12T22:20:24Z",
+      "updated_at": "2026-11-12T22:04:06Z",
+      "severity": "WATCH",
+      "scope": "GLOBAL",
+      "domains": [
+        "DISASTER",
+        "EQ"
+      ],
+      "impact_channels": [
+        "TRADE",
+        "SUPPLY_CHAIN",
+        "ENERGY",
+        "INSURANCE",
+        "INFRASTRUCTURE"
+      ],
+      "location": {
+        "name": "Papua New Guinea",
+        "lat": -1.5882,
+        "lon": 149.8877
+      },
+      "url": "http://www.gdacs.org/report.aspx?eventtype=EQ&eventid=1577060",
+      "evidence_type": "SOURCE_EVENT",
+      "details": {
+        "alert_level": "green",
+        "event_type": "EQ"
+      }
+    },
+    {
+      "id": "GDACS:da4b762e22fb6427",
+      "source_id": "GDACS",
+      "title": "Green flood alert in Croatia",
+      "occurred_at": "2026-11-16T05:50:23Z",
+      "updated_at": "2026-11-14T01:00:00Z",
+      "severity": "WATCH",
+      "scope": "GLOBAL",
+      "domains": [
+        "DISASTER",
+        "FL"
+      ],
+      "impact_channels": [
+        "TRADE",
+        "SUPPLY_CHAIN",
+        "ENERGY",
+        "INSURANCE",
+        "INFRASTRUCTURE"
+      ],
+      "location": {
+        "name": "Croatia",
+        "lat": 45.4444467,
+        "lon": 14.3743376
+      },
+      "url": "http://www.gdacs.org/report.aspx?eventtype=FL&eventid=1104285",
+      "evidence_type": "SOURCE_EVENT",
+      "details": {
+        "alert_level": "green",
+        "event_type": "FL"
+      }
+    },
+    {
+      "id": "GDACS:ece3d883a0b4c3d5",
       "source_id": "GDACS",
       "title": "Green forest fire notification in Australia",
-      "occurred_at": "2026-11-14T08:03:52Z",
+      "occurred_at": "2026-11-14T08:03:21Z",
+      "updated_at": "2026-11-14T00:00:00Z",
+      "severity": "WATCH",
+      "scope": "GLOBAL",
+      "domains": [
+        "DISASTER",
+        "WF"
+      ],
+      "impact_channels": [
+        "TRADE",
+        "SUPPLY_CHAIN",
+        "ENERGY",
+        "INSURANCE",
+        "INFRASTRUCTURE"
+      ],
+      "location": {
+        "name": "Australia",
+        "lat": -14.803645866141144,
+        "lon": 126.8760630953869
+      },
+      "url": "http://www.gdacs.org/report.aspx?eventtype=WF&eventid=1033830",
+      "evidence_type": "SOURCE_EVENT",
+      "details": {
+        "alert_level": "green",
+        "event_type": "WF"
+      }
+    },
+    {
+      "id": "GDACS:4adaf9c63434983c",
+      "source_id": "GDACS",
+      "title": "Green forest fire notification in Botswana",
+      "occurred_at": "2026-11-13T20:01:56Z",
       "updated_at": "2026-11-15T00:00:00Z",
       "severity": "WATCH",
       "scope": "GLOBAL",
@@ -5065,11 +4106,11 @@
         "INFRASTRUCTURE"
       ],
       "location": {
-        "name": "Australia",
-        "lat": -19.172781782406627,
-        "lon": 122.64108462890721
+        "name": "Botswana",
+        "lat": -22.825062113188405,
+        "lon": 24.994912663287014
       },
-      "url": "http://www.gdacs.org/report.aspx?eventtype=WF&eventid=1033831",
+      "url": "http://www.gdacs.org/report.aspx?eventtype=WF&eventid=1033817",
       "evidence_type": "SOURCE_EVENT",
       "details": {
         "alert_level": "green",
@@ -5077,10 +4118,10 @@
       }
     },
     {
-      "id": "GDACS:da58c09c21d78fd8",
+      "id": "GDACS:3fe55c66f5e670c8",
       "source_id": "GDACS",
-      "title": "Green forest fire notification in Australia",
-      "occurred_at": "2026-11-13T20:02:49Z",
+      "title": "Green forest fire notification in Burkina Faso",
+      "occurred_at": "2026-11-14T04:02:24Z",
       "updated_at": "2026-11-16T00:00:00Z",
       "severity": "WATCH",
       "scope": "GLOBAL",
@@ -5096,11 +4137,11 @@
         "INFRASTRUCTURE"
       ],
       "location": {
-        "name": "Australia",
-        "lat": -15.108133561339878,
-        "lon": 143.86432286760717
+        "name": "Burkina Faso",
+        "lat": 12.807898298700474,
+        "lon": -0.20536764912051808
       },
-      "url": "http://www.gdacs.org/report.aspx?eventtype=WF&eventid=1033818",
+      "url": "http://www.gdacs.org/report.aspx?eventtype=WF&eventid=1033826",
       "evidence_type": "SOURCE_EVENT",
       "details": {
         "alert_level": "green",
@@ -5108,11 +4149,11 @@
       }
     },
     {
-      "id": "GDACS:4a18ad5dc608ac1d",
+      "id": "GDACS:40d7aee877dc1f57",
       "source_id": "GDACS",
-      "title": "Green forest fire notification in Australia",
-      "occurred_at": "2026-11-16T08:06:03Z",
-      "updated_at": "2026-11-14T00:00:00Z",
+      "title": "Green forest fire notification in South Sudan",
+      "occurred_at": "2026-11-15T08:01:44Z",
+      "updated_at": "2026-11-16T00:00:00Z",
       "severity": "WATCH",
       "scope": "GLOBAL",
       "domains": [
@@ -5127,11 +4168,11 @@
         "INFRASTRUCTURE"
       ],
       "location": {
-        "name": "Australia",
-        "lat": -14.314710734305716,
-        "lon": 134.0168283257349
+        "name": "South Sudan",
+        "lat": 8.023135004815002,
+        "lon": 25.71174065654829
       },
-      "url": "http://www.gdacs.org/report.aspx?eventtype=WF&eventid=1033834",
+      "url": "http://www.gdacs.org/report.aspx?eventtype=WF&eventid=1033855",
       "evidence_type": "SOURCE_EVENT",
       "details": {
         "alert_level": "green",
@@ -5139,272 +4180,116 @@
       }
     },
     {
-      "id": "GDACS:65ea775033e25b96",
-      "source_id": "GDACS",
-      "title": "Green forest fire notification in Australia",
-      "occurred_at": "2026-11-16T08:06:15Z",
-      "updated_at": "2026-11-14T00:00:00Z",
+      "id": "WHO_HEALTH_RSS:cd39e1747ce7fe31",
+      "source_id": "WHO_HEALTH_RSS",
+      "title": "WHO Statement on false allegations in Der Spiegel",
+      "occurred_at": null,
+      "updated_at": null,
       "severity": "WATCH",
       "scope": "GLOBAL",
       "domains": [
-        "DISASTER",
-        "WF"
+        "HEALTH"
+      ],
+      "impact_channels": [
+        "HEALTH_SPENDING",
+        "TRAVEL",
+        "TRADE",
+        "SUPPLY_CHAIN"
+      ],
+      "location": null,
+      "url": "https://www.who.int/news/item/09-05-2020-who-statement-on-false-allegations-in-der-spiegel",
+      "evidence_type": "SOURCE_EVENT",
+      "details": {
+        "description": " Der Spiegel reports of a 21 January, 2020, telephone conversation between WHO Director-General Dr Tedros Adhanom Ghebreyesus and President Xi Jingping of China are unfounded and untrue.  Dr Tedros and President Xi did not speak on 21 January and they have never spoken by telephone.   Such inaccurate reports distract and detract from WHO&rsquo;s and the world&rsquo;s efforts to end the COVID-19 pandemic.  To note: China confirmed human-to-human transmission of the novel coronavirus on 20 January",
+        "note": "WHO news signal; verify Disease Outbreak News for event-specific conclusions."
+      }
+    },
+    {
+      "id": "EU_COUNCIL_RSS:40f288482a646406",
+      "source_id": "EU_COUNCIL_RSS",
+      "title": "EU Global Human Rights Sanctions Regime: Council lists four Haitian entities over serious human rights violations",
+      "occurred_at": null,
+      "updated_at": null,
+      "severity": "WATCH",
+      "scope": "EU",
+      "domains": [
+        "EU_INSTITUTIONAL",
+        "GEOPOLITICS"
       ],
       "impact_channels": [
         "TRADE",
-        "SUPPLY_CHAIN",
         "ENERGY",
-        "INSURANCE",
-        "INFRASTRUCTURE"
+        "FINANCE",
+        "DEFENCE",
+        "REGULATION"
       ],
       "location": {
-        "name": "Australia",
-        "lat": -17.780147233308472,
-        "lon": 141.89740025441307
+        "name": "European Union"
       },
-      "url": "http://www.gdacs.org/report.aspx?eventtype=WF&eventid=1033836",
+      "url": "https://www.consilium.europa.eu/en/press/press-releases/2026/11/16/eu-global-human-rights-sanctions-regime-council-lists-four-haitian-entities-over-serious-human-rights-violations/",
       "evidence_type": "SOURCE_EVENT",
       "details": {
-        "alert_level": "green",
-        "event_type": "WF"
+        "description": "The Council adopted restrictive measures against four Haitian criminal armed groups responsible for grave violations against children in armed conflict, including killings, sexual violence and the recruitment of children."
       }
     },
     {
-      "id": "GDACS:99e2ff34639ac9b7",
-      "source_id": "GDACS",
-      "title": "Green forest fire notification in Mali",
-      "occurred_at": "2026-11-16T08:08:15Z",
-      "updated_at": "2026-11-12T00:00:00Z",
+      "id": "EU_COUNCIL_RSS:802760e3f733c2a7",
+      "source_id": "EU_COUNCIL_RSS",
+      "title": "Hamas and the Palestinian Islamic Jihad: EU adds one entity and its founder to the sanctions list",
+      "occurred_at": null,
+      "updated_at": null,
       "severity": "WATCH",
-      "scope": "GLOBAL",
+      "scope": "EU",
       "domains": [
-        "DISASTER",
-        "WF"
+        "EU_INSTITUTIONAL",
+        "GEOPOLITICS"
       ],
       "impact_channels": [
         "TRADE",
-        "SUPPLY_CHAIN",
         "ENERGY",
-        "INSURANCE",
-        "INFRASTRUCTURE"
+        "FINANCE",
+        "DEFENCE",
+        "REGULATION"
       ],
       "location": {
-        "name": "Mali",
-        "lat": 15.499359471521085,
-        "lon": -0.00927771156893669
+        "name": "European Union"
       },
-      "url": "http://www.gdacs.org/report.aspx?eventtype=WF&eventid=1033770",
+      "url": "https://www.consilium.europa.eu/en/press/press-releases/2026/11/16/hamas-and-the-palestinian-islamic-jihad-eu-adds-one-entity-and-its-founder-to-the-sanctions-list/",
       "evidence_type": "SOURCE_EVENT",
       "details": {
-        "alert_level": "green",
-        "event_type": "WF"
+        "description": "The Council has added one individual and one entity to the sanctions list against Hamas and the Palestinian Islamic Jihad, for their role in financing Hamas."
       }
     },
     {
-      "id": "GDACS:a7d63679a5aa3233",
-      "source_id": "GDACS",
-      "title": "Green forest fire notification in Australia",
-      "occurred_at": "2026-11-16T08:08:02Z",
-      "updated_at": "2026-11-12T00:00:00Z",
+      "id": "EU_COUNCIL_RSS:c889ad637f9b272b",
+      "source_id": "EU_COUNCIL_RSS",
+      "title": "Ukraine Facility: Council approves largest-ever payment of €8 billion to Kyiv",
+      "occurred_at": null,
+      "updated_at": null,
       "severity": "WATCH",
-      "scope": "GLOBAL",
+      "scope": "EU",
       "domains": [
-        "DISASTER",
-        "WF"
+        "EU_INSTITUTIONAL",
+        "GEOPOLITICS"
       ],
       "impact_channels": [
         "TRADE",
-        "SUPPLY_CHAIN",
         "ENERGY",
-        "INSURANCE",
-        "INFRASTRUCTURE"
+        "FINANCE",
+        "DEFENCE",
+        "REGULATION"
       ],
       "location": {
-        "name": "Australia",
-        "lat": -19.661529798144386,
-        "lon": 123.82106286055887
+        "name": "European Union"
       },
-      "url": "http://www.gdacs.org/report.aspx?eventtype=WF&eventid=1033774",
+      "url": "https://www.consilium.europa.eu/en/press/press-releases/2026/11/16/ukraine-facility-council-approves-largest-ever-payment-of-8-billion-to-kyiv/",
       "evidence_type": "SOURCE_EVENT",
       "details": {
-        "alert_level": "green",
-        "event_type": "WF"
+        "description": "The Council approved a record payment of just under €8 billion for Ukraine under the Ukraine Facility, following Ukraine’s successful completion of over 20 target steps under the Ukraine Plan."
       }
-    },
-    {
-      "id": "BISON_FUTE_RRN:e738dbe059f21c70",
-      "source_id": "BISON_FUTE_RRN",
-      "title": "Réseau routier national — constructionworks: CEI Digne",
-      "occurred_at": "2026-09-28T06:45:00Z",
-      "updated_at": "2026-11-16T11:49:35Z",
-      "severity": "WATCH",
-      "scope": "FR_LOCAL",
-      "domains": [
-        "TRANSPORT",
-        "ROAD"
-      ],
-      "impact_channels": [
-        "LOGISTICS",
-        "LOCAL_SERVICES",
-        "SUPPLY_CHAIN"
-      ],
-      "location": {
-        "name": "CEI Digne",
-        "lat": 44.041428,
-        "lon": 6.125997
-      },
-      "url": "https://transport.data.gouv.fr/datasets/evenements-routiers-sur-le-reseau-routier-national-non-concede",
-      "evidence_type": "SOURCE_EVENT",
-      "details": {
-        "type": "constructionworks",
-        "record_id": "260925-000582-1"
-      }
-    },
-    {
-      "id": "BISON_FUTE_RRN:43d7b705192ef560",
-      "source_id": "BISON_FUTE_RRN",
-      "title": "Réseau routier national — constructionworks: District de Nantes",
-      "occurred_at": "2026-04-13T10:00:00Z",
-      "updated_at": "2026-11-16T11:49:35Z",
-      "severity": "WATCH",
-      "scope": "FR_LOCAL",
-      "domains": [
-        "TRANSPORT",
-        "ROAD"
-      ],
-      "impact_channels": [
-        "LOGISTICS",
-        "LOCAL_SERVICES",
-        "SUPPLY_CHAIN"
-      ],
-      "location": {
-        "name": "District de Nantes",
-        "lat": 47.15235,
-        "lon": -1.5142536
-      },
-      "url": "https://transport.data.gouv.fr/datasets/evenements-routiers-sur-le-reseau-routier-national-non-concede",
-      "evidence_type": "SOURCE_EVENT",
-      "details": {
-        "type": "constructionworks",
-        "record_id": "260331-002243-1"
-      }
-    },
-    {
-      "id": "BISON_FUTE_RRN:472296aef74e6604",
-      "source_id": "BISON_FUTE_RRN",
-      "title": "Réseau routier national — speedmanagement: District de Nantes",
-      "occurred_at": "2026-04-13T10:00:00Z",
-      "updated_at": "2026-11-16T11:49:35Z",
-      "severity": "WATCH",
-      "scope": "FR_LOCAL",
-      "domains": [
-        "TRANSPORT",
-        "ROAD"
-      ],
-      "impact_channels": [
-        "LOGISTICS",
-        "LOCAL_SERVICES",
-        "SUPPLY_CHAIN"
-      ],
-      "location": {
-        "name": "District de Nantes",
-        "lat": 47.15235,
-        "lon": -1.5142536
-      },
-      "url": "https://transport.data.gouv.fr/datasets/evenements-routiers-sur-le-reseau-routier-national-non-concede",
-      "evidence_type": "SOURCE_EVENT",
-      "details": {
-        "type": "speedmanagement",
-        "record_id": "260331-002243-3"
-      }
-    },
-    {
-      "id": "BISON_FUTE_RRN:b04df85095c265e3",
-      "source_id": "BISON_FUTE_RRN",
-      "title": "Réseau routier national — generalinstructionormessagetoroadusers: District de Nantes",
-      "occurred_at": "2026-04-13T10:00:00Z",
-      "updated_at": "2026-11-16T11:49:35Z",
-      "severity": "WATCH",
-      "scope": "FR_LOCAL",
-      "domains": [
-        "TRANSPORT",
-        "ROAD"
-      ],
-      "impact_channels": [
-        "LOGISTICS",
-        "LOCAL_SERVICES",
-        "SUPPLY_CHAIN"
-      ],
-      "location": {
-        "name": "District de Nantes",
-        "lat": 47.15235,
-        "lon": -1.5142536
-      },
-      "url": "https://transport.data.gouv.fr/datasets/evenements-routiers-sur-le-reseau-routier-national-non-concede",
-      "evidence_type": "SOURCE_EVENT",
-      "details": {
-        "type": "generalinstructionormessagetoroadusers",
-        "record_id": "260331-002243-4"
-      }
-    },
-    {
-      "id": "BISON_FUTE_RRN:6b0cfdcbca4f27ab",
-      "source_id": "BISON_FUTE_RRN",
-      "title": "Réseau routier national — generalnetworkmanagement: District de Nantes",
-      "occurred_at": "2026-04-13T10:00:00Z",
-      "updated_at": "2026-11-16T11:49:35Z",
-      "severity": "WATCH",
-      "scope": "FR_LOCAL",
-      "domains": [
-        "TRANSPORT",
-        "ROAD"
-      ],
-      "impact_channels": [
-        "LOGISTICS",
-        "LOCAL_SERVICES",
-        "SUPPLY_CHAIN"
-      ],
-      "location": {
-        "name": "District de Nantes",
-        "lat": 47.15235,
-        "lon": -1.5142536
-      },
-      "url": "https://transport.data.gouv.fr/datasets/evenements-routiers-sur-le-reseau-routier-national-non-concede",
-      "evidence_type": "SOURCE_EVENT",
-      "details": {
-        "type": "generalnetworkmanagement",
-        "record_id": "260331-002243-5"
-      }
-    },
-    {
-      "id": "BISON_FUTE_RRN:e958ed6bf7f5852f",
-      "source_id": "BISON_FUTE_RRN",
-      "title": "Réseau routier national — roadorcarriagewayorlanemanagement: District de Nantes",
-      "occurred_at": "2026-06-02T15:20:13Z",
-      "updated_at": "2026-11-16T11:49:35Z",
-      "severity": "WATCH",
-      "scope": "FR_LOCAL",
-      "domains": [
-        "TRANSPORT",
-        "ROAD"
-      ],
-      "impact_channels": [
-        "LOGISTICS",
-        "LOCAL_SERVICES",
-        "SUPPLY_CHAIN"
-      ],
-      "location": {
-        "name": "District de Nantes",
-        "lat": 47.146973,
-        "lon": -1.5145693
-      },
-      "url": "https://transport.data.gouv.fr/datasets/evenements-routiers-sur-le-reseau-routier-national-non-concede",
-      "evidence_type": "SOURCE_EVENT",
-      "details": {
-        "type": "roadorcarriagewayorlanemanagement",
-        "record_id": "260331-002243-107"
-      }
-    },
+    }
+  ],
+  "events": [
     {
       "id": "BISON_FUTE_RRN:f72b7caabce4cb4e",
       "source_id": "BISON_FUTE_RRN",
@@ -11979,6 +10864,487 @@
       "evidence_type": "SOURCE_EVENT",
       "details": {
         "description": "Press briefing ahead of the upcoming Foreign Affairs Council and the Foreign Affairs Council (Defence) will take place on 13 November at 16.00."
+      }
+    },
+    {
+      "id": "GDACS:9d08942260a4012f",
+      "source_id": "GDACS",
+      "title": "Green earthquake (Magnitude 5.5M, Depth:469.881km) in Fiji 15/11/2026 05:15 UTC, Few people affected in 100km.",
+      "occurred_at": "2026-11-15T05:31:38Z",
+      "updated_at": "2026-11-15T05:15:02Z",
+      "severity": "WATCH",
+      "scope": "GLOBAL",
+      "domains": [
+        "DISASTER",
+        "EQ"
+      ],
+      "impact_channels": [
+        "TRADE",
+        "SUPPLY_CHAIN",
+        "ENERGY",
+        "INSURANCE",
+        "INFRASTRUCTURE"
+      ],
+      "location": {
+        "name": "Fiji",
+        "lat": -19.5554,
+        "lon": -177.8215
+      },
+      "url": "http://www.gdacs.org/report.aspx?eventtype=EQ&eventid=1577445",
+      "evidence_type": "SOURCE_EVENT",
+      "details": {
+        "alert_level": "green",
+        "event_type": "EQ"
+      }
+    },
+    {
+      "id": "GDACS:74aeef11da411bcb",
+      "source_id": "GDACS",
+      "title": "Green earthquake (Magnitude 5.5M, Depth:10km) in Northern Mid-Atlantic Ridge 14/11/2026 09:26 UTC, [unknown].",
+      "occurred_at": "2026-11-14T09:43:12Z",
+      "updated_at": "2026-11-14T09:26:13Z",
+      "severity": "WATCH",
+      "scope": "GLOBAL",
+      "domains": [
+        "DISASTER",
+        "EQ"
+      ],
+      "impact_channels": [
+        "TRADE",
+        "SUPPLY_CHAIN",
+        "ENERGY",
+        "INSURANCE",
+        "INFRASTRUCTURE"
+      ],
+      "location": {
+        "name": "Northern Mid-Atlantic Ridge",
+        "lat": 30.122,
+        "lon": -42.6346
+      },
+      "url": "http://www.gdacs.org/report.aspx?eventtype=EQ&eventid=1577321",
+      "evidence_type": "SOURCE_EVENT",
+      "details": {
+        "alert_level": "green",
+        "event_type": "EQ"
+      }
+    },
+    {
+      "id": "GDACS:84f0744ccf8af067",
+      "source_id": "GDACS",
+      "title": "Green forest fire notification in Australia",
+      "occurred_at": "2026-11-16T00:02:35Z",
+      "updated_at": "2026-11-16T00:00:00Z",
+      "severity": "WATCH",
+      "scope": "GLOBAL",
+      "domains": [
+        "DISASTER",
+        "WF"
+      ],
+      "impact_channels": [
+        "TRADE",
+        "SUPPLY_CHAIN",
+        "ENERGY",
+        "INSURANCE",
+        "INFRASTRUCTURE"
+      ],
+      "location": {
+        "name": "Australia",
+        "lat": -16.970546034292227,
+        "lon": 124.25886368658773
+      },
+      "url": "http://www.gdacs.org/report.aspx?eventtype=WF&eventid=1033860",
+      "evidence_type": "SOURCE_EVENT",
+      "details": {
+        "alert_level": "green",
+        "event_type": "WF"
+      }
+    },
+    {
+      "id": "GDACS:65371ac2573784df",
+      "source_id": "GDACS",
+      "title": "Green forest fire notification in Australia",
+      "occurred_at": "2026-11-14T08:02:15Z",
+      "updated_at": "2026-11-16T00:00:00Z",
+      "severity": "WATCH",
+      "scope": "GLOBAL",
+      "domains": [
+        "DISASTER",
+        "WF"
+      ],
+      "impact_channels": [
+        "TRADE",
+        "SUPPLY_CHAIN",
+        "ENERGY",
+        "INSURANCE",
+        "INFRASTRUCTURE"
+      ],
+      "location": {
+        "name": "Australia",
+        "lat": -17.232436720444202,
+        "lon": 124.19326354044748
+      },
+      "url": "http://www.gdacs.org/report.aspx?eventtype=WF&eventid=1033825",
+      "evidence_type": "SOURCE_EVENT",
+      "details": {
+        "alert_level": "green",
+        "event_type": "WF"
+      }
+    },
+    {
+      "id": "GDACS:9db2f5971182ecee",
+      "source_id": "GDACS",
+      "title": "Green forest fire notification in South Sudan",
+      "occurred_at": "2026-11-16T04:03:43Z",
+      "updated_at": "2026-11-16T00:00:00Z",
+      "severity": "WATCH",
+      "scope": "GLOBAL",
+      "domains": [
+        "DISASTER",
+        "WF"
+      ],
+      "impact_channels": [
+        "TRADE",
+        "SUPPLY_CHAIN",
+        "ENERGY",
+        "INSURANCE",
+        "INFRASTRUCTURE"
+      ],
+      "location": {
+        "name": "South Sudan",
+        "lat": 8.190390065278656,
+        "lon": 25.642736340740278
+      },
+      "url": "http://www.gdacs.org/report.aspx?eventtype=WF&eventid=1033870",
+      "evidence_type": "SOURCE_EVENT",
+      "details": {
+        "alert_level": "green",
+        "event_type": "WF"
+      }
+    },
+    {
+      "id": "GDACS:1b561aebd248c7ad",
+      "source_id": "GDACS",
+      "title": "Green forest fire notification in Sudan, South Sudan",
+      "occurred_at": "2026-11-15T20:02:17Z",
+      "updated_at": "2026-11-16T00:00:00Z",
+      "severity": "WATCH",
+      "scope": "GLOBAL",
+      "domains": [
+        "DISASTER",
+        "WF"
+      ],
+      "impact_channels": [
+        "TRADE",
+        "SUPPLY_CHAIN",
+        "ENERGY",
+        "INSURANCE",
+        "INFRASTRUCTURE"
+      ],
+      "location": {
+        "name": "Sudan, South Sudan",
+        "lat": 9.804382747267512,
+        "lon": 31.42052185709992
+      },
+      "url": "http://www.gdacs.org/report.aspx?eventtype=WF&eventid=1033863",
+      "evidence_type": "SOURCE_EVENT",
+      "details": {
+        "alert_level": "green",
+        "event_type": "WF"
+      }
+    },
+    {
+      "id": "GDACS:bd32befa39973cc2",
+      "source_id": "GDACS",
+      "title": "Green earthquake (Magnitude 5.8M, Depth:10km) in Papua New Guinea 12/11/2026 22:04 UTC, Few people affected (in MMI>=VII).",
+      "occurred_at": "2026-11-12T22:20:24Z",
+      "updated_at": "2026-11-12T22:04:06Z",
+      "severity": "WATCH",
+      "scope": "GLOBAL",
+      "domains": [
+        "DISASTER",
+        "EQ"
+      ],
+      "impact_channels": [
+        "TRADE",
+        "SUPPLY_CHAIN",
+        "ENERGY",
+        "INSURANCE",
+        "INFRASTRUCTURE"
+      ],
+      "location": {
+        "name": "Papua New Guinea",
+        "lat": -1.5882,
+        "lon": 149.8877
+      },
+      "url": "http://www.gdacs.org/report.aspx?eventtype=EQ&eventid=1577060",
+      "evidence_type": "SOURCE_EVENT",
+      "details": {
+        "alert_level": "green",
+        "event_type": "EQ"
+      }
+    },
+    {
+      "id": "GDACS:da4b762e22fb6427",
+      "source_id": "GDACS",
+      "title": "Green flood alert in Croatia",
+      "occurred_at": "2026-11-16T05:50:23Z",
+      "updated_at": "2026-11-14T01:00:00Z",
+      "severity": "WATCH",
+      "scope": "GLOBAL",
+      "domains": [
+        "DISASTER",
+        "FL"
+      ],
+      "impact_channels": [
+        "TRADE",
+        "SUPPLY_CHAIN",
+        "ENERGY",
+        "INSURANCE",
+        "INFRASTRUCTURE"
+      ],
+      "location": {
+        "name": "Croatia",
+        "lat": 45.4444467,
+        "lon": 14.3743376
+      },
+      "url": "http://www.gdacs.org/report.aspx?eventtype=FL&eventid=1104285",
+      "evidence_type": "SOURCE_EVENT",
+      "details": {
+        "alert_level": "green",
+        "event_type": "FL"
+      }
+    },
+    {
+      "id": "GDACS:ece3d883a0b4c3d5",
+      "source_id": "GDACS",
+      "title": "Green forest fire notification in Australia",
+      "occurred_at": "2026-11-14T08:03:21Z",
+      "updated_at": "2026-11-14T00:00:00Z",
+      "severity": "WATCH",
+      "scope": "GLOBAL",
+      "domains": [
+        "DISASTER",
+        "WF"
+      ],
+      "impact_channels": [
+        "TRADE",
+        "SUPPLY_CHAIN",
+        "ENERGY",
+        "INSURANCE",
+        "INFRASTRUCTURE"
+      ],
+      "location": {
+        "name": "Australia",
+        "lat": -14.803645866141144,
+        "lon": 126.8760630953869
+      },
+      "url": "http://www.gdacs.org/report.aspx?eventtype=WF&eventid=1033830",
+      "evidence_type": "SOURCE_EVENT",
+      "details": {
+        "alert_level": "green",
+        "event_type": "WF"
+      }
+    },
+    {
+      "id": "GDACS:4adaf9c63434983c",
+      "source_id": "GDACS",
+      "title": "Green forest fire notification in Botswana",
+      "occurred_at": "2026-11-13T20:01:56Z",
+      "updated_at": "2026-11-15T00:00:00Z",
+      "severity": "WATCH",
+      "scope": "GLOBAL",
+      "domains": [
+        "DISASTER",
+        "WF"
+      ],
+      "impact_channels": [
+        "TRADE",
+        "SUPPLY_CHAIN",
+        "ENERGY",
+        "INSURANCE",
+        "INFRASTRUCTURE"
+      ],
+      "location": {
+        "name": "Botswana",
+        "lat": -22.825062113188405,
+        "lon": 24.994912663287014
+      },
+      "url": "http://www.gdacs.org/report.aspx?eventtype=WF&eventid=1033817",
+      "evidence_type": "SOURCE_EVENT",
+      "details": {
+        "alert_level": "green",
+        "event_type": "WF"
+      }
+    },
+    {
+      "id": "GDACS:3fe55c66f5e670c8",
+      "source_id": "GDACS",
+      "title": "Green forest fire notification in Burkina Faso",
+      "occurred_at": "2026-11-14T04:02:24Z",
+      "updated_at": "2026-11-16T00:00:00Z",
+      "severity": "WATCH",
+      "scope": "GLOBAL",
+      "domains": [
+        "DISASTER",
+        "WF"
+      ],
+      "impact_channels": [
+        "TRADE",
+        "SUPPLY_CHAIN",
+        "ENERGY",
+        "INSURANCE",
+        "INFRASTRUCTURE"
+      ],
+      "location": {
+        "name": "Burkina Faso",
+        "lat": 12.807898298700474,
+        "lon": -0.20536764912051808
+      },
+      "url": "http://www.gdacs.org/report.aspx?eventtype=WF&eventid=1033826",
+      "evidence_type": "SOURCE_EVENT",
+      "details": {
+        "alert_level": "green",
+        "event_type": "WF"
+      }
+    },
+    {
+      "id": "GDACS:40d7aee877dc1f57",
+      "source_id": "GDACS",
+      "title": "Green forest fire notification in South Sudan",
+      "occurred_at": "2026-11-15T08:01:44Z",
+      "updated_at": "2026-11-16T00:00:00Z",
+      "severity": "WATCH",
+      "scope": "GLOBAL",
+      "domains": [
+        "DISASTER",
+        "WF"
+      ],
+      "impact_channels": [
+        "TRADE",
+        "SUPPLY_CHAIN",
+        "ENERGY",
+        "INSURANCE",
+        "INFRASTRUCTURE"
+      ],
+      "location": {
+        "name": "South Sudan",
+        "lat": 8.023135004815002,
+        "lon": 25.71174065654829
+      },
+      "url": "http://www.gdacs.org/report.aspx?eventtype=WF&eventid=1033855",
+      "evidence_type": "SOURCE_EVENT",
+      "details": {
+        "alert_level": "green",
+        "event_type": "WF"
+      }
+    },
+    {
+      "id": "WHO_HEALTH_RSS:cd39e1747ce7fe31",
+      "source_id": "WHO_HEALTH_RSS",
+      "title": "WHO Statement on false allegations in Der Spiegel",
+      "occurred_at": null,
+      "updated_at": null,
+      "severity": "WATCH",
+      "scope": "GLOBAL",
+      "domains": [
+        "HEALTH"
+      ],
+      "impact_channels": [
+        "HEALTH_SPENDING",
+        "TRAVEL",
+        "TRADE",
+        "SUPPLY_CHAIN"
+      ],
+      "location": null,
+      "url": "https://www.who.int/news/item/09-05-2020-who-statement-on-false-allegations-in-der-spiegel",
+      "evidence_type": "SOURCE_EVENT",
+      "details": {
+        "description": " Der Spiegel reports of a 21 January, 2020, telephone conversation between WHO Director-General Dr Tedros Adhanom Ghebreyesus and President Xi Jingping of China are unfounded and untrue.  Dr Tedros and President Xi did not speak on 21 January and they have never spoken by telephone.   Such inaccurate reports distract and detract from WHO&rsquo;s and the world&rsquo;s efforts to end the COVID-19 pandemic.  To note: China confirmed human-to-human transmission of the novel coronavirus on 20 January",
+        "note": "WHO news signal; verify Disease Outbreak News for event-specific conclusions."
+      }
+    },
+    {
+      "id": "EU_COUNCIL_RSS:40f288482a646406",
+      "source_id": "EU_COUNCIL_RSS",
+      "title": "EU Global Human Rights Sanctions Regime: Council lists four Haitian entities over serious human rights violations",
+      "occurred_at": null,
+      "updated_at": null,
+      "severity": "WATCH",
+      "scope": "EU",
+      "domains": [
+        "EU_INSTITUTIONAL",
+        "GEOPOLITICS"
+      ],
+      "impact_channels": [
+        "TRADE",
+        "ENERGY",
+        "FINANCE",
+        "DEFENCE",
+        "REGULATION"
+      ],
+      "location": {
+        "name": "European Union"
+      },
+      "url": "https://www.consilium.europa.eu/en/press/press-releases/2026/11/16/eu-global-human-rights-sanctions-regime-council-lists-four-haitian-entities-over-serious-human-rights-violations/",
+      "evidence_type": "SOURCE_EVENT",
+      "details": {
+        "description": "The Council adopted restrictive measures against four Haitian criminal armed groups responsible for grave violations against children in armed conflict, including killings, sexual violence and the recruitment of children."
+      }
+    },
+    {
+      "id": "EU_COUNCIL_RSS:802760e3f733c2a7",
+      "source_id": "EU_COUNCIL_RSS",
+      "title": "Hamas and the Palestinian Islamic Jihad: EU adds one entity and its founder to the sanctions list",
+      "occurred_at": null,
+      "updated_at": null,
+      "severity": "WATCH",
+      "scope": "EU",
+      "domains": [
+        "EU_INSTITUTIONAL",
+        "GEOPOLITICS"
+      ],
+      "impact_channels": [
+        "TRADE",
+        "ENERGY",
+        "FINANCE",
+        "DEFENCE",
+        "REGULATION"
+      ],
+      "location": {
+        "name": "European Union"
+      },
+      "url": "https://www.consilium.europa.eu/en/press/press-releases/2026/11/16/hamas-and-the-palestinian-islamic-jihad-eu-adds-one-entity-and-its-founder-to-the-sanctions-list/",
+      "evidence_type": "SOURCE_EVENT",
+      "details": {
+        "description": "The Council has added one individual and one entity to the sanctions list against Hamas and the Palestinian Islamic Jihad, for their role in financing Hamas."
+      }
+    },
+    {
+      "id": "EU_COUNCIL_RSS:c889ad637f9b272b",
+      "source_id": "EU_COUNCIL_RSS",
+      "title": "Ukraine Facility: Council approves largest-ever payment of €8 billion to Kyiv",
+      "occurred_at": null,
+      "updated_at": null,
+      "severity": "WATCH",
+      "scope": "EU",
+      "domains": [
+        "EU_INSTITUTIONAL",
+        "GEOPOLITICS"
+      ],
+      "impact_channels": [
+        "TRADE",
+        "ENERGY",
+        "FINANCE",
+        "DEFENCE",
+        "REGULATION"
+      ],
+      "location": {
+        "name": "European Union"
+      },
+      "url": "https://www.consilium.europa.eu/en/press/press-releases/2026/11/16/ukraine-facility-council-approves-largest-ever-payment-of-8-billion-to-kyiv/",
+      "evidence_type": "SOURCE_EVENT",
+      "details": {
+        "description": "The Council approved a record payment of just under €8 billion for Ukraine under the Ukraine Facility, following Ukraine’s successful completion of over 20 target steps under the Ukraine Plan."
       }
     }
   ],
