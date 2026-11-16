@@ -29,10 +29,10 @@
     "unpopulated_kinds_are_not_fabricated": true
   },
   "state": "READ_ONLY_PUBLIC_PROOFGRAPH_DERIVED_PROJECTION",
-  "projection_fingerprint": "d042a6ff3302445529c2428e596c08959d45bd1122f87ff54e0a9deb8b16fd30",
+  "projection_fingerprint": "a2c15931c5fad9676a4fe49f3aa45702b6afd68c01ec014e774df59cb41afb03",
   "generated_from": {
-    "live_snapshot_id": "OJO-9EF87DE191E61432",
-    "live_sequence": 106,
+    "live_snapshot_id": "OJO-2216216C6DC6C1DC",
+    "live_sequence": 107,
     "territory_discovery_fingerprint": "a083f6c504e5d097b37e5adc550d980f730335e7801f57aa958925e3eae953e7",
     "living_identity_fingerprint": "f6ae7f0a87933250c01a74439329e84af939745c1a023e75d79aa6bdfde5b8d4"
   },
@@ -400,7 +400,7 @@
           "BDF_WEBSTAT"
         ],
         "source_urls": [
-          "https://www.banque-france.fr/fr/statistiques/taux-et-cours/indices-obligataires-2026-11-13",
+          "https://www.banque-france.fr/fr/statistiques/taux-et-cours/indices-obligataires-2026-11-16",
           "https://webstat.banque-france.fr/export/csv-columns/fr/selection/5385693"
         ]
       },
@@ -605,7 +605,7 @@
       "label": "TEC10 observé",
       "department_code": null,
       "lane": null,
-      "evidence_state": "LIVE_VERIFIED",
+      "evidence_state": "CROSSCHECKED",
       "proofgraph": {
         "spine_schema": "SUPRA_PROOFGRAPH_PUBLIC_PROJECTION_V1",
         "proof_refs": [
@@ -614,18 +614,18 @@
           "BDF_WEBSTAT"
         ],
         "source_urls": [
-          "https://www.banque-france.fr/fr/statistiques/taux-et-cours/indices-obligataires-2026-11-13",
+          "https://www.banque-france.fr/fr/statistiques/taux-et-cours/indices-obligataires-2026-11-16",
           "https://webstat.banque-france.fr/export/csv-columns/fr/selection/5385693"
         ]
       },
       "trust": {
-        "index": 73,
-        "label": "SOLIDE",
+        "index": 96,
+        "label": "FORTE",
         "components": {
-          "source_quality": 78,
+          "source_quality": 96,
           "provenance": 100,
-          "coherence": 52,
-          "crosscheck": 55,
+          "coherence": 96,
+          "crosscheck": 92,
           "media_structure": null
         },
         "reasons": {
@@ -637,18 +637,18 @@
             "empreinte / référence de preuve"
           ],
           "coherence": [
-            "Cohérence contextuelle partielle ; preuve indépendante supplémentaire utile."
+            "Le claim est explicitement recoupé."
           ],
           "crosscheck": [
-            "Référence(s) liée(s), mais le claim n'est pas recoupé sur la même portée et le même millésime."
+            "2 références indépendantes ou complémentaires sont reliées."
           ],
           "media_structure": []
         }
       },
       "coherence": {
-        "score": 52,
+        "score": 96,
         "reasons": [
-          "Cohérence contextuelle partielle ; preuve indépendante supplémentaire utile."
+          "Le claim est explicitement recoupé."
         ],
         "contradictions": []
       },
@@ -662,7 +662,7 @@
       "uscrc": {
         "status": "COMPATIBILITY_PROFILE_NOT_CERTIFICATE",
         "engine_binding": "USCRC_PRE_EVENT_PATTERN_CORE_V1_READ_ONLY_CONTEXT",
-        "reliability_index": 73,
+        "reliability_index": 96,
         "certificate_issued": false
       },
       "patrimonial_analysis": {},
@@ -676,7 +676,7 @@
       "label": "Courbe TEC 1–30 ans",
       "department_code": null,
       "lane": null,
-      "evidence_state": "LIVE_VERIFIED",
+      "evidence_state": "CROSSCHECKED",
       "proofgraph": {
         "spine_schema": "SUPRA_PROOFGRAPH_PUBLIC_PROJECTION_V1",
         "proof_refs": [
@@ -685,18 +685,18 @@
           "BDF_WEBSTAT"
         ],
         "source_urls": [
-          "https://www.banque-france.fr/fr/statistiques/taux-et-cours/indices-obligataires-2026-11-13",
+          "https://www.banque-france.fr/fr/statistiques/taux-et-cours/indices-obligataires-2026-11-16",
           "https://webstat.banque-france.fr/export/csv-columns/fr/selection/5385693"
         ]
       },
       "trust": {
-        "index": 73,
-        "label": "SOLIDE",
+        "index": 96,
+        "label": "FORTE",
         "components": {
-          "source_quality": 78,
+          "source_quality": 96,
           "provenance": 100,
-          "coherence": 52,
-          "crosscheck": 55,
+          "coherence": 96,
+          "crosscheck": 92,
           "media_structure": null
         },
         "reasons": {
@@ -708,18 +708,18 @@
             "empreinte / référence de preuve"
           ],
           "coherence": [
-            "Cohérence contextuelle partielle ; preuve indépendante supplémentaire utile."
+            "Le claim est explicitement recoupé."
           ],
           "crosscheck": [
-            "Référence(s) liée(s), mais le claim n'est pas recoupé sur la même portée et le même millésime."
+            "2 références indépendantes ou complémentaires sont reliées."
           ],
           "media_structure": []
         }
       },
       "coherence": {
-        "score": 52,
+        "score": 96,
         "reasons": [
-          "Cohérence contextuelle partielle ; preuve indépendante supplémentaire utile."
+          "Le claim est explicitement recoupé."
         ],
         "contradictions": []
       },
@@ -733,7 +733,7 @@
       "uscrc": {
         "status": "COMPATIBILITY_PROFILE_NOT_CERTIFICATE",
         "engine_binding": "USCRC_PRE_EVENT_PATTERN_CORE_V1_READ_ONLY_CONTEXT",
-        "reliability_index": 73,
+        "reliability_index": 96,
         "certificate_issued": false
       },
       "patrimonial_analysis": {},
@@ -752,7 +752,7 @@
         "spine_schema": "SUPRA_PROOFGRAPH_PUBLIC_PROJECTION_V1",
         "proof_refs": [
           "decision_delta",
-          "OJO-9EF87DE191E61432"
+          "OJO-2216216C6DC6C1DC"
         ],
         "source_urls": [
           "data/france-debt-rate-live.json"
@@ -859,6 +859,10 @@
             "date": "2026-11-16",
             "curve": [
               {
+                "tenor_years": 1,
+                "rate_pct": 3.376
+              },
+              {
                 "tenor_years": 2,
                 "rate_pct": 3.699
               },
@@ -897,6 +901,7 @@
             ]
           },
           "delta_bps": {
+            "1": 1.0,
             "2": 2.3,
             "3": -1.1,
             "5": 3.8,
@@ -909,8 +914,8 @@
           },
           "transmission_channel": "Yield curve → new issuance/refinancing → portfolio average cost → interest charge over time.",
           "possible_impact": "Directional exposure may change if the move persists and reaches maturities that must be financed; no automatic budget amount is inferred from TEC10 alone.",
-          "curve_regime": "PARALLEL_UP",
-          "confidence": "LIVE_VERIFIED",
+          "curve_regime": "STEEPENING",
+          "confidence": "CROSSCHECKED",
           "what_requires_review": [
             "Persistence of the observed curve move.",
             "Maturity stock actually exposed after buybacks and indexation.",
@@ -1141,7 +1146,7 @@
       "proofgraph": {
         "spine_schema": "SUPRA_PROOFGRAPH_PUBLIC_PROJECTION_V1",
         "proof_refs": [
-          "020752a3a0f9166f2f8b9b7d1e27ac0bce2904db62609eb6b5f24f5fe595b40b",
+          "b44679841fdf40c2bfb443cd0dbf3301af880c8bd6e92ef3bf51e803fa324295",
           "OJO_FRANCE_DEBT_RATE_LIVE_V1"
         ],
         "source_urls": [
@@ -1197,20 +1202,20 @@
       "patrimonial_analysis": {
         "trust_deep": {
           "execution": "NOT_EXECUTED_NO_MATCHING_RECEIPT",
-          "document_sha256": "020752a3a0f9166f2f8b9b7d1e27ac0bce2904db62609eb6b5f24f5fe595b40b",
+          "document_sha256": "b44679841fdf40c2bfb443cd0dbf3301af880c8bd6e92ef3bf51e803fa324295",
           "truth_verdict": false
         },
         "coherence_historical": {
           "execution": "NOT_EXECUTED_NO_MATCHING_RECEIPT",
-          "document_sha256": "020752a3a0f9166f2f8b9b7d1e27ac0bce2904db62609eb6b5f24f5fe595b40b",
+          "document_sha256": "b44679841fdf40c2bfb443cd0dbf3301af880c8bd6e92ef3bf51e803fa324295",
           "truth_verdict": false
         }
       },
       "object_refs": [],
       "object_meta": {
         "public_path": "data/france-debt-rate-live.json",
-        "sha256": "020752a3a0f9166f2f8b9b7d1e27ac0bce2904db62609eb6b5f24f5fe595b40b",
-        "bytes": 166442,
+        "sha256": "b44679841fdf40c2bfb443cd0dbf3301af880c8bd6e92ef3bf51e803fa324295",
+        "bytes": 168367,
         "schema": "OJO_FRANCE_DEBT_RATE_LIVE_V1",
         "document_analysis_scope": "FULL_LOCAL_PUBLIC_DOCUMENT"
       },
@@ -1349,7 +1354,7 @@
       "proofgraph": {
         "spine_schema": "SUPRA_PROOFGRAPH_PUBLIC_PROJECTION_V1",
         "proof_refs": [
-          "85ce265be0dbbc6ccfdbfdc52baf4acf45f271bcab1e1b131bb8e3a50c8759bf",
+          "307b288e869425cb61c81c55e4b69125f0a334096f824f36799d74d45211575c",
           "OJO_LA_BETE_VIRTUOUS_EVOLUTION_V1"
         ],
         "source_urls": [
@@ -1405,20 +1410,20 @@
       "patrimonial_analysis": {
         "trust_deep": {
           "execution": "NOT_EXECUTED_NO_MATCHING_RECEIPT",
-          "document_sha256": "85ce265be0dbbc6ccfdbfdc52baf4acf45f271bcab1e1b131bb8e3a50c8759bf",
+          "document_sha256": "307b288e869425cb61c81c55e4b69125f0a334096f824f36799d74d45211575c",
           "truth_verdict": false
         },
         "coherence_historical": {
           "execution": "NOT_EXECUTED_NO_MATCHING_RECEIPT",
-          "document_sha256": "85ce265be0dbbc6ccfdbfdc52baf4acf45f271bcab1e1b131bb8e3a50c8759bf",
+          "document_sha256": "307b288e869425cb61c81c55e4b69125f0a334096f824f36799d74d45211575c",
           "truth_verdict": false
         }
       },
       "object_refs": [],
       "object_meta": {
         "public_path": "data/france-debt-rate-evolution.json",
-        "sha256": "85ce265be0dbbc6ccfdbfdc52baf4acf45f271bcab1e1b131bb8e3a50c8759bf",
-        "bytes": 429021,
+        "sha256": "307b288e869425cb61c81c55e4b69125f0a334096f824f36799d74d45211575c",
+        "bytes": 429016,
         "schema": "OJO_LA_BETE_VIRTUOUS_EVOLUTION_V1",
         "document_analysis_scope": "FULL_LOCAL_PUBLIC_DOCUMENT"
       },
@@ -3993,7 +3998,7 @@
           "source:BDF_TEC"
         ],
         "source_urls": [
-          "https://www.banque-france.fr/fr/statistiques/taux-et-cours/indices-obligataires-2026-11-13"
+          "https://www.banque-france.fr/fr/statistiques/taux-et-cours/indices-obligataires-2026-11-16"
         ]
       },
       "trust": {
@@ -13949,7 +13954,7 @@
           "TEC_CURVE"
         ],
         "source_urls": [
-          "https://www.banque-france.fr/fr/statistiques/taux-et-cours/indices-obligataires-2026-11-13"
+          "https://www.banque-france.fr/fr/statistiques/taux-et-cours/indices-obligataires-2026-11-16"
         ]
       },
       "trust": {
@@ -14010,7 +14015,7 @@
       "label": "Historique CNO-TEC · export CSV",
       "department_code": null,
       "lane": null,
-      "evidence_state": "LIVE_VERIFIED",
+      "evidence_state": "CROSSCHECKED",
       "proofgraph": {
         "spine_schema": "SUPRA_PROOFGRAPH_PUBLIC_PROJECTION_V1",
         "proof_refs": [
