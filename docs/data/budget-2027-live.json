@@ -1,8 +1,8 @@
 {
   "schema": "OJO_BUDGET_2027_LIVE_FEED_V1",
   "version": "2026-09-21",
-  "sequence": 432,
-  "updated_at": "2026-11-17T04:19:45Z",
+  "sequence": 433,
+  "updated_at": "2026-11-17T04:33:00Z",
   "policy": {
     "canonical_mutation": "NEVER_FROM_FINGERPRINT_ALONE",
     "source_change": "EMIT_DELTA_THEN_RECONCILE",
@@ -24,7 +24,7 @@
       "etag": "\"1794875706-gzip\"",
       "last_modified": "Tue, 17 Nov 2026 00:35:06 GMT",
       "digest": "dabf630e4cf0f52cb9978ef81390ba3c28f906a1a239dab2719161e0bf98bcb5",
-      "checked_at": "2026-11-17T04:19:32Z",
+      "checked_at": "2026-11-17T04:32:52Z",
       "candidate_observations": [
         {
           "needle": "0,9 %",
@@ -56,7 +56,7 @@
       "etag": null,
       "last_modified": null,
       "digest": "201d7d39144c24a731425a051aa0fa61b301390311a9fd98496176ec18666b26",
-      "checked_at": "2026-11-17T04:19:33Z",
+      "checked_at": "2026-11-17T04:32:53Z",
       "candidate_observations": [],
       "error": null
     },
@@ -76,8 +76,8 @@
       "http_status": 200,
       "etag": null,
       "last_modified": null,
-      "digest": "279ac0ea94f209737471b3d455e97d306d13731c38551231a2ea69e9a9287beb",
-      "checked_at": "2026-11-17T04:19:34Z",
+      "digest": "38488a842b6a4f3633cedfeba49f0e9782f5d06d390c27e2bafbe0080e0f6a36",
+      "checked_at": "2026-11-17T04:32:55Z",
       "candidate_observations": [],
       "error": null
     },
@@ -95,7 +95,7 @@
       "etag": null,
       "last_modified": null,
       "digest": "0e1b522936ceb27101d42fcedcc98b17f796d0e3c48a736f4209bc825d61f04a",
-      "checked_at": "2026-11-17T04:19:35Z",
+      "checked_at": "2026-11-17T04:32:56Z",
       "candidate_observations": [],
       "error": null
     },
@@ -111,7 +111,7 @@
       "etag": "\"1794591729\"",
       "last_modified": "Fri, 13 Nov 2026 17:42:09 GMT",
       "digest": "60ced727ef56302c469b97602a7eeaa5bc5dd2fa02ccddbe492460cc5cd10fd9",
-      "checked_at": "2026-11-17T04:19:40Z",
+      "checked_at": "2026-11-17T04:32:56Z",
       "candidate_observations": [
         {
           "needle": "151",
@@ -138,7 +138,7 @@
       "etag": null,
       "last_modified": null,
       "digest": "79a4639ec6cbf583cc19391c7c242e500d975648366639977ea00d399cbce562",
-      "checked_at": "2026-11-17T04:19:41Z",
+      "checked_at": "2026-11-17T04:32:57Z",
       "candidate_observations": [
         {
           "needle": "France",
@@ -171,9 +171,9 @@
       "health": "OK",
       "http_status": 200,
       "etag": null,
-      "last_modified": "Tue, 17 Nov 2026 04:19:44 GMT",
+      "last_modified": "Tue, 17 Nov 2026 04:32:59 GMT",
       "digest": "16b58a0d1172759681276ddd70bef3f1c1707fe413ac4526502bc538be82dfcc",
-      "checked_at": "2026-11-17T04:19:43Z",
+      "checked_at": "2026-11-17T04:32:58Z",
       "candidate_observations": [
         {
           "needle": "54 milliards",
@@ -202,22 +202,11 @@
         "F10",
         "F11"
       ],
-      "at": "2026-11-17T04:19:34Z",
+      "at": "2026-11-17T04:32:55Z",
       "detail": "Public source fingerprint changed; canonical claims require reconciliation before mutation."
     }
   ],
   "events": [
-    {
-      "source_id": "BDF_SEPT_2026",
-      "kind": "SOURCE_CHANGED",
-      "organ": "MACRO",
-      "claims": [
-        "F10",
-        "F11"
-      ],
-      "at": "2026-11-16T15:26:40Z",
-      "detail": "Public source fingerprint changed; canonical claims require reconciliation before mutation."
-    },
     {
       "source_id": "INSEE_BDM_RSS",
       "kind": "SOURCE_CHANGED",
@@ -1190,6 +1179,19 @@
         "F11"
       ],
       "at": "2026-11-17T04:19:34Z",
+      "detail": "Public source fingerprint changed; canonical claims require reconciliation before mutation."
+    },
+    {
+      "source_id": "INSEE_BDM_RSS",
+      "kind": "SOURCE_CHANGED",
+      "organ": "MACRO",
+      "claims": [
+        "F8",
+        "F9",
+        "F10",
+        "F11"
+      ],
+      "at": "2026-11-17T04:32:55Z",
       "detail": "Public source fingerprint changed; canonical claims require reconciliation before mutation."
     }
   ],
