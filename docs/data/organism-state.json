@@ -1,11 +1,11 @@
 {
   "schema": "OJO_ORGANISM_STATE_V1",
   "version": "2026-09-21",
-  "updated_at": "2026-11-17T20:47:45Z",
+  "updated_at": "2026-11-17T21:04:25Z",
   "source_sequences": {
-    "budget": 497,
-    "environment": 495,
-    "combined": "497:495"
+    "budget": 498,
+    "environment": 496,
+    "combined": "498:496"
   },
   "animal": {
     "species": "BIOMIMETIC_CEPHALOPOD",
@@ -13,7 +13,7 @@
     "metaphor": "Distributed nervous system; eight domain arms; mantle = whole-system state; skin = confidence/stress."
   },
   "state": {
-    "ts": "2026-11-17T20:47:45Z",
+    "ts": "2026-11-17T21:04:25Z",
     "strain": 0.1178,
     "vigilance": 0.32,
     "asymmetry": 0.108,
@@ -36,28 +36,38 @@
     "sensor_health": 1.0,
     "blindness": 0.0,
     "active_arms": 0,
-    "source_seq": "497:495"
+    "source_seq": "498:496"
   },
   "learning": {
     "stage": "PATTERN_LIBRARY",
-    "samples": 492,
+    "samples": 493,
     "max_memory": 672,
-    "motifs": [],
+    "motifs": [
+      {
+        "id": "PERSISTENT_DRIVER",
+        "label": "Conducteur persistant",
+        "status": "ACTIVE",
+        "evidence": [
+          "macro"
+        ],
+        "meaning": "Le même domaine domine quatre états consécutifs."
+      }
+    ],
     "early_warning": {
       "status": "NO_GENERIC_WARNING",
-      "samples": 492,
-      "variance_recent": 0.000144,
-      "variance_previous": 0.00026,
-      "lag1_autocorr_recent": -0.1512,
-      "slope_recent": -0.00066,
+      "samples": 493,
+      "variance_recent": 0.000154,
+      "variance_previous": 0.000343,
+      "lag1_autocorr_recent": -0.0597,
+      "slope_recent": -0.001394,
       "note": "Signal générique exploratoire seulement; variance/autocorrélation ne suffisent pas à prédire une transition."
     },
     "prediction": {
       "status": "EXPLORATORY",
-      "samples": 492,
-      "next": 0.1233,
-      "horizon_4": 0.1164,
-      "band": 0.0402,
+      "samples": 493,
+      "next": 0.1202,
+      "horizon_4": 0.1122,
+      "band": 0.0385,
       "note": "Projection de dynamique du score visuel, pas une prévision économique."
     },
     "regime_transitions": [
@@ -69,7 +79,7 @@
       {
         "from": "CALM",
         "to": "CALM",
-        "count": 150
+        "count": 151
       },
       {
         "from": "CALM",
@@ -12896,6 +12906,32 @@
       "blindness": 0.0,
       "active_arms": 0,
       "source_seq": "497:495"
+    },
+    {
+      "ts": "2026-11-17T21:04:25Z",
+      "strain": 0.1178,
+      "vigilance": 0.32,
+      "asymmetry": 0.108,
+      "arms": {
+        "macro": 0.32,
+        "budget": 0.1833,
+        "energy": 0.0123,
+        "finance": 0.0123,
+        "logistics": 0.1847,
+        "climate": 0.0,
+        "health": 0.0435,
+        "geopolitics": 0.0525
+      },
+      "regime": "CALM",
+      "top_arm": "macro",
+      "heart_rate_visual": 61,
+      "respiration_visual": 10.8,
+      "contraction": 0.205,
+      "luminance": 0.843,
+      "sensor_health": 1.0,
+      "blindness": 0.0,
+      "active_arms": 0,
+      "source_seq": "498:496"
     }
   ]
 }
