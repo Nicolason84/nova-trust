@@ -1,11 +1,11 @@
 {
   "schema": "OJO_ORGANISM_STATE_V1",
   "version": "2026-09-21",
-  "updated_at": "2026-11-17T22:33:22Z",
+  "updated_at": "2026-11-17T22:47:41Z",
   "source_sequences": {
-    "budget": 504,
-    "environment": 502,
-    "combined": "504:502"
+    "budget": 505,
+    "environment": 503,
+    "combined": "505:503"
   },
   "animal": {
     "species": "BIOMIMETIC_CEPHALOPOD",
@@ -13,14 +13,14 @@
     "metaphor": "Distributed nervous system; eight domain arms; mantle = whole-system state; skin = confidence/stress."
   },
   "state": {
-    "ts": "2026-11-17T22:33:22Z",
-    "strain": 0.126,
-    "vigilance": 0.32,
-    "asymmetry": 0.1036,
+    "ts": "2026-11-17T22:47:41Z",
+    "strain": 0.149,
+    "vigilance": 0.3667,
+    "asymmetry": 0.1382,
     "arms": {
       "macro": 0.32,
-      "budget": 0.1833,
-      "energy": 0.0708,
+      "budget": 0.3667,
+      "energy": 0.0125,
       "finance": 0.0123,
       "logistics": 0.1847,
       "climate": 0.0,
@@ -28,46 +28,36 @@
       "geopolitics": 0.0525
     },
     "regime": "CALM",
-    "top_arm": "macro",
-    "heart_rate_visual": 61,
-    "respiration_visual": 10.8,
-    "contraction": 0.211,
-    "luminance": 0.84,
+    "top_arm": "budget",
+    "heart_rate_visual": 64,
+    "respiration_visual": 11.4,
+    "contraction": 0.227,
+    "luminance": 0.828,
     "sensor_health": 1.0,
     "blindness": 0.0,
-    "active_arms": 0,
-    "source_seq": "504:502"
+    "active_arms": 1,
+    "source_seq": "505:503"
   },
   "learning": {
     "stage": "PATTERN_LIBRARY",
-    "samples": 499,
+    "samples": 500,
     "max_memory": 672,
-    "motifs": [
-      {
-        "id": "PERSISTENT_DRIVER",
-        "label": "Conducteur persistant",
-        "status": "ACTIVE",
-        "evidence": [
-          "macro"
-        ],
-        "meaning": "Le même domaine domine quatre états consécutifs."
-      }
-    ],
+    "motifs": [],
     "early_warning": {
       "status": "NO_GENERIC_WARNING",
-      "samples": 499,
-      "variance_recent": 1.7e-05,
-      "variance_previous": 0.000505,
-      "lag1_autocorr_recent": 0.2898,
-      "slope_recent": 0.001306,
+      "samples": 500,
+      "variance_recent": 9.2e-05,
+      "variance_previous": 0.000144,
+      "lag1_autocorr_recent": 0.3865,
+      "slope_recent": 0.003137,
       "note": "Signal générique exploratoire seulement; variance/autocorrélation ne suffisent pas à prédire une transition."
     },
     "prediction": {
       "status": "EXPLORATORY",
-      "samples": 499,
-      "next": 0.123,
-      "horizon_4": 0.1178,
-      "band": 0.0327,
+      "samples": 500,
+      "next": 0.1333,
+      "horizon_4": 0.1338,
+      "band": 0.0335,
       "note": "Projection de dynamique du score visuel, pas une prévision économique."
     },
     "regime_transitions": [
@@ -79,7 +69,7 @@
       {
         "from": "CALM",
         "to": "CALM",
-        "count": 157
+        "count": 158
       },
       {
         "from": "CALM",
@@ -13088,6 +13078,32 @@
       "blindness": 0.0,
       "active_arms": 0,
       "source_seq": "504:502"
+    },
+    {
+      "ts": "2026-11-17T22:47:41Z",
+      "strain": 0.149,
+      "vigilance": 0.3667,
+      "asymmetry": 0.1382,
+      "arms": {
+        "macro": 0.32,
+        "budget": 0.3667,
+        "energy": 0.0125,
+        "finance": 0.0123,
+        "logistics": 0.1847,
+        "climate": 0.0,
+        "health": 0.0435,
+        "geopolitics": 0.0525
+      },
+      "regime": "CALM",
+      "top_arm": "budget",
+      "heart_rate_visual": 64,
+      "respiration_visual": 11.4,
+      "contraction": 0.227,
+      "luminance": 0.828,
+      "sensor_health": 1.0,
+      "blindness": 0.0,
+      "active_arms": 1,
+      "source_seq": "505:503"
     }
   ]
 }
