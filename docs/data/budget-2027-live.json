@@ -1,8 +1,8 @@
 {
   "schema": "OJO_BUDGET_2027_LIVE_FEED_V1",
   "version": "2026-09-21",
-  "sequence": 471,
-  "updated_at": "2026-11-17T14:05:12Z",
+  "sequence": 472,
+  "updated_at": "2026-11-17T14:18:20Z",
   "policy": {
     "canonical_mutation": "NEVER_FROM_FINGERPRINT_ALONE",
     "source_change": "EMIT_DELTA_THEN_RECONCILE",
@@ -21,10 +21,10 @@
       "url": "https://www.banque-france.fr/fr/actualites/projections-macroeconomiques-intermediaires-septembre-2026",
       "health": "OK",
       "http_status": 200,
-      "etag": "\"1794924306-gzip\"",
-      "last_modified": "Tue, 17 Nov 2026 14:05:06 GMT",
+      "etag": "\"1794925093-gzip\"",
+      "last_modified": "Tue, 17 Nov 2026 14:18:13 GMT",
       "digest": "24711d319ab0eee1717d20fb16e9052ee764da8c1884ae234cd02ead26dce729",
-      "checked_at": "2026-11-17T14:05:05Z",
+      "checked_at": "2026-11-17T14:18:12Z",
       "candidate_observations": [
         {
           "needle": "0,9 %",
@@ -56,7 +56,7 @@
       "etag": null,
       "last_modified": null,
       "digest": "201d7d39144c24a731425a051aa0fa61b301390311a9fd98496176ec18666b26",
-      "checked_at": "2026-11-17T14:05:07Z",
+      "checked_at": "2026-11-17T14:18:14Z",
       "candidate_observations": [],
       "error": null
     },
@@ -76,8 +76,8 @@
       "http_status": 200,
       "etag": null,
       "last_modified": null,
-      "digest": "c2086de46e15d39df3efd6d713eb2211b653090f349be8cff508ceace1723480",
-      "checked_at": "2026-11-17T14:05:07Z",
+      "digest": "6ac8c775d4572410d867828c869a0602c63b5f9dbfcf6379b14be074b94493bc",
+      "checked_at": "2026-11-17T14:18:15Z",
       "candidate_observations": [],
       "error": null
     },
@@ -95,7 +95,7 @@
       "etag": null,
       "last_modified": null,
       "digest": "0e1b522936ceb27101d42fcedcc98b17f796d0e3c48a736f4209bc825d61f04a",
-      "checked_at": "2026-11-17T14:05:08Z",
+      "checked_at": "2026-11-17T14:18:16Z",
       "candidate_observations": [],
       "error": null
     },
@@ -111,7 +111,7 @@
       "etag": "\"1794909895\"",
       "last_modified": "Tue, 17 Nov 2026 10:04:55 GMT",
       "digest": "60ced727ef56302c469b97602a7eeaa5bc5dd2fa02ccddbe492460cc5cd10fd9",
-      "checked_at": "2026-11-17T14:05:09Z",
+      "checked_at": "2026-11-17T14:18:16Z",
       "candidate_observations": [
         {
           "needle": "151",
@@ -137,8 +137,8 @@
       "http_status": 202,
       "etag": null,
       "last_modified": null,
-      "digest": "fdd120ad22fa14422c5f4abd2177691fb2516e3878f5388c096ef06053c05013",
-      "checked_at": "2026-11-17T14:05:10Z",
+      "digest": "2fa7fd0f338a2554f76c4313a69ba1bb4d189722d989a8c6ff6a9060d552c5e0",
+      "checked_at": "2026-11-17T14:18:17Z",
       "candidate_observations": [],
       "error": null
     },
@@ -158,9 +158,9 @@
       "health": "OK",
       "http_status": 200,
       "etag": null,
-      "last_modified": "Tue, 17 Nov 2026 14:05:12 GMT",
+      "last_modified": "Tue, 17 Nov 2026 14:18:19 GMT",
       "digest": "f3a403fcb52f4de89aa31b43fb46a1a9274ba5e0ccd3ab9930488f3c9bfc178a",
-      "checked_at": "2026-11-17T14:05:10Z",
+      "checked_at": "2026-11-17T14:18:17Z",
       "candidate_observations": [
         {
           "needle": "54 milliards",
@@ -189,7 +189,7 @@
         "F10",
         "F11"
       ],
-      "at": "2026-11-17T14:05:07Z",
+      "at": "2026-11-17T14:18:15Z",
       "detail": "Public source fingerprint changed; canonical claims require reconciliation before mutation."
     },
     {
@@ -199,37 +199,11 @@
       "claims": [
         "F12"
       ],
-      "at": "2026-11-17T14:05:10Z",
+      "at": "2026-11-17T14:18:17Z",
       "detail": "Public source fingerprint changed; canonical claims require reconciliation before mutation."
     }
   ],
   "events": [
-    {
-      "source_id": "INSEE_BDM_RSS",
-      "kind": "SOURCE_CHANGED",
-      "organ": "MACRO",
-      "claims": [
-        "F8",
-        "F9",
-        "F10",
-        "F11"
-      ],
-      "at": "2026-11-17T04:32:55Z",
-      "detail": "Public source fingerprint changed; canonical claims require reconciliation before mutation."
-    },
-    {
-      "source_id": "INSEE_BDM_RSS",
-      "kind": "SOURCE_CHANGED",
-      "organ": "MACRO",
-      "claims": [
-        "F8",
-        "F9",
-        "F10",
-        "F11"
-      ],
-      "at": "2026-11-17T04:46:55Z",
-      "detail": "Public source fingerprint changed; canonical claims require reconciliation before mutation."
-    },
     {
       "source_id": "INSEE_BDM_RSS",
       "kind": "SOURCE_CHANGED",
@@ -1139,6 +1113,29 @@
         "F12"
       ],
       "at": "2026-11-17T14:05:10Z",
+      "detail": "Public source fingerprint changed; canonical claims require reconciliation before mutation."
+    },
+    {
+      "source_id": "INSEE_BDM_RSS",
+      "kind": "SOURCE_CHANGED",
+      "organ": "MACRO",
+      "claims": [
+        "F8",
+        "F9",
+        "F10",
+        "F11"
+      ],
+      "at": "2026-11-17T14:18:15Z",
+      "detail": "Public source fingerprint changed; canonical claims require reconciliation before mutation."
+    },
+    {
+      "source_id": "EURLEX_EDP",
+      "kind": "SOURCE_CHANGED",
+      "organ": "RULES",
+      "claims": [
+        "F12"
+      ],
+      "at": "2026-11-17T14:18:17Z",
       "detail": "Public source fingerprint changed; canonical claims require reconciliation before mutation."
     }
   ],
