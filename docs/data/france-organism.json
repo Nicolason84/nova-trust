@@ -1,7 +1,7 @@
 {
   "schema": "OJO_FRANCE_ORGANISM_V1",
   "version": "2026-09-21",
-  "updated_at": "2026-11-18T21:17:52Z",
+  "updated_at": "2026-11-18T21:33:10Z",
   "identity": {
     "name": "France",
     "type": "DISTRIBUTED_TERRITORIAL_ORGANISM",
@@ -451,24 +451,34 @@
     },
     "learning": {
       "stage": "PATTERN_LIBRARY",
-      "samples": 589,
+      "samples": 590,
       "max_memory": 672,
-      "motifs": [],
+      "motifs": [
+        {
+          "id": "PERSISTENT_DRIVER",
+          "label": "Conducteur persistant",
+          "status": "ACTIVE",
+          "evidence": [
+            "macro"
+          ],
+          "meaning": "Le même domaine domine quatre états consécutifs."
+        }
+      ],
       "early_warning": {
         "status": "NO_GENERIC_WARNING",
-        "samples": 589,
-        "variance_recent": 0.00023,
-        "variance_previous": 0.000243,
-        "lag1_autocorr_recent": 0.2982,
-        "slope_recent": -0.000757,
+        "samples": 590,
+        "variance_recent": 0.000237,
+        "variance_previous": 0.000228,
+        "lag1_autocorr_recent": 0.3243,
+        "slope_recent": -0.002363,
         "note": "Signal générique exploratoire seulement; variance/autocorrélation ne suffisent pas à prédire une transition."
       },
       "prediction": {
         "status": "EXPLORATORY",
-        "samples": 589,
-        "next": 0.1219,
-        "horizon_4": 0.1195,
-        "band": 0.0367,
+        "samples": 590,
+        "next": 0.1197,
+        "horizon_4": 0.1178,
+        "band": 0.0349,
         "note": "Projection de dynamique du score visuel, pas une prévision économique."
       },
       "regime_transitions": [
@@ -480,7 +490,7 @@
         {
           "from": "CALM",
           "to": "CALM",
-          "count": 215
+          "count": 216
         },
         {
           "from": "CALM",
@@ -511,13 +521,13 @@
     }
   },
   "environment": {
-    "sequence": 592,
+    "sequence": 593,
     "summary": {
       "sources": 8,
       "healthy": 8,
       "errors": 0,
       "current_events": 365,
-      "new_events": 116
+      "new_events": 115
     },
     "note": "External events remain signals until a territorial transmission path is resolved."
   },
