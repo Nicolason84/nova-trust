@@ -1,7 +1,7 @@
 {
   "schema": "OJO_FRANCE_ORGANISM_V1",
   "version": "2026-09-21",
-  "updated_at": "2026-11-18T18:18:58Z",
+  "updated_at": "2026-11-18T18:33:08Z",
   "identity": {
     "name": "France",
     "type": "DISTRIBUTED_TERRITORIAL_ORGANISM",
@@ -451,24 +451,24 @@
     },
     "learning": {
       "stage": "PATTERN_LIBRARY",
-      "samples": 577,
+      "samples": 578,
       "max_memory": 672,
       "motifs": [],
       "early_warning": {
         "status": "NO_GENERIC_WARNING",
-        "samples": 577,
-        "variance_recent": 0.000669,
-        "variance_previous": 0.000277,
-        "lag1_autocorr_recent": 0.6054,
-        "slope_recent": -0.009657,
+        "samples": 578,
+        "variance_recent": 0.00073,
+        "variance_previous": 0.000255,
+        "lag1_autocorr_recent": 0.6471,
+        "slope_recent": -0.0104,
         "note": "Signal générique exploratoire seulement; variance/autocorrélation ne suffisent pas à prédire une transition."
       },
       "prediction": {
         "status": "EXPLORATORY",
-        "samples": 577,
-        "next": 0.1379,
-        "horizon_4": 0.1303,
-        "band": 0.0412,
+        "samples": 578,
+        "next": 0.1294,
+        "horizon_4": 0.1182,
+        "band": 0.0384,
         "note": "Projection de dynamique du score visuel, pas une prévision économique."
       },
       "regime_transitions": [
@@ -480,7 +480,7 @@
         {
           "from": "CALM",
           "to": "CALM",
-          "count": 203
+          "count": 204
         },
         {
           "from": "CALM",
@@ -511,7 +511,7 @@
     }
   },
   "environment": {
-    "sequence": 580,
+    "sequence": 581,
     "summary": {
       "sources": 8,
       "healthy": 8,
