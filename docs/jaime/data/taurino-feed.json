@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAtUtc": "2026-11-18T07:23:59Z",
+  "generatedAtUtc": "2026-11-19T07:24:39Z",
   "coverage": {
     "type": "source_links",
     "isLive": false,
@@ -13,7 +13,7 @@
       "name": "Clarín · RTVE",
       "url": "https://api.rtve.es/api/programas/1907/audios.rss",
       "status": "ok",
-      "lastSuccessAt": "2026-11-18T07:23:59Z",
+      "lastSuccessAt": "2026-11-19T07:24:39Z",
       "errorCode": null
     },
     {
@@ -21,19 +21,31 @@
       "name": "Real Maestranza de Sevilla",
       "url": "https://www.realmaestranza.com/feed/",
       "status": "ok",
-      "lastSuccessAt": "2026-11-18T07:23:59Z",
+      "lastSuccessAt": "2026-11-19T07:24:39Z",
       "errorCode": null
     },
     {
       "id": "zafra",
       "name": "Ayuntamiento de Zafra",
       "url": "https://zafra.es/feed/",
-      "status": "ok",
+      "status": "failed",
       "lastSuccessAt": "2026-11-18T07:23:59Z",
-      "errorCode": null
+      "errorCode": "HTTP_202"
     }
   ],
   "items": [
+    {
+      "id": "a4314e6d15e48d6f1a51ece8ad0951c9763ad9f0357ad194ec5f136184943fe8",
+      "sourceId": "real-maestranza",
+      "kind": "institutional",
+      "date": "2026-11-18T09:42:21Z",
+      "url": "https://www.realmaestranza.com/premios-de-la-lxxv-exposicion-internacional-de-otono-de-la-real-academia-de-bellas-artes-de-santa-isabel-de-hungria/",
+      "label": "Patrimonio · Sevilla",
+      "topics": [
+        "Patrimonio",
+        "Cultura"
+      ]
+    },
     {
       "id": "d93a3e54833fb9b863e66f12887be58c735bd20d331e616282a70e0ff9f4dbac",
       "sourceId": "rtve-clarin",
@@ -215,18 +227,6 @@
       "label": "Patrimonio · Sevilla",
       "topics": [
         "Patrimonio"
-      ]
-    },
-    {
-      "id": "fb641ecf323d7380de0973d58df1e4044402b417e5d610c9f085a4dd1ac1ad9a",
-      "sourceId": "real-maestranza",
-      "kind": "institutional",
-      "date": "2026-10-28T11:48:43Z",
-      "url": "https://www.realmaestranza.com/entrega-del-iii-premio-divisa-de-literatura-taurina/",
-      "label": "Literatura taurina · Sevilla",
-      "topics": [
-        "Literatura",
-        "Tauromaquia"
       ]
     },
     {
