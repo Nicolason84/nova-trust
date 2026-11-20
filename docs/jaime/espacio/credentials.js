@@ -1,14 +1,14 @@
 'use strict';
 // A passkey can wrap this browser's edition credential only if its authenticator returns a PRF.
 // Both WebAuthn and the PRF run inside a user-verified ceremony on the hosted origin.
-window.JaimeBrowserCredentials=function(kv) {
+window.JaimeBrowserCredentials=function(kv,options={}) {
  const field='passkey.wrap.v1', enc=new TextEncoder(),dec=new TextDecoder();
  const bytes=n=>crypto.getRandomValues(new Uint8Array(n));
  const encode=a=>btoa(Array.from(new Uint8Array(a),n=>String.fromCharCode(n)).join(''));
  const decode=s=>Uint8Array.from(atob(s),c=>c.charCodeAt(0));
- const aad=enc.encode('jaime/pwa/passkey-wrap/v1/'+location.origin+new URL('.',location.href).pathname);
+ const aad=enc.encode('jaime/pwa/passkey-wrap/v1/'+location.origin+new URL('.',location.href).pathname+(options.context?'/'+options.context:''));
  const key=raw=>crypto.subtle.importKey('raw',raw,'AES-GCM',false,['encrypt','decrypt']);
- function valid(s){try{const o=JSON.parse(s);return s.length<256&&o.version===1&&/^[0-9a-f]{16}$/i.test(o.editionId)&&/^[A-Z0-9]{24}$/.test(o.editionCode)}catch{return false}}
+ function valid(s){if(typeof options.validate==='function')return options.validate(s);try{const o=JSON.parse(s);return s.length<256&&o.version===1&&/^[0-9a-f]{16}$/i.test(o.editionId)&&/^[A-Z0-9]{24}$/.test(o.editionCode)}catch{return false}}
  async function available(){
   try{if(!window.isSecureContext||!window.PublicKeyCredential||!navigator.credentials?.get||!crypto.subtle)return false;
    if(typeof PublicKeyCredential.getClientCapabilities==='function'){const capabilities=await PublicKeyCredential.getClientCapabilities();if(capabilities['extension:prf']===false)return false}
