@@ -1,0 +1,1 @@
+window.JaimeEditionSigner=Object.freeze({"kty":"EC","crv":"P-256","x":"5vrfjr6Ubj6vTFFENJGXLVOiVSpeEuv9xAaz29zGf4E","y":"R_MHXMRmSbAgvLCIDmrOAdJUYgH0yYCPU1BBDmpzvMM","ext":true,"key_ops":["verify"]});
