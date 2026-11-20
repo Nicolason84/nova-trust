@@ -1,13 +1,14 @@
 <!doctype html>
 <html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#183c32"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="referrer" content="no-referrer">
 <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; media-src data: blob:; connect-src 'self' blob:; frame-src blob:; manifest-src 'self'; worker-src 'self'; font-src 'self'; form-action 'none'; base-uri 'none'">
-<title>Jaime · Mi espacio</title><link rel="manifest" href="./app.webmanifest"><link rel="apple-touch-icon" href="./icon-192.png"><link rel="stylesheet" href="./app.css?v=12"><link rel="stylesheet" href="./espacio.css?v=12"></head>
+<title>Jaime · Mi espacio</title><link rel="manifest" href="./app.webmanifest"><link rel="apple-touch-icon" href="./icon-192.png"><link rel="stylesheet" href="./app.css?v=13"><link rel="stylesheet" href="./espacio.css?v=13"></head>
 <body><main id="cover"><header><span class="mark" aria-hidden="true">J</span><span>Mi espacio personal</span></header>
 <section aria-labelledby="boxtitle"><h1 id="boxtitle">Abrir mi espacio</h1>
 <p id="accountStatus" role="status" aria-live="polite">Comprobando el acceso con Google…</p>
 <button type="button" id="googleAccount" hidden>Continuar con Google</button>
 <button type="button" class="other" id="googleDevice" hidden>Desbloquear con este dispositivo</button>
 <details id="compat"><summary>Recuperación y opciones anteriores</summary>
+<button type="button" class="other" id="switchGoogle" hidden>Elegir otra cuenta de Google</button>
 <div class="box"><p id="hint">Busca el archivo de la edición en Archivos o Descargas. Si vas a recuperar tus datos, elige tu copia .jaime y ten a mano su frase.</p>
 <input hidden id="file" type="file" accept=".html,.htm,.jaime,text/html,application/octet-stream">
 <button id="open" type="button" hidden>Abrir edición guardada</button><button id="choose" type="button">Elegir mi archivo</button>
@@ -17,4 +18,4 @@
 <p>Si tienes un kit o una copia antigua en JSON, elige primero la edición privada HTML. Dentro encontrarás los controles para recuperar la identidad o importar tus datos.</p></details>
 <details><summary>Instalar en el teléfono</summary><p>En Safari, abre Compartir y elige «Añadir a la pantalla de inicio». En Chrome para Android, abre el menú y elige «Instalar aplicación». Abre el icono antes de elegir tu archivo privado.</p></details></details></section></main>
 <main id="accountPane" aria-label="Mi cuenta personal" hidden tabindex="-1"></main>
-<div id="stage" hidden><div class="filebar"><button type="button" id="change">← Cambiar archivo</button><span id="stageNote" role="status"></span></div><div id="frameHost"></div></div><script src="./edition.js?v=12"></script><script src="./credentials.js?v=12"></script><script src="./bridge.js?v=12"></script><script src="./portable.js?v=12"></script><script src="./google-config.js?v=12"></script><script src="./espacio.js?v=12"></script><script src="./google-device.js?v=12"></script><script src="./google-account.js?v=12"></script><script src="./loader.js?v=12"></script></body></html>
+<div id="stage" hidden><div class="filebar"><button type="button" id="change">← Cambiar archivo</button><span id="stageNote" role="status"></span></div><div id="frameHost"></div></div><script src="./edition.js?v=13"></script><script src="./credentials.js?v=13"></script><script src="./bridge.js?v=13"></script><script src="./portable.js?v=13"></script><script src="./google-config.js?v=13"></script><script src="./espacio.js?v=13"></script><script src="./google-device.js?v=13"></script><script src="./google-account.js?v=13"></script><script src="./loader.js?v=13"></script></body></html>

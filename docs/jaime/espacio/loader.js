@@ -200,17 +200,24 @@
  };
  function accountUnavailable(){
   $('googleAccount').hidden=true;
+  $('switchGoogle').hidden=true;
   $('googleDevice').hidden=true;
   $('accountStatus').textContent='El acceso con Google no está disponible ahora.';
  }
  if(typeof window.JaimeGoogle?.init==='function'){
   try{
+   $('switchGoogle').hidden=!window.JaimeGoogle.available();
    $('accountStatus').textContent=window.JaimeGoogle.available()?
-    'Elige tu cuenta de Google para abrir tu espacio.':'El acceso con Google no está disponible ahora.';
+    'Continúa con tu Gmail en esta misma pestaña.':'El acceso con Google no está disponible ahora.';
    Promise.resolve(window.JaimeGoogle.init({enterAccount,leaveAccount})).catch(accountUnavailable);
    $('googleAccount').addEventListener('click',async()=>{
     try{await window.JaimeGoogle.start();}catch{
      $('accountStatus').textContent='No se pudo iniciar la conexión. Puedes volver a intentarlo.';
+    }
+   });
+   $('switchGoogle').addEventListener('click',async()=>{
+    try{await window.JaimeGoogle.start(null,true);}catch{
+     $('accountStatus').textContent='No se pudo abrir el selector de cuentas.';
     }
    });
   }catch(_){accountUnavailable();}

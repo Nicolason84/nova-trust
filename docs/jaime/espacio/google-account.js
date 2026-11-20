@@ -20,7 +20,7 @@ window.JaimeGoogle=(()=>{
     const handle=await db();return new Promise((ok,no)=>{const tx=handle.transaction('records','readwrite'),s=tx.objectStore('records'),r=s.get(name);
       r.onsuccess=()=>{if((r.result?.stamp||null)!==stamp){tx.abort();return;}s.put(next,name);};tx.oncomplete=()=>ok();tx.onabort=()=>no(Error('El espacio cambió en otra ventana. Vuelve a abrirlo antes de guardar.'));tx.onerror=()=>no(tx.error);});
   }
-  async function start(saveDraft){
+  async function start(saveDraft, chooseAccount=false){
     if(opening)return;if(!usable())throw Error('El acceso con Google aún no está disponible.');
     opening=true;
     try{
@@ -29,13 +29,21 @@ window.JaimeGoogle=(()=>{
       const prev=sessionStorage.getItem(PENDING);if(prev)await kv('delete','flow.'+prev);
       await kv('put','flow.'+state,{key:pair.privateKey,keyHash,limit:Date.now()+600000});sessionStorage.setItem(PENDING,state);
       const u=new URL(cfg().endpoint);u.searchParams.set('state',state);u.searchParams.set('key',to64(exported));u.searchParams.set('keyHash',keyHash);
-      if(saveDraft?.snapshot){u.hash='save='+to64(enc.encode(JSON.stringify(saveDraft)));location.assign(u.href);}
-      else {const chooser=new URL('https://accounts.google.com/AccountChooser');chooser.searchParams.set('continue',u.href);location.assign(chooser.href);}
+      if(saveDraft?.snapshot)u.hash='save='+to64(enc.encode(JSON.stringify(saveDraft)));
+      // Let the deployment initiate Google sign-in in this tab. An extra chooser
+      // can send a signed-in iPhone to a different Apps Script account path.
+      if(chooseAccount && !saveDraft?.snapshot){
+        const chooser=new URL('https://accounts.google.com/AccountChooser');
+        chooser.searchParams.set('continue',u.href);
+        location.assign(chooser.href);
+      }else{
+        location.assign(u.href);
+      }
     }catch(e){opening=false;status('No se pudo iniciar Google. Vuelve a intentarlo.');throw e;}
   }
   async function consume(fragment){
     const parts=fragment.slice('#cuenta='.length).split('.'),state=sessionStorage.getItem(PENDING);
-    if(parts.length!==4||!state||state!==parts[0]||fragment.length>30500)throw Error('Vuelve a entrar con Google desde esta aplicación.');
+    if(parts.length!==4||!state||state!==parts[0]||fragment.length>30500)throw Error('Abre JAIME en Safari o en tu navegador habitual y vuelve a entrar con Google en esa misma pestaña.');
     const req=await kv('get','flow.'+state);sessionStorage.removeItem(PENDING);await kv('delete','flow.'+state);
     if(!req||req.limit<Date.now())throw Error('La conexión ha caducado.');
     const secret=await crypto.subtle.decrypt({name:'RSA-OAEP'},req.key,from64(parts[1]));
