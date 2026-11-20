@@ -48,6 +48,7 @@
   raw.notes.forEach(n=>{check(object(n)&&text(n.title,120)&&text(n.body,2400)&&iso(n.date),error);claim(n.id);});
   raw.projects.forEach(p=>{check(object(p)&&text(p.title,120)&&typeof p.done==='boolean'&&Array.isArray(p.steps),error);claim(p.id);p.steps.forEach(s=>{check(object(s)&&text(s.title,350)&&typeof s.done==='boolean',error);claim(s.id);});});
   raw.chat.forEach(m=>{check(object(m)&&['user','assistant'].includes(m.role)&&text(m.body,5200)&&iso(m.date)&&Array.isArray(m.refs)&&m.refs.length<=12&&m.refs.every(x=>object(x)&&['note','doc'].includes(x.kind)&&typed(x,['id','label'])),error);});
+  if(raw.legalDossier!==undefined){check(!!window.JaimeDossier,'El lector de expedientes no está disponible.');window.JaimeDossier.validate(raw.legalDossier);}
   return copy(raw);
  }
  const ignore=new Set('que cual cuales como cuando donde puedes puedo sobre para los las del una uno unos unas mis mi por para con que hay tienes muestra dime quiero saber dice buscar busca encuentra encontraste texto documento documentos nota notas archivo archivos personal tengo fuente fuentes favor'.split(' '));
@@ -77,12 +78,14 @@
  async function open(o){
   check(o&&o.mount&&typeof o.load==='function'&&typeof o.save==='function','Se requiere un espacio de cuenta autenticado.');
   const mount=o.mount,previous=active.get(mount);
-  let alive=true,loaded=false,s=null,tail=Promise.resolve(),tab='chat',account=false,currentFolder='*',selectedProject='',selectedNote='',selectedDoc='',url='',query='';
+  let dossierCleanup=null;const dossierUi={section:'resumen'};
+  let caseOpen=false;try{caseOpen=sessionStorage.getItem('jaime.dossier.intent')==='1';}catch(_){}
+  let alive=true,loaded=false,s=null,tail=Promise.resolve(),tab=caseOpen?'dossiers':'chat',account=false,currentFolder='*',selectedProject='',selectedNote='',selectedDoc='',url='',query='';
   const scope=make('section',undefined,'ja-space'),head=make('header'),nav=make('nav'),main=make('main'),notice=make('p',undefined,'ja-status');
   scope.setAttribute('lang','es');nav.setAttribute('aria-label','Mi espacio');notice.setAttribute('role','status');
   scope.append(head,nav,notice,main);
   const setStatus=t=>{if(alive)notice.textContent=t;};
-  const clearBlob=()=>{if(url)URL.revokeObjectURL(url);url='';};
+  const clearBlob=()=>{if(dossierCleanup){dossierCleanup();dossierCleanup=null;}if(url)URL.revokeObjectURL(url);url='';};
   const flush=()=>tail;
   async function close(){
    const wasOpen=alive;alive=false;clearBlob();if(active.get(mount)===handle){active.delete(mount);mount.replaceChildren();}
@@ -160,6 +163,7 @@
   }
   function renderDossiers(){
    section('Mis expedientes');
+   if(window.JaimeDossier){const box=make('section');main.append(box);dossierCleanup=window.JaimeDossier.render({mount:box,state:s,ui:dossierUi,expanded:caseOpen,open:()=>{caseOpen=true;render();},close:()=>{caseOpen=false;render();},commit,backup:typeof o.downloadBackup==='function'?async()=>{await tail;await o.downloadBackup();}:null});if(caseOpen)return;}
    const folder=selectFolders(currentFolder),empty=make('option','Todas las carpetas');empty.value='*';folder.prepend(empty);folder.value=currentFolder==='*'?'*':currentFolder;
    folder.addEventListener('change',()=>{currentFolder=folder.value;selectedDoc='';render();});main.append(label('Mostrar carpeta',folder));
    const addFolder=details(main,'Crear una carpeta'),folderName=field('input','text',120);
