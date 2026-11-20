@@ -7,7 +7,7 @@
   <meta name="robots" content="noindex,nofollow,noarchive">
   <meta name="color-scheme" content="light">
   <meta name="theme-color" content="#173e34">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src data: blob:; media-src data: blob:; font-src data:; connect-src 'self'; frame-src 'self' blob: data:; object-src 'none'; base-uri 'none'; form-action 'none'">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline' blob: data: 'wasm-unsafe-eval'; worker-src blob:; style-src 'unsafe-inline'; img-src data: blob:; media-src data: blob:; font-src data:; connect-src 'self' blob: data:; frame-src 'self' blob: data:; object-src 'none'; base-uri 'none'; form-action 'none'">
   <title>JAIME · Tu espacio</title>
   <style>
     :root{color-scheme:light;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:#173e34;background:#f7f6ef}
@@ -27,10 +27,323 @@
   </style>
 </head>
 <body>
-  <header class="bar"><span class="brand">JAIME</span><div class="actions"><button type="button" id="download" hidden disabled>Guardar copia</button><button type="button" id="share-pdf" hidden>Compartir PDF</button><button type="button" id="download-pdf" hidden>Descargar PDF</button><a id="email-pdf" hidden href="mailto:?subject=Documento%20PDF&amp;body=Hola%2C%0A%0AAdjunto%20el%20documento%20PDF.%0A%0AUn%20saludo.">Abrir correo</a></div></header>
+  <header class="bar"><span class="brand">JAIME · 2.1</span><div class="actions"><button type="button" id="download" hidden disabled>Copia del dossier recibido</button><button type="button" id="share-pdf" hidden>Compartir PDF</button><button type="button" id="download-pdf" hidden>Descargar PDF</button><a id="email-pdf" hidden href="mailto:?subject=Documento%20PDF&amp;body=Hola%2C%0A%0AAdjunto%20el%20documento%20PDF.%0A%0AUn%20saludo.">Abrir correo</a></div></header>
   <p id="share-status" class="share-note" role="status" aria-live="polite" hidden></p>
   <main id="gate"><section class="welcome" aria-labelledby="title"><span class="eyebrow">Tu espacio personal</span><h1 id="title">Un momento, Jaime.</h1><p id="status" class="status-line" role="status" aria-live="polite"><span class="spinner" aria-hidden="true"></span>Abriendo tu documento…</p><p class="quiet" id="hint">El contenido se abre aquí. No necesitas crear una cuenta.</p><button type="button" class="retry" id="retry" hidden>Volver a intentar</button><noscript><p class="error">Para abrir este enlace necesitas permitir JavaScript en tu navegador.</p></noscript></section></main>
   <iframe id="document" title="Espacio personal de Jaime" hidden sandbox="allow-scripts allow-downloads allow-popups allow-popups-to-escape-sandbox allow-modals" allow="web-share; fullscreen *" allowfullscreen referrerpolicy="no-referrer"></iframe>
+  <script>/* JAIME local vault V2. Inline in the top-level bootstrap, after #document.
+ * Only the trusted opaque-origin iframe can request operations.
+ * IndexedDB contains authenticated ciphertext and opaque record identifiers.
+ * No network operation, persistent key, automatic import, or automatic send.
+ */
+(() => {
+  'use strict';
+  const SCHEMA = 2;
+  const DB_NAME = 'JAIME_LOCAL_VAULT_V2';
+  const STORE = 'records';
+  const MAX_CATALOGUE = 20 * 1024 * 1024;
+  const MAX_FILE = 96 * 1024 * 1024;
+  const MAX_ARCHIVE = 250 * 1024 * 1024;
+  const MAX_META = 32 * 1024;
+  const MAX_MANIFEST = 2 * 1024 * 1024;
+  const MAX_RECORDS = 2049;
+  const MAX_STORED_CIPHER = MAX_ARCHIVE - MAX_MANIFEST - 1024;
+  const MAX_PENDING = 4;
+  const FILE_MAGIC = [74, 86, 70, 50]; // JVF2
+  const SNAPSHOT_MAGIC = [74, 86, 83, 50]; // JVS2
+  const ARCHIVE_MAGIC = [74, 86, 65, 50]; // JVA2
+  const enc = new TextEncoder();
+  const dec = new TextDecoder('utf-8', { fatal: true });
+  const OPS = new Set(['load', 'save', 'put-file', 'get-file', 'export', 'import']);
+  let initialization;
+  let queue = Promise.resolve();
+  let pending = 0;
+
+  class VaultError extends Error {
+    constructor(code, message) { super(message); this.name = 'VaultError'; this.code = code; }
+  }
+  const fail = (code, message) => { throw new VaultError(code, message); };
+  function errorFor(error) {
+    if (error instanceof VaultError) return { code: error.code, message: error.message };
+    if (error?.name === 'QuotaExceededError') return { code: 'QUOTA_EXCEEDED', message: 'No queda espacio para guardar este cambio en el navegador. Conserva una copia de seguridad y libera espacio; este cambio no se ha confirmado como guardado.' };
+    if (['SecurityError', 'InvalidStateError', 'NotAllowedError'].includes(error?.name)) return { code: 'LOCAL_STORAGE_UNAVAILABLE', message: 'Este navegador no permite usar el archivo local en esta ventana. Abre el enlace en una ventana normal y comprueba sus permisos de almacenamiento.' };
+    return { code: 'LOCAL_VAULT_ERROR', message: 'No se pudo completar la operación del archivo local. El cambio no se ha confirmado como guardado. Conserva una copia antes de cerrar.' };
+  }
+  function buffer(value, limit, label) {
+    if (!(value instanceof ArrayBuffer)) fail('INVALID_BUFFER', label + ': no se ha recibido un archivo binario válido.');
+    if (value.byteLength > limit) fail('SIZE_LIMIT', label + ' supera el tamaño permitido.');
+    return value;
+  }
+  function text(value, limit, label, allowEmpty = false) {
+    if (typeof value !== 'string' || value.length > limit || (!allowEmpty && !value.length)) fail('INVALID_METADATA', label + ': dato ausente o demasiado largo.');
+    return value;
+  }
+  const hex = bytes => Array.from(bytes, n => n.toString(16).padStart(2, '0')).join('');
+  function b64(bytes) { return btoa(String.fromCharCode(...bytes)).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, ''); }
+  function fromB64(value, length) {
+    if (typeof value !== 'string' || !/^[A-Za-z0-9_-]+$/.test(value) || value.length > 128) fail('INVALID_ARCHIVE', 'La copia tiene una estructura no reconocida.');
+    const s = atob(value.replace(/-/g, '+').replace(/_/g, '/') + '='.repeat((4 - value.length % 4) % 4));
+    const bytes = Uint8Array.from(s, c => c.charCodeAt(0));
+    if (bytes.length !== length) fail('INVALID_ARCHIVE', 'La copia tiene una estructura no reconocida.');
+    return bytes;
+  }
+  function jsonBytes(value, limit, code) {
+    let encoded;
+    try { const s = JSON.stringify(value); if (s === undefined) throw new Error(); encoded = enc.encode(s); }
+    catch (_) { fail('INVALID_JSON', 'El catálogo debe contener datos JSON válidos.'); }
+    if (encoded.byteLength > limit) fail(code, 'El catálogo supera el límite de 20 MB.');
+    return encoded;
+  }
+  function jsonFrom(bytes, code = 'CORRUPT_RECORD') {
+    try { return JSON.parse(dec.decode(bytes)); }
+    catch (_) { fail(code, 'Los datos de la copia no tienen el formato esperado.'); }
+  }
+  const isMagic = (bytes, magic) => bytes.length >= magic.length && magic.every((n, i) => bytes[i] === n);
+  const aad = id => enc.encode(JSON.stringify({ schema: SCHEMA, recordKey: id }));
+
+  async function deriveKeys() {
+    if (!window.crypto?.subtle) fail('CRYPTO_UNAVAILABLE', 'Este navegador no permite abrir el archivo local cifrado.');
+    const value = new URLSearchParams(location.hash.slice(1)).get('k') || '';
+    if (!/^[A-Za-z0-9_-]{43}$/.test(value)) fail('MISSING_KEY', 'Abre el enlace completo de Jaime, incluida su parte final, para usar el archivo local.');
+    const raw = fromB64(value, 32);
+    const context = new URL(location.href);
+    const scope = context.origin + context.pathname;
+    const label = enc.encode('JAIME_LOCAL_VAULT_V2\0' + scope + '\0');
+    const namespaceInput = new Uint8Array(label.length + raw.length);
+    namespaceInput.set(label); namespaceInput.set(raw, label.length);
+    try {
+      const material = await crypto.subtle.importKey('raw', raw, 'HKDF', false, ['deriveKey']);
+      const salt = await crypto.subtle.digest('SHA-256', enc.encode('JAIME_LOCAL_VAULT_V2/salt\0' + scope));
+      const namespace = b64(new Uint8Array(await crypto.subtle.digest('SHA-256', namespaceInput)));
+      const key = await crypto.subtle.deriveKey({ name: 'HKDF', hash: 'SHA-256', salt, info: enc.encode('JAIME_LOCAL_VAULT_V2') }, material, { name: 'AES-GCM', length: 256 }, false, ['encrypt', 'decrypt']);
+      const ids = await crypto.subtle.deriveKey({ name: 'HKDF', hash: 'SHA-256', salt, info: enc.encode('JAIME_LOCAL_VAULT_V2/record-ids') }, material, { name: 'HMAC', hash: 'SHA-256', length: 256 }, false, ['sign']);
+      return { key, ids, namespace, catalogueKey: namespace + ':catalogue', archiveKey: namespace + ':archive', seenIVs: new Set() };
+    } finally { raw.fill(0); namespaceInput.fill(0); }
+  }
+
+  function openDatabase() {
+    if (!window.indexedDB) return Promise.reject(new VaultError('LOCAL_STORAGE_UNAVAILABLE', 'El almacenamiento local no está disponible en este navegador.'));
+    return new Promise((resolve, reject) => {
+      let done = false;
+      const request = indexedDB.open(DB_NAME, 1);
+      request.onupgradeneeded = () => { if (!request.result.objectStoreNames.contains(STORE)) request.result.createObjectStore(STORE, { keyPath: 'id' }); };
+      request.onsuccess = () => {
+        if (done) { request.result.close(); return; }
+        done = true;
+        request.result.onversionchange = () => request.result.close();
+        resolve(request.result);
+      };
+      request.onerror = () => { if (!done) { done = true; reject(request.error); } };
+      request.onblocked = () => { if (!done) { done = true; reject(new VaultError('DATABASE_BLOCKED', 'Cierra las otras ventanas de Jaime y vuelve a intentarlo para abrir el archivo local.')); } };
+    });
+  }
+  function init() {
+    if (!initialization) initialization = (async () => {
+      const context = await deriveKeys();
+      context.db = await openDatabase();
+      return context;
+    })().catch(error => { initialization = undefined; throw error; });
+    return initialization;
+  }
+  function range(context) { return IDBKeyRange.bound(context.namespace + ':', context.namespace + ':\uffff'); }
+  function read(context, id) {
+    return new Promise((resolve, reject) => {
+      const tx = context.db.transaction(STORE, 'readonly');
+      let result, cause;
+      const request = id ? tx.objectStore(STORE).get(id) : tx.objectStore(STORE).getAll(range(context));
+      request.onsuccess = () => { result = request.result; };
+      request.onerror = () => { cause = request.error; };
+      tx.oncomplete = () => resolve(result);
+      tx.onerror = () => { cause = cause || tx.error; };
+      tx.onabort = () => reject(cause || tx.error || new Error('Transaction aborted'));
+    });
+  }
+  function rowShape(row, expectedId) {
+    if (!row || row.id !== expectedId || row.schema !== SCHEMA || !(row.iv instanceof ArrayBuffer) || row.iv.byteLength !== 12 || !(row.ciphertext instanceof ArrayBuffer) || row.ciphertext.byteLength < 16 || row.ciphertext.byteLength > MAX_FILE + MAX_META + 64) fail('CORRUPT_RECORD', 'Un documento del archivo local está incompleto o dañado. Conserva la copia de seguridad.');
+  }
+  function commit(context, row) {
+    return new Promise((resolve, reject) => {
+      const tx = context.db.transaction(STORE, 'readwrite');
+      let cause;
+      const store = tx.objectStore(STORE);
+      const request = store.getAll(range(context));
+      request.onsuccess = () => {
+        try {
+          const existing = request.result;
+          let total = row.ciphertext.byteLength, count = 1;
+          for (const item of existing) {
+            if (item.id === row.id) continue;
+            rowShape(item, item.id); total += item.ciphertext.byteLength; count++;
+          }
+          if (count > MAX_RECORDS || total > MAX_STORED_CIPHER) fail('VAULT_SIZE_LIMIT', 'El archivo local alcanzaría el límite de una copia de 250 MB. Conserva una copia y reduce el tamaño de los documentos antes de añadir este archivo.');
+          const put = store.put(row);
+          put.onerror = () => { cause = put.error; };
+        } catch (error) { cause = error; tx.abort(); }
+      };
+      request.onerror = () => { cause = request.error; };
+      tx.oncomplete = () => resolve(); // Acknowledgment only after real commit.
+      tx.onerror = () => { cause = cause || tx.error; };
+      tx.onabort = () => reject(cause || tx.error || new Error('Transaction aborted'));
+    });
+  }
+  async function encrypted(context, id, clear) {
+    let iv, token;
+    do { iv = crypto.getRandomValues(new Uint8Array(12)); token = b64(iv); } while (context.seenIVs.has(token));
+    context.seenIVs.add(token);
+    const ciphertext = await crypto.subtle.encrypt({ name: 'AES-GCM', iv, additionalData: aad(id), tagLength: 128 }, context.key, clear);
+    return { id, schema: SCHEMA, iv: iv.buffer, ciphertext };
+  }
+  async function decrypted(context, row, id, archive = false) {
+    if (!archive) rowShape(row, id);
+    try { return await crypto.subtle.decrypt({ name: 'AES-GCM', iv: row.iv, additionalData: aad(id), tagLength: 128 }, context.key, row.ciphertext); }
+    catch (_) { fail(archive ? 'ARCHIVE_AUTH_FAILED' : 'RECORD_AUTH_FAILED', archive ? 'La copia no se puede autenticar con este enlace. Comprueba que usas el mismo enlace de Jaime y que el archivo está completo; no se ha importado nada.' : 'No se pudo autenticar un documento del archivo local. No se ha confirmado ningún cambio; utiliza una copia de seguridad válida.'); }
+  }
+  async function fileKey(context, fileId) { return context.namespace + ':file:' + b64(new Uint8Array(await crypto.subtle.sign('HMAC', context.ids, enc.encode(fileId)))); }
+  function fileMetadata(value) {
+    if (!value || typeof value !== 'object') fail('INVALID_METADATA', 'Faltan los datos del documento.');
+    return { fileId: text(value.fileId, 256, 'Identificador del documento'), name: text(value.name, 1024, 'Nombre del documento'), mime: text(value.mime || 'application/octet-stream', 256, 'Tipo del documento') };
+  }
+  function packFile(meta, bytes) {
+    const encoded = enc.encode(JSON.stringify(meta));
+    if (encoded.length > MAX_META) fail('INVALID_METADATA', 'Los datos del documento son demasiado largos.');
+    const packed = new Uint8Array(8 + encoded.length + bytes.byteLength);
+    packed.set(FILE_MAGIC); new DataView(packed.buffer).setUint32(4, encoded.length);
+    packed.set(encoded, 8); packed.set(new Uint8Array(bytes), 8 + encoded.length);
+    return packed;
+  }
+  async function unpackFile(context, clear, expectedId) {
+    const bytes = new Uint8Array(clear);
+    if (bytes.length < 8 || !isMagic(bytes, FILE_MAGIC)) fail('CORRUPT_RECORD', 'El documento guardado no tiene un formato válido.');
+    const n = new DataView(bytes.buffer, bytes.byteOffset, bytes.byteLength).getUint32(4);
+    if (n > MAX_META || n + 8 > bytes.length) fail('CORRUPT_RECORD', 'Los datos del documento guardado están incompletos.');
+    const meta = jsonFrom(bytes.subarray(8, 8 + n)); fileMetadata(meta);
+    if (!Number.isSafeInteger(meta.size) || meta.size < 0 || meta.size > MAX_FILE || bytes.length - 8 - n !== meta.size || !/^[a-f0-9]{64}$/.test(meta.sha256 || '')) fail('CORRUPT_RECORD', 'El tamaño del documento guardado no es válido.');
+    if (await fileKey(context, meta.fileId) !== expectedId) fail('CORRUPT_RECORD', 'El documento no corresponde a su identificador.');
+    const original = bytes.buffer.slice(bytes.byteOffset + 8 + n, bytes.byteOffset + bytes.byteLength);
+    if (hex(new Uint8Array(await crypto.subtle.digest('SHA-256', original))) !== meta.sha256) fail('CORRUPT_RECORD', 'El documento no coincide con su comprobante de integridad.');
+    return { ...fileMetadata(meta), size: meta.size, sha256: meta.sha256, storedAt: meta.storedAt || null, bytes: original };
+  }
+  function unpackCatalogue(clear) {
+    if (clear.byteLength > MAX_CATALOGUE + MAX_META) fail('CORRUPT_RECORD', 'El catálogo guardado supera el tamaño permitido.');
+    const value = jsonFrom(new Uint8Array(clear));
+    if (!value || value.kind !== 'catalogue' || !Object.prototype.hasOwnProperty.call(value, 'catalogue') || typeof value.savedAt !== 'string') fail('CORRUPT_RECORD', 'El catálogo guardado tiene un formato no reconocido.');
+    jsonBytes(value.catalogue, MAX_CATALOGUE, 'CATALOGUE_TOO_LARGE');
+    return { catalogue: value.catalogue, exists: true, savedAt: value.savedAt };
+  }
+  async function contents(context, row) {
+    const clear = await decrypted(context, row, row.id);
+    if (row.id === context.catalogueKey) return { kind: 'catalogue', value: unpackCatalogue(clear) };
+    if (!row.id.startsWith(context.namespace + ':file:')) fail('INVALID_ARCHIVE', 'La copia incluye un tipo de registro desconocido.');
+    return { kind: 'file', value: await unpackFile(context, clear, row.id) };
+  }
+
+  async function exportSnapshot(context) {
+    const rows = await read(context);
+    if (rows.length > MAX_RECORDS) fail('ARCHIVE_TOO_LARGE', 'La copia contiene demasiados documentos.');
+    let payloadLength = 0;
+    const records = [];
+    for (const row of rows) {
+      rowShape(row, row.id);
+      await contents(context, row); // Do not export a backup known to be corrupt.
+      payloadLength += row.ciphertext.byteLength;
+      if (payloadLength > MAX_STORED_CIPHER) fail('ARCHIVE_TOO_LARGE', 'La copia supera el límite de 250 MB.');
+      records.push({ id: row.id, schema: SCHEMA, iv: b64(new Uint8Array(row.iv)), length: row.ciphertext.byteLength });
+    }
+    const exportedAt = new Date().toISOString();
+    const manifest = enc.encode(JSON.stringify({ schema: SCHEMA, namespace: context.namespace, exportedAt, records }));
+    const total = 8 + manifest.length + payloadLength;
+    if (manifest.length > MAX_MANIFEST || total + 32 > MAX_ARCHIVE) fail('ARCHIVE_TOO_LARGE', 'La copia supera el límite de 250 MB.');
+    const packed = new Uint8Array(total); packed.set(SNAPSHOT_MAGIC); new DataView(packed.buffer).setUint32(4, manifest.length); packed.set(manifest, 8);
+    let offset = 8 + manifest.length;
+    for (const row of rows) { packed.set(new Uint8Array(row.ciphertext), offset); offset += row.ciphertext.byteLength; }
+    const outer = await encrypted(context, context.archiveKey, packed);
+    const archive = new Uint8Array(16 + outer.ciphertext.byteLength); archive.set(ARCHIVE_MAGIC); archive.set(new Uint8Array(outer.iv), 4); archive.set(new Uint8Array(outer.ciphertext), 16);
+    return { filename: 'JAIME_copia_' + exportedAt.slice(0, 10) + '.jaime-vault', mime: 'application/x-jaime-vault', size: archive.byteLength, exportedAt, recordCount: rows.length, bytes: archive.buffer };
+  }
+  async function importSnapshot(context, payload) {
+    const incoming = new Uint8Array(buffer(payload?.bytes, MAX_ARCHIVE, 'La copia de seguridad'));
+    if (incoming.length < 40 || !isMagic(incoming, ARCHIVE_MAGIC)) fail('INVALID_ARCHIVE', 'Selecciona una copia .jaime-vault válida.');
+    const clear = new Uint8Array(await decrypted(context, { iv: incoming.slice(4, 16).buffer, ciphertext: incoming.slice(16).buffer }, context.archiveKey, true));
+    if (clear.length < 8 || clear.length > MAX_ARCHIVE - 32 || !isMagic(clear, SNAPSHOT_MAGIC)) fail('INVALID_ARCHIVE', 'La copia no contiene un archivo local reconocido.');
+    const n = new DataView(clear.buffer, clear.byteOffset, clear.byteLength).getUint32(4);
+    if (n > MAX_MANIFEST || n + 8 > clear.length) fail('INVALID_ARCHIVE', 'La copia está incompleta.');
+    const manifest = jsonFrom(clear.subarray(8, n + 8), 'INVALID_ARCHIVE');
+    if (manifest?.schema !== SCHEMA || manifest.namespace !== context.namespace || !Array.isArray(manifest.records) || manifest.records.length > MAX_RECORDS) fail('INVALID_ARCHIVE', 'La copia no corresponde a este archivo local.');
+    let offset = n + 8, catalogue = null, catalogueExists = false, catalogueSavedAt = null;
+    const ids = new Set(), files = [];
+    for (const record of manifest.records) {
+      if (!record || typeof record.id !== 'string' || record.id.length > 200 || !record.id.startsWith(context.namespace + ':') || ids.has(record.id) || record.schema !== SCHEMA || !Number.isSafeInteger(record.length) || record.length < 16 || record.length > MAX_FILE + MAX_META + 64 || offset + record.length > clear.length) fail('INVALID_ARCHIVE', 'La estructura de la copia no es válida.');
+      ids.add(record.id);
+      const row = { id: record.id, schema: SCHEMA, iv: fromB64(record.iv, 12).buffer, ciphertext: clear.slice(offset, offset + record.length).buffer };
+      offset += record.length;
+      const item = await contents(context, row);
+      if (item.kind === 'catalogue') { catalogue = item.value.catalogue; catalogueExists = true; catalogueSavedAt = item.value.savedAt; }
+      else files.push(item.value);
+    }
+    if (offset !== clear.length) fail('INVALID_ARCHIVE', 'La copia contiene datos adicionales no reconocidos.');
+    // Deliberately no IndexedDB write. UI chooses and commits its merge separately.
+    return { catalogue, catalogueExists, catalogueSavedAt, files, exportedAt: manifest.exportedAt || null, requiresMerge: true, writtenToLocalVault: false };
+  }
+  async function perform(op, payload) {
+    const context = await init();
+    if (op === 'load') {
+      const row = await read(context, context.catalogueKey);
+      return row ? unpackCatalogue(await decrypted(context, row, context.catalogueKey)) : { catalogue: null, exists: false, savedAt: null };
+    }
+    if (op === 'save') {
+      if (!payload || typeof payload !== 'object' || !Object.prototype.hasOwnProperty.call(payload, 'catalogue')) fail('INVALID_JSON', 'Falta el catálogo que se debe guardar.');
+      jsonBytes(payload.catalogue, MAX_CATALOGUE, 'CATALOGUE_TOO_LARGE');
+      const savedAt = new Date().toISOString();
+      const clear = jsonBytes({ kind: 'catalogue', catalogue: payload.catalogue, savedAt }, MAX_CATALOGUE + MAX_META, 'CATALOGUE_TOO_LARGE');
+      await commit(context, await encrypted(context, context.catalogueKey, clear));
+      return { saved: true, savedAt, committedAt: new Date().toISOString() };
+    }
+    if (op === 'put-file') {
+      const meta = fileMetadata(payload);
+      const original = buffer(payload?.bytes, MAX_FILE, 'El documento (máximo 96 MiB)');
+      Object.assign(meta, { size: original.byteLength, sha256: hex(new Uint8Array(await crypto.subtle.digest('SHA-256', original))), storedAt: new Date().toISOString() });
+      await commit(context, await encrypted(context, await fileKey(context, meta.fileId), packFile(meta, original)));
+      return { ...meta, saved: true };
+    }
+    if (op === 'get-file') {
+      const id = await fileKey(context, text(payload?.fileId, 256, 'Identificador del documento'));
+      const row = await read(context, id);
+      if (!row) fail('FILE_NOT_FOUND', 'El original no está guardado en este navegador. Recupera una copia de seguridad o vuelve a añadir el documento.');
+      return unpackFile(context, await decrypted(context, row, id), id);
+    }
+    if (op === 'export') return exportSnapshot(context);
+    if (op === 'import') return importSnapshot(context, payload);
+    fail('UNKNOWN_OPERATION', 'La operación solicitada no está disponible.');
+  }
+  function receive(event) {
+    const frame = document.getElementById('document');
+    if (!frame || event.source !== frame.contentWindow) return;
+    const message = event.data;
+    if (!message || typeof message !== 'object' || message.type !== 'jaime-vault-request') return;
+    const requestId = typeof message.requestId === 'string' && /^[A-Za-z0-9._:-]{1,128}$/.test(message.requestId) ? message.requestId : '';
+    const respond = (ok, value) => {
+      if (document.getElementById('document')?.contentWindow !== event.source) return;
+      const response = { type: 'jaime-vault-response', requestId, ok };
+      const transfers = [];
+      if (ok) {
+        response.result = value;
+        if (value?.bytes instanceof ArrayBuffer) transfers.push(value.bytes);
+        if (Array.isArray(value?.files)) for (const file of value.files) if (file.bytes instanceof ArrayBuffer) transfers.push(file.bytes);
+      } else response.error = errorFor(value);
+      event.source.postMessage(response, '*', transfers);
+    };
+    if (!requestId || !OPS.has(message.op)) { respond(false, new VaultError('BAD_REQUEST', 'La solicitud del archivo local no tiene un formato válido.')); return; }
+    if (pending >= MAX_PENDING) { respond(false, new VaultError('VAULT_BUSY', 'Espera a que termine la operación del archivo local antes de continuar.')); return; }
+    pending++;
+    queue = queue.then(async () => {
+      try { respond(true, await perform(message.op, message.payload)); }
+      catch (error) { respond(false, error); }
+      finally { pending--; }
+    }).catch(() => {});
+  }
+  window.addEventListener('message', receive);
+})();
+</script>
   <script>
   (()=>{'use strict';
     const MAX_BYTES=64*1024*1024, MAX_PDF_BYTES=10*1024*1024, MAGIC=[74,77,69,49];
@@ -62,7 +375,7 @@
         keyBytes=getKey();
         const key=await crypto.subtle.importKey('raw',keyBytes,{name:'AES-GCM'},false,['decrypt']);keyBytes.fill(0);keyBytes=null;
         say('Cargando tu documento…');
-        const responses=await Promise.all(['./payload-1.bin','./payload-2.bin'].map(url=>fetch(url,{cache:'no-store',credentials:'omit',referrerPolicy:'no-referrer'})));
+        const responses=await Promise.all(["./payload-r2-bc9b86fbeeed-1.bin", "./payload-r2-bc9b86fbeeed-2.bin", "./payload-r2-bc9b86fbeeed-3.bin"].map(url=>fetch(url,{cache:'no-store',credentials:'omit',referrerPolicy:'no-referrer'})));
         if(responses.some(response=>!response.ok))throw problem('El documento todavía no está disponible. Espera un momento y vuelve a intentar abrir este mismo enlace.');
         const chunks=await Promise.all(responses.map(response=>response.arrayBuffer()));
         const total=chunks.reduce((sum,chunk)=>sum+chunk.byteLength,0);
@@ -77,7 +390,7 @@
         if(!/^\s*<!doctype html/i.test(content)&&!/^\s*<html/i.test(content))throw problem('El documento no contiene una página válida. Solicita la copia correcta.');
         downloadable=new Blob([content],{type:'text/html;charset=utf-8'});
         frame.srcdoc=content;frame.hidden=false;$('gate').hidden=true;$('download').disabled=false;$('download').hidden=false;
-        document.title='JAIME · Tu documento';
+        document.title='JAIME 2.1 · Documentos y proyectos';
       }catch(e){if(keyBytes)keyBytes.fill(0);frame.hidden=true;$('gate').hidden=false;say(e.userFacing?e.message:'No se ha podido completar la apertura. Comprueba la conexión y vuelve a intentarlo.',true);$('hint').textContent='Tus datos no se han enviado ni guardado en una cuenta.';$('retry').hidden=false;}
       finally{busy=false;}
     }
