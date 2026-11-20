@@ -27,7 +27,7 @@
   </style>
 </head>
 <body>
-  <header class="bar"><span class="brand">JAIME · 2.1</span><div class="actions"><button type="button" id="download" hidden disabled>Copia del dossier recibido</button><button type="button" id="share-pdf" hidden>Compartir PDF</button><button type="button" id="download-pdf" hidden>Descargar PDF</button><a id="email-pdf" hidden href="mailto:?subject=Documento%20PDF&amp;body=Hola%2C%0A%0AAdjunto%20el%20documento%20PDF.%0A%0AUn%20saludo.">Abrir correo</a></div></header>
+  <header class="bar"><span class="brand">JAIME · 3</span><div class="actions"><button type="button" id="download" hidden disabled>Copia del dossier recibido</button><button type="button" id="share-pdf" hidden>Compartir PDF</button><button type="button" id="download-pdf" hidden>Descargar PDF</button><a id="email-pdf" hidden href="mailto:?subject=Documento%20PDF&amp;body=Hola%2C%0A%0AAdjunto%20el%20documento%20PDF.%0A%0AUn%20saludo.">Abrir correo</a></div></header>
   <p id="share-status" class="share-note" role="status" aria-live="polite" hidden></p>
   <main id="gate"><section class="welcome" aria-labelledby="title"><span class="eyebrow">Tu espacio personal</span><h1 id="title">Un momento, Jaime.</h1><p id="status" class="status-line" role="status" aria-live="polite"><span class="spinner" aria-hidden="true"></span>Abriendo tu documento…</p><p class="quiet" id="hint">El contenido se abre aquí. No necesitas crear una cuenta.</p><button type="button" class="retry" id="retry" hidden>Volver a intentar</button><noscript><p class="error">Para abrir este enlace necesitas permitir JavaScript en tu navegador.</p></noscript></section></main>
   <iframe id="document" title="Espacio personal de Jaime" hidden sandbox="allow-scripts allow-downloads allow-popups allow-popups-to-escape-sandbox allow-modals" allow="web-share; fullscreen *" allowfullscreen referrerpolicy="no-referrer"></iframe>
@@ -375,7 +375,7 @@
         keyBytes=getKey();
         const key=await crypto.subtle.importKey('raw',keyBytes,{name:'AES-GCM'},false,['decrypt']);keyBytes.fill(0);keyBytes=null;
         say('Cargando tu documento…');
-        const responses=await Promise.all(["./payload-r2-bc9b86fbeeed-1.bin", "./payload-r2-bc9b86fbeeed-2.bin", "./payload-r2-bc9b86fbeeed-3.bin"].map(url=>fetch(url,{cache:'no-store',credentials:'omit',referrerPolicy:'no-referrer'})));
+        const responses=await Promise.all(["./payload-r3-810334d55561-1.bin", "./payload-r3-810334d55561-2.bin", "./payload-r3-810334d55561-3.bin"].map(url=>fetch(url,{cache:'no-store',credentials:'omit',referrerPolicy:'no-referrer'})));
         if(responses.some(response=>!response.ok))throw problem('El documento todavía no está disponible. Espera un momento y vuelve a intentar abrir este mismo enlace.');
         const chunks=await Promise.all(responses.map(response=>response.arrayBuffer()));
         const total=chunks.reduce((sum,chunk)=>sum+chunk.byteLength,0);
@@ -390,7 +390,7 @@
         if(!/^\s*<!doctype html/i.test(content)&&!/^\s*<html/i.test(content))throw problem('El documento no contiene una página válida. Solicita la copia correcta.');
         downloadable=new Blob([content],{type:'text/html;charset=utf-8'});
         frame.srcdoc=content;frame.hidden=false;$('gate').hidden=true;$('download').disabled=false;$('download').hidden=false;
-        document.title='JAIME 2.1 · Documentos y proyectos';
+        document.title='JAIME 3 · Tu espacio';
       }catch(e){if(keyBytes)keyBytes.fill(0);frame.hidden=true;$('gate').hidden=false;say(e.userFacing?e.message:'No se ha podido completar la apertura. Comprueba la conexión y vuelve a intentarlo.',true);$('hint').textContent='Tus datos no se han enviado ni guardado en una cuenta.';$('retry').hidden=false;}
       finally{busy=false;}
     }
