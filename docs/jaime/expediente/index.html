@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="referrer" content="no-referrer">
+  <meta name="robots" content="noindex,nofollow,noarchive">
+  <meta name="color-scheme" content="light">
+  <meta name="theme-color" content="#173e34">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src data: blob:; media-src data: blob:; font-src data:; connect-src 'self'; frame-src 'self' blob: data:; object-src 'none'; base-uri 'none'; form-action 'none'">
+  <title>JAIME · Tu espacio</title>
+  <style>
+    :root{color-scheme:light;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:#173e34;background:#f7f6ef}
+    *{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;min-height:100%}body{display:flex;flex-direction:column;overflow:hidden}
+    button{font:inherit;cursor:pointer}button:disabled{cursor:wait;opacity:.6}
+    .bar{min-height:54px;flex-shrink:0;padding:7px max(14px,env(safe-area-inset-right)) 7px max(16px,env(safe-area-inset-left));display:flex;align-items:center;justify-content:space-between;gap:9px;background:#173e34;color:#fffdf3}
+    .brand{font-size:13px;font-weight:750;letter-spacing:.18em;flex-shrink:0}.actions{display:flex;flex-wrap:wrap;justify-content:flex-end;gap:6px}.bar button,.bar a{font:650 12px/1.2 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:#173e34;background:#f7f2df;border:0;border-radius:7px;padding:10px 11px;min-height:44px;text-decoration:none;display:inline-flex;align-items:center;justify-content:center}.share-note{margin:0;padding:8px 16px;font-size:12px;line-height:1.4;background:#edf2e6;color:#244c3d;flex-shrink:0}.share-note.error{background:#faeae2;color:#8d321f}
+    main{flex:1;min-height:0;display:grid;place-items:center;padding:28px 20px;overflow:auto}
+    .welcome{width:100%;max-width:490px;background:#fffef8;padding:clamp(24px,5vw,44px);border:1px solid #d6dfd2;border-radius:18px;box-shadow:0 16px 60px #183e3310}
+    .eyebrow{text-transform:uppercase;letter-spacing:.14em;font-size:11px;font-weight:700;color:#806b43}
+    h1{font:400 clamp(30px,6vw,43px)/1.15 Georgia,serif;letter-spacing:-.02em;margin:13px 0 17px}p{font-size:16px;line-height:1.6;margin:12px 0}.quiet{font-size:13px;color:#617060}
+    .spinner{display:inline-block;width:18px;height:18px;border:2px solid #d0dbca;border-top-color:#2e5c42;border-radius:50%;animation:turn .8s linear infinite;vertical-align:-3px;margin-right:10px}
+    .retry{background:#173e34;color:white;border:0;padding:12px 19px;min-height:45px;border-radius:7px;margin-top:8px}
+    #document{display:block;width:100%;flex:1;min-height:0;border:0;background:#fff}
+    [hidden]{display:none!important}.error{color:#8d321f}.status-line{min-height:28px}:focus-visible{outline:3px solid #cba951;outline-offset:3px}
+    @keyframes turn{to{transform:rotate(360deg)}}@media(prefers-reduced-motion:reduce){.spinner{animation:none}}
+  </style>
+</head>
+<body>
+  <header class="bar"><span class="brand">JAIME</span><div class="actions"><button type="button" id="download" hidden disabled>Guardar copia</button><button type="button" id="share-pdf" hidden>Compartir PDF</button><button type="button" id="download-pdf" hidden>Descargar PDF</button><a id="email-pdf" hidden href="mailto:?subject=Documento%20PDF&amp;body=Hola%2C%0A%0AAdjunto%20el%20documento%20PDF.%0A%0AUn%20saludo.">Abrir correo</a></div></header>
+  <p id="share-status" class="share-note" role="status" aria-live="polite" hidden></p>
+  <main id="gate"><section class="welcome" aria-labelledby="title"><span class="eyebrow">Tu espacio personal</span><h1 id="title">Un momento, Jaime.</h1><p id="status" class="status-line" role="status" aria-live="polite"><span class="spinner" aria-hidden="true"></span>Abriendo tu documento…</p><p class="quiet" id="hint">El contenido se abre aquí. No necesitas crear una cuenta.</p><button type="button" class="retry" id="retry" hidden>Volver a intentar</button><noscript><p class="error">Para abrir este enlace necesitas permitir JavaScript en tu navegador.</p></noscript></section></main>
+  <iframe id="document" title="Espacio personal de Jaime" hidden sandbox="allow-scripts allow-downloads allow-popups allow-popups-to-escape-sandbox allow-modals" allow="web-share; fullscreen *" allowfullscreen referrerpolicy="no-referrer"></iframe>
+  <script>
+  (()=>{'use strict';
+    const MAX_BYTES=64*1024*1024, MAX_PDF_BYTES=10*1024*1024, MAGIC=[74,77,69,49];
+    const $=id=>document.getElementById(id), frame=$('document');
+    let busy=false, downloadable=null, currentPDF=null;
+    function say(text,error=false){const n=$('status');n.textContent=text;n.classList.toggle('error',error);}
+    function problem(message){const e=new Error(message);e.userFacing=true;return e;}
+    function getKey(){
+      const value=new URLSearchParams(location.hash.slice(1)).get('k')||'';
+      if(!/^[A-Za-z0-9_-]{43}$/.test(value))throw problem('El enlace está incompleto. Abre el enlace completo que recibiste, incluida la parte final.');
+      const raw=atob(value.replace(/-/g,'+').replace(/_/g,'/')+'=');
+      const bytes=Uint8Array.from(raw,c=>c.charCodeAt(0));
+      if(bytes.length!==32)throw problem('El enlace no tiene el formato esperado. Comprueba que lo has copiado completo.');
+      return bytes;
+    }
+    async function unpack(clear){
+      const reader=new Blob([clear]).stream().pipeThrough(new DecompressionStream('gzip')).getReader();
+      const chunks=[];let total=0;
+      try{for(;;){const {done,value}=await reader.read();if(done)break;total+=value.length;if(total>MAX_BYTES)throw problem('Este documento supera el tamaño admitido. Solicita una nueva copia.');chunks.push(value);}}
+      catch(e){await reader.cancel().catch(()=>{});throw e;}
+      const data=new Uint8Array(total);let offset=0;for(const item of chunks){data.set(item,offset);offset+=item.length;}
+      return new TextDecoder('utf-8',{fatal:true}).decode(data);
+    }
+    async function open(){
+      if(busy)return;busy=true;$('retry').hidden=true;$('hint').textContent='El contenido se abre aquí. No necesitas crear una cuenta.';say('Abriendo tu documento…');
+      let keyBytes=null;
+      try{
+        if(!window.crypto?.subtle||typeof DecompressionStream==='undefined')throw problem('Este navegador no permite abrir el documento. Abre el mismo enlace en una versión actualizada de Safari, Chrome o Edge.');
+        keyBytes=getKey();
+        const key=await crypto.subtle.importKey('raw',keyBytes,{name:'AES-GCM'},false,['decrypt']);keyBytes.fill(0);keyBytes=null;
+        say('Cargando tu documento…');
+        const responses=await Promise.all(['./payload-1.bin','./payload-2.bin'].map(url=>fetch(url,{cache:'no-store',credentials:'omit',referrerPolicy:'no-referrer'})));
+        if(responses.some(response=>!response.ok))throw problem('El documento todavía no está disponible. Espera un momento y vuelve a intentar abrir este mismo enlace.');
+        const chunks=await Promise.all(responses.map(response=>response.arrayBuffer()));
+        const total=chunks.reduce((sum,chunk)=>sum+chunk.byteLength,0);
+        if(total>MAX_BYTES)throw problem('Este documento supera el tamaño admitido. Solicita una nueva copia.');
+        const bytes=new Uint8Array(total);let offset=0;for(const chunk of chunks){bytes.set(new Uint8Array(chunk),offset);offset+=chunk.byteLength;}
+        if(bytes.length<33||bytes.length>MAX_BYTES||!MAGIC.every((v,i)=>bytes[i]===v))throw problem('La copia recibida está incompleta o tiene un formato distinto. Vuelve a intentarlo.');
+        const header=bytes.slice(0,16),iv=bytes.slice(4,16);
+        let clear;
+        try{clear=await crypto.subtle.decrypt({name:'AES-GCM',iv,additionalData:header,tagLength:128},key,bytes.slice(16));}
+        catch(_){throw problem('No se pudo abrir el documento con este enlace. Comprueba que el enlace está completo y que corresponde a esta entrega.');}
+        const content=await unpack(clear);
+        if(!/^\s*<!doctype html/i.test(content)&&!/^\s*<html/i.test(content))throw problem('El documento no contiene una página válida. Solicita la copia correcta.');
+        downloadable=new Blob([content],{type:'text/html;charset=utf-8'});
+        frame.srcdoc=content;frame.hidden=false;$('gate').hidden=true;$('download').disabled=false;$('download').hidden=false;
+        document.title='JAIME · Tu documento';
+      }catch(e){if(keyBytes)keyBytes.fill(0);frame.hidden=true;$('gate').hidden=false;say(e.userFacing?e.message:'No se ha podido completar la apertura. Comprueba la conexión y vuelve a intentarlo.',true);$('hint').textContent='Tus datos no se han enviado ni guardado en una cuenta.';$('retry').hidden=false;}
+      finally{busy=false;}
+    }
+    function save(blob,name){const u=URL.createObjectURL(blob),a=document.createElement('a');a.href=u;a.download=name;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),60000);}
+    function shareStatus(text,error=false){const n=$('share-status');n.textContent=text;n.classList.toggle('error',error);n.hidden=false;}
+    function clearPDF(){currentPDF=null;$('share-pdf').hidden=true;$('download-pdf').hidden=true;$('email-pdf').hidden=true;$('share-status').hidden=true;}
+    function safeName(value){let name=typeof value==='string'?value.slice(0,160):'JAIME_Documento.pdf';name=name.replace(/[\\/\u0000-\u001f\u007f<>:"|?*]/g,'_').replace(/^\.+/,'').trim();if(!name)name='JAIME_Documento.pdf';if(!/\.pdf$/i.test(name))name+='.pdf';return name;}
+    function canSharePDF(){try{return !!(currentPDF&&navigator.share&&navigator.canShare?.({files:[currentPDF]}));}catch(_){return false;}}
+    window.addEventListener('message',event=>{
+      if(event.source!==frame.contentWindow)return;
+      const data=event.data;if(!data||typeof data!=='object')return;
+      if(data.type==='jaime-pdf-invalidated'){clearPDF();return;}
+      if(data.type!=='jaime-pdf-ready')return;
+      clearPDF();
+      if(!(data.bytes instanceof ArrayBuffer)||data.bytes.byteLength<5||data.bytes.byteLength>MAX_PDF_BYTES){shareStatus('El PDF no se ha recibido correctamente o supera los 10 MB. Vuelve a crearlo.',true);return;}
+      const bytes=new Uint8Array(data.bytes);
+      if(![37,80,68,70,45].every((v,i)=>bytes[i]===v)){shareStatus('El archivo recibido no tiene el formato PDF esperado. Vuelve a crearlo.',true);return;}
+      const name=safeName(data.filename);
+      currentPDF=new File([bytes],name,{type:'application/pdf'});
+      $('share-pdf').hidden=false;$('download-pdf').hidden=false;$('email-pdf').hidden=true;
+      shareStatus('PDF listo. Puedes compartirlo o descargarlo con los botones de arriba.');
+      frame.contentWindow.postMessage({type:'jaime-pdf-status',state:'ready',nativeShare:canSharePDF()},'*');
+    });
+    $('share-pdf').addEventListener('click',async()=>{
+      if(!currentPDF)return;
+      if(canSharePDF()){
+        try{await navigator.share({files:[currentPDF],title:'Documento PDF'});shareStatus('El PDF se ha entregado a la aplicación que has elegido.');}
+        catch(e){if(e.name==='AbortError'){shareStatus('El PDF sigue preparado. Puedes compartirlo cuando quieras.');}else{shareStatus('No se ha podido compartir desde este navegador. Descarga el PDF y adjúntalo desde tu correo.',true);$('email-pdf').hidden=false;}}
+      }else{
+        save(currentPDF,currentPDF.name);$('email-pdf').hidden=false;
+        shareStatus('Guarda el PDF. Después puedes abrir tu correo y adjuntar el archivo guardado.');
+      }
+    });
+    $('download-pdf').addEventListener('click',()=>{if(!currentPDF)return;save(currentPDF,currentPDF.name);$('email-pdf').hidden=false;shareStatus('Guarda el PDF para conservarlo o adjuntarlo a un mensaje. El correo se abre sin destinatario y no adjunta archivos automáticamente.');});
+    $('download').addEventListener('click',()=>{if(downloadable)save(downloadable,'JAIME_Expediente_completo.html');});
+    $('retry').addEventListener('click',open);
+    open();
+  })();
+  </script>
+</body></html>
