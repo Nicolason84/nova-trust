@@ -126,6 +126,43 @@ roomNav.addEventListener('keydown',event=>{
  setRoom(roomSpec[n].id,{historyMode:'push'});roomNav.querySelector('[data-house-room="'+roomSpec[n].id+'"]').focus();
 });
 header.after(house);
+
+// LA_BETE_SUPRA_PUBLIC_VISUAL_PROOF_V1 : seulement un instantané public réduit, jamais une admission native.
+const supraEvidence=document.createElement('section');
+supraEvidence.className='houseSupraProof';
+supraEvidence.setAttribute('aria-label','État de coopération La Bête et SUPRA');
+supraEvidence.dataset.scope='dated-public-projection';
+supraEvidence.innerHTML='<div class="houseSupraProofLead"><small>COOPÉRATION LA BÊTE ↔ SUPRA</small><strong id="houseSupraProofState">Preuve datée à charger</strong><span id="houseSupraProofDate">Aucun état temps réel attesté</span></div>'
+  +'<div class="houseSupraProofDetail"><small>Raccord entre agents</small><strong id="houseSupraProofAgent">Non revérifié dans cette page</strong></div>'
+  +'<div class="houseSupraProofDetail"><small>Interface produit / autres comptes</small><strong id="houseSupraProofLimits">Non démontrés</strong></div>';
+house.querySelector('.houseCaseBar')?.after(supraEvidence);
+const proofText=(id,value)=>{const el=house.querySelector('#'+id);if(el)el.textContent=value;};
+const proofSourceUrl=new URL('data/la-bete-supra-public-proof-v1.json',document.baseURI);
+fetch(proofSourceUrl.href,{cache:'no-store',credentials:'omit'})
+  .then(response=>{if(!response.ok)throw new Error('PUBLIC_PROOF_NOT_AVAILABLE');return response.json();})
+  .then(data=>{
+    if(data?.schema!=='LA_BETE_SUPRA_PUBLIC_VISUAL_PROOF_V1'
+      || data?.scope!=='AGENT_RECEIVER_ONLY'
+      || data?.agent?.la_bete_to_supra!=='ROUND_TRIP_CONFIRMED'
+      || data?.agent?.supra_to_la_bete!=='RECEIVER_VALIDATED_APPLIED_AS_CONSTRAINT'
+      || data?.product?.native_app_consumption!==false
+      || data?.accounts?.cross_account_synchronization_verified!==false
+      || data?.policy?.private_transfer!==false
+      || data?.policy?.automatic_promotion!==false)throw new Error('PROOF_CONTRACT_INVALID');
+    const ms=Date.parse(data.observed_at);
+    if(!Number.isFinite(ms)||ms>Date.now()+60000)throw new Error('PROOF_DATE_INVALID');
+    const label=new Intl.DateTimeFormat('fr-FR',{timeZone:'Europe/Paris',day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'}).format(new Date(ms));
+    proofText('houseSupraProofState','Aller-retour confirmé au niveau de l’agent');
+    proofText('houseSupraProofAgent','Contraintes validées et appliquées par le récepteur');
+    proofText('houseSupraProofLimits','Consommation native et échanges intercomptes non prouvés');
+    proofText('houseSupraProofDate','Instantané du '+label+' · pas un indicateur en direct');
+    supraEvidence.dataset.proof='dated-agent-evidence';
+  }).catch(()=>{
+    proofText('houseSupraProofState','Preuve publique indisponible ou invalide');
+    proofText('houseSupraProofDate','Consulter les reçus privés autorisés dans SUPRA');
+    supraEvidence.dataset.proof='unverified';
+  });
+
 if(intro){const archive=document.createElement('details');archive.className='houseArchive';archive.innerHTML='<summary>Voir le parcours public simplifié précédent</summary>';archive.appendChild(intro);paneByRoom.get('explore').querySelector('.housePaneBody').appendChild(archive);}
 
 const originalLinks=[...header.querySelectorAll('.topNav a')];

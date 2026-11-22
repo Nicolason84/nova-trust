@@ -93,3 +93,14 @@
 .houseMissionBriefHead small{display:block;font-size:8px;letter-spacing:.13em;color:#CDAA83}.houseMissionBriefHead strong{display:block;font-size:14px;margin:4px 0 11px}
 .houseMissionBriefGrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}
 @media(max-width:700px){.houseCommitteeGrid,.houseMissionBriefGrid{grid-template-columns:1fr}.houseRoleLine{display:none}}
+
+
+/* LA_BETE_SUPRA_PUBLIC_VISUAL_PROOF_V1 — lecture datée, non preuve d'admission native */
+.advisoryHouseV5 .houseSupraProof{display:grid;grid-template-columns:minmax(0,1.35fr) repeat(2,minmax(0,1fr));gap:10px;padding:12px 30px;background:rgba(5,19,24,.88);border-bottom:1px solid rgba(123,151,162,.22)}
+.advisoryHouseV5 .houseSupraProofLead,.advisoryHouseV5 .houseSupraProofDetail{padding:10px 12px;border-radius:12px;border:1px solid rgba(123,151,162,.2);background:rgba(15,30,38,.5);min-width:0}
+.advisoryHouseV5 .houseSupraProof small{display:block;font-size:9px;letter-spacing:.06em;color:#9aafb8}
+.advisoryHouseV5 .houseSupraProof strong{display:block;margin:5px 0 4px;color:#edf7f3;font-size:12px;line-height:1.4}
+.advisoryHouseV5 .houseSupraProofLead span{display:block;color:#a7c0c8;font-size:10px}
+.advisoryHouseV5 .houseSupraProof[data-proof="unverified"] strong{color:#e3c5a2}
+@media(max-width:900px){.advisoryHouseV5 .houseSupraProof{grid-template-columns:1fr 1fr;padding:9px 18px}.advisoryHouseV5 .houseSupraProofLead{grid-column:1/-1}}
+@media(max-width:560px){.advisoryHouseV5 .houseSupraProof{grid-template-columns:1fr}.advisoryHouseV5 .houseSupraProofLead{grid-column:auto}}

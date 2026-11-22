@@ -1,0 +1,28 @@
+name: "La Bête SUPRA - preuve visuelle"
+on:
+  push:
+    branches:
+      - mission/la-bete-supra-visual-proof-20261122-r1
+  pull_request:
+    paths:
+      - "docs/assets/la-bete-advisory-house-v5.js"
+      - "docs/assets/la-bete-advisory-house-v5.css"
+      - "docs/data/la-bete-supra-public-proof-v1.json"
+      - "scripts/test_la_bete_supra_public_visual.cjs"
+      - "scripts/test_la_bete_supra_visual_browser.sh"
+      - ".github/workflows/la-bete-supra-visual-proof.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  inspect-public-proof:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Syntaxe JavaScript
+        run: node --check docs/assets/la-bete-advisory-house-v5.js
+      - name: Tests contractuels de la preuve publique
+        run: node --test scripts/test_la_bete_supra_public_visual.cjs
+      - name: Test réel Chrome - panneau + preuve manquante
+        run: bash scripts/test_la_bete_supra_visual_browser.sh
