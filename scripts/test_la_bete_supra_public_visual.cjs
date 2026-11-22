@@ -45,3 +45,69 @@ test('the proof UI remains readable at mobile widths',()=>{
  assert.match(css,/\.houseSupraProof/);
  assert.match(css,/@media\(max-width:560px\)/);
 });
+
+
+const uiPatchStart=source.indexOf('// LA_BETE_SUPRA_PUBLIC_VISUAL_PROOF_V1');
+const uiPatchEnd=source.indexOf('if(intro){const archive',uiPatchStart);
+const uiPatch=source.slice(uiPatchStart,uiPatchEnd);
+
+async function runProofUi(proof,{status=200}={}){
+  assert.ok(uiPatchStart>=0&&uiPatchEnd>uiPatchStart,'the existing UI patch must be present');
+  const fields=new Map(),requests=[];
+  let inserted=false;
+  const panel={dataset:{},setAttribute(){},innerHTML:''};
+  const house={querySelector(selector){
+    if(selector==='.houseCaseBar')return {after(el){inserted=(el===panel);}};
+    if(selector.startsWith('#')){
+      const id=selector.slice(1);
+      if(!fields.has(id))fields.set(id,{textContent:''});
+      return fields.get(id);
+    }
+    return null;
+  }};
+  const document={
+    baseURI:'https://example.test/docs/france-debt-rate-risk-live-2026-10-02.html',
+    createElement:()=>panel
+  };
+  const fetch=async (url,options)=>{
+    requests.push({url,options});
+    return {ok:status>=200&&status<300,json:async()=>proof};
+  };
+  const FixedDate=class extends Date{
+    static now(){return Date.parse('2026-11-22T03:30:00Z');}
+  };
+  vm.runInNewContext(uiPatch,{house,document,fetch,Date:FixedDate,URL,Intl,Error,Number});
+  await new Promise(resolve=>setImmediate(resolve));
+  return {panel,fields,requests,inserted};
+}
+
+test('the public status widget accepts a valid dated agent receipt',async()=>{
+  const r=await runProofUi(payload);
+  assert.equal(r.inserted,true);
+  assert.equal(r.panel.dataset.proof,'dated-agent-evidence');
+  assert.match(r.fields.get('houseSupraProofState').textContent,/Aller-retour confirmé/);
+  assert.match(r.fields.get('houseSupraProofLimits').textContent,/non prouvés/);
+  assert.match(r.fields.get('houseSupraProofDate').textContent,/Instantané du/);
+  assert.equal(r.requests.length,1);
+  assert.equal(r.requests[0].options.credentials,'omit');
+  assert.equal(r.requests[0].options.cache,'no-store');
+  assert.equal(r.requests[0].url,'https://example.test/docs/data/la-bete-supra-public-proof-v1.json');
+});
+
+test('a missing public receipt fails closed',async()=>{
+  const r=await runProofUi(payload,{status:404});
+  assert.equal(r.panel.dataset.proof,'unverified');
+  assert.match(r.fields.get('houseSupraProofState').textContent,/indisponible/);
+});
+
+test('a receipt attempting private transfer fails closed',async()=>{
+  const bad={...payload,policy:{...payload.policy,private_transfer:true}};
+  const r=await runProofUi(bad);
+  assert.equal(r.panel.dataset.proof,'unverified');
+});
+
+test('a receipt falsely claiming native UI consumption fails closed',async()=>{
+  const bad={...payload,product:{native_app_consumption:true}};
+  const r=await runProofUi(bad);
+  assert.equal(r.panel.dataset.proof,'unverified');
+});
