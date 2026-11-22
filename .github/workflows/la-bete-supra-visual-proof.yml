@@ -9,6 +9,7 @@ on:
       - "docs/assets/la-bete-advisory-house-v5.css"
       - "docs/data/la-bete-supra-public-proof-v1.json"
       - "scripts/test_la_bete_supra_public_visual.cjs"
+      - "scripts/test_la_bete_supra_visual_browser.sh"
       - ".github/workflows/la-bete-supra-visual-proof.yml"
   workflow_dispatch:
 permissions:
@@ -23,3 +24,5 @@ jobs:
         run: node --check docs/assets/la-bete-advisory-house-v5.js
       - name: Tests contractuels de la preuve publique
         run: node --test scripts/test_la_bete_supra_public_visual.cjs
+      - name: Test réel Chrome - panneau + preuve manquante
+        run: bash scripts/test_la_bete_supra_visual_browser.sh
