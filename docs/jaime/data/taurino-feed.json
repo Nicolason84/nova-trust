@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAtUtc": "2026-11-21T15:26:20Z",
+  "generatedAtUtc": "2026-11-22T15:26:08Z",
   "coverage": {
     "type": "source_links",
     "isLive": false,
@@ -13,7 +13,7 @@
       "name": "Clarín · RTVE",
       "url": "https://api.rtve.es/api/programas/1907/audios.rss",
       "status": "ok",
-      "lastSuccessAt": "2026-11-21T15:26:20Z",
+      "lastSuccessAt": "2026-11-22T15:26:08Z",
       "errorCode": null
     },
     {
@@ -21,19 +21,30 @@
       "name": "Real Maestranza de Sevilla",
       "url": "https://www.realmaestranza.com/feed/",
       "status": "ok",
-      "lastSuccessAt": "2026-11-21T15:26:20Z",
+      "lastSuccessAt": "2026-11-22T15:26:08Z",
       "errorCode": null
     },
     {
       "id": "zafra",
       "name": "Ayuntamiento de Zafra",
       "url": "https://zafra.es/feed/",
-      "status": "ok",
+      "status": "failed",
       "lastSuccessAt": "2026-11-21T15:26:20Z",
-      "errorCode": null
+      "errorCode": "HTTP_202"
     }
   ],
   "items": [
+    {
+      "id": "0ae5bc46a258804385acc723663ec9a18a1386c2abcd6871c53af46893bad4a3",
+      "sourceId": "rtve-clarin",
+      "kind": "podcast",
+      "date": "2026-11-21T22:59:00Z",
+      "url": "https://www.rtve.es/play/audios/clarin/entrevista-borja-cardelus-sobre-18-toreros-participaran-copa-chenel-2027-entrevista-veterinaria-inmaculada-torrego-sobre-toro-bravo-cambio-climatico-anuncio-candidatos-oreja-hierro-oro-este-ano/17325447/",
+      "label": "Clarín · 21 noviembre",
+      "topics": [
+        "Entrevistas"
+      ]
+    },
     {
       "id": "a4314e6d15e48d6f1a51ece8ad0951c9763ad9f0357ad194ec5f136184943fe8",
       "sourceId": "real-maestranza",
@@ -415,20 +426,6 @@
         "Indultos",
         "Debate",
         "Tauromaquia"
-      ]
-    },
-    {
-      "id": "60c0557e004564277809545b9dafca2b4ed79d534af3949adc57abae78aebf6f",
-      "sourceId": "rtve-clarin",
-      "kind": "podcast",
-      "date": "2026-09-12T21:59:00Z",
-      "url": "https://www.rtve.es/play/audios/clarin/morante-feria-albacete-roca-rey-goyesca-arles-daniel-luque-feria-valladolid-carteles-feria-del-pilar-entrevistas-novilleros-tomas-gonzalez-jesus-calzada/17223007/",
-      "label": "Clarín · 12 septiembre",
-      "topics": [
-        "Francia",
-        "Ferias",
-        "Escuelas",
-        "Entrevistas"
       ]
     }
   ]
