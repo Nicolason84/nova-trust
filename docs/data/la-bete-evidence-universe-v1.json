@@ -29,10 +29,10 @@
     "unpopulated_kinds_are_not_fabricated": true
   },
   "state": "READ_ONLY_PUBLIC_PROOFGRAPH_DERIVED_PROJECTION",
-  "projection_fingerprint": "6cdd1658743fdf007153451098f2e98a25950cc6c40b96bd54d12a1d78d438ae",
+  "projection_fingerprint": "9d3fad06bca774544c39173d3d8287e91e593689e44237050e87428e1964032e",
   "generated_from": {
-    "live_snapshot_id": "OJO-BE420434A28A1285",
-    "live_sequence": 117,
+    "live_snapshot_id": "OJO-823BC61A4857C5F5",
+    "live_sequence": 118,
     "territory_discovery_fingerprint": "f5e93af19f0aca4731c78ccad98c4c077cd4232b4718b321b3ad08335bf97cb1",
     "living_identity_fingerprint": "f6ae7f0a87933250c01a74439329e84af939745c1a023e75d79aa6bdfde5b8d4"
   },
@@ -605,7 +605,7 @@
       "label": "TEC10 observé",
       "department_code": null,
       "lane": null,
-      "evidence_state": "LIVE_VERIFIED",
+      "evidence_state": "CROSSCHECKED",
       "proofgraph": {
         "spine_schema": "SUPRA_PROOFGRAPH_PUBLIC_PROJECTION_V1",
         "proof_refs": [
@@ -619,13 +619,13 @@
         ]
       },
       "trust": {
-        "index": 73,
-        "label": "SOLIDE",
+        "index": 96,
+        "label": "FORTE",
         "components": {
-          "source_quality": 78,
+          "source_quality": 96,
           "provenance": 100,
-          "coherence": 52,
-          "crosscheck": 55,
+          "coherence": 96,
+          "crosscheck": 92,
           "media_structure": null
         },
         "reasons": {
@@ -637,18 +637,18 @@
             "empreinte / référence de preuve"
           ],
           "coherence": [
-            "Cohérence contextuelle partielle ; preuve indépendante supplémentaire utile."
+            "Le claim est explicitement recoupé."
           ],
           "crosscheck": [
-            "Référence(s) liée(s), mais le claim n'est pas recoupé sur la même portée et le même millésime."
+            "2 références indépendantes ou complémentaires sont reliées."
           ],
           "media_structure": []
         }
       },
       "coherence": {
-        "score": 52,
+        "score": 96,
         "reasons": [
-          "Cohérence contextuelle partielle ; preuve indépendante supplémentaire utile."
+          "Le claim est explicitement recoupé."
         ],
         "contradictions": []
       },
@@ -662,7 +662,7 @@
       "uscrc": {
         "status": "COMPATIBILITY_PROFILE_NOT_CERTIFICATE",
         "engine_binding": "USCRC_PRE_EVENT_PATTERN_CORE_V1_READ_ONLY_CONTEXT",
-        "reliability_index": 73,
+        "reliability_index": 96,
         "certificate_issued": false
       },
       "patrimonial_analysis": {},
@@ -676,7 +676,7 @@
       "label": "Courbe TEC 1–30 ans",
       "department_code": null,
       "lane": null,
-      "evidence_state": "LIVE_VERIFIED",
+      "evidence_state": "CROSSCHECKED",
       "proofgraph": {
         "spine_schema": "SUPRA_PROOFGRAPH_PUBLIC_PROJECTION_V1",
         "proof_refs": [
@@ -690,13 +690,13 @@
         ]
       },
       "trust": {
-        "index": 73,
-        "label": "SOLIDE",
+        "index": 96,
+        "label": "FORTE",
         "components": {
-          "source_quality": 78,
+          "source_quality": 96,
           "provenance": 100,
-          "coherence": 52,
-          "crosscheck": 55,
+          "coherence": 96,
+          "crosscheck": 92,
           "media_structure": null
         },
         "reasons": {
@@ -708,18 +708,18 @@
             "empreinte / référence de preuve"
           ],
           "coherence": [
-            "Cohérence contextuelle partielle ; preuve indépendante supplémentaire utile."
+            "Le claim est explicitement recoupé."
           ],
           "crosscheck": [
-            "Référence(s) liée(s), mais le claim n'est pas recoupé sur la même portée et le même millésime."
+            "2 références indépendantes ou complémentaires sont reliées."
           ],
           "media_structure": []
         }
       },
       "coherence": {
-        "score": 52,
+        "score": 96,
         "reasons": [
-          "Cohérence contextuelle partielle ; preuve indépendante supplémentaire utile."
+          "Le claim est explicitement recoupé."
         ],
         "contradictions": []
       },
@@ -733,7 +733,7 @@
       "uscrc": {
         "status": "COMPATIBILITY_PROFILE_NOT_CERTIFICATE",
         "engine_binding": "USCRC_PRE_EVENT_PATTERN_CORE_V1_READ_ONLY_CONTEXT",
-        "reliability_index": 73,
+        "reliability_index": 96,
         "certificate_issued": false
       },
       "patrimonial_analysis": {},
@@ -752,7 +752,7 @@
         "spine_schema": "SUPRA_PROOFGRAPH_PUBLIC_PROJECTION_V1",
         "proof_refs": [
           "decision_delta",
-          "OJO-BE420434A28A1285"
+          "OJO-823BC61A4857C5F5"
         ],
         "source_urls": [
           "data/france-debt-rate-live.json"
@@ -915,7 +915,7 @@
           "transmission_channel": "Yield curve → new issuance/refinancing → portfolio average cost → interest charge over time.",
           "possible_impact": "Directional exposure may change if the move persists and reaches maturities that must be financed; no automatic budget amount is inferred from TEC10 alone.",
           "curve_regime": "PARALLEL_DOWN",
-          "confidence": "LIVE_VERIFIED",
+          "confidence": "CROSSCHECKED",
           "what_requires_review": [
             "Persistence of the observed curve move.",
             "Maturity stock actually exposed after buybacks and indexation.",
@@ -1146,7 +1146,7 @@
       "proofgraph": {
         "spine_schema": "SUPRA_PROOFGRAPH_PUBLIC_PROJECTION_V1",
         "proof_refs": [
-          "68fccb85eea7f1c3bda1a49b2518f4d2a95c2446d85cc3786e9711fe93dc28a2",
+          "9ce0a02bd90516c3fb65582ee8e59caffc798f34c3b5d0a84ad2ffc63750ea56",
           "OJO_FRANCE_DEBT_RATE_LIVE_V1"
         ],
         "source_urls": [
@@ -1202,20 +1202,20 @@
       "patrimonial_analysis": {
         "trust_deep": {
           "execution": "NOT_EXECUTED_NO_MATCHING_RECEIPT",
-          "document_sha256": "68fccb85eea7f1c3bda1a49b2518f4d2a95c2446d85cc3786e9711fe93dc28a2",
+          "document_sha256": "9ce0a02bd90516c3fb65582ee8e59caffc798f34c3b5d0a84ad2ffc63750ea56",
           "truth_verdict": false
         },
         "coherence_historical": {
           "execution": "NOT_EXECUTED_NO_MATCHING_RECEIPT",
-          "document_sha256": "68fccb85eea7f1c3bda1a49b2518f4d2a95c2446d85cc3786e9711fe93dc28a2",
+          "document_sha256": "9ce0a02bd90516c3fb65582ee8e59caffc798f34c3b5d0a84ad2ffc63750ea56",
           "truth_verdict": false
         }
       },
       "object_refs": [],
       "object_meta": {
         "public_path": "data/france-debt-rate-live.json",
-        "sha256": "68fccb85eea7f1c3bda1a49b2518f4d2a95c2446d85cc3786e9711fe93dc28a2",
-        "bytes": 169566,
+        "sha256": "9ce0a02bd90516c3fb65582ee8e59caffc798f34c3b5d0a84ad2ffc63750ea56",
+        "bytes": 167093,
         "schema": "OJO_FRANCE_DEBT_RATE_LIVE_V1",
         "document_analysis_scope": "FULL_LOCAL_PUBLIC_DOCUMENT"
       },
@@ -1354,7 +1354,7 @@
       "proofgraph": {
         "spine_schema": "SUPRA_PROOFGRAPH_PUBLIC_PROJECTION_V1",
         "proof_refs": [
-          "106452ce5f05120872fba75289c6c1243646ffa3cbff5ca39f328e8f3a8bbd79",
+          "6251a737fdc4870a6ae41fe3506819eaabc2e5b0fcf47b0dd3b1c7b8f491b6d2",
           "OJO_LA_BETE_VIRTUOUS_EVOLUTION_V1"
         ],
         "source_urls": [
@@ -1410,20 +1410,20 @@
       "patrimonial_analysis": {
         "trust_deep": {
           "execution": "NOT_EXECUTED_NO_MATCHING_RECEIPT",
-          "document_sha256": "106452ce5f05120872fba75289c6c1243646ffa3cbff5ca39f328e8f3a8bbd79",
+          "document_sha256": "6251a737fdc4870a6ae41fe3506819eaabc2e5b0fcf47b0dd3b1c7b8f491b6d2",
           "truth_verdict": false
         },
         "coherence_historical": {
           "execution": "NOT_EXECUTED_NO_MATCHING_RECEIPT",
-          "document_sha256": "106452ce5f05120872fba75289c6c1243646ffa3cbff5ca39f328e8f3a8bbd79",
+          "document_sha256": "6251a737fdc4870a6ae41fe3506819eaabc2e5b0fcf47b0dd3b1c7b8f491b6d2",
           "truth_verdict": false
         }
       },
       "object_refs": [],
       "object_meta": {
         "public_path": "data/france-debt-rate-evolution.json",
-        "sha256": "106452ce5f05120872fba75289c6c1243646ffa3cbff5ca39f328e8f3a8bbd79",
-        "bytes": 427729,
+        "sha256": "6251a737fdc4870a6ae41fe3506819eaabc2e5b0fcf47b0dd3b1c7b8f491b6d2",
+        "bytes": 427727,
         "schema": "OJO_LA_BETE_VIRTUOUS_EVOLUTION_V1",
         "document_analysis_scope": "FULL_LOCAL_PUBLIC_DOCUMENT"
       },
@@ -14090,7 +14090,7 @@
       "label": "Historique CNO-TEC · export CSV",
       "department_code": null,
       "lane": null,
-      "evidence_state": "LIVE_VERIFIED",
+      "evidence_state": "CROSSCHECKED",
       "proofgraph": {
         "spine_schema": "SUPRA_PROOFGRAPH_PUBLIC_PROJECTION_V1",
         "proof_refs": [
