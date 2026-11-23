@@ -1,0 +1,1098 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-pLWXRjFm0WYXV/91YnQUrlr2gpsPFGs4SjBgrfyNTbI='; style-src 'unsafe-inline'; img-src data: blob:; connect-src 'none'; base-uri 'none'; form-action 'none'">
+  <meta name="theme-color" content="#192a27">
+  <title>KRIMI — L’atelier des collectionneurs</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='11' fill='%231a2d28'/%3E%3Cpath d='M13 10v20m0-8 12-12m-9 9 11 11' stroke='%23ebca7a' stroke-width='2' fill='none'/%3E%3C/svg%3E">
+  <style>
+:root {
+  color-scheme: light; --sand:#f5f1e8; --paper:#fffdf7; --ink:#1e302a; --forest:#20352f;
+  --night:#1b2e28; --gold:#f0cd80; --dim:#52645a; --line:#d7d9cc; --edge:#879286;
+  --serif:Charter,'Bitstream Charter',Georgia,serif; --sans:system-ui,-apple-system,'Segoe UI',sans-serif;
+  --mono:ui-monospace,'SF Mono',Menlo,monospace; font:1rem/1.49 var(--sans); background:var(--sand); color:var(--ink);
+}
+*,*::before,*::after { box-sizing:border-box; }
+[hidden] { display:none!important; }
+body,h1,h2,h3,p,dl,dd { margin:0; }
+button,input,select,textarea { font:inherit; color:inherit; }
+button:not(:disabled),summary { cursor:pointer; }
+button:disabled { opacity:.52; }
+a { color:inherit; text-underline-offset:.2em; }
+:focus-visible { outline:2px solid #517c60; outline-offset:4px; }
+.wrap { width:min(1100px,calc(100% - clamp(2rem,8vw,7rem))); margin-inline:auto; }
+.skip { position:absolute; inset:.75rem auto auto .75rem; transform:translateY(-200%); z-index:1; padding:.7rem 1rem; background:var(--paper); }
+.skip:focus { transform:none; }
+.bar { min-height:72px; border-bottom:1px solid var(--line); display:flex; align-items:center; justify-content:space-between; gap:.5rem; padding-block:.6rem; }
+.brand { display:flex; align-items:center; gap:.65rem; flex:none; }
+.monogram { background:var(--night); color:var(--gold); border-radius:.67rem; width:40px; height:40px; display:grid; place-items:center; font:1.5rem/1 var(--serif); }
+.brand strong { display:block; letter-spacing:-.04em; font-size:1.22rem; line-height:1.1; }
+.brand strong span { color:#837044; }
+.brand small { display:block; margin-top:.21rem; color:var(--dim); font-size:.67rem; }
+.bar-actions,.dialog-foot,.photo-actions { display:flex; flex-wrap:wrap; gap:.45rem .65rem; align-items:center; }
+.bar-actions { justify-content:flex-end; }
+.button { display:inline-flex; justify-content:center; align-items:center; gap:.43rem; min-height:44px; padding:.52rem .83rem; text-align:center; border:1px solid transparent; border-radius:.62rem; color:inherit; background:none; font-size:.86rem; font-weight:690; line-height:1.27; }
+.outline { border-color:var(--edge); }
+.outline:hover:not(:disabled),.quiet:hover:not(:disabled) { background:#e7ecdf; }
+.quiet { text-decoration:underline; text-underline-offset:.22em; }
+.primary { background:var(--night); color:var(--paper); }
+.primary:hover:not(:disabled) { background:#315348; }
+.gold { background:var(--gold); color:var(--night); }
+.gold:hover:not(:disabled) { background:#ffe1a3; }
+.light { color:#f8f5eb; border-color:#98a79b; }
+.light:hover:not(:disabled) { background:#385044; }
+#count { display:grid; place-items:center; min-width:1.3rem; min-height:1.25rem; border-radius:2rem; background:#e1e8db; padding:0 .27rem; font-size:.73rem; }
+.intro { padding-block:clamp(1.55rem,3.6vw,2.8rem) clamp(1.35rem,2.8vw,2.1rem); display:flex; align-items:end; justify-content:space-between; flex-wrap:wrap; gap:.75rem 1.25rem; }
+.eyebrow { font:640 .72rem/1.3 var(--mono); text-transform:uppercase; letter-spacing:.13em; color:#406456; }
+.kicker { display:flex; align-items:center; flex-wrap:wrap; gap:.48rem; }
+.kicker i { display:block; border-radius:10px; width:.23rem; height:.23rem; background:#9a6d31; }
+h1,h2,.disclosure summary strong { font-family:var(--serif); letter-spacing:-.045em; font-weight:450; }
+h1 { font-size:clamp(2.95rem,6vw,5.35rem); line-height:.99; margin:.4rem 0 .64rem; }
+h1 em { color:#3f654f; font-weight:450; }
+.lead { color:var(--dim); font-size:clamp(.98rem,1.6vw,1.14rem); max-width:56ch; }
+.demo-link { flex:none; }
+.notice { margin-bottom:.8rem; border:1px solid #c5b383; border-radius:.6rem; background:#f8eed4; color:#3d3828; padding:.62rem .8rem; font-size:.88rem; }
+.desk { display:grid; grid-template-columns:minmax(310px,.92fr) minmax(0,1.16fr); align-items:start; gap:clamp(.9rem,2.25vw,1.5rem); scroll-margin:.7rem; }
+.photo-panel,.sheet { min-width:0; border-radius:1.15rem; padding:clamp(.97rem,2.5vw,1.6rem); }
+.photo-panel { background:var(--night); color:#f8f5eb; position:sticky; top:.9rem; background-image:radial-gradient(ellipse at 92% 10%,#2b4439,transparent 68%); }
+.photo-panel .eyebrow { color:var(--gold); }
+.photo-panel :focus-visible { outline-color:var(--gold); }
+.photo-head { display:flex; align-items:center; flex-wrap:wrap; justify-content:space-between; gap:.35rem .7rem; margin-bottom:.8rem; }
+#photo-count,.badge { color:#d3dfd4; font-size:.75rem; }
+.badge { color:var(--gold); font-weight:700; }
+.photo-stage { border:1px solid #70887a; border-radius:.79rem; background:#20362e; background-image:radial-gradient(#6e89775f .75px,transparent .75px); background-size:14px 14px; overflow:hidden; }
+.photo-empty { min-height:205px; display:grid; align-content:center; justify-items:center; gap:.18rem; padding:.4rem .5rem .95rem; text-align:center; }
+.photo-empty svg { width:min(240px,100%); height:115px; display:block; }
+.photo-empty h2 { font-size:clamp(1.46rem,2.8vw,1.9rem); }
+.photo-empty p,.photo-note { color:#d6e1d7; font-size:.83rem; }
+.photo-open { display:grid; place-items:center; position:relative; width:100%; background:none; border:0; min-height:205px; padding:.55rem; }
+.photo-open img { display:block; width:100%; max-height:300px; object-fit:contain; }
+.zoom-label { position:absolute; bottom:.45rem; right:.45rem; padding:.25rem .48rem; border-radius:.35rem; background:#182822; color:#fff; font-size:.73rem; }
+.sides { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:.35rem; margin:.68rem 0; }
+.sides button { border:1px solid #789485; border-radius:.48rem; background:none; color:#e2eadf; min-height:44px; font-size:.83rem; }
+.sides button[aria-pressed='true'] { background:#dce8d7; color:var(--night); font-weight:720; }
+.sides button[data-photo]::after { content:' ·'; font-weight:900; }
+.photo-note { margin-top:.63rem; }
+.photo-links { display:flex; flex-wrap:wrap; gap:.3rem .8rem; }
+.photo-links .button { padding-inline:0; color:#f8f5eb; font-size:.8rem; }
+.photo-links .button:hover:not(:disabled) { background:transparent; color:var(--gold); }
+#write-first,#review-image { display:none; }
+.work { display:grid; gap:.76rem; min-width:0; }
+.sheet { background:var(--paper); border:1px solid var(--line); box-shadow:0 8px 30px -27px #2333299c; }
+.sheet h2 { font-size:clamp(1.78rem,3.5vw,2.55rem); line-height:1.08; margin:.22rem 0 .44rem; overflow-wrap:anywhere; }
+.muted,.fine { color:var(--dim); font-size:.86rem; }
+.fine { font-size:.8rem; }
+.fields { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:.52rem .72rem; margin-block:.74rem .45rem; }
+#piece-fields { grid-template-columns:minmax(0,1.2fr) minmax(0,.8fr); }
+label { min-width:0; display:grid; gap:.25rem; font-size:.85rem; font-weight:680; }
+label span { font-size:.77rem; color:var(--dim); font-weight:450; }
+.wide { grid-column:1/-1; }
+input,select,textarea { width:100%; min-width:0; min-height:44px; border:1px solid var(--edge); border-radius:.52rem; padding:.46rem .58rem; background:#f6f7ef; font-size:1rem; }
+textarea { resize:vertical; }
+.optional { border-top:1px solid var(--line); margin-top:.65rem; }
+.optional summary { min-height:44px; padding:.66rem 0; font-size:.86rem; font-weight:670; color:#36594a; }
+.optional label+label { margin-top:.6rem; }
+.fields label+label { margin-top:0; }
+#start-study { margin-top:.45rem; }
+.disclosure { padding-block:.13rem; scroll-margin:.8rem; }
+.disclosure>summary { display:flex; list-style:none; align-items:center; justify-content:space-between; gap:.65rem; padding:.76rem 1.1rem .76rem 0; position:relative; }
+.disclosure>summary::-webkit-details-marker { display:none; }
+.disclosure>summary::after { content:'+'; position:absolute; right:0; font-size:1.2rem; color:#3b5e4f; }
+.disclosure[open]>summary::after { content:'−'; }
+.disclosure summary .eyebrow { display:block; margin-bottom:.15rem; }
+.disclosure summary strong { font-size:clamp(1.18rem,2.5vw,1.65rem); line-height:1.12; display:block; }
+.tag { display:block; border-radius:1.5rem; background:#e7ede1; color:#335648; padding:.25rem .49rem; text-align:center; font-size:.73rem; font-weight:660; flex:none; }
+.inside { padding:.65rem 0 1.05rem; border-top:1px solid var(--line); }
+.inside>label,.inside>p + label { margin-top:.66rem; }
+.proposals { display:grid; grid-template-columns:repeat(auto-fit,minmax(min(140px,100%),1fr)); gap:.42rem; margin:.6rem 0; }
+.proposal { display:grid; text-align:start; justify-content:start; background:#edf0e6; border-color:#a3ae9f; min-height:53px; }
+.proposal[aria-pressed='true'] { background:var(--night); color:var(--paper); border-color:var(--night); }
+.proposal small { font-size:.72rem; font-weight:550; }
+.source-head { padding:.63rem .76rem; background:#e9eee4; border-radius:.56rem; margin-top:.8rem; overflow-wrap:anywhere; }
+.source-head a,.declared a { display:inline-block; min-height:44px; padding-block:.56rem; font-size:.83rem; }
+table { width:100%; border-collapse:collapse; table-layout:fixed; margin:.58rem 0 .7rem; font-size:.85rem; }
+th,td { text-align:left; vertical-align:top; padding:.5rem .32rem; border-bottom:1px solid var(--line); overflow-wrap:anywhere; }
+tr[data-state='different'] td { background:#f7e8d1; }
+td small { display:block; color:var(--dim); }
+#compare .fine,form .fine { margin-top:.5rem; }
+.form-error { font-size:.83rem; color:#8d342a; margin:.5rem 0; }
+.form-error:empty { display:none; }
+.keep { background:#e4ebdd; border:1px solid #bac9b6; border-radius:.82rem; padding:.75rem; display:flex; justify-content:space-between; align-items:center; gap:.65rem; }
+#storage-status { color:#385246; font-size:.8rem; margin-top:.24rem; }
+.foot { border-top:1px solid var(--line); margin-top:1.45rem; padding:.45rem 0 .9rem; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:.25rem; color:var(--dim); font-size:.82rem; }
+dialog { width:min(680px,calc(100% - 1.5rem)); max-height:calc(100% - 1.5rem); padding:clamp(1rem,3vw,1.55rem); border:1px solid var(--edge); border-radius:.9rem; background:var(--paper); color:var(--ink); overflow:auto; }
+dialog::backdrop { background:#10291eb0; }
+.dialog-head,.collection-tools { display:flex; align-items:center; gap:.55rem; justify-content:space-between; flex-wrap:wrap; margin-bottom:.8rem; }
+.dialog-head h2 { font-size:clamp(1.55rem,4vw,2.4rem); }
+.collection-tools label { flex:1 1 220px; }
+.collection-tools { align-items:end; }
+.tile { display:flex; align-items:center; justify-content:space-between; width:100%; text-align:left; padding:.65rem .78rem; margin-bottom:.45rem; min-height:54px; gap:.7rem; background:#f0f2e9; border:1px solid var(--line); border-radius:.65rem; }
+.tile img { width:34px; height:42px; object-fit:contain; border-radius:.2rem; flex:none; }
+.tile span { min-width:0; flex:1; overflow-wrap:anywhere; }
+.tile small { display:block; color:var(--dim); }
+.dialog-foot { margin-top:1rem; border-top:1px solid var(--line); padding-top:.75rem; }
+dl { overflow-wrap:anywhere; }
+dt { font-weight:690; font-size:.83rem; }
+dd { margin:0 0 .46rem; white-space:pre-wrap; font-size:.86rem; }
+#import-preview { overflow-wrap:anywhere; }
+#import-preview p,.declared { margin-bottom:.55rem; }
+#import-preview li { margin-bottom:.28rem; }
+#viewer { width:min(900px,calc(100% - 1.5rem)); }
+#viewer-image { display:block; width:100%; max-height:72dvh; object-fit:contain; background:#e9eee6; }
+@media (max-width:780px) {
+  .desk { grid-template-columns:minmax(0,1fr); }
+  .photo-panel { position:static; }
+  .photo-empty { min-height:144px; }
+  .photo-empty svg { height:75px; }
+  #write-first { display:inline-flex; }
+  #review-image { display:inline-flex; margin-top:.5rem; }
+}
+@media (max-width:510px) {
+  .bar { flex-wrap:wrap; }
+  .bar-actions { margin-left:auto; }
+  .brand small { display:none; }
+  .monogram { width:32px; height:32px; font-size:1.25rem; }
+  .brand { gap:.4rem; }
+  .bar-actions { gap:.15rem; }
+  .bar-actions .button { padding-inline:.35rem; font-size:.76rem; }
+  .bar-actions .quiet { max-width:6.75rem; }
+  .intro { gap:.57rem; }
+  .photo-empty svg { height:62px; }
+  .photo-open img { max-height:235px; }
+  .keep { flex-wrap:wrap; }
+  .tag { max-width:7.8rem; }
+}
+</style>
+</head>
+<body>
+  <a class="skip" href="#fiche">Aller à la fiche</a>
+  <header class="bar wrap">
+    <div class="brand"><span aria-hidden="true" class="monogram">K</span><div><strong>KRIMI<span>.</span></strong><small>L’atelier des collectionneurs</small></div></div>
+    <div class="bar-actions">
+      <button type="button" class="button quiet" id="open-import" disabled>Reprendre un dossier</button>
+      <button type="button" class="button outline" id="show-collection" disabled>Ma collection <span id="count">0</span></button>
+    </div>
+  </header>
+  <main class="wrap">
+    <section class="intro" aria-labelledby="hero">
+      <div>
+        <p class="eyebrow kicker">Observer <i></i> Comparer <i></i> Conserver</p>
+        <h1 id="hero">Sous la <em>loupe.</em></h1>
+        <p class="lead">Une photo ou un nom suffit pour commencer. Compare les indices, puis retrouve le tout dans ta collection.</p>
+      </div>
+      <button type="button" class="button outline demo-link" id="demo" disabled>Essayer une pièce fictive <span aria-hidden="true">↗</span></button>
+    </section>
+    <p id="notice" class="notice" role="status" hidden></p>
+    <noscript><p class="notice">Active JavaScript dans ton navigateur pour utiliser cet atelier hors ligne.</p></noscript>
+
+    <section id="fiche" class="desk" aria-label="Fiche de la pièce" tabindex="-1">
+      <section class="photo-panel" aria-labelledby="photo-title">
+        <header class="photo-head"><p class="eyebrow" id="photo-title">01 / La pièce</p><span id="sample-badge" class="badge" hidden>Exemple fictif</span><span id="photo-count">0 photo</span></header>
+        <div class="photo-stage">
+          <div id="photo-empty" class="photo-empty">
+            <svg viewBox="0 0 270 142" aria-hidden="true" focusable="false">
+              <g fill="none" stroke="#a8bba8"><circle cx="135" cy="70" r="60" opacity=".3"/><circle cx="135" cy="70" r="48" opacity=".44"/>
+              <path d="M34 95h42m118-49h42M55 85v20m160-69v20" opacity=".53"/><rect x="106" y="30" width="58" height="80" rx="6" stroke-width="1.5" transform="rotate(-9 135 70)"/>
+              <path d="M114 50h42v34h-42zM112 94h30m-30 6h19" transform="rotate(-9 135 70)"/></g>
+              <circle cx="174" cy="92" r="16" fill="#22342e" stroke="#eac97c" stroke-width="1.5"/><path d="m186 105 13 12m-25-30v10m-5-5h10" stroke="#eac97c" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+            <h2>Pose ta pièce ici.</h2>
+            <p>Photographie-la ou choisis une image.</p>
+          </div>
+          <button class="photo-open" type="button" id="photo-zoom" hidden><img id="photo-img" alt=""><span class="zoom-label">Agrandir ↗</span></button>
+        </div>
+        <div class="sides" role="group" aria-label="Vue de la pièce">
+          <button type="button" data-side="front" aria-pressed="true">Recto</button>
+          <button type="button" data-side="back" aria-pressed="false">Verso</button>
+          <button type="button" data-side="detail" aria-pressed="false">Détail</button>
+        </div>
+        <div class="photo-actions">
+          <button type="button" class="button gold" id="choose-photo" disabled>Ajouter une photo</button>
+          <button type="button" class="button light" id="take-photo" disabled>Prendre une photo</button>
+        </div>
+        <p class="photo-note" id="photo-note" role="status">Photos allégées, stockées dans la fiche ; conserve les originaux.</p>
+        <div class="photo-links"><button type="button" class="button quiet" id="write-first">Décrire sans photo ↓</button><button type="button" class="button quiet" id="remove-photo" hidden>Retirer cette photo</button></div>
+        <input id="photo-file" type="file" accept="image/jpeg,image/png,image/webp,image/heic,image/heif,image/avif" hidden>
+        <input id="camera-file" type="file" accept="image/*" capture="environment" hidden>
+      </section>
+
+      <div class="work">
+        <section class="sheet" aria-labelledby="piece-title">
+          <p class="eyebrow">Sur ta fiche</p>
+          <h2 id="piece-title" tabindex="-1">Décris ce que tu vois.</h2>
+          <p class="muted">Sans photo, le nom ou le numéro imprimé permet déjà de chercher une piste.</p>
+          <div class="fields" id="piece-fields">
+            <label>Nom lu sur la pièce<input id="name" maxlength="160" autocomplete="off" placeholder="Ex. Pikachu" disabled></label>
+            <label>Numéro imprimé<input id="number" maxlength="45" autocomplete="off" placeholder="Ex. 58/102" disabled></label>
+            <label class="language">Langue de la pièce<select id="language" disabled></select></label>
+          </div>
+          <details class="optional" id="notes"><summary>Observations et hypothèses</summary>
+            <label>Ce que tu observes <span>Un détail visible, pas une conclusion.</span><textarea id="observation" rows="2" maxlength="1500" placeholder="Ex. Coin haut droit plié, numéro lisible au recto."></textarea></label>
+            <label>Ton hypothèse <span>Ce qui demande encore une preuve.</span><textarea id="hypothesis" rows="2" maxlength="1500" placeholder="Ex. Peut-être la réédition, à vérifier au verso."></textarea></label>
+          </details>
+          <details class="optional" id="legacy" hidden><summary>Déclarations de l’ancien dossier</summary><dl id="legacy-fields"></dl></details>
+          <button type="button" class="button primary" id="start-study" disabled>Comparer les références <span aria-hidden="true">↓</span></button>
+        </section>
+
+        <details class="sheet disclosure" id="study">
+          <summary><span><span class="eyebrow">02 / Comparaison</span><strong>Quelle référence retenir ?</strong></span><span class="tag" id="ref-count">Aucune notice choisie</span></summary>
+          <div class="inside">
+            <p id="suggestion" class="muted">Indique un nom ou un numéro pour voir les notices intégrées.</p>
+            <div id="proposals" class="proposals" aria-label="Notices proposées"></div>
+            <div id="compare" hidden>
+              <div class="source-head" id="source-info" tabindex="-1"></div>
+              <button type="button" class="button outline" id="review-image" hidden>Revoir la photo ↗</button>
+              <table aria-label="Comparaison des champs"><thead><tr><th scope="col">Indice</th><th scope="col">Ta saisie</th><th scope="col">Notice</th></tr></thead><tbody id="comparison"></tbody></table>
+              <label>Ton constat après comparaison<select id="review"></select></label>
+              <p class="fine">Une concordance de texte ne prouve ni l’authenticité, ni l’état, ni la variante exacte de cet exemplaire.</p>
+            </div>
+            <details class="optional" id="custom-panel"><summary>Ajouter ma propre source</summary>
+              <form id="custom-form" novalidate>
+                <div class="fields">
+                  <label>Nom dans la source<input id="custom-name" maxlength="160"></label>
+                  <label>Numéro dans la source<input id="custom-number" maxlength="45"></label>
+                  <label>Édition ou série<input id="custom-series" maxlength="160"></label>
+                  <label>Langue de la notice<select id="custom-language"></select></label>
+                  <label class="wide">Lien HTTPS de la source<input id="custom-url" type="url" maxlength="1000" placeholder="https://…"></label>
+                </div>
+                <p class="fine">Source fournie par toi, non vérifiée par KRIMI. Aucun lien n’est ouvert automatiquement.</p>
+                <p class="form-error" id="custom-error" role="alert"></p>
+                <button class="button outline" type="submit">Comparer à cette source</button>
+              </form>
+            </details>
+          </div>
+        </details>
+
+        <details class="sheet disclosure" id="decision-panel">
+          <summary><span><span class="eyebrow">03 / Décision</span><strong>Qu’est-ce que tu fais ensuite ?</strong></span><span class="tag" id="decision-tag">À toi de décider</span></summary>
+          <div class="inside">
+            <p id="next-hint" class="muted"></p>
+            <label>Ma décision<select id="decision"></select></label>
+            <label>Ce qu’il reste à faire<textarea id="next" maxlength="700" rows="2" placeholder="Ex. Vérifier le numéro et demander une photo du verso."></textarea></label>
+            <details class="optional" id="price-panel"><summary>Noter un montant documenté</summary>
+              <p class="fine">Indique ce que ce montant représente. KRIMI ne calcule pas de cote et ne valide pas ta source.</p>
+              <form id="price-form" novalidate>
+                <div class="fields">
+                  <label>Montant en euros<input id="amount" inputmode="decimal" maxlength="12" placeholder="Ex. 15,50"></label>
+                  <label>Date de la référence<input id="price-date" type="date"></label>
+                  <label>Nature du montant<select id="price-kind"></select></label>
+                  <label>Lien HTTPS de la source<input id="price-url" type="url" maxlength="1000"></label>
+                  <label class="wide">Variante et état comparés<textarea id="price-note" rows="2" maxlength="700"></textarea></label>
+                </div>
+                <p class="form-error" id="price-error" role="alert"></p>
+                <button type="submit" class="button outline">Consigner ce montant</button>
+                <p id="price-status" class="fine" role="status"></p>
+              </form>
+            </details>
+          </div>
+        </details>
+
+        <section class="keep" aria-label="Conserver le dossier">
+          <div><p class="eyebrow">La suite est à toi</p><p id="storage-status" aria-live="polite">Session seule. Sauvegarde un fichier avant de fermer.</p></div>
+          <button type="button" class="button primary" id="download" disabled>Sauvegarder le dossier</button>
+        </section>
+      </div>
+    </section>
+  </main>
+  <footer class="foot wrap"><p><strong>KRIMI.</strong> · Aucun envoi, aucune cote automatique.</p><button type="button" class="button quiet" id="local" disabled>Garder sur cet appareil</button></footer>
+
+  <input id="import-file" type="file" accept=".json,.html,.zip,application/json,application/zip,text/html" hidden>
+  <dialog id="collection" aria-labelledby="collection-title">
+    <header class="dialog-head"><div><p class="eyebrow">L’atelier</p><h2 id="collection-title">Ma collection</h2></div><button type="button" class="button outline" data-close="collection">Fermer</button></header>
+    <div class="collection-tools"><label>Rechercher une pièce<input id="search" type="search" placeholder="Nom ou numéro"></label><button type="button" class="button primary" id="new">Nouvelle pièce</button></div>
+    <div id="cards"></div>
+    <button type="button" class="button quiet" id="remove-piece" hidden>Retirer la fiche ouverte</button>
+    <details id="archives" class="optional" hidden><summary>Notes et réponses des anciens dossiers</summary><div id="archive-list"></div></details>
+    <div class="dialog-foot"><button type="button" class="button outline" id="collection-import">Reprendre un fichier</button><button type="button" class="button outline" id="collection-export">Sauvegarder le dossier</button><button type="button" class="button quiet" id="portable">Copie autonome (HTML)</button></div>
+  </dialog>
+  <dialog id="import-review" aria-labelledby="import-title">
+    <header class="dialog-head"><div><p class="eyebrow">Avant de reprendre</p><h2 id="import-title" tabindex="-1">Vérifie ce qui sera ajouté.</h2></div><button type="button" class="button outline" data-close="import-review">Annuler</button></header>
+    <div id="import-preview"></div>
+    <div class="dialog-foot"><button type="button" class="button outline" id="before-export">Sauvegarder ma version</button><button type="button" class="button primary" id="apply">Ajouter à ma collection</button></div>
+  </dialog>
+  <dialog id="viewer" aria-labelledby="viewer-title">
+    <header class="dialog-head"><h2 id="viewer-title">Photo agrandie</h2><button type="button" class="button outline" data-close="viewer">Fermer</button></header>
+    <img id="viewer-image" alt="">
+  </dialog>
+  <script id="seed" type="application/json">null</script>
+  <script type="module">
+export const KIND = 'KRIMI_ATELIER';
+export const LIMIT = 45_000_000;
+export const SIDES = {front:'Recto', back:'Verso', detail:'Détail'};
+export const DECISIONS = {'':'Pas encore décidé', verifier:'À vérifier', garder:'Garder', acheter:'Envisager l’achat', vendre:'Préparer une vente', estimer:'Documenter la valeur'};
+export const REVIEWS = {'':'Non relue', accord:'Indices concordants', ecart:'Écart observé', incertain:'Encore incertain'};
+export const LANG = {'':'À préciser', fr:'Français', en:'Anglais', ja:'Japonais', other:'Autre'};
+export const PRICE = {vente:'Vente réalisée', annonce:'Prix demandé', expertise:'Estimation externe'};
+
+// Les cinq entrées Pokémon de identification.js (Loupe) relues dans le catalogue public.
+const catalogue = (id, name, number, series, aliases = [name]) => ({
+  id, name, number, series, language:'fr', aliases, date:'2026-11-23', source:`https://api.tcgdex.net/v2/fr/cards/${id}`,
+});
+export const CATALOG = [
+  catalogue('base1-58','Pikachu','58/102','Set de Base'),
+  catalogue('base2-60','Pikachu','60/64','Jungle'),
+  catalogue('xy12-35','Pikachu','35/108','Évolutions'),
+  catalogue('base1-4','Dracaufeu','4/102','Set de Base',['Dracaufeu','Charizard']),
+  catalogue('xy12-11','Dracaufeu','11/108','Évolutions',['Dracaufeu','Charizard']),
+];
+
+export const empty = () => ({kind:KIND, version:1, cards:[], archives:[]});
+export function piece(id = `p-${crypto.randomUUID()}`) {
+  return {id, name:'', number:'', language:'', observation:'', hypothesis:'', photos:{}, ref:'', custom:null, review:'', decision:'', next:'', valuation:null, legacy:null};
+}
+
+export const stable = (x) => Array.isArray(x) ? '[' + x.map(stable).join(',') + ']'
+  : x && typeof x === 'object' ? '{' + Object.keys(x).sort().map(k => JSON.stringify(k) + ':' + stable(x[k])).join(',') + '}' : JSON.stringify(x);
+const fold = (s) => s.normalize('NFD').replace(/\p{M}/gu,'').toLowerCase().trim().replace(/\s+/g,' ');
+const num = (s) => fold(s).replace(/\s+/g,'').replace(/(^|[/a-z])0+(?=\d)/g,'$1');
+export function proposals(card) {
+  const name = fold(card.name);
+  const number = num(card.number);
+  if (!name && !number) return [];
+  return CATALOG.filter(r => (name ? r.aliases.some(a => fold(a) === name) : num(r.number) === number))
+    .sort((a,b) => Number(num(b.number) === number) - Number(num(a.number) === number));
+}
+
+export function comparison(card, ref) {
+  return ['name','number','language'].map(key => {
+    const normal = key === 'number' ? num : fold;
+    const equal = key === 'name' ? (ref.aliases || [ref.name]).some(a => normal(a) === normal(card.name))
+      : normal(card[key]) === normal(ref[key]);
+    return {key, state:!card[key].trim() || !ref[key].trim() ? 'missing' : equal ? 'same' : 'different'};
+  });
+}
+
+const object = x => x && typeof x === 'object' && !Array.isArray(x);
+const require = (condition, message = 'Dossier KRIMI mal formé.') => { if (!condition) throw new Error(message); };
+const string = (x, size = 160) => { require(typeof x === 'string' && x.length <= size, 'Champ manquant ou trop long dans le dossier.'); return x; };
+const choice = (x, options) => { require(typeof x === 'string' && Object.hasOwn(options,x), 'Choix inconnu dans le dossier.'); return x; };
+const idOk = x => typeof x === 'string' && /^[a-z0-9:-]{6,180}$/.test(x);
+export function safeURL(raw) {
+  try { const u = new URL(raw); return u.protocol === 'https:' && !u.username && !u.password ? u.href : ''; }
+  catch { return ''; }
+}
+const sourceURL = raw => { const url = safeURL(string(raw,1000)); require(url, 'Utilise une adresse de source HTTPS, sans identifiant.'); return url; };
+const validDay = raw => /^\d{4}-\d{2}-\d{2}$/.test(raw) && Number.isFinite(Date.parse(raw)) && new Date(raw).toISOString().slice(0,10) === raw;
+
+export function price(raw) {
+  if (raw === null) return null;
+  require(object(raw) && typeof raw.date === 'string' && validDay(raw.date) && raw.date <= new Date().toISOString().slice(0,10), 'Indique une date réelle, au plus tard aujourd’hui.');
+  require(Number.isSafeInteger(raw.cents) && raw.cents > 0 && raw.cents <= 100_000_000, 'Indique un montant de 0,01 à 1 000 000 €, à deux décimales maximum.');
+  require(typeof raw.note === 'string' && raw.note.trim(), 'Précise quelle variante et quel état le montant concerne.');
+  return {cents:raw.cents, date:raw.date, kind:choice(raw.kind,PRICE), source:sourceURL(raw.source), note:string(raw.note,700)};
+}
+
+export function manualReference(raw) {
+  if (raw === null) return null;
+  require(object(raw));
+  const name = string(raw.name).trim(), number = string(raw.number,45).trim();
+  require(name || number, 'Donne au moins le nom ou le numéro qui figure dans la source.');
+  return {name, number, series:string(raw.series), language:choice(raw.language,LANG), source:sourceURL(raw.source)};
+}
+
+function photos(raw) {
+  require(object(raw));
+  return Object.fromEntries(Object.entries(raw).map(([key,p]) => {
+    require(Object.hasOwn(SIDES,key) && object(p) && typeof p.data === 'string' && p.data.length <= 18_000_000
+      && /^data:image\/jpeg;base64,(?:[A-Za-z0-9+/]+={0,2})$/.test(p.data)
+      && Number.isInteger(p.width) && p.width > 0 && p.width <= 1800 && Number.isInteger(p.height) && p.height > 0 && p.height <= 1800,
+      'Photo absente ou invalide. Pour un ancien dossier, ouvre le HTML ou le ZIP complet, pas le JSON d’analyse sans images.');
+    return [key,{data:p.data,width:p.width,height:p.height}];
+  }));
+}
+
+function legacyCard(raw) {
+  require(object(raw) && typeof raw.distinct === 'boolean');
+  const keys = ['name','reference','language','condition','ownership','intent','purchase','wish','note'];
+  return {...Object.fromEntries(keys.map(k => [k,string(raw[k],k === 'note' ? 1500 : 160)])),distinct:raw.distinct};
+}
+
+function archive(raw) {
+  require(object(raw) && idOk(raw.id) && object(raw.answers) && Object.keys(raw.answers).length <= 30 && Array.isArray(raw.journal) && raw.journal.length <= 100);
+  const answers = Object.fromEntries(Object.entries(raw.answers).map(([k,v]) => [string(k,40), Array.isArray(v) && v.length <= 24 ? v.map(text => string(text)) : string(v,1500)]));
+  const ids = new Set();
+  const journal = raw.journal.map(n => {
+    require(object(n) && idOk(n.id) && !ids.has(n.id)); ids.add(n.id);
+    return {id:n.id,text:string(n.text,2000),at:string(n.at ?? '',80),status:string(n.status ?? '',80)};
+  });
+  return {id:raw.id,createdAt:string(raw.createdAt,80),answers,journal};
+}
+
+export function validate(raw) {
+  require(raw?.kind === KIND && raw.version === 1 && Array.isArray(raw.cards) && raw.cards.length <= 100 && Array.isArray(raw.archives) && raw.archives.length <= 50,
+    'Format inconnu ou dossier trop grand pour cette version de KRIMI.');
+  const ids = new Set(), archives = new Set();
+  const cards = raw.cards.map(c => {
+    require(object(c) && idOk(c.id) && !ids.has(c.id), 'Identifiant de fiche manquant ou dupliqué.'); ids.add(c.id);
+    const custom = manualReference(c.custom);
+    require(c.ref === '' || (c.ref === 'custom' ? custom : CATALOG.some(r => r.id === c.ref)), 'Référence non reconnue dans ce dossier.');
+    const review = choice(c.review,REVIEWS);
+    require(c.ref || !review, 'Un avis de comparaison nécessite une référence.');
+    return {id:c.id, name:string(c.name), number:string(c.number,45), language:choice(c.language,LANG), observation:string(c.observation,1500),
+      hypothesis:string(c.hypothesis,1500), photos:photos(c.photos), ref:c.ref, custom, review, decision:choice(c.decision,DECISIONS),
+      next:string(c.next,700), valuation:price(c.valuation), legacy:c.legacy === null ? null : legacyCard(c.legacy)};
+  });
+  const data = {kind:KIND,version:1,cards,archives:raw.archives.map(x => {
+    const a = archive(x); require(!archives.has(a.id), 'Dossier historique dupliqué.'); archives.add(a.id); return a;
+  })};
+  require(new TextEncoder().encode(JSON.stringify(data)).length <= LIMIT, 'La collection dépasserait 45 Mo. Rien n’a été modifié.');
+  return data;
+}
+
+export async function fromLegacy(raw) {
+  require(raw?.kind === 'KRIMI_FIRST_EXCHANGE' && raw.version === '1.0' && Array.isArray(raw.cards) && raw.cards.length <= 6
+    && typeof raw.createdAt === 'string' && /^\d{4}-\d\d-\d\dT/.test(raw.createdAt) && Number.isFinite(Date.parse(raw.createdAt)),
+    'Ce fichier n’est pas un dossier KRIMI compatible.');
+  const origin = async () => {
+    require(crypto.subtle, 'Ce navigateur ne peut pas vérifier l’origine d’une sauvegarde ancienne. Essaie Chrome récent.');
+    const bytes = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(raw.kind + '|' + raw.createdAt));
+    return 'k' + Array.from(new Uint8Array(bytes), x => x.toString(16).padStart(2,'0')).join('');
+  };
+  const oldId = id => typeof id === 'string' && /^k[a-z0-9]{5,90}$/.test(id);
+  const originOk = id => typeof id === 'string' && /^k[a-z0-9]{10,80}$/.test(id);
+  const booklet = originOk(raw.originId) ? raw.originId : await origin();
+  const cards = raw.cards.map(c => {
+    require(oldId(c?.id));
+    const legacy = legacyCard(c);
+    const language = Object.keys(LANG).find(key => LANG[key] === legacy.language) ?? '';
+    const decision = ({Garder:'garder',Vendre:'vendre','Hésiter / vérifier':'verifier'})[legacy.intent] || '';
+    return {...piece(`v1:${originOk(c.originId) ? c.originId : booklet}:${c.id}`), name:legacy.name, number:legacy.reference.slice(0,45), language,
+      // Anciennes notes et montants restent déclaratifs ; jamais promus en observations ou en cote.
+      decision, photos:c.photos, legacy};
+  });
+  return validate({...empty(),cards,archives:[{id:booklet,createdAt:raw.createdAt,answers:raw.answers,journal:raw.journal ?? []}]});
+}
+
+export function planImport(local, incoming) {
+  const known = new Set(local.cards.flatMap(c => Object.values(c.photos).map(p => p.data)));
+  const cards = [], archives = [], skipped = [];
+  let unchanged = 0;
+  for (const card of incoming.cards) {
+    const current = [...local.cards,...cards].find(c => c.id === card.id ||
+      c.id.startsWith('v1:') && card.id.startsWith('v1:') && c.id.split(':').at(-1) === card.id.split(':').at(-1));
+    if (current) {
+      if (stable(current) === stable(card)) unchanged++;
+      else skipped.push({name:card.name || 'Pièce sans nom', reason:'Version différente : ta fiche reste en place.', current, incoming:card});
+    } else if (Object.values(card.photos).some(p => known.has(p.data))) {
+      skipped.push({name:card.name || 'Pièce sans nom',reason:'Photo déjà présente : aucun exemplaire ajouté.'});
+    } else {
+      cards.push(card);
+      Object.values(card.photos).forEach(p => known.add(p.data));
+    }
+  }
+  for (const a of incoming.archives) {
+    const current = local.archives.find(x => x.id === a.id);
+    if (!current) archives.push(a);
+    else if (stable(current) !== stable(a)) skipped.push({name:'Notes de l’ancien dossier',reason:'Version différente : garde le fichier source pour les relire.'});
+  }
+  if (!cards.length && !archives.length) return {data:local, cards, archives, skipped, unchanged};
+  return {data:validate({...local,cards:[...local.cards,...cards],archives:[...local.archives,...archives]}), cards, archives, skipped, unchanged};
+}
+
+// Lecture du ZIP Premier échange : reprendre le contrôle CRC et la sélection
+// d'une seule entrée portable. Le HTML importé n'est jamais monté dans le DOM.
+const CRC_TABLE = Uint32Array.from({length:256}, (_, entry) => {
+  for (let i = 0; i < 8; i++) entry = (entry & 1 ? 0xedb88320 : 0) ^ (entry >>> 1);
+  return entry;
+});
+function crc(bytes) {
+  let value = 0xffffffff;
+  for (const byte of bytes) value = CRC_TABLE[(value ^ byte) & 255] ^ (value >>> 8);
+  return (value ^ 0xffffffff) >>> 0;
+}
+const utf8 = bytes => new TextDecoder('utf-8',{fatal:true}).decode(bytes);
+const badZip = () => new Error('ZIP endommagé, ambigu ou non pris en charge. Aucun dossier modifié.');
+
+async function unzip(bytes, size) {
+  let reader;
+  try { reader = new Blob([bytes]).stream().pipeThrough(new DecompressionStream('deflate-raw')).getReader(); }
+  catch { throw new Error('Ce navigateur ne lit pas ce ZIP compressé. Extrais-le et ouvre Ouvrir_KRIMI.html ou KRIMI_reponses.json.'); }
+  const output = new Uint8Array(size);
+  let offset = 0;
+  try {
+    for (;;) {
+      const {done,value} = await reader.read();
+      if (done) break;
+      if (offset + value.length > size) throw badZip();
+      output.set(value,offset); offset += value.length;
+    }
+  } catch { await reader.cancel().catch(() => {}); throw badZip(); }
+  if (offset !== size) throw badZip();
+  return output;
+}
+
+async function legacyZip(bytes) {
+  const view = new DataView(bytes.buffer,bytes.byteOffset,bytes.byteLength);
+  const u16 = x => view.getUint16(x,true), u32 = x => view.getUint32(x,true);
+  let end = -1;
+  for (let pos = bytes.length - 22; pos >= Math.max(0,bytes.length - 65557); pos--) {
+    if (u32(pos) === 0x06054b50 && pos + 22 + u16(pos+20) === bytes.length) { end = pos; break; }
+  }
+  if (end < 0 || u16(end+4) || u16(end+6)) throw badZip();
+  const start = u32(end+16), count = u16(end+10);
+  if (!count || count > 80 || u16(end+8) !== count || start + u32(end+12) !== end) throw badZip();
+  const names = new Set(), candidates = [], ranges = [];
+  let pos = start, total = 0;
+  for (let i = 0; i < count; i++) {
+    if (pos+46 > end || u32(pos) !== 0x02014b50) throw badZip();
+    const flags = u16(pos+8), method = u16(pos+10), checksum = u32(pos+16), compressed = u32(pos+20), size = u32(pos+24);
+    const nameSize = u16(pos+28), next = pos + 46 + nameSize + u16(pos+30) + u16(pos+32), local = u32(pos+42);
+    if ((flags & ~0x080e) || ![0,8].includes(method) || u16(pos+34) || !nameSize || nameSize > 512 || next > end || local+30 > start || u32(local) !== 0x04034b50) throw badZip();
+    const name = utf8(bytes.subarray(pos+46,pos+46+nameSize));
+    if (names.has(name) || name.startsWith('/') || /[\\:\u0000-\u001f\u007f]/.test(name) || name.split('/').some(p => p === '.' || p === '..')) throw badZip();
+    names.add(name); total += size;
+    const dataStart = local+30+u16(local+26)+u16(local+28), dataEnd = dataStart+compressed;
+    if (total > LIMIT || dataEnd > start || u16(local+26) !== nameSize || u16(local+6) !== flags || u16(local+8) !== method
+        || utf8(bytes.subarray(local+30,local+30+nameSize)) !== name || (!method && size !== compressed)) throw badZip();
+    let rangeEnd = dataEnd;
+    if (flags & 8) {
+      let offset = dataEnd;
+      if (offset+12 > start) throw badZip();
+      if (u32(offset) === 0x08074b50) offset += 4;
+      if (offset+12 > start || u32(offset) !== checksum || u32(offset+4) !== compressed || u32(offset+8) !== size) throw badZip();
+      rangeEnd = offset+12;
+    } else if (u32(local+14) !== checksum || u32(local+18) !== compressed || u32(local+22) !== size) throw badZip();
+    ranges.push([local,rangeEnd]);
+    if (['Ouvrir_KRIMI.html','KRIMI_reponses.json'].includes(name)) candidates.push({method,size,checksum,dataStart,dataEnd});
+    pos = next;
+  }
+  if (pos !== end) throw badZip();
+  ranges.sort((a,b) => a[0]-b[0]);
+  if (ranges.some(([start],i) => i && start < ranges[i-1][1])) throw badZip();
+  if (candidates.length !== 1) throw new Error('Ce ZIP doit contenir un unique dossier complet. Extrais-le et choisis Ouvrir_KRIMI.html ou KRIMI_reponses.json.');
+  const {method,size,checksum,dataStart,dataEnd} = candidates[0];
+  const raw = bytes.subarray(dataStart,dataEnd), content = method ? await unzip(raw,size) : raw;
+  if (content.length !== size || crc(content) !== checksum) throw badZip();
+  return content;
+}
+
+export async function readBackup(bytes) {
+  if (bytes.length > LIMIT) throw new Error('Dossier trop lourd (45 Mo maximum).');
+  const text = utf8(bytes[0] === 80 && bytes[1] === 75 ? await legacyZip(bytes) : bytes).trim();
+  let raw;
+  if (text.startsWith('{')) raw = JSON.parse(text);
+  else {
+    const seeds = [...text.matchAll(/<script id="seed" type="application\/json">([\s\S]*?)<\/script>/g)];
+    if (seeds.length !== 1) throw new Error('Ce fichier ne contient pas de dossier KRIMI complet.');
+    raw = JSON.parse(seeds[0][1]);
+  }
+  return raw?.kind === 'KRIMI_FIRST_EXCHANGE' ? fromLegacy(raw) : validate(raw);
+}
+
+const $ = id => document.getElementById(id);
+const portableSeed = $('seed').textContent;
+const isPortable = portableSeed !== 'null';
+const seedStart = '<' + 'script id="seed" type="application/json">', seedEnd = '<' + '/script>';
+const portableTemplate = '<!doctype html>\n' + document.documentElement.outerHTML.replace(/(<script id="seed" type="application\/json">)[\s\S]*?(<\/script>)/,(_,before,after) => before + 'null' + after);
+const el = (tag, text = '', className = '') => {
+  const node = document.createElement(tag);
+  node.textContent = text;
+  if (className) node.className = className;
+  return node;
+};
+const button = (text, fn, cls = 'button outline') => {
+  const node = el('button',text,cls);
+  node.type = 'button'; node.onclick = fn;
+  return node;
+};
+const link = (label, raw) => {
+  const url = safeURL(raw);
+  if (!url) return el('span',label);
+  const a = el('a',label);
+  a.href = url; a.target = '_blank'; a.rel = 'noopener noreferrer';
+  return a;
+};
+const plural = (n, singular, many = singular + 's') => `${n} ${n === 1 ? singular : many}`;
+const euro = n => new Intl.NumberFormat('fr-FR',{style:'currency',currency:'EUR'}).format(n / 100);
+const photoFor = card => Object.values(card.photos)[0];
+const legacyLabels = {name:'Nom déclaré',reference:'Référence déclarée',language:'Langue déclarée',condition:'État déclaré',ownership:'Possession déclarée',intent:'Intention déclarée',purchase:'Prix d’achat déclaré (€)',wish:'Prix souhaité déclaré (€)',note:'Note déclarée',distinct:'Exemplaire distinct déclaré'};
+const answerLabels = {goal:'Priorité',experience:'Expérience',volume:'Volume déclaré',duplicates:'Doublons déclarés',timing:'Calendrier',route:'Échange',device:'Appareil',sealed:'Scellés',specialty:'Spécialités',criteria:'Critères',risks:'Doutes',nextWish:'Suite souhaitée',keep:'À garder',insight:'Intuition',success:'Résultat utile'};
+const cardFields = ['name','number','language','observation','hypothesis','review','decision','next'];
+const demoId = 'demo-pikachu-01';
+let data = empty(), active = piece(), side = 'front', pending = null, fileTarget = null;
+let busy = false, canStore = false, local = false, storageError = '', revision = null, durable = null, exported = null;
+let connection, saveChain = Promise.resolve();
+
+function say(text, reveal = false) {
+  $('notice').textContent = text; $('notice').hidden = !text;
+  if (reveal && text && $('notice').getBoundingClientRect().top < 0) $('notice').scrollIntoView({block:'nearest'});
+}
+function options(id, entries) {
+  $(id).replaceChildren(...Object.entries(entries).map(([key,value]) => new Option(value,key)));
+}
+function db() {
+  if (!connection) connection = new Promise((resolve,reject) => {
+    const open = indexedDB.open('krimi.atelier.hybride.v1',1);
+    open.onupgradeneeded = () => open.result.createObjectStore('atelier');
+    open.onsuccess = () => resolve(open.result);
+    open.onerror = open.onblocked = () => reject(new Error('Stockage local inaccessible.'));
+  });
+  return connection;
+}
+async function readLocal() {
+  const base = await db();
+  return new Promise((resolve,reject) => {
+    const get = base.transaction('atelier').objectStore('atelier').get('dossier');
+    get.onsuccess = () => resolve(get.result);
+    get.onerror = () => reject(get.error);
+  });
+}
+async function writeLocal(snapshot, remove = false) {
+  const base = await db();
+  return new Promise((resolve,reject) => {
+    const tx = base.transaction('atelier','readwrite'), store = tx.objectStore('atelier');
+    const get = store.get('dossier');
+    let error = 'Le stockage local est indisponible. Sauvegarde le fichier.';
+    const next = crypto.randomUUID();
+    get.onsuccess = () => {
+      if ((get.result?.revision ?? null) !== revision) {
+        error = 'Le dossier a changé dans un autre onglet. Ta version reste ici : sauvegarde-la en fichier.';
+        tx.abort(); return;
+      }
+      if (remove) store.delete('dossier');
+      else store.put({revision:next,data:snapshot},'dossier');
+    };
+    tx.oncomplete = () => { revision = remove ? null : next; durable = remove ? null : snapshot; resolve(); };
+    tx.onabort = () => reject(new Error(error));
+  });
+}
+function storage() {
+  $('storage-status').textContent = storageError || (local ? (durable === data ? 'Enregistré dans ce navigateur. Garde aussi un fichier de sauvegarde.' : 'Enregistrement dans ce navigateur…') : 'Session seule. Sauvegarde un fichier avant de fermer.');
+  $('local').textContent = local ? 'Retirer le brouillon de cet appareil' : 'Garder sur cet appareil';
+  $('local').disabled = !canStore || busy;
+  $('local').hidden = isPortable;
+}
+function queueSave() {
+  if (!local) return;
+  storage();
+  saveChain = saveChain.then(async () => {
+    const snapshot = data;
+    if (local && snapshot !== durable) await writeLocal(snapshot);
+  }).catch(error => { storageError = error.message; }).finally(storage);
+}
+function changeData(next) {
+  data = next;
+  queueSave();
+  drawSummary();
+}
+function update(changes, check = false) {
+  const card = {...active,...changes};
+  const index = data.cards.findIndex(x => x.id === card.id);
+  if (index >= 0 && Object.keys(changes).every(k => changes[k] === active[k])) return;
+  if (index < 0 && data.cards.length >= 100) throw new Error('Cet atelier a atteint 100 fiches. Sauvegarde le dossier avant d’en ouvrir un autre.');
+  const cards = data.cards.slice();
+  if (index < 0) cards.push(card); else cards[index] = card;
+  const next = {...data,cards};
+  if (check) validate(next);
+  active = card;
+  changeData(next);
+}
+
+function photoView() {
+  const count = Object.keys(active.photos).length;
+  const photo = active.photos[side];
+  $('photo-count').textContent = plural(count,'photo');
+  $('sample-badge').hidden = active.id !== demoId;
+  $('photo-empty').hidden = !!photo;
+  $('photo-zoom').hidden = !photo;
+  $('remove-photo').hidden = !photo;
+  $('write-first').textContent = count ? 'Décrire cette pièce ↓' : 'Décrire sans photo ↓';
+  $('review-image').hidden = !count;
+  $('choose-photo').textContent = photo ? 'Remplacer cette photo' : 'Ajouter une photo';
+  if (photo) {
+    $('photo-img').src = photo.data;
+    $('photo-img').alt = `${SIDES[side]} de ${active.name || 'la pièce'}`;
+  } else $('photo-img').removeAttribute('src');
+  for (const b of document.querySelectorAll('[data-side]')) {
+    b.setAttribute('aria-pressed', String(b.dataset.side === side));
+    b.toggleAttribute('data-photo',!!active.photos[b.dataset.side]);
+    b.setAttribute('aria-label',SIDES[b.dataset.side] + (active.photos[b.dataset.side] ? ' · photo présente' : ' · pas de photo'));
+  }
+}
+
+function definition(target, entries) {
+  target.replaceChildren(...entries.flatMap(([key,value]) => value === '' || value == null || (Array.isArray(value) && !value.length) ? [] :
+    [el('dt',key),el('dd',Array.isArray(value) ? value.join(' · ') : String(value))]));
+}
+
+function drawStudy() {
+  const options = proposals(active);
+  const ref = active.ref === 'custom' ? active.custom : CATALOG.find(r => r.id === active.ref);
+  const candidates = [...options];
+  if (ref?.id && !candidates.some(r => r.id === ref.id)) candidates.unshift(ref);
+  $('suggestion').textContent = options.length ? `${plural(options.length,'piste locale','pistes locales')}. Choisis une notice pour l’examiner, pas pour certifier ta pièce.`
+    : active.name.trim() || active.number.trim() ? 'Aucune piste parmi les cinq notices Pokémon intégrées. Cela ne dit rien sur la pièce : ajoute une source que tu as consultée.'
+      : 'Indique un nom ou un numéro pour voir les notices intégrées, ou ajoute ta propre source.';
+  $('proposals').replaceChildren(...candidates.map(r => {
+    const b = button('',() => {
+      update({ref:r.id,review:r.id === active.ref ? active.review : ''});
+      $('review').value = active.review;
+      drawStudy(); $('source-info').focus();
+    },'button proposal');
+    b.append(el('strong',r.name + ' · ' + r.number),el('small',r.series));
+    b.setAttribute('aria-pressed',String(active.ref === r.id));
+    return b;
+  }));
+  $('ref-count').textContent = ref ? 'Notice à l’appui' : options.length ? plural(options.length,'piste') : 'À documenter';
+  $('compare').hidden = !ref;
+  if (ref) {
+    const tag = ref.id ? `Catalogue TCGdex · notice relue le ${ref.date.split('-').reverse().join('/')}` : 'Source déclarée · non vérifiée par KRIMI';
+    const caption = [ref.series, ref.language ? LANG[ref.language] : ''].filter(Boolean).join(' · ');
+    $('source-info').replaceChildren(el('p',tag,'eyebrow'),el('strong',[ref.name,ref.number].filter(Boolean).join(' · ')),el('p',caption,'fine'),link(ref.id ? 'Ouvrir la notice publique ↗' : 'Ouvrir le lien fourni ↗',ref.source));
+    const labels = {name:'Nom',number:'Numéro',language:'Langue'};
+    $('comparison').replaceChildren(...comparison(active,ref).map(({key,state}) => {
+      const tr = el('tr'); tr.dataset.state = state;
+      const th = el('th',labels[key]); th.scope = 'row';
+      const value = x => (key === 'language' ? x[key] && LANG[x[key]] : x[key]) || '—';
+      const td = el('td',value(ref));
+      td.append(el('small',state === 'same' ? 'Concorde' : state === 'different' ? 'Diffère' : 'À compléter'));
+      tr.append(th,el('td',value(active)),td); return tr;
+    }));
+  }
+  $('next-hint').textContent = !ref ? 'Sans notice, distingue ce que tu observes de ce que tu supposes.'
+    : comparison(active,ref).some(x => x.state === 'different') ? 'Au moins un indice diffère. Vérifie ce point avant de t’engager.'
+      : 'Relis le recto, le verso et l’état de ta pièce. La décision reste la tienne.';
+}
+
+function drawSummary() {
+  $('count').textContent = data.cards.length;
+  $('piece-title').textContent = active.name.trim() || 'Décris ce que tu vois.';
+  $('decision-tag').textContent = active.decision ? DECISIONS[active.decision] : 'À toi de décider';
+  $('download').disabled = !data.cards.length && !data.archives.length;
+  storage();
+}
+function drawCard(card, show = false) {
+  active = card; side = card.photos.front ? 'front' : Object.keys(card.photos)[0] || 'front';
+  for (const key of cardFields) $(key).value = card[key];
+  $('study').open = !!card.ref;
+  $('decision-panel').open = !!(card.decision || card.next || card.valuation);
+  $('notes').open = !!(card.observation || card.hypothesis);
+  $('legacy').hidden = !card.legacy;
+  $('legacy').open = false;
+  if (card.legacy) definition($('legacy-fields'),Object.entries(legacyLabels).map(([key,label]) => [label,key === 'distinct' ? card.legacy[key] ? 'Oui' : 'Non renseigné comme distinct' : card.legacy[key]]));
+  const c = card.custom;
+  for (const key of ['name','number','series','language']) $(`custom-${key}`).value = c?.[key] || '';
+  $('custom-url').value = c?.source || '';
+  $('custom-error').textContent = '';
+  $('custom-panel').open = false;
+  $('price-error').textContent = '';
+  $('price-panel').open = !!card.valuation;
+  fillPrice(); photoView(); drawStudy(); drawSummary();
+  $('photo-note').textContent = 'Photos allégées, stockées dans la fiche ; conserve les originaux.';
+  if (show) { $('piece-title').focus({preventScroll:true}); $('fiche').scrollIntoView({block:'start'}); }
+}
+
+function fillPrice() {
+  const v = active.valuation;
+  $('amount').value = v ? (v.cents / 100).toFixed(2).replace('.',',') : '';
+  $('price-date').value = v?.date || '';
+  $('price-kind').value = v?.kind || 'vente';
+  $('price-url').value = v?.source || '';
+  $('price-note').value = v?.note || '';
+  $('price-status').replaceChildren(...(v ? [el('strong',`${euro(v.cents)} · ${PRICE[v.kind]} · ${v.date} · déclaré, pas une cote`),document.createTextNode(' · '),link('Ouvrir la source ↗',v.source)] : []));
+}
+
+for (const [id,entries] of [['language',LANG],['custom-language',LANG],['review',REVIEWS],['decision',DECISIONS],['price-kind',PRICE]]) options(id,entries);
+for (const key of cardFields) $(key).addEventListener(['review','decision','language'].includes(key) ? 'change' : 'input',() => {
+  try {
+    if (!data.cards.some(c => c.id === active.id) && !$(key).value.trim()) return;
+    const delta = {[key]:$(key).value};
+    if (['name','number','language'].includes(key) && active[key] !== delta[key]) {
+      delta.review = '';
+      $('review').value = '';
+    }
+    update(delta);
+    if (['name','number','language'].includes(key)) drawStudy();
+  } catch (error) { $(key).value = active[key]; say(error.message,true); }
+});
+$('start-study').onclick = () => { $('study').open = true; $('study').querySelector('summary').focus({preventScroll:true}); $('study').scrollIntoView({block:'nearest'}); };
+$('custom-form').onsubmit = event => {
+  event.preventDefault();
+  try {
+    const custom = manualReference({name:$('custom-name').value,number:$('custom-number').value,series:$('custom-series').value,
+      language:$('custom-language').value,source:$('custom-url').value.trim()});
+    update({custom,ref:'custom',review:''},true); $('review').value = ''; $('custom-error').textContent = '';
+    drawStudy(); $('source-info').focus();
+  } catch (error) { $('custom-error').textContent = error.message; }
+};
+$('price-form').onsubmit = event => {
+  event.preventDefault();
+  try {
+    const raw = $('amount').value.trim().replace(',','.');
+    const [euros,cents = ''] = raw.split('.');
+    const valuation = price({cents:/^\d{1,7}(?:\.\d{1,2})?$/.test(raw) ? Number(euros)*100 + Number(cents.padEnd(2,'0')) : null,
+      kind:$('price-kind').value,date:$('price-date').value,source:$('price-url').value.trim(),note:$('price-note').value.trim()});
+    update({valuation},true); $('price-error').textContent = ''; fillPrice();
+  } catch (error) { $('price-error').textContent = error.message; }
+};
+
+// Même principe que l’atelier public : décodage et JPEG allégé sur l’appareil.
+function image(src) {
+  return new Promise((resolve,reject) => {
+    const img = new Image();
+    img.onload = () => resolve(img);
+    img.onerror = () => reject(new Error('Image illisible ici. Essaie un JPEG, PNG ou WebP.'));
+    img.src = src;
+  });
+}
+function raster(canvas) {
+  return {data:canvas.toDataURL('image/jpeg',.87),width:canvas.width,height:canvas.height};
+}
+function photoDimensions(photo) {
+  // Contrôler les dimensions JPEG avant de demander au navigateur de décoder les pixels.
+  const bytes = atob(photo.data.slice('data:image/jpeg;base64,'.length));
+  const b = i => bytes.charCodeAt(i), u16 = i => b(i)*256 + b(i+1);
+  if (u16(0) === 0xffd8) {
+    for (let i = 2; i+4 < bytes.length && b(i) === 255;) {
+      while (b(i) === 255) i++;
+      const mark = b(i++), size = u16(i);
+      if (mark === 0xda || size < 2 || i+size > bytes.length) break;
+      if ([0xc0,0xc1,0xc2].includes(mark) && size >= 8) return {width:u16(i+5),height:u16(i+3)};
+      i += size;
+    }
+  }
+  throw new Error('Une photo du dossier n’est pas un JPEG lisible.');
+}
+async function picture(file) {
+  if (file.size > 20 * 1024 * 1024) throw new Error('Photo trop lourde : 20 Mo maximum.');
+  if (!/^image\/(jpeg|png|webp|heic|heif|avif)$/i.test(file.type) && (file.type || !/\.(jpe?g|png|webp|heic|heif|avif)$/i.test(file.name))) throw new Error('Choisis une photo JPEG, PNG, WebP ou un format photo reconnu par ton appareil.');
+  const src = URL.createObjectURL(file);
+  try {
+    const img = await image(src);
+    if (img.naturalWidth * img.naturalHeight > 65_000_000) throw new Error('Image trop grande. Choisis une version réduite.');
+    const scale = Math.min(1, 1800 / Math.max(img.naturalWidth,img.naturalHeight));
+    const canvas = document.createElement('canvas');
+    canvas.width = Math.max(1,Math.round(img.naturalWidth*scale)); canvas.height = Math.max(1,Math.round(img.naturalHeight*scale));
+    const ctx = canvas.getContext('2d'); ctx.fillStyle = '#fff'; ctx.fillRect(0,0,canvas.width,canvas.height); ctx.drawImage(img,0,0,canvas.width,canvas.height);
+    return raster(canvas);
+  } finally { URL.revokeObjectURL(src); }
+}
+function chooseFile(which) {
+  if (busy) return;
+  if (active.photos[side] && !window.confirm(`Remplacer la photo « ${SIDES[side]} » ? Garde une sauvegarde ou l’original si tu en as besoin.`)) return;
+  fileTarget = {id:active.id,side,old:active.photos[side]}; $(which).click();
+}
+$('choose-photo').onclick = () => chooseFile('photo-file');
+$('take-photo').onclick = () => chooseFile('camera-file');
+$('write-first').onclick = () => $('name').focus();
+$('remove-photo').onclick = () => {
+  if (busy || !active.photos[side] || !window.confirm('Retirer cette photo de la fiche ? Les originaux et les sauvegardes restent intacts.')) return;
+  const retained = {...active.photos}; delete retained[side];
+  update({photos:retained,review:''}); $('review').value = ''; photoView(); $('choose-photo').focus();
+};
+for (const id of ['photo-file','camera-file']) $(id).onchange = async (event) => {
+  const [file] = event.target.files; event.target.value = '';
+  const where = fileTarget || {id:active.id,side,old:active.photos[side]}; fileTarget = null;
+  if (!file || busy) return;
+  busy = true;
+  try {
+    $('photo-note').textContent = 'Préparation de la photo…';
+    const p = await picture(file);
+    if (where.id !== active.id || where.old !== active.photos[where.side]) throw new Error('La fiche a changé. Choisis à nouveau la photo sur la bonne pièce.');
+    if (data.cards.some(c => Object.values(c.photos).some(x => x.data === p.data))) throw new Error('Cette image est déjà présente. Aucune nouvelle photo ni pièce ajoutée.');
+    update({photos:{...active.photos,[where.side]:p},review:''},true);
+    $('review').value = ''; side = where.side; photoView();
+    $('photo-note').textContent = `${SIDES[side]} conservé dans la fiche. Garde l’original.`;
+  } catch (error) { $('photo-note').textContent = error.message; }
+  finally { busy = false; storage(); }
+};
+for (const b of document.querySelectorAll('[data-side]')) b.onclick = () => { side = b.dataset.side; photoView(); };
+function zoom(which) {
+  const p = active.photos[which];
+  if (!p) return;
+  $('viewer-title').textContent = `${SIDES[which]} · ${active.name || 'Pièce'}`;
+  $('viewer-image').src = p.data; $('viewer-image').alt = `${SIDES[which]} de ${active.name || 'la pièce'}`;
+  $('viewer').showModal();
+}
+$('photo-zoom').onclick = () => zoom(side);
+$('review-image').onclick = () => zoom(active.photos[side] ? side : Object.keys(active.photos)[0]);
+$('viewer').onclose = () => $('viewer-image').removeAttribute('src');
+
+function examplePhoto() {
+  const canvas = document.createElement('canvas'); canvas.width = 430; canvas.height = 550;
+  const c = canvas.getContext('2d');
+  c.fillStyle = '#dec581'; c.fillRect(0,0,430,550);
+  c.fillStyle = '#f7e8ad'; c.fillRect(14,14,402,522);
+  c.fillStyle = '#29463c'; c.fillRect(32,102,366,266);
+  for (let x = 53; x < 396; x += 17) for (let y = 122; y < 365; y += 17) { c.fillStyle = '#54786e'; c.fillRect(x,y,1.4,1.4); }
+  c.strokeStyle = '#efd190'; c.lineWidth = 2; c.beginPath(); c.arc(213,232,75,0,2*Math.PI); c.stroke();
+  c.fillStyle = '#efd190'; c.beginPath(); [[227,156],[167,243],[203,243],[190,305],[258,212],[221,212]].forEach(([x,y],i) => i ? c.lineTo(x,y) : c.moveTo(x,y)); c.closePath(); c.fill();
+  c.fillStyle = '#293e34'; c.font = '17px monospace'; c.fillText('FAC-SIMILÉ · EXEMPLE',33,45);
+  c.font = 'bold 40px Georgia'; c.fillText('Pikachu',32,85);
+  c.font = '23px monospace'; c.fillText('58 / 102',33,414);
+  c.font = '17px monospace'; c.fillText('Carte d’exercice, non authentique',33,499);
+  return raster(canvas);
+}
+$('demo').onclick = () => {
+  if (busy) return;
+  const existing = data.cards.find(c => c.id === demoId);
+  if (existing) { drawCard(existing,true); return; }
+  const previous = active;
+  try {
+    active = piece(demoId);
+    update({name:'Pikachu',number:'58/102',language:'fr',photos:{front:examplePhoto()},observation:'Sur l’illustration fictive : le numéro 58/102 est visible au recto.',hypothesis:'Peut correspondre à la notice du Set de Base ; ce visuel d’exercice ne prouve rien sur une carte réelle.'},true);
+    drawCard(active,true);
+    $('study').open = true;
+  } catch (error) { active = previous; say(error.message,true); }
+};
+
+function drawCollection() {
+  const term = fold($('search').value);
+  const rows = data.cards.filter(c => !term || fold(c.name+' '+c.number).includes(term));
+  $('cards').replaceChildren(...rows.map(c => {
+    const b = button('',() => { $('collection').close(); drawCard(c,true); },'tile');
+    const caption = el('span');
+    caption.append(el('strong',c.name.trim() || 'Pièce sans nom'),el('small',[c.id === demoId ? 'Exemple fictif' : '',c.number,plural(Object.keys(c.photos).length,'photo'),DECISIONS[c.decision]].filter(Boolean).join(' · ')));
+    const photo = photoFor(c);
+    if (photo) { const img = el('img'); img.src = photo.data; img.alt = ''; b.append(img); }
+    b.append(caption,el('small','Ouvrir ↗')); return b;
+  }));
+  if (!rows.length) $('cards').append(el('p',term ? 'Aucune pièce ne correspond.' : 'Tes pièces s’ajoutent ici dès la première photo ou saisie.','muted'));
+  $('archives').hidden = !data.archives.length;
+  $('archive-list').replaceChildren(...data.archives.map(a => {
+    const block = el('div','','declared'), dl = el('dl');
+    definition(dl,Object.entries(a.answers).map(([k,v]) => [answerLabels[k] || k,v]));
+    block.append(el('h3','Dossier du ' + a.createdAt.slice(0,10)),dl,
+      ...a.journal.map(n => el('p',[n.at,n.text].filter(Boolean).join(' · '),'fine')));
+    return block;
+  }));
+  $('remove-piece').hidden = !data.cards.some(c => c.id === active.id);
+  $('collection-export').disabled = $('download').disabled;
+  $('portable').disabled = $('download').disabled;
+}
+$('show-collection').onclick = () => { $('search').value = ''; drawCollection(); $('collection').showModal(); };
+$('search').oninput = drawCollection;
+$('new').onclick = () => { if (!busy) { $('collection').close(); drawCard(piece(),true); $('name').focus(); } };
+$('remove-piece').onclick = () => {
+  if (busy || !window.confirm('Retirer cette fiche et ses photos de la collection ouverte ? Garde un fichier de sauvegarde avant de confirmer.')) return;
+  changeData({...data,cards:data.cards.filter(c => c.id !== active.id)});
+  drawCard(piece()); drawCollection();
+};
+for (const b of document.querySelectorAll('[data-close]')) b.onclick = () => { if (!busy || b.dataset.close !== 'import-review') $(b.dataset.close).close(); };
+
+function exportFile(portable = false) {
+  try {
+    validate(data);
+    const plain = JSON.stringify(data);
+    const body = portable ? portableTemplate.replace(seedStart + 'null' + seedEnd,
+      () => seedStart + plain.replace(/</g,'\\u003c').replace(/>/g,'\\u003e') + seedEnd) : plain;
+    const type = portable ? 'text/html;charset=utf-8' : 'application/json';
+    const file = new Blob([body],{type});
+    if (file.size > LIMIT) throw new Error('Cette copie HTML dépasse 45 Mo. Choisis la sauvegarde JSON.');
+    const url = URL.createObjectURL(file);
+    const a = el('a'); a.href = url; a.download = `KRIMI-dossier-${new Date().toISOString().slice(0,10)}.${portable ? 'html' : 'json'}`;
+    document.body.append(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(url),30_000);
+    exported = data;
+    const message = `Téléchargement demandé. Le ${portable ? 'HTML s’ouvre directement dans Chrome' : 'JSON se rouvre avec « Reprendre un dossier »'}, avec tes photos et tes notes en clair.`;
+    if ($('import-review').open || $('collection').open) {
+      const modal = $('import-review').open ? $('import-review') : $('collection');
+      let line = modal.querySelector('[data-export-status]');
+      if (!line) { line = el('p','','fine'); line.dataset.exportStatus = ''; line.setAttribute('role','status'); modal.append(line); }
+      line.textContent = message;
+    } else say(message,true);
+  } catch (error) {
+    const modal = document.querySelector('dialog[open]');
+    if (modal) modal.append(el('p',error.message,'form-error'));
+    else say(error.message,true);
+  }
+}
+for (const id of ['download','collection-export','before-export']) $(id).onclick = () => exportFile();
+$('portable').onclick = () => exportFile(true);
+function chooseBackup() { if (!busy) { say(''); if ($('collection').open) $('collection').close(); $('import-file').click(); } }
+$('open-import').onclick = $('collection-import').onclick = chooseBackup;
+
+function preview(plan, name) {
+  const p = $('import-preview');
+  p.replaceChildren(el('p',name,'fine'),el('p',`${plural(plan.cards.length,'nouvelle fiche','nouvelles fiches')} · ${plural(plan.unchanged,'fiche identique','fiches identiques')} · ${plural(plan.skipped.length,'élément non ajouté','éléments non ajoutés')} · ${plural(plan.archives.length,'ancien carnet','anciens carnets')}.`),
+    el('p','Tes fiches ne seront jamais remplacées. Garde le fichier d’origine si une version diverge.','muted'));
+  const list = el('ul');
+  for (const c of plan.cards) list.append(el('li','Ajouter : '+(c.name || 'Pièce sans nom')));
+  for (const {name,reason,current,incoming} of plan.skipped) {
+    const row = el('li',`${name} — ${reason}`);
+    if (current && incoming) {
+      const details = el('details'), dl = el('dl');
+      details.append(el('summary','Voir les deux versions'),dl);
+      const describe = c => [c.name,c.number,plural(Object.keys(c.photos).length,'photo'),DECISIONS[c.decision],c.observation,c.legacy?.note,c.hypothesis,c.next].filter(Boolean).join('\n');
+      definition(dl,[['Dans ta collection',describe(current)],['Dans le fichier',describe(incoming)]]);
+      row.append(details);
+    }
+    list.append(row);
+  }
+  if (list.childNodes.length) p.append(list);
+  $('apply').hidden = plan.data === data;
+  $('before-export').hidden = !data.cards.length && !data.archives.length;
+  $('import-review').querySelector('[data-export-status]')?.remove();
+  $('import-review').showModal(); $('import-title').focus();
+}
+$('import-file').onchange = async event => {
+  const [file] = event.target.files; event.target.value = '';
+  if (!file || busy) return;
+  busy = true;
+  try {
+    say('Lecture du dossier sur ton appareil…');
+    if (file.size > LIMIT) throw new Error('Dossier trop lourd (45 Mo maximum).');
+    const incoming = await readBackup(new Uint8Array(await file.arrayBuffer()));
+    for (const photo of new Map(incoming.cards.flatMap(c => Object.values(c.photos)).map(p => [p.data,p])).values()) {
+      const dimensions = photoDimensions(photo);
+      if (dimensions.width !== photo.width || dimensions.height !== photo.height) throw new Error('Dimensions de photo incohérentes dans le dossier.');
+      const img = await image(photo.data);
+      if (img.naturalWidth !== photo.width || img.naturalHeight !== photo.height) throw new Error('Dimensions de photo incohérentes dans le dossier.');
+    }
+    const plan = planImport(data,incoming);
+    if (plan.data === data && !plan.skipped.length) { say('Dossier déjà présent ou vide. Rien n’a été ajouté ni remplacé.',true); return; }
+    pending = {base:data,plan}; say(''); preview(plan,file.name);
+  } catch (error) { say(`${error instanceof SyntaxError ? 'Ce fichier ne contient pas un dossier KRIMI lisible.' : error.message} Ta collection reste inchangée.`,true); }
+  finally { busy = false; storage(); }
+};
+$('import-review').addEventListener('cancel',event => { if (busy) event.preventDefault(); });
+$('import-review').onclose = () => { if (!$('import-review').open) pending = null; };
+$('apply').onclick = async () => {
+  if (busy || !pending || pending.base !== data || pending.plan.data === data) return;
+  const {plan} = pending; busy = true; $('apply').disabled = true;
+  try {
+    if (local) { await saveChain; await writeLocal(plan.data); }
+    data = plan.data; pending = null; $('import-review').close();
+    drawCard(plan.cards[0] || active,true);
+    say(`${plural(plan.cards.length,'fiche ajoutée','fiches ajoutées')}. ${plan.skipped.length ? 'Les versions en conflit restent dans leur fichier d’origine. ' : ''}Aucune fiche remplacée.`,true);
+  } catch (error) {
+    $('import-preview').append(el('p',error.message + ' Rien n’a été importé.','form-error'));
+  } finally { busy = false; $('apply').disabled = false; storage(); }
+};
+
+$('local').onclick = async () => {
+  if (busy || !canStore) return;
+  const was = local;
+  if (!window.confirm(was ? 'Retirer la copie du navigateur ? La session ouverte et tes fichiers téléchargés restent intacts.' : 'Garder une copie dans ce navigateur ? Évite cette option sur un appareil partagé. Un fichier exporté reste nécessaire pour un autre appareil.')) return;
+  busy = true;
+  try {
+    await saveChain; await writeLocal(data,was);
+    local = !was; storageError = '';
+    if (local && durable !== data) queueSave();
+  } catch (error) { storageError = error.message; }
+  finally { busy = false; storage(); }
+};
+window.addEventListener('beforeunload',event => {
+  if ((data.cards.length || data.archives.length) && data !== durable && data !== exported) { event.preventDefault(); event.returnValue = true; }
+});
+
+try {
+  if (isPortable) {
+    data = validate(JSON.parse(portableSeed)); exported = data;
+    say('Copie autonome ouverte. Les modifications restent dans cette session jusqu’au prochain export.');
+  } else {
+    const saved = await Promise.race([readLocal(),new Promise((_,reject) => setTimeout(() => reject(new Error('Stockage indisponible.')),1800))]);
+    if (saved) {
+      if (typeof saved.revision !== 'string') throw new Error('Brouillon illisible.');
+      data = validate(saved.data); local = true; revision = saved.revision; durable = data;
+    }
+    canStore = true;
+  }
+} catch { storageError = isPortable ? 'Copie intégrée illisible. Le fichier source est inchangé.' : 'Brouillon local indisponible ou illisible. Il n’a pas été remplacé. Utilise une sauvegarde fichier.'; }
+for (const id of ['open-import','show-collection','demo','choose-photo','take-photo','start-study','name','number','language']) $(id).disabled = false;
+drawCard(data.cards[0] || active);
+
+</script>
+</body>
+</html>
