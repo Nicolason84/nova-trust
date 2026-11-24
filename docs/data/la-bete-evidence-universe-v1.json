@@ -29,10 +29,10 @@
     "unpopulated_kinds_are_not_fabricated": true
   },
   "state": "READ_ONLY_PUBLIC_PROOFGRAPH_DERIVED_PROJECTION",
-  "projection_fingerprint": "9f616ce64593b79e6b987b6a4e9304f6d93aa4e3b231adac803edae8d55c5a01",
+  "projection_fingerprint": "6da6b4cbbe7ec26816b6766e92c543c437c564c8e1f332a0e50562d69f2987d5",
   "generated_from": {
     "live_snapshot_id": "OJO-7EE1D6A9776AFABB",
-    "live_sequence": 121,
+    "live_sequence": 122,
     "territory_discovery_fingerprint": "ac45ff9b49c6cfcc55ec21f4c20275b2c9588115a8adf95f6b1be99780b94d42",
     "living_identity_fingerprint": "f6ae7f0a87933250c01a74439329e84af939745c1a023e75d79aa6bdfde5b8d4"
   },
@@ -779,7 +779,7 @@
             "Cohérence contextuelle partielle ; preuve indépendante supplémentaire utile."
           ],
           "crosscheck": [
-            "2 références indépendantes ou complémentaires sont reliées."
+            "3 références indépendantes ou complémentaires sont reliées."
           ],
           "media_structure": []
         }
@@ -1146,7 +1146,7 @@
       "proofgraph": {
         "spine_schema": "SUPRA_PROOFGRAPH_PUBLIC_PROJECTION_V1",
         "proof_refs": [
-          "68c8bd0d9ca4ea6dfe9f0e57159bb0922c61e34e2ad4c4f210576907c336e400",
+          "6c5bbba4a137b1a83afc6d5227058274fd4deb3b1d124c7ff758700ac3b24026",
           "OJO_FRANCE_DEBT_RATE_LIVE_V1"
         ],
         "source_urls": [
@@ -1202,20 +1202,20 @@
       "patrimonial_analysis": {
         "trust_deep": {
           "execution": "NOT_EXECUTED_NO_MATCHING_RECEIPT",
-          "document_sha256": "68c8bd0d9ca4ea6dfe9f0e57159bb0922c61e34e2ad4c4f210576907c336e400",
+          "document_sha256": "6c5bbba4a137b1a83afc6d5227058274fd4deb3b1d124c7ff758700ac3b24026",
           "truth_verdict": false
         },
         "coherence_historical": {
           "execution": "NOT_EXECUTED_NO_MATCHING_RECEIPT",
-          "document_sha256": "68c8bd0d9ca4ea6dfe9f0e57159bb0922c61e34e2ad4c4f210576907c336e400",
+          "document_sha256": "6c5bbba4a137b1a83afc6d5227058274fd4deb3b1d124c7ff758700ac3b24026",
           "truth_verdict": false
         }
       },
       "object_refs": [],
       "object_meta": {
         "public_path": "data/france-debt-rate-live.json",
-        "sha256": "68c8bd0d9ca4ea6dfe9f0e57159bb0922c61e34e2ad4c4f210576907c336e400",
-        "bytes": 167339,
+        "sha256": "6c5bbba4a137b1a83afc6d5227058274fd4deb3b1d124c7ff758700ac3b24026",
+        "bytes": 167198,
         "schema": "OJO_FRANCE_DEBT_RATE_LIVE_V1",
         "document_analysis_scope": "FULL_LOCAL_PUBLIC_DOCUMENT"
       },
@@ -1354,7 +1354,7 @@
       "proofgraph": {
         "spine_schema": "SUPRA_PROOFGRAPH_PUBLIC_PROJECTION_V1",
         "proof_refs": [
-          "bc44c1de95caa538a2e4a6e4872b4bcdd3588438625db840e8dddd272c7aceab",
+          "a2d36d116f4ab8283832a5f6dca4f5a8895d271d6d65408c007871d3fd593d91",
           "OJO_LA_BETE_VIRTUOUS_EVOLUTION_V1"
         ],
         "source_urls": [
@@ -1410,20 +1410,20 @@
       "patrimonial_analysis": {
         "trust_deep": {
           "execution": "NOT_EXECUTED_NO_MATCHING_RECEIPT",
-          "document_sha256": "bc44c1de95caa538a2e4a6e4872b4bcdd3588438625db840e8dddd272c7aceab",
+          "document_sha256": "a2d36d116f4ab8283832a5f6dca4f5a8895d271d6d65408c007871d3fd593d91",
           "truth_verdict": false
         },
         "coherence_historical": {
           "execution": "NOT_EXECUTED_NO_MATCHING_RECEIPT",
-          "document_sha256": "bc44c1de95caa538a2e4a6e4872b4bcdd3588438625db840e8dddd272c7aceab",
+          "document_sha256": "a2d36d116f4ab8283832a5f6dca4f5a8895d271d6d65408c007871d3fd593d91",
           "truth_verdict": false
         }
       },
       "object_refs": [],
       "object_meta": {
         "public_path": "data/france-debt-rate-evolution.json",
-        "sha256": "bc44c1de95caa538a2e4a6e4872b4bcdd3588438625db840e8dddd272c7aceab",
-        "bytes": 429722,
+        "sha256": "a2d36d116f4ab8283832a5f6dca4f5a8895d271d6d65408c007871d3fd593d91",
+        "bytes": 430188,
         "schema": "OJO_LA_BETE_VIRTUOUS_EVOLUTION_V1",
         "document_analysis_scope": "FULL_LOCAL_PUBLIC_DOCUMENT"
       },
@@ -14159,7 +14159,7 @@
       "label": "Situation mensuelle de l'État · dernier document",
       "department_code": null,
       "lane": null,
-      "evidence_state": "UNAVAILABLE",
+      "evidence_state": "LIVE_VERIFIED",
       "proofgraph": {
         "spine_schema": "SUPRA_PROOFGRAPH_PUBLIC_PROJECTION_V1",
         "proof_refs": [
@@ -14170,12 +14170,12 @@
         ]
       },
       "trust": {
-        "index": 50,
-        "label": "PARTIELLE",
+        "index": 85,
+        "label": "FORTE",
         "components": {
-          "source_quality": 20,
-          "provenance": 80,
-          "coherence": 52,
+          "source_quality": 96,
+          "provenance": 100,
+          "coherence": 82,
           "crosscheck": 55,
           "media_structure": null
         },
@@ -14184,10 +14184,11 @@
             "identifiant stable",
             "source ou URL",
             "producteur / éditeur",
-            "date / millésime"
+            "date / millésime",
+            "empreinte / référence de preuve"
           ],
           "coherence": [
-            "Cohérence contextuelle partielle ; preuve indépendante supplémentaire utile."
+            "Objet issu d'une source officielle mais représentativité à interpréter séparément."
           ],
           "crosscheck": [
             "Une seule référence principale est reliée."
@@ -14196,9 +14197,9 @@
         }
       },
       "coherence": {
-        "score": 52,
+        "score": 82,
         "reasons": [
-          "Cohérence contextuelle partielle ; preuve indépendante supplémentaire utile."
+          "Objet issu d'une source officielle mais représentativité à interpréter séparément."
         ],
         "contradictions": []
       },
@@ -14212,15 +14213,13 @@
       "uscrc": {
         "status": "COMPATIBILITY_PROFILE_NOT_CERTIFICATE",
         "engine_binding": "USCRC_PRE_EVENT_PATTERN_CORE_V1_READ_ONLY_CONTEXT",
-        "reliability_index": 50,
+        "reliability_index": 85,
         "certificate_issued": false
       },
       "patrimonial_analysis": {},
       "object_refs": [],
       "object_meta": {},
-      "what_would_raise_confidence": [
-        "Rafraîchir ou recouper la source avec une preuve de même portée."
-      ]
+      "what_would_raise_confidence": []
     },
     "territory:01:commons:library:LI6430": {
       "object_id": "territory:01:commons:library:LI6430",
