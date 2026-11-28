@@ -1,0 +1,69 @@
+{
+  "component_id": "OJO_FRANCE_NATIVE_CLIENT_V1",
+  "name": "OJO_FRANCE_NATIVE_CLIENT_V1",
+  "component_type": "APPLICATION",
+  "version": "1.0.0",
+  "status": "GENERATED_DISABLED_NATIVE_CANDIDATE",
+  "mission": "Public native projection of the existing France canon; no runtime or private data",
+  "inputs": [
+    "docs/data/france-debt-rate-live.json",
+    "docs/data/FRANCE_BEAST_BINDING.json"
+  ],
+  "outputs": [
+    "Native public presentation",
+    "Raw snapshot system share"
+  ],
+  "capabilities": [
+    "NATIVE_PULSE",
+    "PROOFGRAPH_READ",
+    "NATIVE_3D",
+    "OPT_IN_RESONANCE",
+    "GESTURE_HAPTIC"
+  ],
+  "dependencies": [
+    "OJO_FRANCE_DEBT_RATE_LIVE_V1",
+    "EXISTING_SUPRA_TERMINAL_MEGABUS_V1",
+    "Platform native SDKs"
+  ],
+  "entrypoints": [
+    "mobile/ios/LaBete/LaBeteApp.swift",
+    "mobile/android/src/com/novaera/france/beast/MainActivity.java"
+  ],
+  "execution_mode": "DRY_RUN",
+  "automatic_activation": false,
+  "source_mutation": false,
+  "generated_by": "SUPRA_FACTORY_V1",
+  "distribution_identity": {
+    "ios_bundle_id": "com.novaera.france.beast",
+    "android_application_id": "com.novaera.france.beast",
+    "identity_scope": "FRANCE_NEW_CLIENT_CANDIDATE",
+    "store_registration": "NOT_PROVEN"
+  },
+  "canonical_binding": "docs/data/FRANCE_BEAST_BINDING.json",
+  "source_paths": [
+    "mobile/ios",
+    "mobile/android"
+  ],
+  "no_new_runtime": true,
+  "no_new_bus": true,
+  "rollback": "Remove additive mobile module or restore parent commit; canonical sources unchanged",
+  "reuse_proof": {
+    "factory": "SUPRA_FACTORY_V1",
+    "generator_sha256": "31a1add63f508920d32373128f5845a707236788076aeaa27351657241da33ef",
+    "android_packaging_source_sha256": "ead675903a5cef10fe10230d9f90175a37d3b3638825f1c420d5adc491bf1cf6"
+  },
+  "proofs": [
+    "mobile/ios/Tests",
+    "mobile/ios/UITests",
+    "mobile/android/testsrc"
+  ],
+  "risks": [
+    "Device and store distribution unproven",
+    "Domain account reconciliation pending"
+  ],
+  "tests": [
+    "Canonical parity and monotone replacement",
+    "Native navigation, renderer gestures and audio lifecycle"
+  ],
+  "mutation_policy": "Public cache projection only; no canonical/runtime mutation"
+}
