@@ -1,0 +1,76 @@
+{
+  "schema": "JAIME_ACCESS_SESSION_BROWSER_FIXTURE_V1",
+  "at": "2026-10-30T20:42:27.872Z",
+  "producer": "CHATGPT_TEST_RUNNER",
+  "pass": true,
+  "cases": [
+    {
+      "name": "expiration and canonical reconnect 320",
+      "pass": true,
+      "viewport_width": 320,
+      "requests": 2,
+      "chat_posts": 0
+    },
+    {
+      "name": "expiration and canonical reconnect 390",
+      "pass": true,
+      "viewport_width": 390,
+      "requests": 2,
+      "chat_posts": 0
+    },
+    {
+      "name": "forbidden request is not an assistant reply",
+      "pass": true,
+      "viewport_width": 390,
+      "requests": 3,
+      "chat_posts": 0
+    },
+    {
+      "name": "accepted 403 cannot be replayed after reconnect",
+      "pass": true,
+      "viewport_width": 390,
+      "requests": 6,
+      "chat_posts": 1
+    },
+    {
+      "name": "interrupted send restored without replay",
+      "pass": true,
+      "viewport_width": 390,
+      "requests": 2,
+      "chat_posts": 0
+    },
+    {
+      "name": "offline and online preserve draft without POST",
+      "pass": true,
+      "viewport_width": 390,
+      "requests": 2,
+      "chat_posts": 0
+    },
+    {
+      "name": "HTML success cannot authenticate",
+      "pass": true,
+      "viewport_width": 390,
+      "requests": 1,
+      "chat_posts": 0
+    },
+    {
+      "name": "model outage does not demand new login",
+      "pass": true,
+      "viewport_width": 390,
+      "requests": 1,
+      "chat_posts": 0
+    },
+    {
+      "name": "synthetic response and local reload preserve transcript",
+      "pass": true,
+      "viewport_width": 390,
+      "requests": 6,
+      "chat_posts": 1
+    }
+  ],
+  "all_network_intercepted": true,
+  "real_authentication": false,
+  "real_model": false,
+  "physical_device": false,
+  "service_worker_tested": false
+}

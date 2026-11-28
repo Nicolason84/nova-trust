@@ -1,0 +1,17 @@
+✔ new and returning public users can choose the private app without any automatic navigation or storage mutation (2.566083ms)
+✔ the existing private profile redirect is preserved; an unrelated public path is not treated as Jaime delivery (1.606167ms)
+✔ explicit local entry preserves notes and unrelated storage (1.313833ms)
+✔ storage failure leaves the private choice usable and never claims the local profile was saved (0.332ms)
+✔ all private entry links use one fixed HTTPS URL, no payload, no referrer and no opener (0.96275ms)
+✔ an old public home-screen icon keeps private installation instructions visible (0.516708ms)
+✔ private standalone presentation retains its existing app-mode behavior (0.333583ms)
+✔ copying the install link is explicit and copies only the fixed private destination (0.775083ms)
+✔ clipboard failure leaves the correct URL selected for manual copying (0.307709ms)
+ℹ tests 9
+ℹ suites 0
+ℹ pass 9
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 12.359167

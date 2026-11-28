@@ -1,0 +1,17 @@
+✔ reviewed owner guard rejects the real WPT passthrough tuple and permits a native document entry (1.951686ms)
+✔ baseline intercepts private navigation; candidate preserves the browser request for both private scopes (57.63865ms)
+✔ cross-site iframe and POST remain browser-native and rejected by the unchanged authority guard (1.773928ms)
+✔ private navigation does not fall back to a cached document while authentication or network is unavailable (1.861771ms)
+✔ public offline document navigation keeps the existing cache fallback including the root alias (7.518142ms)
+✔ public cache misses retain the honest offline response (3.991168ms)
+✔ private static assets still use the existing successful response cache rules (5.273464ms)
+✔ API, unknown, external, query, hash and write requests do not enter the shell transport or cache (2.748714ms)
+✔ precache assets stay identical and worker activation remains unforced (8.696601ms)
+ℹ tests 9
+ℹ suites 0
+ℹ pass 9
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 101.445843

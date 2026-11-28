@@ -4,8 +4,13 @@
   const name = document.getElementById('entryName');
   let storage = null; try {storage = window.localStorage;} catch {}
   const local = window.JaimeLegacy.loadProfile(storage);
-  if (local) {window.location.replace('./index.html'); return;}
-  const previous = window.JaimeLegacy.stored(storage);
+  const publicDelivery = window.location.origin === 'https://nicolason84.github.io' && /^\/nova-trust\/jaime\/(?:start\.html)?$/.test(window.location.pathname);
+  if (local && !publicDelivery) {window.location.replace('./index.html'); return;}
+  if (publicDelivery) {
+    document.getElementById('privateAccessChoice').hidden = false;
+    if (local) name.value = local.name;
+  }
+  const previous = local ? {profile:null} : window.JaimeLegacy.stored(storage);
   if (!local && previous.profile?.name) {
     document.getElementById('oldProfileBox').hidden = false;
     document.getElementById('oldProfileText').textContent = `Hay un perfil anterior guardado en este navegador: ${previous.profile.name}.`;
